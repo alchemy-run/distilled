@@ -88,7 +88,7 @@
       "desc": "More than 10 users were passed."
     },
     "cannot_modify_role_admin": {
-      "desc": "Cannot modify role admin."
+      "desc": "The user does not have permission to modify the admin role."
     }
   }
 }

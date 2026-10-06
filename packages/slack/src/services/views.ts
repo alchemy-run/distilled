@@ -24,9 +24,7 @@ export const PublishViewRequest = /*@__PURE__*/ S.suspend(() =>
     hash: S.optional(S.String),
     interactivity_pointer: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/views.publish", code: 200 })),
-).annotate({
-  identifier: "PublishViewRequest",
-}) as any as S.Schema<PublishViewRequest>;
+).annotate({ identifier: "PublishViewRequest" }) as any as S.Schema<PublishViewRequest>;
 
 export interface PublishViewResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -38,9 +36,7 @@ export const PublishViewResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     view: S.Unknown,
   }),
-).annotate({
-  identifier: "PublishViewResponse",
-}) as any as S.Schema<PublishViewResponse>;
+).annotate({ identifier: "PublishViewResponse" }) as any as S.Schema<PublishViewResponse>;
 
 export interface UpdateViewRequest {
   /** A unique identifier of the view to be updated. Either `view_id` or `external_id` is required. */
@@ -59,9 +55,7 @@ export const UpdateViewRequest = /*@__PURE__*/ S.suspend(() =>
     view: S.Unknown,
     hash: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/views.update", code: 200 })),
-).annotate({
-  identifier: "UpdateViewRequest",
-}) as any as S.Schema<UpdateViewRequest>;
+).annotate({ identifier: "UpdateViewRequest" }) as any as S.Schema<UpdateViewRequest>;
 
 export interface UpdateViewResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -73,9 +67,7 @@ export const UpdateViewResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     view: S.Unknown,
   }),
-).annotate({
-  identifier: "UpdateViewResponse",
-}) as any as S.Schema<UpdateViewResponse>;
+).annotate({ identifier: "UpdateViewResponse" }) as any as S.Schema<UpdateViewResponse>;
 
 export type ViewsOpenRequestViewMap = { [key: string]: unknown | undefined };
 export const ViewsOpenRequestViewMap = /*@__PURE__*/ S.Record(
@@ -97,9 +89,7 @@ export const ViewsOpenRequest = /*@__PURE__*/ S.suspend(() =>
     interactivity_pointer: S.optional(S.NullOr(S.String)),
     view: ViewsOpenRequestViewMap,
   }).pipe(T.Http({ method: "POST", uri: "/views.open", code: 200 })),
-).annotate({
-  identifier: "ViewsOpenRequest",
-}) as any as S.Schema<ViewsOpenRequest>;
+).annotate({ identifier: "ViewsOpenRequest" }) as any as S.Schema<ViewsOpenRequest>;
 
 export interface ViewsOpenResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -111,9 +101,7 @@ export const ViewsOpenResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     view: S.Unknown,
   }),
-).annotate({
-  identifier: "ViewsOpenResponse",
-}) as any as S.Schema<ViewsOpenResponse>;
+).annotate({ identifier: "ViewsOpenResponse" }) as any as S.Schema<ViewsOpenResponse>;
 
 export interface ViewsPushRequest {
   /** Exchange a trigger to post to the user. */
@@ -129,9 +117,7 @@ export const ViewsPushRequest = /*@__PURE__*/ S.suspend(() =>
     interactivity_pointer: S.optional(S.NullOr(S.String)),
     view: S.Unknown,
   }).pipe(T.Http({ method: "POST", uri: "/views.push", code: 200 })),
-).annotate({
-  identifier: "ViewsPushRequest",
-}) as any as S.Schema<ViewsPushRequest>;
+).annotate({ identifier: "ViewsPushRequest" }) as any as S.Schema<ViewsPushRequest>;
 
 export interface ViewsPushResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -143,9 +129,7 @@ export const ViewsPushResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     view: S.Unknown,
   }),
-).annotate({
-  identifier: "ViewsPushResponse",
-}) as any as S.Schema<ViewsPushResponse>;
+).annotate({ identifier: "ViewsPushResponse" }) as any as S.Schema<ViewsPushResponse>;
 
 export type PublishViewError = SlackOpError;
 /** Publish a static view for a User. Rate limit tier: 4 Method-specific errors (the `error` slug on the SlackError): - `duplicate_external_id` — Error returned when the given `external_id` has already be used. - `hash_conflict` — Error returned when the provided `hash` doesn't match the current stored value. - `missing_profile_id` — A profile id was not provided when trying to publish a view of type profile. - `not_allowed_token_type` — The type of token your app used when requesting this method is not allowed. - `not_enabled` — Error returned if a `home` view is published but the Home tab isn't enabled for the app. - `not_implemented` — The profile view experiment is not enabled for this user. - `view_too_large` — Error returned if the provided view is greater than 250kb. See https://docs.slack.dev/reference/methods/views.publish */

@@ -345,7 +345,6 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "user",
-            "smithy.api#required": {},
             "smithy.api#documentation": "User to get info on"
           }
         }

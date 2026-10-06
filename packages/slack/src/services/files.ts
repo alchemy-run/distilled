@@ -32,20 +32,11 @@ export const AddRemoteRequest = /*@__PURE__*/ S.suspend(() =>
     preview_image: S.optional(S.Unknown),
     title: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/files.remote.add",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
+    T.Http({ method: "POST", uri: "/files.remote.add", code: 200, contentType: "form-urlencoded" }),
   ),
-).annotate({
-  identifier: "AddRemoteRequest",
-}) as any as S.Schema<AddRemoteRequest>;
+).annotate({ identifier: "AddRemoteRequest" }) as any as S.Schema<AddRemoteRequest>;
 
-export type AddRemoteResponseFileSharesMap = {
-  [key: string]: unknown | undefined;
-};
+export type AddRemoteResponseFileSharesMap = { [key: string]: unknown | undefined };
 export const AddRemoteResponseFileSharesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -129,9 +120,7 @@ export const AddRemoteResponseFile = /*@__PURE__*/ S.suspend(() =>
     external_url: S.optional(S.String),
     has_rich_preview: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AddRemoteResponseFile",
-}) as any as S.Schema<AddRemoteResponseFile>;
+).annotate({ identifier: "AddRemoteResponseFile" }) as any as S.Schema<AddRemoteResponseFile>;
 
 export interface AddRemoteResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -143,9 +132,7 @@ export const AddRemoteResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     file: AddRemoteResponseFile,
   }),
-).annotate({
-  identifier: "AddRemoteResponse",
-}) as any as S.Schema<AddRemoteResponse>;
+).annotate({ identifier: "AddRemoteResponse" }) as any as S.Schema<AddRemoteResponse>;
 
 export interface CompleteUploadExternalRequestFilesItem {
   /** File ID returned from files.getUploadURL. */
@@ -209,9 +196,9 @@ export interface CompleteUploadExternalRequest {
   /** Set your bot's user name for the file share message. Requires the [`chat:write.customize`](/reference/scopes/chat.write.customize) scope. */
   username?: string | null;
   /** URL to an image to use as the icon for the file share message. Requires the [`chat:write.customize`](/reference/scopes/chat.write.customize) scope. */
-  icon_url?: string;
+  icon_url?: string | null;
   /** Emoji to use as the icon for the file share message. Overrides `icon_url`. Requires the [`chat:write.customize`](/reference/scopes/chat.write.customize) scope. */
-  icon_emoji?: string;
+  icon_emoji?: string | null;
 }
 export const CompleteUploadExternalRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -222,8 +209,8 @@ export const CompleteUploadExternalRequest = /*@__PURE__*/ S.suspend(() =>
     initial_comment: S.optional(S.String),
     blocks: S.optional(CompleteUploadExternalRequestBlocks),
     username: S.optional(S.NullOr(S.String)),
-    icon_url: S.optional(S.String),
-    icon_emoji: S.optional(S.String),
+    icon_url: S.optional(S.NullOr(S.String)),
+    icon_emoji: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/files.completeUploadExternal", code: 200 })),
 ).annotate({
   identifier: "CompleteUploadExternalRequest",
@@ -283,9 +270,7 @@ export const DeleteCommentRequest = /*@__PURE__*/ S.suspend(() =>
     file: S.String,
     id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/files.comments.delete", code: 200 })),
-).annotate({
-  identifier: "DeleteCommentRequest",
-}) as any as S.Schema<DeleteCommentRequest>;
+).annotate({ identifier: "DeleteCommentRequest" }) as any as S.Schema<DeleteCommentRequest>;
 
 export interface DeleteCommentResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -295,9 +280,7 @@ export const DeleteCommentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "DeleteCommentResponse",
-}) as any as S.Schema<DeleteCommentResponse>;
+).annotate({ identifier: "DeleteCommentResponse" }) as any as S.Schema<DeleteCommentResponse>;
 
 export interface DeleteFileRequest {
   /** ID of file to delete. */
@@ -307,9 +290,7 @@ export const DeleteFileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     file: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/files.delete", code: 200 })),
-).annotate({
-  identifier: "DeleteFileRequest",
-}) as any as S.Schema<DeleteFileRequest>;
+).annotate({ identifier: "DeleteFileRequest" }) as any as S.Schema<DeleteFileRequest>;
 
 export interface DeleteFileResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -319,9 +300,7 @@ export const DeleteFileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "DeleteFileResponse",
-}) as any as S.Schema<DeleteFileResponse>;
+).annotate({ identifier: "DeleteFileResponse" }) as any as S.Schema<DeleteFileResponse>;
 
 export interface FilesInfoRequest {
   count?: number;
@@ -341,9 +320,7 @@ export const FilesInfoRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/files.info", code: 200 })),
-).annotate({
-  identifier: "FilesInfoRequest",
-}) as any as S.Schema<FilesInfoRequest>;
+).annotate({ identifier: "FilesInfoRequest" }) as any as S.Schema<FilesInfoRequest>;
 
 export interface FilesInfoResponseFile {
   id: string;
@@ -352,9 +329,7 @@ export const FilesInfoResponseFile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "FilesInfoResponseFile",
-}) as any as S.Schema<FilesInfoResponseFile>;
+).annotate({ identifier: "FilesInfoResponseFile" }) as any as S.Schema<FilesInfoResponseFile>;
 
 export interface FilesInfoResponseCommentsItem {
   comment: string;
@@ -416,9 +391,7 @@ export const FilesInfoResponse = /*@__PURE__*/ S.suspend(() =>
     content_highlight_html: S.optional(S.Unknown),
     response_metadata: S.optional(FilesInfoResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "FilesInfoResponse",
-}) as any as S.Schema<FilesInfoResponse>;
+).annotate({ identifier: "FilesInfoResponse" }) as any as S.Schema<FilesInfoResponse>;
 
 export interface GetUploadURLExternalRequest {
   /** Size in bytes of the file being uploaded. */
@@ -500,9 +473,7 @@ export const ListFilesRequest = /*@__PURE__*/ S.suspend(() =>
     types: S.optional(S.String.pipe(T.Query())),
     user: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/files.list", code: 200 })),
-).annotate({
-  identifier: "ListFilesRequest",
-}) as any as S.Schema<ListFilesRequest>;
+).annotate({ identifier: "ListFilesRequest" }) as any as S.Schema<ListFilesRequest>;
 
 export interface ListFilesResponseFilesItem {
   id: string;
@@ -537,9 +508,7 @@ export const ListFilesResponsePaging = /*@__PURE__*/ S.suspend(() =>
     page: S.Number,
     pages: S.Number,
   }),
-).annotate({
-  identifier: "ListFilesResponsePaging",
-}) as any as S.Schema<ListFilesResponsePaging>;
+).annotate({ identifier: "ListFilesResponsePaging" }) as any as S.Schema<ListFilesResponsePaging>;
 
 export interface ListFilesResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -553,9 +522,7 @@ export const ListFilesResponse = /*@__PURE__*/ S.suspend(() =>
     files: ListFilesResponseFilesList,
     paging: S.optional(ListFilesResponsePaging),
   }),
-).annotate({
-  identifier: "ListFilesResponse",
-}) as any as S.Schema<ListFilesResponse>;
+).annotate({ identifier: "ListFilesResponse" }) as any as S.Schema<ListFilesResponse>;
 
 export interface ListRemoteRequest {
   /** Filter files appearing in a specific channel, indicated by its ID. */
@@ -577,9 +544,7 @@ export const ListRemoteRequest = /*@__PURE__*/ S.suspend(() =>
     ts_from: S.optional(S.String.pipe(T.Query())),
     ts_to: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/files.remote.list", code: 200 })),
-).annotate({
-  identifier: "ListRemoteRequest",
-}) as any as S.Schema<ListRemoteRequest>;
+).annotate({ identifier: "ListRemoteRequest" }) as any as S.Schema<ListRemoteRequest>;
 
 export interface ListRemoteResponseFilesItem {
   id?: string;
@@ -614,9 +579,7 @@ export const ListRemoteResponse = /*@__PURE__*/ S.suspend(() =>
     files: ListRemoteResponseFilesList,
     response_metadata: S.optional(FilesInfoResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "ListRemoteResponse",
-}) as any as S.Schema<ListRemoteResponse>;
+).annotate({ identifier: "ListRemoteResponse" }) as any as S.Schema<ListRemoteResponse>;
 
 export interface RemoteInfoRequest {
   /** Creator defined GUID for the file. */
@@ -629,9 +592,7 @@ export const RemoteInfoRequest = /*@__PURE__*/ S.suspend(() =>
     external_id: S.optional(S.String.pipe(T.Query())),
     file: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/files.remote.info", code: 200 })),
-).annotate({
-  identifier: "RemoteInfoRequest",
-}) as any as S.Schema<RemoteInfoRequest>;
+).annotate({ identifier: "RemoteInfoRequest" }) as any as S.Schema<RemoteInfoRequest>;
 
 export type RemoteInfoResponseFile = ListFilesResponseFilesItem;
 export const RemoteInfoResponseFile = ListFilesResponseFilesItem;
@@ -646,9 +607,7 @@ export const RemoteInfoResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     file: ListFilesResponseFilesItem,
   }),
-).annotate({
-  identifier: "RemoteInfoResponse",
-}) as any as S.Schema<RemoteInfoResponse>;
+).annotate({ identifier: "RemoteInfoResponse" }) as any as S.Schema<RemoteInfoResponse>;
 
 export interface RemoveRemoteRequest {
   /** Creator defined GUID for the file. */
@@ -668,9 +627,7 @@ export const RemoveRemoteRequest = /*@__PURE__*/ S.suspend(() =>
       contentType: "form-urlencoded",
     }),
   ),
-).annotate({
-  identifier: "RemoveRemoteRequest",
-}) as any as S.Schema<RemoveRemoteRequest>;
+).annotate({ identifier: "RemoveRemoteRequest" }) as any as S.Schema<RemoveRemoteRequest>;
 
 export interface RemoveRemoteResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -680,9 +637,7 @@ export const RemoveRemoteResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "RemoveRemoteResponse",
-}) as any as S.Schema<RemoveRemoteResponse>;
+).annotate({ identifier: "RemoveRemoteResponse" }) as any as S.Schema<RemoveRemoteResponse>;
 
 export interface RevokePublicURLRequest {
   /** File to revoke */
@@ -692,9 +647,7 @@ export const RevokePublicURLRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     file: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/files.revokePublicURL", code: 200 })),
-).annotate({
-  identifier: "RevokePublicURLRequest",
-}) as any as S.Schema<RevokePublicURLRequest>;
+).annotate({ identifier: "RevokePublicURLRequest" }) as any as S.Schema<RevokePublicURLRequest>;
 
 export interface RevokePublicURLResponseFile {
   id?: string;
@@ -721,9 +674,7 @@ export const RevokePublicURLResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     file: RevokePublicURLResponseFile,
   }),
-).annotate({
-  identifier: "RevokePublicURLResponse",
-}) as any as S.Schema<RevokePublicURLResponse>;
+).annotate({ identifier: "RevokePublicURLResponse" }) as any as S.Schema<RevokePublicURLResponse>;
 
 export interface SharedPublicURLRequest {
   /** File to share */
@@ -733,16 +684,12 @@ export const SharedPublicURLRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     file: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/files.sharedPublicURL", code: 200 })),
-).annotate({
-  identifier: "SharedPublicURLRequest",
-}) as any as S.Schema<SharedPublicURLRequest>;
+).annotate({ identifier: "SharedPublicURLRequest" }) as any as S.Schema<SharedPublicURLRequest>;
 
 export type SharedPublicURLResponseFile = RevokePublicURLResponseFile;
 export const SharedPublicURLResponseFile = RevokePublicURLResponseFile;
 
-export type SharedPublicURLResponseCommentItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type SharedPublicURLResponseCommentItemMap = { [key: string]: unknown | undefined };
 export const SharedPublicURLResponseCommentItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -753,9 +700,7 @@ export const SharedPublicURLResponseCommentList = /*@__PURE__*/ S.Array(
   SharedPublicURLResponseCommentItemMap,
 ) as any as S.Schema<SharedPublicURLResponseCommentList>;
 
-export type SharedPublicURLResponsePagingMap = {
-  [key: string]: unknown | undefined;
-};
+export type SharedPublicURLResponsePagingMap = { [key: string]: unknown | undefined };
 export const SharedPublicURLResponsePagingMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -775,9 +720,7 @@ export const SharedPublicURLResponse = /*@__PURE__*/ S.suspend(() =>
     comment: S.optional(SharedPublicURLResponseCommentList),
     paging: S.optional(SharedPublicURLResponsePagingMap),
   }),
-).annotate({
-  identifier: "SharedPublicURLResponse",
-}) as any as S.Schema<SharedPublicURLResponse>;
+).annotate({ identifier: "SharedPublicURLResponse" }) as any as S.Schema<SharedPublicURLResponse>;
 
 export interface ShareRemoteRequest {
   /** Comma-separated list of channel IDs where the file will be shared. */
@@ -793,9 +736,7 @@ export const ShareRemoteRequest = /*@__PURE__*/ S.suspend(() =>
     external_id: S.optional(S.String.pipe(T.Query())),
     file: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/files.remote.share", code: 200 })),
-).annotate({
-  identifier: "ShareRemoteRequest",
-}) as any as S.Schema<ShareRemoteRequest>;
+).annotate({ identifier: "ShareRemoteRequest" }) as any as S.Schema<ShareRemoteRequest>;
 
 export type ShareRemoteResponseFile = ListRemoteResponseFilesItem;
 export const ShareRemoteResponseFile = ListRemoteResponseFilesItem;
@@ -810,9 +751,7 @@ export const ShareRemoteResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     file: S.optional(ListRemoteResponseFilesItem),
   }),
-).annotate({
-  identifier: "ShareRemoteResponse",
-}) as any as S.Schema<ShareRemoteResponse>;
+).annotate({ identifier: "ShareRemoteResponse" }) as any as S.Schema<ShareRemoteResponse>;
 
 export interface UpdateRemoteRequest {
   /** Creator defined GUID for the file. */
@@ -847,9 +786,7 @@ export const UpdateRemoteRequest = /*@__PURE__*/ S.suspend(() =>
       contentType: "form-urlencoded",
     }),
   ),
-).annotate({
-  identifier: "UpdateRemoteRequest",
-}) as any as S.Schema<UpdateRemoteRequest>;
+).annotate({ identifier: "UpdateRemoteRequest" }) as any as S.Schema<UpdateRemoteRequest>;
 
 export type UpdateRemoteResponseFile = ListRemoteResponseFilesItem;
 export const UpdateRemoteResponseFile = ListRemoteResponseFilesItem;
@@ -864,9 +801,7 @@ export const UpdateRemoteResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     file: S.optional(ListRemoteResponseFilesItem),
   }),
-).annotate({
-  identifier: "UpdateRemoteResponse",
-}) as any as S.Schema<UpdateRemoteResponse>;
+).annotate({ identifier: "UpdateRemoteResponse" }) as any as S.Schema<UpdateRemoteResponse>;
 
 export interface UploadFileRequest {
   /** Comma-separated list of channel names or IDs where the file will be shared. */
@@ -897,16 +832,9 @@ export const UploadFileRequest = /*@__PURE__*/ S.suspend(() =>
     thread_ts: S.optional(S.String),
     title: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/files.upload",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
+    T.Http({ method: "POST", uri: "/files.upload", code: 200, contentType: "form-urlencoded" }),
   ),
-).annotate({
-  identifier: "UploadFileRequest",
-}) as any as S.Schema<UploadFileRequest>;
+).annotate({ identifier: "UploadFileRequest" }) as any as S.Schema<UploadFileRequest>;
 
 export type UploadFileResponseFile = RevokePublicURLResponseFile;
 export const UploadFileResponseFile = RevokePublicURLResponseFile;
@@ -921,9 +849,7 @@ export const UploadFileResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     file: RevokePublicURLResponseFile,
   }),
-).annotate({
-  identifier: "UploadFileResponse",
-}) as any as S.Schema<UploadFileResponse>;
+).annotate({ identifier: "UploadFileResponse" }) as any as S.Schema<UploadFileResponse>;
 
 export type AddRemoteError = SlackOpError;
 /** Adds a file from a remote service Required scopes — bot: `remote_files:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `bad_image` — The uploaded image could not be processed - try passing a JPG or PNG - `bad_title` — The title provided is too long. - `bot_user_required` — bot user token is required - `invalid_external_id` — The external_id provided is too long. - `too_large` — The uploaded image had excessive dimensions See https://docs.slack.dev/reference/methods/files.remote.add */
@@ -941,7 +867,7 @@ export const addRemote: API.OperationMethod<
 }));
 
 export type CompleteUploadExternalError = SlackOpError;
-/** Finishes an upload started with files.getUploadURLExternal Required scopes — bot: `files:write`; user: `files:write` Rate limit tier: 4 Method-specific errors (the `error` slug on the SlackError): - `access_denied` — User is not the owner of the file. - `channel_not_found` — Value passed for `channel_id` was invalid. - `file_not_found` — Could not find the file from the upload ticket. - `file_update_failed` — Failure occurred when attempting to update the file. - `invalid_blocks` — Provided blocks are in the incorrect format. - `invalid_channel` — Channel could not be found or channel specified is invalid. - `not_in_channel` — User/bot membership is required for the specified channel. - `posting_to_channel_denied` — User is not authorized to post to channel. - `channels_limit_exceeded` — Exceeded the channel limit. A maximum of 100 channels is allowed per request. - `file_type_not_allowed` — The file type is not permitted based on the team's allowed_file_upload_types preference. - `file_uploads_except_images_disabled` — Only image file uploads are permitted for this team. See https://docs.slack.dev/reference/methods/files.completeUploadExternal */
+/** Finishes an upload started with files.getUploadURLExternal Required scopes — bot: `files:write`; user: `files:write` Rate limit tier: 4 Method-specific errors (the `error` slug on the SlackError): - `access_denied` — User is not the owner of the file. - `channel_not_found` — Value passed for `channel_id` was invalid. - `file_not_found` — Could not find the file from the upload ticket. - `file_update_failed` — Failure occurred when attempting to update the file. - `invalid_blocks` — Provided blocks are in the incorrect format. - `invalid_channel` — Channel could not be found or channel specified is invalid. - `not_in_channel` — User/bot membership is required for the specified channel. - `posting_to_channel_denied` — User is not authorized to post to channel. - `channels_limit_exceeded` — Exceeded the channel limit. A maximum of 100 channels is allowed per request. - `file_type_not_allowed` — The file type is not permitted based on the team's allowed_file_upload_types preference. - `file_uploads_except_images_disabled` — Only image file uploads are permitted for this team. - `user_is_external_guest` — External guests cannot upload or share files. See https://docs.slack.dev/reference/methods/files.completeUploadExternal */
 export const completeUploadExternal: API.OperationMethod<
   CompleteUploadExternalRequest,
   CompleteUploadExternalResponse,
@@ -1012,7 +938,7 @@ export const filesInfo: API.PaginatedOperationMethod<
 ) as any;
 
 export type GetUploadURLExternalError = SlackOpError;
-/** Gets a URL for an edge external file upload Required scopes — bot: `files:write`; user: `files:write` Rate limit tier: 4 Method-specific errors (the `error` slug on the SlackError): - `alt_txt_too_large` — Description for the image is longer than the limit of 1000 character - `file_upload_size_restricted` — The size of provided file is too large, as the team has restricted uploads of large files. - `file_uploads_disabled` — Team has disabled all file uploads. - `missing_argument` — A required argument was not provided. Typically only occurs when the `length` provided is 0. - `snippet_too_large` — The provided `length` is too large to create a snippet, which are limited to 1MB. - `storage_limit_reached` — File storage limit has been reached. This occurs when free teams have uploaded 5GB of files. - `unknown_snippet_type` — The provided `snippet_type` is not a supported type. - `unknown_subtype` — The provided `subtype` is not a supported type. - `file_type_not_allowed` — The file type is not allowed. - `file_uploads_except_images_disabled` — File uploads except images are disabled. See https://docs.slack.dev/reference/methods/files.getUploadURLExternal */
+/** Gets a URL for an edge external file upload Required scopes — bot: `files:write`; user: `files:write` Rate limit tier: 4 Method-specific errors (the `error` slug on the SlackError): - `alt_txt_too_large` — Description for the image is longer than the limit of 1000 character - `file_upload_size_restricted` — The size of provided file is too large, as the team has restricted uploads of large files. - `file_uploads_disabled` — Team has disabled all file uploads. - `missing_argument` — A required argument was not provided. Typically only occurs when the `length` provided is 0. - `snippet_too_large` — The provided `length` is too large to create a snippet, which are limited to 1MB. - `storage_limit_reached` — File storage limit has been reached. This occurs when free teams have uploaded 5GB of files. - `unknown_snippet_type` — The provided `snippet_type` is not a supported type. - `unknown_subtype` — The provided `subtype` is not a supported type. - `file_type_not_allowed` — The file type is not allowed. - `file_uploads_except_images_disabled` — File uploads except images are disabled. - `user_is_external_guest` — External guests cannot upload or share files. See https://docs.slack.dev/reference/methods/files.getUploadURLExternal */
 export const getUploadURLExternal: API.OperationMethod<
   GetUploadURLExternalRequest,
   GetUploadURLExternalResponse,

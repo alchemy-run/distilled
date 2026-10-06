@@ -4,7 +4,7 @@
   "scope": {},
   "no_scope_required": true,
   "json_input_supported": false,
-  "rate_limits": "t2",
+  "rate_limits": "t3",
   "args": {
     "type": "object",
     "required": [

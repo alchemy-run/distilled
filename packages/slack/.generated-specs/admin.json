@@ -116,7 +116,7 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "limit",
-            "smithy.api#documentation": "Maximum number of entries to return. The maximum limit is 100."
+            "smithy.api#documentation": "Maximum number of entries to return. Defaults to 50 if not passed. Max allowed is 100."
           }
         }
       },
@@ -179,7 +179,7 @@
           "uri": "/admin.analytics.messages.activity",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieves activity metrics for messages from a given channel.\n\nRequired scopes — user: `admin.analytics:read`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `channel_not_found` — The specified channel was not found.\n  - `invalid_arguments` — Required arguments either were not provided or contain invalid values.\n  - `restricted_action` — The token does not have permission to access this resource.\n  - `not_an_enterprise` — The user token does not belong to an enterprise.\n  - `restricted_plan_level` — The enterprise plan level does not have access to this feature.\n\nSee https://docs.slack.dev/reference/methods/admin.analytics.messages.activity"
+        "smithy.api#documentation": "Retrieves activity metrics for messages from a given channel.\n\nRequired scopes — user: `admin.analytics:read`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `channel_not_found` — The specified channel was not found.\n  - `invalid_arguments` — Required arguments either were not provided or contain invalid values.\n  - `restricted_action` — The token does not have permission to access this resource.\n  - `not_an_enterprise` — The user token does not belong to an enterprise.\n  - `restricted_plan_level` — The enterprise plan level does not have access to this feature.\n  - `rate_limited` — Too many requests in a short amount of time.\n\nSee https://docs.slack.dev/reference/methods/admin.analytics.messages.activity"
       }
     },
     "com.slack.admin#AnalyticsMessagesMetadataRequest": {
@@ -211,7 +211,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "cursor",
-            "smithy.api#documentation": "Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first \"page\" of the collection. See [pagination](#pagination) for more details."
+            "smithy.api#documentation": "Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first \"page\" of the collection. See [pagination](https://docs.slack.dev/apis/web-api/pagination) for more detail."
           }
         }
       },
@@ -473,7 +473,7 @@
           "uri": "/admin.analytics.messages.metadata",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieves metadata for a list of messages from a given channel.\n\nRequired scopes — user: `admin.analytics:read`\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `channel_not_found` — The specified channel was not found\n  - `invalid_arguments` — Required arguments either were not provided or contain invalid values.\n  - `not_an_enterprise` — The user token does not belong to an enterprise.\n  - `analytics_unavailable` — We were unable to find analytics for you.\n  - `admin_analytics_disabled` — We're having issues returning your analytics. Please wait and try again.\n  - `restricted_plan_level` — This feature is not available for your current product plan.\n  - `different_team_owns_message_metadata_for_channel` — Message metadata must be accessed by an actor from the same team that owns the channel. This may be the org or a specific enterprise workspace.\n\nSee https://docs.slack.dev/reference/methods/admin.analytics.messages.metadata",
+        "smithy.api#documentation": "Retrieves metadata for a list of messages from a given channel.\n\nRequired scopes — user: `admin.analytics:read`\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `channel_not_found` — The specified channel was not found\n  - `invalid_arguments` — Required arguments either were not provided or contain invalid values.\n  - `not_an_enterprise` — The user token does not belong to an enterprise.\n  - `analytics_unavailable` — We were unable to find analytics for you.\n  - `admin_analytics_disabled` — We're having issues returning your analytics. Please wait and try again.\n  - `restricted_plan_level` — This feature is not available for your current product plan.\n  - `different_team_owns_message_metadata_for_channel` — Message metadata must be accessed by an actor from the same team that owns the channel. This may be the org or a specific enterprise workspace.\n  - `rate_limited` — Too many requests in a short amount of time.\n\nSee https://docs.slack.dev/reference/methods/admin.analytics.messages.metadata",
         "smithy.api#paginated": {
           "mode": "cursor",
           "inputToken": "cursor",
@@ -1566,6 +1566,15 @@
         "smithy.api#documentation": "List of encoded usergroup IDs"
       }
     },
+    "com.slack.admin#AddAppsPermissionsRequestChannelIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of encoded channel IDs to add to the channel restriction list. Interpretation depends on the app's `channel_restriction_mode`, which is configured via the `admin.apps.permissions.set` method."
+      }
+    },
     "com.slack.admin#AddAppsPermissionsRequest": {
       "type": "structure",
       "members": {
@@ -1586,6 +1595,12 @@
           "target": "com.slack.admin#AddAppsPermissionsRequestUsergroupIdsList",
           "traits": {
             "smithy.api#documentation": "List of encoded usergroup IDs"
+          }
+        },
+        "channel_ids": {
+          "target": "com.slack.admin#AddAppsPermissionsRequestChannelIdsList",
+          "traits": {
+            "smithy.api#documentation": "List of encoded channel IDs to add to the channel restriction list. Interpretation depends on the app's `channel_restriction_mode`, which is configured via the `admin.apps.permissions.set` method."
           }
         }
       },
@@ -1622,7 +1637,7 @@
           "uri": "/admin.apps.permissions.add",
           "code": 200
         },
-        "smithy.api#documentation": "Grant permission for entities to access an app that has its permission type set to named_entities\n\nRequired scopes — user: `admin.apps:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `invalid_auth` — Invalid authorization token\n  - `access_denied` — This actor does not have access to the permissions on this resource.\n  - `invalid_permission_type` — This app requires permission_type to be set as named_entities before adding users.\n  - `no_valid_named_entities` — None of the provided named entities were valid\n  - `too_many_named_entities` — Too many named entities passed into the app permissions setting.\n  - `app_not_found` — This app does not exist.\n  - `not_an_enterprise` — This feature is only available on Enterprise Grid plans.\n  - `app_acl_not_found` — This app does not have an ACL.\n  - `internal_error` — Internal error\n  - `user_not_found` — Value passed for `user_ids` was invalid.\n  - `invalid_entities` — Invalid entities.\n  - `invalid_channel_restriction_mode` — Cannot add channels when channel_restriction_mode is all_channels. Use set to configure a restriction mode first.\n  - `channel_not_found` — One or more channel IDs are not valid.\n  - `failed_to_update_channels` — An error occurred while updating the channel restriction list.\n\nSee https://docs.slack.dev/reference/methods/admin.apps.permissions.add"
+        "smithy.api#documentation": "Grant permission for entities to access an app that has its permission type set to named_entities\n\nRequired scopes — user: `admin.apps:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `invalid_auth` — Invalid authorization token\n  - `access_denied` — This actor does not have access to the permissions on this resource.\n  - `invalid_permission_type` — This app requires permission_type to be set as named_entities before adding users.\n  - `no_valid_named_entities` — None of the provided named entities were valid\n  - `too_many_named_entities` — Too many named entities passed into the app permissions setting.\n  - `app_not_found` — This app does not exist.\n  - `not_an_enterprise` — This feature is only available on Enterprise Grid plans.\n  - `app_acl_not_found` — This app does not have an ACL.\n  - `internal_error` — Internal error\n  - `user_not_found` — Value passed for `user_ids` was invalid.\n  - `invalid_entities` — Invalid entities.\n  - `invalid_channel_restriction_mode` — Cannot add channels when channel_restriction_mode is all_channels. Use set to configure a restriction mode first.\n  - `channel_not_found` — One or more channel IDs are not valid.\n  - `failed_to_update_channels` — An error occurred while updating the channel restriction list.\n  - `restricted_action` — User does not have permission to perform this action.\n\nSee https://docs.slack.dev/reference/methods/admin.apps.permissions.add"
       }
     },
     "com.slack.admin#ListAppsPermissionsRequest": {
@@ -1690,6 +1705,15 @@
         "smithy.api#documentation": "List of encoded usergroup IDs"
       }
     },
+    "com.slack.admin#RemoveAppsPermissionsRequestChannelIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of encoded channel IDs to remove from the channel restriction list. Interpretation depends on the app's `channel_restriction_mode`, which is configured via the `admin.apps.permissions.set` method."
+      }
+    },
     "com.slack.admin#RemoveAppsPermissionsRequest": {
       "type": "structure",
       "members": {
@@ -1710,6 +1734,12 @@
           "target": "com.slack.admin#RemoveAppsPermissionsRequestUsergroupIdsList",
           "traits": {
             "smithy.api#documentation": "List of encoded usergroup IDs"
+          }
+        },
+        "channel_ids": {
+          "target": "com.slack.admin#RemoveAppsPermissionsRequestChannelIdsList",
+          "traits": {
+            "smithy.api#documentation": "List of encoded channel IDs to remove from the channel restriction list. Interpretation depends on the app's `channel_restriction_mode`, which is configured via the `admin.apps.permissions.set` method."
           }
         }
       },
@@ -1746,7 +1776,7 @@
           "uri": "/admin.apps.permissions.remove",
           "code": 200
         },
-        "smithy.api#documentation": "Revoke an entity's access to an app that has its permission type set to named_entities\n\nRequired scopes — user: `admin.apps:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `invalid_auth` — Invalid authorization token\n  - `access_denied` — This actor does not have access to the permissions on this resource.\n  - `named_entities_cannot_be_empty` — There must be at least one valid named entity\n  - `app_not_found` — This app does not exist.\n  - `not_an_enterprise` — This feature is only available on Enterprise Grid plans.\n  - `invalid_permission_type` — This app requires permission_type to be set as named_entities before removing users.\n  - `too_many_named_entities` — Too many named entities passed into the app permissions setting.\n  - `app_acl_not_found` — This app does not have an ACL.\n  - `internal_error` — Internal error\n  - `user_not_found` — Value passed for `user_ids` was invalid.\n  - `invalid_channel_restriction_mode` — Cannot remove channels when channel_restriction_mode is all_channels.\n  - `channel_not_found` — One or more channel IDs are not valid.\n  - `failed_to_update_channels` — An error occurred while updating the channel restriction list.\n\nSee https://docs.slack.dev/reference/methods/admin.apps.permissions.remove"
+        "smithy.api#documentation": "Revoke an entity's access to an app that has its permission type set to named_entities\n\nRequired scopes — user: `admin.apps:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `invalid_auth` — Invalid authorization token\n  - `access_denied` — This actor does not have access to the permissions on this resource.\n  - `named_entities_cannot_be_empty` — There must be at least one valid named entity\n  - `app_not_found` — This app does not exist.\n  - `not_an_enterprise` — This feature is only available on Enterprise Grid plans.\n  - `invalid_permission_type` — This app requires permission_type to be set as named_entities before removing users.\n  - `too_many_named_entities` — Too many named entities passed into the app permissions setting.\n  - `app_acl_not_found` — This app does not have an ACL.\n  - `internal_error` — Internal error\n  - `user_not_found` — Value passed for `user_ids` was invalid.\n  - `invalid_channel_restriction_mode` — Cannot remove channels when channel_restriction_mode is all_channels.\n  - `channel_not_found` — One or more channel IDs are not valid.\n  - `failed_to_update_channels` — An error occurred while updating the channel restriction list.\n  - `restricted_action` — User does not have permission to perform this action.\n\nSee https://docs.slack.dev/reference/methods/admin.apps.permissions.remove"
       }
     },
     "com.slack.admin#SetAppsPermissionsRequestPermissionType": {
@@ -1793,6 +1823,41 @@
         "smithy.api#documentation": "List of encoded usergroup IDs"
       }
     },
+    "com.slack.admin#SetAppsPermissionsRequestChannelRestrictionMode": {
+      "type": "enum",
+      "members": {
+        "ALL_CHANNELS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all_channels"
+          }
+        },
+        "SPECIFIC_CHANNELS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "specific_channels"
+          }
+        },
+        "ALL_CHANNELS_EXCEPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all_channels_except"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The mode that defines where the app can be used in channels"
+      }
+    },
+    "com.slack.admin#SetAppsPermissionsRequestChannelIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of encoded channel IDs for channel restrictions. Semantics depend on channel_restriction_mode: allowlist for specific_channels, exclusion list for all_channels_except"
+      }
+    },
     "com.slack.admin#SetAppsPermissionsRequest": {
       "type": "structure",
       "members": {
@@ -1820,6 +1885,18 @@
           "target": "com.slack.admin#SetAppsPermissionsRequestUsergroupIdsList",
           "traits": {
             "smithy.api#documentation": "List of encoded usergroup IDs"
+          }
+        },
+        "channel_restriction_mode": {
+          "target": "com.slack.admin#SetAppsPermissionsRequestChannelRestrictionMode",
+          "traits": {
+            "smithy.api#documentation": "The mode that defines where the app can be used in channels"
+          }
+        },
+        "channel_ids": {
+          "target": "com.slack.admin#SetAppsPermissionsRequestChannelIdsList",
+          "traits": {
+            "smithy.api#documentation": "List of encoded channel IDs for channel restrictions. Semantics depend on channel_restriction_mode: allowlist for specific_channels, exclusion list for all_channels_except"
           }
         }
       },
@@ -1856,7 +1933,7 @@
           "uri": "/admin.apps.permissions.set",
           "code": 200
         },
-        "smithy.api#documentation": "Set the permission type for who can access an app\n\nRequired scopes — user: `admin.apps:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `invalid_auth` — Invalid authorization token\n  - `access_denied` — This actor does not have access to the permissions on this resource.\n  - `invalid_permission_type` — This app requires permission_type to be set as named_entities before adding users.\n  - `named_entities_cannot_be_empty` — Must pass at least one valid named entity.\n  - `no_valid_named_entities` — None of the provided named entities were valid\n  - `too_many_named_entities` — Too many named_entities passed into the app permissions setting.\n  - `app_not_found` — This app does not exist.\n  - `not_an_enterprise` — This feature is only available on Enterprise Grid plans.\n  - `user_not_found` — This actor does not have access to at least one valid named entity.\n  - `usergroup_not_found` — The usergroup is not valid.\n  - `invalid_channel_restriction_mode` — The channel_restriction_mode value is not valid.\n  - `channel_ids_required` — channel_ids is required when channel_restriction_mode is specific_channels or all_channels_except.\n  - `channel_not_found` — One or more channel IDs are not valid.\n\nSee https://docs.slack.dev/reference/methods/admin.apps.permissions.set"
+        "smithy.api#documentation": "Set the permission type for who can access an app\n\nRequired scopes — user: `admin.apps:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `invalid_auth` — Invalid authorization token\n  - `access_denied` — This actor does not have access to the permissions on this resource.\n  - `invalid_permission_type` — This app requires permission_type to be set as named_entities before adding users.\n  - `named_entities_cannot_be_empty` — Must pass at least one valid named entity.\n  - `no_valid_named_entities` — None of the provided named entities were valid\n  - `too_many_named_entities` — Too many named_entities passed into the app permissions setting.\n  - `app_not_found` — This app does not exist.\n  - `not_an_enterprise` — This feature is only available on Enterprise Grid plans.\n  - `user_not_found` — This actor does not have access to at least one valid named entity.\n  - `usergroup_not_found` — The usergroup is not valid.\n  - `invalid_channel_restriction_mode` — The channel_restriction_mode value is not valid.\n  - `channel_ids_required` — channel_ids is required when channel_restriction_mode is specific_channels or all_channels_except.\n  - `channel_not_found` — One or more channel IDs are not valid.\n  - `restricted_action` — User does not have permission to perform this action.\n  - `channel_restrictions_not_available` — Channel restrictions are not available for this workspace.\n  - `channel_restriction_requires_app_access` — Channel access cannot be configured while the app is set to no_one, since the app can't be used in any channel.\n\nSee https://docs.slack.dev/reference/methods/admin.apps.permissions.set"
       }
     },
     "com.slack.admin#CancelAppsRequestRequest": {
@@ -2021,7 +2098,7 @@
           "uri": "/admin.apps.requests.list",
           "code": 200
         },
-        "smithy.api#documentation": "List app requests for a team/workspace.\n\nRequired scopes — user: `admin.apps:read`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `app_management_app_not_installed_on_org` — The app management app must be installed on the org.\n  - `enterprise_not_found` — Returned when enterprise id is not found.\n  - `feature_not_enabled` — Returned when the Admin APIs feature is not enabled for this team\n  - `invalid_cursor` — Value passed for `cursor` was not valid or is no longer valid.\n  - `invalid_auth` — invalid token or actor does not have access\n  - `not_allowed` — The user is not allowed to access this API method\n  - `not_an_admin` — This method is only accessible by org owners and admins\n  - `restricted_action` — The action is restricted for this team\n  - `user_is_restricted` — This method is only accessible by org owners, admins, and integration managers\n  - `no_team_or_enterprise_provided` — Must provide team ID or enterprise ID\n  - `team_not_found` — Returned when team id is not found.\n  - `too_many_teams_provided` — Please provide only `team_id` OR `enterprise_id`\n\nSee https://docs.slack.dev/reference/methods/admin.apps.requests.list",
+        "smithy.api#documentation": "List app requests for a team/workspace.\n\nRequired scopes — user: `admin.apps:read`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `app_management_app_not_installed_on_org` — The app management app must be installed on the org.\n  - `enterprise_not_found` — Returned when enterprise id is not found.\n  - `feature_not_enabled` — Returned when the Admin APIs feature is not enabled for this team\n  - `invalid_cursor` — Value passed for `cursor` was not valid or is no longer valid.\n  - `invalid_auth` — invalid token or actor does not have access\n  - `not_allowed` — The user is not allowed to access this API method\n  - `not_an_admin` — This method is only accessible by org owners and admins\n  - `restricted_action` — The action is restricted for this team\n  - `user_is_restricted` — This method is only accessible by org owners, admins, and integration managers\n  - `no_team_or_enterprise_provided` — Must provide team ID or enterprise ID\n  - `team_not_found` — Returned when team id is not found.\n  - `too_many_teams_provided` — Please provide only `team_id` OR `enterprise_id`\n  - `invalid_scopes` — One or more of the given scopes is not a recognized OAuth scope\n\nSee https://docs.slack.dev/reference/methods/admin.apps.requests.list",
         "smithy.api#paginated": {
           "mode": "cursor",
           "inputToken": "cursor",
@@ -3544,7 +3621,121 @@
           "uri": "/admin.conversations.bulkSetExcludeFromSlackAi",
           "code": 200
         },
-        "smithy.api#documentation": "Exclude channels from Slack AI in bulk\n\nRequired scopes — user: `admin.conversations:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `action_already_in_progress` — Another bulk action request is currently in progress\n  - `internal_error` — Something unexpected happened, try again in a little bit. Sorry for that!\n  - `no_valid_channels` — All input channels are invalid\n  - `restricted_action` — User does not have permission to perform this action\n  - `feature_not_enabled` — The feature is not enabled\n\nSee https://docs.slack.dev/reference/methods/admin.conversations.bulkSetExcludeFromSlackAi"
+        "smithy.api#documentation": "Exclude channels from Slack AI in bulk.\n\nRequired scopes — user: `admin.conversations:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `action_already_in_progress` — Another bulk action request is currently in progress\n  - `internal_error` — Something unexpected happened, try again in a little bit. Sorry for that!\n  - `no_valid_channels` — All input channels are invalid\n  - `restricted_action` — User does not have permission to perform this action\n  - `feature_not_enabled` — The feature is not enabled\n  - `disallowed_action` — This property cannot be set on DMs or MPDMs.\n\nSee https://docs.slack.dev/reference/methods/admin.conversations.bulkSetExcludeFromSlackAi"
+      }
+    },
+    "com.slack.admin#BulkSetPropertiesRequestChannelIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of channel IDs on which to set the property."
+      }
+    },
+    "com.slack.admin#BulkSetPropertiesRequest": {
+      "type": "structure",
+      "members": {
+        "channel_ids": {
+          "target": "com.slack.admin#BulkSetPropertiesRequestChannelIdsList",
+          "traits": {
+            "smithy.api#documentation": "An array of channel IDs on which to set the property.",
+            "smithy.api#required": {}
+          }
+        },
+        "property": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The property for this channel in a key value format. Only one property can be updated at a time",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.admin#BulkSetPropertiesResponseNotUpdatedItemErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The reasons the channel was not updated"
+      }
+    },
+    "com.slack.admin#BulkSetPropertiesResponseNotUpdatedItem": {
+      "type": "structure",
+      "members": {
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "errors": {
+          "target": "com.slack.admin#BulkSetPropertiesResponseNotUpdatedItemErrorsList",
+          "traits": {
+            "smithy.api#documentation": "The reasons the channel was not updated",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.slack.admin#BulkSetPropertiesResponseNotUpdatedList": {
+      "type": "list",
+      "member": {
+        "target": "com.slack.admin#BulkSetPropertiesResponseNotUpdatedItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Channels that could not be updated, with reasons"
+      }
+    },
+    "com.slack.admin#BulkSetPropertiesResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "bulk_action_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "not_updated": {
+          "target": "com.slack.admin#BulkSetPropertiesResponseNotUpdatedList",
+          "traits": {
+            "smithy.api#documentation": "Channels that could not be updated, with reasons",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.admin#BulkSetProperties": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.admin#BulkSetPropertiesRequest"
+      },
+      "output": {
+        "target": "com.slack.admin#BulkSetPropertiesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/admin.conversations.bulkSetProperties",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set properties on channels in bulk.\n\nRequired scopes — user: `admin.conversations:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `action_already_in_progress` — Another bulk action request is currently in progress\n  - `invalid_arguments` — The property argument is not a valid JSON object representing a channel property.\n  - `internal_error` — Something unexpected happened, try again in a little bit. Sorry for that!\n  - `no_valid_channels` — All input channels are invalid\n  - `restricted_action` — User does not have permission to perform this action\n  - `feature_not_enabled` — The feature is not enabled\n  - `disallowed_action` — This property cannot be set on this channel type.\n  - `restricted_plan_level` — This API is only available to Enterprise+ customers.\n  - `too_many_properties` — Only one channel property can be updated at a time.\n  - `property_not_allowed` — The property passed in is not allowed to be updated.\n\nSee https://docs.slack.dev/reference/methods/admin.conversations.bulkSetProperties",
+        "com.distilled.openapi#contentType": "form-urlencoded"
       }
     },
     "com.slack.admin#ConvertToPrivateRequest": {
@@ -3783,7 +3974,7 @@
           "uri": "/admin.conversations.createForObjects",
           "code": 200
         },
-        "smithy.api#documentation": "Create a Salesforce channel for the corresponding object provided.\n\nRequired scopes — user: `admin.conversations:manage_objects`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `restricted_action` — User does not have access to perform this action.\n  - `record_not_found` — Value passed for `object_id` is invalid.\n  - `invalid_org_id` — Value passed for `salesforce_org_id` is invalid.\n  - `feature_not_enabled` — Feature not enabled.\n  - `channel_already_exists` — Object is linked to a different channel.\n  - `missing_record_channel_config` — Record Channels are not enabled for the given object type.\n\nSee https://docs.slack.dev/reference/methods/admin.conversations.createForObjects"
+        "smithy.api#documentation": "Create a Salesforce channel for the corresponding object provided.\n\nRequired scopes — user: `admin.conversations:manage_objects`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `restricted_action` — User does not have access to perform this action.\n  - `record_not_found` — Value passed for `salesforce_org_id` or `object_id` is invalid.\n  - `feature_not_enabled` — Feature not enabled.\n  - `channel_already_exists` — Object is linked to a different channel.\n  - `missing_record_channel_config` — Record Channels are not enabled for the given object type.\n\nSee https://docs.slack.dev/reference/methods/admin.conversations.createForObjects"
       }
     },
     "com.slack.admin#DeleteConversationRequest": {
@@ -4708,7 +4899,7 @@
           "uri": "/admin.conversations.rename",
           "code": 200
         },
-        "smithy.api#documentation": "Rename a public or private channel.\n\nRequired scopes — user: `admin.conversations:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `channel_not_found` — The value passed for `channel_id` was invalid.\n  - `channel_type_not_supported` — The provided `channel_id` was a DM, MPDM, or the 'general' channel.\n  - `could_not_rename_channel` — The channel could not be renamed.\n  - `default_org_wide_channel` — The default org-wide channel can't be renamed.\n  - `feature_not_enabled` — The token provided doesn't have access to this method.\n  - `invalid_name_maxlength` — The channel name exceeds the maximum allowed length.\n  - `name_taken` — The channel's name is already being used elsewhere.\n  - `restricted_action` — A workspace preference prevents the authenticated user from renaming a channel.\n\nSee https://docs.slack.dev/reference/methods/admin.conversations.rename"
+        "smithy.api#documentation": "Rename a public or private channel.\n\nRequired scopes — user: `admin.conversations:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `channel_not_found` — The value passed for `channel_id` was invalid.\n  - `channel_type_not_supported` — The provided `channel_id` was a DM, MPDM, or the 'general' channel.\n  - `could_not_rename_channel` — The channel could not be renamed.\n  - `default_org_wide_channel` — The default org-wide channel can't be renamed.\n  - `feature_not_enabled` — The token provided doesn't have access to this method.\n  - `invalid_name_maxlength` — The channel name exceeds the maximum allowed length.\n  - `name_taken` — The channel's name is already being used elsewhere.\n  - `restricted_action` — A workspace preference prevents the authenticated user from renaming a channel.\n  - `external_channel_migrating` — The channel is an externally shared channel that is currently being migrated and can't be renamed.\n  - `not_supported` — This type of channel doesn't support renaming through this method.\n\nSee https://docs.slack.dev/reference/methods/admin.conversations.rename"
       }
     },
     "com.slack.admin#AddGroupRequest": {
@@ -5703,7 +5894,7 @@
         "include_non_distributed_functions": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether to also include functions that are not yet distributed to any users in the function count. This is needed for admins that are approving an app request and will only work if the team owns the app."
+            "smithy.api#documentation": "Whether to also include functions that are not yet distributed to any users in the function list. This is needed for admins that are approving an app request and will only work if the team owns the app."
           }
         },
         "cursor": {
@@ -5934,7 +6125,7 @@
     "com.slack.admin#SetFunctionsPermissionsRequestUserIdsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "smithy.api#String"
       },
       "traits": {
         "smithy.api#documentation": "List of user IDs to allow for `named_entities` visibility."
@@ -5978,6 +6169,12 @@
           "traits": {
             "smithy.api#enumValue": "private_channel_access"
           }
+        },
+        "CONNECTOR_RESOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connector_resource"
+          }
         }
       },
       "traits": {}
@@ -5985,7 +6182,7 @@
     "com.slack.admin#SetFunctionsPermissionsRequestPermissionsItemUserIdsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "smithy.api#String"
       },
       "traits": {
         "smithy.api#documentation": "List of user IDs to allow for `named_entities` visibility."
@@ -6825,7 +7022,7 @@
           "uri": "/admin.roles.removeAssignments",
           "code": 200
         },
-        "smithy.api#documentation": "Removes a set of users from a role for the given scopes and entities\n\nRequired scopes — user: `admin.roles:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `failed_for_some_entities` — At least one role scope ID was invalid\n  - `failed_for_some_users` — At least one user ID was invalid\n  - `failed_for_some_users_and_entities` — At least one role scope ID was invalid\n  - `feature_not_enabled` — This API is currently not enabled.\n  - `invalid_actor` — This API is only enabled for the Admins/Owners.\n  - `invalid_role_id` — The role type passed does not exist.\n  - `no_valid_entities` — None of the entities passed were valid.\n  - `no_valid_users` — None of the users passed were valid.\n  - `too_many_entities` — More than 10 role scopes were passed.\n  - `too_many_users` — More than 10 users were passed.\n  - `cannot_modify_role_admin` — Cannot modify role admin.\n\nSee https://docs.slack.dev/reference/methods/admin.roles.removeAssignments"
+        "smithy.api#documentation": "Removes a set of users from a role for the given scopes and entities\n\nRequired scopes — user: `admin.roles:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `failed_for_some_entities` — At least one role scope ID was invalid\n  - `failed_for_some_users` — At least one user ID was invalid\n  - `failed_for_some_users_and_entities` — At least one role scope ID was invalid\n  - `feature_not_enabled` — This API is currently not enabled.\n  - `invalid_actor` — This API is only enabled for the Admins/Owners.\n  - `invalid_role_id` — The role type passed does not exist.\n  - `no_valid_entities` — None of the entities passed were valid.\n  - `no_valid_users` — None of the users passed were valid.\n  - `too_many_entities` — More than 10 role scopes were passed.\n  - `too_many_users` — More than 10 users were passed.\n  - `cannot_modify_role_admin` — The user does not have permission to modify the admin role.\n\nSee https://docs.slack.dev/reference/methods/admin.roles.removeAssignments"
       }
     },
     "com.slack.admin#ListTeamsAdminsRequest": {
@@ -7669,15 +7866,6 @@
         "smithy.api#documentation": "List of channel IDs that are not valid for this action"
       }
     },
-    "com.slack.admin#AddChannelsResponseChannelLimitUserIdsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "List of user IDs who would exceed their channel limit"
-      }
-    },
     "com.slack.admin#AddChannelsResponse": {
       "type": "structure",
       "members": {
@@ -7698,12 +7886,6 @@
           "target": "com.slack.admin#AddChannelsResponseInvalidChannelsList",
           "traits": {
             "smithy.api#documentation": "List of channel IDs that are not valid for this action"
-          }
-        },
-        "channel_limit_user_ids": {
-          "target": "com.slack.admin#AddChannelsResponseChannelLimitUserIdsList",
-          "traits": {
-            "smithy.api#documentation": "List of user IDs who would exceed their channel limit"
           }
         }
       },
@@ -7794,7 +7976,279 @@
           "uri": "/admin.usergroups.addTeams",
           "code": 200
         },
-        "smithy.api#documentation": "Associate one or more default workspaces with an organization-wide IDP group.\n\nRequired scopes — user: `admin.teams:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `auto_provision_failure` — A failure occurred while assigning IDP group members to a specific workspace; see `errors` element for a list of failed team IDs.\n  - `internal_error` — An unexpected error occurred.\n  - `invalid_team_ids` — One or more team IDs provided were invalid; see the `errors` field in the response for the list of invalid team IDs.\n  - `multi_workspace_restriction` — The IDP group has members that cannot be linked to more than one workspace.\n  - `no_team_ids_given` — The `team_ids` parameter was empty.\n  - `restricted_action` — The calling user cannot update the specified usergroup.\n  - `team_limit_exceeded` — The number of teams associated with the org group would exceed the limit.\n  - `usergroup_not_found` — `usergroup_id` wasn't found.\n\nSee https://docs.slack.dev/reference/methods/admin.usergroups.addTeams"
+        "smithy.api#documentation": "Associate one or more default workspaces with an organization-wide IDP group.\n\nRequired scopes — user: `admin.teams:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `auto_provision_failure` — A failure occurred while assigning IDP group members to a specific workspace; see `errors` element for a list of failed team IDs.\n  - `internal_error` — An unexpected error occurred.\n  - `invalid_team_ids` — One or more team IDs provided were invalid; see the `errors` field in the response for the list of invalid team IDs.\n  - `multi_workspace_restriction` — The IDP group has members that cannot be linked to more than one workspace.\n  - `no_team_ids_given` — The `team_ids` parameter was empty.\n  - `restricted_action` — The calling user cannot update the specified usergroup.\n  - `team_limit_exceeded` — The number of teams associated with the org group would exceed the limit.\n  - `usergroup_not_found` — `usergroup_id` wasn't found.\n  - `auto_provision_required` — The IDP group requires a mandatory workspace link, so `auto_provision` must be `true`.\n  - `workspace_not_eligible` — The workspace is not eligible to be linked to this IDP group; it is not on the org's allow-list of eligible workspaces.\n\nSee https://docs.slack.dev/reference/methods/admin.usergroups.addTeams"
+      }
+    },
+    "com.slack.admin#AddUsersRequestUsersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The encoded user IDs to add to the usergroup, provided as a JSON array or a comma-separated string."
+      }
+    },
+    "com.slack.admin#AddUsersRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the usergroup to add users to",
+            "smithy.api#required": {}
+          }
+        },
+        "users": {
+          "target": "com.slack.admin#AddUsersRequestUsersList",
+          "traits": {
+            "smithy.api#documentation": "The encoded user IDs to add to the usergroup, provided as a JSON array or a comma-separated string.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.admin#AddUsersResponseInvalidUsersItemReason": {
+      "type": "enum",
+      "members": {
+        "GUEST_USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "guest_user"
+          }
+        },
+        "DELETED_USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted_user"
+          }
+        },
+        "USER_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_not_found"
+          }
+        },
+        "INSERT_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "insert_failed"
+          }
+        },
+        "CHANNEL_LIMIT_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "channel_limit_exceeded"
+          }
+        },
+        "MULTI_WORKSPACE_IDP_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multi_workspace_idp_group"
+          }
+        },
+        "USERGROUP_LIMIT_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usergroup_limit_exceeded"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.slack.admin#AddUsersResponseInvalidUsersItem": {
+      "type": "structure",
+      "members": {
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "com.slack.admin#AddUsersResponseInvalidUsersItemReason",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.slack.admin#AddUsersResponseInvalidUsersList": {
+      "type": "list",
+      "member": {
+        "target": "com.slack.admin#AddUsersResponseInvalidUsersItem"
+      },
+      "traits": {}
+    },
+    "com.slack.admin#AddUsersResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A string representation of the error type"
+          }
+        },
+        "invalid_users": {
+          "target": "com.slack.admin#AddUsersResponseInvalidUsersList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.admin#AddUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.admin#AddUsersRequest"
+      },
+      "output": {
+        "target": "com.slack.admin#AddUsersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/admin.usergroups.addUsers",
+          "code": 200
+        },
+        "smithy.api#documentation": "Add members to an existing organizational usergroup. This method is only available to Enterprise Grid organizations.\n\nRequired scopes — user: `admin.usergroups:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `feature_not_enabled` — The Admin APIs feature is not enabled for this workspace.\n  - `invalid_auth` — The workspace specified is not part of this organization.\n  - `restricted_action` — The calling user cannot modify the specified usergroup, or the usergroup's membership is managed by an identity provider (IdP) and can only be changed through SCIM.\n  - `not_an_enterprise` — The token passed in does not belong to an Enterprise organization.\n  - `invalid_usergroup` — A usergroup with the specified ID does not exist.\n  - `invalid_users` — One or more users provided can not be added to the usergroup.\n  - `user_not_found` — One or more users provided are invalid or are not a member of the organization.\n  - `member_count_would_exceed_visible_limit` — The usergroup is visible and the member count would exceed the limit.\n  - `cannot_modify_role_admin` — The user does not have permission to modify the roles admin role.\n\nSee https://docs.slack.dev/reference/methods/admin.usergroups.addUsers"
+      }
+    },
+    "com.slack.admin#CreateUsergroupRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique name for the usergroup",
+            "smithy.api#required": {}
+          }
+        },
+        "handle": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional handle used to mention the usergroup in channel, must be unique"
+          }
+        },
+        "purpose": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional purpose that describes what the usergroup is about"
+          }
+        },
+        "is_visible": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Configure whether or not this usergroup should be visible in the client"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.admin#CreateUsergroupResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A string representation of the error type"
+          }
+        },
+        "subteam": {
+          "target": "smithy.api#Document"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.admin#CreateUsergroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.admin#CreateUsergroupRequest"
+      },
+      "output": {
+        "target": "com.slack.admin#CreateUsergroupResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/admin.usergroups.create",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new organizational usergroup. This method is only available to Enterprise Grid organizations.\n\nRequired scopes — user: `admin.usergroups:write`\n\nRate limit tier: 1\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `feature_not_enabled` — The Admin APIs feature is not enabled for this workspace.\n  - `invalid_auth` — The workspace specified is not part of this organization.\n  - `restricted_action` — The calling user is not allowed to create usergroups.\n  - `not_an_enterprise` — The token passed in does not belong to an Enterprise organization.\n  - `name_already_exists` — The name specified is used by another usergroup and cannot be created.\n  - `handle_already_exists` — The handle specified is used by another usergroup or entity and cannot be created.\n\nSee https://docs.slack.dev/reference/methods/admin.usergroups.create"
+      }
+    },
+    "com.slack.admin#FetchUsergroupRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the usergroup to fetch",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.admin#FetchUsergroupResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "subteam": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.admin#FetchUsergroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.admin#FetchUsergroupRequest"
+      },
+      "output": {
+        "target": "com.slack.admin#FetchUsergroupResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/admin.usergroups.fetch",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fetch an organizational usergroup.\n\nRequired scopes — user: `admin.usergroups:read`\n\nRate limit tier: 1\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `feature_not_enabled` — The Admin APIs feature is not enabled for this workspace.\n  - `invalid_auth` — The workspace specified is not part of this organization.\n  - `restricted_action` — The calling user is not allowed to view the specified usergroup.\n  - `not_an_enterprise` — The token passed in does not belong to an Enterprise organization.\n  - `invalid_usergroup` — A usergroup with the specified ID does not exist.\n\nSee https://docs.slack.dev/reference/methods/admin.usergroups.fetch"
       }
     },
     "com.slack.admin#ListChannelsRequest": {
@@ -7959,6 +8413,357 @@
         "smithy.api#documentation": "Remove one or more default channels from an org-level IDP group (user group).\n\nRequired scopes — user: `admin.usergroups:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `channel_not_found` — At least one of the provided channel IDs could not be found, or one of those channels has a type that is not supported.\n  - `feature_not_enabled` — The Admin APIs feature is not enabled for this workspace.\n  - `invalid_auth` — The workspace specified is not part of this Enterprise organization.\n  - `invalid_channels_limit` — The number of channel IDs passed in is larger than 100.\n  - `not_an_admin` — The calling user cannot update the specified usergroup.\n  - `not_an_enterprise` — The token passed in does not belong to an Enterprise organization.\n  - `usergroup_not_found` — The IDP group provided was not found.\n  - `internal_error` — There was an internal error processing this request—please retry.\n\nSee https://docs.slack.dev/reference/methods/admin.usergroups.removeChannels"
       }
     },
+    "com.slack.admin#RemoveTeamsRequestTeamIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A comma separated list of encoded team (workspace) IDs. Each workspace *MUST* belong to the organization associated with the token."
+      }
+    },
+    "com.slack.admin#RemoveTeamsRequest": {
+      "type": "structure",
+      "members": {
+        "usergroup_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An encoded usergroup (IDP Group) ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "team_ids": {
+          "target": "com.slack.admin#RemoveTeamsRequestTeamIdsList",
+          "traits": {
+            "smithy.api#documentation": "A comma separated list of encoded team (workspace) IDs. Each workspace *MUST* belong to the organization associated with the token.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.admin#RemoveTeamsResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.admin#RemoveTeams": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.admin#RemoveTeamsRequest"
+      },
+      "output": {
+        "target": "com.slack.admin#RemoveTeamsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/admin.usergroups.removeTeams",
+          "code": 200
+        },
+        "smithy.api#documentation": "Remove one or more default workspaces from an organization-wide IDP Group or Admin Group.\n\nRequired scopes — user: `admin.teams:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `internal_error` — An unexpected error occurred.\n  - `invalid_team_ids` — One or more team IDs provided were invalid; see the `errors` field in the response for the list of invalid team IDs.\n  - `no_team_ids_given` — The `team_ids` parameter was empty.\n  - `usergroup_not_found` — `usergroup_id` wasn't found.\n  - `restricted_action` — The calling user cannot update the specified usergroup.\n\nSee https://docs.slack.dev/reference/methods/admin.usergroups.removeTeams"
+      }
+    },
+    "com.slack.admin#RemoveUsersRequestUsersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The encoded user IDs to remove from the usergroup, provided as a JSON array or a comma-separated string."
+      }
+    },
+    "com.slack.admin#RemoveUsersRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the usergroup to remove users from",
+            "smithy.api#required": {}
+          }
+        },
+        "users": {
+          "target": "com.slack.admin#RemoveUsersRequestUsersList",
+          "traits": {
+            "smithy.api#documentation": "The encoded user IDs to remove from the usergroup, provided as a JSON array or a comma-separated string.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.admin#RemoveUsersResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.admin#RemoveUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.admin#RemoveUsersRequest"
+      },
+      "output": {
+        "target": "com.slack.admin#RemoveUsersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/admin.usergroups.removeUsers",
+          "code": 200
+        },
+        "smithy.api#documentation": "Remove members from an existing organizational usergroup. This method is only available to Enterprise Grid organizations.\n\nRequired scopes — user: `admin.usergroups:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `feature_not_enabled` — The Admin APIs feature is not enabled for this workspace.\n  - `invalid_auth` — The workspace specified is not part of this organization.\n  - `restricted_action` — The calling user cannot modify the specified usergroup, or the usergroup's membership is managed by an identity provider (IdP) and can only be changed through SCIM.\n  - `not_an_enterprise` — The token passed in does not belong to an Enterprise organization.\n  - `invalid_usergroup` — A usergroup with the specified ID does not exist.\n  - `invalid_users` — One or more users provided can not be removed from the usergroup.\n  - `user_not_found` — One or more users provided are invalid or are not a member of the organization.\n\nSee https://docs.slack.dev/reference/methods/admin.usergroups.removeUsers"
+      }
+    },
+    "com.slack.admin#UpdateUsergroupRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the usergroup to update",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the group."
+          }
+        },
+        "handle": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The handle used for mentioning the group in a channel, must be unique."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The usergroup's purpose or description."
+          }
+        },
+        "is_visible": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Configure whether or not this usergroup should be visible in the client."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.admin#UpdateUsergroupResponseChannelLimitUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of user IDs who would exceed their channel limit"
+      }
+    },
+    "com.slack.admin#UpdateUsergroupResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "subteam": {
+          "target": "smithy.api#Document"
+        },
+        "channel_limit_user_ids": {
+          "target": "com.slack.admin#UpdateUsergroupResponseChannelLimitUserIdsList",
+          "traits": {
+            "smithy.api#documentation": "List of user IDs who would exceed their channel limit"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.admin#UpdateUsergroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.admin#UpdateUsergroupRequest"
+      },
+      "output": {
+        "target": "com.slack.admin#UpdateUsergroupResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/admin.usergroups.update",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update one or more properties of an existing organizational usergroup.\n\nRequired scopes — user: `admin.usergroups:write`\n\nRate limit tier: 1\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `feature_not_enabled` — The Admin APIs feature is not enabled for this workspace.\n  - `invalid_auth` — The workspace specified is not part of this organization.\n  - `restricted_action` — The calling user cannot modify the specified usergroup, or the usergroup is managed by an identity provider (IdP) and its name cannot be changed through this API.\n  - `not_an_enterprise` — The token passed in does not belong to an Enterprise organization.\n  - `invalid_usergroup` — A usergroup with the specified ID does not exist.\n  - `name_already_exists` — The name specified is used by another usergroup and cannot be updated.\n  - `handle_already_exists` — The handle specified is used by another usergroup or entity and cannot be updated.\n  - `visible_group_needs_handle` — Tried to set the group to visible but did not provide a handle.\n  - `too_many_usergroup_members_to_make_visible` — Tried to set the group to visible but the group has too many members\n  - `user_channel_limit_exceeded` — Adding these channels would cause one or more members to exceed their channel limit.\n  - `cannot_modify_pref_after_creation` — This preference can only be set when the group is created and cannot be changed afterward.\n\nSee https://docs.slack.dev/reference/methods/admin.usergroups.update"
+      }
+    },
+    "com.slack.admin#UploadUsersRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the usergroup to upload users to",
+            "smithy.api#required": {}
+          }
+        },
+        "file": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Csv of users to upload in format member id, email"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.admin#UploadUsersResponseInvalidUsersItemReason": {
+      "type": "enum",
+      "members": {
+        "GUEST_USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "guest_user"
+          }
+        },
+        "DELETED_USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted_user"
+          }
+        },
+        "USER_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_not_found"
+          }
+        },
+        "INSERT_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "insert_failed"
+          }
+        },
+        "CHANNEL_LIMIT_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "channel_limit_exceeded"
+          }
+        },
+        "MULTI_WORKSPACE_IDP_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multi_workspace_idp_group"
+          }
+        },
+        "USERGROUP_LIMIT_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usergroup_limit_exceeded"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.slack.admin#UploadUsersResponseInvalidUsersItem": {
+      "type": "structure",
+      "members": {
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "com.slack.admin#UploadUsersResponseInvalidUsersItemReason",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.slack.admin#UploadUsersResponseInvalidUsersList": {
+      "type": "list",
+      "member": {
+        "target": "com.slack.admin#UploadUsersResponseInvalidUsersItem"
+      },
+      "traits": {}
+    },
+    "com.slack.admin#UploadUsersResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "successful_user_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many users were successfully added",
+            "smithy.api#required": {}
+          }
+        },
+        "invalid_users": {
+          "target": "com.slack.admin#UploadUsersResponseInvalidUsersList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.admin#UploadUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.admin#UploadUsersRequest"
+      },
+      "output": {
+        "target": "com.slack.admin#UploadUsersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/admin.usergroups.uploadUsers",
+          "code": 200
+        },
+        "smithy.api#documentation": "Add members to an existing organizational usergroup in bulk via CSV upload. This method is only available to Enterprise Grid organizations.\n\nRequired scopes — user: `admin.usergroups:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `feature_not_enabled` — The Admin APIs feature is not enabled for this workspace.\n  - `invalid_auth` — The workspace specified is not part of this organization.\n  - `restricted_action` — The calling user cannot modify the specified usergroup, or the usergroup's membership is managed by an identity provider (IdP) and can only be changed through SCIM.\n  - `not_an_enterprise` — The token passed in does not belong to an Enterprise organization.\n  - `invalid_usergroup` — A usergroup with the specified ID does not exist.\n  - `no_valid_users` — There were no valid users provided in the csv.\n  - `unable_to_parse_csv` — Could not parse the uploaded csv.\n  - `member_count_would_exceed_visible_limit` — The usergroup is visible and the member count would exceed the limit.\n  - `cannot_modify_role_admin` — The user does not have permission to modify the roles admin role.\n\nSee https://docs.slack.dev/reference/methods/admin.usergroups.uploadUsers"
+      }
+    },
     "com.slack.admin#AssignUserRequest": {
       "type": "structure",
       "members": {
@@ -8028,7 +8833,7 @@
           "uri": "/admin.users.assign",
           "code": 200
         },
-        "smithy.api#documentation": "Add an Enterprise user to a workspace.\n\nRequired scopes — user: `admin.users:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `feature_not_enabled` — The Admin APIs feature is not enabled for this team\n  - `invalid_role_for_user` — The requested status is incompatible with the user's role on another workspace.\n  - `invited_user_not_created` — The invited user could not be created.\n  - `invited_user_not_reactivated` — The invited user could not be reactivated.\n  - `invitor_cannot_see_channel` — The invitor is not part of one or many channels that the user was requested to be added to\n  - `not_an_admin` — This method wasn't called by an admin.\n  - `team_not_found` — `team_id was not found.\n  - `user_already_team_member` — The given user is already active on the given team.\n  - `user_is_bot` — The given user is a bot from an app. This api only works with humans.\n  - `user_not_found` — `user_id` was not found.\n\nSee https://docs.slack.dev/reference/methods/admin.users.assign"
+        "smithy.api#documentation": "Add an Enterprise user to a workspace.\n\nRequired scopes — user: `admin.users:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `feature_not_enabled` — The Admin APIs feature is not enabled for this team\n  - `invalid_role_for_user` — The requested status is incompatible with the user's role on another workspace.\n  - `invited_user_not_created` — The invited user could not be created.\n  - `invited_user_not_reactivated` — The invited user could not be reactivated.\n  - `invitor_cannot_see_channel` — The invitor is not part of one or many channels that the user was requested to be added to\n  - `not_an_admin` — This method wasn't called by an admin.\n  - `team_not_found` — `team_id was not found.\n  - `too_many_channels` — The user was requested to be added to more channels than is allowed.\n  - `user_already_team_member` — The given user is already active on the given team.\n  - `user_is_bot` — The given user is a bot from an app. This api only works with humans.\n  - `user_not_found` — `user_id` was not found.\n  - `user_cannot_be_added_to_workspace` — The user can't be added to this workspace because of their account type or the workspace's configuration.\n\nSee https://docs.slack.dev/reference/methods/admin.users.assign"
       }
     },
     "com.slack.admin#GetExpirationRequest": {
@@ -8038,6 +8843,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "user_id",
+            "smithy.api#required": {},
             "smithy.api#documentation": "The ID of the guest user to get the expiration for."
           }
         },
@@ -8217,7 +9023,7 @@
         "only_guests": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If true, returns only guests and their expiration dates that belong to the team_id"
+            "smithy.api#documentation": "If true, returns only guests and their expiration dates that belong to the team_id."
           }
         },
         "include_admins": {
@@ -8684,12 +9490,6 @@
     "com.slack.admin#InvalidateUsersSessionRequest": {
       "type": "structure",
       "members": {
-        "team_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "ID of the workspace that the session belongs to."
-          }
-        },
         "user_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -9314,7 +10114,7 @@
           "uri": "/admin.users.setOwner",
           "code": 200
         },
-        "smithy.api#documentation": "Set an existing regular user or admin to be a workspace or org owner.\n\nRequired scopes — user: `admin.users:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `cannot_modify_primary_owner` — The primary owner cannot be modified.\n  - `failed_to_set_user_to_owner` — The change to the user's role failed.\n  - `failed_to_set_owner_on_workspaces` — Failed to set the user as an owner on all workspaces.\n  - `feature_not_enabled` — The Admin APIs feature is not enabled for this team.\n  - `invalid_role_for_user` — The user cannot be made into an owner.\n  - `not_an_admin` — This method can only be accessed by org owners and admins.\n  - `not_an_owner` — This method can only be accessed by org owners. The app's installing user must retain org owner status for this method to function.\n  - `not_supported` — This is not a supported action.\n  - `team_not_found` — `team_id` was not found.\n  - `user_must_be_in_workspace` — This user must be a member of at least one workspace.\n  - `user_not_found` — The requested user was not found.\n\nSee https://docs.slack.dev/reference/methods/admin.users.setOwner"
+        "smithy.api#documentation": "Set an existing regular user or admin to be a workspace or org owner.\n\nRequired scopes — user: `admin.users:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `cannot_modify_primary_owner` — The primary owner cannot be modified.\n  - `failed_to_set_user_to_owner` — The change to the user's role failed.\n  - `failed_to_set_owner_on_workspaces` — Failed to set the user as an owner on all workspaces.\n  - `feature_not_enabled` — The Admin APIs feature is not enabled for this team.\n  - `invalid_role_for_user` — The user cannot be made into an owner.\n  - `not_an_admin` — This method can only be accessed by org owners and admins.\n  - `not_supported` — This is not a supported action.\n  - `team_not_found` — `team_id` was not found.\n  - `user_must_be_in_workspace` — This user must be a member of at least one workspace.\n  - `user_not_found` — The requested user was not found.\n\nSee https://docs.slack.dev/reference/methods/admin.users.setOwner"
       }
     },
     "com.slack.admin#SetRegularRequest": {
@@ -9598,6 +10398,16 @@
         "smithy.api#input": {}
       }
     },
+    "com.slack.admin#LookupWorkflowsPermissionsResponsePermissionsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
     "com.slack.admin#LookupWorkflowsPermissionsResponse": {
       "type": "structure",
       "members": {
@@ -9605,6 +10415,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.slack.admin#LookupWorkflowsPermissionsResponsePermissionsMap",
+          "traits": {
             "smithy.api#required": {}
           }
         }
@@ -10286,6 +11102,9 @@
           "target": "com.slack.admin#BulkSetExcludeFromSlackAi"
         },
         {
+          "target": "com.slack.admin#BulkSetProperties"
+        },
+        {
           "target": "com.slack.admin#ConvertToPrivate"
         },
         {
@@ -10442,10 +11261,31 @@
           "target": "com.slack.admin#AddTeams"
         },
         {
+          "target": "com.slack.admin#AddUsers"
+        },
+        {
+          "target": "com.slack.admin#CreateUsergroup"
+        },
+        {
+          "target": "com.slack.admin#FetchUsergroup"
+        },
+        {
           "target": "com.slack.admin#ListChannels"
         },
         {
           "target": "com.slack.admin#RemoveChannels"
+        },
+        {
+          "target": "com.slack.admin#RemoveTeams"
+        },
+        {
+          "target": "com.slack.admin#RemoveUsers"
+        },
+        {
+          "target": "com.slack.admin#UpdateUsergroup"
+        },
+        {
+          "target": "com.slack.admin#UploadUsers"
         },
         {
           "target": "com.slack.admin#AssignUser"

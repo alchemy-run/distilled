@@ -43,6 +43,15 @@
         "items": {
           "schema": "subteam_id"
         }
+      },
+      "channel_ids": {
+        "type": "array",
+        "desc": "List of encoded channel IDs to add to the channel restriction list. Interpretation depends on the app's `channel_restriction_mode`, which is configured via the `admin.apps.permissions.set` method.",
+        "example": "C00000001,C00000002",
+        "items": {
+          "schema": "channel_id"
+        },
+        "maxItems": 200
       }
     }
   },
@@ -91,6 +100,9 @@
     },
     "failed_to_update_channels": {
       "desc": "An error occurred while updating the channel restriction list."
+    },
+    "restricted_action": {
+      "desc": "User does not have permission to perform this action."
     }
   }
 }

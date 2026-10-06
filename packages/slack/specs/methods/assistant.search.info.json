@@ -20,7 +20,8 @@
       "token": {
         "desc": "Auth token to authenticate the session",
         "type": "string",
-        "subtype": "auth"
+        "subtype": "auth",
+        "example": "xxxx-xxxxxxxxx-xxxx"
       }
     }
   },

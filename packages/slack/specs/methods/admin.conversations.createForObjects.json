@@ -18,7 +18,8 @@
     "properties": {
       "token": {
         "type": "string",
-        "subtype": "auth"
+        "subtype": "auth",
+        "example": "xxxx-xxxxxxxxx-xxxx"
       },
       "object_id": {
         "type": "string",
@@ -57,10 +58,7 @@
       "desc": "User does not have access to perform this action."
     },
     "record_not_found": {
-      "desc": "Value passed for `object_id` is invalid."
-    },
-    "invalid_org_id": {
-      "desc": "Value passed for `salesforce_org_id` is invalid."
+      "desc": "Value passed for `salesforce_org_id` or `object_id` is invalid."
     },
     "feature_not_enabled": {
       "desc": "Feature not enabled."

@@ -321,6 +321,9 @@
     },
     "update_failed": {
       "desc": "Internal update failure."
+    },
+    "invalid_channel_id": {
+      "desc": "Value passed for `channel` was not a valid channel ID."
     }
   },
   "warnings": {

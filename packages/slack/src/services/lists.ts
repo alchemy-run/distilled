@@ -31,17 +31,8 @@ export const CreateItemRequest = /*@__PURE__*/ S.suspend(() =>
     duplicated_item_id: S.optional(S.String),
     parent_item_id: S.optional(S.String),
     initial_fields: S.optional(CreateItemRequestInitialFieldsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/slackLists.items.create",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
-  ),
-).annotate({
-  identifier: "CreateItemRequest",
-}) as any as S.Schema<CreateItemRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/slackLists.items.create", code: 200 })),
+).annotate({ identifier: "CreateItemRequest" }) as any as S.Schema<CreateItemRequest>;
 
 export interface CreateItemResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -53,9 +44,7 @@ export const CreateItemResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     item: S.Unknown,
   }),
-).annotate({
-  identifier: "CreateItemResponse",
-}) as any as S.Schema<CreateItemResponse>;
+).annotate({ identifier: "CreateItemResponse" }) as any as S.Schema<CreateItemResponse>;
 
 /** A rich text description of the List. */
 export type CreateSlackListRequestDescriptionBlocksList = Array<unknown>;
@@ -91,17 +80,8 @@ export const CreateSlackListRequest = /*@__PURE__*/ S.suspend(() =>
     copy_from_list_id: S.optional(S.String),
     include_copied_list_records: S.optional(S.Boolean),
     todo_mode: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/slackLists.create",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
-  ),
-).annotate({
-  identifier: "CreateSlackListRequest",
-}) as any as S.Schema<CreateSlackListRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/slackLists.create", code: 200 })),
+).annotate({ identifier: "CreateSlackListRequest" }) as any as S.Schema<CreateSlackListRequest>;
 
 export interface CreateSlackListResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -117,9 +97,7 @@ export const CreateSlackListResponse = /*@__PURE__*/ S.suspend(() =>
     list_id: S.String,
     list_metadata: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "CreateSlackListResponse",
-}) as any as S.Schema<CreateSlackListResponse>;
+).annotate({ identifier: "CreateSlackListResponse" }) as any as S.Schema<CreateSlackListResponse>;
 
 /** List of channels you wish to update access for. Can only be used if `user_ids` is not provided. */
 export type DeleteAccessRequestChannelIdsList = Array<string>;
@@ -146,17 +124,8 @@ export const DeleteAccessRequest = /*@__PURE__*/ S.suspend(() =>
     list_id: S.String,
     channel_ids: S.optional(DeleteAccessRequestChannelIdsList),
     user_ids: S.optional(DeleteAccessRequestUserIdsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/slackLists.access.delete",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
-  ),
-).annotate({
-  identifier: "DeleteAccessRequest",
-}) as any as S.Schema<DeleteAccessRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/slackLists.access.delete", code: 200 })),
+).annotate({ identifier: "DeleteAccessRequest" }) as any as S.Schema<DeleteAccessRequest>;
 
 /** The channel IDs that could not be updated. */
 export type DeleteAccessResponseFailedToUpdateChannelIdsList = Array<string>;
@@ -184,9 +153,7 @@ export const DeleteAccessResponse = /*@__PURE__*/ S.suspend(() =>
     failed_to_update_channel_ids: S.optional(DeleteAccessResponseFailedToUpdateChannelIdsList),
     failed_to_update_user_ids: S.optional(DeleteAccessResponseFailedToUpdateUserIdsList),
   }),
-).annotate({
-  identifier: "DeleteAccessResponse",
-}) as any as S.Schema<DeleteAccessResponse>;
+).annotate({ identifier: "DeleteAccessResponse" }) as any as S.Schema<DeleteAccessResponse>;
 
 export interface DeleteItemRequest {
   /** ID of the List containing the item. */
@@ -198,17 +165,8 @@ export const DeleteItemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     list_id: S.String,
     id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/slackLists.items.delete",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
-  ),
-).annotate({
-  identifier: "DeleteItemRequest",
-}) as any as S.Schema<DeleteItemRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/slackLists.items.delete", code: 200 })),
+).annotate({ identifier: "DeleteItemRequest" }) as any as S.Schema<DeleteItemRequest>;
 
 export interface DeleteItemResponse {
   ok: boolean;
@@ -217,9 +175,7 @@ export const DeleteItemResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "DeleteItemResponse",
-}) as any as S.Schema<DeleteItemResponse>;
+).annotate({ identifier: "DeleteItemResponse" }) as any as S.Schema<DeleteItemResponse>;
 
 /** IDs of items to delete. */
 export type DeleteMultipleRequestIdsList = Array<string>;
@@ -237,17 +193,8 @@ export const DeleteMultipleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     list_id: S.String,
     ids: DeleteMultipleRequestIdsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/slackLists.items.deleteMultiple",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
-  ),
-).annotate({
-  identifier: "DeleteMultipleRequest",
-}) as any as S.Schema<DeleteMultipleRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/slackLists.items.deleteMultiple", code: 200 })),
+).annotate({ identifier: "DeleteMultipleRequest" }) as any as S.Schema<DeleteMultipleRequest>;
 
 export interface DeleteMultipleResponse {
   ok: boolean;
@@ -256,9 +203,7 @@ export const DeleteMultipleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "DeleteMultipleResponse",
-}) as any as S.Schema<DeleteMultipleResponse>;
+).annotate({ identifier: "DeleteMultipleResponse" }) as any as S.Schema<DeleteMultipleResponse>;
 
 export interface DownloadGetRequest {
   /** ID of the List to export. */
@@ -279,17 +224,8 @@ export const DownloadGetRequest = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(S.String),
     include_threads: S.optional(S.Boolean),
     include_attachments: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/slackLists.download.get",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
-  ),
-).annotate({
-  identifier: "DownloadGetRequest",
-}) as any as S.Schema<DownloadGetRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/slackLists.download.get", code: 200 })),
+).annotate({ identifier: "DownloadGetRequest" }) as any as S.Schema<DownloadGetRequest>;
 
 export interface DownloadGetResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -305,9 +241,7 @@ export const DownloadGetResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.Unknown,
     download_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DownloadGetResponse",
-}) as any as S.Schema<DownloadGetResponse>;
+).annotate({ identifier: "DownloadGetResponse" }) as any as S.Schema<DownloadGetResponse>;
 
 export interface DownloadStartRequest {
   /** ID of the List to export. */
@@ -327,17 +261,8 @@ export const DownloadStartRequest = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(S.String),
     include_threads: S.optional(S.Boolean),
     include_attachments: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/slackLists.download.start",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
-  ),
-).annotate({
-  identifier: "DownloadStartRequest",
-}) as any as S.Schema<DownloadStartRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/slackLists.download.start", code: 200 })),
+).annotate({ identifier: "DownloadStartRequest" }) as any as S.Schema<DownloadStartRequest>;
 
 export interface DownloadStartResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -350,9 +275,7 @@ export const DownloadStartResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     job_id: S.Number,
   }),
-).annotate({
-  identifier: "DownloadStartResponse",
-}) as any as S.Schema<DownloadStartResponse>;
+).annotate({ identifier: "DownloadStartResponse" }) as any as S.Schema<DownloadStartResponse>;
 
 export interface ItemsInfoRequest {
   /** ID of the List. */
@@ -367,17 +290,8 @@ export const ItemsInfoRequest = /*@__PURE__*/ S.suspend(() =>
     list_id: S.String,
     id: S.String,
     include_is_subscribed: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/slackLists.items.info",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
-  ),
-).annotate({
-  identifier: "ItemsInfoRequest",
-}) as any as S.Schema<ItemsInfoRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/slackLists.items.info", code: 200 })),
+).annotate({ identifier: "ItemsInfoRequest" }) as any as S.Schema<ItemsInfoRequest>;
 
 export type ItemsInfoResponseSubtasksList = Array<unknown>;
 export const ItemsInfoResponseSubtasksList = /*@__PURE__*/ S.Array(
@@ -400,9 +314,7 @@ export const ItemsInfoResponse = /*@__PURE__*/ S.suspend(() =>
     parent_task: S.optional(S.Unknown),
     subtasks: S.optional(ItemsInfoResponseSubtasksList),
   }),
-).annotate({
-  identifier: "ItemsInfoResponse",
-}) as any as S.Schema<ItemsInfoResponse>;
+).annotate({ identifier: "ItemsInfoResponse" }) as any as S.Schema<ItemsInfoResponse>;
 
 export interface ListItemsRequest {
   /** ID of the List. */
@@ -413,6 +325,8 @@ export interface ListItemsRequest {
   cursor?: string;
   /** Boolean indicating whether archived items or normal items should be returned. */
   archived?: boolean;
+  /** Set to `true` to also return the parent `list` object, including its title, column schema, and total row count. Defaults to `false` to keep the response small. */
+  include_list?: boolean;
 }
 export const ListItemsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -420,17 +334,9 @@ export const ListItemsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number),
     cursor: S.optional(S.String),
     archived: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/slackLists.items.list",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
-  ),
-).annotate({
-  identifier: "ListItemsRequest",
-}) as any as S.Schema<ListItemsRequest>;
+    include_list: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/slackLists.items.list", code: 200 })),
+).annotate({ identifier: "ListItemsRequest" }) as any as S.Schema<ListItemsRequest>;
 
 export type ListItemsResponseItemsList = Array<unknown>;
 export const ListItemsResponseItemsList = /*@__PURE__*/ S.Array(
@@ -456,16 +362,17 @@ export interface ListItemsResponse {
   items: ListItemsResponseItemsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
   response_metadata?: ListItemsResponseResponseMetadata;
+  /** The parent list. Only returned when `include_list` is `true`. `list_limits` carries `row_count` and no other key: the number of items matching this request's `archived` value, counting Slack-suggested items that `items` itself does not return, so it can exceed the number of items you can page through. Sharing and access fields (`channels`, `groups`, `ims`, `access`) are omitted; call `files.info` if you need those or the full set of list limits. */
+  list?: unknown;
 }
 export const ListItemsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
     items: ListItemsResponseItemsList,
     response_metadata: S.optional(ListItemsResponseResponseMetadata),
+    list: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ListItemsResponse",
-}) as any as S.Schema<ListItemsResponse>;
+).annotate({ identifier: "ListItemsResponse" }) as any as S.Schema<ListItemsResponse>;
 
 /** List of channels you wish to update access for. Can only be used if `user_ids` is not provided. */
 export type SetAccessRequestChannelIdsList = Array<string>;
@@ -495,17 +402,8 @@ export const SetAccessRequest = /*@__PURE__*/ S.suspend(() =>
     access_level: S.String,
     channel_ids: S.optional(SetAccessRequestChannelIdsList),
     user_ids: S.optional(SetAccessRequestUserIdsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/slackLists.access.set",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
-  ),
-).annotate({
-  identifier: "SetAccessRequest",
-}) as any as S.Schema<SetAccessRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/slackLists.access.set", code: 200 })),
+).annotate({ identifier: "SetAccessRequest" }) as any as S.Schema<SetAccessRequest>;
 
 /** The channel IDs that could not be updated. */
 export type SetAccessResponseFailedToUpdateChannelIdsList = Array<string>;
@@ -533,9 +431,7 @@ export const SetAccessResponse = /*@__PURE__*/ S.suspend(() =>
     failed_to_update_channel_ids: S.optional(SetAccessResponseFailedToUpdateChannelIdsList),
     failed_to_update_user_ids: S.optional(SetAccessResponseFailedToUpdateUserIdsList),
   }),
-).annotate({
-  identifier: "SetAccessResponse",
-}) as any as S.Schema<SetAccessResponse>;
+).annotate({ identifier: "SetAccessResponse" }) as any as S.Schema<SetAccessResponse>;
 
 /** Cells to update. */
 export type UpdateItemRequestCellsList = Array<unknown>;
@@ -553,17 +449,8 @@ export const UpdateItemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     list_id: S.String,
     cells: UpdateItemRequestCellsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/slackLists.items.update",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
-  ),
-).annotate({
-  identifier: "UpdateItemRequest",
-}) as any as S.Schema<UpdateItemRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/slackLists.items.update", code: 200 })),
+).annotate({ identifier: "UpdateItemRequest" }) as any as S.Schema<UpdateItemRequest>;
 
 export interface UpdateItemResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -573,9 +460,7 @@ export const UpdateItemResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "UpdateItemResponse",
-}) as any as S.Schema<UpdateItemResponse>;
+).annotate({ identifier: "UpdateItemResponse" }) as any as S.Schema<UpdateItemResponse>;
 
 /** A rich text description of the List. */
 export type UpdateSlackListRequestDescriptionBlocksList = Array<unknown>;
@@ -599,17 +484,8 @@ export const UpdateSlackListRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     description_blocks: S.optional(UpdateSlackListRequestDescriptionBlocksList),
     todo_mode: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/slackLists.update",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
-  ),
-).annotate({
-  identifier: "UpdateSlackListRequest",
-}) as any as S.Schema<UpdateSlackListRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/slackLists.update", code: 200 })),
+).annotate({ identifier: "UpdateSlackListRequest" }) as any as S.Schema<UpdateSlackListRequest>;
 
 export interface UpdateSlackListResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -619,9 +495,7 @@ export const UpdateSlackListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "UpdateSlackListResponse",
-}) as any as S.Schema<UpdateSlackListResponse>;
+).annotate({ identifier: "UpdateSlackListResponse" }) as any as S.Schema<UpdateSlackListResponse>;
 
 export type CreateItemError = SlackOpError;
 /** Add a new item to an existing List. Required scopes — bot: `lists:write`; user: `lists:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `list_not_found` — The List was not found. - `over_row_maximum` — Cannot create more items over the maximum. - `team_not_found` — The team cannot be found. - `user_not_found` — The user cannot be found. - `duplicated_item_not_found` — The item to duplicate cannot be found. - `invalid_option_id` — Option ID provided does not match column definition. - `invalid_args` — The provided arguments are invalid. - `uneditable_column` — Initial values provided for an uneditable column. - `invalid_input_type` — The field value type does not match the column type. - `invalid_column_id` — The column ID provided does not exist in the List. - `over_cell_fields_limit` — Too many values provided for a single field. - `file_not_found` — The attachment file could not be found. - `invalid_vote_value` — Invalid value provided for a vote column. See https://docs.slack.dev/reference/methods/slackLists.items.create */

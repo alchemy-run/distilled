@@ -1,0 +1,107 @@
+{
+  "desc": "Add members to an existing organizational usergroup in bulk via CSV upload. This method is only available to Enterprise Grid organizations.",
+  "http_method": "POST",
+  "scope": {
+    "user": [
+      "admin.usergroups:write"
+    ]
+  },
+  "json_input_supported": true,
+  "rate_limits": "t2",
+  "args": {
+    "type": "object",
+    "required": [
+      "token",
+      "id"
+    ],
+    "properties": {
+      "token": {
+        "type": "string",
+        "subtype": "auth",
+        "desc": "Authentication token bearing required scopes. Tokens should be passed as an HTTP Authorization header or alternatively, as a POST parameter.",
+        "example": "xxxx-xxxxxxxxx-xxxx"
+      },
+      "id": {
+        "desc": "ID of the usergroup to upload users to",
+        "example": "S0604QSJC",
+        "type": "string",
+        "subtype": "user_group",
+        "schema": "subteam_id"
+      },
+      "file": {
+        "subtype": "post_file",
+        "desc": "Csv of users to upload in format member id, email",
+        "schema": "post_file",
+        "is_resource": false
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "required": [
+      "successful_user_count"
+    ],
+    "properties": {
+      "successful_user_count": {
+        "type": "integer",
+        "desc": "How many users were successfully added"
+      },
+      "invalid_users": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "user_id",
+            "reason"
+          ],
+          "properties": {
+            "user_id": {
+              "schema": "user_id"
+            },
+            "reason": {
+              "type": "string",
+              "enum": [
+                "guest_user",
+                "deleted_user",
+                "user_not_found",
+                "insert_failed",
+                "channel_limit_exceeded",
+                "multi_workspace_idp_group",
+                "usergroup_limit_exceeded"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "errors": {
+    "feature_not_enabled": {
+      "desc": "The Admin APIs feature is not enabled for this workspace."
+    },
+    "invalid_auth": {
+      "desc": "The workspace specified is not part of this organization."
+    },
+    "restricted_action": {
+      "desc": "The calling user cannot modify the specified usergroup, or the usergroup's membership is managed by an identity provider (IdP) and can only be changed through SCIM."
+    },
+    "not_an_enterprise": {
+      "desc": "The token passed in does not belong to an Enterprise organization."
+    },
+    "invalid_usergroup": {
+      "desc": "A usergroup with the specified ID does not exist."
+    },
+    "no_valid_users": {
+      "desc": "There were no valid users provided in the csv."
+    },
+    "unable_to_parse_csv": {
+      "desc": "Could not parse the uploaded csv."
+    },
+    "member_count_would_exceed_visible_limit": {
+      "desc": "The usergroup is visible and the member count would exceed the limit."
+    },
+    "cannot_modify_role_admin": {
+      "desc": "The user does not have permission to modify the roles admin role."
+    }
+  }
+}

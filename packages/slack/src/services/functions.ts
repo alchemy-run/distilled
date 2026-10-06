@@ -30,13 +30,7 @@ export const AddDistributionsPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
     function_callback_id: S.optional(S.String),
     function_app_id: S.optional(S.String),
     user_ids: S.optional(AddDistributionsPermissionsRequestUserIdsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/functions.distributions.permissions.add",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/functions.distributions.permissions.add", code: 200 })),
 ).annotate({
   identifier: "AddDistributionsPermissionsRequest",
 }) as any as S.Schema<AddDistributionsPermissionsRequest>;
@@ -96,9 +90,7 @@ export const CompleteErrorRequest = /*@__PURE__*/ S.suspend(() =>
     function_execution_id: S.String,
     error: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/functions.completeError", code: 200 })),
-).annotate({
-  identifier: "CompleteErrorRequest",
-}) as any as S.Schema<CompleteErrorRequest>;
+).annotate({ identifier: "CompleteErrorRequest" }) as any as S.Schema<CompleteErrorRequest>;
 
 export interface CompleteErrorResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -108,14 +100,10 @@ export const CompleteErrorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "CompleteErrorResponse",
-}) as any as S.Schema<CompleteErrorResponse>;
+).annotate({ identifier: "CompleteErrorResponse" }) as any as S.Schema<CompleteErrorResponse>;
 
 /** A JSON-based object that conforms to the [output parameters](https://docs.slack.dev/deno-slack-sdk/guides/creating-custom-functions#input-output) schema for the custom function defined in the manifest */
-export type CompleteSuccessRequestOutputsMap = {
-  [key: string]: unknown | undefined;
-};
+export type CompleteSuccessRequestOutputsMap = { [key: string]: unknown | undefined };
 export const CompleteSuccessRequestOutputsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -132,9 +120,7 @@ export const CompleteSuccessRequest = /*@__PURE__*/ S.suspend(() =>
     function_execution_id: S.String,
     outputs: CompleteSuccessRequestOutputsMap,
   }).pipe(T.Http({ method: "POST", uri: "/functions.completeSuccess", code: 200 })),
-).annotate({
-  identifier: "CompleteSuccessRequest",
-}) as any as S.Schema<CompleteSuccessRequest>;
+).annotate({ identifier: "CompleteSuccessRequest" }) as any as S.Schema<CompleteSuccessRequest>;
 
 export interface CompleteSuccessResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -144,9 +130,7 @@ export const CompleteSuccessResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "CompleteSuccessResponse",
-}) as any as S.Schema<CompleteSuccessResponse>;
+).annotate({ identifier: "CompleteSuccessResponse" }) as any as S.Schema<CompleteSuccessResponse>;
 
 export interface ExportWorkflowsStepsResponseRequest {
   /** The workflow ID, starts with Wf* */
@@ -165,11 +149,7 @@ export const ExportWorkflowsStepsResponseRequest = /*@__PURE__*/ S.suspend(() =>
     workflow_app_id: S.optional(S.String),
     step_id: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/functions.workflows.steps.responses.export",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/functions.workflows.steps.responses.export", code: 200 }),
   ),
 ).annotate({
   identifier: "ExportWorkflowsStepsResponseRequest",
@@ -200,13 +180,7 @@ export const ListDistributionsPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
     function_id: S.optional(S.String),
     function_callback_id: S.optional(S.String),
     function_app_id: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/functions.distributions.permissions.list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/functions.distributions.permissions.list", code: 200 })),
 ).annotate({
   identifier: "ListDistributionsPermissionsRequest",
 }) as any as S.Schema<ListDistributionsPermissionsRequest>;
@@ -279,13 +253,7 @@ export const ListWorkflowsStepsRequest = /*@__PURE__*/ S.suspend(() =>
     workflow: S.optional(S.String),
     workflow_app_id: S.optional(S.String),
     function_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/functions.workflows.steps.list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/functions.workflows.steps.list", code: 200 })),
 ).annotate({
   identifier: "ListWorkflowsStepsRequest",
 }) as any as S.Schema<ListWorkflowsStepsRequest>;
@@ -332,11 +300,7 @@ export const RemoveDistributionsPermissionsRequest = /*@__PURE__*/ S.suspend(() 
     function_app_id: S.optional(S.String),
     user_ids: S.optional(RemoveDistributionsPermissionsRequestUserIdsList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/functions.distributions.permissions.remove",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/functions.distributions.permissions.remove", code: 200 }),
   ),
 ).annotate({
   identifier: "RemoveDistributionsPermissionsRequest",
@@ -427,13 +391,7 @@ export const SetDistributionsPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
     user_ids: S.optional(SetDistributionsPermissionsRequestUserIdsList),
     team_ids: S.optional(SetDistributionsPermissionsRequestTeamIdsList),
     org_ids: S.optional(SetDistributionsPermissionsRequestOrgIdsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/functions.distributions.permissions.set",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/functions.distributions.permissions.set", code: 200 })),
 ).annotate({
   identifier: "SetDistributionsPermissionsRequest",
 }) as any as S.Schema<SetDistributionsPermissionsRequest>;

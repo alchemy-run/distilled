@@ -122,8 +122,7 @@
           "uri": "/slackLists.access.delete",
           "code": 200
         },
-        "smithy.api#documentation": "Revoke access to a List for specified entities.\n\nRequired scopes — bot: `lists:write`; user: `lists:write`\n\nRate limit tier: 3\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `lists_disabled_user_team` — Lists is disabled on user's team.\n  - `list_not_found` — The List you wish to update permissions for is not available.\n  - `channel_not_found` — A channel could not be found.\n  - `failed_to_update_user_ids` — Failed to update the specified user IDs.\n  - `invalid_parameters` — One of `user_ids` or `channel_ids` must be defined, but not both.\n  - `restricted_action` — User does not have permission to perform this action.\n  - `user_not_found` — A user could not be found.\n\nSee https://docs.slack.dev/reference/methods/slackLists.access.delete",
-        "com.distilled.openapi#contentType": "form-urlencoded"
+        "smithy.api#documentation": "Revoke access to a List for specified entities.\n\nRequired scopes — bot: `lists:write`; user: `lists:write`\n\nRate limit tier: 3\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `lists_disabled_user_team` — Lists is disabled on user's team.\n  - `list_not_found` — The List you wish to update permissions for is not available.\n  - `channel_not_found` — A channel could not be found.\n  - `failed_to_update_user_ids` — Failed to update the specified user IDs.\n  - `invalid_parameters` — One of `user_ids` or `channel_ids` must be defined, but not both.\n  - `restricted_action` — User does not have permission to perform this action.\n  - `user_not_found` — A user could not be found.\n\nSee https://docs.slack.dev/reference/methods/slackLists.access.delete"
       }
     },
     "com.slack.lists#SetAccessRequestChannelIdsList": {
@@ -237,8 +236,7 @@
           "uri": "/slackLists.access.set",
           "code": 200
         },
-        "smithy.api#documentation": "Set the access level to a List for specified entities.\n\nRequired scopes — bot: `lists:write`; user: `lists:write`\n\nRate limit tier: 3\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `lists_disabled_user_team` — Lists is disabled on user's team.\n  - `list_not_found` — The List you wish to update permissions for is not available.\n  - `channel_not_found` — A channel could not be found.\n  - `failed_to_update_user_ids` — Failed to update the specified user IDs.\n  - `invalid_parameters` — One of `user_ids` or `channel_ids` must be defined, but not both.\n  - `restricted_action` — User does not have permission to perform this action.\n  - `user_not_found` — A user could not be found.\n\nSee https://docs.slack.dev/reference/methods/slackLists.access.set",
-        "com.distilled.openapi#contentType": "form-urlencoded"
+        "smithy.api#documentation": "Set the access level to a List for specified entities.\n\nRequired scopes — bot: `lists:write`; user: `lists:write`\n\nRate limit tier: 3\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `lists_disabled_user_team` — Lists is disabled on user's team.\n  - `list_not_found` — The List you wish to update permissions for is not available.\n  - `channel_not_found` — A channel could not be found.\n  - `failed_to_update_user_ids` — Failed to update the specified user IDs.\n  - `invalid_parameters` — One of `user_ids` or `channel_ids` must be defined, but not both.\n  - `restricted_action` — User does not have permission to perform this action.\n  - `user_not_found` — A user could not be found.\n\nSee https://docs.slack.dev/reference/methods/slackLists.access.set"
       }
     },
     "com.slack.lists#CreateSlackListRequestDescriptionBlocksList": {
@@ -346,8 +344,7 @@
           "uri": "/slackLists.create",
           "code": 200
         },
-        "smithy.api#documentation": "Create a List.\n\nRequired scopes — bot: `lists:write`; user: `lists:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `permission_denied` — The user does not have permission to perform this action.\n  - `invalid_schema` — The schema was invalid.\n  - `invalid_primary_column` — Missing or more than one primary column.\n  - `team_not_found` — The team cannot be found.\n  - `user_not_found` — The user cannot be found.\n  - `over_list_file_maximum` — Cannot create any more List files.\n  - `over_title_length_maximum` — Title can not exceed defined length.\n  - `invalid_column_type` — Column type not allowed.\n  - `missing_arg_copy_from_list_id` — Missing argument `copy_from_list_id`.\n  - `invalid_copy_and_schema_args` — Cannot provide both `copy_from_list_id` and `schema`.\n  - `over_column_maximum` — Cannot create List with more than allowed column count.\n\nSee https://docs.slack.dev/reference/methods/slackLists.create",
-        "com.distilled.openapi#contentType": "form-urlencoded"
+        "smithy.api#documentation": "Create a List.\n\nRequired scopes — bot: `lists:write`; user: `lists:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `permission_denied` — The user does not have permission to perform this action.\n  - `invalid_schema` — The schema was invalid.\n  - `invalid_primary_column` — Missing or more than one primary column.\n  - `team_not_found` — The team cannot be found.\n  - `user_not_found` — The user cannot be found.\n  - `over_list_file_maximum` — Cannot create any more List files.\n  - `over_title_length_maximum` — Title can not exceed defined length.\n  - `invalid_column_type` — Column type not allowed.\n  - `missing_arg_copy_from_list_id` — Missing argument `copy_from_list_id`.\n  - `invalid_copy_and_schema_args` — Cannot provide both `copy_from_list_id` and `schema`.\n  - `over_column_maximum` — Cannot create List with more than allowed column count.\n\nSee https://docs.slack.dev/reference/methods/slackLists.create"
       }
     },
     "com.slack.lists#DownloadGetRequest": {
@@ -432,8 +429,7 @@
           "uri": "/slackLists.download.get",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieve List download URL from an export job to download List contents.\n\nRequired scopes — bot: `lists:read`; user: `lists:read`\n\nRate limit tier: 4\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `list_not_found` — The List was not found.\n  - `permission_denied` — The bot does not have permission to perform this action.\n  - `unknown_method` — Feature not enabled for this team.\n  - `job_not_found` — Could not find an export job matching that ID.\n\nSee https://docs.slack.dev/reference/methods/slackLists.download.get",
-        "com.distilled.openapi#contentType": "form-urlencoded"
+        "smithy.api#documentation": "Retrieve List download URL from an export job to download List contents.\n\nRequired scopes — bot: `lists:read`; user: `lists:read`\n\nRate limit tier: 4\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `list_not_found` — The List was not found.\n  - `permission_denied` — The bot does not have permission to perform this action.\n  - `unknown_method` — Feature not enabled for this team.\n  - `job_not_found` — Could not find an export job matching that ID.\n\nSee https://docs.slack.dev/reference/methods/slackLists.download.get"
       }
     },
     "com.slack.lists#DownloadStartRequest": {
@@ -508,8 +504,7 @@
           "uri": "/slackLists.download.start",
           "code": 200
         },
-        "smithy.api#documentation": "Initiate a job to export List contents.\n\nRequired scopes — bot: `lists:read`; user: `lists:read`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `list_not_found` — The List was not found.\n  - `permission_denied` — The bot does not have permission to perform this action.\n  - `unknown_method` — Feature not enabled for this team.\n\nSee https://docs.slack.dev/reference/methods/slackLists.download.start",
-        "com.distilled.openapi#contentType": "form-urlencoded"
+        "smithy.api#documentation": "Initiate a job to export List contents.\n\nRequired scopes — bot: `lists:read`; user: `lists:read`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `list_not_found` — The List was not found.\n  - `permission_denied` — The bot does not have permission to perform this action.\n  - `unknown_method` — Feature not enabled for this team.\n\nSee https://docs.slack.dev/reference/methods/slackLists.download.start"
       }
     },
     "com.slack.lists#CreateItemRequestInitialFieldsList": {
@@ -589,8 +584,7 @@
           "uri": "/slackLists.items.create",
           "code": 200
         },
-        "smithy.api#documentation": "Add a new item to an existing List.\n\nRequired scopes — bot: `lists:write`; user: `lists:write`\n\nRate limit tier: 3\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `list_not_found` — The List was not found.\n  - `over_row_maximum` — Cannot create more items over the maximum.\n  - `team_not_found` — The team cannot be found.\n  - `user_not_found` — The user cannot be found.\n  - `duplicated_item_not_found` — The item to duplicate cannot be found.\n  - `invalid_option_id` — Option ID provided does not match column definition.\n  - `invalid_args` — The provided arguments are invalid.\n  - `uneditable_column` — Initial values provided for an uneditable column.\n  - `invalid_input_type` — The field value type does not match the column type.\n  - `invalid_column_id` — The column ID provided does not exist in the List.\n  - `over_cell_fields_limit` — Too many values provided for a single field.\n  - `file_not_found` — The attachment file could not be found.\n  - `invalid_vote_value` — Invalid value provided for a vote column.\n\nSee https://docs.slack.dev/reference/methods/slackLists.items.create",
-        "com.distilled.openapi#contentType": "form-urlencoded"
+        "smithy.api#documentation": "Add a new item to an existing List.\n\nRequired scopes — bot: `lists:write`; user: `lists:write`\n\nRate limit tier: 3\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `list_not_found` — The List was not found.\n  - `over_row_maximum` — Cannot create more items over the maximum.\n  - `team_not_found` — The team cannot be found.\n  - `user_not_found` — The user cannot be found.\n  - `duplicated_item_not_found` — The item to duplicate cannot be found.\n  - `invalid_option_id` — Option ID provided does not match column definition.\n  - `invalid_args` — The provided arguments are invalid.\n  - `uneditable_column` — Initial values provided for an uneditable column.\n  - `invalid_input_type` — The field value type does not match the column type.\n  - `invalid_column_id` — The column ID provided does not exist in the List.\n  - `over_cell_fields_limit` — Too many values provided for a single field.\n  - `file_not_found` — The attachment file could not be found.\n  - `invalid_vote_value` — Invalid value provided for a vote column.\n\nSee https://docs.slack.dev/reference/methods/slackLists.items.create"
       }
     },
     "com.slack.lists#DeleteItemRequest": {
@@ -643,8 +637,7 @@
           "uri": "/slackLists.items.delete",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes an item from an existing List.\n\nRequired scopes — bot: `lists:write`; user: `lists:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `list_not_found` — The List was not found.\n  - `record_not_found` — The record was not found in the List.\n  - `team_not_found` — The team cannot be found.\n  - `user_not_found` — The user cannot be found.\n\nSee https://docs.slack.dev/reference/methods/slackLists.items.delete",
-        "com.distilled.openapi#contentType": "form-urlencoded"
+        "smithy.api#documentation": "Deletes an item from an existing List.\n\nRequired scopes — bot: `lists:write`; user: `lists:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `list_not_found` — The List was not found.\n  - `record_not_found` — The record was not found in the List.\n  - `team_not_found` — The team cannot be found.\n  - `user_not_found` — The user cannot be found.\n\nSee https://docs.slack.dev/reference/methods/slackLists.items.delete"
       }
     },
     "com.slack.lists#DeleteMultipleRequestIdsList": {
@@ -706,8 +699,7 @@
           "uri": "/slackLists.items.deleteMultiple",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes multiple items from an existing List.\n\nRequired scopes — bot: `lists:write`; user: `lists:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `list_not_found` — The List was not found.\n  - `team_not_found` — The team cannot be found.\n  - `user_not_found` — The user cannot be found.\n\nSee https://docs.slack.dev/reference/methods/slackLists.items.deleteMultiple",
-        "com.distilled.openapi#contentType": "form-urlencoded"
+        "smithy.api#documentation": "Deletes multiple items from an existing List.\n\nRequired scopes — bot: `lists:write`; user: `lists:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `list_not_found` — The List was not found.\n  - `team_not_found` — The team cannot be found.\n  - `user_not_found` — The user cannot be found.\n\nSee https://docs.slack.dev/reference/methods/slackLists.items.deleteMultiple"
       }
     },
     "com.slack.lists#ItemsInfoRequest": {
@@ -792,8 +784,7 @@
           "uri": "/slackLists.items.info",
           "code": 200
         },
-        "smithy.api#documentation": "Get a row from a List.\n\nRequired scopes — bot: `lists:read`; user: `lists:read`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `list_not_found` — The List was not found.\n  - `record_not_found` — The record was not found in the List.\n  - `record_deleted` — The record has been deleted.\n  - `team_not_found` — The team cannot be found.\n  - `user_not_found` — The user cannot be found.\n\nSee https://docs.slack.dev/reference/methods/slackLists.items.info",
-        "com.distilled.openapi#contentType": "form-urlencoded"
+        "smithy.api#documentation": "Get a row from a List.\n\nRequired scopes — bot: `lists:read`; user: `lists:read`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `list_not_found` — The List was not found.\n  - `record_not_found` — The record was not found in the List.\n  - `record_deleted` — The record has been deleted.\n  - `team_not_found` — The team cannot be found.\n  - `user_not_found` — The user cannot be found.\n\nSee https://docs.slack.dev/reference/methods/slackLists.items.info"
       }
     },
     "com.slack.lists#ListItemsRequest": {
@@ -822,6 +813,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Boolean indicating whether archived items or normal items should be returned."
+          }
+        },
+        "include_list": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set to `true` to also return the parent `list` object, including its title, column schema, and total row count. Defaults to `false` to keep the response small."
           }
         }
       },
@@ -871,6 +868,12 @@
           "traits": {
             "smithy.api#documentation": "Pagination metadata. An empty `next_cursor` means the last page."
           }
+        },
+        "list": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The parent list. Only returned when `include_list` is `true`. `list_limits` carries `row_count` and no other key: the number of items matching this request's `archived` value, counting Slack-suggested items that `items` itself does not return, so it can exceed the number of items you can page through. Sharing and access fields (`channels`, `groups`, `ims`, `access`) are omitted; call `files.info` if you need those or the full set of list limits."
+          }
         }
       },
       "traits": {
@@ -892,7 +895,6 @@
           "code": 200
         },
         "smithy.api#documentation": "Get records from a List.\n\nRequired scopes — bot: `lists:read`; user: `lists:read`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `list_not_found` — The List was not found.\n  - `team_not_found` — The team cannot be found.\n  - `user_not_found` — The user cannot be found.\n  - `invalid_cursor` — Value passed for `cursor` was not valid or is no longer valid.\n  - `archive_not_supported` — Archiving is not supported.\n\nSee https://docs.slack.dev/reference/methods/slackLists.items.list",
-        "com.distilled.openapi#contentType": "form-urlencoded",
         "smithy.api#paginated": {
           "mode": "cursor",
           "inputToken": "cursor",
@@ -962,8 +964,7 @@
           "uri": "/slackLists.items.update",
           "code": 200
         },
-        "smithy.api#documentation": "Updates cells in a List.\n\nRequired scopes — bot: `lists:write`; user: `lists:write`\n\nRate limit tier: 3\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `list_not_found` — The List was not found.\n  - `row_not_found` — The row was not found.\n  - `column_not_found` — The column was not found.\n  - `file_not_found` — Invalid file ID for this List.\n  - `invalid_input_type` — Supplied value key or value type is invalid for the given column type.\n  - `invalid_row_id` — Invalid row ID for this List.\n  - `invalid_column_id` — Invalid column ID for this List.\n  - `permission_denied` — The user does not have permission to perform this action.\n  - `team_not_found` — The team cannot be found.\n  - `user_not_found` — The user cannot be found.\n  - `channel_not_found` — The channel cannot be found.\n  - `uneditable_column` — The column cannot be updated.\n  - `invalid_blocks` — Rich text payload supplied is invalid.\n  - `invalid_text_block` — Rich text payload supplied is invalid.\n  - `invalid_email` — Email supplied is invalid.\n  - `invalid_link` — Message archive link supplied is invalid.\n  - `invalid_date` — Date supplied is invalid.\n  - `invalid_option_id` — Option supplied is invalid.\n  - `row_id_not_provided` — The `row_id` or `row_id_to_create` field must be provided.\n  - `column_id_not_provided` — The `column_id` or `column_id_to_create` field must be provided.\n  - `over_cell_fields_limit` — The supplied cell fields are over the cell field maximum.\n  - `invalid_message` — Invalid message provided.\n  - `invalid_attachment` — Invalid attachment provided.\n  - `invalid_phone_number` — Invalid phone number provided.\n  - `invalid_vote_value` — Invalid vote value is supplied.\n\nSee https://docs.slack.dev/reference/methods/slackLists.items.update",
-        "com.distilled.openapi#contentType": "form-urlencoded"
+        "smithy.api#documentation": "Updates cells in a List.\n\nRequired scopes — bot: `lists:write`; user: `lists:write`\n\nRate limit tier: 3\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `list_not_found` — The List was not found.\n  - `row_not_found` — The row was not found.\n  - `column_not_found` — The column was not found.\n  - `file_not_found` — Invalid file ID for this List.\n  - `invalid_input_type` — Supplied value key or value type is invalid for the given column type.\n  - `invalid_row_id` — Invalid row ID for this List.\n  - `invalid_column_id` — Invalid column ID for this List.\n  - `permission_denied` — The user does not have permission to perform this action.\n  - `team_not_found` — The team cannot be found.\n  - `user_not_found` — The user cannot be found.\n  - `channel_not_found` — The channel cannot be found.\n  - `uneditable_column` — The column cannot be updated.\n  - `invalid_blocks` — Rich text payload supplied is invalid.\n  - `invalid_text_block` — Rich text payload supplied is invalid.\n  - `invalid_email` — Email supplied is invalid.\n  - `invalid_link` — Message archive link supplied is invalid.\n  - `invalid_date` — Date supplied is invalid.\n  - `invalid_option_id` — Option supplied is invalid.\n  - `row_id_not_provided` — The `row_id` or `row_id_to_create` field must be provided.\n  - `column_id_not_provided` — The `column_id` or `column_id_to_create` field must be provided.\n  - `over_cell_fields_limit` — The supplied cell fields are over the cell field maximum.\n  - `invalid_message` — Invalid message provided.\n  - `invalid_attachment` — Invalid attachment provided.\n  - `invalid_phone_number` — Invalid phone number provided.\n  - `invalid_vote_value` — Invalid vote value is supplied.\n\nSee https://docs.slack.dev/reference/methods/slackLists.items.update"
       }
     },
     "com.slack.lists#UpdateSlackListRequestDescriptionBlocksList": {
@@ -1037,8 +1038,7 @@
           "uri": "/slackLists.update",
           "code": 200
         },
-        "smithy.api#documentation": "Update a List.\n\nRequired scopes — bot: `lists:write`; user: `lists:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `list_not_found` — The List was not found.\n  - `team_not_found` — The team cannot be found.\n  - `user_not_found` — The user cannot be found.\n  - `list_edits_update_error` — Failed to update List metadata.\n  - `list_editor_upsert_error` — Failed to upsert List editor.\n  - `over_title_length_maximum` — Title can not exceed defined length.\n  - `file_channel_rename_error` — Failed to rename file channel based on file title.\n  - `unexpected_description_blocks_arg` — Unexpected description blocks argument.\n  - `missing_arguments` — No arguments were provided to update the List.\n\nSee https://docs.slack.dev/reference/methods/slackLists.update",
-        "com.distilled.openapi#contentType": "form-urlencoded"
+        "smithy.api#documentation": "Update a List.\n\nRequired scopes — bot: `lists:write`; user: `lists:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `list_not_found` — The List was not found.\n  - `team_not_found` — The team cannot be found.\n  - `user_not_found` — The user cannot be found.\n  - `list_edits_update_error` — Failed to update List metadata.\n  - `list_editor_upsert_error` — Failed to upsert List editor.\n  - `over_title_length_maximum` — Title can not exceed defined length.\n  - `file_channel_rename_error` — Failed to rename file channel based on file title.\n  - `unexpected_description_blocks_arg` — Unexpected description blocks argument.\n  - `missing_arguments` — No arguments were provided to update the List.\n\nSee https://docs.slack.dev/reference/methods/slackLists.update"
       }
     },
     "com.slack.lists#Lists": {

@@ -1,0 +1,108 @@
+{
+  "desc": "Set properties on channels in bulk.",
+  "http_method": "POST",
+  "scope": {
+    "user": [
+      "admin.conversations:write"
+    ]
+  },
+  "rate_limits": "t2",
+  "args": {
+    "type": "object",
+    "required": [
+      "token",
+      "channel_ids",
+      "property"
+    ],
+    "properties": {
+      "token": {
+        "type": "string",
+        "desc": "Authentication token bearing required scopes. Tokens should be passed as an HTTP Authorization header or alternatively, as a POST parameter.",
+        "subtype": "auth",
+        "example": "xxxx-xxxxxxxxx-xxxx"
+      },
+      "channel_ids": {
+        "desc": "An array of channel IDs on which to set the property.",
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 100,
+        "items": {
+          "schema": "channel"
+        }
+      },
+      "property": {
+        "desc": "The property for this channel in a key value format. Only one property can be updated at a time",
+        "example": "{\"exclude_from_slack_ai\": true }",
+        "type": "string"
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "required": [
+      "bulk_action_id",
+      "not_updated"
+    ],
+    "properties": {
+      "bulk_action_id": {
+        "type": "string"
+      },
+      "not_updated": {
+        "desc": "Channels that could not be updated, with reasons",
+        "type": "array",
+        "maxItems": 100,
+        "items": {
+          "type": "object",
+          "required": [
+            "channel_id",
+            "errors"
+          ],
+          "properties": {
+            "channel_id": {
+              "schema": "channel"
+            },
+            "errors": {
+              "desc": "The reasons the channel was not updated",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "errors": {
+    "action_already_in_progress": {
+      "desc": "Another bulk action request is currently in progress"
+    },
+    "invalid_arguments": {
+      "desc": "The property argument is not a valid JSON object representing a channel property."
+    },
+    "internal_error": {
+      "desc": "Something unexpected happened, try again in a little bit. Sorry for that!"
+    },
+    "no_valid_channels": {
+      "desc": "All input channels are invalid"
+    },
+    "restricted_action": {
+      "desc": "User does not have permission to perform this action"
+    },
+    "feature_not_enabled": {
+      "desc": "The feature is not enabled"
+    },
+    "disallowed_action": {
+      "desc": "This property cannot be set on this channel type."
+    },
+    "restricted_plan_level": {
+      "desc": "This API is only available to Enterprise+ customers."
+    },
+    "too_many_properties": {
+      "desc": "Only one channel property can be updated at a time."
+    },
+    "property_not_allowed": {
+      "desc": "The property passed in is not allowed to be updated."
+    }
+  }
+}

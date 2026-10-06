@@ -171,6 +171,9 @@
     },
     "user_required_to_accept_as_private_but_cannot": {
       "desc": "This uer cannot accept a private channel invitation."
+    },
+    "accepter_email_not_verified": {
+      "desc": "The accepting user has not verified the email address on their account. They must verify it before accepting."
     }
   }
 }

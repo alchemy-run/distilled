@@ -32,8 +32,9 @@
         "subtype": "channel"
       },
       "chunks": {
-        "desc": "Array of streaming chunks.",
-        "type": "array"
+        "desc": "Array of streaming chunks. Can include [markdown text chunk](#markdown_text-chunks) objects, [task update chunk](#task_update-chunks) objects, [plan update chunks](#plan_update-chunks), or [blocks chunks](#blocks-chunks).",
+        "type": "array",
+        "schema": ""
       },
       "ts": {
         "desc": "The timestamp of the streaming message.",
@@ -58,6 +59,18 @@
           {
             "type": "null"
           }
+        ]
+      },
+      "session_status": {
+        "desc": "The session status to set after stopping the stream.",
+        "default": "active",
+        "type": "string",
+        "example": "processing",
+        "enum": [
+          "active",
+          "processing",
+          "suspended",
+          "closed"
         ]
       }
     }
@@ -192,6 +205,12 @@
     },
     "attachment_payload_limit_exceeded": {
       "desc": "Attachment payload size is too long."
+    },
+    "cannot_provide_both_markdown_text_and_chunks": {
+      "desc": "Cannot provide both `markdown_text` and `chunks` in the same request."
+    },
+    "streaming_mode_mismatch": {
+      "desc": "The streaming mode must be the same as the streaming mode used to start the stream. If you started the stream with `markdown_text`, you must append with `markdown_text`. If you started the stream with `chunks`, you must append with `chunks`."
     }
   },
   "warnings": {

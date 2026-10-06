@@ -78,6 +78,14 @@
     },
     "free_team_canvas_tab_already_exists": {
       "desc": "Canvas tab for specified channel and team tier already exists."
+    },
+    "posting_to_channel_denied": {
+      "desc": "Permission to post to a channel denied"
+    }
+  },
+  "warnings": {
+    "failed_adding_canvas_to_tab": {
+      "desc": "The canvas was created but not added as a channel tab. The reason is in response_metadata.messages."
     }
   }
 }

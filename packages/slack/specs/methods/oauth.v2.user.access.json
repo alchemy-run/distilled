@@ -176,6 +176,9 @@
     "invalid_refresh_token": {
       "desc": "The given refresh token is invalid."
     },
+    "invalid_resource": {
+      "desc": "The `resource` in the assertion is malformed, or is not a resource tokens can be issued for."
+    },
     "no_scopes": {
       "desc": "Missing `scope` in the request."
     },
@@ -193,6 +196,39 @@
     },
     "user_email_unverified": {
       "desc": "The users email is unverified"
+    },
+    "app_not_admin_approved": {
+      "desc": "The app has not been approved by an org admin, so no tokens can be issued for this user. Ask an org admin to approve the app before requesting a token with the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant."
+    },
+    "app_not_org_installed": {
+      "desc": "The app is not installed at the organization level. Using the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant type requires org level app installs."
+    },
+    "client_id_mismatch": {
+      "desc": "Value passed for `client_id` did not match the `client_id` in the assertion."
+    },
+    "ema_disabled": {
+      "desc": "Enterprise-managed auth is disabled."
+    },
+    "ema_issuer_mismatch": {
+      "desc": "The issuer in the assertion did not match the issuer configured for enterprise-managed auth."
+    },
+    "invalid_audience": {
+      "desc": "The audience in the assertion is not one this token endpoint supports."
+    },
+    "missing_scope": {
+      "desc": "Missing `scope` in the assertion. The identity assertion JWT must carry a space-delimited `scope` claim."
+    },
+    "no_app_scopes_requested": {
+      "desc": "None of the scopes requested in the identity assertion are configured on the app. Request only scopes the app already declares."
+    },
+    "no_approved_scopes_requested": {
+      "desc": "The app is approved by org admins, but none of the requested scopes are approved ones. Ask an org admin to approve the requested scopes."
+    },
+    "no_assertion": {
+      "desc": "Missing `assertion` in the request."
+    },
+    "user_not_authenticated": {
+      "desc": "The user has never authenticated via single sign-on."
     }
   }
 }

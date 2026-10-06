@@ -63,6 +63,9 @@
     },
     "permission_denied": {
       "desc": "No permission to perform this operation."
+    },
+    "restricted_action": {
+      "desc": "Members from an external organization cannot remove workflow bookmarks from this channel."
     }
   }
 }

@@ -1442,7 +1442,81 @@
           "uri": "/apps.icon.set",
           "code": 200
         },
-        "smithy.api#documentation": "Sets the app icon\n\nRequired scopes — user: `app_configurations:write`\n\nRate limit tier: 1\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `error_bad_format` — Icon must be a valid image file.\n  - `icon_not_accessible` — The icon URL is not accessible or returned an error (e.g. 404 Not Found). Please verify the URL is publicly reachable and returns a valid image.\n  - `invalid_app` — App does not exist.\n  - `invalid_app_id` — App ID is not valid.\n  - `invalid_icon_size` — Icon dimensions must be between 512x512px and 2000x2000px.\n  - `invalid_parameters` — Only one of `URL` or `file` can be defined.\n  - `missing_arguments` — One of `URL` or `file` must be provided.\n  - `no_permission` — User does not have required permissions for app.\n  - `unable_to_open_file` — Error with file upload.\n\nSee https://docs.slack.dev/reference/methods/apps.icon.set"
+        "smithy.api#documentation": "Sets the app icon\n\nRequired scopes — user: `app_configurations:write`\n\nRate limit tier: 1\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `app_not_owned_by_manager_app` — The specified app is not managed by the calling manager app. A manager app can only set icons for apps that it originally created via apps.manifest.create.\n  - `error_bad_format` — Icon must be a valid image file.\n  - `internal_error` — Internal error.\n  - `icon_not_accessible` — The icon URL is not accessible or returned an error (e.g. 404 Not Found). Please verify the URL is publicly reachable and returns a valid image.\n  - `invalid_app` — App does not exist.\n  - `invalid_app_id` — App ID is not valid.\n  - `invalid_icon_size` — Icon dimensions must be between 512x512px and 2000x2000px.\n  - `invalid_parameters` — Only one of `URL` or `file` can be defined.\n  - `missing_arguments` — One of `URL` or `file` must be provided.\n  - `no_permission` — User does not have required permissions for app.\n  - `unable_to_open_file` — Error with file upload.\n\nSee https://docs.slack.dev/reference/methods/apps.icon.set"
+      }
+    },
+    "com.slack.apps#SetManagedPermissionsRequestPermissions": {
+      "type": "enum",
+      "members": {
+        "EVERYONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "everyone"
+          }
+        },
+        "APP_OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app_owner"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Who can interact with the app. Use everyone to allow all members, or app_owner to restrict access to the app's owner."
+      }
+    },
+    "com.slack.apps#SetManagedPermissionsRequest": {
+      "type": "structure",
+      "members": {
+        "app_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Encoded ID of the managed app to configure",
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.slack.apps#SetManagedPermissionsRequestPermissions",
+          "traits": {
+            "smithy.api#documentation": "Who can interact with the app. Use everyone to allow all members, or app_owner to restrict access to the app's owner.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.apps#SetManagedPermissionsResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.apps#SetManagedPermissions": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.apps#SetManagedPermissionsRequest"
+      },
+      "output": {
+        "target": "com.slack.apps#SetManagedPermissionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/apps.managed.permissions.set",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set who can interact with a managed app. Lets the builder who created a managed app on a partner platform configure the app's permissions as themselves, using a user token from the manager app. Permissions can only be set before the app is installed: if the app is already installed, this method makes no change and returns the app's current permissions.\n\nRequired scopes — configuration: `app_configurations:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `invalid_auth` — Invalid authorization token.\n  - `access_denied` — The token was not issued to a manager app that is eligible to configure managed apps.\n  - `manager_app_not_eligible` — The manager app the token was issued to is not eligible to configure app permissions.\n  - `feature_not_enabled` — This method is not enabled for the manager app's organization.\n  - `app_not_found` — This app does not exist.\n  - `app_not_managed` — The specified app is not currently managed by any manager app.\n  - `app_not_owned_by_manager_app` — The specified app is not managed by the calling manager app. A manager app can only set permissions for apps that it originally created and currently manages.\n  - `app_owner_not_found` — The app's owner could not be resolved, so app_owner cannot be applied.\n  - `enterprise_only_feature` — App permissions are only available on Enterprise Grid plans. Upgrade the app's org to configure who can interact with it.\n  - `internal_error` — The app's current installations could not be determined, so permissions were not changed. Retry the request.\n\nSee https://docs.slack.dev/reference/methods/apps.managed.permissions.set"
       }
     },
     "com.slack.apps#CreateManifestRequest": {
@@ -1950,8 +2024,7 @@
           "uri": "/apps.user.connection.update",
           "code": 200
         },
-        "smithy.api#documentation": "Updates the connection status between a user and an app.\n\nRequired scopes — user: `users:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `app_not_found` — The app was not found.\n  - `invalid_auth` — The token doesn't have access to this endpoint.\n  - `app_not_subscribed` — The app is not subscribed to the required events.\n  - `user_not_found` — Value passed for `user_id` was invalid.\n\nSee https://docs.slack.dev/reference/methods/apps.user.connection.update",
-        "com.distilled.openapi#contentType": "form-urlencoded"
+        "smithy.api#documentation": "Updates the connection status between a user and an app.\n\nRequired scopes — user: `users:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `app_not_found` — The app was not found.\n  - `invalid_auth` — The token doesn't have access to this endpoint.\n  - `app_not_subscribed` — The app is not subscribed to the required events.\n  - `user_not_found` — Value passed for `user_id` was invalid.\n  - `missing_scope` — The token provided doesn't have the required scopes.\n  - `internal_error` — The connection status could not be written. Retry the call.\n\nSee https://docs.slack.dev/reference/methods/apps.user.connection.update"
       }
     },
     "com.slack.apps#Apps": {
@@ -2002,6 +2075,9 @@
         },
         {
           "target": "com.slack.apps#SetIcon"
+        },
+        {
+          "target": "com.slack.apps#SetManagedPermissions"
         },
         {
           "target": "com.slack.apps#CreateManifest"

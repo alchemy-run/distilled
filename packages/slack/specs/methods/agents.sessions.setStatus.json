@@ -1,0 +1,120 @@
+{
+  "desc": "Set an agent session's lifecycle status, creating the session if needed.",
+  "http_method": "POST",
+  "scope": {
+    "bot": [
+      "chat:write"
+    ]
+  },
+  "json_input_supported": true,
+  "rate_limits": "t3",
+  "args": {
+    "type": "object",
+    "required": [
+      "token",
+      "status"
+    ],
+    "properties": {
+      "token": {
+        "desc": "Authentication token bearing the `chat:write` scope. Must be a granular bot token.",
+        "type": "string",
+        "subtype": "auth",
+        "example": "xxxx-xxxxxxxxx-xxxx"
+      },
+      "channel_id": {
+        "desc": "ID of the channel containing the agent session. Required for public channels.",
+        "type": "string",
+        "subtype": "channel",
+        "schema": "channel",
+        "required_for_public": true
+      },
+      "status": {
+        "desc": "The lifecycle status to set.",
+        "type": "string",
+        "enum": [
+          "active",
+          "processing",
+          "suspended",
+          "closed"
+        ]
+      },
+      "thread_ts": {
+        "desc": "Timestamp of the thread root message the session is scoped to. Required for thread-based sessions in regular channels and DMs. Must be omitted for session channels.",
+        "type": "string",
+        "example": "1234567890.123456",
+        "maxLength": 32
+      },
+      "title": {
+        "desc": "Title for the agent session (max 200 characters). Only used when creating a new session; ignored if the session already exists. To rename an existing session, use `agents.sessions.rename`.",
+        "type": "string",
+        "maxLength": 200
+      },
+      "initiator_user_id": {
+        "desc": "The user who initiated the session. Only used when creating a new session; ignored if the session already exists. Must be a member of the channel.",
+        "type": "string"
+      },
+      "icon_emoji": {
+        "desc": "Emoji to use as the agent's icon. Takes priority over `icon_url`. Remains in effect until you clear it (pass `null`) or set a new value. Requires the `chat:write.customize` scope.",
+        "type": "string",
+        "maxLength": 100
+      },
+      "icon_url": {
+        "desc": "URL to an image to use as the agent's icon. Remains in effect until you clear it (pass `null`) or set a new value. Requires the `chat:write.customize` scope.",
+        "type": "string",
+        "maxLength": 2048
+      },
+      "username": {
+        "desc": "Display name override for the agent (max 200 characters). Remains in effect until you clear it (pass `null`) or set a new value. Requires the `chat:write.customize` scope.",
+        "type": "string",
+        "maxLength": 200
+      }
+    }
+  },
+  "output": {
+    "properties": {
+      "status": {
+        "desc": "The current lifecycle status of the agent session, derived from the statuses of all agents in the session.",
+        "schema": "agent_session_status"
+      },
+      "agent_status": {
+        "desc": "The lifecycle status of the calling agent within this session. May differ from the session-level status when other agents are present.",
+        "schema": "agent_session_status"
+      },
+      "title": {
+        "desc": "The current title of the agent session, if set.",
+        "type": "string"
+      }
+    }
+  },
+  "errors": {
+    "feature_disabled": {
+      "desc": "The agent tasks feature is not enabled for this workspace."
+    },
+    "channel_not_found": {
+      "desc": "The specified channel does not exist or is not accessible."
+    },
+    "user_not_found": {
+      "desc": "The specified `initiator_user_id` does not exist or is not accessible."
+    },
+    "not_authorized": {
+      "desc": "The caller is not a member of the specified channel."
+    },
+    "invalid_status": {
+      "desc": "The `status` value is not a valid agent session status. Must be one of: `active`, `processing`, `suspended`, `closed`."
+    },
+    "thread_ts_required": {
+      "desc": "`thread_ts` is required for thread-based sessions in regular channels and DMs."
+    },
+    "thread_ts_not_allowed": {
+      "desc": "`thread_ts` must not be provided for session channels. The channel-level session is updated automatically."
+    },
+    "internal_error": {
+      "desc": "An internal error occurred while updating the session."
+    }
+  },
+  "warnings": {
+    "missing_agent_session_stopped_event_subscription": {
+      "desc": "The app is not subscribed to the `agent_session_stopped` event. Subscribe to this event so Slack can send stop requests for this agent session."
+    }
+  }
+}

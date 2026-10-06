@@ -1,0 +1,98 @@
+{
+  "desc": "Update one or more properties of an existing organizational usergroup.",
+  "http_method": "POST",
+  "scope": {
+    "user": [
+      "admin.usergroups:write"
+    ]
+  },
+  "json_input_supported": true,
+  "rate_limits": "t1",
+  "args": {
+    "type": "object",
+    "required": [
+      "token",
+      "id"
+    ],
+    "properties": {
+      "token": {
+        "type": "string",
+        "subtype": "auth",
+        "desc": "Authentication token bearing required scopes. Tokens should be passed as an HTTP Authorization header or alternatively, as a POST parameter.",
+        "example": "xxxx-xxxxxxxxx-xxxx"
+      },
+      "id": {
+        "desc": "ID of the usergroup to update",
+        "type": "string",
+        "example": "S0604QSJC"
+      },
+      "name": {
+        "desc": "The name of the group.",
+        "type": "string"
+      },
+      "handle": {
+        "desc": "The handle used for mentioning the group in a channel, must be unique.",
+        "type": "string"
+      },
+      "description": {
+        "desc": "The usergroup's purpose or description.",
+        "type": "string"
+      },
+      "is_visible": {
+        "desc": "Configure whether or not this usergroup should be visible in the client.",
+        "example": "true",
+        "type": "boolean"
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "subteam": {
+        "schema": "subteam"
+      },
+      "channel_limit_user_ids": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "desc": "List of user IDs who would exceed their channel limit"
+      }
+    }
+  },
+  "errors": {
+    "feature_not_enabled": {
+      "desc": "The Admin APIs feature is not enabled for this workspace."
+    },
+    "invalid_auth": {
+      "desc": "The workspace specified is not part of this organization."
+    },
+    "restricted_action": {
+      "desc": "The calling user cannot modify the specified usergroup, or the usergroup is managed by an identity provider (IdP) and its name cannot be changed through this API."
+    },
+    "not_an_enterprise": {
+      "desc": "The token passed in does not belong to an Enterprise organization."
+    },
+    "invalid_usergroup": {
+      "desc": "A usergroup with the specified ID does not exist."
+    },
+    "name_already_exists": {
+      "desc": "The name specified is used by another usergroup and cannot be updated."
+    },
+    "handle_already_exists": {
+      "desc": "The handle specified is used by another usergroup or entity and cannot be updated."
+    },
+    "visible_group_needs_handle": {
+      "desc": "Tried to set the group to visible but did not provide a handle."
+    },
+    "too_many_usergroup_members_to_make_visible": {
+      "desc": "Tried to set the group to visible but the group has too many members"
+    },
+    "user_channel_limit_exceeded": {
+      "desc": "Adding these channels would cause one or more members to exceed their channel limit."
+    },
+    "cannot_modify_pref_after_creation": {
+      "desc": "This preference can only be set when the group is created and cannot be changed afterward."
+    }
+  }
+}

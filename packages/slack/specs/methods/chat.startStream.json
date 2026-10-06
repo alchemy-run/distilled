@@ -13,8 +13,7 @@
     "type": "object",
     "required": [
       "token",
-      "channel",
-      "thread_ts"
+      "channel"
     ],
     "properties": {
       "token": {
@@ -27,12 +26,12 @@
         "example": "xxxx-xxxxxxxxx-xxxx"
       },
       "channel": {
-        "desc": "An encoded ID that represents a channel thread or DM.",
+        "desc": "An encoded ID that represents a channel, thread, or DM.",
         "type": "string",
         "subtype": "channel"
       },
       "chunks": {
-        "desc": "Array of streaming chunks.",
+        "desc": "Array of streaming chunks. Can include [markdown text chunk](#markdown_text-chunks) objects, [task update chunk](#task_update-chunks) objects, [plan update chunks](#plan_update-chunks), or [blocks chunks](#blocks-chunks).",
         "type": "array"
       },
       "markdown_text": {
@@ -42,7 +41,7 @@
         "hidden": false
       },
       "thread_ts": {
-        "desc": "Provide another message's `ts` value to reply to. Streamed messages should always be replies to a user request.",
+        "desc": "Provide another message's `ts` value to reply to. Omit it to stream a top-level message instead of a thread reply; this is only supported in channels where the whole channel is one session, such as Slack Code, and returns `invalid_thread_ts` elsewhere. Passing `\"0\"` is equivalent to omitting it.",
         "type": "string",
         "example": "1721609600.123456"
       },
@@ -56,12 +55,11 @@
         "example": "T0123456789"
       },
       "task_display_mode": {
-        "desc": "Specifies how tasks are displayed in the message. A `timeline` displays individual tasks with text in sequential order, `plan` displays all tasks together, with the first tasks's placement determining the placement of the rest of the tasks, and `dense` collapses consecutive tool calls into a single summarized task card.",
+        "desc": "Specifies how tasks are displayed in the message. `timeline` task updates render as individual task cards interleaved with streamed text. `plan` task updates render together in a plan block.",
         "type": "string",
         "enum": [
           "timeline",
-          "plan",
-          "dense"
+          "plan"
         ],
         "default": "timeline",
         "example": "plan"
@@ -69,17 +67,41 @@
       "icon_emoji": {
         "type": "string",
         "desc": "Emoji to use as the icon for this message. Overrides `icon_url`.",
-        "example": ":chart_with_upwards_trend:"
+        "example": ":chart_with_upwards_trend:",
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
       },
       "icon_url": {
         "type": "string",
         "desc": "Image URL to use as the icon for this message.",
-        "example": "http://lorempixel.com/48/48"
+        "example": "http://lorempixel.com/48/48",
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
       },
       "username": {
         "type": "string",
         "desc": "The bot's username to display.",
-        "example": "My Bot"
+        "example": "My Bot",
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
       }
     }
   },
@@ -199,8 +221,8 @@
     "missing_recipient_user_id": {
       "desc": "Missing recipient user ID."
     },
-    "not_subscribed_to_message_stream_stopped": {
-      "desc": "The app must be subscribed to the `message_stream_stopped` event to use `is_stoppable`."
+    "cannot_provide_both_markdown_text_and_chunks": {
+      "desc": "Cannot provide both `markdown_text` and `chunks` in the same request."
     }
   },
   "warnings": {

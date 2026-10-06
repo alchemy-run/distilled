@@ -56,6 +56,9 @@
     "missing_scope": {
       "desc": "The calling token is not granted the necessary scopes to complete this operation."
     },
+    "no_user": {
+      "desc": "No value was passed for `user` or `users`."
+    },
     "not_in_channel": {
       "desc": "User was not in the channel."
     },

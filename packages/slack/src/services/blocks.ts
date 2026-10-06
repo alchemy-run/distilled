@@ -8,9 +8,7 @@ import * as T from "../traits.ts";
 
 export type { SlackOpError, SlackOpContext };
 
-export type ValidateBlockRequestBlocksCase1ItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type ValidateBlockRequestBlocksCase1ItemMap = { [key: string]: unknown | undefined };
 export const ValidateBlockRequestBlocksCase1ItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -39,9 +37,7 @@ export const ValidateBlockRequest = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     view: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/blocks.validate", code: 200 })),
-).annotate({
-  identifier: "ValidateBlockRequest",
-}) as any as S.Schema<ValidateBlockRequest>;
+).annotate({ identifier: "ValidateBlockRequest" }) as any as S.Schema<ValidateBlockRequest>;
 
 export interface ValidateBlockResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -51,9 +47,7 @@ export const ValidateBlockResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "ValidateBlockResponse",
-}) as any as S.Schema<ValidateBlockResponse>;
+).annotate({ identifier: "ValidateBlockResponse" }) as any as S.Schema<ValidateBlockResponse>;
 
 export type ValidateBlockError = SlackOpError;
 /** Validates blocks, messages, and views Block Kit JSON payloads. Method-specific errors (the `error` slug on the SlackError): - `invalid_arguments` — The request arguments are invalid. Ensure you provide exactly one of `blocks`, `view`, or `message`, and that the value is valid JSON. Consult `response_metadata.messages` for details. - `invalid_blocks` — The blocks array failed validation. The `errors` field contains a list of issues, each with a JSON pointer path to the invalid element, the constraint that failed, and the expected value. - `invalid_view` — The view payload failed validation. The `errors` field contains a list of issues, each with a JSON pointer path to the invalid element, the constraint that failed, and the expected value. - `invalid_message` — The message payload failed validation. The `errors` field contains a list of issues, each with a JSON pointer path to the invalid element, the constraint that failed, and the expected value. - `ratelimited` — Too many requests. Reduce your request rate and retry after a brief wait. See https://docs.slack.dev/reference/methods/blocks.validate */

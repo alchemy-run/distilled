@@ -94,6 +94,9 @@
     },
     "file_uploads_except_images_disabled": {
       "desc": "File uploads except images are disabled."
+    },
+    "user_is_external_guest": {
+      "desc": "External guests cannot upload or share files."
     }
   }
 }

@@ -9,6 +9,83 @@ import * as T from "../traits.ts";
 
 export type { SlackOpError, SlackOpContext };
 
+export interface BeginShortTokenRotationRequest {
+  /** Issued when you created your application. Must be the app the token being rotated was issued to. */
+  client_id: string;
+  /** Issued when you created your application. */
+  client_secret: string | Redacted.Redacted<string>;
+}
+export const BeginShortTokenRotationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    client_id: S.String,
+    client_secret: S.String.pipe(T.SensitiveValue({})),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/oauth.v2.beginShortTokenRotation",
+      code: 200,
+      contentType: "form-urlencoded",
+    }),
+  ),
+).annotate({
+  identifier: "BeginShortTokenRotationRequest",
+}) as any as S.Schema<BeginShortTokenRotationRequest>;
+
+export interface BeginShortTokenRotationResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  /** A new xoxp access token to replace the token with a shorter secret. Not yet active until completeShortTokenRotation is called. */
+  new_token: string;
+}
+export const BeginShortTokenRotationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+    new_token: S.String,
+  }),
+).annotate({
+  identifier: "BeginShortTokenRotationResponse",
+}) as any as S.Schema<BeginShortTokenRotationResponse>;
+
+export interface CompleteShortTokenRotationRequest {
+  /** Issued when you created your application. Must be the app the token being rotated was issued to. */
+  client_id: string;
+  /** Issued when you created your application. */
+  client_secret: string | Redacted.Redacted<string>;
+  /** The new xoxp token returned by oauth.v2.beginShortTokenRotation. */
+  new_token: string;
+}
+export const CompleteShortTokenRotationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    client_id: S.String,
+    client_secret: S.String.pipe(T.SensitiveValue({})),
+    new_token: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/oauth.v2.completeShortTokenRotation",
+      code: 200,
+      contentType: "form-urlencoded",
+    }),
+  ),
+).annotate({
+  identifier: "CompleteShortTokenRotationRequest",
+}) as any as S.Schema<CompleteShortTokenRotationRequest>;
+
+export interface CompleteShortTokenRotationResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  /** The new xoxp access token, now active. The previous token is no longer valid. */
+  token: string;
+}
+export const CompleteShortTokenRotationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+    token: S.String,
+  }),
+).annotate({
+  identifier: "CompleteShortTokenRotationResponse",
+}) as any as S.Schema<CompleteShortTokenRotationResponse>;
+
 export interface OauthAccessRequest {
   /** Issued when you created your application. If possible, avoid sending `client_id` and `client_secret` as parameters in your request and instead supply the Client ID and Client Secret using the HTTP Basic authentication scheme. */
   client_id?: string;
@@ -29,16 +106,9 @@ export const OauthAccessRequest = /*@__PURE__*/ S.suspend(() =>
     redirect_uri: S.optional(S.String),
     single_channel: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/oauth.access",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
+    T.Http({ method: "POST", uri: "/oauth.access", code: 200, contentType: "form-urlencoded" }),
   ),
-).annotate({
-  identifier: "OauthAccessRequest",
-}) as any as S.Schema<OauthAccessRequest>;
+).annotate({ identifier: "OauthAccessRequest" }) as any as S.Schema<OauthAccessRequest>;
 
 export interface OauthAccessResponseAuthorizingUser {
   user_id?: string;
@@ -118,9 +188,7 @@ export const OauthAccessResponseBot = /*@__PURE__*/ S.suspend(() =>
     bot_access_token: S.optional(S.String),
     scope: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OauthAccessResponseBot",
-}) as any as S.Schema<OauthAccessResponseBot>;
+).annotate({ identifier: "OauthAccessResponseBot" }) as any as S.Schema<OauthAccessResponseBot>;
 
 export interface OauthAccessResponseUser {
   name?: string;
@@ -151,9 +219,7 @@ export const OauthAccessResponseUser = /*@__PURE__*/ S.suspend(() =>
     access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
     token_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OauthAccessResponseUser",
-}) as any as S.Schema<OauthAccessResponseUser>;
+).annotate({ identifier: "OauthAccessResponseUser" }) as any as S.Schema<OauthAccessResponseUser>;
 
 export interface OauthAccessResponseTeam {
   id?: string;
@@ -184,9 +250,7 @@ export const OauthAccessResponseTeam = /*@__PURE__*/ S.suspend(() =>
     image_default: S.optional(S.Boolean),
     image_original: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OauthAccessResponseTeam",
-}) as any as S.Schema<OauthAccessResponseTeam>;
+).annotate({ identifier: "OauthAccessResponseTeam" }) as any as S.Schema<OauthAccessResponseTeam>;
 
 export interface OauthAccessResponseIncomingWebhook {
   channel?: string;
@@ -251,9 +315,7 @@ export const OauthAccessResponse = /*@__PURE__*/ S.suspend(() =>
     incoming_webhook: S.optional(OauthAccessResponseIncomingWebhook),
     single_channel_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OauthAccessResponse",
-}) as any as S.Schema<OauthAccessResponse>;
+).annotate({ identifier: "OauthAccessResponse" }) as any as S.Schema<OauthAccessResponse>;
 
 export interface V2AccessRequest {
   /** Issued when you created your application. If possible, avoid sending `client_id` and `client_secret` as parameters in your request and instead supply the Client ID and Client Secret using the HTTP Basic authentication scheme. */
@@ -284,16 +346,9 @@ export const V2AccessRequest = /*@__PURE__*/ S.suspend(() =>
     refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
     assertion: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/oauth.v2.access",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
+    T.Http({ method: "POST", uri: "/oauth.v2.access", code: 200, contentType: "form-urlencoded" }),
   ),
-).annotate({
-  identifier: "V2AccessRequest",
-}) as any as S.Schema<V2AccessRequest>;
+).annotate({ identifier: "V2AccessRequest" }) as any as S.Schema<V2AccessRequest>;
 
 /** The type of access token. Only present if a bot token was requested at the start of the auth flow. */
 export type V2AccessResponseTokenType = "granular_bot";
@@ -311,9 +366,7 @@ export const V2AccessResponseTeam = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V2AccessResponseTeam",
-}) as any as S.Schema<V2AccessResponseTeam>;
+).annotate({ identifier: "V2AccessResponseTeam" }) as any as S.Schema<V2AccessResponseTeam>;
 
 /** Details about the installing team, and the user token if one was requested at the start of the auth flow. */
 export interface V2AccessResponseEnterprise {
@@ -430,9 +483,7 @@ export const V2AccessResponse = /*@__PURE__*/ S.suspend(() =>
     authed_user: S.optional(V2AccessResponseAuthedUser),
     incoming_webhook: S.optional(V2AccessResponseIncomingWebhook),
   }),
-).annotate({
-  identifier: "V2AccessResponse",
-}) as any as S.Schema<V2AccessResponse>;
+).annotate({ identifier: "V2AccessResponse" }) as any as S.Schema<V2AccessResponse>;
 
 export interface V2ExchangeRequest {
   /** Issued when you created your application. */
@@ -452,9 +503,7 @@ export const V2ExchangeRequest = /*@__PURE__*/ S.suspend(() =>
       contentType: "form-urlencoded",
     }),
   ),
-).annotate({
-  identifier: "V2ExchangeRequest",
-}) as any as S.Schema<V2ExchangeRequest>;
+).annotate({ identifier: "V2ExchangeRequest" }) as any as S.Schema<V2ExchangeRequest>;
 
 /** The type of access token. */
 export type V2ExchangeResponseTokenType = "bot" | "user";
@@ -495,9 +544,7 @@ export const V2ExchangeResponse = /*@__PURE__*/ S.suspend(() =>
     team: S.optional(S.NullOr(S.Unknown)),
     enterprise: S.optional(S.NullOr(S.Unknown)),
   }),
-).annotate({
-  identifier: "V2ExchangeResponse",
-}) as any as S.Schema<V2ExchangeResponse>;
+).annotate({ identifier: "V2ExchangeResponse" }) as any as S.Schema<V2ExchangeResponse>;
 
 export interface V2UserAccessRequest {
   /** Issued when you created your application. If possible, avoid sending `client_id` and `client_secret` as parameters in your request and instead supply the Client ID and Client Secret using the HTTP Basic authentication scheme. */
@@ -535,9 +582,7 @@ export const V2UserAccessRequest = /*@__PURE__*/ S.suspend(() =>
       contentType: "form-urlencoded",
     }),
   ),
-).annotate({
-  identifier: "V2UserAccessRequest",
-}) as any as S.Schema<V2UserAccessRequest>;
+).annotate({ identifier: "V2UserAccessRequest" }) as any as S.Schema<V2UserAccessRequest>;
 
 /** The type of access token. */
 export type V2UserAccessResponseTokenType = "user";
@@ -587,9 +632,37 @@ export const V2UserAccessResponse = /*@__PURE__*/ S.suspend(() =>
     team: S.NullOr(V2AccessResponseTeam),
     enterprise: S.NullOr(V2AccessResponseEnterprise),
   }),
-).annotate({
-  identifier: "V2UserAccessResponse",
-}) as any as S.Schema<V2UserAccessResponse>;
+).annotate({ identifier: "V2UserAccessResponse" }) as any as S.Schema<V2UserAccessResponse>;
+
+export type BeginShortTokenRotationError = SlackOpError;
+/** Call this to rotate the secret on an old API token with a short secret. Must be paired with a call to oauth.v2.completeShortTokenRotation to confirm the change. Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `bad_client_secret` — Value passed for `client_secret` was invalid. - `invalid_client_id` — Value passed for `client_id` was invalid, or is not the app the token being rotated was issued to. - `invalid_token` — This token is invalid. - `internal_error` — A server-side error occurred. - `token_too_long` — This token is not short enough to be rotated. See https://docs.slack.dev/reference/methods/oauth.v2.beginShortTokenRotation */
+export const beginShortTokenRotation: API.OperationMethod<
+  BeginShortTokenRotationRequest,
+  BeginShortTokenRotationResponse,
+  BeginShortTokenRotationError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: BeginShortTokenRotationRequest,
+  output: BeginShortTokenRotationResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CompleteShortTokenRotationError = SlackOpError;
+/** Call this to finish rotating the secret on an old API token with a short secret. Must be paired with a call to oauth.v2.beginShortTokenRotation to start the process. Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `bad_client_secret` — Value passed for `client_secret` was invalid. - `invalid_client_id` — Value passed for `client_id` was invalid, or is not the app the token being rotated was issued to. - `invalid_token` — This token is invalid. - `rotation_not_found` — No pending rotation was found for this token. Call oauth.v2.beginShortTokenRotation first, or the pending rotation may have expired. - `internal_error` — A server-side error occurred. - `token_too_long` — This token is not short enough to be rotated. See https://docs.slack.dev/reference/methods/oauth.v2.completeShortTokenRotation */
+export const completeShortTokenRotation: API.OperationMethod<
+  CompleteShortTokenRotationRequest,
+  CompleteShortTokenRotationResponse,
+  CompleteShortTokenRotationError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CompleteShortTokenRotationRequest,
+  output: CompleteShortTokenRotationResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
 
 export type OauthAccessError = SlackOpError;
 /** Exchanges a temporary OAuth verifier code for an access token. Rate limit tier: 4 Method-specific errors (the `error` slug on the SlackError): - `bad_client_secret` — Value passed for `client_secret` was invalid. - `bad_redirect_uri` — Value passed for `redirect_uri` did not match the `redirect_uri` in the original request. - `code_already_used` — Value passed for `code` was already exchanged. - `internal_error` — Something went wrong during app installation. - `invalid_client_id` — Value passed for `client_id` was invalid. - `invalid_code` — Value passed for `code` was invalid. - `invalid_token` — Invalid refresh token. - `missing_resource` — Missing permission resource. - `ratelimited` — Too many requests made in succession. - `oauth_authorization_url_mismatch` — The OAuth flow was initiated on an incorrect version of the authorization url. The flow must be initiated via /oauth/authorize. - `user_email_unverified` — The users email is unverified See https://docs.slack.dev/reference/methods/oauth.access */
@@ -637,7 +710,7 @@ export const v2Exchange: API.OperationMethod<
 }));
 
 export type V2UserAccessError = SlackOpError;
-/** Exchanges a temporary OAuth verifier code for a user access token. Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `bad_client_secret` — Value passed for `client_secret` was invalid. - `bad_redirect_uri` — Value passed for `redirect_uri` did not match the `redirect_uri` in the original request. - `cannot_install_an_org_installed_app` — Returned when the the org-installed app cannot be installed on a workspace. - `invalid_client_id` — Value passed for `client_id` was invalid. - `invalid_code` — Value passed for `code` was invalid. - `invalid_grant_type` — Value passed for `grant_type` was invalid. - `invalid_refresh_token` — The given refresh token is invalid. - `no_scopes` — Missing `scope` in the request. - `no_user_scopes` — Missing user `scope` in the auth request. - `not_implemented` — Method not yet supported - `oauth_authorization_url_mismatch` — The OAuth flow was initiated on an incorrect version of the authorization url. The flow must be initiated via /oauth/v2/authorize . - `preview_feature_not_available` — Returned when the API method is not yet available on the team in context. - `user_email_unverified` — The users email is unverified See https://docs.slack.dev/reference/methods/oauth.v2.user.access */
+/** Exchanges a temporary OAuth verifier code for a user access token. Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `bad_client_secret` — Value passed for `client_secret` was invalid. - `bad_redirect_uri` — Value passed for `redirect_uri` did not match the `redirect_uri` in the original request. - `cannot_install_an_org_installed_app` — Returned when the the org-installed app cannot be installed on a workspace. - `invalid_client_id` — Value passed for `client_id` was invalid. - `invalid_code` — Value passed for `code` was invalid. - `invalid_grant_type` — Value passed for `grant_type` was invalid. - `invalid_refresh_token` — The given refresh token is invalid. - `invalid_resource` — The `resource` in the assertion is malformed, or is not a resource tokens can be issued for. - `no_scopes` — Missing `scope` in the request. - `no_user_scopes` — Missing user `scope` in the auth request. - `not_implemented` — Method not yet supported - `oauth_authorization_url_mismatch` — The OAuth flow was initiated on an incorrect version of the authorization url. The flow must be initiated via /oauth/v2/authorize . - `preview_feature_not_available` — Returned when the API method is not yet available on the team in context. - `user_email_unverified` — The users email is unverified - `app_not_admin_approved` — The app has not been approved by an org admin, so no tokens can be issued for this user. Ask an org admin to approve the app before requesting a token with the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. - `app_not_org_installed` — The app is not installed at the organization level. Using the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant type requires org level app installs. - `client_id_mismatch` — Value passed for `client_id` did not match the `client_id` in the assertion. - `ema_disabled` — Enterprise-managed auth is disabled. - `ema_issuer_mismatch` — The issuer in the assertion did not match the issuer configured for enterprise-managed auth. - `invalid_audience` — The audience in the assertion is not one this token endpoint supports. - `missing_scope` — Missing `scope` in the assertion. The identity assertion JWT must carry a space-delimited `scope` claim. - `no_app_scopes_requested` — None of the scopes requested in the identity assertion are configured on the app. Request only scopes the app already declares. - `no_approved_scopes_requested` — The app is approved by org admins, but none of the requested scopes are approved ones. Ask an org admin to approve the requested scopes. - `no_assertion` — Missing `assertion` in the request. - `user_not_authenticated` — The user has never authenticated via single sign-on. See https://docs.slack.dev/reference/methods/oauth.v2.user.access */
 export const v2UserAccess: API.OperationMethod<
   V2UserAccessRequest,
   V2UserAccessResponse,

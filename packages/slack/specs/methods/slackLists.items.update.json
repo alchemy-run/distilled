@@ -21,11 +21,12 @@
     "properties": {
       "token": {
         "type": "string",
-        "subtype": "auth"
+        "subtype": "auth",
+        "example": "xxxx-xxxxxxxxx-xxxx"
       },
       "list_id": {
         "desc": "ID of the List to add or update cells.",
-        "example": "F01ABCDE2FG",
+        "example": "F0123ABC456",
         "type": "string",
         "subtype": "list"
       },
@@ -118,5 +119,6 @@
     "invalid_vote_value": {
       "desc": "Invalid vote value is supplied."
     }
-  }
+  },
+  "json_input_supported": true
 }

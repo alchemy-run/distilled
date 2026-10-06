@@ -1,0 +1,75 @@
+{
+  "desc": "Set who can interact with a managed app. Lets the builder who created a managed app on a partner platform configure the app's permissions as themselves, using a user token from the manager app. Permissions can only be set before the app is installed: if the app is already installed, this method makes no change and returns the app's current permissions.",
+  "http_method": "POST",
+  "scope": {
+    "configuration": [
+      "app_configurations:write"
+    ]
+  },
+  "rate_limits": "t2",
+  "json_input_supported": true,
+  "args": {
+    "type": "object",
+    "required": [
+      "token",
+      "app_id",
+      "permissions"
+    ],
+    "properties": {
+      "token": {
+        "type": "string",
+        "desc": "An [app configuration access token](/authentication/tokens#config).",
+        "subtype": "auth",
+        "example": "xxxx-xxxxxxxxx-xxxx"
+      },
+      "app_id": {
+        "schema": "app_id",
+        "desc": "Encoded ID of the managed app to configure"
+      },
+      "permissions": {
+        "desc": "Who can interact with the app. Use everyone to allow all members, or app_owner to restrict access to the app's owner.",
+        "type": "string",
+        "example": "everyone",
+        "enum": [
+          "everyone",
+          "app_owner"
+        ]
+      }
+    }
+  },
+  "output": {
+    "schema": "app_acl"
+  },
+  "errors": {
+    "invalid_auth": {
+      "desc": "Invalid authorization token."
+    },
+    "access_denied": {
+      "desc": "The token was not issued to a manager app that is eligible to configure managed apps."
+    },
+    "manager_app_not_eligible": {
+      "desc": "The manager app the token was issued to is not eligible to configure app permissions."
+    },
+    "feature_not_enabled": {
+      "desc": "This method is not enabled for the manager app's organization."
+    },
+    "app_not_found": {
+      "desc": "This app does not exist."
+    },
+    "app_not_managed": {
+      "desc": "The specified app is not currently managed by any manager app."
+    },
+    "app_not_owned_by_manager_app": {
+      "desc": "The specified app is not managed by the calling manager app. A manager app can only set permissions for apps that it originally created and currently manages."
+    },
+    "app_owner_not_found": {
+      "desc": "The app's owner could not be resolved, so app_owner cannot be applied."
+    },
+    "enterprise_only_feature": {
+      "desc": "App permissions are only available on Enterprise Grid plans. Upgrade the app's org to configure who can interact with it."
+    },
+    "internal_error": {
+      "desc": "The app's current installations could not be determined, so permissions were not changed. Retry the request."
+    }
+  }
+}

@@ -96,12 +96,28 @@
       "icon_url": {
         "desc": "URL to an image to use as the icon for the file share message. Requires the [`chat:write.customize`](/reference/scopes/chat.write.customize) scope.",
         "example": "http://lorempixel.com/48/48",
-        "type": "string"
+        "type": "string",
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
       },
       "icon_emoji": {
         "desc": "Emoji to use as the icon for the file share message. Overrides `icon_url`. Requires the [`chat:write.customize`](/reference/scopes/chat.write.customize) scope.",
         "example": ":chart_with_upwards_trend:",
-        "type": "string"
+        "type": "string",
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
       }
     }
   },
@@ -179,6 +195,9 @@
     },
     "file_uploads_except_images_disabled": {
       "desc": "Only image file uploads are permitted for this team."
+    },
+    "user_is_external_guest": {
+      "desc": "External guests cannot upload or share files."
     }
   }
 }

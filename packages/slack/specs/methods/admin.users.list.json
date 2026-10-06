@@ -39,7 +39,7 @@
       },
       "only_guests": {
         "type": "boolean",
-        "desc": "If true, returns only guests and their expiration dates that belong to the team_id"
+        "desc": "If true, returns only guests and their expiration dates that belong to the team_id."
       },
       "include_admins": {
         "type": "boolean",

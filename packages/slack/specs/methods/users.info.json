@@ -14,8 +14,7 @@
   "args": {
     "type": "object",
     "required": [
-      "token",
-      "user"
+      "token"
     ],
     "properties": {
       "token": {

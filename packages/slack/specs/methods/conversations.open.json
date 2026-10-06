@@ -125,6 +125,9 @@
     "not_enough_users": {
       "desc": "Needs at least 2 users to open"
     },
+    "restricted_action": {
+      "desc": "User does not have permission to perform this action."
+    },
     "too_many_users": {
       "desc": "Needs at most 8 users to open"
     },
@@ -139,6 +142,9 @@
     },
     "users_list_not_supplied": {
       "desc": "Missing `users` in request"
+    },
+    "app_cannot_join_channel": {
+      "desc": "This app cannot be added to this conversation."
     }
   }
 }

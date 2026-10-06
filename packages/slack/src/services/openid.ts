@@ -46,9 +46,7 @@ export const ConnectTokenRequest = /*@__PURE__*/ S.suspend(() =>
       contentType: "form-urlencoded",
     }),
   ),
-).annotate({
-  identifier: "ConnectTokenRequest",
-}) as any as S.Schema<ConnectTokenRequest>;
+).annotate({ identifier: "ConnectTokenRequest" }) as any as S.Schema<ConnectTokenRequest>;
 
 export type ConnectTokenResponseTokenType = "Bearer";
 export const ConnectTokenResponseTokenType = S.String;
@@ -75,16 +73,12 @@ export const ConnectTokenResponse = /*@__PURE__*/ S.suspend(() =>
     expires_in: S.optional(S.Number),
     refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "ConnectTokenResponse",
-}) as any as S.Schema<ConnectTokenResponse>;
+).annotate({ identifier: "ConnectTokenResponse" }) as any as S.Schema<ConnectTokenResponse>;
 
 export interface UserInfoRequest {}
 export const UserInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/openid.connect.userInfo", code: 200 })),
-).annotate({
-  identifier: "UserInfoRequest",
-}) as any as S.Schema<UserInfoRequest>;
+).annotate({ identifier: "UserInfoRequest" }) as any as S.Schema<UserInfoRequest>;
 
 export interface UserInfoResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -194,9 +188,7 @@ export const UserInfoResponse = /*@__PURE__*/ S.suspend(() =>
       S.Boolean.pipe(T.Body("https://slack.com/team_image_default")),
     ),
   }),
-).annotate({
-  identifier: "UserInfoResponse",
-}) as any as S.Schema<UserInfoResponse>;
+).annotate({ identifier: "UserInfoResponse" }) as any as S.Schema<UserInfoResponse>;
 
 export type ConnectTokenError = SlackOpError;
 /** Exchanges a temporary OAuth verifier code for an access token for Sign in with Slack. Rate limit tier: 4 Method-specific errors (the `error` slug on the SlackError): - `bad_client_secret` — The value passed for `client_secret` was invalid. - `bad_redirect_uri` — The value passed for `redirect_uri` did not match the `redirect_uri` in the original request. - `cannot_install_an_org_installed_app` — An org-installed app cannot be installed on a workspace. - `invalid_client` — Client authentication failed (unknown `client_id` or bad `client_secret`). - `invalid_client_id` — The value passed for `client_id` was invalid. - `invalid_code` — The value passed for `code` was invalid. - `invalid_grant` — The authorization code is invalid, expired, revoked, or the PKCE `code_verifier` does not match. - `invalid_grant_type` — The value passed for `grant_type` was invalid. - `invalid_refresh_token` — The given refresh token is invalid. - `invalid_request` — The request is missing a required parameter or includes an invalid parameter value. - `oauth_authorization_url_mismatch` — The OAuth flow was initiated on an incorrect version of the authorization URL. The flow must be initiated via /openid/connect/authorize . - `preview_feature_not_available` — The API method is not yet available on the team. - `unsupported_grant_type` — The `grant_type` is not supported by this endpoint. See https://docs.slack.dev/reference/methods/openid.connect.token */

@@ -22,9 +22,9 @@ import {
 } from "./errors.ts";
 import type { SlackOpContext } from "./protocol.ts";
 import * as Retry from "./retry.ts";
-import { getFile } from "./services/admin.ts";
+import { bulkArchive, getFile } from "./services/admin.ts";
 import { postMessage } from "./services/chat.ts";
-import { createItem, deleteAccess } from "./services/lists.ts";
+import { addRemote } from "./services/files.ts";
 import { migrationExchange } from "./services/migration.ts";
 import { v2Exchange } from "./services/oauth.ts";
 
@@ -117,28 +117,31 @@ describe("request encoding", () => {
   });
 
   test("form methods comma-join ID lists", async () => {
-    const { requests, promise } = run(deleteAccess({ list_id: "L1", channel_ids: ["C1", "C2"] }), {
-      body: ok({}),
+    const { requests, promise } = run(bulkArchive({ channel_ids: ["C1", "C2"] }), {
+      body: ok({ bulk_action_id: "B1", not_added: [] }),
     });
     await promise;
     const request = requests[0]!;
     expect(request.headers.get("content-type")).toContain("application/x-www-form-urlencoded");
     const form = new URLSearchParams(await request.text());
-    expect([...form.entries()]).toEqual([
-      ["list_id", "L1"],
-      ["channel_ids", "C1,C2"],
-    ]);
+    expect([...form.entries()]).toEqual([["channel_ids", "C1,C2"]]);
   });
 
   test("form methods JSON-encode lists of rich values", async () => {
-    const initial_fields = [{ column_id: "Col1", text: "hello" }];
-    const { requests, promise } = run(createItem({ list_id: "L1", initial_fields }), {
-      body: ok({ item: { id: "I1" } }),
-    });
+    const indexable_file_contents = [{ text: "hello" }];
+    const { requests, promise } = run(
+      addRemote({
+        external_id: "X1",
+        external_url: "https://x.test",
+        title: "T",
+        indexable_file_contents,
+      }),
+      { body: ok({ file: { id: "F1" } }) },
+    );
     await promise;
     const form = new URLSearchParams(await requests[0]!.text());
-    expect(form.get("list_id")).toBe("L1");
-    expect(JSON.parse(form.get("initial_fields")!)).toEqual(initial_fields);
+    expect(form.get("external_id")).toBe("X1");
+    expect(JSON.parse(form.get("indexable_file_contents")!)).toEqual(indexable_file_contents);
   });
 
   test("array query args are comma-joined, not repeated", async () => {

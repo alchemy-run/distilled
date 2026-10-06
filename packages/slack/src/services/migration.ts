@@ -27,13 +27,9 @@ export const MigrationExchangeRequest = /*@__PURE__*/ S.suspend(() =>
     team_id: S.optional(S.String.pipe(T.Query())),
     to_old: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/migration.exchange", code: 200 })),
-).annotate({
-  identifier: "MigrationExchangeRequest",
-}) as any as S.Schema<MigrationExchangeRequest>;
+).annotate({ identifier: "MigrationExchangeRequest" }) as any as S.Schema<MigrationExchangeRequest>;
 
-export type MigrationExchangeResponseUserIdMapMap = {
-  [key: string]: unknown | undefined;
-};
+export type MigrationExchangeResponseUserIdMapMap = { [key: string]: unknown | undefined };
 export const MigrationExchangeResponseUserIdMapMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,

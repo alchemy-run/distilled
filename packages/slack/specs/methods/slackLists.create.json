@@ -116,5 +116,6 @@
     "over_column_maximum": {
       "desc": "Cannot create List with more than allowed column count."
     }
-  }
+  },
+  "json_input_supported": true
 }

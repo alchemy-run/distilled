@@ -35,9 +35,7 @@ export const SearchAllRequest = /*@__PURE__*/ S.suspend(() =>
     sort_dir: S.optional(SearchAllRequestSortDir.pipe(T.Query())),
     team_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/search.all", code: 200 })),
-).annotate({
-  identifier: "SearchAllRequest",
-}) as any as S.Schema<SearchAllRequest>;
+).annotate({ identifier: "SearchAllRequest" }) as any as S.Schema<SearchAllRequest>;
 
 export interface SearchAllResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -58,9 +56,7 @@ export const SearchAllResponse = /*@__PURE__*/ S.suspend(() =>
     posts: S.optional(S.Unknown),
     query: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SearchAllResponse",
-}) as any as S.Schema<SearchAllResponse>;
+).annotate({ identifier: "SearchAllResponse" }) as any as S.Schema<SearchAllResponse>;
 
 export type SearchFilesRequestSortDir = "asc" | "desc";
 export const SearchFilesRequestSortDir = S.String;
@@ -89,9 +85,7 @@ export const SearchFilesRequest = /*@__PURE__*/ S.suspend(() =>
     sort_dir: S.optional(SearchFilesRequestSortDir.pipe(T.Query())),
     team_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/search.files", code: 200 })),
-).annotate({
-  identifier: "SearchFilesRequest",
-}) as any as S.Schema<SearchFilesRequest>;
+).annotate({ identifier: "SearchFilesRequest" }) as any as S.Schema<SearchFilesRequest>;
 
 export type SearchFilesResponseFilesPaginationWarningsList = Array<string>;
 export const SearchFilesResponseFilesPaginationWarningsList = /*@__PURE__*/ S.Array(
@@ -178,29 +172,21 @@ export const SearchFilesResponseFiles = /*@__PURE__*/ S.suspend(() =>
     total: S.optional(S.Number),
     query_too_long: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SearchFilesResponseFiles",
-}) as any as S.Schema<SearchFilesResponseFiles>;
+).annotate({ identifier: "SearchFilesResponseFiles" }) as any as S.Schema<SearchFilesResponseFiles>;
 
-export type SearchFilesResponseUsersMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchFilesResponseUsersMap = { [key: string]: unknown | undefined };
 export const SearchFilesResponseUsersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<SearchFilesResponseUsersMap>;
 
-export type SearchFilesResponseTeamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchFilesResponseTeamsMap = { [key: string]: unknown | undefined };
 export const SearchFilesResponseTeamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<SearchFilesResponseTeamsMap>;
 
-export type SearchFilesResponseChannelsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchFilesResponseChannelsMap = { [key: string]: unknown | undefined };
 export const SearchFilesResponseChannelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -212,9 +198,7 @@ export const SearchFilesResponseImsMap = /*@__PURE__*/ S.Record(
   S.Unknown,
 ) as any as S.Schema<SearchFilesResponseImsMap>;
 
-export type SearchFilesResponseGroupsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchFilesResponseGroupsMap = { [key: string]: unknown | undefined };
 export const SearchFilesResponseGroupsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -247,9 +231,7 @@ export const SearchFilesResponse = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(S.String),
     ignored_exclude_bots_pref: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SearchFilesResponse",
-}) as any as S.Schema<SearchFilesResponse>;
+).annotate({ identifier: "SearchFilesResponse" }) as any as S.Schema<SearchFilesResponse>;
 
 export type SearchMessagesRequestSortDir = "asc" | "desc" | "";
 export const SearchMessagesRequestSortDir = S.String;
@@ -282,13 +264,9 @@ export const SearchMessagesRequest = /*@__PURE__*/ S.suspend(() =>
     sort_dir: S.optional(SearchMessagesRequestSortDir.pipe(T.Query())),
     team_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/search.messages", code: 200 })),
-).annotate({
-  identifier: "SearchMessagesRequest",
-}) as any as S.Schema<SearchMessagesRequest>;
+).annotate({ identifier: "SearchMessagesRequest" }) as any as S.Schema<SearchMessagesRequest>;
 
-export type SearchMessagesResponseUsersMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchMessagesResponseUsersMap = { [key: string]: unknown | undefined };
 export const SearchMessagesResponseUsersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -387,17 +365,13 @@ export const SearchMessagesResponseMessages = /*@__PURE__*/ S.suspend(() =>
   identifier: "SearchMessagesResponseMessages",
 }) as any as S.Schema<SearchMessagesResponseMessages>;
 
-export type SearchMessagesResponseTeamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchMessagesResponseTeamsMap = { [key: string]: unknown | undefined };
 export const SearchMessagesResponseTeamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<SearchMessagesResponseTeamsMap>;
 
-export type SearchMessagesResponseBotsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchMessagesResponseBotsMap = { [key: string]: unknown | undefined };
 export const SearchMessagesResponseBotsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -444,9 +418,7 @@ export const SearchMessagesResponse = /*@__PURE__*/ S.suspend(() =>
     ignored_exclude_bots_pref: S.optional(S.Boolean),
     response_metadata: S.optional(SearchMessagesResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "SearchMessagesResponse",
-}) as any as S.Schema<SearchMessagesResponse>;
+).annotate({ identifier: "SearchMessagesResponse" }) as any as S.Schema<SearchMessagesResponse>;
 
 export type SearchAllError = SlackOpError;
 /** Searches for messages and files matching a query. Required scopes — user: `search:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `no_query` — No query was provided. See https://docs.slack.dev/reference/methods/search.all */

@@ -19,9 +19,7 @@ export const ConnectRtmRequest = /*@__PURE__*/ S.suspend(() =>
     batch_presence_aware: S.optional(S.Boolean.pipe(T.Query())),
     presence_sub: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/rtm.connect", code: 200 })),
-).annotate({
-  identifier: "ConnectRtmRequest",
-}) as any as S.Schema<ConnectRtmRequest>;
+).annotate({ identifier: "ConnectRtmRequest" }) as any as S.Schema<ConnectRtmRequest>;
 
 export interface ConnectRtmResponseSelf {
   id: string;
@@ -32,9 +30,7 @@ export const ConnectRtmResponseSelf = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "ConnectRtmResponseSelf",
-}) as any as S.Schema<ConnectRtmResponseSelf>;
+).annotate({ identifier: "ConnectRtmResponseSelf" }) as any as S.Schema<ConnectRtmResponseSelf>;
 
 export interface ConnectRtmResponseTeam {
   domain: string;
@@ -51,9 +47,7 @@ export const ConnectRtmResponseTeam = /*@__PURE__*/ S.suspend(() =>
     enterprise_id: S.optional(S.String),
     enterprise_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectRtmResponseTeam",
-}) as any as S.Schema<ConnectRtmResponseTeam>;
+).annotate({ identifier: "ConnectRtmResponseTeam" }) as any as S.Schema<ConnectRtmResponseTeam>;
 
 export interface ConnectRtmResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -69,9 +63,7 @@ export const ConnectRtmResponse = /*@__PURE__*/ S.suspend(() =>
     self: ConnectRtmResponseSelf,
     team: ConnectRtmResponseTeam,
   }),
-).annotate({
-  identifier: "ConnectRtmResponse",
-}) as any as S.Schema<ConnectRtmResponse>;
+).annotate({ identifier: "ConnectRtmResponse" }) as any as S.Schema<ConnectRtmResponse>;
 
 export interface StartRtmRequest {
   /** Return timestamp only for latest message object of each channel (improves performance). */
@@ -99,9 +91,7 @@ export const StartRtmRequest = /*@__PURE__*/ S.suspend(() =>
     no_latest: S.optional(S.Boolean.pipe(T.Query())),
     include_locale: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/rtm.start", code: 200 })),
-).annotate({
-  identifier: "StartRtmRequest",
-}) as any as S.Schema<StartRtmRequest>;
+).annotate({ identifier: "StartRtmRequest" }) as any as S.Schema<StartRtmRequest>;
 
 export type StartRtmResponseSelf = ConnectRtmResponseSelf;
 export const StartRtmResponseSelf = ConnectRtmResponseSelf;
@@ -123,9 +113,7 @@ export const StartRtmResponse = /*@__PURE__*/ S.suspend(() =>
     self: ConnectRtmResponseSelf,
     team: ConnectRtmResponseTeam,
   }),
-).annotate({
-  identifier: "StartRtmResponse",
-}) as any as S.Schema<StartRtmResponse>;
+).annotate({ identifier: "StartRtmResponse" }) as any as S.Schema<StartRtmResponse>;
 
 export type ConnectRtmError = SlackOpError;
 /** Starts a Real Time Messaging session. Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `migration_in_progress` — Team is being migrated between servers. See [the `team_migration_started` event documentation](/reference/events/team_migration_started) for details. See https://docs.slack.dev/reference/methods/rtm.connect */

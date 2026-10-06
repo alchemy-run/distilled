@@ -36,9 +36,7 @@ export const AccessLogsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     team_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/team.accessLogs", code: 200 })),
-).annotate({
-  identifier: "AccessLogsRequest",
-}) as any as S.Schema<AccessLogsRequest>;
+).annotate({ identifier: "AccessLogsRequest" }) as any as S.Schema<AccessLogsRequest>;
 
 export interface AccessLogsResponseLoginsItem {
   username: string;
@@ -87,9 +85,7 @@ export const AccessLogsResponsePaging = /*@__PURE__*/ S.suspend(() =>
     page: S.Number,
     pages: S.Number,
   }),
-).annotate({
-  identifier: "AccessLogsResponsePaging",
-}) as any as S.Schema<AccessLogsResponsePaging>;
+).annotate({ identifier: "AccessLogsResponsePaging" }) as any as S.Schema<AccessLogsResponsePaging>;
 
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface AccessLogsResponseResponseMetadata {
@@ -119,9 +115,7 @@ export const AccessLogsResponse = /*@__PURE__*/ S.suspend(() =>
     paging: S.optional(AccessLogsResponsePaging),
     response_metadata: S.optional(AccessLogsResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "AccessLogsResponse",
-}) as any as S.Schema<AccessLogsResponse>;
+).annotate({ identifier: "AccessLogsResponse" }) as any as S.Schema<AccessLogsResponse>;
 
 export interface BillableInfoRequest {
   /** Set `cursor` to `next_cursor` returned by previous call, to indicate from where you want to list next page of users list. Default value fetches the first page. */
@@ -140,17 +134,13 @@ export const BillableInfoRequest = /*@__PURE__*/ S.suspend(() =>
     user: S.optional(S.String.pipe(T.Query())),
     team_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/team.billableInfo", code: 200 })),
-).annotate({
-  identifier: "BillableInfoRequest",
-}) as any as S.Schema<BillableInfoRequest>;
+).annotate({ identifier: "BillableInfoRequest" }) as any as S.Schema<BillableInfoRequest>;
 
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export type BillableInfoResponseResponseMetadata = AccessLogsResponseResponseMetadata;
 export const BillableInfoResponseResponseMetadata = AccessLogsResponseResponseMetadata;
 
-export type BillableInfoResponseBillableInfoMap = {
-  [key: string]: unknown | undefined;
-};
+export type BillableInfoResponseBillableInfoMap = { [key: string]: unknown | undefined };
 export const BillableInfoResponseBillableInfoMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -169,16 +159,12 @@ export const BillableInfoResponse = /*@__PURE__*/ S.suspend(() =>
     response_metadata: S.optional(AccessLogsResponseResponseMetadata),
     billable_info: BillableInfoResponseBillableInfoMap,
   }),
-).annotate({
-  identifier: "BillableInfoResponse",
-}) as any as S.Schema<BillableInfoResponse>;
+).annotate({ identifier: "BillableInfoResponse" }) as any as S.Schema<BillableInfoResponse>;
 
 export interface BillingInfoRequest {}
 export const BillingInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/team.billing.info", code: 200 })),
-).annotate({
-  identifier: "BillingInfoRequest",
-}) as any as S.Schema<BillingInfoRequest>;
+).annotate({ identifier: "BillingInfoRequest" }) as any as S.Schema<BillingInfoRequest>;
 
 export interface BillingInfoResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -190,9 +176,7 @@ export const BillingInfoResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     plan: S.String,
   }),
-).annotate({
-  identifier: "BillingInfoResponse",
-}) as any as S.Schema<BillingInfoResponse>;
+).annotate({ identifier: "BillingInfoResponse" }) as any as S.Schema<BillingInfoResponse>;
 
 export interface DisconnectExternalTeamRequest {
   /** The team ID of the target team. */
@@ -238,9 +222,7 @@ export const GetProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     visibility: S.optional(GetProfileRequestVisibility.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/team.profile.get", code: 200 })),
-).annotate({
-  identifier: "GetProfileRequest",
-}) as any as S.Schema<GetProfileRequest>;
+).annotate({ identifier: "GetProfileRequest" }) as any as S.Schema<GetProfileRequest>;
 
 export type GetProfileResponseProfileFieldsList = Array<unknown>;
 export const GetProfileResponseProfileFieldsList = /*@__PURE__*/ S.Array(
@@ -275,9 +257,7 @@ export const GetProfileResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     profile: GetProfileResponseProfile,
   }),
-).annotate({
-  identifier: "GetProfileResponse",
-}) as any as S.Schema<GetProfileResponse>;
+).annotate({ identifier: "GetProfileResponse" }) as any as S.Schema<GetProfileResponse>;
 
 export type IntegrationLogsRequestChangeType =
   | "added"
@@ -311,13 +291,9 @@ export const IntegrationLogsRequest = /*@__PURE__*/ S.suspend(() =>
     team_id: S.optional(S.String.pipe(T.Query())),
     user: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/team.integrationLogs", code: 200 })),
-).annotate({
-  identifier: "IntegrationLogsRequest",
-}) as any as S.Schema<IntegrationLogsRequest>;
+).annotate({ identifier: "IntegrationLogsRequest" }) as any as S.Schema<IntegrationLogsRequest>;
 
-export type IntegrationLogsResponseLogsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type IntegrationLogsResponseLogsItemMap = { [key: string]: unknown | undefined };
 export const IntegrationLogsResponseLogsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -340,9 +316,7 @@ export const IntegrationLogsResponse = /*@__PURE__*/ S.suspend(() =>
     paging: S.Unknown,
     logs: IntegrationLogsResponseLogsList,
   }),
-).annotate({
-  identifier: "IntegrationLogsResponse",
-}) as any as S.Schema<IntegrationLogsResponse>;
+).annotate({ identifier: "IntegrationLogsResponse" }) as any as S.Schema<IntegrationLogsResponse>;
 
 export type ListExternalTeamsRequestSortField =
   | "team_name"
@@ -415,9 +389,7 @@ export const ListExternalTeamsRequest = /*@__PURE__*/ S.suspend(() =>
       ListExternalTeamsRequestConnectionStatusFilter.pipe(T.Query()),
     ),
   }).pipe(T.Http({ method: "GET", uri: "/team.externalTeams.list", code: 200 })),
-).annotate({
-  identifier: "ListExternalTeamsRequest",
-}) as any as S.Schema<ListExternalTeamsRequest>;
+).annotate({ identifier: "ListExternalTeamsRequest" }) as any as S.Schema<ListExternalTeamsRequest>;
 
 export interface ListExternalTeamsResponseOrganizationsItemConnectedWorkspacesItem {
   workspace_id: string;
@@ -587,9 +559,7 @@ export const ListExternalTeamsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListPreferencesRequest {}
 export const ListPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/team.preferences.list", code: 200 })),
-).annotate({
-  identifier: "ListPreferencesRequest",
-}) as any as S.Schema<ListPreferencesRequest>;
+).annotate({ identifier: "ListPreferencesRequest" }) as any as S.Schema<ListPreferencesRequest>;
 
 export interface ListPreferencesResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -607,9 +577,7 @@ export const ListPreferencesResponse = /*@__PURE__*/ S.suspend(() =>
     msg_edit_window_mins: S.Number,
     who_can_post_general: S.String,
   }),
-).annotate({
-  identifier: "ListPreferencesResponse",
-}) as any as S.Schema<ListPreferencesResponse>;
+).annotate({ identifier: "ListPreferencesResponse" }) as any as S.Schema<ListPreferencesResponse>;
 
 export interface TeamInfoRequest {
   /** Query by domain instead of team (only when team is null). This only works for domains in the same enterprise as the querying team token. This also expects the domain to belong to a team and not the enterprise itself. This is the value set up for the 'Joining This Workspace' workspace setting. If it contains more than one domain, the field will contain multiple comma-separated domain values. If no domain is set, the field is empty. */
@@ -622,9 +590,7 @@ export const TeamInfoRequest = /*@__PURE__*/ S.suspend(() =>
     domain: S.optional(S.String.pipe(T.Query())),
     team: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/team.info", code: 200 })),
-).annotate({
-  identifier: "TeamInfoRequest",
-}) as any as S.Schema<TeamInfoRequest>;
+).annotate({ identifier: "TeamInfoRequest" }) as any as S.Schema<TeamInfoRequest>;
 
 export interface TeamInfoResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -634,9 +600,7 @@ export const TeamInfoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "TeamInfoResponse",
-}) as any as S.Schema<TeamInfoResponse>;
+).annotate({ identifier: "TeamInfoResponse" }) as any as S.Schema<TeamInfoResponse>;
 
 export type AccessLogsError = SlackOpError;
 /** Gets the access logs for the current team. Required scopes — user: `admin` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `missing_argument` — A required argument is missing. - `missing_scope` — The provided token hasn't obtained the necessary scopes to use this method. - `not_allowed_token_type` — Method was called with an invalid token type - `over_pagination_limit` — It is not possible to request more than 1000 items per page or more than 100 pages. - `paid_only` — This is only available to paid teams. - `token_revoked` — token revoked (generated) - `invalid_cursor` — Value passed for `cursor` was not valid or is no longer valid. - `invalid_limit` — The value passed for `limit` was not valid. - `invalid_team_id` — The value passed for `team_id` is not valid given the token context. See https://docs.slack.dev/reference/methods/team.accessLogs */

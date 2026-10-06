@@ -135,6 +135,9 @@
     "permission_denied": {
       "desc": "No permission to perform this operation."
     },
+    "restricted_action": {
+      "desc": "Members from an external organization cannot add workflow bookmarks to this channel."
+    },
     "slack_connect_file_upload_sharing_blocked": {
       "desc": "Admin has disabled File uploads in all Slack Connect communications"
     },

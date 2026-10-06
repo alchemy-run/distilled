@@ -1,0 +1,64 @@
+{
+  "desc": "Get the content of a canvas as markdown (default) or HTML.",
+  "http_method": "POST",
+  "scope": {
+    "bot": [
+      "canvases:read"
+    ],
+    "user": [
+      "canvases:read"
+    ]
+  },
+  "json_input_supported": true,
+  "rate_limits": "t3",
+  "args": {
+    "type": "object",
+    "required": [
+      "token",
+      "canvas_id"
+    ],
+    "properties": {
+      "token": {
+        "desc": "Authentication token bearing required scopes. Tokens should be passed as an HTTP Authorization header or alternatively, as a POST parameter.",
+        "type": "string",
+        "subtype": "auth",
+        "example": "xxxx-xxxxxxxxx-xxxx"
+      },
+      "canvas_id": {
+        "desc": "Encoded ID of the canvas",
+        "example": "F1234ABCD",
+        "subtype": "canvas",
+        "schema": "file_id"
+      },
+      "content_type": {
+        "desc": "Format in which to return the canvas content. Defaults to markdown.",
+        "type": "string",
+        "enum": [
+          "html",
+          "markdown"
+        ],
+        "default": "markdown"
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "required": [
+      "content"
+    ],
+    "properties": {
+      "content": {
+        "type": "string",
+        "desc": "The content of the canvas in the requested content_type."
+      }
+    }
+  },
+  "errors": {
+    "canvas_disabled_user_team": {
+      "desc": "Canvas is disabled on user's team"
+    },
+    "canvas_not_found": {
+      "desc": "The canvas does not exist, or is not visible to the calling user."
+    }
+  }
+}

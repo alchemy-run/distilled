@@ -46,7 +46,7 @@
         "example": "[\"C1234ABCD\"]",
         "type": "array",
         "minItems": 1,
-        "maxItems": 1,
+        "maxItems": 20,
         "items": {
           "schema": "channel_id"
         }
@@ -56,7 +56,7 @@
         "example": "[\"U1234ABCD\"]",
         "type": "array",
         "minItems": 1,
-        "maxItems": 1,
+        "maxItems": 20,
         "items": {
           "schema": "user_id"
         }

@@ -1,0 +1,89 @@
+{
+  "desc": "Rename an agent session.",
+  "http_method": "POST",
+  "scope": {
+    "bot": [
+      "chat:write"
+    ]
+  },
+  "json_input_supported": true,
+  "rate_limits": "t3",
+  "args": {
+    "type": "object",
+    "required": [
+      "token",
+      "title"
+    ],
+    "properties": {
+      "token": {
+        "desc": "Authentication token bearing the `chat:write` scope. Must be a granular bot token.",
+        "type": "string",
+        "subtype": "auth",
+        "example": "xxxx-xxxxxxxxx-xxxx"
+      },
+      "channel_id": {
+        "desc": "ID of the channel containing the agent session. Required for public channels.",
+        "type": "string",
+        "subtype": "channel",
+        "schema": "channel",
+        "required_for_public": true
+      },
+      "title": {
+        "desc": "New title for the agent session (1-200 characters). For a session channel, this also renames the channel.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "thread_ts": {
+        "desc": "Timestamp of the thread root message the session is scoped to. Required for thread-based sessions in regular channels and DMs. Must be omitted for session channels.",
+        "type": "string",
+        "example": "1234567890.123456",
+        "maxLength": 32
+      }
+    }
+  },
+  "output": {
+    "properties": {
+      "title": {
+        "desc": "The updated title of the agent session.",
+        "type": "string"
+      },
+      "channel_id": {
+        "desc": "The encoded ID of the channel, returned when an agent channel was renamed.",
+        "type": "string"
+      }
+    }
+  },
+  "errors": {
+    "feature_disabled": {
+      "desc": "The agent tasks feature is not enabled for this workspace."
+    },
+    "channel_not_found": {
+      "desc": "The specified channel does not exist or is not accessible."
+    },
+    "not_authorized": {
+      "desc": "The calling app is not an authorized agent for this session."
+    },
+    "session_not_found": {
+      "desc": "No agent session exists for the specified channel and thread."
+    },
+    "thread_ts_required": {
+      "desc": "`thread_ts` is required for thread-based sessions in regular channels and DMs."
+    },
+    "thread_ts_not_allowed": {
+      "desc": "`thread_ts` must not be provided for session channels."
+    },
+    "invalid_name": {
+      "desc": "The `title` value is not valid for a channel name."
+    },
+    "name_taken": {
+      "desc": "The new channel name is already taken."
+    },
+    "is_archived": {
+      "desc": "Cannot rename an archived channel."
+    },
+    "internal_error": {
+      "desc": "An internal error occurred while renaming the session."
+    }
+  }
+}

@@ -55,9 +55,7 @@ export const AddCallResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     call: S.Unknown,
   }),
-).annotate({
-  identifier: "AddCallResponse",
-}) as any as S.Schema<AddCallResponse>;
+).annotate({ identifier: "AddCallResponse" }) as any as S.Schema<AddCallResponse>;
 
 /** The list of users to add as participants in the Call. [Read more on how to specify users here](/apis/web-api/using-the-calls-api#users). */
 export type AddParticipantRequestUsersList = Array<unknown>;
@@ -76,9 +74,7 @@ export const AddParticipantRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     users: AddParticipantRequestUsersList,
   }).pipe(T.Http({ method: "POST", uri: "/calls.participants.add", code: 200 })),
-).annotate({
-  identifier: "AddParticipantRequest",
-}) as any as S.Schema<AddParticipantRequest>;
+).annotate({ identifier: "AddParticipantRequest" }) as any as S.Schema<AddParticipantRequest>;
 
 export interface AddParticipantResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -90,9 +86,7 @@ export const AddParticipantResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     call: S.Unknown,
   }),
-).annotate({
-  identifier: "AddParticipantResponse",
-}) as any as S.Schema<AddParticipantResponse>;
+).annotate({ identifier: "AddParticipantResponse" }) as any as S.Schema<AddParticipantResponse>;
 
 export interface CallsEndRequest {
   /** `id` returned when registering the call using the [`calls.add`](/reference/methods/calls.add) method. */
@@ -105,9 +99,7 @@ export const CallsEndRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     duration: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/calls.end", code: 200 })),
-).annotate({
-  identifier: "CallsEndRequest",
-}) as any as S.Schema<CallsEndRequest>;
+).annotate({ identifier: "CallsEndRequest" }) as any as S.Schema<CallsEndRequest>;
 
 export interface CallsEndResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -119,9 +111,7 @@ export const CallsEndResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     call: S.Unknown,
   }),
-).annotate({
-  identifier: "CallsEndResponse",
-}) as any as S.Schema<CallsEndResponse>;
+).annotate({ identifier: "CallsEndResponse" }) as any as S.Schema<CallsEndResponse>;
 
 export interface CallsInfoRequest {
   /** `id` of the Call returned by the [`calls.add`](/reference/methods/calls.add) method. */
@@ -131,9 +121,7 @@ export const CallsInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/calls.info", code: 200 })),
-).annotate({
-  identifier: "CallsInfoRequest",
-}) as any as S.Schema<CallsInfoRequest>;
+).annotate({ identifier: "CallsInfoRequest" }) as any as S.Schema<CallsInfoRequest>;
 
 export interface CallsInfoResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -145,9 +133,7 @@ export const CallsInfoResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     call: S.Unknown,
   }),
-).annotate({
-  identifier: "CallsInfoResponse",
-}) as any as S.Schema<CallsInfoResponse>;
+).annotate({ identifier: "CallsInfoResponse" }) as any as S.Schema<CallsInfoResponse>;
 
 /** The list of users to remove as participants in the Call. [Read more on how to specify users here](/apis/web-api/using-the-calls-api#users). */
 export type RemoveParticipantRequestUsersList = Array<unknown>;
@@ -166,9 +152,7 @@ export const RemoveParticipantRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     users: RemoveParticipantRequestUsersList,
   }).pipe(T.Http({ method: "POST", uri: "/calls.participants.remove", code: 200 })),
-).annotate({
-  identifier: "RemoveParticipantRequest",
-}) as any as S.Schema<RemoveParticipantRequest>;
+).annotate({ identifier: "RemoveParticipantRequest" }) as any as S.Schema<RemoveParticipantRequest>;
 
 export interface RemoveParticipantResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -201,9 +185,7 @@ export const UpdateCallRequest = /*@__PURE__*/ S.suspend(() =>
     join_url: S.optional(S.String),
     desktop_app_join_url: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/calls.update", code: 200 })),
-).annotate({
-  identifier: "UpdateCallRequest",
-}) as any as S.Schema<UpdateCallRequest>;
+).annotate({ identifier: "UpdateCallRequest" }) as any as S.Schema<UpdateCallRequest>;
 
 export interface UpdateCallResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -215,9 +197,7 @@ export const UpdateCallResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     call: S.Unknown,
   }),
-).annotate({
-  identifier: "UpdateCallResponse",
-}) as any as S.Schema<UpdateCallResponse>;
+).annotate({ identifier: "UpdateCallResponse" }) as any as S.Schema<UpdateCallResponse>;
 
 export type AddCallError = SlackOpError;
 /** Registers a new Call. Required scopes — bot: `calls:write`; user: `calls:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `internal_error` — An unexpected error has occurred while trying to register the Call. - `invalid_created_by` — The `created_by` user ID is invalid. - `invalid_start_time` — The start time is invalid. - `not_authorized` — The specified user is not authorized to create a Call in this channel. - `not_implemented` — This method is not available. - `user_not_found` — A specified user wasn't found. See https://docs.slack.dev/reference/methods/calls.add */

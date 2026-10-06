@@ -54,9 +54,6 @@
     "not_an_admin": {
       "desc": "This method can only be accessed by org owners and admins."
     },
-    "not_an_owner": {
-      "desc": "This method can only be accessed by org owners. The app's installing user must retain org owner status for this method to function."
-    },
     "not_supported": {
       "desc": "This is not a supported action."
     },

@@ -1,0 +1,59 @@
+{
+  "desc": "Fetch an organizational usergroup.",
+  "http_method": "POST",
+  "scope": {
+    "user": [
+      "admin.usergroups:read"
+    ]
+  },
+  "json_input_supported": true,
+  "rate_limits": "t1",
+  "args": {
+    "type": "object",
+    "required": [
+      "token",
+      "id"
+    ],
+    "properties": {
+      "token": {
+        "type": "string",
+        "subtype": "auth",
+        "desc": "Authentication token bearing required scopes. Tokens should be passed as an HTTP Authorization header or alternatively, as a POST parameter.",
+        "example": "xxxx-xxxxxxxxx-xxxx"
+      },
+      "id": {
+        "desc": "ID of the usergroup to fetch",
+        "type": "string",
+        "example": "S0604QSJC"
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "required": [
+      "subteam"
+    ],
+    "properties": {
+      "subteam": {
+        "schema": "subteam"
+      }
+    }
+  },
+  "errors": {
+    "feature_not_enabled": {
+      "desc": "The Admin APIs feature is not enabled for this workspace."
+    },
+    "invalid_auth": {
+      "desc": "The workspace specified is not part of this organization."
+    },
+    "restricted_action": {
+      "desc": "The calling user is not allowed to view the specified usergroup."
+    },
+    "not_an_enterprise": {
+      "desc": "The token passed in does not belong to an Enterprise organization."
+    },
+    "invalid_usergroup": {
+      "desc": "A usergroup with the specified ID does not exist."
+    }
+  }
+}

@@ -34,9 +34,7 @@ export const TestApiResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     args: S.optional(TestApiResponseArgsMap),
   }),
-).annotate({
-  identifier: "TestApiResponse",
-}) as any as S.Schema<TestApiResponse>;
+).annotate({ identifier: "TestApiResponse" }) as any as S.Schema<TestApiResponse>;
 
 export type TestApiError = SlackOpError;
 /** Checks API calling code. Rate limit tier: 4 See https://docs.slack.dev/reference/methods/api.test */

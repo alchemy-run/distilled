@@ -239,7 +239,14 @@
   },
   {
     "name": "admin.conversations.bulkSetExcludeFromSlackAi",
-    "description": "Exclude channels from Slack AI in bulk",
+    "description": "Exclude channels from Slack AI in bulk.",
+    "family": [
+      "admin"
+    ]
+  },
+  {
+    "name": "admin.conversations.bulkSetProperties",
+    "description": "Set properties on channels in bulk.",
     "family": [
       "admin"
     ]
@@ -609,6 +616,27 @@
     ]
   },
   {
+    "name": "admin.usergroups.addUsers",
+    "description": "Add members to an existing organizational usergroup. This method is only available to Enterprise Grid organizations.",
+    "family": [
+      "admin"
+    ]
+  },
+  {
+    "name": "admin.usergroups.create",
+    "description": "Create a new organizational usergroup. This method is only available to Enterprise Grid organizations.",
+    "family": [
+      "admin"
+    ]
+  },
+  {
+    "name": "admin.usergroups.fetch",
+    "description": "Fetch an organizational usergroup.",
+    "family": [
+      "admin"
+    ]
+  },
+  {
     "name": "admin.usergroups.listChannels",
     "description": "List the channels linked to an org-level IDP group (user group).",
     "family": [
@@ -618,6 +646,34 @@
   {
     "name": "admin.usergroups.removeChannels",
     "description": "Remove one or more default channels from an org-level IDP group (user group).",
+    "family": [
+      "admin"
+    ]
+  },
+  {
+    "name": "admin.usergroups.removeTeams",
+    "description": "Remove one or more default workspaces from an organization-wide IDP Group or Admin Group.",
+    "family": [
+      "admin"
+    ]
+  },
+  {
+    "name": "admin.usergroups.removeUsers",
+    "description": "Remove members from an existing organizational usergroup. This method is only available to Enterprise Grid organizations.",
+    "family": [
+      "admin"
+    ]
+  },
+  {
+    "name": "admin.usergroups.update",
+    "description": "Update one or more properties of an existing organizational usergroup.",
+    "family": [
+      "admin"
+    ]
+  },
+  {
+    "name": "admin.usergroups.uploadUsers",
+    "description": "Add members to an existing organizational usergroup in bulk via CSV upload. This method is only available to Enterprise Grid organizations.",
     "family": [
       "admin"
     ]
@@ -791,6 +847,20 @@
     ]
   },
   {
+    "name": "agents.sessions.rename",
+    "description": "Rename an agent session.",
+    "family": [
+      "agents"
+    ]
+  },
+  {
+    "name": "agents.sessions.setStatus",
+    "description": "Set an agent session's lifecycle status, creating the session if needed.",
+    "family": [
+      "agents"
+    ]
+  },
+  {
     "name": "api.test",
     "description": "Checks API calling code.",
     "family": [
@@ -898,6 +968,13 @@
   {
     "name": "apps.icon.set",
     "description": "Sets the app icon",
+    "family": [
+      "apps"
+    ]
+  },
+  {
+    "name": "apps.managed.permissions.set",
+    "description": "Set who can interact with a managed app. Lets the builder who created a managed app on a partner platform configure the app's permissions as themselves, using a user token from the manager app. Permissions can only be set before the app is installed: if the app is already installed, this method makes no change and returns the app's current permissions.",
     "family": [
       "apps"
     ]
@@ -1122,6 +1199,13 @@
   {
     "name": "canvases.edit",
     "description": "Update an existing canvas",
+    "family": [
+      "canvases"
+    ]
+  },
+  {
+    "name": "canvases.getContent",
+    "description": "Get the content of a canvas as markdown (default) or HTML.",
     "family": [
       "canvases"
     ]
@@ -1752,6 +1836,20 @@
   {
     "name": "oauth.v2.access",
     "description": "Exchanges a temporary OAuth verifier code for an access token.",
+    "family": [
+      "oauth"
+    ]
+  },
+  {
+    "name": "oauth.v2.beginShortTokenRotation",
+    "description": "Call this to rotate the secret on an old API token with a short secret. Must be paired with a call to oauth.v2.completeShortTokenRotation to confirm the change.",
+    "family": [
+      "oauth"
+    ]
+  },
+  {
+    "name": "oauth.v2.completeShortTokenRotation",
+    "description": "Call this to finish rotating the secret on an old API token with a short secret. Must be paired with a call to oauth.v2.beginShortTokenRotation to start the process.",
     "family": [
       "oauth"
     ]

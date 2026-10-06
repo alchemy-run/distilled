@@ -44,7 +44,29 @@
     "required": [
       "permissions"
     ],
-    "properties": {}
+    "properties": {
+      "permissions": {
+        "type": "object",
+        "patternProperties": {
+          "^Wf[A-Z0-9]{1,}$": {
+            "type": "object",
+            "required": [
+              "who_can_run",
+              "complete"
+            ],
+            "properties": {
+              "who_can_run": {
+                "schema": "trigger-run-acl"
+              },
+              "complete": {
+                "type": "boolean",
+                "desc": "Returns false when the check for all workflow triggers was not exhaustive and there may additional entities that can run the workflow"
+              }
+            }
+          }
+        }
+      }
+    }
   },
   "errors": {}
 }

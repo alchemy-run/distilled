@@ -302,7 +302,7 @@
           "uri": "/reactions.list",
           "code": 200
         },
-        "smithy.api#documentation": "Lists reactions made by a user.\n\nRequired scopes — bot: `reactions:read`; user: `reactions:read`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `user_not_found` — Value passed for `user` was invalid.\n\nSee https://docs.slack.dev/reference/methods/reactions.list",
+        "smithy.api#documentation": "Lists reactions made by a user.\n\nRequired scopes — bot: `reactions:read`; user: `reactions:read`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `invalid_cursor` — Value passed for `cursor` was not valid or is no longer valid.\n  - `user_not_found` — Value passed for `user` was invalid.\n\nSee https://docs.slack.dev/reference/methods/reactions.list",
         "smithy.api#paginated": {
           "mode": "cursor",
           "inputToken": "cursor",

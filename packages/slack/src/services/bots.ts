@@ -19,9 +19,7 @@ export const BotsInfoRequest = /*@__PURE__*/ S.suspend(() =>
     bot: S.optional(S.String.pipe(T.Query())),
     team_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/bots.info", code: 200 })),
-).annotate({
-  identifier: "BotsInfoRequest",
-}) as any as S.Schema<BotsInfoRequest>;
+).annotate({ identifier: "BotsInfoRequest" }) as any as S.Schema<BotsInfoRequest>;
 
 export interface BotsInfoResponseBotsItemIcons {
   emoji?: string;
@@ -67,9 +65,7 @@ export const BotsInfoResponseBotsItem = /*@__PURE__*/ S.suspend(() =>
     is_legacy_workflow_bot: S.optional(S.Boolean),
     user_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BotsInfoResponseBotsItem",
-}) as any as S.Schema<BotsInfoResponseBotsItem>;
+).annotate({ identifier: "BotsInfoResponseBotsItem" }) as any as S.Schema<BotsInfoResponseBotsItem>;
 
 export type BotsInfoResponseBotsList = Array<BotsInfoResponseBotsItem>;
 export const BotsInfoResponseBotsList = /*@__PURE__*/ S.Array(
@@ -104,9 +100,7 @@ export const BotsInfoResponseBot = /*@__PURE__*/ S.suspend(() =>
     is_connector_bot: S.optional(S.Boolean),
     is_legacy_workflow_bot: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "BotsInfoResponseBot",
-}) as any as S.Schema<BotsInfoResponseBot>;
+).annotate({ identifier: "BotsInfoResponseBot" }) as any as S.Schema<BotsInfoResponseBot>;
 
 export interface BotsInfoResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -120,9 +114,7 @@ export const BotsInfoResponse = /*@__PURE__*/ S.suspend(() =>
     bots: S.optional(BotsInfoResponseBotsList),
     bot: S.optional(BotsInfoResponseBot),
   }),
-).annotate({
-  identifier: "BotsInfoResponse",
-}) as any as S.Schema<BotsInfoResponse>;
+).annotate({ identifier: "BotsInfoResponse" }) as any as S.Schema<BotsInfoResponse>;
 
 export type BotsInfoError = SlackOpError;
 /** Gets information about a bot user. Required scopes — bot: `users:read`; user: `users:read` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `bot_not_found` — Value passed for `bot` was invalid. - `bots_not_found` — At least one value passed for `bots` was invalid. - `missing_argument` — A required argument is missing. - `team_not_found` — Value passed for `team_id` was invalid. See https://docs.slack.dev/reference/methods/bots.info */

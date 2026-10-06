@@ -57,6 +57,13 @@
     },
     "user_not_found": {
       "desc": "Value passed for `user_id` was invalid."
+    },
+    "missing_scope": {
+      "desc": "The token provided doesn't have the required scopes."
+    },
+    "internal_error": {
+      "desc": "The connection status could not be written. Retry the call."
     }
-  }
+  },
+  "json_input_supported": true
 }

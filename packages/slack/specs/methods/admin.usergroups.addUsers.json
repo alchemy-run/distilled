@@ -1,0 +1,108 @@
+{
+  "desc": "Add members to an existing organizational usergroup. This method is only available to Enterprise Grid organizations.",
+  "http_method": "POST",
+  "scope": {
+    "user": [
+      "admin.usergroups:write"
+    ]
+  },
+  "json_input_supported": true,
+  "rate_limits": "t2",
+  "args": {
+    "type": "object",
+    "required": [
+      "token",
+      "id",
+      "users"
+    ],
+    "properties": {
+      "token": {
+        "type": "string",
+        "subtype": "auth",
+        "desc": "Authentication token bearing required scopes. Tokens should be passed as an HTTP Authorization header or alternatively, as a POST parameter.",
+        "example": "xxxx-xxxxxxxxx-xxxx"
+      },
+      "id": {
+        "desc": "ID of the usergroup to add users to",
+        "example": "S0604QSJC",
+        "type": "string",
+        "subtype": "user_group",
+        "schema": "subteam_id"
+      },
+      "users": {
+        "desc": "The encoded user IDs to add to the usergroup, provided as a JSON array or a comma-separated string.",
+        "example": "U060R4BJ4,U060RNRCZ",
+        "type": "array",
+        "maxItems": 15000,
+        "items": {
+          "schema": "user_id"
+        }
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "error": {
+        "type": "string",
+        "desc": "A string representation of the error type"
+      },
+      "invalid_users": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "user_id",
+            "reason"
+          ],
+          "properties": {
+            "user_id": {
+              "schema": "user_id"
+            },
+            "reason": {
+              "type": "string",
+              "enum": [
+                "guest_user",
+                "deleted_user",
+                "user_not_found",
+                "insert_failed",
+                "channel_limit_exceeded",
+                "multi_workspace_idp_group",
+                "usergroup_limit_exceeded"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "errors": {
+    "feature_not_enabled": {
+      "desc": "The Admin APIs feature is not enabled for this workspace."
+    },
+    "invalid_auth": {
+      "desc": "The workspace specified is not part of this organization."
+    },
+    "restricted_action": {
+      "desc": "The calling user cannot modify the specified usergroup, or the usergroup's membership is managed by an identity provider (IdP) and can only be changed through SCIM."
+    },
+    "not_an_enterprise": {
+      "desc": "The token passed in does not belong to an Enterprise organization."
+    },
+    "invalid_usergroup": {
+      "desc": "A usergroup with the specified ID does not exist."
+    },
+    "invalid_users": {
+      "desc": "One or more users provided can not be added to the usergroup."
+    },
+    "user_not_found": {
+      "desc": "One or more users provided are invalid or are not a member of the organization."
+    },
+    "member_count_would_exceed_visible_limit": {
+      "desc": "The usergroup is visible and the member count would exceed the limit."
+    },
+    "cannot_modify_role_admin": {
+      "desc": "The user does not have permission to modify the roles admin role."
+    }
+  }
+}

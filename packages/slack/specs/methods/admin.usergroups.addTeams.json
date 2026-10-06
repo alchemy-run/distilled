@@ -68,6 +68,12 @@
     },
     "usergroup_not_found": {
       "desc": "`usergroup_id` wasn't found."
+    },
+    "auto_provision_required": {
+      "desc": "The IDP group requires a mandatory workspace link, so `auto_provision` must be `true`."
+    },
+    "workspace_not_eligible": {
+      "desc": "The workspace is not eligible to be linked to this IDP group; it is not on the org's allow-list of eligible workspaces."
     }
   }
 }

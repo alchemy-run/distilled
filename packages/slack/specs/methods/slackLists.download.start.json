@@ -20,7 +20,8 @@
     "properties": {
       "token": {
         "type": "string",
-        "subtype": "auth"
+        "subtype": "auth",
+        "example": "xxxx-xxxxxxxxx-xxxx"
       },
       "list_id": {
         "desc": "ID of the List to export.",
@@ -73,5 +74,6 @@
     "unknown_method": {
       "desc": "Feature not enabled for this team."
     }
-  }
+  },
+  "json_input_supported": true
 }

@@ -28,9 +28,7 @@ export const AddReminderRequest = /*@__PURE__*/ S.suspend(() =>
     team_id: S.optional(S.String),
     recurrence: S.optional(S.Unknown),
   }).pipe(T.Http({ method: "POST", uri: "/reminders.add", code: 200 })),
-).annotate({
-  identifier: "AddReminderRequest",
-}) as any as S.Schema<AddReminderRequest>;
+).annotate({ identifier: "AddReminderRequest" }) as any as S.Schema<AddReminderRequest>;
 
 export interface AddReminderResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -42,9 +40,7 @@ export const AddReminderResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     reminder: S.Unknown,
   }),
-).annotate({
-  identifier: "AddReminderResponse",
-}) as any as S.Schema<AddReminderResponse>;
+).annotate({ identifier: "AddReminderResponse" }) as any as S.Schema<AddReminderResponse>;
 
 export interface CompleteReminderRequest {
   /** The ID of the reminder to be marked as complete */
@@ -57,9 +53,7 @@ export const CompleteReminderRequest = /*@__PURE__*/ S.suspend(() =>
     reminder: S.String,
     team_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/reminders.complete", code: 200 })),
-).annotate({
-  identifier: "CompleteReminderRequest",
-}) as any as S.Schema<CompleteReminderRequest>;
+).annotate({ identifier: "CompleteReminderRequest" }) as any as S.Schema<CompleteReminderRequest>;
 
 export interface CompleteReminderResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -69,9 +63,7 @@ export const CompleteReminderResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "CompleteReminderResponse",
-}) as any as S.Schema<CompleteReminderResponse>;
+).annotate({ identifier: "CompleteReminderResponse" }) as any as S.Schema<CompleteReminderResponse>;
 
 export interface DeleteReminderRequest {
   /** The ID of the reminder */
@@ -84,9 +76,7 @@ export const DeleteReminderRequest = /*@__PURE__*/ S.suspend(() =>
     reminder: S.String,
     team_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/reminders.delete", code: 200 })),
-).annotate({
-  identifier: "DeleteReminderRequest",
-}) as any as S.Schema<DeleteReminderRequest>;
+).annotate({ identifier: "DeleteReminderRequest" }) as any as S.Schema<DeleteReminderRequest>;
 
 export interface DeleteReminderResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -96,9 +86,7 @@ export const DeleteReminderResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "DeleteReminderResponse",
-}) as any as S.Schema<DeleteReminderResponse>;
+).annotate({ identifier: "DeleteReminderResponse" }) as any as S.Schema<DeleteReminderResponse>;
 
 export interface ListRemindersRequest {
   /** Encoded team id, required if org token is passed */
@@ -108,9 +96,7 @@ export const ListRemindersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     team_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/reminders.list", code: 200 })),
-).annotate({
-  identifier: "ListRemindersRequest",
-}) as any as S.Schema<ListRemindersRequest>;
+).annotate({ identifier: "ListRemindersRequest" }) as any as S.Schema<ListRemindersRequest>;
 
 export type ListRemindersResponseRemindersList = Array<unknown>;
 export const ListRemindersResponseRemindersList = /*@__PURE__*/ S.Array(
@@ -127,9 +113,7 @@ export const ListRemindersResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     reminders: S.optional(ListRemindersResponseRemindersList),
   }),
-).annotate({
-  identifier: "ListRemindersResponse",
-}) as any as S.Schema<ListRemindersResponse>;
+).annotate({ identifier: "ListRemindersResponse" }) as any as S.Schema<ListRemindersResponse>;
 
 export interface RemindersInfoRequest {
   /** The ID of the reminder */
@@ -142,9 +126,7 @@ export const RemindersInfoRequest = /*@__PURE__*/ S.suspend(() =>
     reminder: S.String.pipe(T.Query()),
     team_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/reminders.info", code: 200 })),
-).annotate({
-  identifier: "RemindersInfoRequest",
-}) as any as S.Schema<RemindersInfoRequest>;
+).annotate({ identifier: "RemindersInfoRequest" }) as any as S.Schema<RemindersInfoRequest>;
 
 export interface RemindersInfoResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -156,9 +138,7 @@ export const RemindersInfoResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     reminder: S.Unknown,
   }),
-).annotate({
-  identifier: "RemindersInfoResponse",
-}) as any as S.Schema<RemindersInfoResponse>;
+).annotate({ identifier: "RemindersInfoResponse" }) as any as S.Schema<RemindersInfoResponse>;
 
 export type AddReminderError = SlackOpError;
 /** Creates a reminder. Required scopes — user: `reminders:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `cannot_add_bot` — Reminders can't be sent to bots. - `cannot_add_others` — Guests can't set reminders for other team members. - `cannot_add_others_recurring` — Recurring reminders can't be set for other team members. - `cannot_add_profile_only_user` — Reminders can't be sent to profile only users. - `cannot_add_slackbot` — Reminders can't be sent to Slackbot. - `cannot_parse` — The phrasing of the timing for this reminder is unclear. You must include a complete time description. Some examples that work: `1458678068`, `20`, `in 5 minutes`, `tomorrow`, `at 3:30pm`, `on Tuesday`, or `next week`. - `missing_argument` — An argument is missing. - `user_not_found` — That user can't be found. See https://docs.slack.dev/reference/methods/reminders.add */

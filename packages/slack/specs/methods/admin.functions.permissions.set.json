@@ -41,7 +41,7 @@
         "desc": "List of user IDs to allow for `named_entities` visibility.",
         "example": "['U00000001', 'U00000002', 'U00000003']",
         "items": {
-          "$schema": "user_id"
+          "schema": "user_id"
         },
         "maxItems": 200,
         "uniqueItems": true
@@ -68,7 +68,8 @@
               "type": "string",
               "enum": [
                 "slack_function",
-                "private_channel_access"
+                "private_channel_access",
+                "connector_resource"
               ]
             },
             "user_ids": {
@@ -76,7 +77,7 @@
               "desc": "List of user IDs to allow for `named_entities` visibility.",
               "example": "['U00000001', 'U00000002', 'U00000003']",
               "items": {
-                "$schema": "user_id"
+                "schema": "user_id"
               },
               "maxItems": 200,
               "uniqueItems": true

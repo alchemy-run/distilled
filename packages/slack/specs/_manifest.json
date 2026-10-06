@@ -1,6 +1,6 @@
 {
   "source": "https://docs.slack.dev",
-  "count": 320,
+  "count": 334,
   "pages": [
     {
       "url": "https://docs.slack.dev/reference/scopes.json",
@@ -153,6 +153,10 @@
     {
       "url": "https://docs.slack.dev/reference/methods/admin.conversations.bulkSetExcludeFromSlackAi.json",
       "file": "methods/admin.conversations.bulkSetExcludeFromSlackAi.json"
+    },
+    {
+      "url": "https://docs.slack.dev/reference/methods/admin.conversations.bulkSetProperties.json",
+      "file": "methods/admin.conversations.bulkSetProperties.json"
     },
     {
       "url": "https://docs.slack.dev/reference/methods/admin.conversations.convertToPrivate.json",
@@ -363,12 +367,40 @@
       "file": "methods/admin.usergroups.addTeams.json"
     },
     {
+      "url": "https://docs.slack.dev/reference/methods/admin.usergroups.addUsers.json",
+      "file": "methods/admin.usergroups.addUsers.json"
+    },
+    {
+      "url": "https://docs.slack.dev/reference/methods/admin.usergroups.create.json",
+      "file": "methods/admin.usergroups.create.json"
+    },
+    {
+      "url": "https://docs.slack.dev/reference/methods/admin.usergroups.fetch.json",
+      "file": "methods/admin.usergroups.fetch.json"
+    },
+    {
       "url": "https://docs.slack.dev/reference/methods/admin.usergroups.listChannels.json",
       "file": "methods/admin.usergroups.listChannels.json"
     },
     {
       "url": "https://docs.slack.dev/reference/methods/admin.usergroups.removeChannels.json",
       "file": "methods/admin.usergroups.removeChannels.json"
+    },
+    {
+      "url": "https://docs.slack.dev/reference/methods/admin.usergroups.removeTeams.json",
+      "file": "methods/admin.usergroups.removeTeams.json"
+    },
+    {
+      "url": "https://docs.slack.dev/reference/methods/admin.usergroups.removeUsers.json",
+      "file": "methods/admin.usergroups.removeUsers.json"
+    },
+    {
+      "url": "https://docs.slack.dev/reference/methods/admin.usergroups.update.json",
+      "file": "methods/admin.usergroups.update.json"
+    },
+    {
+      "url": "https://docs.slack.dev/reference/methods/admin.usergroups.uploadUsers.json",
+      "file": "methods/admin.usergroups.uploadUsers.json"
     },
     {
       "url": "https://docs.slack.dev/reference/methods/admin.users.assign.json",
@@ -467,6 +499,14 @@
       "file": "methods/admin.workflows.unpublish.json"
     },
     {
+      "url": "https://docs.slack.dev/reference/methods/agents.sessions.rename.json",
+      "file": "methods/agents.sessions.rename.json"
+    },
+    {
+      "url": "https://docs.slack.dev/reference/methods/agents.sessions.setStatus.json",
+      "file": "methods/agents.sessions.setStatus.json"
+    },
+    {
       "url": "https://docs.slack.dev/reference/methods/api.test.json",
       "file": "methods/api.test.json"
     },
@@ -529,6 +569,10 @@
     {
       "url": "https://docs.slack.dev/reference/methods/apps.icon.set.json",
       "file": "methods/apps.icon.set.json"
+    },
+    {
+      "url": "https://docs.slack.dev/reference/methods/apps.managed.permissions.set.json",
+      "file": "methods/apps.managed.permissions.set.json"
     },
     {
       "url": "https://docs.slack.dev/reference/methods/apps.manifest.create.json",
@@ -657,6 +701,10 @@
     {
       "url": "https://docs.slack.dev/reference/methods/canvases.edit.json",
       "file": "methods/canvases.edit.json"
+    },
+    {
+      "url": "https://docs.slack.dev/reference/methods/canvases.getContent.json",
+      "file": "methods/canvases.getContent.json"
     },
     {
       "url": "https://docs.slack.dev/reference/methods/canvases.sections.lookup.json",
@@ -1017,6 +1065,14 @@
     {
       "url": "https://docs.slack.dev/reference/methods/oauth.v2.access.json",
       "file": "methods/oauth.v2.access.json"
+    },
+    {
+      "url": "https://docs.slack.dev/reference/methods/oauth.v2.beginShortTokenRotation.json",
+      "file": "methods/oauth.v2.beginShortTokenRotation.json"
+    },
+    {
+      "url": "https://docs.slack.dev/reference/methods/oauth.v2.completeShortTokenRotation.json",
+      "file": "methods/oauth.v2.completeShortTokenRotation.json"
     },
     {
       "url": "https://docs.slack.dev/reference/methods/oauth.v2.exchange.json",

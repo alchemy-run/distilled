@@ -55,13 +55,6 @@
           "type": "string"
         },
         "desc": "List of channel IDs that are not valid for this action"
-      },
-      "channel_limit_user_ids": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "desc": "List of user IDs who would exceed their channel limit"
       }
     }
   },

@@ -69,6 +69,9 @@
     },
     "message_not_found": {
       "desc": "No message exists with the requested timestamp."
+    },
+    "invalid_channel_id": {
+      "desc": "Value passed for `channel` was not a valid channel ID."
     }
   }
 }

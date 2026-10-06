@@ -11,7 +11,7 @@
     "type": "object",
     "required": [
       "token",
-      "user"
+      "user_id"
     ],
     "properties": {
       "token": {
