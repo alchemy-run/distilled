@@ -1086,6 +1086,9 @@
         },
         {
           "target": "aws.synthetic#IdentityNotVerified"
+        },
+        {
+          "target": "aws.synthetic#ReceiptRuleRoleNotAssumable"
         }
       ],
       "traits": {
@@ -8170,6 +8173,9 @@
         },
         {
           "target": "aws.synthetic#IdentityNotVerified"
+        },
+        {
+          "target": "aws.synthetic#ReceiptRuleRoleNotAssumable"
         }
       ],
       "traits": {
@@ -8556,6 +8562,18 @@
           "from": "InvalidParameterValue",
           "message": {
             "includes": "Identity is not verified"
+          }
+        }
+      }
+    },
+    "aws.synthetic#ReceiptRuleRoleNotAssumable": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "aws.codegen#synthetic": {
+          "from": "InvalidParameterValue",
+          "message": {
+            "includes": "Could not assume the provided IAM Role"
           }
         }
       }
