@@ -3061,6 +3061,9 @@
         },
         {
           "target": "com.clerk.api#NotFound"
+        },
+        {
+          "target": "com.clerk.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -3069,7 +3072,7 @@
           "uri": "/phone_numbers/{phone_number_id}/attempt_verification",
           "code": 200
         },
-        "smithy.api#documentation": "Verify a code sent to a phone number\n\nChecks a one-time code against the verification identified by\nverification_id, and returns the verification with its updated status\n(`verified`, `unverified`, `expired`, or `failed`) and attempt count, so a\nbackend driving its own frontend can react on every attempt — an incorrect\nor expired code is reported through the status, not as an error. Resubmitting\na verification whose code was already accepted is rejected with a\n`verification_already_verified` error. If the code\nis correct and the phone number is not already verified, it is also marked\nas verified as a side effect (just as it would be in a frontend verification\nflow); an already verified phone number is left unchanged. It never creates\na session; to sign the user in afterwards, mint a sign-in token."
+        "smithy.api#documentation": "Verify a code sent to a phone number\n\nChecks a one-time code against the verification identified by\nverification_id, and returns the verification with its updated status\n(`verified`, `unverified`, `expired`, or `failed`) and attempt count, so a\nbackend driving its own frontend can react on every attempt — an incorrect\nor expired code is reported through the status, not as an error. Resubmitting\na verification whose code was already accepted is rejected with a\n`verification_already_verified` error. If the code for this verification\ncould not be sent (the SMS provider refused or failed the send after\nprepare_verification had returned), the attempt is rejected with a\n`verification_code_not_sent` error and no attempt is counted; call\nprepare_verification again to send a new code. If too many codes have been\nchecked for this phone number recently, the attempt is rejected with a\n`verification_code_too_many_attempts` error and no attempt is counted; the\nlimit is per phone number, so wait for the `Retry-After` period rather than\nsending a new code. If the code\nis correct and the phone number is not already verified, it is also marked\nas verified as a side effect (just as it would be in a frontend verification\nflow); an already verified phone number is left unchanged. It never creates\na session; to sign the user in afterwards, mint a sign-in token."
       }
     },
     "com.clerk.api#ReplaceUserPhoneNumberRequestIdentificationStatus": {
@@ -3610,6 +3613,195 @@
         "smithy.api#documentation": "Refresh a session\n\nRefreshes a session by creating a new session token. A 401 is returned when there\nare validation errors, which signals the SDKs to fall back to the handshake flow."
       }
     },
+    "com.clerk.api#GetReverificationRequest": {
+      "type": "structure",
+      "members": {
+        "session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the session the reverification belongs to"
+          }
+        },
+        "reverification_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the reverification"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.clerk.api#Reverification": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.clerk.api#ReverificationObject",
+          "traits": {
+            "smithy.api#documentation": "String representing the object's type. Objects of the same type share the same value.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "level": {
+          "target": "com.clerk.api#ReverificationLevel",
+          "traits": {
+            "smithy.api#documentation": "The level used for the reverification",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.clerk.api#ReverificationStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_factor_verified_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (ms) of the first factor verification, or null if not verified.\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "second_factor_verified_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (ms) of the second factor verification, or null if not verified.\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp of creation.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp of last update.\n",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A reverification scoped to a session. Returned so a resource server can validate a reverification id received from its client.\n"
+      }
+    },
+    "com.clerk.api#ReverificationObject": {
+      "type": "enum",
+      "members": {
+        "REVERIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reverification"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "String representing the object's type. Objects of the same type share the same value.\n"
+      }
+    },
+    "com.clerk.api#ReverificationLevel": {
+      "type": "enum",
+      "members": {
+        "FIRST_FACTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_factor"
+          }
+        },
+        "SECOND_FACTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "second_factor"
+          }
+        },
+        "MULTI_FACTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multi_factor"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The level used for the reverification"
+      }
+    },
+    "com.clerk.api#ReverificationStatus": {
+      "type": "enum",
+      "members": {
+        "NEEDS_FIRST_FACTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "needs_first_factor"
+          }
+        },
+        "NEEDS_SECOND_FACTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "needs_second_factor"
+          }
+        },
+        "COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.clerk.api#GetReverification": {
+      "type": "operation",
+      "input": {
+        "target": "com.clerk.api#GetReverificationRequest"
+      },
+      "output": {
+        "target": "com.clerk.api#Reverification"
+      },
+      "errors": [
+        {
+          "target": "com.clerk.api#BadRequest"
+        },
+        {
+          "target": "com.clerk.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sessions/{session_id}/reverifications/{reverification_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve a reverification\n\nRetrieve a reverification scoped to a session. A resource server can use this to validate a reverification id it received from its client: confirm it is real, scoped to the expected session, completed, and how fresh each factor is. Single-use / replay detection is the caller's responsibility (the id is stable, so the caller dedups consumed ids)."
+      }
+    },
     "com.clerk.api#RevokeSessionRequest": {
       "type": "structure",
       "members": {
@@ -4118,6 +4310,12 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "profile_image_url": {
           "target": "smithy.api#String"
         },
@@ -4338,9 +4536,22 @@
             "smithy.api#documentation": "When set to `true`, the user will bypass Device Trust checks during sign-in."
           }
         },
+        "directories": {
+          "target": "com.clerk.api#UserDirectoriesList",
+          "traits": {
+            "smithy.api#documentation": "All loaded directory links. Omitted when links were not loaded; an empty array means the user has no directory links.\n"
+          }
+        },
+        "directory": {
+          "target": "com.clerk.api#SCIMUserMetadata",
+          "traits": {
+            "smithy.api#documentation": "The most recently updated directory link. Use directories for all links."
+          }
+        },
         "scim": {
           "target": "com.clerk.api#SCIMUserMetadata",
           "traits": {
+            "smithy.api#documentation": "Alias of directory. Use directories for all links.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -5586,6 +5797,13 @@
             "smithy.api#required": {}
           }
         },
+        "self_serve_sso_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this organization can configure self-serve enterprise SSO.\n",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "public_metadata": {
           "target": "com.clerk.api#OrganizationPublicMetadataMap",
           "traits": {
@@ -5735,6 +5953,38 @@
     "com.clerk.api#SCIMUserMetadata": {
       "type": "structure",
       "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's resource ID in this directory.",
+            "smithy.api#required": {}
+          }
+        },
+        "directory_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enterprise_connection_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "groups": {
+          "target": "com.clerk.api#SCIMUserMetadataGroupsList",
+          "traits": {
+            "smithy.api#documentation": "Omitted when groups were not loaded; an empty array means no group memberships."
+          }
+        },
         "directory_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -5745,7 +5995,8 @@
         "directory_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether the directory is currently enabled. Omitted when false.\n"
+            "smithy.api#documentation": "Whether the directory is currently enabled.\n",
+            "smithy.api#required": {}
           }
         },
         "external_id": {
@@ -5758,7 +6009,43 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Metadata describing a user's linkage to a directory. This object is only delivered on `user.created` and `user.updated` webhook events, and only when the user is provisioned through a directory. Its absence does not necessarily mean the user is not managed by a directory.\n"
+        "smithy.api#documentation": "Metadata describing a user's linkage to a directory. Included in user responses when directory data is requested, and in directory-triggered user webhooks. Its absence does not necessarily mean the user is not managed by a directory.\n"
+      }
+    },
+    "com.clerk.api#SCIMUserMetadataGroupsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.clerk.api#SCIMUserMetadataGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.clerk.api#SCIMUserMetadataGroupsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Omitted when groups were not loaded; an empty array means no group memberships."
+      }
+    },
+    "com.clerk.api#UserDirectoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.clerk.api#SCIMUserMetadata"
+      },
+      "traits": {
+        "smithy.api#documentation": "All loaded directory links. Omitted when links were not loaded; an empty array means the user has no directory links.\n"
       }
     },
     "com.clerk.api#GetUserListResponseBodyList": {
@@ -5965,6 +6252,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IANA timezone to assign to the user (e.g., \"America/New_York\", \"Europe/Paris\"). Set to null to clear it and allow automatic capture on a later trusted sign-in.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "email_address": {
           "target": "com.clerk.api#CreateUserRequestEmailAddressList",
           "traits": {
@@ -6035,6 +6329,13 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "When set to `true`, `password` is not required anymore when creating the user and can be omitted.\nThis is useful when you are trying to create a user that doesn't have a password, in an instance that is using passwords.\nPlease note that you cannot use this flag if password is the only way for a user to sign into your instance.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "skip_restriction_checks": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When set to `true`, the instance's restrictions are not applied to this user.\nThose settings are the allowlist, the blocklist, blocked disposable email domains and blocked email subaddresses, and they normally reject a matching identifier here just as they do at sign-up.\nUse this when your backend is creating a user it already trusts, such as during a migration or from an admin tool.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -6532,6 +6833,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The locale to assign to the user (e.g., \"en-US\", \"fr-FR\")",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IANA timezone to assign to the user (e.g., \"America/New_York\", \"Europe/Paris\"). Set to null to clear it and allow automatic capture on a later trusted sign-in.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -10145,10 +10453,10 @@
           "uri": "/users/{user_id}/passkeys/{passkey_identification_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a user passkey\n\nDelete the passkey identification for a given user and notify them through email."
+        "smithy.api#documentation": "Delete a user passkey\n\nDelete the passkey identification for a given user. The user is notified through email or SMS unless the passkey registration was never completed."
       }
     },
-    "com.clerk.api#ListUserTrustedDevicesRequest": {
+    "com.clerk.api#ListUserBiometricCredentialsRequest": {
       "type": "structure",
       "members": {
         "user_id": {
@@ -10156,7 +10464,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the user whose trusted devices are returned"
+            "smithy.api#documentation": "The ID of the user whose biometric credentials are returned"
           }
         }
       },
@@ -10164,11 +10472,11 @@
         "smithy.api#input": {}
       }
     },
-    "com.clerk.api#TrustedDevice": {
+    "com.clerk.api#BiometricCredential": {
       "type": "structure",
       "members": {
         "object": {
-          "target": "com.clerk.api#TrustedDeviceObject",
+          "target": "com.clerk.api#BiometricCredentialObject",
           "traits": {
             "smithy.api#documentation": "String representing the object's type.",
             "smithy.api#required": {}
@@ -10181,7 +10489,7 @@
           }
         },
         "platform": {
-          "target": "com.clerk.api#TrustedDevicePlatform",
+          "target": "com.clerk.api#BiometricCredentialPlatform",
           "traits": {
             "smithy.api#required": {}
           }
@@ -10199,13 +10507,13 @@
           }
         },
         "algorithm": {
-          "target": "com.clerk.api#TrustedDeviceAlgorithm",
+          "target": "com.clerk.api#BiometricCredentialAlgorithm",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "status": {
-          "target": "com.clerk.api#TrustedDeviceStatus",
+          "target": "com.clerk.api#BiometricCredentialStatus",
           "traits": {
             "smithy.api#required": {}
           }
@@ -10241,7 +10549,7 @@
       },
       "traits": {}
     },
-    "com.clerk.api#TrustedDeviceObject": {
+    "com.clerk.api#BiometricCredentialObject": {
       "type": "enum",
       "members": {
         "TRUSTED_DEVICE": {
@@ -10255,7 +10563,7 @@
         "smithy.api#documentation": "String representing the object's type."
       }
     },
-    "com.clerk.api#TrustedDevicePlatform": {
+    "com.clerk.api#BiometricCredentialPlatform": {
       "type": "enum",
       "members": {
         "IOS": {
@@ -10273,7 +10581,7 @@
       },
       "traits": {}
     },
-    "com.clerk.api#TrustedDeviceAlgorithm": {
+    "com.clerk.api#BiometricCredentialAlgorithm": {
       "type": "enum",
       "members": {
         "ES256": {
@@ -10285,7 +10593,7 @@
       },
       "traits": {}
     },
-    "com.clerk.api#TrustedDeviceStatus": {
+    "com.clerk.api#BiometricCredentialStatus": {
       "type": "enum",
       "members": {
         "ACTIVE": {
@@ -10303,18 +10611,18 @@
       },
       "traits": {}
     },
-    "com.clerk.api#ListUserTrustedDevicesResponseDataList": {
+    "com.clerk.api#ListUserBiometricCredentialsResponseDataList": {
       "type": "list",
       "member": {
-        "target": "com.clerk.api#TrustedDevice"
+        "target": "com.clerk.api#BiometricCredential"
       },
       "traits": {}
     },
-    "com.clerk.api#ListUserTrustedDevicesResponse": {
+    "com.clerk.api#ListUserBiometricCredentialsResponse": {
       "type": "structure",
       "members": {
         "data": {
-          "target": "com.clerk.api#ListUserTrustedDevicesResponseDataList",
+          "target": "com.clerk.api#ListUserBiometricCredentialsResponseDataList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -10322,7 +10630,7 @@
         "total_count": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Total number of trusted devices",
+            "smithy.api#documentation": "Total number of biometric credentials",
             "smithy.api#required": {}
           }
         }
@@ -10331,13 +10639,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.clerk.api#ListUserTrustedDevices": {
+    "com.clerk.api#ListUserBiometricCredentials": {
       "type": "operation",
       "input": {
-        "target": "com.clerk.api#ListUserTrustedDevicesRequest"
+        "target": "com.clerk.api#ListUserBiometricCredentialsRequest"
       },
       "output": {
-        "target": "com.clerk.api#ListUserTrustedDevicesResponse"
+        "target": "com.clerk.api#ListUserBiometricCredentialsResponse"
       },
       "errors": [
         {
@@ -10350,13 +10658,13 @@
       "traits": {
         "smithy.api#http": {
           "method": "GET",
-          "uri": "/users/{user_id}/trusted_devices",
+          "uri": "/users/{user_id}/biometric_credentials",
           "code": 200
         },
-        "smithy.api#documentation": "List a user's trusted devices\n\nReturns the active trusted devices enrolled by the user."
+        "smithy.api#documentation": "List a user's biometric credentials\n\nReturns the active biometric credentials enrolled by the user."
       }
     },
-    "com.clerk.api#RevokeUserTrustedDeviceRequest": {
+    "com.clerk.api#RevokeUserBiometricCredentialRequest": {
       "type": "structure",
       "members": {
         "user_id": {
@@ -10364,15 +10672,15 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the user that owns the trusted device"
+            "smithy.api#documentation": "The ID of the user that owns the biometric credential"
           }
         },
-        "trusted_device_id": {
+        "biometric_credential_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the trusted device to revoke"
+            "smithy.api#documentation": "The ID of the biometric credential to revoke"
           }
         }
       },
@@ -10380,13 +10688,13 @@
         "smithy.api#input": {}
       }
     },
-    "com.clerk.api#RevokeUserTrustedDevice": {
+    "com.clerk.api#RevokeUserBiometricCredential": {
       "type": "operation",
       "input": {
-        "target": "com.clerk.api#RevokeUserTrustedDeviceRequest"
+        "target": "com.clerk.api#RevokeUserBiometricCredentialRequest"
       },
       "output": {
-        "target": "com.clerk.api#TrustedDevice"
+        "target": "com.clerk.api#BiometricCredential"
       },
       "errors": [
         {
@@ -10399,10 +10707,10 @@
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
-          "uri": "/users/{user_id}/trusted_devices/{trusted_device_id}",
+          "uri": "/users/{user_id}/biometric_credentials/{biometric_credential_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Revoke a user's trusted device\n\nRevokes an active trusted device enrolled by the user."
+        "smithy.api#documentation": "Revoke a user's biometric credential\n\nRevokes an active biometric credential enrolled by the user."
       }
     },
     "com.clerk.api#DeleteUserWeb3WalletRequest": {
@@ -11155,6 +11463,44 @@
           "code": 200
         },
         "smithy.api#documentation": "Create multiple invitations\n\nUse this API operation to create multiple invitations for the provided email addresses. You can choose to send the\ninvitations as emails by setting the `notify` parameter to `true`. There cannot be an existing invitation for any\nof the email addresses you provide unless you set `ignore_existing` to `true` for specific email addresses. Please\nnote that there must be no existing user for any of the email addresses you provide, and this rule cannot be bypassed.\n\nThis endpoint is limited to a maximum of 10 invitations per API call. If you need to send more invitations, please make multiple requests."
+      }
+    },
+    "com.clerk.api#DeleteInvitationRequest": {
+      "type": "structure",
+      "members": {
+        "invitation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the invitation to delete"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.clerk.api#DeleteInvitation": {
+      "type": "operation",
+      "input": {
+        "target": "com.clerk.api#DeleteInvitationRequest"
+      },
+      "output": {
+        "target": "com.clerk.api#DeletedObject"
+      },
+      "errors": [
+        {
+          "target": "com.clerk.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/invitations/{invitation_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete an invitation\n\nPermanently deletes the given invitation and the copies of the invitation email Clerk stored for its recipient.\nUnlike revoking, deleting removes the invitation record itself, which helps honor a data erasure request from someone who was invited but never signed up.\nOther records that contain the same email address, such as users or organization invitations, are not affected.\nInvitations of any status can be deleted."
       }
     },
     "com.clerk.api#RevokeInvitationRequest": {
@@ -11920,7 +12266,7 @@
         "enhanced_email_deliverability": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Deprecated. When enabled, production authentication emails for this instance are sent through Clerk's legacy managed email delivery path. This setting is being retired; use the instance's configured email sending domain instead.\n"
+            "smithy.api#documentation": "Deprecated. This setting is retired and no longer affects email delivery; all email is sent through the instance's configured email sending domain. The field is preserved for API compatibility only and will be removed in a future version.\n"
           }
         }
       },
@@ -12104,6 +12450,9 @@
           "target": "com.clerk.api#BadRequest"
         },
         {
+          "target": "com.clerk.api#Forbidden"
+        },
+        {
           "target": "com.clerk.api#UnprocessableEntity"
         }
       ],
@@ -12231,6 +12580,14 @@
         "cname_targets": {
           "target": "com.clerk.api#DomainCnameTargetsList",
           "traits": {
+            "smithy.api#documentation": "Legacy CNAME-only DNS targets. Prefer `dns_targets` when present.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "dns_targets": {
+          "target": "com.clerk.api#DomainDnsTargetsList",
+          "traits": {
+            "smithy.api#documentation": "The complete typed DNS contract. Consumers should use this field instead of merging it with `cname_targets`.\n",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -12279,7 +12636,94 @@
       "member": {
         "target": "com.clerk.api#CNameTarget"
       },
+      "traits": {
+        "smithy.api#documentation": "Legacy CNAME-only DNS targets. Prefer `dns_targets` when present."
+      }
+    },
+    "com.clerk.api#DNSTarget": {
+      "type": "structure",
+      "members": {
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "record_type": {
+          "target": "com.clerk.api#DNSTargetRecordType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "automation_disposition": {
+          "target": "com.clerk.api#DNSTargetAutomationDisposition"
+        },
+        "required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Denotes whether this DNS target is required to be set in order for the domain to be considered deployed.\n",
+            "smithy.api#required": {}
+          }
+        }
+      },
       "traits": {}
+    },
+    "com.clerk.api#DNSTargetRecordType": {
+      "type": "enum",
+      "members": {
+        "CNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CNAME"
+          }
+        },
+        "TXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TXT"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.clerk.api#DNSTargetAutomationDisposition": {
+      "type": "enum",
+      "members": {
+        "ALREADY_SATISFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "already_satisfied"
+          }
+        },
+        "SAFE_TO_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "safe_to_create"
+          }
+        },
+        "MANUAL_RESOLUTION_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual_resolution_required"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.clerk.api#DomainDnsTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.clerk.api#DNSTarget"
+      },
+      "traits": {
+        "smithy.api#documentation": "The complete typed DNS contract. Consumers should use this field instead of merging it with `cname_targets`.\n"
+      }
     },
     "com.clerk.api#DomainsDataList": {
       "type": "list",
@@ -12318,7 +12762,7 @@
         "is_satellite": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Marks the new domain as satellite. Only `true` is accepted at the moment.",
+            "smithy.api#documentation": "Marks the new domain as satellite. Set to `false` only when migrating a production instance from an active provider domain to a custom domain.",
             "smithy.api#required": {}
           }
         },
@@ -12347,6 +12791,9 @@
           "target": "com.clerk.api#BadRequest"
         },
         {
+          "target": "com.clerk.api#Forbidden"
+        },
+        {
           "target": "com.clerk.api#UnprocessableEntity"
         }
       ],
@@ -12356,7 +12803,7 @@
           "uri": "/domains",
           "code": 200
         },
-        "smithy.api#documentation": "Add a domain\n\nAdd a new domain for your instance.\nUseful in the case of multi-domain instances, allows adding satellite domains to an instance.\nThe new domain must have a `name`. The domain name can contain the port for development instances, like `localhost:3000`.\nAt the moment, instances can have only one primary domain, so the `is_satellite` parameter must be set to `true`.\nIf you're planning to configure the new satellite domain to run behind a proxy, pass the `proxy_url` parameter accordingly."
+        "smithy.api#documentation": "Add a domain\n\nAdd a new domain for your instance.\nUseful in the case of multi-domain instances, allows adding satellite domains to an instance.\nThe new domain must have a `name`. The domain name can contain the port for development instances, like `localhost:3000`.\nSet `is_satellite` to `true` to add a satellite domain.\nTo migrate a production instance from an active provider domain to its first custom primary domain,\nset `is_satellite` to `false`. The custom domain becomes active and the provider domain stays attached.\nAdditional custom primary domains are not supported.\nIf you're planning to configure the new satellite domain to run behind a proxy, pass the `proxy_url` parameter accordingly.\nAdding a custom primary domain returns 403 `domain_managed_by_integration` for applications in a Vercel-managed workspace; change the domain from the Vercel integration instead."
       }
     },
     "com.clerk.api#UpdateDomainRequest": {
@@ -12409,6 +12856,9 @@
           "target": "com.clerk.api#BadRequest"
         },
         {
+          "target": "com.clerk.api#Forbidden"
+        },
+        {
           "target": "com.clerk.api#NotFound"
         },
         {
@@ -12421,7 +12871,7 @@
           "uri": "/domains/{domain_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Update a domain\n\nThe `proxy_url` can be updated only for production instances.\nUpdate one of the instance's domains. Both primary and satellite domains can be updated.\nIf you choose to use Clerk via proxy, use this endpoint to specify the `proxy_url`.\nWhenever you decide you'd rather switch to DNS setup for Clerk, simply set `proxy_url`\nto `null` for the domain. When you update a production instance's primary domain name,\nyou have to make sure that you've completed all the necessary setup steps for DNS and\nemails to work. Expect downtime otherwise. Updating a primary domain's name will also\nupdate the instance's home origin, affecting the default application paths."
+        "smithy.api#documentation": "Update a domain\n\nThe `proxy_url` can be updated only for production instances.\nUpdate one of the instance's domains. Both primary and satellite domains can be updated.\nIf you choose to use Clerk via proxy, use this endpoint to specify the `proxy_url`.\nWhenever you decide you'd rather switch to DNS setup for Clerk, simply set `proxy_url`\nto `null` for the domain. When you update a production instance's primary domain name,\nyou have to make sure that you've completed all the necessary setup steps for DNS and\nemails to work. Expect downtime otherwise. Updating a primary domain's name will also\nupdate the instance's home origin, affecting the default application paths.\nUpdating the `name` or `is_secondary` of a primary domain returns 403 `domain_managed_by_integration` for applications in a Vercel-managed workspace; change the domain from the Vercel integration instead."
       }
     },
     "com.clerk.api#DeleteDomainRequest": {
@@ -12432,7 +12882,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the domain that will be deleted. Must be a satellite domain."
+            "smithy.api#documentation": "The ID of the domain that will be deleted."
           }
         }
       },
@@ -12462,7 +12912,7 @@
           "uri": "/domains/{domain_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a satellite domain\n\nDeletes a satellite domain for the instance.\nIt is currently not possible to delete the instance's primary domain."
+        "smithy.api#documentation": "Delete a domain\n\nDeletes a domain for the instance.\nThe instance's active domain cannot be deleted.\nDeleting a non-satellite domain returns 403 `domain_managed_by_integration` for applications in a Vercel-managed workspace; change the domain from the Vercel integration instead."
       }
     },
     "com.clerk.api#Instance": {
@@ -12492,6 +12942,20 @@
           "traits": {
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "allowed_subdomains": {
+          "target": "com.clerk.api#InstanceAllowedSubdomainsList",
+          "traits": {
+            "smithy.api#documentation": "Subdomains of the instance's own domains that may originate requests, when the subdomain allowlist is enabled. Production instances only; always empty on a development instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "subdomain_allowlist_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether requests from subdomains of the instance's own domains are restricted to `allowed_subdomains`. When false, every subdomain of the instance's domain is accepted. Production instances only; always false on a development instance.",
+            "smithy.api#required": {}
           }
         },
         "workspace_id": {
@@ -12526,6 +12990,15 @@
       },
       "traits": {}
     },
+    "com.clerk.api#InstanceAllowedSubdomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Subdomains of the instance's own domains that may originate requests, when the subdomain allowlist is enabled. Production instances only; always empty on a development instance."
+      }
+    },
     "com.clerk.api#GetInstance": {
       "type": "operation",
       "input": {
@@ -12549,7 +13022,16 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "For browser-like stacks such as browser extensions, Electron (not officially supported), or Capacitor.js (not officially supported), the instance allowed origins need to be updated with the request origin value. For Chrome extensions popup, background, or service worker pages, the origin is chrome-extension://extension_uuid. For Electron apps the default origin is http://localhost:3000. For Capacitor, the origin is capacitor://localhost."
+        "smithy.api#documentation": "For browser-like stacks such as browser extensions, Electron, or Capacitor.js (not officially supported), the instance allowed origins need to be updated with the request origin value. For Chrome extensions popup, background, or service worker pages, the origin is chrome-extension://extension_uuid. For Electron apps using `@clerk/electron`, the origins are the custom renderer scheme registered with `createClerkBridge()`, for example `my-app://renderer`, and, during development, the renderer's dev server origin, for example `http://localhost:5173`. For Capacitor, the origin is capacitor://localhost.\nSend an empty array to remove all allowed origins. A null value leaves the current list unchanged."
+      }
+    },
+    "com.clerk.api#UpdateInstanceRequestAllowedSubdomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Subdomains of the instance's own domains that may originate requests while `subdomain_allowlist_enabled` is true. Each entry is either an exact host (`app.example.com`) or a wildcard anchored on a host beneath one of the instance's domains (`*.preview.example.com`), which covers every host under that anchor but not the anchor itself.\nEntries are stored folded to lower case with any trailing dot removed, the form the origin check compares against, so entries differing only in those respects are one entry. Entries already stored are not validated again, so a list read back from the instance can always be written again unchanged. Send an empty array to remove all entries. A null value leaves the current list unchanged. Production instances only."
       }
     },
     "com.clerk.api#UpdateInstanceRequestPreferredSignInStrategyWhenPasswordRequired": {
@@ -12616,7 +13098,22 @@
         "allowed_origins": {
           "target": "com.clerk.api#UpdateInstanceRequestAllowedOriginsList",
           "traits": {
-            "smithy.api#documentation": "For browser-like stacks such as browser extensions, Electron (not officially supported), or Capacitor.js (not officially supported), the instance allowed origins need to be updated with the request origin value. For Chrome extensions popup, background, or service worker pages, the origin is chrome-extension://extension_uuid. For Electron apps the default origin is http://localhost:3000. For Capacitor, the origin is capacitor://localhost."
+            "smithy.api#documentation": "For browser-like stacks such as browser extensions, Electron, or Capacitor.js (not officially supported), the instance allowed origins need to be updated with the request origin value. For Chrome extensions popup, background, or service worker pages, the origin is chrome-extension://extension_uuid. For Electron apps using `@clerk/electron`, the origins are the custom renderer scheme registered with `createClerkBridge()`, for example `my-app://renderer`, and, during development, the renderer's dev server origin, for example `http://localhost:5173`. For Capacitor, the origin is capacitor://localhost.\nSend an empty array to remove all allowed origins. A null value leaves the current list unchanged.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "allowed_subdomains": {
+          "target": "com.clerk.api#UpdateInstanceRequestAllowedSubdomainsList",
+          "traits": {
+            "smithy.api#documentation": "Subdomains of the instance's own domains that may originate requests while `subdomain_allowlist_enabled` is true. Each entry is either an exact host (`app.example.com`) or a wildcard anchored on a host beneath one of the instance's domains (`*.preview.example.com`), which covers every host under that anchor but not the anchor itself.\nEntries are stored folded to lower case with any trailing dot removed, the form the origin check compares against, so entries differing only in those respects are one entry. Entries already stored are not validated again, so a list read back from the instance can always be written again unchanged. Send an empty array to remove all entries. A null value leaves the current list unchanged. Production instances only.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subdomain_allowlist_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether requests from subdomains of the instance's own domains are restricted to `allowed_subdomains`. When false, every subdomain of the instance's domain is accepted. Production instances only.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "cookieless_dev": {
@@ -12796,6 +13293,7 @@
         "rules_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
+            "smithy.api#documentation": "Whether Protect rules are enforced on this instance. False does not mean the instance is outside Protect — by default it is still evaluated in shadow, where rules are scored and recorded but never block.",
             "smithy.api#required": {}
           }
         },
@@ -12809,6 +13307,20 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether the instance has opted out of the Protect prerequisite checks, asserting its setup already meets the requirements.",
+            "smithy.api#required": {}
+          }
+        },
+        "checks_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the Protect system has verified the instance's prerequisite checks. Protect rules are gated on checks being verified, bypassed or exempt.",
+            "smithy.api#required": {}
+          }
+        },
+        "checks_exempt": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the instance was created into Protect and so was never subject to the prerequisite checks at all.",
             "smithy.api#required": {}
           }
         }
@@ -12850,6 +13362,7 @@
         "rules_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
+            "smithy.api#documentation": "Set true to enforce Protect rules on this instance. Set false to stop enforcing and return the instance to its default posture, where traffic is still evaluated in shadow but nothing is blocked. This does not remove the instance from Protect.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -13011,7 +13524,7 @@
         "default_scopes": {
           "target": "com.clerk.api#OAuthApplicationSettingsDefaultScopesList",
           "traits": {
-            "smithy.api#documentation": "Default scopes.",
+            "smithy.api#documentation": "Default scopes assigned when a dynamically registered or first-contact CIMD client omits `scope`. Contains built-in keys and custom catalog keys. Null means Clerk-provided defaults. `advertised` does not affect eligibility. An empty input array is stored and returned as null.\n",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -13020,6 +13533,20 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether OAuth JWT access tokens are enabled for the instance (disabled indicates opaque access tokens).",
+            "smithy.api#required": {}
+          }
+        },
+        "aud_claim_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether OAuth access tokens can include an aud claim derived from the RFC 8707 resource parameter.",
+            "smithy.api#required": {}
+          }
+        },
+        "pkce_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether all new OAuth authorization-code requests must use PKCE with the S256 challenge method.",
             "smithy.api#required": {}
           }
         },
@@ -13067,7 +13594,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Default scopes."
+        "smithy.api#documentation": "Default scopes assigned when a dynamically registered or first-contact CIMD client omits `scope`. Contains built-in keys and custom catalog keys. Null means Clerk-provided defaults. `advertised` does not affect eligibility. An empty input array is stored and returned as null.\n"
       }
     },
     "com.clerk.api#GetInstanceOAuthApplicationSettings": {
@@ -13093,7 +13620,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Default scopes. Set to null to reset to Clerk-provided defaults."
+        "smithy.api#documentation": "Default scopes assigned when a dynamically registered or first-contact CIMD client omits `scope`. Accepts built-in keys and current custom catalog keys. `advertised` does not affect eligibility. Duplicate keys, unknown keys, and `offline_access` are rejected. An empty array or null resets to Clerk-provided defaults.\n"
       }
     },
     "com.clerk.api#UpdateInstanceOAuthApplicationSettingsRequest": {
@@ -13109,7 +13636,7 @@
         "default_scopes": {
           "target": "com.clerk.api#UpdateInstanceOAuthApplicationSettingsRequestDefaultScopesList",
           "traits": {
-            "smithy.api#documentation": "Default scopes. Set to null to reset to Clerk-provided defaults.",
+            "smithy.api#documentation": "Default scopes assigned when a dynamically registered or first-contact CIMD client omits `scope`. Accepts built-in keys and current custom catalog keys. `advertised` does not affect eligibility. Duplicate keys, unknown keys, and `offline_access` are rejected. An empty array or null resets to Clerk-provided defaults.\n",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -13117,6 +13644,20 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether OAuth JWT access tokens are enabled for the instance (disabled indicates opaque access tokens).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "aud_claim_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether OAuth access tokens can include an aud claim derived from the RFC 8707 resource parameter.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pkce_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether all new OAuth authorization-code requests must use PKCE with the S256 challenge method.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -13201,6 +13742,9 @@
           "target": "com.clerk.api#BadRequest"
         },
         {
+          "target": "com.clerk.api#Forbidden"
+        },
+        {
           "target": "com.clerk.api#UnprocessableEntity"
         }
       ],
@@ -13210,7 +13754,7 @@
           "uri": "/instance/change_domain",
           "code": 200
         },
-        "smithy.api#documentation": "Update production instance domain\n\nChange the domain of a production instance.\n\nChanging the domain requires updating the [DNS records](https://clerk.com/docs/deployments/overview#dns-records) accordingly, deploying new [SSL certificates](https://clerk.com/docs/deployments/overview#deploy-certificates), updating your Social Connection's redirect URLs and setting the new keys in your code.\n\nWARNING: Changing your domain will invalidate all current user sessions (i.e. users will be logged out). Also, while your application is being deployed, a small downtime is expected to occur."
+        "smithy.api#documentation": "Update production instance domain\n\nChange the domain of a production instance.\n\nChanging the domain requires updating the [DNS records](https://clerk.com/docs/deployments/overview#dns-records) accordingly, deploying new [SSL certificates](https://clerk.com/docs/deployments/overview#deploy-certificates), updating your Social Connection's redirect URLs and setting the new keys in your code.\n\nWARNING: Changing your domain will invalidate all current user sessions (i.e. users will be logged out). Also, while your application is being deployed, a small downtime is expected to occur.\n\nReturns 403 `domain_managed_by_integration` for applications in a Vercel-managed workspace; change the domain from the Vercel integration instead."
       }
     },
     "com.clerk.api#OrganizationSettings": {
@@ -15382,6 +15926,18 @@
         "smithy.api#documentation": "Retrieve an organization by ID or slug\n\nFetches the organization whose ID or slug matches the provided `id_or_slug` URL query parameter."
       }
     },
+    "com.clerk.api#ReassignmentMappings": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Mappings from source role keys to destination role keys for role reassignment"
+      }
+    },
     "com.clerk.api#UpdateOrganizationRequest": {
       "type": "structure",
       "members": {
@@ -15421,6 +15977,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "self_serve_sso_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this organization can configure self-serve enterprise SSO.\nRequires the instance to have the self-serve SSO entitlement enabled.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "created_at": {
           "target": "smithy.api#String",
           "traits": {
@@ -15432,6 +15995,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The key of the [role set](https://clerk.com/docs/guides/organizations/control-access/role-sets) to assign to this organization.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reassignment_mappings": {
+          "target": "com.clerk.api#ReassignmentMappings",
+          "traits": {
+            "smithy.api#documentation": "Maps role keys in the organization's current role set to role keys in the new role set. Only applies when `role_set_key` changes the role set.\nEvery role that a member holds and that the new role set does not include must be mapped, otherwise the request fails with a 422.\nMapping a role that both role sets include moves its members to the destination role.\nMemberships are reassigned asynchronously after the response.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -15787,6 +16357,13 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "self_serve_sso_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this organization can configure self-serve enterprise SSO.\n",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "public_metadata": {
@@ -19251,6 +19828,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IANA timezone associated with the sign-up attempt.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "locale": {
           "target": "smithy.api#String",
           "traits": {
@@ -19619,6 +20203,12 @@
             "smithy.api#required": {}
           }
         },
+        "device_authorization_grant_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "public": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -19628,6 +20218,7 @@
         "scopes": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The complete scope ceiling for the OAuth application, as a space-delimited list of built-in and assigned custom scope keys.\n",
             "smithy.api#required": {}
           }
         },
@@ -19781,7 +20372,7 @@
         "scopes": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Define the allowed scopes for the new OAuth applications that dictate the user payload of the OAuth user info endpoint. Available scopes are `profile`, `email`, `public_metadata`, `private_metadata`. Provide the requested scopes as a string, separated by spaces.",
+            "smithy.api#documentation": "Define the application's built-in and custom scope ceiling. Provide scope keys as a space-delimited string. Custom keys must exist in the instance OAuth scope catalog.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -19796,6 +20387,13 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "True to require the Proof Key of Code Exchange (PKCE) flow.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "device_authorization_grant_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True to enable the OAuth Device Authorization Grant for this application. Enabling requires the new OAuth IdP and a reachable device verification page.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -19895,6 +20493,12 @@
             "smithy.api#required": {}
           }
         },
+        "device_authorization_grant_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "public": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -19904,6 +20508,7 @@
         "scopes": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The complete scope ceiling for the OAuth application, as a space-delimited list of built-in and assigned custom scope keys.\n",
             "smithy.api#required": {}
           }
         },
@@ -20089,7 +20694,7 @@
         "scopes": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Define the allowed scopes for the new OAuth applications that dictate the user payload of the OAuth user info endpoint. Available scopes are `profile`, `email`, `public_metadata`, `private_metadata`. Provide the requested scopes as a string, separated by spaces.",
+            "smithy.api#documentation": "Replace the application's complete built-in and custom scope ceiling. Provide scope keys as a space-delimited string. Custom keys must exist in the instance OAuth scope catalog. Required built-in scopes, such as `offline_access`, must be included in the replacement set, otherwise the request is rejected. Omit this field to leave all scope assignments unchanged.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -20104,6 +20709,13 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "True to require the Proof Key of Code Exchange (PKCE) flow.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "device_authorization_grant_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True to enable the OAuth Device Authorization Grant for this application. Enabling requires the new OAuth IdP and a reachable device verification page. Omit this field to leave the setting unchanged.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -20349,6 +20961,12 @@
             "smithy.api#required": {}
           }
         },
+        "device_authorization_grant_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "public": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -20358,6 +20976,7 @@
         "scopes": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The complete scope ceiling for the OAuth application, as a space-delimited list of built-in and assigned custom scope keys.\n",
             "smithy.api#required": {}
           }
         },
@@ -20749,6 +21368,44 @@
         "smithy.api#documentation": "Custom attributes to map from the IdP to the user's profile via SSO or SCIM provisioning"
       }
     },
+    "com.clerk.api#EnterpriseConnectionSamlConnectionIdpCertificatesItem": {
+      "type": "structure",
+      "members": {
+        "certificate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The X.509 certificate, base64 DER without PEM armor",
+            "smithy.api#required": {}
+          }
+        },
+        "issued_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (milliseconds) of the X.509 NotBefore",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (milliseconds) of the X.509 NotAfter",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.clerk.api#EnterpriseConnectionSamlConnectionIdpCertificatesList": {
+      "type": "list",
+      "member": {
+        "target": "com.clerk.api#EnterpriseConnectionSamlConnectionIdpCertificatesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every IdP signing certificate the connection trusts, primary first. A SAML response verifies against any of them.\n"
+      }
+    },
     "com.clerk.api#EnterpriseConnectionSamlConnectionLoginHintMode": {
       "type": "enum",
       "members": {
@@ -20823,6 +21480,33 @@
           "traits": {
             "smithy.api#documentation": "IdP SSO URL (optional, when connection details are loaded)",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idp_certificate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Primary IdP X.509 signing certificate (optional, when connection details are loaded)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idp_certificate_issued_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (milliseconds) of the primary certificate's X.509 NotBefore",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idp_certificate_expires_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (milliseconds) of the primary certificate's X.509 NotAfter",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idp_certificates": {
+          "target": "com.clerk.api#EnterpriseConnectionSamlConnectionIdpCertificatesList",
+          "traits": {
+            "smithy.api#documentation": "Every IdP signing certificate the connection trusts, primary first. A SAML response verifies against any of them.\n"
           }
         },
         "idp_metadata_url": {
@@ -21065,6 +21749,15 @@
         "smithy.api#documentation": "Domains associated with the enterprise connection (required; at least one). Values are normalized to lowercase. Each domain must be a valid fully qualified domain name."
       }
     },
+    "com.clerk.api#CreateEnterpriseConnectionRequestSamlIdpCertificatesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The IdP X.509 signing certificates the connection trusts, one per entry, in PEM or bare base64. Replaces the connection's whole certificate set and takes precedence over idp_certificate"
+      }
+    },
     "com.clerk.api#CreateEnterpriseConnectionRequestSamlAttributeMapping": {
       "type": "structure",
       "members": {
@@ -21164,8 +21857,14 @@
         "idp_certificate": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "IdP certificate (PEM)",
+            "smithy.api#documentation": "Deprecated, use idp_certificates. One X.509 certificate, PEM or bare base64, or several concatenated PEM certificates; replaces the connection's whole certificate set",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idp_certificates": {
+          "target": "com.clerk.api#CreateEnterpriseConnectionRequestSamlIdpCertificatesList",
+          "traits": {
+            "smithy.api#documentation": "The IdP X.509 signing certificates the connection trusts, one per entry, in PEM or bare base64. Replaces the connection's whole certificate set and takes precedence over idp_certificate"
           }
         },
         "idp_metadata_url": {
@@ -21481,6 +22180,15 @@
         "smithy.api#documentation": "Domains associated with the enterprise connection. Values are normalized to lowercase.\nEmpty array means ignored (no change); non-empty array means set domains to the given list (replaces existing)."
       }
     },
+    "com.clerk.api#UpdateEnterpriseConnectionRequestSamlIdpCertificatesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The IdP X.509 signing certificates the connection trusts, one per entry, in PEM or bare base64. Replaces the connection's whole certificate set and takes precedence over idp_certificate"
+      }
+    },
     "com.clerk.api#UpdateEnterpriseConnectionRequestSamlAttributeMapping": {
       "type": "structure",
       "members": {
@@ -21587,8 +22295,14 @@
         "idp_certificate": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "IdP certificate (PEM)",
+            "smithy.api#documentation": "Deprecated, use idp_certificates. One X.509 certificate, PEM or bare base64, or several concatenated PEM certificates; replaces the connection's whole certificate set",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idp_certificates": {
+          "target": "com.clerk.api#UpdateEnterpriseConnectionRequestSamlIdpCertificatesList",
+          "traits": {
+            "smithy.api#documentation": "The IdP X.509 signing certificates the connection trusts, one per entry, in PEM or bare base64. Replaces the connection's whole certificate set and takes precedence over idp_certificate"
           }
         },
         "idp_metadata_url": {
@@ -22282,6 +22996,259 @@
           "code": 200
         },
         "smithy.api#documentation": "Create an enterprise connection test run\n\nReturns a short-lived URL that starts the IdP test flow for this connection."
+      }
+    },
+    "com.clerk.api#ListSSOBypassAllowlistUsersRequest": {
+      "type": "structure",
+      "members": {
+        "enterprise_connection_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "enterprise_connection_id",
+            "smithy.api#documentation": "Restrict the list to the users this enterprise connection serves."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.clerk.api#SSOBypassAllowlistUsers": {
+      "type": "list",
+      "member": {
+        "target": "com.clerk.api#SSOBypassAllowlistUser"
+      },
+      "traits": {
+        "smithy.api#documentation": "The instance's SSO bypass allowlist, deduplicated by user."
+      }
+    },
+    "com.clerk.api#SSOBypassAllowlistUser": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.clerk.api#SSOBypassAllowlistUserObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The allowlisted user, and the identifier the delete endpoint takes.",
+            "smithy.api#required": {}
+          }
+        },
+        "public_user_data": {
+          "target": "com.clerk.api#SSOBypassAllowlistPublicUserData",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp of creation.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp of last update.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A user who may verify an email code instead of reaching their identity provider when enterprise SSO is unreachable.\n"
+      }
+    },
+    "com.clerk.api#SSOBypassAllowlistUserObject": {
+      "type": "enum",
+      "members": {
+        "SSO_BYPASS_ALLOWLIST_USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sso_bypass_allowlist_user"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.clerk.api#SSOBypassAllowlistPublicUserData": {
+      "type": "structure",
+      "members": {
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "image_url": {
+          "target": "smithy.api#String"
+        },
+        "has_image": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_image_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Use `image_url` instead.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The allowlisted user's public data."
+      }
+    },
+    "com.clerk.api#ListSSOBypassAllowlistUsersResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.clerk.api#SSOBypassAllowlistUsers",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.clerk.api#ListSSOBypassAllowlistUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.clerk.api#ListSSOBypassAllowlistUsersRequest"
+      },
+      "output": {
+        "target": "com.clerk.api#ListSSOBypassAllowlistUsersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.clerk.api#Forbidden"
+        },
+        {
+          "target": "com.clerk.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sso_bypass_allowlist_users",
+          "code": 200
+        },
+        "smithy.api#documentation": "List the SSO bypass allowlist\n\nReturns the users who may verify an email code instead of reaching their identity provider when\nenterprise SSO is unreachable."
+      }
+    },
+    "com.clerk.api#CreateSSOBypassAllowlistUserRequest": {
+      "type": "structure",
+      "members": {
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user to allowlist.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.clerk.api#CreateSSOBypassAllowlistUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.clerk.api#CreateSSOBypassAllowlistUserRequest"
+      },
+      "output": {
+        "target": "com.clerk.api#SSOBypassAllowlistUser"
+      },
+      "errors": [
+        {
+          "target": "com.clerk.api#Forbidden"
+        },
+        {
+          "target": "com.clerk.api#NotFound"
+        },
+        {
+          "target": "com.clerk.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sso_bypass_allowlist_users",
+          "code": 200
+        },
+        "smithy.api#documentation": "Add a user to the SSO bypass allowlist\n\nPuts a user on the allowlist. The request is rejected unless the user holds a verified email\naddress on a domain one of the instance's enterprise connections serves."
+      }
+    },
+    "com.clerk.api#DeleteSSOBypassAllowlistUserRequest": {
+      "type": "structure",
+      "members": {
+        "userID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the allowlisted user"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.clerk.api#DeleteSSOBypassAllowlistUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.clerk.api#DeleteSSOBypassAllowlistUserRequest"
+      },
+      "output": {
+        "target": "com.clerk.api#DeletedObject"
+      },
+      "errors": [
+        {
+          "target": "com.clerk.api#Forbidden"
+        },
+        {
+          "target": "com.clerk.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/sso_bypass_allowlist_users/{userID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Remove a user from the SSO bypass allowlist\n\nRemoves the user from the allowlist, across every enterprise connection that serves them."
       }
     },
     "com.clerk.api#TestingToken": {
@@ -26812,18 +27779,6 @@
         "smithy.api#documentation": "Update a role set\n\nUpdates an existing role set.\nYou can update the name, key, description, type, default role, or creator role.\nAll parameters are optional - you can update only the fields you want to change."
       }
     },
-    "com.clerk.api#ReassignmentMappings": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Mappings from source role keys to destination role keys for role reassignment"
-      }
-    },
     "com.clerk.api#ReplaceRoleSetRequest": {
       "type": "structure",
       "members": {
@@ -27418,7 +28373,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Attribute-to-SCIM-path entries to merge into the directory's attribute mapping.\nSet a key to `null` to remove it from the mapping."
@@ -27572,6 +28530,9 @@
         },
         {
           "target": "com.clerk.api#NotFound"
+        },
+        {
+          "target": "com.clerk.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -27818,7 +28779,7 @@
           "uri": "/scim_directories/{scim_directory_id}/group_role_mappings",
           "code": 200
         },
-        "smithy.api#documentation": "Create a SCIM group role mapping\n\nCreates a new SCIM group to organization role mapping for a directory.\nGroup role mapping must be enabled on the directory."
+        "smithy.api#documentation": "Create a SCIM group role mapping\n\nCreates a new SCIM group to organization role mapping for a directory.\nMappings can be created while group role mapping is disabled on the\ndirectory, but they only take effect once it is enabled."
       }
     },
     "com.clerk.api#ReplaceSCIMGroupRoleMappingsRequestMappingsItem": {
@@ -27922,7 +28883,7 @@
           "uri": "/scim_directories/{scim_directory_id}/group_role_mappings",
           "code": 200
         },
-        "smithy.api#documentation": "Replace SCIM group role mappings\n\nReplaces the entire set of SCIM group role mappings for a directory. The position of\neach item in the `mappings` array determines its precedence (the first item gets\nprecedence 1). Passing an empty array removes all mappings. Group role mapping must be\nenabled on the directory."
+        "smithy.api#documentation": "Replace SCIM group role mappings\n\nReplaces the entire set of SCIM group role mappings for a directory. The position of\neach item in the `mappings` array determines its precedence (the first item gets\nprecedence 1). Passing an empty array removes all mappings. Mappings can be replaced\nwhile group role mapping is disabled on the directory, but they only take effect once\nit is enabled."
       }
     },
     "com.clerk.api#DeleteSCIMGroupRoleMappingRequest": {
@@ -28017,7 +28978,7 @@
           "uri": "/scim_directories/{scim_directory_id}/group_role_mappings/{mapping_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a SCIM group role mapping\n\nDeletes a single SCIM group role mapping. Group role mapping must be enabled on the\ndirectory."
+        "smithy.api#documentation": "Delete a SCIM group role mapping\n\nDeletes a single SCIM group role mapping. Mappings can be deleted while group role\nmapping is disabled on the directory, but the change only takes effect once it is\nenabled."
       }
     },
     "com.clerk.api#ListDirectoriesRequest": {
@@ -28429,7 +29390,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Attribute-to-directory-path entries to merge into the directory's attribute mapping.\nSet a key to `null` to remove it from the mapping."
@@ -28583,6 +29547,9 @@
         },
         {
           "target": "com.clerk.api#NotFound"
+        },
+        {
+          "target": "com.clerk.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -28834,7 +29801,7 @@
           "uri": "/directories/{directory_id}/group_role_mappings",
           "code": 200
         },
-        "smithy.api#documentation": "Create a directory group role mapping\n\nCreates a new directory group to organization role mapping for a directory.\nGroup role mapping must be enabled on the directory."
+        "smithy.api#documentation": "Create a directory group role mapping\n\nCreates a new directory group to organization role mapping for a directory.\nMappings can be created while group role mapping is disabled on the\ndirectory, but they only take effect once it is enabled."
       }
     },
     "com.clerk.api#ReplaceDirectoryGroupRoleMappingsRequestMappingsItem": {
@@ -28943,7 +29910,7 @@
           "uri": "/directories/{directory_id}/group_role_mappings",
           "code": 200
         },
-        "smithy.api#documentation": "Replace directory group role mappings\n\nReplaces the entire set of directory group role mappings for a directory. The position of\neach item in the `mappings` array determines its precedence (the first item gets\nprecedence 1). Passing an empty array removes all mappings. Group role mapping must be\nenabled on the directory."
+        "smithy.api#documentation": "Replace directory group role mappings\n\nReplaces the entire set of directory group role mappings for a directory. The position of\neach item in the `mappings` array determines its precedence (the first item gets\nprecedence 1). Passing an empty array removes all mappings. Mappings can be replaced\nwhile group role mapping is disabled on the directory, but they only take effect once\nit is enabled."
       }
     },
     "com.clerk.api#DeleteDirectoryGroupRoleMappingRequest": {
@@ -29038,7 +30005,7 @@
           "uri": "/directories/{directory_id}/group_role_mappings/{mapping_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a directory group role mapping\n\nDeletes a single directory group role mapping. Group role mapping must be enabled on the\ndirectory."
+        "smithy.api#documentation": "Delete a directory group role mapping\n\nDeletes a single directory group role mapping. Mappings can be deleted while group role\nmapping is disabled on the directory, but the change only takes effect once it is\nenabled."
       }
     },
     "com.clerk.api#CreateAdminPortalLinkTokenRequestScopesList": {
@@ -31422,6 +32389,15 @@
       },
       "traits": {}
     },
+    "com.clerk.api#VerifyOAuthAccessTokenResponseBodyCase0AudList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The audiences of the access token. Omitted when no audience is set."
+      }
+    },
     "com.clerk.api#VerifyOAuthAccessTokenResponseBodyCase0": {
       "type": "structure",
       "members": {
@@ -31453,6 +32429,12 @@
           "target": "com.clerk.api#VerifyOAuthAccessTokenResponseBodyCase0ScopesList",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "aud": {
+          "target": "com.clerk.api#VerifyOAuthAccessTokenResponseBodyCase0AudList",
+          "traits": {
+            "smithy.api#documentation": "The audiences of the access token. Omitted when no audience is set."
           }
         },
         "revoked": {
@@ -31697,6 +32679,9 @@
           "target": "com.clerk.api#RefreshSession"
         },
         {
+          "target": "com.clerk.api#GetReverification"
+        },
+        {
           "target": "com.clerk.api#RevokeSession"
         },
         {
@@ -31790,10 +32775,10 @@
           "target": "com.clerk.api#DeleteUserPasskey"
         },
         {
-          "target": "com.clerk.api#ListUserTrustedDevices"
+          "target": "com.clerk.api#ListUserBiometricCredentials"
         },
         {
-          "target": "com.clerk.api#RevokeUserTrustedDevice"
+          "target": "com.clerk.api#RevokeUserBiometricCredential"
         },
         {
           "target": "com.clerk.api#DeleteUserWeb3Wallet"
@@ -31818,6 +32803,9 @@
         },
         {
           "target": "com.clerk.api#CreateBulkInvitations"
+        },
+        {
+          "target": "com.clerk.api#DeleteInvitation"
         },
         {
           "target": "com.clerk.api#RevokeInvitation"
@@ -32127,6 +33115,15 @@
         },
         {
           "target": "com.clerk.api#CreateEnterpriseConnectionTestRun"
+        },
+        {
+          "target": "com.clerk.api#ListSSOBypassAllowlistUsers"
+        },
+        {
+          "target": "com.clerk.api#CreateSSOBypassAllowlistUser"
+        },
+        {
+          "target": "com.clerk.api#DeleteSSOBypassAllowlistUser"
         },
         {
           "target": "com.clerk.api#CreateTestingToken"
