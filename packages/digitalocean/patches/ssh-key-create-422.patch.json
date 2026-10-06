@@ -3,15 +3,12 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1v2~1account~1keys/post/responses/422",
-      "value": {
-        "description": "Duplicate or unprocessable key material.",
-        "content": {
-          "application/json": {
-            "schema": { "$ref": "#/components/schemas/error" }
-          }
+      "path": "/shapes/com.digitalocean.api#SshKeysCreate/errors",
+      "value": [
+        {
+          "target": "com.digitalocean.api#UnprocessableEntity"
         }
-      }
+      ]
     }
   ]
 }

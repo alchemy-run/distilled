@@ -2,33 +2,127 @@
   "description": "POST /v2/droplets answers oneOf(Single, Multiple) keyed on whether the request carried `name` or `names`. The converter emits a type-level union for the oneOf but its runtime schema is S.Unknown, so the response is never decoded and consumers must narrow on the union before reaching the created id. Replace it with one object carrying both optional members so the response has a real struct schema — a single-create response populates `droplet`, a multi-create response populates `droplets`.",
   "patches": [
     {
-      "op": "replace",
-      "path": "/components/responses/droplet_create/content/application~1json/schema",
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.digitalocean.api#DropletsCreateResponseBodyCase0LinksActionsList"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.digitalocean.api#DropletsCreateResponseBodyCase0Links"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.digitalocean.api#DropletsCreateResponseBodyCase0"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.digitalocean.api#DropletsCreateResponseBodyCase1DropletsList"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.digitalocean.api#DropletsCreateResponseBodyCase1LinksActionsList"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.digitalocean.api#DropletsCreateResponseBodyCase1Links"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.digitalocean.api#DropletsCreateResponseBodyCase1"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.digitalocean.api#DropletsCreateResponseBody"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.digitalocean.api#DropletsCreateResponseBodyCase0LinksActionsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.digitalocean.api#DropletsCreateResponseBodyCase0Links"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.digitalocean.api#DropletsCreateResponseBodyCase0"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.digitalocean.api#DropletsCreateResponseBodyCase1DropletsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.digitalocean.api#DropletsCreateResponseBodyCase1LinksActionsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.digitalocean.api#DropletsCreateResponseBodyCase1Links"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.digitalocean.api#DropletsCreateResponseBodyCase1"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.digitalocean.api#DropletsCreateResponseBody"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.digitalocean.api#DropletsCreateResponse/members/body"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DropletsCreateResponse/members/droplet",
       "value": {
-        "title": "Droplet Create Response",
-        "type": "object",
-        "properties": {
-          "droplet": {
-            "$ref": "#/components/schemas/droplet"
-          },
-          "droplets": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/droplet"
-            }
-          },
-          "links": {
-            "type": "object",
-            "properties": {
-              "actions": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/action_link"
-                }
-              }
-            }
+        "target": "com.digitalocean.api#Droplet"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DropletsCreateResponse/members/droplets",
+      "value": {
+        "target": "com.digitalocean.api#CreateDropletResponseDropletsList"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DropletsCreateResponse/members/links",
+      "value": {
+        "target": "com.digitalocean.api#CreateDropletResponseLinks"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#CreateDropletResponseDropletsList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.digitalocean.api#Droplet"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#CreateDropletResponseLinksActionsList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.digitalocean.api#ActionLink"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#CreateDropletResponseLinks",
+      "value": {
+        "type": "structure",
+        "members": {
+          "actions": {
+            "target": "com.digitalocean.api#CreateDropletResponseLinksActionsList"
           }
-        }
+        },
+        "traits": {}
       }
     }
   ]

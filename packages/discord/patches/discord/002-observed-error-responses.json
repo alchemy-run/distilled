@@ -3,18 +3,37 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1guilds~1{guild_id}/get/responses/404",
-      "value": {
-        "description": "Unknown Guild (code 10004): no such guild, or the bot is not a member",
-        "$ref": "#/components/responses/ClientErrorResponse"
-      }
+      "path": "/shapes/com.discord.api#GetChannel/errors",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1channels~1{channel_id}/get/responses/404",
+      "path": "/shapes/com.discord.api#GetGuild/errors",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#NotFound",
       "value": {
-        "description": "Unknown Channel (code 10003)",
-        "$ref": "#/components/responses/ClientErrorResponse"
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
       }
     }
   ]

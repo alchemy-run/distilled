@@ -3,13 +3,17 @@
   "patches": [
     {
       "op": "add",
-      "path": "/components/schemas/sshKeys/required/-",
-      "value": "id"
+      "path": "/shapes/com.digitalocean.api#SshKeys/members/id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
     },
     {
       "op": "add",
-      "path": "/components/schemas/sshKeys/required/-",
-      "value": "fingerprint"
+      "path": "/shapes/com.digitalocean.api#SshKeys/members/fingerprint/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
     }
   ]
 }

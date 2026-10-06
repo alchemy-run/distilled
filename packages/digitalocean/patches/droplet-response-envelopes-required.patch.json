@@ -3,23 +3,101 @@
   "patches": [
     {
       "op": "add",
-      "path": "/components/responses/existing_droplet/content/application~1json/schema/required",
-      "value": ["droplet"]
+      "path": "/shapes/com.digitalocean.api#Action/members/id/traits/smithy.api#required",
+      "value": {}
     },
     {
       "op": "add",
-      "path": "/components/responses/droplet_action/content/application~1json/schema/required",
-      "value": ["action"]
+      "path": "/shapes/com.digitalocean.api#Action/members/status/traits/smithy.api#required",
+      "value": {}
     },
     {
       "op": "add",
-      "path": "/components/responses/action/content/application~1json/schema/required",
-      "value": ["action"]
+      "path": "/shapes/com.digitalocean.api#ActionsGetResponse/members/action/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
     },
     {
       "op": "add",
-      "path": "/components/schemas/action/required",
-      "value": ["id", "status"]
+      "path": "/shapes/com.digitalocean.api#DropletsGetResponse/members/droplet/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DropletActionsPostResponse/members/action/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DropletActionsGetResponse/members/action/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#FloatingIPsActionPostResponseAction/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#FloatingIPsActionPostResponseAction/members/status/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#FloatingIPsActionGetResponseAction/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#FloatingIPsActionGetResponseAction/members/status/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIPsActionsPostResponseAction/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIPsActionsPostResponseAction/members/status/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIPsActionsGetResponseAction/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIPsActionsGetResponseAction/members/status/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIPv6ActionsPostResponseAction/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIPv6ActionsPostResponseAction/members/status/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VolumeAction/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VolumeAction/members/status/traits/smithy.api#required",
+      "value": {}
     }
   ]
 }
