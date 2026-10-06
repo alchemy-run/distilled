@@ -19,6 +19,15 @@ export class Conflict
     [{ status: 409 }],
   ) {}
 
+export class Forbidden
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withAuthError),
+    [{ status: 403 }],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -36,6 +45,491 @@ export class UnprocessableEntity
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
   ) {}
+
+export type BulkReportCustomReportItemColumnsItem =
+  | "additional_earnings"
+  | "bank_account_account_number"
+  | "bank_account_routing_number"
+  | "bank_account_type"
+  | "bank_account"
+  | "bonus"
+  | "cash_tips"
+  | "check_amount"
+  | "check_date"
+  | "commission"
+  | "date_of_birth"
+  | "double_overtime_earnings"
+  | "double_overtime_hours"
+  | "double_overtime_rate"
+  | "employee_additional_taxes"
+  | "employee_benefit_contributions"
+  | "employee_compensation_time_period"
+  | "employee_compensation"
+  | "employee_deductions"
+  | "employee_department"
+  | "employee_email"
+  | "employee_donations"
+  | "employee_federal_income_tax"
+  | "employee_first_name"
+  | "employee_last_name"
+  | "employee_middle_initial"
+  | "employee_medicare_additional_tax"
+  | "employee_medicare_tax"
+  | "employee_phone_number"
+  | "employee_social_security_tax"
+  | "employee_state_income_tax"
+  | "employee_taxes"
+  | "employee_uuid"
+  | "employee_work_email"
+  | "employer_additional_taxes"
+  | "employer_benefit_contributions"
+  | "employer_cost"
+  | "employer_futa_tax"
+  | "employer_medicare_tax"
+  | "employer_social_security_tax"
+  | "employer_suta_tax"
+  | "employer_taxes"
+  | "employment_type"
+  | "employment"
+  | "end_date"
+  | "garnishments"
+  | "gross_earnings"
+  | "holiday_earnings"
+  | "holiday_hours"
+  | "home_address_city"
+  | "home_address_state"
+  | "home_address_street"
+  | "home_address_zip"
+  | "home_address"
+  | "job_title"
+  | "net_pay"
+  | "one_time_reimbursements"
+  | "overtime_earnings"
+  | "overtime_hours"
+  | "overtime_rate"
+  | "paid_time_off_earnings"
+  | "paid_time_off_hours"
+  | "paid_time_off_rate"
+  | "pay_period_end"
+  | "pay_period_start"
+  | "paycheck_tips"
+  | "payment_method"
+  | "payroll_type"
+  | "payroll_uuid"
+  | "preferred_first_name"
+  | "recurring_reimbursements"
+  | "regular_earnings"
+  | "regular_hours"
+  | "regular_rate"
+  | "reimbursements"
+  | "risk_class_code"
+  | "sick_rate"
+  | "sick_time_off_earnings"
+  | "sick_time_off_hours"
+  | "start_date"
+  | "total_employer_benefit_contributions"
+  | "total_time_off_earnings"
+  | "total_time_off_hours"
+  | "work_address_city"
+  | "work_address_street"
+  | "work_address_zip";
+export const BulkReportCustomReportItemColumnsItem = S.String;
+
+/** Columns to include in the report. */
+export type BulkReportCustomReportItemColumnsList = Array<
+  BulkReportCustomReportItemColumnsItem | (string & {})
+>;
+export const BulkReportCustomReportItemColumnsList = /*@__PURE__*/ S.Array(
+  BulkReportCustomReportItemColumnsItem,
+) as any as S.Schema<BulkReportCustomReportItemColumnsList>;
+
+/** Which payroll date `start_date` and `end_date` filter against. */
+export type BulkReportCustomReportItemDateFilterType =
+  | "period_end_date"
+  | "period_start_date"
+  | "check_date";
+export const BulkReportCustomReportItemDateFilterType = S.String;
+
+/** Departments to filter by. */
+export type BulkReportCustomReportItemDepartmentUuidsList = Array<string>;
+export const BulkReportCustomReportItemDepartmentUuidsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<BulkReportCustomReportItemDepartmentUuidsList>;
+
+/** Employees to filter by. */
+export type BulkReportCustomReportItemEmployeeUuidsList = Array<string>;
+export const BulkReportCustomReportItemEmployeeUuidsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<BulkReportCustomReportItemEmployeeUuidsList>;
+
+/** Employee employment status to filter by. */
+export type BulkReportCustomReportItemEmploymentStatus =
+  | "active_full_time"
+  | "active_part_time"
+  | "active_part_time_eligible"
+  | "active_variable"
+  | "active_seasonal"
+  | "active"
+  | "dismissed";
+export const BulkReportCustomReportItemEmploymentStatus = S.String;
+
+/** Employee employment type to filter by. */
+export type BulkReportCustomReportItemEmploymentType =
+  | "exempt"
+  | "salaried_nonexempt"
+  | "nonexempt"
+  | "commission_only_exempt"
+  | "commission_only_nonexempt";
+export const BulkReportCustomReportItemEmploymentType = S.String;
+
+/** The type of file to generate. */
+export type BulkReportCustomReportItemFileType = "csv" | "json" | "pdf";
+export const BulkReportCustomReportItemFileType = S.String;
+
+export type BulkReportCustomReportItemGroupingsItem =
+  | "payroll"
+  | "employee"
+  | "work_address"
+  | "work_address_state";
+export const BulkReportCustomReportItemGroupingsItem = S.String;
+
+/** How to group the report. If omitted, defaults are derived from the requested `columns`. */
+export type BulkReportCustomReportItemGroupingsList = Array<
+  BulkReportCustomReportItemGroupingsItem | (string & {})
+>;
+export const BulkReportCustomReportItemGroupingsList = /*@__PURE__*/ S.Array(
+  BulkReportCustomReportItemGroupingsItem,
+) as any as S.Schema<BulkReportCustomReportItemGroupingsList>;
+
+/** Payment method to filter by. */
+export type BulkReportCustomReportItemPaymentMethod = "check" | "direct_deposit";
+export const BulkReportCustomReportItemPaymentMethod = S.String;
+
+/** Identifies this batch item as a custom report. */
+export type BulkReportCustomReportItemReportType = "custom_report";
+export const BulkReportCustomReportItemReportType = S.String;
+
+/** Work addresses to filter by. */
+export type BulkReportCustomReportItemWorkAddressUuidsList = Array<string>;
+export const BulkReportCustomReportItemWorkAddressUuidsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<BulkReportCustomReportItemWorkAddressUuidsList>;
+
+/** A custom report entry in a bulk batch. */
+export interface BulkReportCustomReportItem {
+  /** Columns to include in the report. */
+  columns: BulkReportCustomReportItemColumnsList;
+  /** UUID of the company to generate the report for. The partner must be mapped to this company. */
+  company_uuid: string;
+  /** Display name for the report. */
+  custom_name?: string;
+  /** Which payroll date `start_date` and `end_date` filter against. */
+  date_filter_type?: BulkReportCustomReportItemDateFilterType | (string & {});
+  /** Departments to filter by. */
+  department_uuids?: BulkReportCustomReportItemDepartmentUuidsList;
+  /** Employees to filter by. */
+  employee_uuids?: BulkReportCustomReportItemEmployeeUuidsList | null;
+  /** Employee employment status to filter by. */
+  employment_status?: BulkReportCustomReportItemEmploymentStatus | (string & {});
+  /** Employee employment type to filter by. */
+  employment_type?: BulkReportCustomReportItemEmploymentType | (string & {});
+  /** End date of data to filter by. */
+  end_date?: string;
+  /** The type of file to generate. */
+  file_type: BulkReportCustomReportItemFileType | (string & {});
+  /** How to group the report. If omitted, defaults are derived from the requested `columns`. */
+  groupings?: BulkReportCustomReportItemGroupingsList;
+  /** Payment method to filter by. */
+  payment_method?: BulkReportCustomReportItemPaymentMethod | (string & {});
+  /** Identifies this batch item as a custom report. */
+  report_type: BulkReportCustomReportItemReportType;
+  /** Start date of data to filter by. */
+  start_date?: string;
+  /** Whether to include subtotals and grand totals. */
+  with_totals?: boolean;
+  /** Work addresses to filter by. */
+  work_address_uuids?: BulkReportCustomReportItemWorkAddressUuidsList;
+}
+export const BulkReportCustomReportItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    columns: BulkReportCustomReportItemColumnsList,
+    company_uuid: S.String,
+    custom_name: S.optional(S.String),
+    date_filter_type: S.optional(BulkReportCustomReportItemDateFilterType),
+    department_uuids: S.optional(BulkReportCustomReportItemDepartmentUuidsList),
+    employee_uuids: S.optional(S.NullOr(BulkReportCustomReportItemEmployeeUuidsList)),
+    employment_status: S.optional(BulkReportCustomReportItemEmploymentStatus),
+    employment_type: S.optional(BulkReportCustomReportItemEmploymentType),
+    end_date: S.optional(S.String),
+    file_type: BulkReportCustomReportItemFileType,
+    groupings: S.optional(BulkReportCustomReportItemGroupingsList),
+    payment_method: S.optional(BulkReportCustomReportItemPaymentMethod),
+    report_type: BulkReportCustomReportItemReportType,
+    start_date: S.optional(S.String),
+    with_totals: S.optional(S.Boolean),
+    work_address_uuids: S.optional(BulkReportCustomReportItemWorkAddressUuidsList),
+  }),
+).annotate({
+  identifier: "BulkReportCustomReportItem",
+}) as any as S.Schema<BulkReportCustomReportItem>;
+
+/** The breakdown of the report. Use `default` for no split. */
+export type BulkReportGeneralLedgerItemAggregation =
+  | "default"
+  | "job"
+  | "department"
+  | "integration";
+export const BulkReportGeneralLedgerItemAggregation = S.String;
+
+/** Identifies this batch item as a general ledger report. */
+export type BulkReportGeneralLedgerItemReportType = "general_ledger";
+export const BulkReportGeneralLedgerItemReportType = S.String;
+
+/** A general ledger report entry in a bulk batch. */
+export interface BulkReportGeneralLedgerItem {
+  /** The breakdown of the report. Use `default` for no split. */
+  aggregation: BulkReportGeneralLedgerItemAggregation | (string & {});
+  /** UUID of the company to generate the report for. The partner must be mapped to this company. */
+  company_uuid: string;
+  /** The kind of integration set up for the company. Required when `aggregation` is `integration`; must be null otherwise. */
+  integration_type?: string | null;
+  /** The UUID of the payroll to generate the general ledger for. */
+  payroll_uuid: string;
+  /** Identifies this batch item as a general ledger report. */
+  report_type: BulkReportGeneralLedgerItemReportType;
+}
+export const BulkReportGeneralLedgerItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    aggregation: BulkReportGeneralLedgerItemAggregation,
+    company_uuid: S.String,
+    integration_type: S.optional(S.NullOr(S.String)),
+    payroll_uuid: S.String,
+    report_type: BulkReportGeneralLedgerItemReportType,
+  }),
+).annotate({
+  identifier: "BulkReportGeneralLedgerItem",
+}) as any as S.Schema<BulkReportGeneralLedgerItem>;
+
+/** A single report inside a bulk batch. Required fields depend on `report_type`: `custom_report` requires `columns` and `file_type`; `general_ledger` requires `payroll_uuid` and `aggregation`. */
+export type BulkReportItem = BulkReportCustomReportItem | BulkReportGeneralLedgerItem;
+export const BulkReportItem = S.Unknown as any as S.Schema<BulkReportItem>;
+
+/** One report per item. Up to 25 items per batch, across any combination of companies the partner is mapped to. */
+export type CreateBulkReportRequestBatchList = Array<BulkReportItem>;
+export const CreateBulkReportRequestBatchList = /*@__PURE__*/ S.Array(
+  BulkReportItem,
+) as any as S.Schema<CreateBulkReportRequestBatchList>;
+
+export interface CreateBulkReportRequest {
+  /** One report per item. Up to 25 items per batch, across any combination of companies the partner is mapped to. */
+  batch: CreateBulkReportRequestBatchList;
+}
+export const CreateBulkReportRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    batch: CreateBulkReportRequestBatchList,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/bulk_reports", code: 200 })),
+).annotate({ identifier: "CreateBulkReportRequest" }) as any as S.Schema<CreateBulkReportRequest>;
+
+/** The batch's processing state. - `pending`: accepted, not yet started - `processing`: reports are being generated - `completed`: all reports finished - `failed`: the batch failed before completing */
+export type CreateBulkReportStatus = "pending" | "processing" | "completed" | "failed";
+export const CreateBulkReportStatus = S.String;
+
+export interface CreateBulkReport {
+  /** The batch's processing state. - `pending`: accepted, not yet started - `processing`: reports are being generated - `completed`: all reports finished - `failed`: the batch failed before completing */
+  status: CreateBulkReportStatus;
+  /** Unique identifier of the bulk report batch. */
+  uuid: string;
+}
+export const CreateBulkReport = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: CreateBulkReportStatus,
+    uuid: S.String,
+  }),
+).annotate({ identifier: "CreateBulkReport" }) as any as S.Schema<CreateBulkReport>;
+
+/** The category of a company attachment. - `gep_notice`: A tax notice attachment - `compliance`: A compliance attachment */
+export type CreateCompaniesAttachmentRequestCategory = "gep_notice" | "compliance";
+export const CreateCompaniesAttachmentRequestCategory = S.String;
+
+export interface CreateCompaniesAttachmentRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The category of a company attachment. - `gep_notice`: A tax notice attachment - `compliance`: A compliance attachment */
+  category: CreateCompaniesAttachmentRequestCategory | (string & {});
+  /** The binary payload of the file to be uploaded. Supported file types are .qbb, .qbm, .gif, .jpg, .png, .pdf, .xls, .xlsx, .doc and .docx. */
+  document: string;
+}
+export const CreateCompaniesAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    category: CreateCompaniesAttachmentRequestCategory,
+    document: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/companies/{company_id}/attachments",
+      code: 200,
+      contentType: "multipart",
+    }),
+  ),
+).annotate({
+  identifier: "CreateCompaniesAttachmentRequest",
+}) as any as S.Schema<CreateCompaniesAttachmentRequest>;
+
+/** The category of the company attachment. - `gep_notice`: A tax notice attachment - `compliance`: A compliance attachment - `other`: Any other attachment type */
+export type CompanyAttachmentCategory = "gep_notice" | "compliance" | "other";
+export const CompanyAttachmentCategory = S.String;
+
+/** The company attachment */
+export interface CompanyAttachment {
+  /** The category of the company attachment. - `gep_notice`: A tax notice attachment - `compliance`: A compliance attachment - `other`: Any other attachment type */
+  category: CompanyAttachmentCategory;
+  /** name of the file uploaded */
+  name: string;
+  /** The ISO 8601 timestamp of when an attachment was uploaded */
+  upload_time: string;
+  /** UUID of the company attachment */
+  uuid: string;
+}
+export const CompanyAttachment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: CompanyAttachmentCategory,
+    name: S.String,
+    upload_time: S.String,
+    uuid: S.String,
+  }),
+).annotate({ identifier: "CompanyAttachment" }) as any as S.Schema<CompanyAttachment>;
+
+export interface CreateCompanyAdminRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The email of the admin for Gusto's system. If the email matches an existing user, this will create an admin account for them. */
+  email: string;
+  /** The first name of the admin. */
+  first_name: string;
+  /** The last name of the admin. */
+  last_name: string;
+}
+export const CreateCompanyAdminRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    email: S.String,
+    first_name: S.String,
+    last_name: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/companies/{company_id}/admins", code: 200 })),
+).annotate({
+  identifier: "CreateCompanyAdminRequest",
+}) as any as S.Schema<CreateCompanyAdminRequest>;
+
+/** The representation of an admin user in Gusto. */
+export interface Admin {
+  /** The email of the admin for Gusto's system. */
+  email?: string;
+  /** The first name of the admin. */
+  first_name?: string;
+  /** The last name of the admin. */
+  last_name?: string;
+  /** The phone number of the admin. */
+  phone?: string | null;
+  /** The unique id of the admin. */
+  uuid: string;
+}
+export const Admin = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    email: S.optional(S.String),
+    first_name: S.optional(S.String),
+    last_name: S.optional(S.String),
+    phone: S.optional(S.NullOr(S.String)),
+    uuid: S.String,
+  }),
+).annotate({ identifier: "Admin" }) as any as S.Schema<Admin>;
+
+/** The bank account type */
+export type CreateCompanyBankAccountRequestAccountType = "Checking" | "Savings";
+export const CreateCompanyBankAccountRequestAccountType = S.String;
+
+export interface CreateCompanyBankAccountRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The bank account number */
+  account_number: string;
+  /** The bank account type */
+  account_type: CreateCompanyBankAccountRequestAccountType | (string & {});
+  /** The bank routing number */
+  routing_number: string;
+}
+export const CreateCompanyBankAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    account_number: S.String,
+    account_type: CreateCompanyBankAccountRequestAccountType,
+    routing_number: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/companies/{company_id}/bank_accounts", code: 200 })),
+).annotate({
+  identifier: "CreateCompanyBankAccountRequest",
+}) as any as S.Schema<CreateCompanyBankAccountRequest>;
+
+/** Bank account type */
+export type CompanyBankAccountAccountType = "Checking" | "Savings";
+export const CompanyBankAccountAccountType = S.String;
+
+export type CompanyBankAccountPlaidStatus = "connected" | "disconnected";
+export const CompanyBankAccountPlaidStatus = S.String;
+
+/** The verification status of the bank account. 'awaiting_deposits' means the bank account is just created and money is being transferred. 'ready_for_verification' means the micro-deposits are completed and the verification process can begin by using the verify endpoint. 'verified' means the bank account is verified. */
+export type CompanyBankAccountVerificationStatus =
+  | "awaiting_deposits"
+  | "ready_for_verification"
+  | "verified";
+export const CompanyBankAccountVerificationStatus = S.String;
+
+/** The verification type of the bank account. 'bank_deposits' means the bank account is connected by entering routing and accounting numbers and verifying through micro-deposits. 'plaid' means the bank account is connected through Plaid. */
+export type CompanyBankAccountVerificationType = "bank_deposits" | "plaid" | "plaid_external";
+export const CompanyBankAccountVerificationType = S.String;
+
+/** The company bank account */
+export interface CompanyBankAccount {
+  /** Bank account type */
+  account_type?: CompanyBankAccountAccountType;
+  /** The balance fetch date associated with the last_cached_balance. Only applies when verification type is Plaid. */
+  balance_fetched_date?: string | null;
+  /** UUID of the company */
+  company_uuid?: string;
+  /** Masked bank account number */
+  hidden_account_number?: string;
+  /** The last fetch balance for the bank account. Please be aware that this amount does not reflect the most up-to-date balance and only applies when the verification type is Plaid. */
+  last_cached_balance?: string | null;
+  /** Name of bank account */
+  name?: string;
+  /** The Plaid connection status of the bank account. Only applies when verification type is Plaid. */
+  plaid_status?: CompanyBankAccountPlaidStatus | null;
+  /** Whether the company has at least one bank account with active reverse-wire funding. The same value is returned on every bank-account row in this response. */
+  reverse_wire_enabled?: boolean | null;
+  /** The bank account's routing number */
+  routing_number?: string;
+  /** UUID of the bank account */
+  uuid: string;
+  /** The verification status of the bank account. 'awaiting_deposits' means the bank account is just created and money is being transferred. 'ready_for_verification' means the micro-deposits are completed and the verification process can begin by using the verify endpoint. 'verified' means the bank account is verified. */
+  verification_status?: CompanyBankAccountVerificationStatus;
+  /** The verification type of the bank account. 'bank_deposits' means the bank account is connected by entering routing and accounting numbers and verifying through micro-deposits. 'plaid' means the bank account is connected through Plaid. */
+  verification_type?: CompanyBankAccountVerificationType;
+}
+export const CompanyBankAccount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_type: S.optional(CompanyBankAccountAccountType),
+    balance_fetched_date: S.optional(S.NullOr(S.String)),
+    company_uuid: S.optional(S.String),
+    hidden_account_number: S.optional(S.String),
+    last_cached_balance: S.optional(S.NullOr(S.String)),
+    name: S.optional(S.String),
+    plaid_status: S.optional(S.NullOr(CompanyBankAccountPlaidStatus)),
+    reverse_wire_enabled: S.optional(S.NullOr(S.Boolean)),
+    routing_number: S.optional(S.String),
+    uuid: S.String,
+    verification_status: S.optional(CompanyBankAccountVerificationStatus),
+    verification_type: S.optional(CompanyBankAccountVerificationType),
+  }),
+).annotate({ identifier: "CompanyBankAccount" }) as any as S.Schema<CompanyBankAccount>;
 
 export type CreateCompanyCompanyBenefitRequestCatchUpType = "elective" | "deemed";
 export const CreateCompanyCompanyBenefitRequestCatchUpType = S.String;
@@ -66,11 +560,7 @@ export const CreateCompanyCompanyBenefitRequest = /*@__PURE__*/ S.suspend(() =>
     responsible_for_employee_w2: S.optional(S.Boolean),
     responsible_for_employer_taxes: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/companies/{company_id}/company_benefits",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/companies/{company_id}/company_benefits", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCompanyCompanyBenefitRequest",
@@ -196,13 +686,7 @@ export const CreateCompanyContractorRequest = /*@__PURE__*/ S.suspend(() =>
     wage_type: CreateCompanyContractorRequestWageType,
     work_email: S.optional(S.String),
     work_state: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/companies/{company_uuid}/contractors",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/companies/{company_uuid}/contractors", code: 200 })),
 ).annotate({
   identifier: "CreateCompanyContractorRequest",
 }) as any as S.Schema<CreateCompanyContractorRequest>;
@@ -225,9 +709,7 @@ export const ContractorAddress = /*@__PURE__*/ S.suspend(() =>
     street_2: S.optional(S.NullOr(S.String)),
     zip: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ContractorAddress",
-}) as any as S.Schema<ContractorAddress>;
+).annotate({ identifier: "ContractorAddress" }) as any as S.Schema<ContractorAddress>;
 
 /** The current status of the member portal invitation. */
 export type ContractorMemberPortalInvitationStatusStatus =
@@ -402,6 +884,879 @@ export const Contractor = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Contractor" }) as any as S.Schema<Contractor>;
 
+export type CreateCompanyContractorPaymentRequestPaymentMethod =
+  | "Direct Deposit"
+  | "Check"
+  | "Historical Payment";
+export const CreateCompanyContractorPaymentRequestPaymentMethod = S.String;
+
+export interface CreateCompanyContractorPaymentRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** If the contractor is on an hourly wage, this is the bonus the contractor earned. */
+  bonus?: string;
+  /** The contractor receiving the payment. */
+  contractor_uuid: string;
+  /** Date of contractor payment. */
+  date: string;
+  /** If the contractor is on an hourly wage, this is the number of hours that the contractor worked for the payment. */
+  hours?: string;
+  /** An optional invoice number to associate with this contractor payment. This will be visible to the contractor on their paystub. Maximum 25 characters. */
+  invoice_number?: string;
+  /** An optional note or memo for this contractor payment. This will be visible to the contractor on their paystub. */
+  memo?: string;
+  payment_method?: CreateCompanyContractorPaymentRequestPaymentMethod | (string & {});
+  /** Reimbursed wages for the contractor. */
+  reimbursement?: string;
+  /** If the contractor is on a fixed wage, this is the fixed wage payment for the contractor, regardless of hours worked. */
+  wage?: string;
+}
+export const CreateCompanyContractorPaymentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    bonus: S.optional(S.String),
+    contractor_uuid: S.String,
+    date: S.String,
+    hours: S.optional(S.String),
+    invoice_number: S.optional(S.String),
+    memo: S.optional(S.String),
+    payment_method: S.optional(CreateCompanyContractorPaymentRequestPaymentMethod),
+    reimbursement: S.optional(S.String),
+    wage: S.optional(S.String),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v1/companies/{company_id}/contractor_payments", code: 200 }),
+  ),
+).annotate({
+  identifier: "CreateCompanyContractorPaymentRequest",
+}) as any as S.Schema<CreateCompanyContractorPaymentRequest>;
+
+/** The payment method. */
+export type ContractorPaymentPaymentMethod =
+  | "Direct Deposit"
+  | "Check"
+  | "Historical Payment"
+  | "Correction Payment";
+export const ContractorPaymentPaymentMethod = S.String;
+
+/** Contractor payment status */
+export type ContractorPaymentStatus = "Funded" | "Unfunded";
+export const ContractorPaymentStatus = S.String;
+
+/** The wage type for the payment. */
+export type ContractorPaymentWageType = "Hourly" | "Fixed";
+export const ContractorPaymentWageType = S.String;
+
+/** The representation of a single contractor payment. */
+export interface ContractorPayment {
+  /** The bonus amount in the payment. */
+  bonus?: string;
+  /** The UUID of the contractor. */
+  contractor_uuid?: string;
+  /** The payment date. */
+  date?: string;
+  /** The rate per hour worked for the payment. */
+  hourly_rate?: string;
+  /** The number of hours worked for the payment. */
+  hours?: string;
+  /** An optional invoice number associated with this contractor payment. This will be visible to the contractor on their paystub. Maximum 25 characters. */
+  invoice_number?: string | null;
+  /** Determine if the contractor payment can be cancelled. */
+  may_cancel?: boolean;
+  /** An optional note or memo for this contractor payment. This will be visible to the contractor on their paystub. */
+  memo?: string | null;
+  /** The payment method. */
+  payment_method?: ContractorPaymentPaymentMethod;
+  /** The reimbursement amount in the payment. */
+  reimbursement?: string;
+  /** Contractor payment status */
+  status?: ContractorPaymentStatus;
+  /** The unique identifier of the contractor payment in Gusto. */
+  uuid: string;
+  /** The fixed wage of the payment, regardless of hours worked. */
+  wage?: string;
+  /** (hours * hourly_rate) + wage + bonus */
+  wage_total?: string;
+  /** The wage type for the payment. */
+  wage_type?: ContractorPaymentWageType;
+}
+export const ContractorPayment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bonus: S.optional(S.String),
+    contractor_uuid: S.optional(S.String),
+    date: S.optional(S.String),
+    hourly_rate: S.optional(S.String),
+    hours: S.optional(S.String),
+    invoice_number: S.optional(S.NullOr(S.String)),
+    may_cancel: S.optional(S.Boolean),
+    memo: S.optional(S.NullOr(S.String)),
+    payment_method: S.optional(ContractorPaymentPaymentMethod),
+    reimbursement: S.optional(S.String),
+    status: S.optional(ContractorPaymentStatus),
+    uuid: S.String,
+    wage: S.optional(S.String),
+    wage_total: S.optional(S.String),
+    wage_type: S.optional(ContractorPaymentWageType),
+  }),
+).annotate({ identifier: "ContractorPayment" }) as any as S.Schema<ContractorPayment>;
+
+export type CreateCompanyContractorPaymentGroupRequestContractorPaymentsItemPaymentMethod =
+  | "Direct Deposit"
+  | "Check"
+  | "Historical Payment";
+export const CreateCompanyContractorPaymentGroupRequestContractorPaymentsItemPaymentMethod =
+  S.String;
+
+export interface CreateCompanyContractorPaymentGroupRequestContractorPaymentsItem {
+  /** If the contractor is on an hourly wage, this is the bonus the contractor earned */
+  bonus?: string;
+  /** The contractor receiving the payment */
+  contractor_uuid?: string;
+  /** If the contractor is on an hourly wage, this is the number of hours that the contractor worked for the payment */
+  hours?: string;
+  /** An optional invoice number to associate with this contractor payment. This will be visible to the contractor on their paystub. */
+  invoice_number?: string;
+  /** An optional note or memo for this contractor payment. This will be visible to the contractor on their paystub. */
+  memo?: string;
+  payment_method?:
+    | CreateCompanyContractorPaymentGroupRequestContractorPaymentsItemPaymentMethod
+    | (string & {});
+  /** Reimbursed wages for the contractor */
+  reimbursement?: string;
+  /** If the contractor is on a fixed wage, this is the fixed wage payment for the contractor, regardless of hours worked */
+  wage?: string;
+}
+export const CreateCompanyContractorPaymentGroupRequestContractorPaymentsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      bonus: S.optional(S.String),
+      contractor_uuid: S.optional(S.String),
+      hours: S.optional(S.String),
+      invoice_number: S.optional(S.String),
+      memo: S.optional(S.String),
+      payment_method: S.optional(
+        CreateCompanyContractorPaymentGroupRequestContractorPaymentsItemPaymentMethod,
+      ),
+      reimbursement: S.optional(S.String),
+      wage: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CreateCompanyContractorPaymentGroupRequestContractorPaymentsItem",
+  }) as any as S.Schema<CreateCompanyContractorPaymentGroupRequestContractorPaymentsItem>;
+
+export type CreateCompanyContractorPaymentGroupRequestContractorPaymentsList =
+  Array<CreateCompanyContractorPaymentGroupRequestContractorPaymentsItem>;
+export const CreateCompanyContractorPaymentGroupRequestContractorPaymentsList =
+  /*@__PURE__*/ S.Array(
+    CreateCompanyContractorPaymentGroupRequestContractorPaymentsItem,
+  ) as any as S.Schema<CreateCompanyContractorPaymentGroupRequestContractorPaymentsList>;
+
+export interface CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItemOptionsItem {
+  /** Message for the option */
+  message?: string;
+  /** The type of option */
+  type?: string;
+}
+export const CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItemOptionsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      message: S.optional(S.String),
+      type: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItemOptionsItem",
+  }) as any as S.Schema<CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItemOptionsItem>;
+
+/** Optional array of additional options for the blocker */
+export type CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItemOptionsList =
+  Array<CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItemOptionsItem>;
+export const CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItemOptionsList =
+  /*@__PURE__*/ S.Array(
+    CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItemOptionsItem,
+  ) as any as S.Schema<CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItemOptionsList>;
+
+export interface CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItem {
+  /** The type of blocker that is blocking the payment submission */
+  blocker_type?: string;
+  /** Optional message related to the blocker */
+  message?: string;
+  /** Optional array of additional options for the blocker */
+  options?: CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItemOptionsList;
+  /** The unblock option selected to resolve the submission blocker */
+  selected_option?: string | null;
+}
+export const CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      blocker_type: S.optional(S.String),
+      message: S.optional(S.String),
+      options: S.optional(
+        CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItemOptionsList,
+      ),
+      selected_option: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItem",
+  }) as any as S.Schema<CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItem>;
+
+/** Optional array of submission blockers with selected unblock options. Returned from the preview endpoint and can be submitted with selected_option to resolve blockers. */
+export type CreateCompanyContractorPaymentGroupRequestSubmissionBlockersList =
+  Array<CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItem>;
+export const CreateCompanyContractorPaymentGroupRequestSubmissionBlockersList =
+  /*@__PURE__*/ S.Array(
+    CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItem,
+  ) as any as S.Schema<CreateCompanyContractorPaymentGroupRequestSubmissionBlockersList>;
+
+export interface CreateCompanyContractorPaymentGroupRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The payment check date */
+  check_date: string;
+  contractor_payments: CreateCompanyContractorPaymentGroupRequestContractorPaymentsList;
+  /** A token used to make contractor payment group creation idempotent. The string must be unique for each group you intend to create. */
+  creation_token: string;
+  /** Optional array of submission blockers with selected unblock options. Returned from the preview endpoint and can be submitted with selected_option to resolve blockers. */
+  submission_blockers?: CreateCompanyContractorPaymentGroupRequestSubmissionBlockersList;
+}
+export const CreateCompanyContractorPaymentGroupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    check_date: S.String,
+    contractor_payments: CreateCompanyContractorPaymentGroupRequestContractorPaymentsList,
+    creation_token: S.String,
+    submission_blockers: S.optional(
+      CreateCompanyContractorPaymentGroupRequestSubmissionBlockersList,
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/companies/{company_id}/contractor_payment_groups",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateCompanyContractorPaymentGroupRequest",
+}) as any as S.Schema<CreateCompanyContractorPaymentGroupRequest>;
+
+/** The status of the contractor payment group. Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded. A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method. */
+export type CreateCompanyContractorPaymentGroupResponseStatus = "Unfunded" | "Funded";
+export const CreateCompanyContractorPaymentGroupResponseStatus = S.String;
+
+/** The payment method. */
+export type ContractorPaymentForGroupPaymentMethod =
+  | "Direct Deposit"
+  | "Check"
+  | "Historical Payment"
+  | "Correction Payment";
+export const ContractorPaymentForGroupPaymentMethod = S.String;
+
+/** The status of the contractor payment. Will transition to `Funded` during payments processing if the payment should be funded, i.e. has `Direct Deposit` for payment method. Contractors payments with `Check` payment method will remain `Unfunded`. */
+export type ContractorPaymentForGroupStatus = "Funded" | "Unfunded";
+export const ContractorPaymentForGroupStatus = S.String;
+
+/** The wage type for the payment. */
+export type ContractorPaymentForGroupWageType = "Hourly" | "Fixed";
+export const ContractorPaymentForGroupWageType = S.String;
+
+/** The representation of a single contractor payment. */
+export interface ContractorPaymentForGroup {
+  /** The bonus amount in the payment. */
+  bonus?: string;
+  /** The UUID of the contractor. */
+  contractor_uuid?: string;
+  /** The rate per hour worked for the payment. */
+  hourly_rate?: string;
+  /** The number of hours worked for the payment. */
+  hours?: string;
+  /** An optional invoice number associated with this contractor payment. This will be visible to the contractor on their paystub. Maximum 25 characters. */
+  invoice_number?: string | null;
+  /** Determine if the contractor payment can be cancelled. */
+  may_cancel?: boolean;
+  /** An optional note or memo for this contractor payment. This will be visible to the contractor on their paystub. */
+  memo?: string | null;
+  /** The payment method. */
+  payment_method?: ContractorPaymentForGroupPaymentMethod;
+  /** The reimbursement amount in the payment. */
+  reimbursement?: string;
+  /** The status of the contractor payment. Will transition to `Funded` during payments processing if the payment should be funded, i.e. has `Direct Deposit` for payment method. Contractors payments with `Check` payment method will remain `Unfunded`. */
+  status?: ContractorPaymentForGroupStatus;
+  /** The unique identifier of the contractor payment in Gusto. */
+  uuid?: string;
+  /** The fixed wage of the payment, regardless of hours worked. */
+  wage?: string;
+  /** (hours * hourly_rate) + wage + bonus */
+  wage_total?: string;
+  /** The wage type for the payment. */
+  wage_type?: ContractorPaymentForGroupWageType;
+}
+export const ContractorPaymentForGroup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bonus: S.optional(S.String),
+    contractor_uuid: S.optional(S.String),
+    hourly_rate: S.optional(S.String),
+    hours: S.optional(S.String),
+    invoice_number: S.optional(S.NullOr(S.String)),
+    may_cancel: S.optional(S.Boolean),
+    memo: S.optional(S.NullOr(S.String)),
+    payment_method: S.optional(ContractorPaymentForGroupPaymentMethod),
+    reimbursement: S.optional(S.String),
+    status: S.optional(ContractorPaymentForGroupStatus),
+    uuid: S.optional(S.String),
+    wage: S.optional(S.String),
+    wage_total: S.optional(S.String),
+    wage_type: S.optional(ContractorPaymentForGroupWageType),
+  }),
+).annotate({
+  identifier: "ContractorPaymentForGroup",
+}) as any as S.Schema<ContractorPaymentForGroup>;
+
+export type CreateCompanyContractorPaymentGroupResponseContractorPaymentsList =
+  Array<ContractorPaymentForGroup>;
+export const CreateCompanyContractorPaymentGroupResponseContractorPaymentsList =
+  /*@__PURE__*/ S.Array(
+    ContractorPaymentForGroup,
+  ) as any as S.Schema<CreateCompanyContractorPaymentGroupResponseContractorPaymentsList>;
+
+/** The status of the credit blocker */
+export type PayrollCreditBlockerTypeStatus =
+  | "unresolved"
+  | "pending_review"
+  | "resolved"
+  | "failed";
+export const PayrollCreditBlockerTypeStatus = S.String;
+
+export interface PayrollCreditBlockerUnblockOptionSubmitWireMetadata {
+  /** The amount to be wired in (decimal string) */
+  wire_in_amount: string;
+  /** Deadline for the wire transfer to be received */
+  wire_in_deadline: string;
+  /** UUID of the wire in request */
+  wire_in_request_uuid: string;
+}
+export const PayrollCreditBlockerUnblockOptionSubmitWireMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    wire_in_amount: S.String,
+    wire_in_deadline: S.String,
+    wire_in_request_uuid: S.String,
+  }),
+).annotate({
+  identifier: "PayrollCreditBlockerUnblockOptionSubmitWireMetadata",
+}) as any as S.Schema<PayrollCreditBlockerUnblockOptionSubmitWireMetadata>;
+
+/** The type of unblock option for the credit blocker */
+export type PayrollCreditBlockerUnblockOptionSubmitWireUnblockType = "submit_wire";
+export const PayrollCreditBlockerUnblockOptionSubmitWireUnblockType = S.String;
+
+/** Unblock option to resolve a credit blocker by submitting a wire transfer */
+export interface PayrollCreditBlockerUnblockOptionSubmitWire {
+  /** The payment check date associated with the unblock option */
+  check_date: string;
+  metadata: PayrollCreditBlockerUnblockOptionSubmitWireMetadata;
+  /** The type of unblock option for the credit blocker */
+  unblock_type: PayrollCreditBlockerUnblockOptionSubmitWireUnblockType;
+}
+export const PayrollCreditBlockerUnblockOptionSubmitWire = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    check_date: S.String,
+    metadata: PayrollCreditBlockerUnblockOptionSubmitWireMetadata,
+    unblock_type: PayrollCreditBlockerUnblockOptionSubmitWireUnblockType,
+  }),
+).annotate({
+  identifier: "PayrollCreditBlockerUnblockOptionSubmitWire",
+}) as any as S.Schema<PayrollCreditBlockerUnblockOptionSubmitWire>;
+
+export interface PayrollCreditBlockerUnblockOptionSubmitBankScreenshotMetadata {
+  /** Last 4 digits of the bank account number for the bank screenshot RFI */
+  bank_account_last_four_digits?: string | null;
+  /** UUID of the information request */
+  information_request_uuid: string;
+}
+export const PayrollCreditBlockerUnblockOptionSubmitBankScreenshotMetadata =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      bank_account_last_four_digits: S.optional(S.NullOr(S.String)),
+      information_request_uuid: S.String,
+    }),
+  ).annotate({
+    identifier: "PayrollCreditBlockerUnblockOptionSubmitBankScreenshotMetadata",
+  }) as any as S.Schema<PayrollCreditBlockerUnblockOptionSubmitBankScreenshotMetadata>;
+
+/** The type of unblock option for the credit blocker */
+export type PayrollCreditBlockerUnblockOptionSubmitBankScreenshotUnblockType =
+  "submit_bank_screenshot";
+export const PayrollCreditBlockerUnblockOptionSubmitBankScreenshotUnblockType = S.String;
+
+/** Unblock option to resolve a credit blocker by submitting a bank screenshot */
+export interface PayrollCreditBlockerUnblockOptionSubmitBankScreenshot {
+  /** The payment check date associated with the unblock option */
+  check_date: string;
+  metadata: PayrollCreditBlockerUnblockOptionSubmitBankScreenshotMetadata;
+  /** The type of unblock option for the credit blocker */
+  unblock_type: PayrollCreditBlockerUnblockOptionSubmitBankScreenshotUnblockType;
+}
+export const PayrollCreditBlockerUnblockOptionSubmitBankScreenshot = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    check_date: S.String,
+    metadata: PayrollCreditBlockerUnblockOptionSubmitBankScreenshotMetadata,
+    unblock_type: PayrollCreditBlockerUnblockOptionSubmitBankScreenshotUnblockType,
+  }),
+).annotate({
+  identifier: "PayrollCreditBlockerUnblockOptionSubmitBankScreenshot",
+}) as any as S.Schema<PayrollCreditBlockerUnblockOptionSubmitBankScreenshot>;
+
+export interface PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiMetadata {
+  /** UUID of the information request */
+  information_request_uuid: string;
+}
+export const PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiMetadata =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      information_request_uuid: S.String,
+    }),
+  ).annotate({
+    identifier: "PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiMetadata",
+  }) as any as S.Schema<PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiMetadata>;
+
+/** The type of unblock option for the credit blocker */
+export type PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiUnblockType =
+  "respond_to_high_risk_fraud_rfi";
+export const PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiUnblockType = S.String;
+
+/** Unblock option to resolve a credit blocker by responding to high risk fraud RFI */
+export interface PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfi {
+  /** The payment check date associated with the unblock option */
+  check_date: string;
+  metadata: PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiMetadata;
+  /** The type of unblock option for the credit blocker */
+  unblock_type: PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiUnblockType;
+}
+export const PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfi = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      check_date: S.String,
+      metadata: PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiMetadata,
+      unblock_type: PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiUnblockType,
+    }),
+).annotate({
+  identifier: "PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfi",
+}) as any as S.Schema<PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfi>;
+
+/** The type of unblock option for the credit blocker */
+export type PayrollCreditBlockerUnblockOptionWaitForReverseWireUnblockType =
+  "wait_for_reverse_wire";
+export const PayrollCreditBlockerUnblockOptionWaitForReverseWireUnblockType = S.String;
+
+/** Unblock option to resolve a credit blocker by waiting for reverse wire */
+export interface PayrollCreditBlockerUnblockOptionWaitForReverseWire {
+  /** The payment check date associated with the unblock option */
+  check_date: string;
+  metadata: unknown;
+  /** The type of unblock option for the credit blocker */
+  unblock_type: PayrollCreditBlockerUnblockOptionWaitForReverseWireUnblockType;
+}
+export const PayrollCreditBlockerUnblockOptionWaitForReverseWire = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    check_date: S.String,
+    metadata: S.Unknown,
+    unblock_type: PayrollCreditBlockerUnblockOptionWaitForReverseWireUnblockType,
+  }),
+).annotate({
+  identifier: "PayrollCreditBlockerUnblockOptionWaitForReverseWire",
+}) as any as S.Schema<PayrollCreditBlockerUnblockOptionWaitForReverseWire>;
+
+export type PayrollCreditBlockerTypeUnblockOptionsItem =
+  | PayrollCreditBlockerUnblockOptionSubmitWire
+  | PayrollCreditBlockerUnblockOptionSubmitBankScreenshot
+  | PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfi
+  | PayrollCreditBlockerUnblockOptionWaitForReverseWire;
+export const PayrollCreditBlockerTypeUnblockOptionsItem =
+  S.Unknown as any as S.Schema<PayrollCreditBlockerTypeUnblockOptionsItem>;
+
+/** The available options to unblock a credit blocker. */
+export type PayrollCreditBlockerTypeUnblockOptionsList =
+  Array<PayrollCreditBlockerTypeUnblockOptionsItem>;
+export const PayrollCreditBlockerTypeUnblockOptionsList = /*@__PURE__*/ S.Array(
+  PayrollCreditBlockerTypeUnblockOptionsItem,
+) as any as S.Schema<PayrollCreditBlockerTypeUnblockOptionsList>;
+
+/** A blocker that prevents payment crediting. */
+export interface PayrollCreditBlockerType {
+  /** The name of the credit blocker. */
+  blocker_name?: string;
+  /** The type of blocker that's blocking the payment from being credited. */
+  blocker_type?: string;
+  /** The unblock option that's been selected to resolve the credit blocker. */
+  selected_option?: string | null;
+  /** The status of the credit blocker */
+  status?: PayrollCreditBlockerTypeStatus;
+  /** The available options to unblock a credit blocker. */
+  unblock_options?: PayrollCreditBlockerTypeUnblockOptionsList;
+}
+export const PayrollCreditBlockerType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    blocker_name: S.optional(S.String),
+    blocker_type: S.optional(S.String),
+    selected_option: S.optional(S.NullOr(S.String)),
+    status: S.optional(PayrollCreditBlockerTypeStatus),
+    unblock_options: S.optional(PayrollCreditBlockerTypeUnblockOptionsList),
+  }),
+).annotate({ identifier: "PayrollCreditBlockerType" }) as any as S.Schema<PayrollCreditBlockerType>;
+
+/** List of credit blockers for the contractor payment group. */
+export type CreateCompanyContractorPaymentGroupResponseCreditBlockersList =
+  Array<PayrollCreditBlockerType>;
+export const CreateCompanyContractorPaymentGroupResponseCreditBlockersList = /*@__PURE__*/ S.Array(
+  PayrollCreditBlockerType,
+) as any as S.Schema<CreateCompanyContractorPaymentGroupResponseCreditBlockersList>;
+
+/** The status of the submission blocker. */
+export type PayrollSubmissionBlockerTypeStatus = "unresolved" | "resolved";
+export const PayrollSubmissionBlockerTypeStatus = S.String;
+
+/** Additional data associated with the unblock option. */
+export type PayrollSubmissionBlockerTypeUnblockOptionsItemMetadataMap = {
+  [key: string]: unknown | undefined;
+};
+export const PayrollSubmissionBlockerTypeUnblockOptionsItemMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<PayrollSubmissionBlockerTypeUnblockOptionsItemMetadataMap>;
+
+export interface PayrollSubmissionBlockerTypeUnblockOptionsItem {
+  /** The payment check date associated with the unblock option. */
+  check_date?: string;
+  /** Additional data associated with the unblock option. */
+  metadata?: PayrollSubmissionBlockerTypeUnblockOptionsItemMetadataMap;
+  /** The type of unblock option for the submission blocker. */
+  unblock_type?: string;
+}
+export const PayrollSubmissionBlockerTypeUnblockOptionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    check_date: S.optional(S.String),
+    metadata: S.optional(PayrollSubmissionBlockerTypeUnblockOptionsItemMetadataMap),
+    unblock_type: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PayrollSubmissionBlockerTypeUnblockOptionsItem",
+}) as any as S.Schema<PayrollSubmissionBlockerTypeUnblockOptionsItem>;
+
+/** The available options to unblock a submission blocker. */
+export type PayrollSubmissionBlockerTypeUnblockOptionsList =
+  Array<PayrollSubmissionBlockerTypeUnblockOptionsItem>;
+export const PayrollSubmissionBlockerTypeUnblockOptionsList = /*@__PURE__*/ S.Array(
+  PayrollSubmissionBlockerTypeUnblockOptionsItem,
+) as any as S.Schema<PayrollSubmissionBlockerTypeUnblockOptionsList>;
+
+/** A blocker that prevents payment submission. */
+export interface PayrollSubmissionBlockerType {
+  /** The name of the submission blocker. */
+  blocker_name?: string;
+  /** The type of blocker that's blocking the payment submission. */
+  blocker_type?: string;
+  /** The unblock option that's been selected to resolve the submission blocker. */
+  selected_option?: string | null;
+  /** The status of the submission blocker. */
+  status?: PayrollSubmissionBlockerTypeStatus;
+  /** The available options to unblock a submission blocker. */
+  unblock_options?: PayrollSubmissionBlockerTypeUnblockOptionsList;
+}
+export const PayrollSubmissionBlockerType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    blocker_name: S.optional(S.String),
+    blocker_type: S.optional(S.String),
+    selected_option: S.optional(S.NullOr(S.String)),
+    status: S.optional(PayrollSubmissionBlockerTypeStatus),
+    unblock_options: S.optional(PayrollSubmissionBlockerTypeUnblockOptionsList),
+  }),
+).annotate({
+  identifier: "PayrollSubmissionBlockerType",
+}) as any as S.Schema<PayrollSubmissionBlockerType>;
+
+/** List of submission blockers for the contractor payment group. */
+export type CreateCompanyContractorPaymentGroupResponseSubmissionBlockersList =
+  Array<PayrollSubmissionBlockerType>;
+export const CreateCompanyContractorPaymentGroupResponseSubmissionBlockersList =
+  /*@__PURE__*/ S.Array(
+    PayrollSubmissionBlockerType,
+  ) as any as S.Schema<CreateCompanyContractorPaymentGroupResponseSubmissionBlockersList>;
+
+export interface CreateCompanyContractorPaymentGroupResponseTotals {
+  /** The total amount for the group of contractor payments. */
+  amount?: string;
+  /** The total check amount for the group of contractor payments. */
+  check_amount?: string;
+  /** The total debit amount for the group of contractor payments. Sum of wage & reimbursement amount. */
+  debit_amount?: string;
+  /** The total reimbursement amount for the group of contractor payments. */
+  reimbursement_amount?: string;
+  /** The total wage amount for the group of contractor payments. */
+  wage_amount?: string;
+}
+export const CreateCompanyContractorPaymentGroupResponseTotals = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.optional(S.String),
+    check_amount: S.optional(S.String),
+    debit_amount: S.optional(S.String),
+    reimbursement_amount: S.optional(S.String),
+    wage_amount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateCompanyContractorPaymentGroupResponseTotals",
+}) as any as S.Schema<CreateCompanyContractorPaymentGroupResponseTotals>;
+
+export interface CreateCompanyContractorPaymentGroupResponse {
+  /** The check date of the contractor payment group. */
+  check_date?: string;
+  /** The UUID of the company. */
+  company_uuid?: string;
+  /** Token used to make contractor payment group creation idempotent. Will error if attempting to create a group with a duplicate token. */
+  creation_token?: string | null;
+  /** The debit date of the contractor payment group. */
+  debit_date?: string;
+  /** The status of the contractor payment group. Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded. A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method. */
+  status?: CreateCompanyContractorPaymentGroupResponseStatus;
+  /** The unique identifier of the contractor payment group. */
+  uuid?: string;
+  contractor_payments?: CreateCompanyContractorPaymentGroupResponseContractorPaymentsList;
+  /** List of credit blockers for the contractor payment group. */
+  credit_blockers?: CreateCompanyContractorPaymentGroupResponseCreditBlockersList;
+  /** Whether the disbursement is partner owned. */
+  partner_owned_disbursement?: boolean | null;
+  /** List of submission blockers for the contractor payment group. */
+  submission_blockers?: CreateCompanyContractorPaymentGroupResponseSubmissionBlockersList;
+  totals?: CreateCompanyContractorPaymentGroupResponseTotals;
+}
+export const CreateCompanyContractorPaymentGroupResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    check_date: S.optional(S.String),
+    company_uuid: S.optional(S.String),
+    creation_token: S.optional(S.NullOr(S.String)),
+    debit_date: S.optional(S.String),
+    status: S.optional(CreateCompanyContractorPaymentGroupResponseStatus),
+    uuid: S.optional(S.String),
+    contractor_payments: S.optional(
+      CreateCompanyContractorPaymentGroupResponseContractorPaymentsList,
+    ),
+    credit_blockers: S.optional(CreateCompanyContractorPaymentGroupResponseCreditBlockersList),
+    partner_owned_disbursement: S.optional(S.NullOr(S.Boolean)),
+    submission_blockers: S.optional(
+      CreateCompanyContractorPaymentGroupResponseSubmissionBlockersList,
+    ),
+    totals: S.optional(CreateCompanyContractorPaymentGroupResponseTotals),
+  }),
+).annotate({
+  identifier: "CreateCompanyContractorPaymentGroupResponse",
+}) as any as S.Schema<CreateCompanyContractorPaymentGroupResponse>;
+
+export type CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsItemPaymentMethod =
+  | "Direct Deposit"
+  | "Check"
+  | "Historical Payment";
+export const CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsItemPaymentMethod =
+  S.String;
+
+export interface CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsItem {
+  /** If the contractor is on an hourly wage, this is the bonus the contractor earned */
+  bonus?: string;
+  /** The contractor receiving the payment */
+  contractor_uuid?: string;
+  /** If the contractor is on an hourly wage, this is the number of hours that the contractor worked for the payment */
+  hours?: string;
+  /** An optional invoice number to associate with this contractor payment. This will be visible to the contractor on their paystub. */
+  invoice_number?: string;
+  /** An optional note or memo for this contractor payment. This will be visible to the contractor on their paystub. */
+  memo?: string;
+  payment_method?:
+    | CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsItemPaymentMethod
+    | (string & {});
+  /** Reimbursed wages for the contractor */
+  reimbursement?: string;
+  /** If the contractor is on a fixed wage, this is the fixed wage payment for the contractor, regardless of hours worked */
+  wage?: string;
+}
+export const CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      bonus: S.optional(S.String),
+      contractor_uuid: S.optional(S.String),
+      hours: S.optional(S.String),
+      invoice_number: S.optional(S.String),
+      memo: S.optional(S.String),
+      payment_method: S.optional(
+        CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsItemPaymentMethod,
+      ),
+      reimbursement: S.optional(S.String),
+      wage: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsItem",
+  }) as any as S.Schema<CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsItem>;
+
+export type CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsList =
+  Array<CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsItem>;
+export const CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsList =
+  /*@__PURE__*/ S.Array(
+    CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsItem,
+  ) as any as S.Schema<CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsList>;
+
+export interface CreateCompanyContractorPaymentGroupsPreviewRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** Date when payments should be processed */
+  check_date?: string;
+  contractor_payments: CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsList;
+}
+export const CreateCompanyContractorPaymentGroupsPreviewRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    check_date: S.optional(S.String),
+    contractor_payments: CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsList,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/companies/{company_id}/contractor_payment_groups/preview",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateCompanyContractorPaymentGroupsPreviewRequest",
+}) as any as S.Schema<CreateCompanyContractorPaymentGroupsPreviewRequest>;
+
+/** The payment method. */
+export type ContractorPaymentForGroupPreviewPaymentMethod =
+  | "Direct Deposit"
+  | "Check"
+  | "Historical Payment"
+  | "Correction Payment";
+export const ContractorPaymentForGroupPreviewPaymentMethod = S.String;
+
+/** The status of the contractor payment. Will transition to `Funded` during payments processing if the payment should be funded, i.e. has `Direct Deposit` for payment method. Contractors payments with `Check` payment method will remain `Unfunded`. */
+export type ContractorPaymentForGroupPreviewStatus = "Funded" | "Unfunded";
+export const ContractorPaymentForGroupPreviewStatus = S.String;
+
+/** The wage type for the payment. */
+export type ContractorPaymentForGroupPreviewWageType = "Hourly" | "Fixed";
+export const ContractorPaymentForGroupPreviewWageType = S.String;
+
+/** Preview representation of a single contractor payment with nullable uuid. */
+export interface ContractorPaymentForGroupPreview {
+  /** The bonus amount in the payment. */
+  bonus?: string;
+  /** The UUID of the contractor. */
+  contractor_uuid?: string;
+  /** The rate per hour worked for the payment. */
+  hourly_rate?: string;
+  /** The number of hours worked for the payment. */
+  hours?: string;
+  /** An optional invoice number associated with this contractor payment. This will be visible to the contractor on their paystub. Maximum 25 characters. */
+  invoice_number?: string | null;
+  /** Determine if the contractor payment can be cancelled. */
+  may_cancel?: boolean;
+  /** An optional note or memo for this contractor payment. This will be visible to the contractor on their paystub. */
+  memo?: string | null;
+  /** The payment method. */
+  payment_method?: ContractorPaymentForGroupPreviewPaymentMethod;
+  /** The reimbursement amount in the payment. */
+  reimbursement?: string;
+  /** The status of the contractor payment. Will transition to `Funded` during payments processing if the payment should be funded, i.e. has `Direct Deposit` for payment method. Contractors payments with `Check` payment method will remain `Unfunded`. */
+  status?: ContractorPaymentForGroupPreviewStatus;
+  /** The unique identifier of the contractor payment in Gusto. */
+  uuid?: string | null;
+  /** The fixed wage of the payment, regardless of hours worked. */
+  wage?: string;
+  /** (hours * hourly_rate) + wage + bonus */
+  wage_total?: string;
+  /** The wage type for the payment. */
+  wage_type?: ContractorPaymentForGroupPreviewWageType;
+}
+export const ContractorPaymentForGroupPreview = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bonus: S.optional(S.String),
+    contractor_uuid: S.optional(S.String),
+    hourly_rate: S.optional(S.String),
+    hours: S.optional(S.String),
+    invoice_number: S.optional(S.NullOr(S.String)),
+    may_cancel: S.optional(S.Boolean),
+    memo: S.optional(S.NullOr(S.String)),
+    payment_method: S.optional(ContractorPaymentForGroupPreviewPaymentMethod),
+    reimbursement: S.optional(S.String),
+    status: S.optional(ContractorPaymentForGroupPreviewStatus),
+    uuid: S.optional(S.NullOr(S.String)),
+    wage: S.optional(S.String),
+    wage_total: S.optional(S.String),
+    wage_type: S.optional(ContractorPaymentForGroupPreviewWageType),
+  }),
+).annotate({
+  identifier: "ContractorPaymentForGroupPreview",
+}) as any as S.Schema<ContractorPaymentForGroupPreview>;
+
+export type ContractorPaymentGroupPreviewContractorPaymentsList =
+  Array<ContractorPaymentForGroupPreview>;
+export const ContractorPaymentGroupPreviewContractorPaymentsList = /*@__PURE__*/ S.Array(
+  ContractorPaymentForGroupPreview,
+) as any as S.Schema<ContractorPaymentGroupPreviewContractorPaymentsList>;
+
+/** List of credit blockers for the contractor payment group. */
+export type ContractorPaymentGroupPreviewCreditBlockersList = Array<PayrollCreditBlockerType>;
+export const ContractorPaymentGroupPreviewCreditBlockersList = /*@__PURE__*/ S.Array(
+  PayrollCreditBlockerType,
+) as any as S.Schema<ContractorPaymentGroupPreviewCreditBlockersList>;
+
+/** The status of the contractor payment group. Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded. A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method. */
+export type ContractorPaymentGroupPreviewStatus = "Unfunded" | "Funded";
+export const ContractorPaymentGroupPreviewStatus = S.String;
+
+/** List of submission blockers for the contractor payment group. */
+export type ContractorPaymentGroupPreviewSubmissionBlockersList =
+  Array<PayrollSubmissionBlockerType>;
+export const ContractorPaymentGroupPreviewSubmissionBlockersList = /*@__PURE__*/ S.Array(
+  PayrollSubmissionBlockerType,
+) as any as S.Schema<ContractorPaymentGroupPreviewSubmissionBlockersList>;
+
+export type ContractorPaymentGroupPreviewTotals = CreateCompanyContractorPaymentGroupResponseTotals;
+export const ContractorPaymentGroupPreviewTotals =
+  CreateCompanyContractorPaymentGroupResponseTotals;
+
+/** Preview of a contractor payment group */
+export interface ContractorPaymentGroupPreview {
+  /** The check date of the contractor payment group. */
+  check_date?: string;
+  /** The UUID of the company. */
+  company_uuid?: string;
+  contractor_payments?: ContractorPaymentGroupPreviewContractorPaymentsList;
+  /** Token used to make contractor payment group creation idempotent. Will error if attempting to create a group with a duplicate token. */
+  creation_token?: string | null;
+  /** List of credit blockers for the contractor payment group. */
+  credit_blockers?: ContractorPaymentGroupPreviewCreditBlockersList;
+  /** The debit date of the contractor payment group. */
+  debit_date?: string;
+  /** Whether the disbursement is partner owned. */
+  partner_owned_disbursement?: boolean | null;
+  /** The status of the contractor payment group. Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded. A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method. */
+  status?: ContractorPaymentGroupPreviewStatus;
+  /** List of submission blockers for the contractor payment group. */
+  submission_blockers?: ContractorPaymentGroupPreviewSubmissionBlockersList;
+  totals?: CreateCompanyContractorPaymentGroupResponseTotals;
+  /** The unique identifier of the contractor payment group. */
+  uuid?: string | null;
+}
+export const ContractorPaymentGroupPreview = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    check_date: S.optional(S.String),
+    company_uuid: S.optional(S.String),
+    contractor_payments: S.optional(ContractorPaymentGroupPreviewContractorPaymentsList),
+    creation_token: S.optional(S.NullOr(S.String)),
+    credit_blockers: S.optional(ContractorPaymentGroupPreviewCreditBlockersList),
+    debit_date: S.optional(S.String),
+    partner_owned_disbursement: S.optional(S.NullOr(S.Boolean)),
+    status: S.optional(ContractorPaymentGroupPreviewStatus),
+    submission_blockers: S.optional(ContractorPaymentGroupPreviewSubmissionBlockersList),
+    totals: S.optional(CreateCompanyContractorPaymentGroupResponseTotals),
+    uuid: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "ContractorPaymentGroupPreview",
+}) as any as S.Schema<ContractorPaymentGroupPreview>;
+
 export interface CreateCompanyEarningTypeRequest {
   /** The UUID of the company */
   company_id: string;
@@ -412,13 +1767,7 @@ export const CreateCompanyEarningTypeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_id: S.String.pipe(T.Label()),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/companies/{company_id}/earning_types",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/companies/{company_id}/earning_types", code: 200 })),
 ).annotate({
   identifier: "CreateCompanyEarningTypeRequest",
 }) as any as S.Schema<CreateCompanyEarningTypeRequest>;
@@ -439,6 +1788,246 @@ export const EarningType = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String,
   }),
 ).annotate({ identifier: "EarningType" }) as any as S.Schema<EarningType>;
+
+export interface CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay {
+  selected?: boolean;
+}
+export const CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      selected: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay",
+  }) as any as S.Schema<CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay>;
+
+export type CreateCompanyHolidayPayPolicyRequestFederalHolidaysColumbusDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const CreateCompanyHolidayPayPolicyRequestFederalHolidaysColumbusDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type CreateCompanyHolidayPayPolicyRequestFederalHolidaysIndependenceDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const CreateCompanyHolidayPayPolicyRequestFederalHolidaysIndependenceDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type CreateCompanyHolidayPayPolicyRequestFederalHolidaysJuneteenth =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const CreateCompanyHolidayPayPolicyRequestFederalHolidaysJuneteenth =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type CreateCompanyHolidayPayPolicyRequestFederalHolidaysLaborDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const CreateCompanyHolidayPayPolicyRequestFederalHolidaysLaborDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type CreateCompanyHolidayPayPolicyRequestFederalHolidaysMemorialDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const CreateCompanyHolidayPayPolicyRequestFederalHolidaysMemorialDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type CreateCompanyHolidayPayPolicyRequestFederalHolidaysMlkDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const CreateCompanyHolidayPayPolicyRequestFederalHolidaysMlkDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type CreateCompanyHolidayPayPolicyRequestFederalHolidaysNewYearsDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const CreateCompanyHolidayPayPolicyRequestFederalHolidaysNewYearsDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type CreateCompanyHolidayPayPolicyRequestFederalHolidaysPresidentsDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const CreateCompanyHolidayPayPolicyRequestFederalHolidaysPresidentsDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type CreateCompanyHolidayPayPolicyRequestFederalHolidaysThanksgiving =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const CreateCompanyHolidayPayPolicyRequestFederalHolidaysThanksgiving =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type CreateCompanyHolidayPayPolicyRequestFederalHolidaysVeteransDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const CreateCompanyHolidayPayPolicyRequestFederalHolidaysVeteransDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+/** An object containing federal holiday objects, each containing a boolean selected property. */
+export interface CreateCompanyHolidayPayPolicyRequestFederalHolidays {
+  christmas_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+  columbus_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+  independence_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+  juneteenth?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+  labor_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+  memorial_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+  mlk_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+  new_years_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+  presidents_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+  thanksgiving?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+  veterans_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+}
+export const CreateCompanyHolidayPayPolicyRequestFederalHolidays = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    christmas_day: S.optional(CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay),
+    columbus_day: S.optional(CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay),
+    independence_day: S.optional(CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay),
+    juneteenth: S.optional(CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay),
+    labor_day: S.optional(CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay),
+    memorial_day: S.optional(CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay),
+    mlk_day: S.optional(CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay),
+    new_years_day: S.optional(CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay),
+    presidents_day: S.optional(CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay),
+    thanksgiving: S.optional(CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay),
+    veterans_day: S.optional(CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay),
+  }),
+).annotate({
+  identifier: "CreateCompanyHolidayPayPolicyRequestFederalHolidays",
+}) as any as S.Schema<CreateCompanyHolidayPayPolicyRequestFederalHolidays>;
+
+export interface CreateCompanyHolidayPayPolicyRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** An object containing federal holiday objects, each containing a boolean selected property. */
+  federal_holidays?: CreateCompanyHolidayPayPolicyRequestFederalHolidays;
+}
+export const CreateCompanyHolidayPayPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    federal_holidays: S.optional(CreateCompanyHolidayPayPolicyRequestFederalHolidays),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v1/companies/{company_uuid}/holiday_pay_policy", code: 200 }),
+  ),
+).annotate({
+  identifier: "CreateCompanyHolidayPayPolicyRequest",
+}) as any as S.Schema<CreateCompanyHolidayPayPolicyRequest>;
+
+export interface HolidayPayPolicyEmployeesItem {
+  uuid?: string;
+}
+export const HolidayPayPolicyEmployeesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "HolidayPayPolicyEmployeesItem",
+}) as any as S.Schema<HolidayPayPolicyEmployeesItem>;
+
+/** List of employee uuids under a holiday pay policy */
+export type HolidayPayPolicyEmployeesList = Array<HolidayPayPolicyEmployeesItem>;
+export const HolidayPayPolicyEmployeesList = /*@__PURE__*/ S.Array(
+  HolidayPayPolicyEmployeesItem,
+) as any as S.Schema<HolidayPayPolicyEmployeesList>;
+
+export interface HolidayPayPolicyFederalHolidaysChristmasDay {
+  date?: string;
+  name?: string;
+  selected?: boolean;
+}
+export const HolidayPayPolicyFederalHolidaysChristmasDay = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    date: S.optional(S.String),
+    name: S.optional(S.String),
+    selected: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "HolidayPayPolicyFederalHolidaysChristmasDay",
+}) as any as S.Schema<HolidayPayPolicyFederalHolidaysChristmasDay>;
+
+export type HolidayPayPolicyFederalHolidaysColumbusDay =
+  HolidayPayPolicyFederalHolidaysChristmasDay;
+export const HolidayPayPolicyFederalHolidaysColumbusDay =
+  HolidayPayPolicyFederalHolidaysChristmasDay;
+
+export type HolidayPayPolicyFederalHolidaysIndependenceDay =
+  HolidayPayPolicyFederalHolidaysChristmasDay;
+export const HolidayPayPolicyFederalHolidaysIndependenceDay =
+  HolidayPayPolicyFederalHolidaysChristmasDay;
+
+export type HolidayPayPolicyFederalHolidaysJuneteenth = HolidayPayPolicyFederalHolidaysChristmasDay;
+export const HolidayPayPolicyFederalHolidaysJuneteenth =
+  HolidayPayPolicyFederalHolidaysChristmasDay;
+
+export type HolidayPayPolicyFederalHolidaysLaborDay = HolidayPayPolicyFederalHolidaysChristmasDay;
+export const HolidayPayPolicyFederalHolidaysLaborDay = HolidayPayPolicyFederalHolidaysChristmasDay;
+
+export type HolidayPayPolicyFederalHolidaysMemorialDay =
+  HolidayPayPolicyFederalHolidaysChristmasDay;
+export const HolidayPayPolicyFederalHolidaysMemorialDay =
+  HolidayPayPolicyFederalHolidaysChristmasDay;
+
+export type HolidayPayPolicyFederalHolidaysMlkDay = HolidayPayPolicyFederalHolidaysChristmasDay;
+export const HolidayPayPolicyFederalHolidaysMlkDay = HolidayPayPolicyFederalHolidaysChristmasDay;
+
+export type HolidayPayPolicyFederalHolidaysNewYearsDay =
+  HolidayPayPolicyFederalHolidaysChristmasDay;
+export const HolidayPayPolicyFederalHolidaysNewYearsDay =
+  HolidayPayPolicyFederalHolidaysChristmasDay;
+
+export type HolidayPayPolicyFederalHolidaysPresidentsDay =
+  HolidayPayPolicyFederalHolidaysChristmasDay;
+export const HolidayPayPolicyFederalHolidaysPresidentsDay =
+  HolidayPayPolicyFederalHolidaysChristmasDay;
+
+export type HolidayPayPolicyFederalHolidaysThanksgiving =
+  HolidayPayPolicyFederalHolidaysChristmasDay;
+export const HolidayPayPolicyFederalHolidaysThanksgiving =
+  HolidayPayPolicyFederalHolidaysChristmasDay;
+
+export type HolidayPayPolicyFederalHolidaysVeteransDay =
+  HolidayPayPolicyFederalHolidaysChristmasDay;
+export const HolidayPayPolicyFederalHolidaysVeteransDay =
+  HolidayPayPolicyFederalHolidaysChristmasDay;
+
+/** List of the eleven supported federal holidays and their details */
+export interface HolidayPayPolicyFederalHolidays {
+  christmas_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
+  columbus_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
+  independence_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
+  juneteenth?: HolidayPayPolicyFederalHolidaysChristmasDay;
+  labor_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
+  memorial_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
+  mlk_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
+  new_years_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
+  presidents_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
+  thanksgiving?: HolidayPayPolicyFederalHolidaysChristmasDay;
+  veterans_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
+}
+export const HolidayPayPolicyFederalHolidays = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    christmas_day: S.optional(HolidayPayPolicyFederalHolidaysChristmasDay),
+    columbus_day: S.optional(HolidayPayPolicyFederalHolidaysChristmasDay),
+    independence_day: S.optional(HolidayPayPolicyFederalHolidaysChristmasDay),
+    juneteenth: S.optional(HolidayPayPolicyFederalHolidaysChristmasDay),
+    labor_day: S.optional(HolidayPayPolicyFederalHolidaysChristmasDay),
+    memorial_day: S.optional(HolidayPayPolicyFederalHolidaysChristmasDay),
+    mlk_day: S.optional(HolidayPayPolicyFederalHolidaysChristmasDay),
+    new_years_day: S.optional(HolidayPayPolicyFederalHolidaysChristmasDay),
+    presidents_day: S.optional(HolidayPayPolicyFederalHolidaysChristmasDay),
+    thanksgiving: S.optional(HolidayPayPolicyFederalHolidaysChristmasDay),
+    veterans_day: S.optional(HolidayPayPolicyFederalHolidaysChristmasDay),
+  }),
+).annotate({
+  identifier: "HolidayPayPolicyFederalHolidays",
+}) as any as S.Schema<HolidayPayPolicyFederalHolidays>;
+
+/** Representation of a Holiday Pay Policy */
+export interface HolidayPayPolicy {
+  /** A unique identifier for the company owning the holiday pay policy */
+  company_uuid: string;
+  /** List of employee uuids under a holiday pay policy */
+  employees: HolidayPayPolicyEmployeesList;
+  /** List of the eleven supported federal holidays and their details */
+  federal_holidays: HolidayPayPolicyFederalHolidays;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field. */
+  version: string;
+}
+export const HolidayPayPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String,
+    employees: HolidayPayPolicyEmployeesList,
+    federal_holidays: HolidayPayPolicyFederalHolidays,
+    version: S.String,
+  }),
+).annotate({ identifier: "HolidayPayPolicy" }) as any as S.Schema<HolidayPayPolicy>;
 
 export interface CreateCompanyLocationRequest {
   /** The UUID of the company */
@@ -474,13 +2063,7 @@ export const CreateCompanyLocationRequest = /*@__PURE__*/ S.suspend(() =>
     street_1: S.String,
     street_2: S.optional(S.NullOr(S.String)),
     zip: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/companies/{company_id}/locations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/companies/{company_id}/locations", code: 200 })),
 ).annotate({
   identifier: "CreateCompanyLocationRequest",
 }) as any as S.Schema<CreateCompanyLocationRequest>;
@@ -559,6 +2142,2321 @@ export const Location = /*@__PURE__*/ S.suspend(() =>
     zip: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
+
+/** A list of employee UUIDs to include on the payroll. At least one UUID is required for non-termination off-cycle payrolls. */
+export type CreateCompanyPayrollRequestEmployeeUuidsList = Array<string>;
+export const CreateCompanyPayrollRequestEmployeeUuidsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateCompanyPayrollRequestEmployeeUuidsList>;
+
+/** An off cycle payroll reason. Select one from the following list. */
+export type CreateCompanyPayrollRequestOffCycleReason =
+  | "Bonus"
+  | "Correction"
+  | "Adhoc"
+  | "Dismissed employee"
+  | "Transition from old pay schedule";
+export const CreateCompanyPayrollRequestOffCycleReason = S.String;
+
+/** The payment schedule tax rate the payroll is based on. */
+export type CreateCompanyPayrollRequestWithholdingPayPeriod =
+  | "Every week"
+  | "Every other week"
+  | "Twice per month"
+  | "Monthly"
+  | "Quarterly"
+  | "Semiannually"
+  | "Annually";
+export const CreateCompanyPayrollRequestWithholdingPayPeriod = S.String;
+
+export interface CreateCompanyPayrollRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** Payment date. */
+  check_date?: string;
+  /** A list of employee UUIDs to include on the payroll. At least one UUID is required for non-termination off-cycle payrolls. */
+  employee_uuids?: CreateCompanyPayrollRequestEmployeeUuidsList;
+  /** Pay period end date. */
+  end_date: string;
+  /** Enable taxes to be withheld at the IRS's required rate of 22% for federal income taxes. State income taxes will be taxed at the state's supplemental tax rate. Otherwise, we'll sum the entirety of the employee's wages and withhold taxes on the entire amount at the rate for regular wages. */
+  fixed_withholding_rate?: boolean;
+  /** When true, all employees in the payroll will be paid by check and the check date can be set to today or any future business day (rather than requiring ACH lead time). Payment methods cannot be changed on check-only payrolls. */
+  is_check_only_payroll?: boolean;
+  /** Whether it is an off cycle payroll. */
+  off_cycle: boolean;
+  /** An off cycle payroll reason. Select one from the following list. */
+  off_cycle_reason: CreateCompanyPayrollRequestOffCycleReason | (string & {});
+  /** A pay schedule is required for transition from old pay schedule payroll to identify the matching transition pay period. */
+  pay_schedule_uuid?: string;
+  /** Block regular deductions and contributions for this payroll. */
+  skip_regular_deductions?: boolean;
+  /** Pay period start date. */
+  start_date: string;
+  /** The payment schedule tax rate the payroll is based on. */
+  withholding_pay_period?: CreateCompanyPayrollRequestWithholdingPayPeriod | (string & {});
+}
+export const CreateCompanyPayrollRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    check_date: S.optional(S.String),
+    employee_uuids: S.optional(CreateCompanyPayrollRequestEmployeeUuidsList),
+    end_date: S.String,
+    fixed_withholding_rate: S.optional(S.Boolean),
+    is_check_only_payroll: S.optional(S.Boolean),
+    off_cycle: S.Boolean,
+    off_cycle_reason: CreateCompanyPayrollRequestOffCycleReason,
+    pay_schedule_uuid: S.optional(S.String),
+    skip_regular_deductions: S.optional(S.Boolean),
+    start_date: S.String,
+    withholding_pay_period: S.optional(CreateCompanyPayrollRequestWithholdingPayPeriod),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/companies/{company_id}/payrolls", code: 200 })),
+).annotate({
+  identifier: "CreateCompanyPayrollRequest",
+}) as any as S.Schema<CreateCompanyPayrollRequest>;
+
+/** How to interpret the amount. */
+export type PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederalAmountType =
+  | "fixed"
+  | "percent";
+export const PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederalAmountType =
+  S.String;
+
+/** Override mode. Only `one_time` is currently exposed. */
+export type PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederalOverrideType =
+  "one_time";
+export const PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederalOverrideType =
+  S.String;
+
+/** Federal one-time custom withholding override applied to this payroll. */
+export interface PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederal {
+  /** The amount that was withheld for this payroll. */
+  amount?: string;
+  /** How to interpret the amount. */
+  amount_type?: PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederalAmountType;
+  /** Override mode. Only `one_time` is currently exposed. */
+  override_type?: PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederalOverrideType;
+}
+export const PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederal =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      amount: S.optional(S.String),
+      amount_type: S.optional(
+        PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederalAmountType,
+      ),
+      override_type: S.optional(
+        PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederalOverrideType,
+      ),
+    }),
+  ).annotate({
+    identifier: "PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederal",
+  }) as any as S.Schema<PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederal>;
+
+/** How to interpret the amount. */
+export type PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItemAmountType =
+  | "fixed"
+  | "percent";
+export const PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItemAmountType =
+  S.String;
+
+/** Override mode. Only `one_time` is currently exposed. */
+export type PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItemOverrideType =
+  "one_time";
+export const PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItemOverrideType =
+  S.String;
+
+export interface PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItem {
+  /** The amount that was withheld for this payroll. */
+  amount?: string;
+  /** How to interpret the amount. */
+  amount_type?: PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItemAmountType;
+  /** The UUID of the EmployeeStateField this withholding applies to. */
+  employee_state_field_uuid?: string;
+  /** Override mode. Only `one_time` is currently exposed. */
+  override_type?: PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItemOverrideType;
+}
+export const PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      amount: S.optional(S.String),
+      amount_type: S.optional(
+        PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItemAmountType,
+      ),
+      employee_state_field_uuid: S.optional(S.String),
+      override_type: S.optional(
+        PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItemOverrideType,
+      ),
+    }),
+  ).annotate({
+    identifier: "PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItem",
+  }) as any as S.Schema<PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItem>;
+
+/** State one-time custom withholding overrides applied to this payroll, one entry per state field. */
+export type PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateList =
+  Array<PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItem>;
+export const PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateList =
+  /*@__PURE__*/ S.Array(
+    PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItem,
+  ) as any as S.Schema<PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateList>;
+
+/** The one-time custom withholding overrides applied to this payroll for this employee. `federal` is null when no federal one-time override is set; `state` is an empty array when no state one-time overrides are set. */
+export interface PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdings {
+  /** Federal one-time custom withholding override applied to this payroll. */
+  federal?: PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederal | null;
+  /** State one-time custom withholding overrides applied to this payroll, one entry per state field. */
+  state?: PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateList;
+}
+export const PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdings =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      federal: S.optional(
+        S.NullOr(PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederal),
+      ),
+      state: S.optional(PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateList),
+    }),
+  ).annotate({
+    identifier: "PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdings",
+  }) as any as S.Schema<PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdings>;
+
+export interface PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem {
+  /** The amount of the compensation for the pay period. */
+  amount?: string;
+  /** The UUID of the job for the compensation. */
+  job_uuid?: string;
+  /** The name of the compensation. This also serves as the unique, immutable identifier for this compensation. */
+  name?: string;
+}
+export const PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      amount: S.optional(S.String),
+      job_uuid: S.optional(S.String),
+      name: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem",
+  }) as any as S.Schema<PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem>;
+
+/** An array of fixed compensations for the employee. Fixed compensations include tips and bonuses. On regular payrolls, reimbursements are sent via the dedicated `reimbursements` array instead. Off-cycle payrolls continue to include reimbursements in `fixed_compensations`. If this payroll has been processed, only fixed compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active fixed compensations are returned. */
+export type PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsList =
+  Array<PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem>;
+export const PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsList =
+  /*@__PURE__*/ S.Array(
+    PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem,
+  ) as any as S.Schema<PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsList>;
+
+export interface PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsItem {
+  /** The amount of the compensation. This field is only available after the payroll is calculated and cannot be used for updating hourly compensations. */
+  amount?: string;
+  /** The amount multiplied by the base rate to calculate total compensation per hour worked. */
+  compensation_multiplier?: number;
+  /** The FLSA Status of the employee's primary job compensation */
+  flsa_status?: string;
+  /** The number of hours to be compensated for this pay period. */
+  hours?: string;
+  /** The UUID of the job for the compensation. */
+  job_uuid?: string;
+  /** The name of the compensation. This also serves as the unique, immutable identifier for this compensation. */
+  name?: string;
+}
+export const PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      amount: S.optional(S.String),
+      compensation_multiplier: S.optional(S.Number),
+      flsa_status: S.optional(S.String),
+      hours: S.optional(S.String),
+      job_uuid: S.optional(S.String),
+      name: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsItem",
+  }) as any as S.Schema<PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsItem>;
+
+/** An array of hourly compensations for the employee. Hourly compensations include regular, overtime, and double overtime hours. If this payroll has been processed, only hourly compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active hourly compensations are returned. */
+export type PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsList =
+  Array<PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsItem>;
+export const PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsList =
+  /*@__PURE__*/ S.Array(
+    PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsItem,
+  ) as any as S.Schema<PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsList>;
+
+export interface PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffItem {
+  /** The dollar amount paid for this PTO entry during the pay period (as a string-formatted decimal, e.g. "1234.56"). Only available for processed payrolls. */
+  amount?: string | null;
+  /** The outstanding hours paid upon termination. This field is only applicable for termination payrolls. */
+  final_payout_unused_hours_input?: string | null;
+  /** The hours of this PTO taken during the pay period. */
+  hours?: string;
+  /** The name of the PTO. This also serves as the unique, immutable identifier for the PTO. */
+  name?: string;
+}
+export const PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      amount: S.optional(S.NullOr(S.String)),
+      final_payout_unused_hours_input: S.optional(S.NullOr(S.String)),
+      hours: S.optional(S.String),
+      name: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffItem",
+}) as any as S.Schema<PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffItem>;
+
+/** An array of all paid time off the employee is eligible for this pay period. */
+export type PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffList =
+  Array<PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffItem>;
+export const PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffList = /*@__PURE__*/ S.Array(
+  PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffItem,
+) as any as S.Schema<PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffList>;
+
+export type PayrollUnprocessedEmployeeCompensationsTypePaymentMethod =
+  | "Direct Deposit"
+  | "Check"
+  | "Historical";
+export const PayrollUnprocessedEmployeeCompensationsTypePaymentMethod = S.String;
+
+export interface PayrollUnprocessedEmployeeCompensationsTypeReimbursementsItem {
+  /** The dollar amount of the reimbursement for the pay period. */
+  amount: string;
+  /** The description of the reimbursement. Null for unnamed reimbursements. */
+  description: string | null;
+  /** Whether the reimbursement is recurring. This field is only available for unprocessed payrolls. */
+  recurring?: boolean;
+  /** The UUID of the reimbursement. Null for unnamed reimbursements. This field is only available for unprocessed payrolls. */
+  uuid?: string | null;
+}
+export const PayrollUnprocessedEmployeeCompensationsTypeReimbursementsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      amount: S.String,
+      description: S.NullOr(S.String),
+      recurring: S.optional(S.Boolean),
+      uuid: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "PayrollUnprocessedEmployeeCompensationsTypeReimbursementsItem",
+  }) as any as S.Schema<PayrollUnprocessedEmployeeCompensationsTypeReimbursementsItem>;
+
+/** An array of reimbursements for the employee. */
+export type PayrollUnprocessedEmployeeCompensationsTypeReimbursementsList =
+  Array<PayrollUnprocessedEmployeeCompensationsTypeReimbursementsItem>;
+export const PayrollUnprocessedEmployeeCompensationsTypeReimbursementsList = /*@__PURE__*/ S.Array(
+  PayrollUnprocessedEmployeeCompensationsTypeReimbursementsItem,
+) as any as S.Schema<PayrollUnprocessedEmployeeCompensationsTypeReimbursementsList>;
+
+export interface PayrollUnprocessedEmployeeCompensationsType {
+  /** The employee's check amount (as a string-formatted decimal, e.g. "1234.56"), equal to net_pay + reimbursements. This value is only available for processed payrolls. */
+  check_amount?: string | null;
+  /** The one-time custom withholding overrides applied to this payroll for this employee. `federal` is null when no federal one-time override is set; `state` is an empty array when no state one-time overrides are set. */
+  custom_withholdings?: PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdings;
+  /** The UUID of the employee. */
+  employee_uuid?: string;
+  /** This employee will be excluded (skipped) from payroll calculation and will not be paid for the payroll. Cancelling a payroll would reset all employees' excluded back to false. */
+  excluded?: boolean;
+  /** The first name of the employee. Requires `employees:read` scope. */
+  first_name?: string | null;
+  /** An array of fixed compensations for the employee. Fixed compensations include tips and bonuses. On regular payrolls, reimbursements are sent via the dedicated `reimbursements` array instead. Off-cycle payrolls continue to include reimbursements in `fixed_compensations`. If this payroll has been processed, only fixed compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active fixed compensations are returned. */
+  fixed_compensations?: PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsList;
+  /** The employee's gross pay (as a string-formatted decimal, e.g. "1234.56"), equal to regular wages + cash tips + payroll tips + any other additional earnings, excluding imputed income. This value is only available for processed payrolls. */
+  gross_pay?: string | null;
+  /** An array of hourly compensations for the employee. Hourly compensations include regular, overtime, and double overtime hours. If this payroll has been processed, only hourly compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active hourly compensations are returned. */
+  hourly_compensations?: PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsList;
+  /** The last name of the employee. Requires `employees:read` scope. */
+  last_name?: string | null;
+  /** Custom text that will be printed as a personal note to the employee on a paystub. */
+  memo?: string | null;
+  /** The employee's net pay (as a string-formatted decimal, e.g. "1234.56"), equal to gross_pay - employee taxes - employee deductions or garnishments - cash tips. This value is only available for processed payrolls. */
+  net_pay?: string | null;
+  /** An array of all paid time off the employee is eligible for this pay period. */
+  paid_time_off?: PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffList;
+  /** The employee's compensation payment method. Is *only* `Historical` when retrieving external payrolls initially run outside of Gusto, then put into Gusto. */
+  payment_method?: PayrollUnprocessedEmployeeCompensationsTypePaymentMethod | null;
+  /** The preferred first name of the employee. Requires `employees:read` scope. */
+  preferred_first_name?: string | null;
+  /** An array of reimbursements for the employee. */
+  reimbursements?: PayrollUnprocessedEmployeeCompensationsTypeReimbursementsList;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version?: string;
+}
+export const PayrollUnprocessedEmployeeCompensationsType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    check_amount: S.optional(S.NullOr(S.String)),
+    custom_withholdings: S.optional(PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdings),
+    employee_uuid: S.optional(S.String),
+    excluded: S.optional(S.Boolean),
+    first_name: S.optional(S.NullOr(S.String)),
+    fixed_compensations: S.optional(
+      PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsList,
+    ),
+    gross_pay: S.optional(S.NullOr(S.String)),
+    hourly_compensations: S.optional(
+      PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsList,
+    ),
+    last_name: S.optional(S.NullOr(S.String)),
+    memo: S.optional(S.NullOr(S.String)),
+    net_pay: S.optional(S.NullOr(S.String)),
+    paid_time_off: S.optional(PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffList),
+    payment_method: S.optional(S.NullOr(PayrollUnprocessedEmployeeCompensationsTypePaymentMethod)),
+    preferred_first_name: S.optional(S.NullOr(S.String)),
+    reimbursements: S.optional(PayrollUnprocessedEmployeeCompensationsTypeReimbursementsList),
+    version: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PayrollUnprocessedEmployeeCompensationsType",
+}) as any as S.Schema<PayrollUnprocessedEmployeeCompensationsType>;
+
+export type PayrollUnprocessedEmployeeCompensationsList =
+  Array<PayrollUnprocessedEmployeeCompensationsType>;
+export const PayrollUnprocessedEmployeeCompensationsList = /*@__PURE__*/ S.Array(
+  PayrollUnprocessedEmployeeCompensationsType,
+) as any as S.Schema<PayrollUnprocessedEmployeeCompensationsList>;
+
+export interface PayrollFixedCompensationTypesTypeItem {
+  /** The name of an available type of fixed compensation. */
+  name?: string;
+}
+export const PayrollFixedCompensationTypesTypeItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PayrollFixedCompensationTypesTypeItem",
+}) as any as S.Schema<PayrollFixedCompensationTypesTypeItem>;
+
+export type PayrollFixedCompensationTypesType = Array<PayrollFixedCompensationTypesTypeItem>;
+export const PayrollFixedCompensationTypesType = /*@__PURE__*/ S.Array(
+  PayrollFixedCompensationTypesTypeItem,
+) as any as S.Schema<PayrollFixedCompensationTypesType>;
+
+export type OffCycleReasonType =
+  | "Adhoc"
+  | "Benefit reversal"
+  | "Bonus"
+  | "Correction"
+  | "Dismissed employee"
+  | "Hired employee"
+  | "Wage correction"
+  | "Tax reconciliation"
+  | "Reversal"
+  | "Disability insurance distribution"
+  | "Transition from old pay schedule";
+export const OffCycleReasonType = S.String;
+
+export interface PayrollPayPeriodType {
+  /** The start date, inclusive, of the pay period. */
+  end_date?: string;
+  /** The UUID of the pay schedule for the payroll. */
+  pay_schedule_uuid?: string | null;
+  /** The start date, inclusive, of the pay period. */
+  start_date?: string;
+}
+export const PayrollPayPeriodType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    end_date: S.optional(S.String),
+    pay_schedule_uuid: S.optional(S.NullOr(S.String)),
+    start_date: S.optional(S.String),
+  }),
+).annotate({ identifier: "PayrollPayPeriodType" }) as any as S.Schema<PayrollPayPeriodType>;
+
+/** Only applicable when a payroll is moved to four day processing instead of fast ach. */
+export interface PayrollPaymentSpeedChangedType {
+  /** Current check date. */
+  current_check_date?: string;
+  /** Current debit date. */
+  current_debit_date?: string;
+  /** Original check date when fast ach applies. */
+  original_check_date?: string;
+  /** Original debit date when fast ach applies. */
+  original_debit_date?: string;
+  /** The reason why the payroll is moved to four day. */
+  reason?: string;
+}
+export const PayrollPaymentSpeedChangedType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    current_check_date: S.optional(S.String),
+    current_debit_date: S.optional(S.String),
+    original_check_date: S.optional(S.String),
+    original_debit_date: S.optional(S.String),
+    reason: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PayrollPaymentSpeedChangedType",
+}) as any as S.Schema<PayrollPaymentSpeedChangedType>;
+
+/** Information about the payroll's status and expected dates */
+export interface PayrollPayrollStatusMetaType {
+  /** true if the payroll may be cancelled. */
+  cancellable?: boolean;
+  /** The date an employee will be paid if the payroll is submitted now. */
+  expected_check_date?: string;
+  /** The time the employer's account will be debited if the payroll is submitted now. */
+  expected_debit_time?: string;
+  /** The normal check date for the associated pay period. Returns `null` for off-cycle payrolls (not meaningful for off-cycle). */
+  initial_check_date?: string | null;
+  /** Payroll must be submitted at or before this time to avoid late payroll. */
+  initial_debit_cutoff_time?: string;
+  /** expected_check_date > initial_check_date. Returns `null` for off-cycle payrolls (not meaningful for off-cycle). */
+  payroll_late?: boolean | null;
+}
+export const PayrollPayrollStatusMetaType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cancellable: S.optional(S.Boolean),
+    expected_check_date: S.optional(S.String),
+    expected_debit_time: S.optional(S.String),
+    initial_check_date: S.optional(S.NullOr(S.String)),
+    initial_debit_cutoff_time: S.optional(S.String),
+    payroll_late: S.optional(S.NullOr(S.Boolean)),
+  }),
+).annotate({
+  identifier: "PayrollPayrollStatusMetaType",
+}) as any as S.Schema<PayrollPayrollStatusMetaType>;
+
+export interface EntityErrorObjectErrorsItem {
+  /** Specifies the type of error. The category provides error groupings and can be used to build custom error handling in your integration. If category is `nested_errors`, the object will contain a nested `errors` property with entity errors. */
+  category?: string;
+  /** Specifies where the error occurs. Typically this key identifies the attribute/parameter related to the error. */
+  error_key?: string;
+  /** Provides details about the error - generally this message can be surfaced to an end user. */
+  message?: string;
+  /** Contains relevant data to identify the resource in question when applicable. For example, to identify an entity `entity_type` and `entity_uuid` will be provided. */
+  metadata?: unknown;
+}
+export const EntityErrorObjectErrorsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.optional(S.String),
+    error_key: S.optional(S.String),
+    message: S.optional(S.String),
+    metadata: S.optional(S.Unknown),
+  }),
+).annotate({
+  identifier: "EntityErrorObjectErrorsItem",
+}) as any as S.Schema<EntityErrorObjectErrorsItem>;
+
+/** Will only exist if category is `nested_errors`. It is possible to have multiple levels of nested errors. */
+export type EntityErrorObjectErrorsList = Array<EntityErrorObjectErrorsItem>;
+export const EntityErrorObjectErrorsList = /*@__PURE__*/ S.Array(
+  EntityErrorObjectErrorsItem,
+) as any as S.Schema<EntityErrorObjectErrorsList>;
+
+/** single entity */
+export interface MetadataWithOneEntity {
+  /** Name of the entity that the error corresponds to. */
+  entity_type?: string;
+  /** Unique identifier for the entity. */
+  entity_uuid?: string;
+  key?: string | null;
+  state?: string | null;
+  valid_from?: string | null;
+  valid_up_to?: string | null;
+}
+export const MetadataWithOneEntity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    entity_type: S.optional(S.String),
+    entity_uuid: S.optional(S.String),
+    key: S.optional(S.NullOr(S.String)),
+    state: S.optional(S.NullOr(S.String)),
+    valid_from: S.optional(S.NullOr(S.String)),
+    valid_up_to: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "MetadataWithOneEntity" }) as any as S.Schema<MetadataWithOneEntity>;
+
+export type MetadataWithMultipleEntitiesEntitiesList = Array<MetadataWithOneEntity>;
+export const MetadataWithMultipleEntitiesEntitiesList = /*@__PURE__*/ S.Array(
+  MetadataWithOneEntity,
+) as any as S.Schema<MetadataWithMultipleEntitiesEntitiesList>;
+
+/** multiple entities */
+export interface MetadataWithMultipleEntities {
+  entities: MetadataWithMultipleEntitiesEntitiesList;
+}
+export const MetadataWithMultipleEntities = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    entities: MetadataWithMultipleEntitiesEntitiesList,
+  }),
+).annotate({
+  identifier: "MetadataWithMultipleEntities",
+}) as any as S.Schema<MetadataWithMultipleEntities>;
+
+/** Contains relevant data to identify the resource in question when applicable. For example, to identify an entity `entity_type` and `entity_uuid` will be provided. */
+export type EntityErrorObjectMetadata = MetadataWithMultipleEntities | MetadataWithOneEntity;
+export const EntityErrorObjectMetadata = S.Unknown as any as S.Schema<EntityErrorObjectMetadata>;
+
+export interface EntityErrorObject {
+  /** Specifies the type of error. The category provides error groupings and can be used to build custom error handling in your integration. If category is `nested_errors`, the object will contain a nested `errors` property with entity errors. */
+  category: string;
+  /** Specifies where the error occurs. Typically this key identifies the attribute/parameter related to the error. */
+  error_key: string;
+  /** Will only exist if category is `nested_errors`. It is possible to have multiple levels of nested errors. */
+  errors?: EntityErrorObjectErrorsList;
+  /** Provides details about the error - generally this message can be surfaced to an end user. */
+  message?: string;
+  /** Contains relevant data to identify the resource in question when applicable. For example, to identify an entity `entity_type` and `entity_uuid` will be provided. */
+  metadata?: EntityErrorObjectMetadata;
+}
+export const EntityErrorObject = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.String,
+    error_key: S.String,
+    errors: S.optional(EntityErrorObjectErrorsList),
+    message: S.optional(S.String),
+    metadata: S.optional(EntityErrorObjectMetadata),
+  }),
+).annotate({ identifier: "EntityErrorObject" }) as any as S.Schema<EntityErrorObject>;
+
+/** Errors that occurred during async payroll processing */
+export type PayrollProcessingRequestErrorsList = Array<EntityErrorObject>;
+export const PayrollProcessingRequestErrorsList = /*@__PURE__*/ S.Array(
+  EntityErrorObject,
+) as any as S.Schema<PayrollProcessingRequestErrorsList>;
+
+/** The status of the payroll processing request */
+export type PayrollProcessingRequestStatus =
+  | "calculating"
+  | "calculate_success"
+  | "submitting"
+  | "submit_success"
+  | "processing_failed";
+export const PayrollProcessingRequestStatus = S.String;
+
+export interface PayrollProcessingRequest {
+  /** Errors that occurred during async payroll processing */
+  errors?: PayrollProcessingRequestErrorsList;
+  /** The status of the payroll processing request */
+  status?: PayrollProcessingRequestStatus;
+}
+export const PayrollProcessingRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    errors: S.optional(PayrollProcessingRequestErrorsList),
+    status: S.optional(PayrollProcessingRequestStatus),
+  }),
+).annotate({ identifier: "PayrollProcessingRequest" }) as any as S.Schema<PayrollProcessingRequest>;
+
+export type PayrollWithholdingPayPeriodType =
+  | "Every week"
+  | "Every other week"
+  | "Twice per month"
+  | "Monthly"
+  | "Quarterly"
+  | "Semiannually"
+  | "Annually";
+export const PayrollWithholdingPayPeriodType = S.String;
+
+/** An unprocessed payroll with employee compensations. */
+export interface PayrollUnprocessed {
+  auto_payroll?: boolean;
+  calculated_at?: string | null;
+  check_date?: string;
+  company_uuid?: string;
+  created_at?: string;
+  employee_compensations?: PayrollUnprocessedEmployeeCompensationsList;
+  external?: boolean;
+  final_termination_payroll?: boolean;
+  fixed_compensation_types?: PayrollFixedCompensationTypesType;
+  fixed_withholding_rate?: boolean | null;
+  off_cycle?: boolean;
+  off_cycle_reason?: OffCycleReasonType | null;
+  partner_owned_disbursement?: boolean | null;
+  pay_period?: PayrollPayPeriodType;
+  payment_speed_changed?: PayrollPaymentSpeedChangedType;
+  payroll_deadline?: string;
+  payroll_status_meta?: PayrollPayrollStatusMetaType;
+  payroll_uuid?: string;
+  processed?: boolean;
+  processed_date?: string | null;
+  processing_request?: PayrollProcessingRequest | null;
+  skip_regular_deductions?: boolean | null;
+  uuid?: string;
+  withholding_pay_period?: PayrollWithholdingPayPeriodType | null;
+}
+export const PayrollUnprocessed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    auto_payroll: S.optional(S.Boolean),
+    calculated_at: S.optional(S.NullOr(S.String)),
+    check_date: S.optional(S.String),
+    company_uuid: S.optional(S.String),
+    created_at: S.optional(S.String),
+    employee_compensations: S.optional(PayrollUnprocessedEmployeeCompensationsList),
+    external: S.optional(S.Boolean),
+    final_termination_payroll: S.optional(S.Boolean),
+    fixed_compensation_types: S.optional(PayrollFixedCompensationTypesType),
+    fixed_withholding_rate: S.optional(S.NullOr(S.Boolean)),
+    off_cycle: S.optional(S.Boolean),
+    off_cycle_reason: S.optional(S.NullOr(OffCycleReasonType)),
+    partner_owned_disbursement: S.optional(S.NullOr(S.Boolean)),
+    pay_period: S.optional(PayrollPayPeriodType),
+    payment_speed_changed: S.optional(PayrollPaymentSpeedChangedType),
+    payroll_deadline: S.optional(S.String),
+    payroll_status_meta: S.optional(PayrollPayrollStatusMetaType),
+    payroll_uuid: S.optional(S.String),
+    processed: S.optional(S.Boolean),
+    processed_date: S.optional(S.NullOr(S.String)),
+    processing_request: S.optional(S.NullOr(PayrollProcessingRequest)),
+    skip_regular_deductions: S.optional(S.NullOr(S.Boolean)),
+    uuid: S.optional(S.String),
+    withholding_pay_period: S.optional(S.NullOr(PayrollWithholdingPayPeriodType)),
+  }),
+).annotate({ identifier: "PayrollUnprocessed" }) as any as S.Schema<PayrollUnprocessed>;
+
+/** The frequency that employees on this pay schedule are paid with Gusto. Only weekly, bi-weekly, twice per month, and monthly are supported on create and update. - `Every week`: Weekly pay. - `Every other week`: Biweekly pay. - `Twice per month`: Two pay dates per month; require day_1 and day_2 (use 31 for last day of month). - `Monthly`: One pay date per month; require day_1 (1-31). */
+export type PayScheduleFrequencyCreateUpdate =
+  | "Every week"
+  | "Every other week"
+  | "Twice per month"
+  | "Monthly";
+export const PayScheduleFrequencyCreateUpdate = S.String;
+
+export interface CreateCompanyPayScheduleRequest {
+  /** The UUID of the company */
+  company_id: string;
+  anchor_end_of_pay_period: string;
+  anchor_pay_date: string;
+  /** A custom pay schedule name; defaults to the pay frequency description when null or omitted. When null or omitted, the system generates a description from the pay frequency and pay days (e.g. "every 1st and 15th of the month" for twice-monthly, "every 11th of the month" for monthly, "every Friday" for weekly). The response returns this generated value in `custom_name` when no custom name was set. When provided, the value you set is stored and returned. */
+  custom_name?: string | null;
+  /** An integer between 1 and 31 indicating the first day of the month that employees are paid. This field is only relevant for pay schedules with the "Twice per month" and "Monthly" frequencies. It will be null for pay schedules with other frequencies. On create: required for Twice per month and Monthly; omit or null for Every week and Every other week. */
+  day_1?: number | null;
+  /** An integer between 1 and 31 indicating the second day of the month that employees are paid. This field is the second pay date for pay schedules with the "Twice per month" frequency. For semi-monthly pay schedules, set this field to 31. For months shorter than 31 days, the second pay date is set to the last day of the month. It will be null for pay schedules with other frequencies. On create: only for Twice per month; omit or null for other frequencies. */
+  day_2?: number | null;
+  frequency: PayScheduleFrequencyCreateUpdate | (string & {});
+}
+export const CreateCompanyPayScheduleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    anchor_end_of_pay_period: S.String,
+    anchor_pay_date: S.String,
+    custom_name: S.optional(S.NullOr(S.String)),
+    day_1: S.optional(S.NullOr(S.Number)),
+    day_2: S.optional(S.NullOr(S.Number)),
+    frequency: PayScheduleFrequencyCreateUpdate,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/companies/{company_id}/pay_schedules", code: 200 })),
+).annotate({
+  identifier: "CreateCompanyPayScheduleRequest",
+}) as any as S.Schema<CreateCompanyPayScheduleRequest>;
+
+/** A single blocker preventing Autopayroll enablement. */
+export interface PayScheduleAutoPayrollEnablementBlocker {
+  /** The blocker type. Possible values: employees_not_on_direct_deposit, employees_not_salaried, missing_state_tax_requirements, missing_funding_method, one_day_ach_speed_not_supported, company_suspended, earned_fast_ach_not_met, hourly_employees_missing_default_hours. */
+  key?: string;
+  /** Blocker-specific metadata (e.g. employee_uuids, states). */
+  metadata?: unknown;
+}
+export const PayScheduleAutoPayrollEnablementBlocker = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    metadata: S.optional(S.Unknown),
+  }),
+).annotate({
+  identifier: "PayScheduleAutoPayrollEnablementBlocker",
+}) as any as S.Schema<PayScheduleAutoPayrollEnablementBlocker>;
+
+/** List of blockers preventing automatic payroll from being enabled. If automatic payroll is already enabled, this field is null. */
+export type PayScheduleAutoPayrollEnablementBlockers =
+  Array<PayScheduleAutoPayrollEnablementBlocker>;
+export const PayScheduleAutoPayrollEnablementBlockers = /*@__PURE__*/ S.Array(
+  PayScheduleAutoPayrollEnablementBlocker,
+) as any as S.Schema<PayScheduleAutoPayrollEnablementBlockers>;
+
+/** The frequency that employees on this pay schedule are paid with Gusto. READ-ONLY in responses. Possible values: - `Every week`: Employees are paid weekly. - `Every other week`: Employees are paid bi-weekly (every two weeks). - `Twice per month`: Employees are paid on two fixed days each month (e.g. 1st and 15th); use day_1 and day_2. - `Monthly`: Employees are paid once per month; use day_1 for the pay day. - `Quarterly`: Employees are paid every three months. - `Annually`: Employees are paid once per year. */
+export type PayScheduleFrequency =
+  | "Every week"
+  | "Every other week"
+  | "Twice per month"
+  | "Monthly"
+  | "Quarterly"
+  | "Annually";
+export const PayScheduleFrequency = S.String;
+
+/** Pay schedule returned from pay schedule endpoints (GET by ID, POST create, PUT update). Same fields as Pay-Schedule with a required `version` for [optimistic concurrency](https://docs.gusto.com/embedded-payroll/docs/api-fundamentals#optimistic-version-control). For API version 2025-11-15 and later, responses use `auto_payroll`; earlier versions use `auto_pilot` for the same semantic. */
+export interface PayScheduleShow {
+  active?: boolean;
+  anchor_end_of_pay_period?: string;
+  anchor_pay_date?: string;
+  auto_payroll?: boolean;
+  auto_payroll_enablement_blockers?: PayScheduleAutoPayrollEnablementBlockers | null;
+  custom_name?: string;
+  day_1?: number | null;
+  day_2?: number | null;
+  frequency?: PayScheduleFrequency;
+  name?: string | null;
+  uuid: string;
+  version: string;
+}
+export const PayScheduleShow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    active: S.optional(S.Boolean),
+    anchor_end_of_pay_period: S.optional(S.String),
+    anchor_pay_date: S.optional(S.String),
+    auto_payroll: S.optional(S.Boolean),
+    auto_payroll_enablement_blockers: S.optional(
+      S.NullOr(PayScheduleAutoPayrollEnablementBlockers),
+    ),
+    custom_name: S.optional(S.String),
+    day_1: S.optional(S.NullOr(S.Number)),
+    day_2: S.optional(S.NullOr(S.Number)),
+    frequency: S.optional(PayScheduleFrequency),
+    name: S.optional(S.NullOr(S.String)),
+    uuid: S.String,
+    version: S.String,
+  }),
+).annotate({ identifier: "PayScheduleShow" }) as any as S.Schema<PayScheduleShow>;
+
+export interface CreateCompanyPaySchedulesAssignRequestDepartmentsItem {
+  /** Department UUID */
+  department_uuid?: string;
+  /** Pay schedule UUID */
+  pay_schedule_uuid?: string;
+}
+export const CreateCompanyPaySchedulesAssignRequestDepartmentsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    department_uuid: S.optional(S.String),
+    pay_schedule_uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateCompanyPaySchedulesAssignRequestDepartmentsItem",
+}) as any as S.Schema<CreateCompanyPaySchedulesAssignRequestDepartmentsItem>;
+
+/** List of departments and their pay schedules. */
+export type CreateCompanyPaySchedulesAssignRequestDepartmentsList =
+  Array<CreateCompanyPaySchedulesAssignRequestDepartmentsItem>;
+export const CreateCompanyPaySchedulesAssignRequestDepartmentsList = /*@__PURE__*/ S.Array(
+  CreateCompanyPaySchedulesAssignRequestDepartmentsItem,
+) as any as S.Schema<CreateCompanyPaySchedulesAssignRequestDepartmentsList>;
+
+export interface CreateCompanyPaySchedulesAssignRequestEmployeesItem {
+  /** Employee UUID */
+  employee_uuid?: string;
+  /** Pay schedule UUID */
+  pay_schedule_uuid?: string;
+}
+export const CreateCompanyPaySchedulesAssignRequestEmployeesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_uuid: S.optional(S.String),
+    pay_schedule_uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateCompanyPaySchedulesAssignRequestEmployeesItem",
+}) as any as S.Schema<CreateCompanyPaySchedulesAssignRequestEmployeesItem>;
+
+/** List of employees and their pay schedules. */
+export type CreateCompanyPaySchedulesAssignRequestEmployeesList =
+  Array<CreateCompanyPaySchedulesAssignRequestEmployeesItem>;
+export const CreateCompanyPaySchedulesAssignRequestEmployeesList = /*@__PURE__*/ S.Array(
+  CreateCompanyPaySchedulesAssignRequestEmployeesItem,
+) as any as S.Schema<CreateCompanyPaySchedulesAssignRequestEmployeesList>;
+
+export type CreateCompanyPaySchedulesAssignRequestType =
+  | "single"
+  | "hourly_salaried"
+  | "by_employee"
+  | "by_department";
+export const CreateCompanyPaySchedulesAssignRequestType = S.String;
+
+export interface CreateCompanyPaySchedulesAssignRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** Default pay schedule for employees. */
+  default_pay_schedule_uuid?: string;
+  /** List of departments and their pay schedules. */
+  departments?: CreateCompanyPaySchedulesAssignRequestDepartmentsList;
+  /** List of employees and their pay schedules. */
+  employees?: CreateCompanyPaySchedulesAssignRequestEmployeesList;
+  /** Pay schedule for hourly employees. */
+  hourly_pay_schedule_uuid?: string;
+  /** Indicates whether the request provides pay schedule assignments for a partial list of employees or departments of the company. By default, this is set to false. */
+  partial_assignment?: boolean;
+  /** Pay schedule for salaried employees. */
+  salaried_pay_schedule_uuid?: string;
+  /** The pay schedule assignment type. */
+  type: CreateCompanyPaySchedulesAssignRequestType | (string & {}) | null;
+}
+export const CreateCompanyPaySchedulesAssignRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    default_pay_schedule_uuid: S.optional(S.String),
+    departments: S.optional(CreateCompanyPaySchedulesAssignRequestDepartmentsList),
+    employees: S.optional(CreateCompanyPaySchedulesAssignRequestEmployeesList),
+    hourly_pay_schedule_uuid: S.optional(S.String),
+    partial_assignment: S.optional(S.Boolean),
+    salaried_pay_schedule_uuid: S.optional(S.String),
+    type: S.NullOr(CreateCompanyPaySchedulesAssignRequestType),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v1/companies/{company_id}/pay_schedules/assign", code: 200 }),
+  ),
+).annotate({
+  identifier: "CreateCompanyPaySchedulesAssignRequest",
+}) as any as S.Schema<CreateCompanyPaySchedulesAssignRequest>;
+
+export interface CreateCompanyPaySchedulesAssignResponse {}
+export const CreateCompanyPaySchedulesAssignResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateCompanyPaySchedulesAssignResponse",
+}) as any as S.Schema<CreateCompanyPaySchedulesAssignResponse>;
+
+export type CreateCompanyPaySchedulesAssignmentPreviewRequestDepartmentsItem =
+  CreateCompanyPaySchedulesAssignRequestDepartmentsItem;
+export const CreateCompanyPaySchedulesAssignmentPreviewRequestDepartmentsItem =
+  CreateCompanyPaySchedulesAssignRequestDepartmentsItem;
+
+/** List of departments and their pay schedules. */
+export type CreateCompanyPaySchedulesAssignmentPreviewRequestDepartmentsList =
+  Array<CreateCompanyPaySchedulesAssignRequestDepartmentsItem>;
+export const CreateCompanyPaySchedulesAssignmentPreviewRequestDepartmentsList =
+  /*@__PURE__*/ S.Array(
+    CreateCompanyPaySchedulesAssignRequestDepartmentsItem,
+  ) as any as S.Schema<CreateCompanyPaySchedulesAssignmentPreviewRequestDepartmentsList>;
+
+export type CreateCompanyPaySchedulesAssignmentPreviewRequestEmployeesItem =
+  CreateCompanyPaySchedulesAssignRequestEmployeesItem;
+export const CreateCompanyPaySchedulesAssignmentPreviewRequestEmployeesItem =
+  CreateCompanyPaySchedulesAssignRequestEmployeesItem;
+
+/** List of employees and their pay schedules. */
+export type CreateCompanyPaySchedulesAssignmentPreviewRequestEmployeesList =
+  Array<CreateCompanyPaySchedulesAssignRequestEmployeesItem>;
+export const CreateCompanyPaySchedulesAssignmentPreviewRequestEmployeesList = /*@__PURE__*/ S.Array(
+  CreateCompanyPaySchedulesAssignRequestEmployeesItem,
+) as any as S.Schema<CreateCompanyPaySchedulesAssignmentPreviewRequestEmployeesList>;
+
+export type CreateCompanyPaySchedulesAssignmentPreviewRequestType =
+  | "single"
+  | "hourly_salaried"
+  | "by_employee"
+  | "by_department";
+export const CreateCompanyPaySchedulesAssignmentPreviewRequestType = S.String;
+
+export interface CreateCompanyPaySchedulesAssignmentPreviewRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** Default pay schedule for employees. */
+  default_pay_schedule_uuid?: string;
+  /** List of departments and their pay schedules. */
+  departments?: CreateCompanyPaySchedulesAssignmentPreviewRequestDepartmentsList;
+  /** List of employees and their pay schedules. */
+  employees?: CreateCompanyPaySchedulesAssignmentPreviewRequestEmployeesList;
+  /** Pay schedule for hourly employees. */
+  hourly_pay_schedule_uuid?: string;
+  /** Indicates whether the request provides pay schedule assignments for a partial list of employees or departments of the company. By default, this is set to false. */
+  partial_assignment?: boolean;
+  /** Pay schedule for salaried employees. */
+  salaried_pay_schedule_uuid?: string;
+  /** The pay schedule assignment type. */
+  type: CreateCompanyPaySchedulesAssignmentPreviewRequestType | (string & {}) | null;
+}
+export const CreateCompanyPaySchedulesAssignmentPreviewRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    default_pay_schedule_uuid: S.optional(S.String),
+    departments: S.optional(CreateCompanyPaySchedulesAssignmentPreviewRequestDepartmentsList),
+    employees: S.optional(CreateCompanyPaySchedulesAssignmentPreviewRequestEmployeesList),
+    hourly_pay_schedule_uuid: S.optional(S.String),
+    partial_assignment: S.optional(S.Boolean),
+    salaried_pay_schedule_uuid: S.optional(S.String),
+    type: S.NullOr(CreateCompanyPaySchedulesAssignmentPreviewRequestType),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/companies/{company_id}/pay_schedules/assignment_preview",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateCompanyPaySchedulesAssignmentPreviewRequest",
+}) as any as S.Schema<CreateCompanyPaySchedulesAssignmentPreviewRequest>;
+
+/** Pay schedule assignment first pay period information. */
+export interface PayScheduleAssignmentPayPeriod {
+  /** Pay period check date. */
+  check_date?: string;
+  /** Pay period end date. */
+  end_date?: string;
+  /** The pay schedule UUID. */
+  pay_schedule_uuid?: string;
+  /** Pay period start date. */
+  start_date?: string;
+}
+export const PayScheduleAssignmentPayPeriod = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    check_date: S.optional(S.String),
+    end_date: S.optional(S.String),
+    pay_schedule_uuid: S.optional(S.String),
+    start_date: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PayScheduleAssignmentPayPeriod",
+}) as any as S.Schema<PayScheduleAssignmentPayPeriod>;
+
+/** Pay schedule assignment transition pay period information. */
+export interface PayScheduleAssignmentTransitionPayPeriod {
+  /** Pay period end date. */
+  end_date?: string;
+  /** Pay period start date. */
+  start_date?: string;
+}
+export const PayScheduleAssignmentTransitionPayPeriod = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    end_date: S.optional(S.String),
+    start_date: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PayScheduleAssignmentTransitionPayPeriod",
+}) as any as S.Schema<PayScheduleAssignmentTransitionPayPeriod>;
+
+export interface PayScheduleAssignmentEmployeeChange {
+  /** The UUID of the employee. */
+  employee_uuid?: string;
+  /** The employee's first name. */
+  first_name?: string;
+  first_pay_period?: PayScheduleAssignmentPayPeriod;
+  /** The employee's last name. */
+  last_name?: string;
+  /** New pay schedule frequency and name. */
+  pay_frequency?: string;
+  transition_pay_period?: PayScheduleAssignmentTransitionPayPeriod;
+}
+export const PayScheduleAssignmentEmployeeChange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_uuid: S.optional(S.String),
+    first_name: S.optional(S.String),
+    first_pay_period: S.optional(PayScheduleAssignmentPayPeriod),
+    last_name: S.optional(S.String),
+    pay_frequency: S.optional(S.String),
+    transition_pay_period: S.optional(PayScheduleAssignmentTransitionPayPeriod),
+  }),
+).annotate({
+  identifier: "PayScheduleAssignmentEmployeeChange",
+}) as any as S.Schema<PayScheduleAssignmentEmployeeChange>;
+
+/** A list of pay schedule changes including pay period and transition pay period. */
+export type PayScheduleAssignmentPreviewEmployeeChangesList =
+  Array<PayScheduleAssignmentEmployeeChange>;
+export const PayScheduleAssignmentPreviewEmployeeChangesList = /*@__PURE__*/ S.Array(
+  PayScheduleAssignmentEmployeeChange,
+) as any as S.Schema<PayScheduleAssignmentPreviewEmployeeChangesList>;
+
+export type PayScheduleAssignmentPreviewType =
+  | "single"
+  | "hourly_salaried"
+  | "by_employee"
+  | "by_department";
+export const PayScheduleAssignmentPreviewType = S.String;
+
+/** The representation of a pay schedule assignment preview. */
+export interface PayScheduleAssignmentPreview {
+  /** A list of pay schedule changes including pay period and transition pay period. */
+  employee_changes?: PayScheduleAssignmentPreviewEmployeeChangesList;
+  /** The pay schedule assignment type. */
+  type?: PayScheduleAssignmentPreviewType | null;
+}
+export const PayScheduleAssignmentPreview = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_changes: S.optional(PayScheduleAssignmentPreviewEmployeeChangesList),
+    type: S.optional(S.NullOr(PayScheduleAssignmentPreviewType)),
+  }),
+).annotate({
+  identifier: "PayScheduleAssignmentPreview",
+}) as any as S.Schema<PayScheduleAssignmentPreview>;
+
+/** Type of bank account */
+export type CreateCompanyPeopleBatchRequestBatchItemBankAccountsItemAccountType =
+  | "Checking"
+  | "Savings";
+export const CreateCompanyPeopleBatchRequestBatchItemBankAccountsItemAccountType = S.String;
+
+/** How to split deposits, must be the same for all bank accounts. If split_by is `Percentage`, then the split_amounts must add up to exactly 100. */
+export type CreateCompanyPeopleBatchRequestBatchItemBankAccountsItemSplitBy =
+  | "Amount"
+  | "Percentage";
+export const CreateCompanyPeopleBatchRequestBatchItemBankAccountsItemSplitBy = S.String;
+
+/** Payment type (must be Direct Deposit) */
+export type CreateCompanyPeopleBatchRequestBatchItemBankAccountsItemType = "Direct Deposit";
+export const CreateCompanyPeopleBatchRequestBatchItemBankAccountsItemType = S.String;
+
+export interface CreateCompanyPeopleBatchRequestBatchItemBankAccountsItem {
+  /** Bank account number */
+  account_number: string;
+  /** Type of bank account */
+  account_type: CreateCompanyPeopleBatchRequestBatchItemBankAccountsItemAccountType | (string & {});
+  /** Account nickname */
+  name?: string | null;
+  /** Bank routing number */
+  routing_number: string;
+  /** Split amount in percentage or CENTS (`null` for remainder account) */
+  split_amount?: string | null;
+  /** How to split deposits, must be the same for all bank accounts. If split_by is `Percentage`, then the split_amounts must add up to exactly 100. */
+  split_by: CreateCompanyPeopleBatchRequestBatchItemBankAccountsItemSplitBy | (string & {});
+  /** Payment type (must be Direct Deposit) */
+  type: CreateCompanyPeopleBatchRequestBatchItemBankAccountsItemType | (string & {});
+}
+export const CreateCompanyPeopleBatchRequestBatchItemBankAccountsItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      account_number: S.String,
+      account_type: CreateCompanyPeopleBatchRequestBatchItemBankAccountsItemAccountType,
+      name: S.optional(S.NullOr(S.String)),
+      routing_number: S.String,
+      split_amount: S.optional(S.NullOr(S.String)),
+      split_by: CreateCompanyPeopleBatchRequestBatchItemBankAccountsItemSplitBy,
+      type: CreateCompanyPeopleBatchRequestBatchItemBankAccountsItemType,
+    }),
+).annotate({
+  identifier: "CreateCompanyPeopleBatchRequestBatchItemBankAccountsItem",
+}) as any as S.Schema<CreateCompanyPeopleBatchRequestBatchItemBankAccountsItem>;
+
+/** Creates employee bank account(s) and payment method(s) for direct deposit. Payments can be split across accounts by Percentage or by Amount. If splitting payments by `Percentage`, all splits must have a `split_amount` and the percentages must add up to `100`. If splitting payments by `Amount`, the priority is set based on the order of the bank accounts in the array and the last bank account is the remainder account (should have `split_amount` set to `null`). */
+export type CreateCompanyPeopleBatchRequestBatchItemBankAccountsList =
+  Array<CreateCompanyPeopleBatchRequestBatchItemBankAccountsItem>;
+export const CreateCompanyPeopleBatchRequestBatchItemBankAccountsList = /*@__PURE__*/ S.Array(
+  CreateCompanyPeopleBatchRequestBatchItemBankAccountsItem,
+) as any as S.Schema<CreateCompanyPeopleBatchRequestBatchItemBankAccountsList>;
+
+/** The FLSA status for this compensation. Salaried ('Exempt') employees are paid a fixed salary every pay period. Salaried with overtime ('Salaried Nonexempt') employees are paid a fixed salary every pay period, and receive overtime pay when applicable. Hourly ( 'Nonexempt') employees are paid for the hours they work, and receive overtime pay when applicable. Commissioned employees ('Commission Only Exempt') earn wages based only on commission. Commissioned with overtime ('Commission Only Nonexempt') earn wages based on commission, and receive overtime pay when applicable. Owners ('Owner') are employees that own at least twenty percent of the company. If selecting `Owner`, `payment_unit` must be `"Paycheck"`. */
+export type CreateCompanyPeopleBatchRequestBatchItemCompensationFlsaStatus =
+  | "Exempt"
+  | "Salaried Nonexempt"
+  | "Nonexempt"
+  | "Owner"
+  | "Commission Only Exempt"
+  | "Commission Only Nonexempt";
+export const CreateCompanyPeopleBatchRequestBatchItemCompensationFlsaStatus = S.String;
+
+/** The unit accompanying the compensation rate. If the employee is an owner, rate should be `Paycheck`. */
+export type CreateCompanyPeopleBatchRequestBatchItemCompensationPaymentUnit =
+  | "Hour"
+  | "Week"
+  | "Month"
+  | "Year"
+  | "Paycheck";
+export const CreateCompanyPeopleBatchRequestBatchItemCompensationPaymentUnit = S.String;
+
+/** Compensation details for the employee (requires job to be provided) */
+export interface CreateCompanyPeopleBatchRequestBatchItemCompensation {
+  /** The FLSA status for this compensation. Salaried ('Exempt') employees are paid a fixed salary every pay period. Salaried with overtime ('Salaried Nonexempt') employees are paid a fixed salary every pay period, and receive overtime pay when applicable. Hourly ( 'Nonexempt') employees are paid for the hours they work, and receive overtime pay when applicable. Commissioned employees ('Commission Only Exempt') earn wages based only on commission. Commissioned with overtime ('Commission Only Nonexempt') earn wages based on commission, and receive overtime pay when applicable. Owners ('Owner') are employees that own at least twenty percent of the company. If selecting `Owner`, `payment_unit` must be `"Paycheck"`. */
+  flsa_status: CreateCompanyPeopleBatchRequestBatchItemCompensationFlsaStatus | (string & {});
+  /** The unit accompanying the compensation rate. If the employee is an owner, rate should be `Paycheck`. */
+  payment_unit: CreateCompanyPeopleBatchRequestBatchItemCompensationPaymentUnit | (string & {});
+  /** The dollar amount paid per payment unit. */
+  rate: string;
+}
+export const CreateCompanyPeopleBatchRequestBatchItemCompensation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    flsa_status: CreateCompanyPeopleBatchRequestBatchItemCompensationFlsaStatus,
+    payment_unit: CreateCompanyPeopleBatchRequestBatchItemCompensationPaymentUnit,
+    rate: S.String,
+  }),
+).annotate({
+  identifier: "CreateCompanyPeopleBatchRequestBatchItemCompensation",
+}) as any as S.Schema<CreateCompanyPeopleBatchRequestBatchItemCompensation>;
+
+/** Department details for the employee */
+export interface CreateCompanyPeopleBatchRequestBatchItemDepartment {
+  /** UUID of an existing company department */
+  department_uuid: string;
+}
+export const CreateCompanyPeopleBatchRequestBatchItemDepartment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    department_uuid: S.String,
+  }),
+).annotate({
+  identifier: "CreateCompanyPeopleBatchRequestBatchItemDepartment",
+}) as any as S.Schema<CreateCompanyPeopleBatchRequestBatchItemDepartment>;
+
+/** The type of entity to create */
+export type CreateCompanyPeopleBatchRequestBatchItemEntityType = "employee";
+export const CreateCompanyPeopleBatchRequestBatchItemEntityType = S.String;
+
+/** Home address for the employee */
+export interface CreateCompanyPeopleBatchRequestBatchItemHomeAddress {
+  /** City */
+  city: string;
+  /** Country (defaults to USA) */
+  country?: string;
+  /** State abbreviation */
+  state: string;
+  /** Street address line 1 */
+  street_1: string;
+  /** Street address line 2 */
+  street_2?: string;
+  /** If true, a company work address will be created based on this home address and the `work_address` property is not allowed. */
+  work_from_home?: boolean;
+  /** ZIP code */
+  zip: string;
+}
+export const CreateCompanyPeopleBatchRequestBatchItemHomeAddress = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    city: S.String,
+    country: S.optional(S.String),
+    state: S.String,
+    street_1: S.String,
+    street_2: S.optional(S.String),
+    work_from_home: S.optional(S.Boolean),
+    zip: S.String,
+  }),
+).annotate({
+  identifier: "CreateCompanyPeopleBatchRequestBatchItemHomeAddress",
+}) as any as S.Schema<CreateCompanyPeopleBatchRequestBatchItemHomeAddress>;
+
+/** Job details for the employee (required if compensation is provided) */
+export interface CreateCompanyPeopleBatchRequestBatchItemJob {
+  /** The date when the employee was hired or rehired for the job. */
+  hire_date: string;
+  /** The risk class code for workers' compensation in Washington state. Please visit [Washington state's Risk Class page](https://www.lni.wa.gov/insurance/rates-risk-classes/risk-classes-for-workers-compensation/risk-class-lookup#/) to learn more. */
+  state_wc_class_code?: string | null;
+  /** Whether this job is eligible for workers' compensation coverage in the state of Washington (WA). */
+  state_wc_covered?: boolean | null;
+  /** Job title */
+  title: string;
+  /** Whether the employee owns at least 2% of the company. Can only be `true` for S-Corp companies. */
+  two_percent_shareholder?: boolean;
+}
+export const CreateCompanyPeopleBatchRequestBatchItemJob = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hire_date: S.String,
+    state_wc_class_code: S.optional(S.NullOr(S.String)),
+    state_wc_covered: S.optional(S.NullOr(S.Boolean)),
+    title: S.String,
+    two_percent_shareholder: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "CreateCompanyPeopleBatchRequestBatchItemJob",
+}) as any as S.Schema<CreateCompanyPeopleBatchRequestBatchItemJob>;
+
+export interface CreateCompanyPeopleBatchRequestBatchItemPerson {
+  /** Date of birth (YYYY-MM-DD) */
+  date_of_birth?: string | null;
+  /** Personal email address */
+  email?: string | null;
+  /** External identifier for the person */
+  external_id: string;
+  /** Legal first name */
+  first_name: string;
+  /** Legal last name */
+  last_name: string;
+  /** Middle initial */
+  middle_initial?: string | null;
+  /** Preferred first name */
+  preferred_first_name?: string | null;
+  /** Whether the employee will complete their own onboarding */
+  self_onboarding?: boolean | null;
+  /** Social Security Number (format: xxx-xx-xxxx) */
+  ssn?: string | null;
+  /** Work email address */
+  work_email?: string | null;
+}
+export const CreateCompanyPeopleBatchRequestBatchItemPerson = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    date_of_birth: S.optional(S.NullOr(S.String)),
+    email: S.optional(S.NullOr(S.String)),
+    external_id: S.String,
+    first_name: S.String,
+    last_name: S.String,
+    middle_initial: S.optional(S.NullOr(S.String)),
+    preferred_first_name: S.optional(S.NullOr(S.String)),
+    self_onboarding: S.optional(S.NullOr(S.Boolean)),
+    ssn: S.optional(S.NullOr(S.String)),
+    work_email: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "CreateCompanyPeopleBatchRequestBatchItemPerson",
+}) as any as S.Schema<CreateCompanyPeopleBatchRequestBatchItemPerson>;
+
+/** Specify the company work location for the employee */
+export interface CreateCompanyPeopleBatchRequestBatchItemWorkAddress {
+  /** UUID of an existing company work location */
+  location_uuid: string;
+}
+export const CreateCompanyPeopleBatchRequestBatchItemWorkAddress = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    location_uuid: S.String,
+  }),
+).annotate({
+  identifier: "CreateCompanyPeopleBatchRequestBatchItemWorkAddress",
+}) as any as S.Schema<CreateCompanyPeopleBatchRequestBatchItemWorkAddress>;
+
+export interface CreateCompanyPeopleBatchRequestBatchItem {
+  /** Creates employee bank account(s) and payment method(s) for direct deposit. Payments can be split across accounts by Percentage or by Amount. If splitting payments by `Percentage`, all splits must have a `split_amount` and the percentages must add up to `100`. If splitting payments by `Amount`, the priority is set based on the order of the bank accounts in the array and the last bank account is the remainder account (should have `split_amount` set to `null`). */
+  bank_accounts?: CreateCompanyPeopleBatchRequestBatchItemBankAccountsList;
+  /** Compensation details for the employee (requires job to be provided) */
+  compensation?: CreateCompanyPeopleBatchRequestBatchItemCompensation;
+  /** Department details for the employee */
+  department?: CreateCompanyPeopleBatchRequestBatchItemDepartment;
+  /** The type of entity to create */
+  entity_type: CreateCompanyPeopleBatchRequestBatchItemEntityType | (string & {});
+  /** Home address for the employee */
+  home_address?: CreateCompanyPeopleBatchRequestBatchItemHomeAddress;
+  /** Job details for the employee (required if compensation is provided) */
+  job?: CreateCompanyPeopleBatchRequestBatchItemJob;
+  person: CreateCompanyPeopleBatchRequestBatchItemPerson;
+  /** Specify the company work location for the employee */
+  work_address?: CreateCompanyPeopleBatchRequestBatchItemWorkAddress;
+}
+export const CreateCompanyPeopleBatchRequestBatchItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bank_accounts: S.optional(CreateCompanyPeopleBatchRequestBatchItemBankAccountsList),
+    compensation: S.optional(CreateCompanyPeopleBatchRequestBatchItemCompensation),
+    department: S.optional(CreateCompanyPeopleBatchRequestBatchItemDepartment),
+    entity_type: CreateCompanyPeopleBatchRequestBatchItemEntityType,
+    home_address: S.optional(CreateCompanyPeopleBatchRequestBatchItemHomeAddress),
+    job: S.optional(CreateCompanyPeopleBatchRequestBatchItemJob),
+    person: CreateCompanyPeopleBatchRequestBatchItemPerson,
+    work_address: S.optional(CreateCompanyPeopleBatchRequestBatchItemWorkAddress),
+  }),
+).annotate({
+  identifier: "CreateCompanyPeopleBatchRequestBatchItem",
+}) as any as S.Schema<CreateCompanyPeopleBatchRequestBatchItem>;
+
+/** Array of people to create */
+export type CreateCompanyPeopleBatchRequestBatchList =
+  Array<CreateCompanyPeopleBatchRequestBatchItem>;
+export const CreateCompanyPeopleBatchRequestBatchList = /*@__PURE__*/ S.Array(
+  CreateCompanyPeopleBatchRequestBatchItem,
+) as any as S.Schema<CreateCompanyPeopleBatchRequestBatchList>;
+
+/** The action to perform on the batch */
+export type CreateCompanyPeopleBatchRequestBatchAction = "create";
+export const CreateCompanyPeopleBatchRequestBatchAction = S.String;
+
+export interface CreateCompanyPeopleBatchRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** Array of people to create */
+  batch: CreateCompanyPeopleBatchRequestBatchList;
+  /** The action to perform on the batch */
+  batch_action: CreateCompanyPeopleBatchRequestBatchAction | (string & {});
+  /** A unique identifier to ensure idempotency of the batch request */
+  idempotency_key: string;
+}
+export const CreateCompanyPeopleBatchRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    batch: CreateCompanyPeopleBatchRequestBatchList,
+    batch_action: CreateCompanyPeopleBatchRequestBatchAction,
+    idempotency_key: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/companies/{company_id}/people_batches", code: 200 })),
+).annotate({
+  identifier: "CreateCompanyPeopleBatchRequest",
+}) as any as S.Schema<CreateCompanyPeopleBatchRequest>;
+
+/** The current status of the batch processing. */
+export type PeopleBatchStatus =
+  | "pending"
+  | "processing"
+  | "completed"
+  | "failed"
+  | "partial_success";
+export const PeopleBatchStatus = S.String;
+
+/** A batch for bulk people creation. */
+export interface PeopleBatch {
+  /** The action being performed on the batch. */
+  batch_action: string;
+  /** The idempotency key provided when creating the batch. */
+  idempotency_key: string;
+  /** The current status of the batch processing. */
+  status: PeopleBatchStatus;
+  /** The unique identifier of the people batch. */
+  uuid: string;
+}
+export const PeopleBatch = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    batch_action: S.String,
+    idempotency_key: S.String,
+    status: PeopleBatchStatus,
+    uuid: S.String,
+  }),
+).annotate({ identifier: "PeopleBatch" }) as any as S.Schema<PeopleBatch>;
+
+export type CreateCompanyReportRequestColumnsItem =
+  | "additional_earnings"
+  | "bank_account_account_number"
+  | "bank_account_routing_number"
+  | "bank_account_type"
+  | "bank_account"
+  | "bonus"
+  | "cash_tips"
+  | "check_amount"
+  | "check_date"
+  | "commission"
+  | "date_of_birth"
+  | "double_overtime_earnings"
+  | "double_overtime_hours"
+  | "double_overtime_rate"
+  | "employee_additional_taxes"
+  | "employee_benefit_contributions"
+  | "employee_compensation_time_period"
+  | "employee_compensation"
+  | "employee_deductions"
+  | "employee_department"
+  | "employee_email"
+  | "employee_donations"
+  | "employee_federal_income_tax"
+  | "employee_first_name"
+  | "employee_last_name"
+  | "employee_middle_initial"
+  | "employee_medicare_additional_tax"
+  | "employee_medicare_tax"
+  | "employee_phone_number"
+  | "employee_social_security_tax"
+  | "employee_state_income_tax"
+  | "employee_taxes"
+  | "employee_uuid"
+  | "employee_work_email"
+  | "employer_additional_taxes"
+  | "employer_benefit_contributions"
+  | "employer_cost"
+  | "employer_futa_tax"
+  | "employer_medicare_tax"
+  | "employer_social_security_tax"
+  | "employer_suta_tax"
+  | "employer_taxes"
+  | "employment_type"
+  | "employment"
+  | "end_date"
+  | "garnishments"
+  | "gross_earnings"
+  | "holiday_earnings"
+  | "holiday_hours"
+  | "home_address_city"
+  | "home_address_state"
+  | "home_address_street"
+  | "home_address_zip"
+  | "home_address"
+  | "job_title"
+  | "net_pay"
+  | "one_time_reimbursements"
+  | "overtime_earnings"
+  | "overtime_hours"
+  | "overtime_rate"
+  | "paid_time_off_earnings"
+  | "paid_time_off_hours"
+  | "paid_time_off_rate"
+  | "pay_period_end"
+  | "pay_period_start"
+  | "paycheck_tips"
+  | "payment_method"
+  | "payroll_type"
+  | "payroll_uuid"
+  | "preferred_first_name"
+  | "recurring_reimbursements"
+  | "regular_earnings"
+  | "regular_hours"
+  | "regular_rate"
+  | "reimbursements"
+  | "risk_class_code"
+  | "sick_rate"
+  | "sick_time_off_earnings"
+  | "sick_time_off_hours"
+  | "start_date"
+  | "total_employer_benefit_contributions"
+  | "total_time_off_earnings"
+  | "total_time_off_hours"
+  | "work_address_city"
+  | "work_address_street"
+  | "work_address_zip";
+export const CreateCompanyReportRequestColumnsItem = S.String;
+
+/** Columns to include in the report */
+export type CreateCompanyReportRequestColumnsList = Array<
+  CreateCompanyReportRequestColumnsItem | (string & {})
+>;
+export const CreateCompanyReportRequestColumnsList = /*@__PURE__*/ S.Array(
+  CreateCompanyReportRequestColumnsItem,
+) as any as S.Schema<CreateCompanyReportRequestColumnsList>;
+
+/** Which payroll date `start_date` and `end_date` filter against. */
+export type CreateCompanyReportRequestDateFilterType =
+  | "period_end_date"
+  | "period_start_date"
+  | "check_date";
+export const CreateCompanyReportRequestDateFilterType = S.String;
+
+/** Departments to filter by */
+export type CreateCompanyReportRequestDepartmentUuidsList = Array<string>;
+export const CreateCompanyReportRequestDepartmentUuidsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateCompanyReportRequestDepartmentUuidsList>;
+
+/** Employees to filter by */
+export type CreateCompanyReportRequestEmployeeUuidsList = Array<string>;
+export const CreateCompanyReportRequestEmployeeUuidsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateCompanyReportRequestEmployeeUuidsList>;
+
+/** Employee employment status to filter by */
+export type CreateCompanyReportRequestEmploymentStatus =
+  | "active_full_time"
+  | "active_part_time"
+  | "active_part_time_eligible"
+  | "active_variable"
+  | "active_seasonal"
+  | "active"
+  | "dismissed";
+export const CreateCompanyReportRequestEmploymentStatus = S.String;
+
+/** Employee employment type to filter by */
+export type CreateCompanyReportRequestEmploymentType =
+  | "exempt"
+  | "salaried_nonexempt"
+  | "nonexempt"
+  | "commission_only_exempt"
+  | "commission_only_nonexempt";
+export const CreateCompanyReportRequestEmploymentType = S.String;
+
+/** The type of file to generate */
+export type CreateCompanyReportRequestFileType = "csv" | "json" | "pdf";
+export const CreateCompanyReportRequestFileType = S.String;
+
+export type CreateCompanyReportRequestGroupingsItem =
+  | "payroll"
+  | "employee"
+  | "work_address"
+  | "work_address_state";
+export const CreateCompanyReportRequestGroupingsItem = S.String;
+
+/** Optional. How to group the report. If omitted, sensible defaults are derived from the `columns` requested. */
+export type CreateCompanyReportRequestGroupingsList = Array<
+  CreateCompanyReportRequestGroupingsItem | (string & {})
+>;
+export const CreateCompanyReportRequestGroupingsList = /*@__PURE__*/ S.Array(
+  CreateCompanyReportRequestGroupingsItem,
+) as any as S.Schema<CreateCompanyReportRequestGroupingsList>;
+
+/** Payment method to filter by */
+export type CreateCompanyReportRequestPaymentMethod = "check" | "direct_deposit";
+export const CreateCompanyReportRequestPaymentMethod = S.String;
+
+/** Work addresses to filter by */
+export type CreateCompanyReportRequestWorkAddressUuidsList = Array<string>;
+export const CreateCompanyReportRequestWorkAddressUuidsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateCompanyReportRequestWorkAddressUuidsList>;
+
+export interface CreateCompanyReportRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** Columns to include in the report */
+  columns: CreateCompanyReportRequestColumnsList;
+  /** The title of the report */
+  custom_name?: string;
+  /** Which payroll date `start_date` and `end_date` filter against. */
+  date_filter_type?: CreateCompanyReportRequestDateFilterType | (string & {});
+  /** Departments to filter by */
+  department_uuids?: CreateCompanyReportRequestDepartmentUuidsList;
+  /** Dismissed end date of employees to filter by */
+  dismissed_end_date?: string;
+  /** Dismissed start date of employees to filter by */
+  dismissed_start_date?: string;
+  /** Employees to filter by */
+  employee_uuids?: CreateCompanyReportRequestEmployeeUuidsList | null;
+  /** Employee employment status to filter by */
+  employment_status?: CreateCompanyReportRequestEmploymentStatus | (string & {});
+  /** Employee employment type to filter by */
+  employment_type?: CreateCompanyReportRequestEmploymentType | (string & {});
+  /** End date of data to filter by */
+  end_date?: string;
+  /** The type of file to generate */
+  file_type: CreateCompanyReportRequestFileType | (string & {});
+  /** Optional. How to group the report. If omitted, sensible defaults are derived from the `columns` requested. */
+  groupings?: CreateCompanyReportRequestGroupingsList;
+  /** Payment method to filter by */
+  payment_method?: CreateCompanyReportRequestPaymentMethod | (string & {});
+  /** Start date of data to filter by */
+  start_date?: string;
+  /** Whether to include subtotals and grand totals in the report */
+  with_totals?: boolean;
+  /** Work addresses to filter by */
+  work_address_uuids?: CreateCompanyReportRequestWorkAddressUuidsList;
+}
+export const CreateCompanyReportRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    columns: CreateCompanyReportRequestColumnsList,
+    custom_name: S.optional(S.String),
+    date_filter_type: S.optional(CreateCompanyReportRequestDateFilterType),
+    department_uuids: S.optional(CreateCompanyReportRequestDepartmentUuidsList),
+    dismissed_end_date: S.optional(S.String),
+    dismissed_start_date: S.optional(S.String),
+    employee_uuids: S.optional(S.NullOr(CreateCompanyReportRequestEmployeeUuidsList)),
+    employment_status: S.optional(CreateCompanyReportRequestEmploymentStatus),
+    employment_type: S.optional(CreateCompanyReportRequestEmploymentType),
+    end_date: S.optional(S.String),
+    file_type: CreateCompanyReportRequestFileType,
+    groupings: S.optional(CreateCompanyReportRequestGroupingsList),
+    payment_method: S.optional(CreateCompanyReportRequestPaymentMethod),
+    start_date: S.optional(S.String),
+    with_totals: S.optional(S.Boolean),
+    work_address_uuids: S.optional(CreateCompanyReportRequestWorkAddressUuidsList),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/companies/{company_uuid}/reports", code: 200 })),
+).annotate({
+  identifier: "CreateCompanyReportRequest",
+}) as any as S.Schema<CreateCompanyReportRequest>;
+
+export interface CreateReport {
+  /** Company UUID */
+  company_uuid?: string;
+  /** Title of the report */
+  custom_name?: string | null;
+  /** File type */
+  file_type?: string;
+  /** A unique identifier of the report request */
+  request_uuid?: string;
+}
+export const CreateReport = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.optional(S.String),
+    custom_name: S.optional(S.NullOr(S.String)),
+    file_type: S.optional(S.String),
+    request_uuid: S.optional(S.String),
+  }),
+).annotate({ identifier: "CreateReport" }) as any as S.Schema<CreateReport>;
+
+export interface CreateCompanyReportsEmployeesAnnualFicaWageRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The end year for the report (must be the current year or earlier, and must be >= start_year) */
+  end_year: number;
+  /** The start year for the report (must be 2011 or later) */
+  start_year: number;
+}
+export const CreateCompanyReportsEmployeesAnnualFicaWageRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    end_year: S.Number,
+    start_year: S.Number,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/companies/{company_id}/reports/employees_annual_fica_wage",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateCompanyReportsEmployeesAnnualFicaWageRequest",
+}) as any as S.Schema<CreateCompanyReportsEmployeesAnnualFicaWageRequest>;
+
+export interface CreateCompanyReportsEmployeesAnnualFicaWageResponse {}
+export const CreateCompanyReportsEmployeesAnnualFicaWageResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateCompanyReportsEmployeesAnnualFicaWageResponse",
+}) as any as S.Schema<CreateCompanyReportsEmployeesAnnualFicaWageResponse>;
+
+/** The signatory's home address. */
+export interface CreateCompanySignatoriesInviteRequestHomeAddress {
+  city?: string;
+  country?: string;
+  state?: string;
+  street_1?: string;
+  street_2?: string;
+  zip?: string;
+}
+export const CreateCompanySignatoriesInviteRequestHomeAddress = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    city: S.optional(S.String),
+    country: S.optional(S.String),
+    state: S.optional(S.String),
+    street_1: S.optional(S.String),
+    street_2: S.optional(S.String),
+    zip: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateCompanySignatoriesInviteRequestHomeAddress",
+}) as any as S.Schema<CreateCompanySignatoriesInviteRequestHomeAddress>;
+
+export interface CreateCompanySignatoriesInviteRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The signatory's date of birth. */
+  birthday?: string;
+  /** The signatory's email address. */
+  email: string;
+  /** The signatory's first name. */
+  first_name: string;
+  /** The signatory's home address. */
+  home_address?: CreateCompanySignatoriesInviteRequestHomeAddress;
+  /** The signatory's last name. */
+  last_name: string;
+  middle_initial?: string;
+  /** The signatory's phone number. */
+  phone?: string;
+  /** The signatory's SSN. Required for create with complete information; not used for invite. */
+  ssn?: string;
+  /** The signatory's title (e.g. CEO, President). */
+  title?: string;
+}
+export const CreateCompanySignatoriesInviteRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    birthday: S.optional(S.String),
+    email: S.String,
+    first_name: S.String,
+    home_address: S.optional(CreateCompanySignatoriesInviteRequestHomeAddress),
+    last_name: S.String,
+    middle_initial: S.optional(S.String),
+    phone: S.optional(S.String),
+    ssn: S.optional(S.String),
+    title: S.optional(S.String),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v1/companies/{company_uuid}/signatories/invite", code: 200 }),
+  ),
+).annotate({
+  identifier: "CreateCompanySignatoriesInviteRequest",
+}) as any as S.Schema<CreateCompanySignatoriesInviteRequest>;
+
+export type SignatoryHomeAddress = CreateCompanySignatoriesInviteRequestHomeAddress;
+export const SignatoryHomeAddress = CreateCompanySignatoriesInviteRequestHomeAddress;
+
+export type SignatoryIdentityVerificationStatus = "Pass" | "Fail" | "Skipped";
+export const SignatoryIdentityVerificationStatus = S.String;
+
+/** The representation of a company's signatory */
+export interface Signatory {
+  birthday?: string | null;
+  email?: string;
+  first_name?: string | null;
+  /** Indicates whether the signatory has an SSN in Gusto. */
+  has_ssn?: boolean;
+  home_address?: CreateCompanySignatoriesInviteRequestHomeAddress | null;
+  /** | | | |---|---| |__Status__| __Description__ | | Pass | Signatory can sign all forms | | Fail | Signatory cannot sign forms | | Skipped | Signatory cannot sign Form 8655 until the form is manually uploaded as wet-signed | | null | Identity verification process has not been completed | */
+  identity_verification_status?: SignatoryIdentityVerificationStatus | null;
+  /** Whether or not the signatory is also the payroll admin of the company. */
+  is_admin?: boolean;
+  last_name?: string | null;
+  phone?: string | null;
+  title?: string | null;
+  uuid: string;
+  /** The current version of the signatory. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version?: string;
+}
+export const Signatory = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    birthday: S.optional(S.NullOr(S.String)),
+    email: S.optional(S.String),
+    first_name: S.optional(S.NullOr(S.String)),
+    has_ssn: S.optional(S.Boolean),
+    home_address: S.optional(S.NullOr(CreateCompanySignatoriesInviteRequestHomeAddress)),
+    identity_verification_status: S.optional(S.NullOr(SignatoryIdentityVerificationStatus)),
+    is_admin: S.optional(S.Boolean),
+    last_name: S.optional(S.NullOr(S.String)),
+    phone: S.optional(S.NullOr(S.String)),
+    title: S.optional(S.NullOr(S.String)),
+    uuid: S.String,
+    version: S.optional(S.String),
+  }),
+).annotate({ identifier: "Signatory" }) as any as S.Schema<Signatory>;
+
+/** The signatory's home address. */
+export interface CreateCompanySignatoryRequestHomeAddress {
+  city: string;
+  country?: string;
+  state: string;
+  street_1: string;
+  street_2?: string;
+  zip: string;
+}
+export const CreateCompanySignatoryRequestHomeAddress = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    city: S.String,
+    country: S.optional(S.String),
+    state: S.String,
+    street_1: S.String,
+    street_2: S.optional(S.String),
+    zip: S.String,
+  }),
+).annotate({
+  identifier: "CreateCompanySignatoryRequestHomeAddress",
+}) as any as S.Schema<CreateCompanySignatoryRequestHomeAddress>;
+
+export interface CreateCompanySignatoryRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The signatory's date of birth. */
+  birthday: string;
+  /** The signatory's email address. */
+  email: string;
+  /** The signatory's first name. */
+  first_name: string;
+  /** The signatory's home address. */
+  home_address: CreateCompanySignatoryRequestHomeAddress;
+  /** The signatory's last name. */
+  last_name: string;
+  middle_initial?: string;
+  /** The signatory's phone number. */
+  phone: string;
+  /** The signatory's SSN. */
+  ssn: string;
+  /** The signatory's title (e.g. CEO, President). */
+  title: string;
+}
+export const CreateCompanySignatoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    birthday: S.String,
+    email: S.String,
+    first_name: S.String,
+    home_address: CreateCompanySignatoryRequestHomeAddress,
+    last_name: S.String,
+    middle_initial: S.optional(S.String),
+    phone: S.String,
+    ssn: S.String,
+    title: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/companies/{company_uuid}/signatories", code: 200 })),
+).annotate({
+  identifier: "CreateCompanySignatoryRequest",
+}) as any as S.Schema<CreateCompanySignatoryRequest>;
+
+/** The competitor the company is switching to. Required if `reason` is `'switching_provider'`. > 🚧 Switching to Gusto requires Customer Support > If `'gusto_com'` is selected, this change must be completed by Gusto Customer Support and cannot be performed via the API. This endpoint will return a 422 error in that case. */
+export type CreateCompanySuspensionRequestLeavingFor =
+  | "accountant"
+  | "adp"
+  | "adp_total_source"
+  | "bamboo_hr"
+  | "bank_or_financial_institution"
+  | "check"
+  | "deel"
+  | "gusto_com"
+  | "homebase"
+  | "insperity"
+  | "intuit_or_quickbooks"
+  | "justworks"
+  | "manual"
+  | "namely"
+  | "onpay"
+  | "other"
+  | "other_peo"
+  | "oyster"
+  | "patriot"
+  | "paychex"
+  | "paycom"
+  | "paylocity"
+  | "remote"
+  | "rippling"
+  | "square"
+  | "surepayroll"
+  | "toast"
+  | "trinet"
+  | "velocity_global"
+  | "zenefits";
+export const CreateCompanySuspensionRequestLeavingFor = S.String;
+
+/** Explanation for why the company is suspending their account. > 🚧 FEIN or entity type changes require Customer Support > If a company is switching FEIN or changing their entity type, this change must be performed by Gusto Customer Support and cannot be performed via the API at this time. */
+export type CreateCompanySuspensionRequestReason =
+  | "switching_provider"
+  | "shutting_down"
+  | "acquired"
+  | "no_more_employees"
+  | "changing_ein_or_entity_type";
+export const CreateCompanySuspensionRequestReason = S.String;
+
+/** How Gusto will handle taxes already collected. */
+export type CreateCompanySuspensionRequestReconcileTaxMethod = "pay_taxes" | "refund_taxes";
+export const CreateCompanySuspensionRequestReconcileTaxMethod = S.String;
+
+export interface CreateCompanySuspensionRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** User-supplied comments describing why they are suspending their account. Required if the user is leaving for another provider and selects "other" instead of a defined provider. */
+  comments?: string;
+  /** Should Gusto file quarterly tax forms on behalf of the company? The correct answer can depend on why the company is suspending their account, and how taxes are being reconciled. */
+  file_quarterly_forms: boolean;
+  /** Should Gusto file yearly tax forms on behalf of the company? The correct answer can depend on why the company is suspending their account, and how taxes are being reconciled. */
+  file_yearly_forms: boolean;
+  /** The competitor the company is switching to. Required if `reason` is `'switching_provider'`. > 🚧 Switching to Gusto requires Customer Support > If `'gusto_com'` is selected, this change must be completed by Gusto Customer Support and cannot be performed via the API. This endpoint will return a 422 error in that case. */
+  leaving_for?: CreateCompanySuspensionRequestLeavingFor | (string & {});
+  /** Explanation for why the company is suspending their account. > 🚧 FEIN or entity type changes require Customer Support > If a company is switching FEIN or changing their entity type, this change must be performed by Gusto Customer Support and cannot be performed via the API at this time. */
+  reason: CreateCompanySuspensionRequestReason | (string & {});
+  /** How Gusto will handle taxes already collected. */
+  reconcile_tax_method: CreateCompanySuspensionRequestReconcileTaxMethod | (string & {});
+}
+export const CreateCompanySuspensionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    comments: S.optional(S.String),
+    file_quarterly_forms: S.Boolean,
+    file_yearly_forms: S.Boolean,
+    leaving_for: S.optional(CreateCompanySuspensionRequestLeavingFor),
+    reason: CreateCompanySuspensionRequestReason,
+    reconcile_tax_method: CreateCompanySuspensionRequestReconcileTaxMethod,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/companies/{company_uuid}/suspensions", code: 200 })),
+).annotate({
+  identifier: "CreateCompanySuspensionRequest",
+}) as any as S.Schema<CreateCompanySuspensionRequest>;
+
+/** How Gusto will handle taxes already collected. */
+export type CompanySuspensionReconcileTaxMethod = "pay_taxes" | "refund_taxes";
+export const CompanySuspensionReconcileTaxMethod = S.String;
+
+export interface CompanySuspensionTaxRefundsItem {
+  /** Dollar amount. */
+  amount?: string;
+  /** What kind of tax this is. */
+  description?: string;
+}
+export const CompanySuspensionTaxRefundsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CompanySuspensionTaxRefundsItem",
+}) as any as S.Schema<CompanySuspensionTaxRefundsItem>;
+
+/** Describes the taxes which are refundable to the company for this suspension. These may be refunded or paid by Gusto depending on the value in `reconcile_tax_method`. */
+export type CompanySuspensionTaxRefundsList = Array<CompanySuspensionTaxRefundsItem>;
+export const CompanySuspensionTaxRefundsList = /*@__PURE__*/ S.Array(
+  CompanySuspensionTaxRefundsItem,
+) as any as S.Schema<CompanySuspensionTaxRefundsList>;
+
+/** Record representing the suspension of a company's Gusto account. */
+export interface CompanySuspension {
+  /** User-supplied comments describing why they are suspending their account. */
+  comments?: string | null;
+  /** Unique identifier for the company which is suspended. */
+  company_uuid?: string;
+  /** Date that the suspension took effect. */
+  effective_date?: string;
+  /** Should Gusto file quarterly tax forms on behalf of the company? The correct answer can depend on why the company is suspending their account, and how taxes are being reconciled. */
+  file_quarterly_forms?: boolean;
+  /** Should Gusto file yearly tax forms on behalf of the company? The correct answer can depend on why the company is suspending their account, and how taxes are being reconciled. */
+  file_yearly_forms?: boolean;
+  /** Which competitor the company is joining instead. Only required if `reason` is `'switching_provider'`. */
+  leaving_for?: string | null;
+  /** Explanation for why the company's account was suspended. */
+  reason?: string;
+  /** How Gusto will handle taxes already collected. */
+  reconcile_tax_method?: CompanySuspensionReconcileTaxMethod;
+  /** Describes the taxes which are refundable to the company for this suspension. These may be refunded or paid by Gusto depending on the value in `reconcile_tax_method`. */
+  tax_refunds?: CompanySuspensionTaxRefundsList;
+  /** Unique identifier for this suspension. */
+  uuid?: string;
+}
+export const CompanySuspension = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    comments: S.optional(S.NullOr(S.String)),
+    company_uuid: S.optional(S.String),
+    effective_date: S.optional(S.String),
+    file_quarterly_forms: S.optional(S.Boolean),
+    file_yearly_forms: S.optional(S.Boolean),
+    leaving_for: S.optional(S.NullOr(S.String)),
+    reason: S.optional(S.String),
+    reconcile_tax_method: S.optional(CompanySuspensionReconcileTaxMethod),
+    tax_refunds: S.optional(CompanySuspensionTaxRefundsList),
+    uuid: S.optional(S.String),
+  }),
+).annotate({ identifier: "CompanySuspension" }) as any as S.Schema<CompanySuspension>;
+
+/** An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}) */
+export type CreateCompanyTimeOffAdminApprovedRequestRequestDaysMap = {
+  [key: string]: string | undefined;
+};
+export const CreateCompanyTimeOffAdminApprovedRequestRequestDaysMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<CreateCompanyTimeOffAdminApprovedRequestRequestDaysMap>;
+
+export interface CreateCompanyTimeOffAdminApprovedRequestRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The UUID of the approving admin. Defaults to the primary payroll admin. */
+  approver_uuid?: string;
+  /** An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}) */
+  days: CreateCompanyTimeOffAdminApprovedRequestRequestDaysMap;
+  /** The UUID of the employee */
+  employee_uuid: string;
+  /** A note from the employer about the request */
+  employer_note?: string;
+  /** The end date of the time off request (YYYY-MM-DD) */
+  end_date: string;
+  /** The UUID of the time off policy */
+  policy_uuid: string;
+  /** The start date of the time off request (YYYY-MM-DD) */
+  start_date: string;
+}
+export const CreateCompanyTimeOffAdminApprovedRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    approver_uuid: S.optional(S.String),
+    days: CreateCompanyTimeOffAdminApprovedRequestRequestDaysMap,
+    employee_uuid: S.String,
+    employer_note: S.optional(S.String),
+    end_date: S.String,
+    policy_uuid: S.String,
+    start_date: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/companies/{company_uuid}/time_off/admin_approved_requests",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateCompanyTimeOffAdminApprovedRequestRequest",
+}) as any as S.Schema<CreateCompanyTimeOffAdminApprovedRequestRequest>;
+
+/** This value will be null if the request has not been approved. */
+export interface EmbeddedTimeOffRequestApprover {
+  /** The full name of the employee who approved the time off request. */
+  full_name?: string;
+  /** The UUID of the employee who approved the time off request. */
+  uuid?: string;
+}
+export const EmbeddedTimeOffRequestApprover = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    full_name: S.optional(S.String),
+    uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EmbeddedTimeOffRequestApprover",
+}) as any as S.Schema<EmbeddedTimeOffRequestApprover>;
+
+/** An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}). */
+export type EmbeddedTimeOffRequestDaysMap = { [key: string]: string | undefined };
+export const EmbeddedTimeOffRequestDaysMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<EmbeddedTimeOffRequestDaysMap>;
+
+export interface EmbeddedTimeOffRequestEmployee {
+  /** The full name of the employee the time off request is for. */
+  full_name?: string;
+  /** The UUID of the employee the time off request is for. */
+  uuid?: string;
+}
+export const EmbeddedTimeOffRequestEmployee = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    full_name: S.optional(S.String),
+    uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EmbeddedTimeOffRequestEmployee",
+}) as any as S.Schema<EmbeddedTimeOffRequestEmployee>;
+
+export interface EmbeddedTimeOffRequestInitiator {
+  /** The full name of the employee who initiated the time off request. */
+  full_name?: string;
+  /** The UUID of the employee who initiated the time off request. */
+  uuid?: string;
+}
+export const EmbeddedTimeOffRequestInitiator = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    full_name: S.optional(S.String),
+    uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EmbeddedTimeOffRequestInitiator",
+}) as any as S.Schema<EmbeddedTimeOffRequestInitiator>;
+
+/** The status of the time off request. */
+export type EmbeddedTimeOffRequestStatus = "pending" | "approved" | "declined" | "consumed";
+export const EmbeddedTimeOffRequestStatus = S.String;
+
+/** The representation of a time off request. */
+export interface EmbeddedTimeOffRequest {
+  /** This value will be null if the request has not been approved. */
+  approver: EmbeddedTimeOffRequestApprover | null;
+  /** An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}). */
+  days: EmbeddedTimeOffRequestDaysMap;
+  employee: EmbeddedTimeOffRequestEmployee;
+  /** A note about the time off request, from the employee to the employer. */
+  employee_note: string | null;
+  /** A note about the time off request, from the employer to the employee. */
+  employer_note: string | null;
+  initiator: EmbeddedTimeOffRequestInitiator | null;
+  /** The type of the time off policy (e.g. vacation, sick). */
+  policy_type: string | null;
+  /** The UUID of the time off policy associated with this request. */
+  policy_uuid: string | null;
+  /** The status of the time off request. */
+  status: EmbeddedTimeOffRequestStatus;
+  /** The UUID of the time off request. */
+  uuid: string;
+}
+export const EmbeddedTimeOffRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    approver: S.NullOr(EmbeddedTimeOffRequestApprover),
+    days: EmbeddedTimeOffRequestDaysMap,
+    employee: EmbeddedTimeOffRequestEmployee,
+    employee_note: S.NullOr(S.String),
+    employer_note: S.NullOr(S.String),
+    initiator: S.NullOr(EmbeddedTimeOffRequestInitiator),
+    policy_type: S.NullOr(S.String),
+    policy_uuid: S.NullOr(S.String),
+    status: EmbeddedTimeOffRequestStatus,
+    uuid: S.String,
+  }),
+).annotate({ identifier: "EmbeddedTimeOffRequest" }) as any as S.Schema<EmbeddedTimeOffRequest>;
+
+/** Accrual method of the time off policy */
+export type CreateCompanyTimeOffPolicyRequestAccrualMethod =
+  | "unlimited"
+  | "per_pay_period"
+  | "per_calendar_year"
+  | "per_anniversary_year"
+  | "per_hour_worked"
+  | "per_hour_worked_no_overtime"
+  | "per_hour_paid"
+  | "per_hour_paid_no_overtime";
+export const CreateCompanyTimeOffPolicyRequestAccrualMethod = S.String;
+
+/** Type of the time off policy. Currently only "vacation" and "sick" are supported */
+export type CreateCompanyTimeOffPolicyRequestPolicyType = "vacation" | "sick";
+export const CreateCompanyTimeOffPolicyRequestPolicyType = S.String;
+
+export interface CreateCompanyTimeOffPolicyRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** Accrual method of the time off policy */
+  accrual_method: CreateCompanyTimeOffPolicyRequestAccrualMethod | (string & {});
+  /** The rate at which the time off hours will accrue for an employee on the policy. Represented as a float, e.g. "40.0". */
+  accrual_rate?: string | null;
+  /** The number of hours an employee has to work or be paid for to accrue the number of hours set in the accrual rate. Only used for hourly policies (per_hour_paid, per_hour_paid_no_overtime, per_hour_work, per_hour_worked_no_overtime). Represented as a float, e.g. "40.0". */
+  accrual_rate_unit?: string | null;
+  /** Number of days before an employee on the policy will begin accruing time off hours. If accrual_method is per_anniversary_year, per_calendar_year, or unlimited, then accrual_waiting_period_days should be 0. */
+  accrual_waiting_period_days?: number | null;
+  /** The max number of hours an employee can carryover from one year to the next. If accrual_method is unlimited, then carryover_limit_hours must be blank. */
+  carryover_limit_hours?: string | null;
+  /** boolean representing if a policy has completed configuration */
+  complete?: boolean;
+  /** The max number of hours an employee can accrue in a year. If accrual_method is yearly (per_anniversary_year, per_calendar_year) or unlimited, then max_accrual_hours_per_year must be blank. */
+  max_accrual_hours_per_year?: string | null;
+  /** The max number of hours an employee can accrue. If accrual_method is unlimited, then max_hours must be blank. */
+  max_hours?: string | null;
+  /** Name of the time off policy */
+  name: string;
+  /** Boolean representing if an employee's accrued time off hours will be paid out on termination. If accrual_method is unlimited, then paid_out_on_termination must be `false`. */
+  paid_out_on_termination?: boolean;
+  /** The date the policy resets. Format MM-DD */
+  policy_reset_date?: string | null;
+  /** Type of the time off policy. Currently only "vacation" and "sick" are supported */
+  policy_type: CreateCompanyTimeOffPolicyRequestPolicyType | (string & {});
+}
+export const CreateCompanyTimeOffPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    accrual_method: CreateCompanyTimeOffPolicyRequestAccrualMethod,
+    accrual_rate: S.optional(S.NullOr(S.String)),
+    accrual_rate_unit: S.optional(S.NullOr(S.String)),
+    accrual_waiting_period_days: S.optional(S.NullOr(S.Number)),
+    carryover_limit_hours: S.optional(S.NullOr(S.String)),
+    complete: S.optional(S.Boolean),
+    max_accrual_hours_per_year: S.optional(S.NullOr(S.String)),
+    max_hours: S.optional(S.NullOr(S.String)),
+    name: S.String,
+    paid_out_on_termination: S.optional(S.Boolean),
+    policy_reset_date: S.optional(S.NullOr(S.String)),
+    policy_type: CreateCompanyTimeOffPolicyRequestPolicyType,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v1/companies/{company_uuid}/time_off_policies", code: 200 }),
+  ),
+).annotate({
+  identifier: "CreateCompanyTimeOffPolicyRequest",
+}) as any as S.Schema<CreateCompanyTimeOffPolicyRequest>;
+
+export interface TimeOffPolicyEmployeesItem {
+  /** The time off balance for the employee */
+  balance?: string;
+  uuid?: string;
+}
+export const TimeOffPolicyEmployeesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    balance: S.optional(S.String),
+    uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TimeOffPolicyEmployeesItem",
+}) as any as S.Schema<TimeOffPolicyEmployeesItem>;
+
+/** List of employee UUIDs under a time off policy */
+export type TimeOffPolicyEmployeesList = Array<TimeOffPolicyEmployeesItem>;
+export const TimeOffPolicyEmployeesList = /*@__PURE__*/ S.Array(
+  TimeOffPolicyEmployeesItem,
+) as any as S.Schema<TimeOffPolicyEmployeesList>;
+
+/** Type of the time off policy. Only "vacation" and "sick" can be created through the API, but other types may be present if the company was previously a Gusto.com customer. */
+export type TimeOffPolicyPolicyType =
+  | "vacation"
+  | "sick"
+  | "bereavement"
+  | "custom"
+  | "floating_holiday"
+  | "jury_duty"
+  | "learning_and_development"
+  | "parental_leave"
+  | "personal_day"
+  | "volunteer"
+  | "weather";
+export const TimeOffPolicyPolicyType = S.String;
+
+/** Representation of a Time Off Policy */
+export interface TimeOffPolicy {
+  /** Policy time off accrual method */
+  accrual_method: string;
+  /** The rate at which the time off hours will accrue for an employee on the policy. Represented as a float, e.g. "40.0". */
+  accrual_rate?: string | null;
+  /** The number of hours an employee has to work or be paid for to accrue the number of hours set in the accrual rate. Only used for hourly policies (per_hour_paid, per_hour_paid_no_overtime, per_hour_work, per_hour_worked_no_overtime). Represented as a float, e.g. "40.0". */
+  accrual_rate_unit?: string | null;
+  /** Number of days before an employee on the policy will begin accruing time off hours */
+  accrual_waiting_period_days?: number | null;
+  /** The max number of hours an employee can carryover from one year to the next */
+  carryover_limit_hours?: string | null;
+  /** Unique identifier for the company owning the time off policy */
+  company_uuid: string;
+  /** boolean representing if a policy has completed configuration */
+  complete?: boolean;
+  /** List of employee UUIDs under a time off policy */
+  employees: TimeOffPolicyEmployeesList;
+  /** boolean representing if a policy is active or not */
+  is_active: boolean;
+  /** The max number of hours an employee can accrue in a year */
+  max_accrual_hours_per_year?: string | null;
+  /** The max number of hours an employee can accrue */
+  max_hours?: string | null;
+  /** Name of the time off policy */
+  name: string;
+  /** Boolean representing if an employee's accrued time off hours will be paid out on termination */
+  paid_out_on_termination?: boolean;
+  /** The date the policy resets. Format MM-DD */
+  policy_reset_date?: string | null;
+  /** Type of the time off policy. Only "vacation" and "sick" can be created through the API, but other types may be present if the company was previously a Gusto.com customer. */
+  policy_type: TimeOffPolicyPolicyType;
+  /** Unique identifier of a time off policy */
+  uuid: string;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field. The version will be null if the policy is no longer active. */
+  version?: string | null;
+}
+export const TimeOffPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accrual_method: S.String,
+    accrual_rate: S.optional(S.NullOr(S.String)),
+    accrual_rate_unit: S.optional(S.NullOr(S.String)),
+    accrual_waiting_period_days: S.optional(S.NullOr(S.Number)),
+    carryover_limit_hours: S.optional(S.NullOr(S.String)),
+    company_uuid: S.String,
+    complete: S.optional(S.Boolean),
+    employees: TimeOffPolicyEmployeesList,
+    is_active: S.Boolean,
+    max_accrual_hours_per_year: S.optional(S.NullOr(S.String)),
+    max_hours: S.optional(S.NullOr(S.String)),
+    name: S.String,
+    paid_out_on_termination: S.optional(S.Boolean),
+    policy_reset_date: S.optional(S.NullOr(S.String)),
+    policy_type: TimeOffPolicyPolicyType,
+    uuid: S.String,
+    version: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "TimeOffPolicy" }) as any as S.Schema<TimeOffPolicy>;
+
+/** An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}) */
+export type CreateCompanyTimeOffRequestRequestDaysMap = { [key: string]: string | undefined };
+export const CreateCompanyTimeOffRequestRequestDaysMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<CreateCompanyTimeOffRequestRequestDaysMap>;
+
+export interface CreateCompanyTimeOffRequestRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}) */
+  days: CreateCompanyTimeOffRequestRequestDaysMap;
+  /** A note from the employee about the request */
+  employee_note?: string;
+  /** The UUID of the employee */
+  employee_uuid: string;
+  /** The end date of the time off request (YYYY-MM-DD) */
+  end_date: string;
+  /** The UUID of the time off policy */
+  policy_uuid: string;
+  /** The start date of the time off request (YYYY-MM-DD) */
+  start_date: string;
+}
+export const CreateCompanyTimeOffRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    days: CreateCompanyTimeOffRequestRequestDaysMap,
+    employee_note: S.optional(S.String),
+    employee_uuid: S.String,
+    end_date: S.String,
+    policy_uuid: S.String,
+    start_date: S.String,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v1/companies/{company_uuid}/time_off/requests", code: 200 }),
+  ),
+).annotate({
+  identifier: "CreateCompanyTimeOffRequestRequest",
+}) as any as S.Schema<CreateCompanyTimeOffRequestRequest>;
+
+/** An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}) */
+export type CreateCompanyTimeOffRequestsPreviewRequestDaysMap = {
+  [key: string]: string | undefined;
+};
+export const CreateCompanyTimeOffRequestsPreviewRequestDaysMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<CreateCompanyTimeOffRequestsPreviewRequestDaysMap>;
+
+export interface CreateCompanyTimeOffRequestsPreviewRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}) */
+  days: CreateCompanyTimeOffRequestsPreviewRequestDaysMap;
+  /** The UUID of the employee */
+  employee_uuid: string;
+  /** The end date of the time off request (YYYY-MM-DD) */
+  end_date: string;
+  /** The UUID of the time off policy */
+  policy_uuid: string;
+  /** The UUID of an existing time off request to preview changes for */
+  request_uuid?: string;
+  /** The start date of the time off request (YYYY-MM-DD) */
+  start_date: string;
+}
+export const CreateCompanyTimeOffRequestsPreviewRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    days: CreateCompanyTimeOffRequestsPreviewRequestDaysMap,
+    employee_uuid: S.String,
+    end_date: S.String,
+    policy_uuid: S.String,
+    request_uuid: S.optional(S.String),
+    start_date: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/companies/{company_uuid}/time_off/requests/preview",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateCompanyTimeOffRequestsPreviewRequest",
+}) as any as S.Schema<CreateCompanyTimeOffRequestsPreviewRequest>;
+
+/** Preview of the balance impact for a time off request before it is created or updated. */
+export interface EmbeddedTimeOffRequestPreview {
+  /** Whether the time off policy allows a negative balance. */
+  allow_negative_balance: boolean;
+  /** The employee's current available balance hours for this policy. Null for unlimited policies. */
+  balance_hours: string | null;
+  /** Hours from other pending or approved requests for this policy. */
+  other_requested_hours: string;
+  /** The projected balance after this request is applied. Null for unlimited policies. */
+  remaining_balance_hours: string | null;
+  /** The total hours for this time off request. */
+  this_request_hours: string;
+  /** Whether the time off policy provides unlimited time off. */
+  unlimited: boolean;
+}
+export const EmbeddedTimeOffRequestPreview = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allow_negative_balance: S.Boolean,
+    balance_hours: S.NullOr(S.String),
+    other_requested_hours: S.String,
+    remaining_balance_hours: S.NullOr(S.String),
+    this_request_hours: S.String,
+    unlimited: S.Boolean,
+  }),
+).annotate({
+  identifier: "EmbeddedTimeOffRequestPreview",
+}) as any as S.Schema<EmbeddedTimeOffRequestPreview>;
 
 /** Pay classification for the entry. */
 export type CreateCompanyTimeTrackingTimeSheetRequestEntriesItemPayClassification =
@@ -666,9 +4564,7 @@ export const TimeSheetEntriesItem = /*@__PURE__*/ S.suspend(() =>
     pay_classification: S.optional(TimeSheetEntriesItemPayClassification),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TimeSheetEntriesItem",
-}) as any as S.Schema<TimeSheetEntriesItem>;
+).annotate({ identifier: "TimeSheetEntriesItem" }) as any as S.Schema<TimeSheetEntriesItem>;
 
 /** Entries associated with the time sheet. */
 export type TimeSheetEntriesList = Array<TimeSheetEntriesItem>;
@@ -739,6 +4635,191 @@ export const TimeSheet = /*@__PURE__*/ S.suspend(() =>
     version: S.optional(S.String),
   }),
 ).annotate({ identifier: "TimeSheet" }) as any as S.Schema<TimeSheet>;
+
+/** Bank account type */
+export type CreateContractorBankAccountRequestAccountType = "Checking" | "Savings";
+export const CreateContractorBankAccountRequestAccountType = S.String;
+
+export interface CreateContractorBankAccountRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+  /** The bank account's account number */
+  account_number: string;
+  /** Bank account type */
+  account_type: CreateContractorBankAccountRequestAccountType | (string & {});
+  /** Name for the bank account */
+  name: string;
+  /** The bank account's routing number */
+  routing_number: string;
+}
+export const CreateContractorBankAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+    account_number: S.String,
+    account_type: CreateContractorBankAccountRequestAccountType,
+    name: S.String,
+    routing_number: S.String,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v1/contractors/{contractor_uuid}/bank_accounts", code: 200 }),
+  ),
+).annotate({
+  identifier: "CreateContractorBankAccountRequest",
+}) as any as S.Schema<CreateContractorBankAccountRequest>;
+
+/** Bank account type */
+export type ContractorBankAccountAccountType = "Checking" | "Savings";
+export const ContractorBankAccountAccountType = S.String;
+
+export interface ContractorBankAccount {
+  /** Bank account type */
+  account_type: ContractorBankAccountAccountType;
+  /** UUID of the contractor */
+  contractor_uuid: string;
+  /** Masked bank account number */
+  hidden_account_number: string;
+  /** Name for the bank account */
+  name: string;
+  /** The bank account's routing number */
+  routing_number: string;
+  /** UUID of the bank account */
+  uuid: string;
+}
+export const ContractorBankAccount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_type: ContractorBankAccountAccountType,
+    contractor_uuid: S.String,
+    hidden_account_number: S.String,
+    name: S.String,
+    routing_number: S.String,
+    uuid: S.String,
+  }),
+).annotate({ identifier: "ContractorBankAccount" }) as any as S.Schema<ContractorBankAccount>;
+
+export interface CreateContractorMemberPortalInvitationRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+}
+export const CreateContractorMemberPortalInvitationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/contractors/{contractor_uuid}/member_portal_invitations",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateContractorMemberPortalInvitationRequest",
+}) as any as S.Schema<CreateContractorMemberPortalInvitationRequest>;
+
+export interface CreateContractorMemberPortalInvitationResponse {}
+export const CreateContractorMemberPortalInvitationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateContractorMemberPortalInvitationResponse",
+}) as any as S.Schema<CreateContractorMemberPortalInvitationResponse>;
+
+export interface CreateContractorRehireRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+  /** The rehire date */
+  start_date: string;
+}
+export const CreateContractorRehireRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+    start_date: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/contractors/{contractor_uuid}/rehire", code: 200 })),
+).annotate({
+  identifier: "CreateContractorRehireRequest",
+}) as any as S.Schema<CreateContractorRehireRequest>;
+
+export interface CreateContractorRehireResponse {}
+export const CreateContractorRehireResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "CreateContractorRehireResponse",
+}) as any as S.Schema<CreateContractorRehireResponse>;
+
+export interface CreateContractorTerminationRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+  /** The date of dismissal */
+  end_date: string;
+}
+export const CreateContractorTerminationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+    end_date: S.String,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v1/contractors/{contractor_uuid}/termination", code: 200 }),
+  ),
+).annotate({
+  identifier: "CreateContractorTerminationRequest",
+}) as any as S.Schema<CreateContractorTerminationRequest>;
+
+export interface CreateContractorTerminationResponse {}
+export const CreateContractorTerminationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateContractorTerminationResponse",
+}) as any as S.Schema<CreateContractorTerminationResponse>;
+
+/** The bank account type. */
+export type CreateEmployeeBankAccountRequestAccountType = "Checking" | "Savings";
+export const CreateEmployeeBankAccountRequestAccountType = S.String;
+
+export interface CreateEmployeeBankAccountRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+  /** The bank account number. */
+  account_number: string;
+  /** The bank account type. */
+  account_type: CreateEmployeeBankAccountRequestAccountType | (string & {});
+  /** A name for the bank account (e.g. "Primary Checking"). */
+  name: string;
+  /** The bank routing number (nine digits). */
+  routing_number: string;
+}
+export const CreateEmployeeBankAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+    account_number: S.String,
+    account_type: CreateEmployeeBankAccountRequestAccountType,
+    name: S.String,
+    routing_number: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/employees/{employee_id}/bank_accounts", code: 200 })),
+).annotate({
+  identifier: "CreateEmployeeBankAccountRequest",
+}) as any as S.Schema<CreateEmployeeBankAccountRequest>;
+
+/** Bank account type */
+export type EmployeeBankAccountAccountType = "Checking" | "Savings";
+export const EmployeeBankAccountAccountType = S.String;
+
+export interface EmployeeBankAccount {
+  /** Bank account type */
+  account_type?: EmployeeBankAccountAccountType;
+  /** UUID of the employee */
+  employee_uuid?: string;
+  /** Masked bank account number */
+  hidden_account_number?: string;
+  /** Name for the bank account */
+  name?: string;
+  /** The bank account's routing number */
+  routing_number?: string;
+  /** UUID of the bank account */
+  uuid: string;
+}
+export const EmployeeBankAccount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_type: S.optional(EmployeeBankAccountAccountType),
+    employee_uuid: S.optional(S.String),
+    hidden_account_number: S.optional(S.String),
+    name: S.optional(S.String),
+    routing_number: S.optional(S.String),
+    uuid: S.String,
+  }),
+).annotate({ identifier: "EmployeeBankAccount" }) as any as S.Schema<EmployeeBankAccount>;
 
 /** The company contribution scheme. `amount`: The company contributes a fixed amount per payroll. If elective is true, the contribution is matching, dollar-for-dollar. `percentage`: The company contributes a percentage of the payroll amount per payroll period. If elective is true, the contribution is matching, dollar-for-dollar. `tiered`: The size of the company contribution corresponds to the size of the employee deduction relative to a tiered matching scheme. */
 export type CreateEmployeeEmployeeBenefitRequestContributionType =
@@ -871,11 +4952,7 @@ export const CreateEmployeeEmployeeBenefitRequest = /*@__PURE__*/ S.suspend(() =
     expiration_date: S.optional(S.NullOr(S.String)),
     limit_option: S.optional(S.NullOr(CreateEmployeeEmployeeBenefitRequestLimitOption)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/employees/{employee_id}/employee_benefits",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/employees/{employee_id}/employee_benefits", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateEmployeeEmployeeBenefitRequest",
@@ -1055,9 +5132,7 @@ export const GarnishmentChildSupport = /*@__PURE__*/ S.suspend(() =>
     remittance_number: S.optional(S.NullOr(S.String)),
     state: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GarnishmentChildSupport",
-}) as any as S.Schema<GarnishmentChildSupport>;
+).annotate({ identifier: "GarnishmentChildSupport" }) as any as S.Schema<GarnishmentChildSupport>;
 
 export type CreateEmployeeGarnishmentRequestGarnishmentType =
   | "child_support"
@@ -1111,13 +5186,7 @@ export const CreateEmployeeGarnishmentRequest = /*@__PURE__*/ S.suspend(() =>
     recurring: S.optional(S.Boolean),
     times: S.optional(S.NullOr(S.Number)),
     total_amount: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/employees/{employee_id}/garnishments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/employees/{employee_id}/garnishments", code: 200 })),
 ).annotate({
   identifier: "CreateEmployeeGarnishmentRequest",
 }) as any as S.Schema<CreateEmployeeGarnishmentRequest>;
@@ -1205,13 +5274,7 @@ export const CreateEmployeeHomeAddressRequest = /*@__PURE__*/ S.suspend(() =>
     street_1: S.optional(S.String),
     street_2: S.optional(S.NullOr(S.String)),
     zip: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/employees/{employee_id}/home_addresses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/employees/{employee_id}/home_addresses", code: 200 })),
 ).annotate({
   identifier: "CreateEmployeeHomeAddressRequest",
 }) as any as S.Schema<CreateEmployeeHomeAddressRequest>;
@@ -1260,9 +5323,193 @@ export const EmployeeAddress = /*@__PURE__*/ S.suspend(() =>
     warnings: S.optional(EmployeeAddressWarningsList),
     zip: S.optional(S.String),
   }),
+).annotate({ identifier: "EmployeeAddress" }) as any as S.Schema<EmployeeAddress>;
+
+export interface CreateEmployeeJobRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+  /** The date when the employee was hired or rehired for the job. */
+  hire_date: string;
+  /** The risk class code for workers' compensation in Washington state. Please visit [Washington state's Risk Class page](https://www.lni.wa.gov/insurance/rates-risk-classes/risk-classes-for-workers-compensation/risk-class-lookup#/) to learn more. */
+  state_wc_class_code?: string | null;
+  /** Whether this job is eligible for workers' compensation coverage in the state of Washington (WA). */
+  state_wc_covered?: boolean | null;
+  /** The job title. */
+  title: string | null;
+  /** Whether the employee owns at least 2% of the company. */
+  two_percent_shareholder?: boolean;
+}
+export const CreateEmployeeJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+    hire_date: S.String,
+    state_wc_class_code: S.optional(S.NullOr(S.String)),
+    state_wc_covered: S.optional(S.NullOr(S.Boolean)),
+    title: S.NullOr(S.String),
+    two_percent_shareholder: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/employees/{employee_id}/jobs", code: 200 })),
+).annotate({ identifier: "CreateEmployeeJobRequest" }) as any as S.Schema<CreateEmployeeJobRequest>;
+
+/** The FLSA status for this compensation. Salaried ('Exempt') employees are paid a fixed salary every pay period. Salaried with overtime ('Salaried Nonexempt') employees are paid a fixed salary every pay period, and receive overtime pay when applicable. Hourly ('Nonexempt') employees are paid for the hours they work, and receive overtime pay when applicable. Commissioned employees ('Commission Only Exempt') earn wages based only on commission. Commissioned with overtime ('Commission Only Nonexempt') earn wages based on commission, and receive overtime pay when applicable. Owners ('Owner') are employees that own at least twenty percent of the company. */
+export type FlsaStatusType =
+  | "Exempt"
+  | "Salaried Nonexempt"
+  | "Nonexempt"
+  | "Owner"
+  | "Commission Only Exempt"
+  | "Commission Only Nonexempt";
+export const FlsaStatusType = S.String;
+
+export interface CompensationMinimumWagesItem {
+  /** The effective date of the minimum wage. */
+  effective_date?: string;
+  /** The UUID of the minimum wage. */
+  uuid?: string;
+  /** The wage amount. */
+  wage?: string;
+}
+export const CompensationMinimumWagesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    effective_date: S.optional(S.String),
+    uuid: S.optional(S.String),
+    wage: S.optional(S.String),
+  }),
 ).annotate({
-  identifier: "EmployeeAddress",
-}) as any as S.Schema<EmployeeAddress>;
+  identifier: "CompensationMinimumWagesItem",
+}) as any as S.Schema<CompensationMinimumWagesItem>;
+
+/** The minimum wages associated with the compensation. */
+export type CompensationMinimumWagesList = Array<CompensationMinimumWagesItem>;
+export const CompensationMinimumWagesList = /*@__PURE__*/ S.Array(
+  CompensationMinimumWagesItem,
+) as any as S.Schema<CompensationMinimumWagesList>;
+
+/** The unit accompanying the compensation rate. If the employee is an owner, rate should be 'Paycheck'. */
+export type CompensationPaymentUnit = "Hour" | "Week" | "Month" | "Year" | "Paycheck";
+export const CompensationPaymentUnit = S.String;
+
+/** The representation of compensation in Gusto. */
+export interface Compensation {
+  /** Indicates if the compensation could be adjusted to minimum wage during payroll calculation. */
+  adjust_for_minimum_wage?: boolean;
+  /** The effective date for this compensation. For the first compensation, this defaults to the job's hire date. */
+  effective_date?: string;
+  /** The UUID of the employee to which the compensation belongs. */
+  employee_uuid?: string;
+  flsa_status?: FlsaStatusType;
+  /** The UUID of the job to which the compensation belongs. */
+  job_uuid?: string;
+  /** The minimum wages associated with the compensation. */
+  minimum_wages?: CompensationMinimumWagesList;
+  /** The unit accompanying the compensation rate. If the employee is an owner, rate should be 'Paycheck'. */
+  payment_unit?: CompensationPaymentUnit;
+  /** The dollar amount paid per payment unit. */
+  rate?: string;
+  /** The job title for this compensation. */
+  title?: string;
+  /** The UUID of the compensation in Gusto. */
+  uuid: string;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version?: string;
+}
+export const Compensation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    adjust_for_minimum_wage: S.optional(S.Boolean),
+    effective_date: S.optional(S.String),
+    employee_uuid: S.optional(S.String),
+    flsa_status: S.optional(FlsaStatusType),
+    job_uuid: S.optional(S.String),
+    minimum_wages: S.optional(CompensationMinimumWagesList),
+    payment_unit: S.optional(CompensationPaymentUnit),
+    rate: S.optional(S.String),
+    title: S.optional(S.String),
+    uuid: S.String,
+    version: S.optional(S.String),
+  }),
+).annotate({ identifier: "Compensation" }) as any as S.Schema<Compensation>;
+
+/** The compensation history for this job, including pay rate, payment unit, FLSA status, and effective dates. This is sensitive pay information and requires the `compensations:read` scope. */
+export type JobCompensationsList = Array<Compensation>;
+export const JobCompensationsList = /*@__PURE__*/ S.Array(
+  Compensation,
+) as any as S.Schema<JobCompensationsList>;
+
+/** The representation of a job in Gusto. */
+export interface Job {
+  /** The compensation history for this job, including pay rate, payment unit, FLSA status, and effective dates. This is sensitive pay information and requires the `compensations:read` scope. */
+  compensations?: JobCompensationsList;
+  /** The UUID of the current active compensation record for this job. Requires the `compensations:read` scope. */
+  current_compensation_uuid?: string;
+  /** The UUID of the employee to which the job belongs. */
+  employee_uuid?: string;
+  /** The date when the employee was hired or rehired for the job. */
+  hire_date?: string;
+  location?: Location;
+  /** The uuid of the employee's work location. */
+  location_uuid?: string;
+  /** How the employee is paid for this job (e.g., Hour, Week, Month, Year, Paycheck). This is sensitive compensation data and requires the `compensations:read` scope. */
+  payment_unit?: string | null;
+  /** Whether this is the employee's primary job. The value will be set to true unless an existing job exists for the employee. */
+  primary?: boolean;
+  /** The employee's pay rate for this job (e.g., hourly wage or annual salary). This is sensitive compensation data and requires the `compensations:read` scope. */
+  rate?: string;
+  /** The risk class code for workers' compensation in Washington state. Please visit [Washington state's Risk Class page](https://www.lni.wa.gov/insurance/rates-risk-classes/risk-classes-for-workers-compensation/risk-class-lookup#/) to learn more. */
+  state_wc_class_code?: string | null;
+  /** Whether this job is eligible for workers' compensation coverage in the state of Washington (WA). */
+  state_wc_covered?: boolean | null;
+  /** The title for the job. */
+  title?: string | null;
+  /** Whether the employee owns at least 2% of the company. */
+  two_percent_shareholder?: boolean;
+  /** The UUID of the job. */
+  uuid: string;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version?: string;
+}
+export const Job = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    compensations: S.optional(JobCompensationsList),
+    current_compensation_uuid: S.optional(S.String),
+    employee_uuid: S.optional(S.String),
+    hire_date: S.optional(S.String),
+    location: S.optional(Location),
+    location_uuid: S.optional(S.String),
+    payment_unit: S.optional(S.NullOr(S.String)),
+    primary: S.optional(S.Boolean),
+    rate: S.optional(S.String),
+    state_wc_class_code: S.optional(S.NullOr(S.String)),
+    state_wc_covered: S.optional(S.NullOr(S.Boolean)),
+    title: S.optional(S.NullOr(S.String)),
+    two_percent_shareholder: S.optional(S.Boolean),
+    uuid: S.String,
+    version: S.optional(S.String),
+  }),
+).annotate({ identifier: "Job" }) as any as S.Schema<Job>;
+
+export interface CreateEmployeeMemberPortalInvitationRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+}
+export const CreateEmployeeMemberPortalInvitationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/employees/{employee_id}/member_portal_invitations",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateEmployeeMemberPortalInvitationRequest",
+}) as any as S.Schema<CreateEmployeeMemberPortalInvitationRequest>;
+
+export interface CreateEmployeeMemberPortalInvitationResponse {}
+export const CreateEmployeeMemberPortalInvitationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateEmployeeMemberPortalInvitationResponse",
+}) as any as S.Schema<CreateEmployeeMemberPortalInvitationResponse>;
 
 export interface CreateEmployeeRecurringReimbursementRequest {
   /** The UUID of the employee */
@@ -1314,9 +5561,7 @@ export const RecurringReimbursement = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String,
     version: S.String,
   }),
-).annotate({
-  identifier: "RecurringReimbursement",
-}) as any as S.Schema<RecurringReimbursement>;
+).annotate({ identifier: "RecurringReimbursement" }) as any as S.Schema<RecurringReimbursement>;
 
 /** The employee's employment status. Supplying an invalid option will set the employment_status to *not_set*. */
 export type CreateEmployeeRehireRequestEmploymentStatus =
@@ -1350,13 +5595,7 @@ export const CreateEmployeeRehireRequest = /*@__PURE__*/ S.suspend(() =>
     file_new_hire_report: S.Boolean,
     two_percent_shareholder: S.optional(S.Boolean),
     work_location_uuid: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/employees/{employee_id}/rehire",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/employees/{employee_id}/rehire", code: 200 })),
 ).annotate({
   identifier: "CreateEmployeeRehireRequest",
 }) as any as S.Schema<CreateEmployeeRehireRequest>;
@@ -1458,11 +5697,7 @@ export const CreateEmployeeSalaryEstimateRequest = /*@__PURE__*/ S.suspend(() =>
     occupations: CreateEmployeeSalaryEstimateRequestOccupationsList,
     zip_code: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/employees/{employee_id}/salary_estimates",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/employees/{employee_id}/salary_estimates", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateEmployeeSalaryEstimateRequest",
@@ -1604,13 +5839,7 @@ export const CreateEmployeeTerminationRequest = /*@__PURE__*/ S.suspend(() =>
     employee_id: S.String.pipe(T.Label()),
     effective_date: S.String,
     run_termination_payroll: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/employees/{employee_id}/terminations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/employees/{employee_id}/terminations", code: 200 })),
 ).annotate({
   identifier: "CreateEmployeeTerminationRequest",
 }) as any as S.Schema<CreateEmployeeTerminationRequest>;
@@ -1657,13 +5886,7 @@ export const CreateEmployeeWorkAddressRequest = /*@__PURE__*/ S.suspend(() =>
     employee_id: S.String.pipe(T.Label()),
     effective_date: S.optional(S.String),
     location_uuid: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/employees/{employee_id}/work_addresses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/employees/{employee_id}/work_addresses", code: 200 })),
 ).annotate({
   identifier: "CreateEmployeeWorkAddressRequest",
 }) as any as S.Schema<CreateEmployeeWorkAddressRequest>;
@@ -1703,9 +5926,7 @@ export const EmployeeWorkAddress = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     zip: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmployeeWorkAddress",
-}) as any as S.Schema<EmployeeWorkAddress>;
+).annotate({ identifier: "EmployeeWorkAddress" }) as any as S.Schema<EmployeeWorkAddress>;
 
 export interface CreateEmployeeYtdBenefitAmountsFromDifferentCompanyRequest {
   /** The UUID of the employee */
@@ -1744,6 +5965,316 @@ export const CreateEmployeeYtdBenefitAmountsFromDifferentCompanyResponse = /*@__
 ).annotate({
   identifier: "CreateEmployeeYtdBenefitAmountsFromDifferentCompanyResponse",
 }) as any as S.Schema<CreateEmployeeYtdBenefitAmountsFromDifferentCompanyResponse>;
+
+export interface CreatePartnerManagedCompanyRequestCompany {
+  /** Whether the company only supports contractors. Should be set to true if the company has no W-2 employees. If not passed, will default to false (i.e. the company will support both contractors and employees). */
+  contractor_only?: boolean;
+  /** The employer identification number (EIN) of the company. */
+  ein?: string;
+  /** The legal name of the company. */
+  name: string;
+  /** The name of the company. */
+  trade_name?: string;
+}
+export const CreatePartnerManagedCompanyRequestCompany = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_only: S.optional(S.Boolean),
+    ein: S.optional(S.String),
+    name: S.String,
+    trade_name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreatePartnerManagedCompanyRequestCompany",
+}) as any as S.Schema<CreatePartnerManagedCompanyRequestCompany>;
+
+/** Information for the user who will be the primary payroll administrator for the new company. */
+export interface CreatePartnerManagedCompanyRequestUser {
+  /** The email of the user who will be the primary payroll admin. */
+  email: string;
+  /** The first name of the user who will be the primary payroll admin. */
+  first_name: string;
+  /** The last name of the user who will be the primary payroll admin. */
+  last_name: string;
+  /** The phone number of the user who will be the primary payroll admin. */
+  phone?: string;
+}
+export const CreatePartnerManagedCompanyRequestUser = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    email: S.String,
+    first_name: S.String,
+    last_name: S.String,
+    phone: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreatePartnerManagedCompanyRequestUser",
+}) as any as S.Schema<CreatePartnerManagedCompanyRequestUser>;
+
+export interface CreatePartnerManagedCompanyRequest {
+  company: CreatePartnerManagedCompanyRequestCompany;
+  /** Information for the user who will be the primary payroll administrator for the new company. */
+  user: CreatePartnerManagedCompanyRequestUser;
+}
+export const CreatePartnerManagedCompanyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company: CreatePartnerManagedCompanyRequestCompany,
+    user: CreatePartnerManagedCompanyRequestUser,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/partner_managed_companies", code: 200 })),
+).annotate({
+  identifier: "CreatePartnerManagedCompanyRequest",
+}) as any as S.Schema<CreatePartnerManagedCompanyRequest>;
+
+/** Object returned when creating a partner managed company */
+export interface PartnerManagedCompany {
+  /** Access token that can be used for OAuth access to the account. Access tokens expire 2 hours after they are issued. */
+  access_token?: string | Redacted.Redacted<string>;
+  /** Gusto's UUID for the company */
+  company_uuid?: string;
+  /** Time of access_token expiration in seconds */
+  expires_in?: number;
+  /** Refresh token that can be exchanged for a new access token. */
+  refresh_token?: string | Redacted.Redacted<string>;
+}
+export const PartnerManagedCompany = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    company_uuid: S.optional(S.String),
+    expires_in: S.optional(S.Number),
+    refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+  }),
+).annotate({ identifier: "PartnerManagedCompany" }) as any as S.Schema<PartnerManagedCompany>;
+
+/** The type of entity to act on. */
+export type CreatePayrollBatchRequestBatchItemEntityType = "payroll";
+export const CreatePayrollBatchRequestBatchItemEntityType = S.String;
+
+export interface CreatePayrollBatchRequestBatchItem {
+  /** The UUID of the company that owns the payroll. The partner must be mapped to this company. */
+  company_uuid: string;
+  /** The type of entity to act on. */
+  entity_type: CreatePayrollBatchRequestBatchItemEntityType | (string & {});
+  /** The UUID of the payroll to cancel. Payrolls the partner is not authorized to access, or that do not exist, appear in the response's `exclusions` array. */
+  uuid: string;
+}
+export const CreatePayrollBatchRequestBatchItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String,
+    entity_type: CreatePayrollBatchRequestBatchItemEntityType,
+    uuid: S.String,
+  }),
+).annotate({
+  identifier: "CreatePayrollBatchRequestBatchItem",
+}) as any as S.Schema<CreatePayrollBatchRequestBatchItem>;
+
+/** Array of payrolls to cancel. Maximum 100 payrolls per request. */
+export type CreatePayrollBatchRequestBatchList = Array<CreatePayrollBatchRequestBatchItem>;
+export const CreatePayrollBatchRequestBatchList = /*@__PURE__*/ S.Array(
+  CreatePayrollBatchRequestBatchItem,
+) as any as S.Schema<CreatePayrollBatchRequestBatchList>;
+
+/** The action to perform on the batch. Only `cancel` is supported. */
+export type CreatePayrollBatchRequestBatchAction = "cancel";
+export const CreatePayrollBatchRequestBatchAction = S.String;
+
+export interface CreatePayrollBatchRequest {
+  /** Array of payrolls to cancel. Maximum 100 payrolls per request. */
+  batch: CreatePayrollBatchRequestBatchList;
+  /** The action to perform on the batch. Only `cancel` is supported. */
+  batch_action: CreatePayrollBatchRequestBatchAction | (string & {});
+  /** A partner-generated unique identifier to ensure idempotency of the batch request. Scoped per partner. */
+  idempotency_key: string;
+}
+export const CreatePayrollBatchRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    batch: CreatePayrollBatchRequestBatchList,
+    batch_action: CreatePayrollBatchRequestBatchAction,
+    idempotency_key: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/payroll_batches", code: 200 })),
+).annotate({
+  identifier: "CreatePayrollBatchRequest",
+}) as any as S.Schema<CreatePayrollBatchRequest>;
+
+/** The action being performed on the batch. */
+export type PayrollBatchBatchAction = "cancel";
+export const PayrollBatchBatchAction = S.String;
+
+/** The lifecycle status of the batch request itself. Terminal values are `completed` (processing finished — inspect `results` and `exclusions` for per-payroll outcomes) and `failed` (the batch crashed at the system level; can be retried). This is distinct from the per-payroll `status` returned inside `results[]`. A `completed` batch does not imply every payroll was cancelled. */
+export type PayrollBatchStatus = "pending" | "processing" | "completed" | "failed";
+export const PayrollBatchStatus = S.String;
+
+/** A payroll cancellation batch request. */
+export interface PayrollBatch {
+  /** The action being performed on the batch. */
+  batch_action: PayrollBatchBatchAction;
+  /** The idempotency key provided when creating the batch. */
+  idempotency_key: string;
+  /** The lifecycle status of the batch request itself. Terminal values are `completed` (processing finished — inspect `results` and `exclusions` for per-payroll outcomes) and `failed` (the batch crashed at the system level; can be retried). This is distinct from the per-payroll `status` returned inside `results[]`. A `completed` batch does not imply every payroll was cancelled. */
+  status: PayrollBatchStatus;
+  /** The unique identifier of the payroll cancellation batch. */
+  uuid: string;
+}
+export const PayrollBatch = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    batch_action: PayrollBatchBatchAction,
+    idempotency_key: S.String,
+    status: PayrollBatchStatus,
+    uuid: S.String,
+  }),
+).annotate({ identifier: "PayrollBatch" }) as any as S.Schema<PayrollBatch>;
+
+/** The type of entity to look up. */
+export type CreatePayrollDigestRequestBatchItemEntityType = "company";
+export const CreatePayrollDigestRequestBatchItemEntityType = S.String;
+
+export interface CreatePayrollDigestRequestBatchItem {
+  /** The type of entity to look up. */
+  entity_type: CreatePayrollDigestRequestBatchItemEntityType | (string & {});
+  /** The UUID of a company that the partner is mapped to. Companies that the partner is not authorized to access will appear in the response's `exclusions` array. */
+  uuid: string;
+}
+export const CreatePayrollDigestRequestBatchItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    entity_type: CreatePayrollDigestRequestBatchItemEntityType,
+    uuid: S.String,
+  }),
+).annotate({
+  identifier: "CreatePayrollDigestRequestBatchItem",
+}) as any as S.Schema<CreatePayrollDigestRequestBatchItem>;
+
+/** Array of companies to fetch payroll digest data for. Maximum 25 companies per request. */
+export type CreatePayrollDigestRequestBatchList = Array<CreatePayrollDigestRequestBatchItem>;
+export const CreatePayrollDigestRequestBatchList = /*@__PURE__*/ S.Array(
+  CreatePayrollDigestRequestBatchItem,
+) as any as S.Schema<CreatePayrollDigestRequestBatchList>;
+
+/** The action to perform on the batch. */
+export type CreatePayrollDigestRequestBatchAction = "create";
+export const CreatePayrollDigestRequestBatchAction = S.String;
+
+export interface CreatePayrollDigestRequest {
+  /** Array of companies to fetch payroll digest data for. Maximum 25 companies per request. */
+  batch: CreatePayrollDigestRequestBatchList;
+  /** The action to perform on the batch. */
+  batch_action: CreatePayrollDigestRequestBatchAction | (string & {});
+  /** A partner-generated unique identifier to ensure idempotency of the batch request. Scoped per partner. */
+  idempotency_key: string;
+}
+export const CreatePayrollDigestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    batch: CreatePayrollDigestRequestBatchList,
+    batch_action: CreatePayrollDigestRequestBatchAction,
+    idempotency_key: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/payroll_digests", code: 200 })),
+).annotate({
+  identifier: "CreatePayrollDigestRequest",
+}) as any as S.Schema<CreatePayrollDigestRequest>;
+
+/** The action being performed on the batch. */
+export type PayrollDigestBatchAction = "create";
+export const PayrollDigestBatchAction = S.String;
+
+/** The lifecycle status of the batch request itself. Terminal values are `completed` (processing finished — inspect `results` and `exclusions` for per-company outcomes) and `failed` (request failed; can be retried). This is distinct from the per-company `status` returned inside `results[]` and `exclusions[]`. */
+export type PayrollDigestStatus = "pending" | "processing" | "completed" | "failed";
+export const PayrollDigestStatus = S.String;
+
+/** A payroll digest batch request. */
+export interface PayrollDigest {
+  /** The action being performed on the batch. */
+  batch_action: PayrollDigestBatchAction;
+  /** The idempotency key provided when creating the batch. */
+  idempotency_key: string;
+  /** The lifecycle status of the batch request itself. Terminal values are `completed` (processing finished — inspect `results` and `exclusions` for per-company outcomes) and `failed` (request failed; can be retried). This is distinct from the per-company `status` returned inside `results[]` and `exclusions[]`. */
+  status: PayrollDigestStatus;
+  /** The unique identifier of the payroll digest batch. */
+  uuid: string;
+}
+export const PayrollDigest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    batch_action: PayrollDigestBatchAction,
+    idempotency_key: S.String,
+    status: PayrollDigestStatus,
+    uuid: S.String,
+  }),
+).annotate({ identifier: "PayrollDigest" }) as any as S.Schema<PayrollDigest>;
+
+/** The type of check stock being printed. Check the "Types of check stock" section in this [link](https://support.gusto.com/article/999877761000000/Pay-your-team-by-check) for more info on check types */
+export type CreatePayrollGeneratedDocumentsPrintablePayrollCheckRequestPrintingFormat =
+  | "top"
+  | "bottom";
+export const CreatePayrollGeneratedDocumentsPrintablePayrollCheckRequestPrintingFormat = S.String;
+
+export interface CreatePayrollGeneratedDocumentsPrintablePayrollCheckRequest {
+  /** The UUID of the payroll */
+  payroll_uuid: string;
+  /** The type of check stock being printed. Check the "Types of check stock" section in this [link](https://support.gusto.com/article/999877761000000/Pay-your-team-by-check) for more info on check types */
+  printing_format:
+    | CreatePayrollGeneratedDocumentsPrintablePayrollCheckRequestPrintingFormat
+    | (string & {});
+  /** The starting check number we will start generating checks from. Use to override the sequence that will be used to generate check numbers. */
+  starting_check_number?: number;
+}
+export const CreatePayrollGeneratedDocumentsPrintablePayrollCheckRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      payroll_uuid: S.String.pipe(T.Label()),
+      printing_format: CreatePayrollGeneratedDocumentsPrintablePayrollCheckRequestPrintingFormat,
+      starting_check_number: S.optional(S.Number),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/v1/payrolls/{payroll_uuid}/generated_documents/printable_payroll_checks",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "CreatePayrollGeneratedDocumentsPrintablePayrollCheckRequest",
+}) as any as S.Schema<CreatePayrollGeneratedDocumentsPrintablePayrollCheckRequest>;
+
+export interface PayrollCheckEmployeeCheckNumberMappingItem {
+  /** The check number for the relevant employee */
+  check_number?: number;
+  /** The UUID for an employee */
+  employee_uuid?: string;
+}
+export const PayrollCheckEmployeeCheckNumberMappingItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    check_number: S.optional(S.Number),
+    employee_uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PayrollCheckEmployeeCheckNumberMappingItem",
+}) as any as S.Schema<PayrollCheckEmployeeCheckNumberMappingItem>;
+
+/** An array of mapping employee uuids to their check numbers */
+export type PayrollCheckEmployeeCheckNumberMappingList =
+  Array<PayrollCheckEmployeeCheckNumberMappingItem>;
+export const PayrollCheckEmployeeCheckNumberMappingList = /*@__PURE__*/ S.Array(
+  PayrollCheckEmployeeCheckNumberMappingItem,
+) as any as S.Schema<PayrollCheckEmployeeCheckNumberMappingList>;
+
+export interface PayrollCheck {
+  /** An array of mapping employee uuids to their check numbers */
+  employee_check_number_mapping?: PayrollCheckEmployeeCheckNumberMappingList;
+  /** A unique identifier of the payroll. */
+  payroll_uuid?: string;
+  /** The format the checks will be printed. */
+  printing_format?: string;
+  /** A unique identifier of the Generated Document request */
+  request_uuid?: string;
+  /** The starting check number for the checks being printed. */
+  starting_check_number?: number | null;
+  /** Current status of the Generated Document */
+  status?: string;
+}
+export const PayrollCheck = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_check_number_mapping: S.optional(PayrollCheckEmployeeCheckNumberMappingList),
+    payroll_uuid: S.optional(S.String),
+    printing_format: S.optional(S.String),
+    request_uuid: S.optional(S.String),
+    starting_check_number: S.optional(S.NullOr(S.Number)),
+    status: S.optional(S.String),
+  }),
+).annotate({ identifier: "PayrollCheck" }) as any as S.Schema<PayrollCheck>;
 
 /** The breakdown of the report. Use 'default' for no split. */
 export type CreatePayrollReportsGeneralLedgerRequestAggregation =
@@ -1802,9 +6333,29 @@ export const GeneralLedgerReport = /*@__PURE__*/ S.suspend(() =>
     payroll_uuid: S.optional(S.String),
     request_uuid: S.optional(S.String),
   }),
+).annotate({ identifier: "GeneralLedgerReport" }) as any as S.Schema<GeneralLedgerReport>;
+
+/** The owner type of the bank account */
+export type CreatePlaidProcessorTokenRequestOwnerType = "Company";
+export const CreatePlaidProcessorTokenRequestOwnerType = S.String;
+
+export interface CreatePlaidProcessorTokenRequest {
+  /** The owner UUID of the bank account */
+  owner_id: string;
+  /** The owner type of the bank account */
+  owner_type: CreatePlaidProcessorTokenRequestOwnerType | (string & {});
+  /** The Plaid processor token */
+  processor_token: string;
+}
+export const CreatePlaidProcessorTokenRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner_id: S.String,
+    owner_type: CreatePlaidProcessorTokenRequestOwnerType,
+    processor_token: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/plaid/processor_token", code: 200 })),
 ).annotate({
-  identifier: "GeneralLedgerReport",
-}) as any as S.Schema<GeneralLedgerReport>;
+  identifier: "CreatePlaidProcessorTokenRequest",
+}) as any as S.Schema<CreatePlaidProcessorTokenRequest>;
 
 export interface CreateProvisionRequestCompanyAddressesItem {
   city?: string;
@@ -1871,40 +6422,20 @@ export const CreateProvisionRequestCompany = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateProvisionRequestCompany>;
 
 /** Information for the user who will be the primary payroll administrator for the new company. */
-export interface CreateProvisionRequestUser {
-  /** The email of the user who will be the primary payroll admin. */
-  email: string;
-  /** The first name of the user who will be the primary payroll admin. */
-  first_name: string;
-  /** The last name of the user who will be the primary payroll admin. */
-  last_name: string;
-  /** The phone number of the user who will be the primary payroll admin. */
-  phone?: string;
-}
-export const CreateProvisionRequestUser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    email: S.String,
-    first_name: S.String,
-    last_name: S.String,
-    phone: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateProvisionRequestUser",
-}) as any as S.Schema<CreateProvisionRequestUser>;
+export type CreateProvisionRequestUser = CreatePartnerManagedCompanyRequestUser;
+export const CreateProvisionRequestUser = CreatePartnerManagedCompanyRequestUser;
 
 export interface CreateProvisionRequest {
   company: CreateProvisionRequestCompany;
   /** Information for the user who will be the primary payroll administrator for the new company. */
-  user: CreateProvisionRequestUser;
+  user: CreatePartnerManagedCompanyRequestUser;
 }
 export const CreateProvisionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company: CreateProvisionRequestCompany,
-    user: CreateProvisionRequestUser,
+    user: CreatePartnerManagedCompanyRequestUser,
   }).pipe(T.Http({ method: "POST", uri: "/v1/provision", code: 200 })),
-).annotate({
-  identifier: "CreateProvisionRequest",
-}) as any as S.Schema<CreateProvisionRequest>;
+).annotate({ identifier: "CreateProvisionRequest" }) as any as S.Schema<CreateProvisionRequest>;
 
 export interface ProvisionCreated {
   /** A URL where the user should be redirected to complete their account setup inside of Gusto. */
@@ -1914,9 +6445,7 @@ export const ProvisionCreated = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account_claim_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProvisionCreated",
-}) as any as S.Schema<ProvisionCreated>;
+).annotate({ identifier: "ProvisionCreated" }) as any as S.Schema<ProvisionCreated>;
 
 export interface CreateSalaryEstimateAcceptRequest {
   /** The UUID of the salary estimate */
@@ -1928,16 +6457,112 @@ export const CreateSalaryEstimateAcceptRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     employee_job_uuid: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/salary_estimates/{uuid}/accept",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/salary_estimates/{uuid}/accept", code: 200 })),
 ).annotate({
   identifier: "CreateSalaryEstimateAcceptRequest",
 }) as any as S.Schema<CreateSalaryEstimateAcceptRequest>;
+
+export interface CreateSandboxGenerate1099Request {
+  /** The contractor UUID. */
+  contractor_id: string;
+  /** Must be equal to or more recent than 2015. If not specified, defaults to the previous year. */
+  year?: number;
+}
+export const CreateSandboxGenerate1099Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_id: S.String,
+    year: S.optional(S.Number),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/sandbox/generate_1099", code: 200 })),
+).annotate({
+  identifier: "CreateSandboxGenerate1099Request",
+}) as any as S.Schema<CreateSandboxGenerate1099Request>;
+
+export interface Form1099 {
+  /** The contractor UUID */
+  contractor_uuid?: string;
+  /** The description of the form */
+  description?: string;
+  document_content_type?: string | null;
+  /** If the form is in a draft state. E.g. End of year tax forms may be provided in a draft state prior to being finalized. */
+  draft?: boolean;
+  /** The type identifier of the form */
+  name?: string;
+  /** The quarter of this form. This value is currently always null since it is not present on any contractor forms. */
+  quarter?: number | null;
+  /** A boolean flag that indicates whether the form needs signing or not. Note that this value will change after the form is signed. */
+  requires_signing?: boolean;
+  /** The title of the form */
+  title?: string;
+  /** The UUID of the form */
+  uuid: string;
+  /** The year of this form. For some forms, e.g. tax forms, this is the year which the form represents. A 1099 for January - December 2022 would be delivered in January 2023 and have a year value of 2022. This value is nullable and will not be present on all forms. */
+  year?: number | null;
+}
+export const Form1099 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.optional(S.String),
+    description: S.optional(S.String),
+    document_content_type: S.optional(S.NullOr(S.String)),
+    draft: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    quarter: S.optional(S.NullOr(S.Number)),
+    requires_signing: S.optional(S.Boolean),
+    title: S.optional(S.String),
+    uuid: S.String,
+    year: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "Form1099" }) as any as S.Schema<Form1099>;
+
+export interface CreateSandboxGenerateW2Request {
+  /** The employee UUID. */
+  employee_id: string;
+  /** Must be equal to or more recent than 2015. If not specified, defaults to the previous year. */
+  year?: number;
+}
+export const CreateSandboxGenerateW2Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String,
+    year: S.optional(S.Number),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/sandbox/generate_w2", code: 200 })),
+).annotate({
+  identifier: "CreateSandboxGenerateW2Request",
+}) as any as S.Schema<CreateSandboxGenerateW2Request>;
+
+export interface Form {
+  /** The description of the form */
+  description?: string;
+  document_content_type?: string | null;
+  /** If the form is in a draft state. E.g. End of year tax forms may be provided in a draft state prior to being finalized. */
+  draft?: boolean;
+  /** The UUID of the employee to which the form belongs, if applicable. */
+  employee_uuid?: string;
+  /** The type identifier of the form */
+  name?: string;
+  /** The quarter of this form. For some forms, e.g. tax forms, this is the calendar quarter which this form represents. An Employer's Quarterly Federal Tax Return (Form 941) for April, May, June 2022 would have a quarter value of 2 (and a year value of 2022). This value is nullable and will not be present on all forms. */
+  quarter?: number | null;
+  /** A boolean flag that indicates whether the form needs signing or not. Note that this value will change after the form is signed. */
+  requires_signing?: boolean;
+  /** The title of the form */
+  title?: string;
+  /** The UUID of the form */
+  uuid: string;
+  /** The year of this form. For some forms, e.g. tax forms, this is the year which the form represents. A W2 for January - December 2022 would be delivered in January 2023 and have a year value of 2022. This value is nullable and will not be present on all forms. */
+  year?: number | null;
+}
+export const Form = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    document_content_type: S.optional(S.NullOr(S.String)),
+    draft: S.optional(S.Boolean),
+    employee_uuid: S.optional(S.String),
+    name: S.optional(S.String),
+    quarter: S.optional(S.NullOr(S.Number)),
+    requires_signing: S.optional(S.Boolean),
+    title: S.optional(S.String),
+    uuid: S.String,
+    year: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "Form" }) as any as S.Schema<Form>;
 
 export type CreateWebhookSubscriptionRequestSubscriptionTypesItem =
   | "BankAccount"
@@ -2032,9 +6657,35 @@ export const WebhookSubscription = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
     uuid: S.String,
   }),
+).annotate({ identifier: "WebhookSubscription" }) as any as S.Schema<WebhookSubscription>;
+
+export interface DeleteCompanyBankAccountRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The UUID of the company bank account */
+  bank_account_id: string;
+}
+export const DeleteCompanyBankAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    bank_account_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/v1/companies/{company_id}/bank_accounts/{bank_account_id}",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "WebhookSubscription",
-}) as any as S.Schema<WebhookSubscription>;
+  identifier: "DeleteCompanyBankAccountRequest",
+}) as any as S.Schema<DeleteCompanyBankAccountRequest>;
+
+export interface DeleteCompanyBankAccountResponse {}
+export const DeleteCompanyBankAccountResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteCompanyBankAccountResponse",
+}) as any as S.Schema<DeleteCompanyBankAccountResponse>;
 
 export interface DeleteCompanyBenefitRequest {
   /** The UUID of the company benefit */
@@ -2044,11 +6695,7 @@ export const DeleteCompanyBenefitRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_benefit_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/company_benefits/{company_benefit_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v1/company_benefits/{company_benefit_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteCompanyBenefitRequest",
@@ -2058,6 +6705,34 @@ export interface DeleteCompanyBenefitResponse {}
 export const DeleteCompanyBenefitResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteCompanyBenefitResponse",
 }) as any as S.Schema<DeleteCompanyBenefitResponse>;
+
+export interface DeleteCompanyContractorPaymentContractorPaymentRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The UUID of the contractor payment */
+  contractor_payment_id: string;
+}
+export const DeleteCompanyContractorPaymentContractorPaymentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    contractor_payment_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/v1/companies/{company_id}/contractor_payments/{contractor_payment_id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteCompanyContractorPaymentContractorPaymentRequest",
+}) as any as S.Schema<DeleteCompanyContractorPaymentContractorPaymentRequest>;
+
+export interface DeleteCompanyContractorPaymentContractorPaymentResponse {}
+export const DeleteCompanyContractorPaymentContractorPaymentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteCompanyContractorPaymentContractorPaymentResponse",
+}) as any as S.Schema<DeleteCompanyContractorPaymentContractorPaymentResponse>;
 
 export interface DeleteCompanyEarningTypeRequest {
   /** The UUID of the company */
@@ -2087,6 +6762,82 @@ export const DeleteCompanyEarningTypeResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCompanyEarningTypeResponse",
 }) as any as S.Schema<DeleteCompanyEarningTypeResponse>;
 
+export interface DeleteCompanyHolidayPayPolicyRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+}
+export const DeleteCompanyHolidayPayPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "DELETE", uri: "/v1/companies/{company_uuid}/holiday_pay_policy", code: 200 }),
+  ),
+).annotate({
+  identifier: "DeleteCompanyHolidayPayPolicyRequest",
+}) as any as S.Schema<DeleteCompanyHolidayPayPolicyRequest>;
+
+export interface DeleteCompanyHolidayPayPolicyResponse {}
+export const DeleteCompanyHolidayPayPolicyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteCompanyHolidayPayPolicyResponse",
+}) as any as S.Schema<DeleteCompanyHolidayPayPolicyResponse>;
+
+export interface DeleteCompanyPayrollsRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The UUID of the payroll */
+  payroll_id: string;
+  /** When true, request an asynchronous delete of the payroll. */
+  async?: boolean;
+}
+export const DeleteCompanyPayrollsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    payroll_id: S.String.pipe(T.Label()),
+    async: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/v1/companies/{company_id}/payrolls/{payroll_id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteCompanyPayrollsRequest",
+}) as any as S.Schema<DeleteCompanyPayrollsRequest>;
+
+export interface DeleteCompanyPayrollsResponse {}
+export const DeleteCompanyPayrollsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteCompanyPayrollsResponse",
+}) as any as S.Schema<DeleteCompanyPayrollsResponse>;
+
+export interface DeleteCompanySignatoryRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The UUID of the signatory */
+  signatory_uuid: string;
+}
+export const DeleteCompanySignatoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    signatory_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/v1/companies/{company_uuid}/signatories/{signatory_uuid}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteCompanySignatoryRequest",
+}) as any as S.Schema<DeleteCompanySignatoryRequest>;
+
+export interface DeleteCompanySignatoryResponse {}
+export const DeleteCompanySignatoryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteCompanySignatoryResponse",
+}) as any as S.Schema<DeleteCompanySignatoryResponse>;
+
 export interface DeleteCompensationRequest {
   /** The UUID of the compensation */
   compensation_id: string;
@@ -2094,13 +6845,7 @@ export interface DeleteCompensationRequest {
 export const DeleteCompensationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     compensation_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/compensations/{compensation_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/compensations/{compensation_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteCompensationRequest",
 }) as any as S.Schema<DeleteCompensationRequest>;
@@ -2110,6 +6855,84 @@ export const DeleteCompensationResponse = /*@__PURE__*/ S.suspend(() => S.Struct
   identifier: "DeleteCompensationResponse",
 }) as any as S.Schema<DeleteCompensationResponse>;
 
+export interface DeleteContractorRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+}
+export const DeleteContractorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/contractors/{contractor_uuid}", code: 200 })),
+).annotate({ identifier: "DeleteContractorRequest" }) as any as S.Schema<DeleteContractorRequest>;
+
+export interface DeleteContractorResponse {}
+export const DeleteContractorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteContractorResponse",
+}) as any as S.Schema<DeleteContractorResponse>;
+
+export interface DeleteContractorMemberPortalInvitationsRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+}
+export const DeleteContractorMemberPortalInvitationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/v1/contractors/{contractor_uuid}/member_portal_invitations",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteContractorMemberPortalInvitationsRequest",
+}) as any as S.Schema<DeleteContractorMemberPortalInvitationsRequest>;
+
+export interface DeleteContractorMemberPortalInvitationsResponse {}
+export const DeleteContractorMemberPortalInvitationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteContractorMemberPortalInvitationsResponse",
+}) as any as S.Schema<DeleteContractorMemberPortalInvitationsResponse>;
+
+export interface DeleteContractorRehireRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+}
+export const DeleteContractorRehireRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/contractors/{contractor_uuid}/rehire", code: 200 })),
+).annotate({
+  identifier: "DeleteContractorRehireRequest",
+}) as any as S.Schema<DeleteContractorRehireRequest>;
+
+export interface DeleteContractorRehireResponse {}
+export const DeleteContractorRehireResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteContractorRehireResponse",
+}) as any as S.Schema<DeleteContractorRehireResponse>;
+
+export interface DeleteContractorTerminationRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+}
+export const DeleteContractorTerminationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "DELETE", uri: "/v1/contractors/{contractor_uuid}/termination", code: 200 }),
+  ),
+).annotate({
+  identifier: "DeleteContractorTerminationRequest",
+}) as any as S.Schema<DeleteContractorTerminationRequest>;
+
+export interface DeleteContractorTerminationResponse {}
+export const DeleteContractorTerminationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteContractorTerminationResponse",
+}) as any as S.Schema<DeleteContractorTerminationResponse>;
+
 export interface DeleteDepartmentRequest {
   /** The UUID of the department */
   department_uuid: string;
@@ -2117,16 +6940,8 @@ export interface DeleteDepartmentRequest {
 export const DeleteDepartmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     department_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/departments/{department_uuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteDepartmentRequest",
-}) as any as S.Schema<DeleteDepartmentRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/departments/{department_uuid}", code: 200 })),
+).annotate({ identifier: "DeleteDepartmentRequest" }) as any as S.Schema<DeleteDepartmentRequest>;
 
 export interface DeleteDepartmentResponse {}
 export const DeleteDepartmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2141,9 +6956,7 @@ export const DeleteEmployeeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employee_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/employees/{employee_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteEmployeeRequest",
-}) as any as S.Schema<DeleteEmployeeRequest>;
+).annotate({ identifier: "DeleteEmployeeRequest" }) as any as S.Schema<DeleteEmployeeRequest>;
 
 export interface DeleteEmployeeResponse {}
 export const DeleteEmployeeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2158,11 +6971,7 @@ export const DeleteEmployeeBenefitRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employee_benefit_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/employee_benefits/{employee_benefit_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v1/employee_benefits/{employee_benefit_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteEmployeeBenefitRequest",
@@ -2173,6 +6982,59 @@ export const DeleteEmployeeBenefitResponse = /*@__PURE__*/ S.suspend(() => S.Str
   identifier: "DeleteEmployeeBenefitResponse",
 }) as any as S.Schema<DeleteEmployeeBenefitResponse>;
 
+export interface DeleteEmployeeI9AuthorizationDocumentRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+  /** The UUID of the document */
+  document_id: string;
+}
+export const DeleteEmployeeI9AuthorizationDocumentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+    document_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/v1/employees/{employee_id}/i9_authorization/documents/{document_id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteEmployeeI9AuthorizationDocumentRequest",
+}) as any as S.Schema<DeleteEmployeeI9AuthorizationDocumentRequest>;
+
+export interface DeleteEmployeeI9AuthorizationDocumentResponse {}
+export const DeleteEmployeeI9AuthorizationDocumentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteEmployeeI9AuthorizationDocumentResponse",
+}) as any as S.Schema<DeleteEmployeeI9AuthorizationDocumentResponse>;
+
+export interface DeleteEmployeeMemberPortalInvitationsRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+}
+export const DeleteEmployeeMemberPortalInvitationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/v1/employees/{employee_id}/member_portal_invitations",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteEmployeeMemberPortalInvitationsRequest",
+}) as any as S.Schema<DeleteEmployeeMemberPortalInvitationsRequest>;
+
+export interface DeleteEmployeeMemberPortalInvitationsResponse {}
+export const DeleteEmployeeMemberPortalInvitationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteEmployeeMemberPortalInvitationsResponse",
+}) as any as S.Schema<DeleteEmployeeMemberPortalInvitationsResponse>;
+
 export interface DeleteEmployeeRehireRequest {
   /** The UUID of the employee */
   employee_id: string;
@@ -2180,13 +7042,7 @@ export interface DeleteEmployeeRehireRequest {
 export const DeleteEmployeeRehireRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employee_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/employees/{employee_id}/rehire",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/employees/{employee_id}/rehire", code: 200 })),
 ).annotate({
   identifier: "DeleteEmployeeRehireRequest",
 }) as any as S.Schema<DeleteEmployeeRehireRequest>;
@@ -2203,13 +7059,7 @@ export interface DeleteEmployeeTerminationsRequest {
 export const DeleteEmployeeTerminationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employee_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/employees/{employee_id}/terminations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/employees/{employee_id}/terminations", code: 200 })),
 ).annotate({
   identifier: "DeleteEmployeeTerminationsRequest",
 }) as any as S.Schema<DeleteEmployeeTerminationsRequest>;
@@ -2228,21 +7078,28 @@ export interface DeleteHomeAddressRequest {
 export const DeleteHomeAddressRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     home_address_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/home_addresses/{home_address_uuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteHomeAddressRequest",
-}) as any as S.Schema<DeleteHomeAddressRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/home_addresses/{home_address_uuid}", code: 200 })),
+).annotate({ identifier: "DeleteHomeAddressRequest" }) as any as S.Schema<DeleteHomeAddressRequest>;
 
 export interface DeleteHomeAddressResponse {}
 export const DeleteHomeAddressResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteHomeAddressResponse",
 }) as any as S.Schema<DeleteHomeAddressResponse>;
+
+export interface DeleteJobRequest {
+  /** The UUID of the job */
+  job_id: string;
+}
+export const DeleteJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    job_id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/jobs/{job_id}", code: 200 })),
+).annotate({ identifier: "DeleteJobRequest" }) as any as S.Schema<DeleteJobRequest>;
+
+export interface DeleteJobResponse {}
+export const DeleteJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteJobResponse",
+}) as any as S.Schema<DeleteJobResponse>;
 
 export interface DeleteRecurringReimbursementsRequest {
   /** The UUID of the reimbursement */
@@ -2251,13 +7108,7 @@ export interface DeleteRecurringReimbursementsRequest {
 export const DeleteRecurringReimbursementsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/recurring_reimbursements/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/recurring_reimbursements/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteRecurringReimbursementsRequest",
 }) as any as S.Schema<DeleteRecurringReimbursementsRequest>;
@@ -2268,6 +7119,25 @@ export const DeleteRecurringReimbursementsResponse = /*@__PURE__*/ S.suspend(() 
 ).annotate({
   identifier: "DeleteRecurringReimbursementsResponse",
 }) as any as S.Schema<DeleteRecurringReimbursementsResponse>;
+
+export interface DeleteTimeOffRequestRequest {
+  /** The UUID of the time off request */
+  time_off_request_uuid: string;
+}
+export const DeleteTimeOffRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    time_off_request_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "DELETE", uri: "/v1/time_off/requests/{time_off_request_uuid}", code: 200 }),
+  ),
+).annotate({
+  identifier: "DeleteTimeOffRequestRequest",
+}) as any as S.Schema<DeleteTimeOffRequestRequest>;
+
+export interface DeleteTimeOffRequestResponse {}
+export const DeleteTimeOffRequestResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteTimeOffRequestResponse",
+}) as any as S.Schema<DeleteTimeOffRequestResponse>;
 
 export interface DeleteTimeTrackingTimeSheetRequest {
   /** UUID of the time sheet */
@@ -2280,11 +7150,7 @@ export const DeleteTimeTrackingTimeSheetRequest = /*@__PURE__*/ S.suspend(() =>
     time_sheet_uuid: S.String.pipe(T.Label()),
     version: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/time_tracking/time_sheets/{time_sheet_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v1/time_tracking/time_sheets/{time_sheet_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteTimeTrackingTimeSheetRequest",
@@ -2296,6 +7162,86 @@ export const DeleteTimeTrackingTimeSheetResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteTimeTrackingTimeSheetResponse",
 }) as any as S.Schema<DeleteTimeTrackingTimeSheetResponse>;
+
+export interface DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdRequest {
+  /** The UUID of the contractor payment group */
+  contractor_payment_group_uuid: string;
+}
+export const DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      contractor_payment_group_uuid: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/v1/contractor_payment_groups/{contractor_payment_group_uuid}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdRequest",
+  }) as any as S.Schema<DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdRequest>;
+
+export interface DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdResponse {}
+export const DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdResponse =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdResponse",
+  }) as any as S.Schema<DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdResponse>;
+
+export interface DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+  /** The UUID of the bank account */
+  bank_account_uuid: string;
+}
+export const DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      employee_id: S.String.pipe(T.Label()),
+      bank_account_uuid: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/v1/employees/{employee_id}/bank_accounts/{bank_account_uuid}",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdRequest",
+}) as any as S.Schema<DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdRequest>;
+
+export interface DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdResponse {}
+export const DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdResponse",
+}) as any as S.Schema<DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdResponse>;
+
+export interface DeleteV1ExternalPayrollRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The UUID of the external payroll */
+  external_payroll_id: string;
+}
+export const DeleteV1ExternalPayrollRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    external_payroll_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/v1/companies/{company_uuid}/external_payrolls/{external_payroll_id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteV1ExternalPayrollRequest",
+}) as any as S.Schema<DeleteV1ExternalPayrollRequest>;
+
+export interface DeleteV1ExternalPayrollResponse {}
+export const DeleteV1ExternalPayrollResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  { identifier: "DeleteV1ExternalPayrollResponse" },
+) as any as S.Schema<DeleteV1ExternalPayrollResponse>;
 
 export interface DeleteWebhookSubscriptionUuidRequest {
   /** The webhook subscription UUID. */
@@ -2329,21 +7275,122 @@ export interface DeleteWorkAddressRequest {
 export const DeleteWorkAddressRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     work_address_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/work_addresses/{work_address_uuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteWorkAddressRequest",
-}) as any as S.Schema<DeleteWorkAddressRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/work_addresses/{work_address_uuid}", code: 200 })),
+).annotate({ identifier: "DeleteWorkAddressRequest" }) as any as S.Schema<DeleteWorkAddressRequest>;
 
 export interface DeleteWorkAddressResponse {}
 export const DeleteWorkAddressResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteWorkAddressResponse",
 }) as any as S.Schema<DeleteWorkAddressResponse>;
+
+export interface GetAchTransactionsRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The UUID of the contractor payment */
+  contractor_payment_uuid?: string;
+  /** The UUID of the payroll */
+  payroll_uuid?: string;
+  /** Used to filter the ACH transactions to only include those with a specific transaction type, such as "Credit employee pay". */
+  transaction_type?: string;
+  /** Used to filter the ACH transactions to only include those with a specific payment direction, either "credit" or "debit". */
+  payment_direction?: string;
+  /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
+  page?: number;
+  /** Number of objects per page. For majority of endpoints will default to 25 */
+  per?: number;
+}
+export const GetAchTransactionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    contractor_payment_uuid: S.optional(S.String.pipe(T.Query())),
+    payroll_uuid: S.optional(S.String.pipe(T.Query())),
+    transaction_type: S.optional(S.String.pipe(T.Query())),
+    payment_direction: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/ach_transactions", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetAchTransactionsRequest",
+}) as any as S.Schema<GetAchTransactionsRequest>;
+
+/** The direction of the payment */
+export type AchTransactionPaymentDirection = "credit" | "debit";
+export const AchTransactionPaymentDirection = S.String;
+
+/** The type of payment event associated with the ACH transaction */
+export type AchTransactionPaymentEventType = "Payroll" | "ContractorPayment";
+export const AchTransactionPaymentEventType = S.String;
+
+/** The status of the ACH transaction */
+export type AchTransactionPaymentStatus = "unsubmitted" | "submitted" | "successful" | "failed";
+export const AchTransactionPaymentStatus = S.String;
+
+export type AchTransactionRecipientType = "Employee" | "Contractor";
+export const AchTransactionRecipientType = S.String;
+
+/** Representation of an ACH transaction */
+export interface AchTransaction {
+  /** The amount of money moved by the ACH transaction. This amount is always non-negative. */
+  amount?: string;
+  /** Unique identifier of the company to which the ACH transaction belongs */
+  company_uuid?: string;
+  /** The description of the ACH transaction. Can be used to identify the ACH transaction on the recipient's bank statement. */
+  description?: string;
+  /** The error code associated with the ACH transaction, if any. If there is no error on the ACH transaction, this field will be nil. See [this article](https://engineering.gusto.com/how-ach-works-a-developer-perspective-part-2/) for a complete list of ACH return codes. */
+  error_code?: string | null;
+  /** The date of the payment associated with the ACH transaction */
+  payment_date?: string;
+  /** The direction of the payment */
+  payment_direction?: AchTransactionPaymentDirection;
+  /** The date of the payment event check associated with the ACH transaction */
+  payment_event_check_date?: string;
+  /** The type of payment event associated with the ACH transaction */
+  payment_event_type?: AchTransactionPaymentEventType;
+  /** Unique identifier for the payment event associated with the ACH transaction */
+  payment_event_uuid?: string;
+  /** The status of the ACH transaction */
+  payment_status?: AchTransactionPaymentStatus;
+  /** The type of recipient associated with the ACH transaction */
+  recipient_type?: AchTransactionRecipientType | null;
+  /** Unique identifier for the recipient associated with the ACH transaction */
+  recipient_uuid?: string;
+  /** The type of transaction associated with the ACH transaction */
+  transaction_type?: string;
+  /** Unique identifier of an ACH transaction */
+  uuid: string;
+}
+export const AchTransaction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.optional(S.String),
+    company_uuid: S.optional(S.String),
+    description: S.optional(S.String),
+    error_code: S.optional(S.NullOr(S.String)),
+    payment_date: S.optional(S.String),
+    payment_direction: S.optional(AchTransactionPaymentDirection),
+    payment_event_check_date: S.optional(S.String),
+    payment_event_type: S.optional(AchTransactionPaymentEventType),
+    payment_event_uuid: S.optional(S.String),
+    payment_status: S.optional(AchTransactionPaymentStatus),
+    recipient_type: S.optional(S.NullOr(AchTransactionRecipientType)),
+    recipient_uuid: S.optional(S.String),
+    transaction_type: S.optional(S.String),
+    uuid: S.String,
+  }),
+).annotate({ identifier: "AchTransaction" }) as any as S.Schema<AchTransaction>;
+
+export type AchTransactionList = Array<AchTransaction>;
+export const AchTransactionList = /*@__PURE__*/ S.Array(
+  AchTransaction,
+) as any as S.Schema<AchTransactionList>;
+
+export type GetAchTransactionsResponse = AchTransactionList;
+export const GetAchTransactionsResponse = /*@__PURE__*/ S.suspend(() =>
+  AchTransactionList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetAchTransactionsResponse",
+}) as any as S.Schema<GetAchTransactionsResponse>;
 
 export interface GetBenefitRequest {
   /** The benefit type in Gusto. */
@@ -2353,9 +7400,7 @@ export const GetBenefitRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     benefit_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/benefits/{benefit_id}", code: 200 })),
-).annotate({
-  identifier: "GetBenefitRequest",
-}) as any as S.Schema<GetBenefitRequest>;
+).annotate({ identifier: "GetBenefitRequest" }) as any as S.Schema<GetBenefitRequest>;
 
 export interface SupportedBenefit {
   /** The benefit type in Gusto. */
@@ -2395,16 +7440,12 @@ export const SupportedBenefit = /*@__PURE__*/ S.suspend(() =>
     writable_by_application: S.optional(S.Boolean),
     yearly_limit: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SupportedBenefit",
-}) as any as S.Schema<SupportedBenefit>;
+).annotate({ identifier: "SupportedBenefit" }) as any as S.Schema<SupportedBenefit>;
 
 export interface GetBenefitsRequest {}
 export const GetBenefitsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/benefits", code: 200 })),
-).annotate({
-  identifier: "GetBenefitsRequest",
-}) as any as S.Schema<GetBenefitsRequest>;
+).annotate({ identifier: "GetBenefitsRequest" }) as any as S.Schema<GetBenefitsRequest>;
 
 export type SupportedBenefitList = Array<SupportedBenefit>;
 export const SupportedBenefitList = /*@__PURE__*/ S.Array(
@@ -2414,9 +7455,7 @@ export const SupportedBenefitList = /*@__PURE__*/ S.Array(
 export type GetBenefitsResponse = SupportedBenefitList;
 export const GetBenefitsResponse = /*@__PURE__*/ S.suspend(() =>
   SupportedBenefitList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetBenefitsResponse",
-}) as any as S.Schema<GetBenefitsResponse>;
+).annotate({ identifier: "GetBenefitsResponse" }) as any as S.Schema<GetBenefitsResponse>;
 
 export interface GetBenefitsBenefitRequirementsRequest {
   /** The benefit type in Gusto. */
@@ -2425,13 +7464,7 @@ export interface GetBenefitsBenefitRequirementsRequest {
 export const GetBenefitsBenefitRequirementsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     benefit_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/benefits/{benefit_id}/requirements",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/benefits/{benefit_id}/requirements", code: 200 })),
 ).annotate({
   identifier: "GetBenefitsBenefitRequirementsRequest",
 }) as any as S.Schema<GetBenefitsBenefitRequirementsRequest>;
@@ -2702,9 +7735,114 @@ export const BenefitTypeRequirements = /*@__PURE__*/ S.suspend(() =>
     employee_deduction: S.optional(BenefitTypeRequirementsEmployeeDeduction),
     limit_option: S.optional(BenefitTypeRequirementsLimitOption),
   }),
-).annotate({
-  identifier: "BenefitTypeRequirements",
-}) as any as S.Schema<BenefitTypeRequirements>;
+).annotate({ identifier: "BenefitTypeRequirements" }) as any as S.Schema<BenefitTypeRequirements>;
+
+export interface GetBulkReportRequest {
+  /** The UUID of the bulk report batch. */
+  request_uuid: string;
+}
+export const GetBulkReportRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    request_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/bulk_reports/{request_uuid}", code: 200 })),
+).annotate({ identifier: "GetBulkReportRequest" }) as any as S.Schema<GetBulkReportRequest>;
+
+/** Which report this entry refers to. */
+export type BulkReportItemResultReportType = "custom_report" | "general_ledger";
+export const BulkReportItemResultReportType = S.String;
+
+/** The terminal state for this individual report. */
+export type BulkReportItemResultStatus = "pending" | "success" | "failed";
+export const BulkReportItemResultStatus = S.String;
+
+/** A single report's outcome. */
+export interface BulkReportItemResult {
+  /** A user-facing error message when status is `failed`. Null on success. */
+  error: string | null;
+  /** The report's output file type. */
+  file_type: string;
+  /** Which report this entry refers to. */
+  report_type: BulkReportItemResultReportType;
+  /** The terminal state for this individual report. */
+  status: BulkReportItemResultStatus;
+}
+export const BulkReportItemResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    error: S.NullOr(S.String),
+    file_type: S.String,
+    report_type: BulkReportItemResultReportType,
+    status: BulkReportItemResultStatus,
+  }),
+).annotate({ identifier: "BulkReportItemResult" }) as any as S.Schema<BulkReportItemResult>;
+
+export type BulkReportCompanyReportsList = Array<BulkReportItemResult>;
+export const BulkReportCompanyReportsList = /*@__PURE__*/ S.Array(
+  BulkReportItemResult,
+) as any as S.Schema<BulkReportCompanyReportsList>;
+
+/** This company's overall status across its `reports`: - `success`: every report succeeded - `partial_success`: some succeeded, some failed - `failed`: every report failed - `pending`: at least one report is still being generated */
+export type BulkReportCompanyStatus = "pending" | "success" | "partial_success" | "failed";
+export const BulkReportCompanyStatus = S.String;
+
+/** Results for a single company in a bulk report batch. */
+export interface BulkReportCompany {
+  /** UUID of the company. */
+  company_uuid: string;
+  reports: BulkReportCompanyReportsList;
+  /** This company's overall status across its `reports`: - `success`: every report succeeded - `partial_success`: some succeeded, some failed - `failed`: every report failed - `pending`: at least one report is still being generated */
+  status: BulkReportCompanyStatus;
+}
+export const BulkReportCompany = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String,
+    reports: BulkReportCompanyReportsList,
+    status: BulkReportCompanyStatus,
+  }),
+).annotate({ identifier: "BulkReportCompany" }) as any as S.Schema<BulkReportCompany>;
+
+/** Per-company breakdown. Returned only once the batch has finished; omitted while in progress. */
+export type BulkReportCompaniesList = Array<BulkReportCompany>;
+export const BulkReportCompaniesList = /*@__PURE__*/ S.Array(
+  BulkReportCompany,
+) as any as S.Schema<BulkReportCompaniesList>;
+
+/** Overall batch status. `pending`/`processing` while in progress; once finished, `success` (all reports succeeded), `partial_success` (some succeeded, some failed), or `failed` (none succeeded). */
+export type BulkReportStatus = "pending" | "processing" | "success" | "partial_success" | "failed";
+export const BulkReportStatus = S.String;
+
+export interface BulkReport {
+  /** Per-company breakdown. Returned only once the batch has finished; omitted while in progress. */
+  companies?: BulkReportCompaniesList;
+  /** When the batch reached a terminal state. Null while non-terminal. */
+  completed_at: string | null;
+  /** UUID of the partner that owns this batch. Returned only once the batch has finished; omitted while in progress. */
+  partner_uuid?: string;
+  /** How many reports succeeded. Returned only once the batch has finished; omitted while in progress. */
+  processed_items?: number;
+  /** Signed S3 URL to a zip containing every successfully-generated report, valid for 10 minutes. Returned only once the batch has finished; omitted while in progress. */
+  report_url?: string | null;
+  /** Overall batch status. `pending`/`processing` while in progress; once finished, `success` (all reports succeeded), `partial_success` (some succeeded, some failed), or `failed` (none succeeded). */
+  status: BulkReportStatus;
+  /** When the batch was accepted. */
+  submitted_at: string;
+  /** How many reports the partner asked for in this batch. */
+  submitted_items: number;
+  /** Unique identifier of the bulk report batch. */
+  uuid: string;
+}
+export const BulkReport = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    companies: S.optional(BulkReportCompaniesList),
+    completed_at: S.NullOr(S.String),
+    partner_uuid: S.optional(S.String),
+    processed_items: S.optional(S.Number),
+    report_url: S.optional(S.NullOr(S.String)),
+    status: BulkReportStatus,
+    submitted_at: S.String,
+    submitted_items: S.Number,
+    uuid: S.String,
+  }),
+).annotate({ identifier: "BulkReport" }) as any as S.Schema<BulkReport>;
 
 export interface GetCompaniesRequest {
   /** The UUID of the company */
@@ -2714,9 +7852,7 @@ export const GetCompaniesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}", code: 200 })),
-).annotate({
-  identifier: "GetCompaniesRequest",
-}) as any as S.Schema<GetCompaniesRequest>;
+).annotate({ identifier: "GetCompaniesRequest" }) as any as S.Schema<GetCompaniesRequest>;
 
 /** The status of the company in Gusto. "Approved" companies are approved to run payroll from a risk and compliance perspective. However, an approved company may still need to resolve other [payroll blockers](https://docs.gusto.com/embedded-payroll/docs/payroll-blockers) to be able to run payroll. "Not Approved" companies may not yet run payroll with Gusto and may need to complete onboarding or contact support. "Suspended" companies may not run payroll with Gusto. In order to unsuspend their account, the company must contact support. */
 export type CompanyCompanyStatus = "Approved" | "Not Approved" | "Suspended";
@@ -2803,9 +7939,7 @@ export const CompanyCompensations = /*@__PURE__*/ S.suspend(() =>
     hourly: S.optional(CompanyCompensationsHourlyList),
     paid_time_off: S.optional(CompanyCompensationsPaidTimeOffList),
   }),
-).annotate({
-  identifier: "CompanyCompensations",
-}) as any as S.Schema<CompanyCompensations>;
+).annotate({ identifier: "CompanyCompensations" }) as any as S.Schema<CompanyCompensations>;
 
 export type CompanyEntityType =
   | "C-Corporation"
@@ -2919,9 +8053,7 @@ export const CompanyPrimarySignatory = /*@__PURE__*/ S.suspend(() =>
     phone: S.optional(S.String),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CompanyPrimarySignatory",
-}) as any as S.Schema<CompanyPrimarySignatory>;
+).annotate({ identifier: "CompanyPrimarySignatory" }) as any as S.Schema<CompanyPrimarySignatory>;
 
 /** The Gusto product tier of the company (not applicable to Embedded partner managed companies). */
 export type CompanyTier =
@@ -3003,6 +8135,150 @@ export const Company = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Company" }) as any as S.Schema<Company>;
 
+export interface GetCompaniesAttachmentRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The UUID of the company attachment */
+  company_attachment_uuid: string;
+}
+export const GetCompaniesAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    company_attachment_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/companies/{company_id}/attachments/{company_attachment_uuid}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetCompaniesAttachmentRequest",
+}) as any as S.Schema<GetCompaniesAttachmentRequest>;
+
+export interface GetCompaniesAttachmentsRequest {
+  /** The UUID of the company */
+  company_id: string;
+}
+export const GetCompaniesAttachmentsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}/attachments", code: 200 })),
+).annotate({
+  identifier: "GetCompaniesAttachmentsRequest",
+}) as any as S.Schema<GetCompaniesAttachmentsRequest>;
+
+export type GetCompaniesAttachmentsResponseBodyList = Array<CompanyAttachment>;
+export const GetCompaniesAttachmentsResponseBodyList = /*@__PURE__*/ S.Array(
+  CompanyAttachment,
+) as any as S.Schema<GetCompaniesAttachmentsResponseBodyList>;
+
+export type GetCompaniesAttachmentsResponse = GetCompaniesAttachmentsResponseBodyList;
+export const GetCompaniesAttachmentsResponse = /*@__PURE__*/ S.suspend(() =>
+  GetCompaniesAttachmentsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetCompaniesAttachmentsResponse",
+}) as any as S.Schema<GetCompaniesAttachmentsResponse>;
+
+export interface GetCompaniesCompanyUuidWireInRequestUuidRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
+  page?: number;
+  /** Number of objects per page. For majority of endpoints will default to 25 */
+  per?: number;
+}
+export const GetCompaniesCompanyUuidWireInRequestUuidRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/wire_in_requests", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetCompaniesCompanyUuidWireInRequestUuidRequest",
+}) as any as S.Schema<GetCompaniesCompanyUuidWireInRequestUuidRequest>;
+
+/** Type of payment for the wire in */
+export type WireInRequestPaymentType = "Payroll" | "ContractorPaymentGroup";
+export const WireInRequestPaymentType = S.String;
+
+/** Status of the wire in */
+export type WireInRequestStatus = "awaiting_funds" | "pending_review" | "approved" | "canceled";
+export const WireInRequestStatus = S.String;
+
+/** Representation of a wire in request */
+export interface WireInRequest {
+  /** Notes for the wire in request */
+  additional_notes?: string | null;
+  /** Amount sent through wire in */
+  amount_sent?: string | null;
+  /** Name of the bank initiating the wire in */
+  bank_name?: string | null;
+  /** Date the wire in was sent */
+  date_sent?: string | null;
+  /** Name of bank receiving the wire in */
+  origination_bank?: string;
+  /** Address of bank receiving the wire in */
+  origination_bank_address?: string;
+  /** Type of payment for the wire in */
+  payment_type?: WireInRequestPaymentType;
+  /** Unique identifier of the payment */
+  payment_uuid?: string;
+  /** Recipient bank account number */
+  recipient_account_number?: string;
+  /** Address of the recipient of the wire in */
+  recipient_address?: string;
+  /** Name of the recipient of the wire In */
+  recipient_name?: string;
+  /** Recipient bank routing number */
+  recipient_routing_number?: string;
+  /** Requested amount for the payment */
+  requested_amount?: string;
+  /** Status of the wire in */
+  status?: WireInRequestStatus;
+  /** Include in note with bank to track payment */
+  unique_tracking_code?: string;
+  /** Unique identifier of a wire in request */
+  uuid?: string;
+  /** Deadline to submit the wire in */
+  wire_in_deadline?: string;
+}
+export const WireInRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    additional_notes: S.optional(S.NullOr(S.String)),
+    amount_sent: S.optional(S.NullOr(S.String)),
+    bank_name: S.optional(S.NullOr(S.String)),
+    date_sent: S.optional(S.NullOr(S.String)),
+    origination_bank: S.optional(S.String),
+    origination_bank_address: S.optional(S.String),
+    payment_type: S.optional(WireInRequestPaymentType),
+    payment_uuid: S.optional(S.String),
+    recipient_account_number: S.optional(S.String),
+    recipient_address: S.optional(S.String),
+    recipient_name: S.optional(S.String),
+    recipient_routing_number: S.optional(S.String),
+    requested_amount: S.optional(S.String),
+    status: S.optional(WireInRequestStatus),
+    unique_tracking_code: S.optional(S.String),
+    uuid: S.optional(S.String),
+    wire_in_deadline: S.optional(S.String),
+  }),
+).annotate({ identifier: "WireInRequest" }) as any as S.Schema<WireInRequest>;
+
+export type WireInRequestList = Array<WireInRequest>;
+export const WireInRequestList = /*@__PURE__*/ S.Array(
+  WireInRequest,
+) as any as S.Schema<WireInRequestList>;
+
+export type GetCompaniesCompanyUuidWireInRequestUuidResponse = WireInRequestList;
+export const GetCompaniesCompanyUuidWireInRequestUuidResponse = /*@__PURE__*/ S.suspend(() =>
+  WireInRequestList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetCompaniesCompanyUuidWireInRequestUuidResponse",
+}) as any as S.Schema<GetCompaniesCompanyUuidWireInRequestUuidResponse>;
+
 export interface GetCompaniesDepartmentsRequest {
   /** The UUID of the company */
   company_uuid: string;
@@ -3010,41 +8286,27 @@ export interface GetCompaniesDepartmentsRequest {
 export const GetCompaniesDepartmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_uuid}/departments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/departments", code: 200 })),
 ).annotate({
   identifier: "GetCompaniesDepartmentsRequest",
 }) as any as S.Schema<GetCompaniesDepartmentsRequest>;
 
-export interface DepartmentContractorsItem {
-  uuid?: string;
-}
-export const DepartmentContractorsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uuid: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DepartmentContractorsItem",
-}) as any as S.Schema<DepartmentContractorsItem>;
+export type DepartmentContractorsItem = HolidayPayPolicyEmployeesItem;
+export const DepartmentContractorsItem = HolidayPayPolicyEmployeesItem;
 
 /** Array of contractors assigned to the department. */
-export type DepartmentContractorsList = Array<DepartmentContractorsItem>;
+export type DepartmentContractorsList = Array<HolidayPayPolicyEmployeesItem>;
 export const DepartmentContractorsList = /*@__PURE__*/ S.Array(
-  DepartmentContractorsItem,
+  HolidayPayPolicyEmployeesItem,
 ) as any as S.Schema<DepartmentContractorsList>;
 
-export type DepartmentEmployeesItem = DepartmentContractorsItem;
-export const DepartmentEmployeesItem = DepartmentContractorsItem;
+export type DepartmentEmployeesItem = HolidayPayPolicyEmployeesItem;
+export const DepartmentEmployeesItem = HolidayPayPolicyEmployeesItem;
 
 /** Array of employees assigned to the department. */
-export type DepartmentEmployeesList = Array<DepartmentContractorsItem>;
+export type DepartmentEmployeesList = Array<HolidayPayPolicyEmployeesItem>;
 export const DepartmentEmployeesList = /*@__PURE__*/ S.Array(
-  DepartmentContractorsItem,
+  HolidayPayPolicyEmployeesItem,
 ) as any as S.Schema<DepartmentEmployeesList>;
 
 export interface Department {
@@ -3095,39 +8357,8 @@ export const GetCompanyAdminsRequest = /*@__PURE__*/ S.suspend(() =>
     company_id: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/admins",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetCompanyAdminsRequest",
-}) as any as S.Schema<GetCompanyAdminsRequest>;
-
-/** The representation of an admin user in Gusto. */
-export interface Admin {
-  /** The email of the admin for Gusto's system. */
-  email?: string;
-  /** The first name of the admin. */
-  first_name?: string;
-  /** The last name of the admin. */
-  last_name?: string;
-  /** The phone number of the admin. */
-  phone?: string | null;
-  /** The unique id of the admin. */
-  uuid: string;
-}
-export const Admin = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    email: S.optional(S.String),
-    first_name: S.optional(S.String),
-    last_name: S.optional(S.String),
-    phone: S.optional(S.NullOr(S.String)),
-    uuid: S.String,
-  }),
-).annotate({ identifier: "Admin" }) as any as S.Schema<Admin>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}/admins", code: 200 })),
+).annotate({ identifier: "GetCompanyAdminsRequest" }) as any as S.Schema<GetCompanyAdminsRequest>;
 
 export type GetCompanyAdminsResponseBodyList = Array<Admin>;
 export const GetCompanyAdminsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3137,9 +8368,31 @@ export const GetCompanyAdminsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetCompanyAdminsResponse = GetCompanyAdminsResponseBodyList;
 export const GetCompanyAdminsResponse = /*@__PURE__*/ S.suspend(() =>
   GetCompanyAdminsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "GetCompanyAdminsResponse" }) as any as S.Schema<GetCompanyAdminsResponse>;
+
+export interface GetCompanyBankAccountsRequest {
+  /** The UUID of the company */
+  company_id: string;
+}
+export const GetCompanyBankAccountsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}/bank_accounts", code: 200 })),
 ).annotate({
-  identifier: "GetCompanyAdminsResponse",
-}) as any as S.Schema<GetCompanyAdminsResponse>;
+  identifier: "GetCompanyBankAccountsRequest",
+}) as any as S.Schema<GetCompanyBankAccountsRequest>;
+
+export type GetCompanyBankAccountsResponseBodyList = Array<CompanyBankAccount>;
+export const GetCompanyBankAccountsResponseBodyList = /*@__PURE__*/ S.Array(
+  CompanyBankAccount,
+) as any as S.Schema<GetCompanyBankAccountsResponseBodyList>;
+
+export type GetCompanyBankAccountsResponse = GetCompanyBankAccountsResponseBodyList;
+export const GetCompanyBankAccountsResponse = /*@__PURE__*/ S.suspend(() =>
+  GetCompanyBankAccountsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetCompanyBankAccountsResponse",
+}) as any as S.Schema<GetCompanyBankAccountsResponse>;
 
 export type GetCompanyBenefitRequestInclude = "all_benefits";
 export const GetCompanyBenefitRequestInclude = S.String;
@@ -3157,16 +8410,8 @@ export const GetCompanyBenefitRequest = /*@__PURE__*/ S.suspend(() =>
     company_benefit_id: S.String.pipe(T.Label()),
     with_employee_benefits: S.optional(S.Boolean.pipe(T.Query())),
     include: S.optional(GetCompanyBenefitRequestInclude.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/company_benefits/{company_benefit_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetCompanyBenefitRequest",
-}) as any as S.Schema<GetCompanyBenefitRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/company_benefits/{company_benefit_id}", code: 200 })),
+).annotate({ identifier: "GetCompanyBenefitRequest" }) as any as S.Schema<GetCompanyBenefitRequest>;
 
 export type CompanyBenefitWithEmployeeBenefitsCatchUpType = "elective" | "deemed";
 export const CompanyBenefitWithEmployeeBenefitsCatchUpType = S.String;
@@ -3352,9 +8597,7 @@ export const ContributionExclusion = /*@__PURE__*/ S.suspend(() =>
     contribution_uuid: S.String,
     excluded: S.Boolean,
   }),
-).annotate({
-  identifier: "ContributionExclusion",
-}) as any as S.Schema<ContributionExclusion>;
+).annotate({ identifier: "ContributionExclusion" }) as any as S.Schema<ContributionExclusion>;
 
 export type GetCompanyBenefitContributionExclusionsResponseBodyList = Array<ContributionExclusion>;
 export const GetCompanyBenefitContributionExclusionsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3520,9 +8763,7 @@ export const EmployeeBenefit = /*@__PURE__*/ S.suspend(() =>
     employee_uuid: S.optional(S.String),
     uuid: S.String,
   }),
-).annotate({
-  identifier: "EmployeeBenefit",
-}) as any as S.Schema<EmployeeBenefit>;
+).annotate({ identifier: "EmployeeBenefit" }) as any as S.Schema<EmployeeBenefit>;
 
 export type GetCompanyBenefitEmployeeBenefitsResponseBodyList = Array<EmployeeBenefit>;
 export const GetCompanyBenefitEmployeeBenefitsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3553,13 +8794,7 @@ export const GetCompanyCompanyBenefitsRequest = /*@__PURE__*/ S.suspend(() =>
     active: S.optional(S.Boolean.pipe(T.Query())),
     enrollment_count: S.optional(S.Boolean.pipe(T.Query())),
     benefit_type: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/company_benefits",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}/company_benefits", code: 200 })),
 ).annotate({
   identifier: "GetCompanyCompanyBenefitsRequest",
 }) as any as S.Schema<GetCompanyCompanyBenefitsRequest>;
@@ -3597,76 +8832,110 @@ export const GetCompanyContractorPaymentContractorPaymentRequest = /*@__PURE__*/
   identifier: "GetCompanyContractorPaymentContractorPaymentRequest",
 }) as any as S.Schema<GetCompanyContractorPaymentContractorPaymentRequest>;
 
-/** The payment method. */
-export type ContractorPaymentPaymentMethod =
-  | "Direct Deposit"
-  | "Check"
-  | "Historical Payment"
-  | "Correction Payment";
-export const ContractorPaymentPaymentMethod = S.String;
-
-/** Contractor payment status */
-export type ContractorPaymentStatus = "Funded" | "Unfunded";
-export const ContractorPaymentStatus = S.String;
-
-/** The wage type for the payment. */
-export type ContractorPaymentWageType = "Hourly" | "Fixed";
-export const ContractorPaymentWageType = S.String;
-
-/** The representation of a single contractor payment. */
-export interface ContractorPayment {
-  /** The bonus amount in the payment. */
-  bonus?: string;
-  /** The UUID of the contractor. */
-  contractor_uuid?: string;
-  /** The payment date. */
-  date?: string;
-  /** The rate per hour worked for the payment. */
-  hourly_rate?: string;
-  /** The number of hours worked for the payment. */
-  hours?: string;
-  /** An optional invoice number associated with this contractor payment. This will be visible to the contractor on their paystub. Maximum 25 characters. */
-  invoice_number?: string | null;
-  /** Determine if the contractor payment can be cancelled. */
-  may_cancel?: boolean;
-  /** An optional note or memo for this contractor payment. This will be visible to the contractor on their paystub. */
-  memo?: string | null;
-  /** The payment method. */
-  payment_method?: ContractorPaymentPaymentMethod;
-  /** The reimbursement amount in the payment. */
-  reimbursement?: string;
-  /** Contractor payment status */
-  status?: ContractorPaymentStatus;
-  /** The unique identifier of the contractor payment in Gusto. */
-  uuid: string;
-  /** The fixed wage of the payment, regardless of hours worked. */
-  wage?: string;
-  /** (hours * hourly_rate) + wage + bonus */
-  wage_total?: string;
-  /** The wage type for the payment. */
-  wage_type?: ContractorPaymentWageType;
+export interface GetCompanyContractorPaymentGroupsRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The time period for which to retrieve contractor payment groups. Defaults to 6 months ago. */
+  start_date?: string;
+  /** The time period for which to retrieve contractor payment groups. Defaults to today's date. */
+  end_date?: string;
+  /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
+  page?: number;
+  /** Number of objects per page. For majority of endpoints will default to 25 */
+  per?: number;
 }
-export const ContractorPayment = /*@__PURE__*/ S.suspend(() =>
+export const GetCompanyContractorPaymentGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bonus: S.optional(S.String),
-    contractor_uuid: S.optional(S.String),
-    date: S.optional(S.String),
-    hourly_rate: S.optional(S.String),
-    hours: S.optional(S.String),
-    invoice_number: S.optional(S.NullOr(S.String)),
-    may_cancel: S.optional(S.Boolean),
-    memo: S.optional(S.NullOr(S.String)),
-    payment_method: S.optional(ContractorPaymentPaymentMethod),
-    reimbursement: S.optional(S.String),
-    status: S.optional(ContractorPaymentStatus),
-    uuid: S.String,
-    wage: S.optional(S.String),
-    wage_total: S.optional(S.String),
-    wage_type: S.optional(ContractorPaymentWageType),
+    company_id: S.String.pipe(T.Label()),
+    start_date: S.optional(S.String.pipe(T.Query())),
+    end_date: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/companies/{company_id}/contractor_payment_groups",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetCompanyContractorPaymentGroupsRequest",
+}) as any as S.Schema<GetCompanyContractorPaymentGroupsRequest>;
+
+/** The status of the contractor payment group. Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded. A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method. */
+export type ContractorPaymentGroupWithBlockersStatus = "Unfunded" | "Funded";
+export const ContractorPaymentGroupWithBlockersStatus = S.String;
+
+/** List of credit blockers for the contractor payment group. */
+export type ContractorPaymentGroupWithBlockersCreditBlockersList = Array<PayrollCreditBlockerType>;
+export const ContractorPaymentGroupWithBlockersCreditBlockersList = /*@__PURE__*/ S.Array(
+  PayrollCreditBlockerType,
+) as any as S.Schema<ContractorPaymentGroupWithBlockersCreditBlockersList>;
+
+/** List of submission blockers for the contractor payment group. */
+export type ContractorPaymentGroupWithBlockersSubmissionBlockersList =
+  Array<PayrollSubmissionBlockerType>;
+export const ContractorPaymentGroupWithBlockersSubmissionBlockersList = /*@__PURE__*/ S.Array(
+  PayrollSubmissionBlockerType,
+) as any as S.Schema<ContractorPaymentGroupWithBlockersSubmissionBlockersList>;
+
+export type ContractorPaymentGroupWithBlockersTotals =
+  CreateCompanyContractorPaymentGroupResponseTotals;
+export const ContractorPaymentGroupWithBlockersTotals =
+  CreateCompanyContractorPaymentGroupResponseTotals;
+
+/** Contractor payment group with submission and credit blockers, but without individual contractor payments. */
+export interface ContractorPaymentGroupWithBlockers {
+  /** The check date of the contractor payment group. */
+  check_date?: string;
+  /** The UUID of the company. */
+  company_uuid?: string;
+  /** Token used to make contractor payment group creation idempotent. Will error if attempting to create a group with a duplicate token. */
+  creation_token?: string | null;
+  /** The debit date of the contractor payment group. */
+  debit_date?: string;
+  /** The status of the contractor payment group. Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded. A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method. */
+  status?: ContractorPaymentGroupWithBlockersStatus;
+  /** The unique identifier of the contractor payment group. */
+  uuid?: string;
+  /** List of credit blockers for the contractor payment group. */
+  credit_blockers?: ContractorPaymentGroupWithBlockersCreditBlockersList;
+  /** Whether the disbursement is partner owned. */
+  partner_owned_disbursement?: boolean | null;
+  /** List of submission blockers for the contractor payment group. */
+  submission_blockers?: ContractorPaymentGroupWithBlockersSubmissionBlockersList;
+  totals?: CreateCompanyContractorPaymentGroupResponseTotals;
+}
+export const ContractorPaymentGroupWithBlockers = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    check_date: S.optional(S.String),
+    company_uuid: S.optional(S.String),
+    creation_token: S.optional(S.NullOr(S.String)),
+    debit_date: S.optional(S.String),
+    status: S.optional(ContractorPaymentGroupWithBlockersStatus),
+    uuid: S.optional(S.String),
+    credit_blockers: S.optional(ContractorPaymentGroupWithBlockersCreditBlockersList),
+    partner_owned_disbursement: S.optional(S.NullOr(S.Boolean)),
+    submission_blockers: S.optional(ContractorPaymentGroupWithBlockersSubmissionBlockersList),
+    totals: S.optional(CreateCompanyContractorPaymentGroupResponseTotals),
   }),
 ).annotate({
-  identifier: "ContractorPayment",
-}) as any as S.Schema<ContractorPayment>;
+  identifier: "ContractorPaymentGroupWithBlockers",
+}) as any as S.Schema<ContractorPaymentGroupWithBlockers>;
+
+export type GetCompanyContractorPaymentGroupsResponseBodyList =
+  Array<ContractorPaymentGroupWithBlockers>;
+export const GetCompanyContractorPaymentGroupsResponseBodyList = /*@__PURE__*/ S.Array(
+  ContractorPaymentGroupWithBlockers,
+) as any as S.Schema<GetCompanyContractorPaymentGroupsResponseBodyList>;
+
+export type GetCompanyContractorPaymentGroupsResponse =
+  GetCompanyContractorPaymentGroupsResponseBodyList;
+export const GetCompanyContractorPaymentGroupsResponse = /*@__PURE__*/ S.suspend(() =>
+  GetCompanyContractorPaymentGroupsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetCompanyContractorPaymentGroupsResponse",
+}) as any as S.Schema<GetCompanyContractorPaymentGroupsResponse>;
 
 export interface GetCompanyContractorPaymentsRequest {
   /** The UUID of the company */
@@ -3694,11 +8963,7 @@ export const GetCompanyContractorPaymentsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/contractor_payments",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/companies/{company_id}/contractor_payments", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCompanyContractorPaymentsRequest",
@@ -3766,9 +9031,7 @@ export const ContractorPaymentSummary = /*@__PURE__*/ S.suspend(() =>
     contractor_payments: S.optional(ContractorPaymentSummaryContractorPaymentsList),
     total: S.optional(ContractorPaymentSummaryTotal),
   }),
-).annotate({
-  identifier: "ContractorPaymentSummary",
-}) as any as S.Schema<ContractorPaymentSummary>;
+).annotate({ identifier: "ContractorPaymentSummary" }) as any as S.Schema<ContractorPaymentSummary>;
 
 /** The contractor's payments within a given time period. */
 export type ContractorPaymentSummaryByDatesContractorPaymentsItemPaymentsList =
@@ -3842,6 +9105,94 @@ export const GetCompanyContractorPaymentsResponse = /*@__PURE__*/ S.suspend(() =
   identifier: "GetCompanyContractorPaymentsResponse",
 }) as any as S.Schema<GetCompanyContractorPaymentsResponse>;
 
+/** The payment method. */
+export type GetCompanyContractorPaymentsPreviewRequestContractorPaymentsItemPaymentMethod =
+  | "Direct Deposit"
+  | "Check"
+  | "Historical Payment";
+export const GetCompanyContractorPaymentsPreviewRequestContractorPaymentsItemPaymentMethod =
+  S.String;
+
+export interface GetCompanyContractorPaymentsPreviewRequestContractorPaymentsItem {
+  /** Bonus amount for the payment. */
+  bonus?: number;
+  /** The contractor receiving the payment. */
+  contractor_uuid?: string;
+  /** Date of the contractor payment (check date). */
+  date?: string;
+  /** Hourly rate for the payment. */
+  hourly_rate?: number;
+  /** Number of hours worked for the payment. */
+  hours?: number;
+  /** The payment method. */
+  payment_method?:
+    | GetCompanyContractorPaymentsPreviewRequestContractorPaymentsItemPaymentMethod
+    | (string & {});
+  /** Reimbursement amount for the payment. */
+  reimbursement?: number;
+  /** Fixed wage amount for the payment. */
+  wage?: number;
+}
+export const GetCompanyContractorPaymentsPreviewRequestContractorPaymentsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      bonus: S.optional(S.Number),
+      contractor_uuid: S.optional(S.String),
+      date: S.optional(S.String),
+      hourly_rate: S.optional(S.Number),
+      hours: S.optional(S.Number),
+      payment_method: S.optional(
+        GetCompanyContractorPaymentsPreviewRequestContractorPaymentsItemPaymentMethod,
+      ),
+      reimbursement: S.optional(S.Number),
+      wage: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GetCompanyContractorPaymentsPreviewRequestContractorPaymentsItem",
+  }) as any as S.Schema<GetCompanyContractorPaymentsPreviewRequestContractorPaymentsItem>;
+
+/** A list of contractor payments to preview. */
+export type GetCompanyContractorPaymentsPreviewRequestContractorPaymentsList =
+  Array<GetCompanyContractorPaymentsPreviewRequestContractorPaymentsItem>;
+export const GetCompanyContractorPaymentsPreviewRequestContractorPaymentsList =
+  /*@__PURE__*/ S.Array(
+    GetCompanyContractorPaymentsPreviewRequestContractorPaymentsItem,
+  ) as any as S.Schema<GetCompanyContractorPaymentsPreviewRequestContractorPaymentsList>;
+
+export interface GetCompanyContractorPaymentsPreviewRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** A list of contractor payments to preview. */
+  contractor_payments: GetCompanyContractorPaymentsPreviewRequestContractorPaymentsList;
+}
+export const GetCompanyContractorPaymentsPreviewRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    contractor_payments: GetCompanyContractorPaymentsPreviewRequestContractorPaymentsList,
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/companies/{company_uuid}/contractor_payments/preview",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetCompanyContractorPaymentsPreviewRequest",
+}) as any as S.Schema<GetCompanyContractorPaymentsPreviewRequest>;
+
+/** The expected debit date computed for a set of previewed contractor payments. */
+export interface ContractorPaymentsPreview {
+  /** The calculated debit date. If the payment method is Direct Deposit, the debit date will account for the company's ACH speed. If the payment method is Check, the debit date will be the same as the check date. */
+  expected_debit_date?: string;
+}
+export const ContractorPaymentsPreview = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    expected_debit_date: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ContractorPaymentsPreview",
+}) as any as S.Schema<ContractorPaymentsPreview>;
+
 export type GetCompanyContractorsRequestIncludeItem = "company_name" | "portal_invitations";
 export const GetCompanyContractorsRequestIncludeItem = S.String;
 
@@ -3886,13 +9237,7 @@ export const GetCompanyContractorsRequest = /*@__PURE__*/ S.suspend(() =>
     include: S.optional(GetCompanyContractorsRequestIncludeList.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     per: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_uuid}/contractors",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/contractors", code: 200 })),
 ).annotate({
   identifier: "GetCompanyContractorsRequest",
 }) as any as S.Schema<GetCompanyContractorsRequest>;
@@ -3909,6 +9254,105 @@ export const GetCompanyContractorsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetCompanyContractorsResponse",
 }) as any as S.Schema<GetCompanyContractorsResponse>;
 
+export interface GetCompanyContractorsPaymentDetailsRequest {
+  /** The UUID of the company. This identifies the company whose contractor payment details you want to retrieve. */
+  company_id: string;
+  /** Optional filter to get payment details for a specific contractor. When provided, the response will only include payment details for this contractor. */
+  contractor_uuid?: string;
+  /** Optional filter to get payment details for contractors in a specific payment group. When provided, the response will only include payment details for contractors in this group. */
+  contractor_payment_group_uuid?: string;
+}
+export const GetCompanyContractorsPaymentDetailsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    contractor_uuid: S.optional(S.String.pipe(T.Query())),
+    contractor_payment_group_uuid: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/companies/{company_id}/contractors/payment_details",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetCompanyContractorsPaymentDetailsRequest",
+}) as any as S.Schema<GetCompanyContractorsPaymentDetailsRequest>;
+
+export type ContractorPaymentDetailsListItemPaymentMethod = "Direct Deposit" | "Check";
+export const ContractorPaymentDetailsListItemPaymentMethod = S.String;
+
+export type ContractorPaymentDetailsListItemSplitBy = "Amount" | "Percentage";
+export const ContractorPaymentDetailsListItemSplitBy = S.String;
+
+export interface ContractorPaymentDetailsListItemSplitsItem {
+  account_type?: string;
+  bank_account_uuid?: string;
+  /** Ciphertext containing the full bank account number, which must be decrypted using a key provided by Gusto. Only visible with the `contractor_payment_methods:read:account_number` scope. */
+  encrypted_account_number?: string | null;
+  /** An obfuscated version of the account number which can be used for display purposes. */
+  hidden_account_number?: string;
+  name?: string;
+  /** The order of priority for each payment split, with priority 1 being the first bank account paid. Priority must be unique and sequential. */
+  priority?: number;
+  routing_number?: string;
+  /** If `split_by` is 'Amount', this is in cents (e.g., 500 for $5.00) and exactly one account must have a `split_amount` of `null` to capture the remainder. If `split_by` is 'Percentage', this is the percentage value (e.g., 60 for 60%). */
+  split_amount?: number | null;
+}
+export const ContractorPaymentDetailsListItemSplitsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_type: S.optional(S.String),
+    bank_account_uuid: S.optional(S.String),
+    encrypted_account_number: S.optional(S.NullOr(S.String)),
+    hidden_account_number: S.optional(S.String),
+    name: S.optional(S.String),
+    priority: S.optional(S.Number),
+    routing_number: S.optional(S.String),
+    split_amount: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({
+  identifier: "ContractorPaymentDetailsListItemSplitsItem",
+}) as any as S.Schema<ContractorPaymentDetailsListItemSplitsItem>;
+
+export type ContractorPaymentDetailsListItemSplitsList =
+  Array<ContractorPaymentDetailsListItemSplitsItem>;
+export const ContractorPaymentDetailsListItemSplitsList = /*@__PURE__*/ S.Array(
+  ContractorPaymentDetailsListItemSplitsItem,
+) as any as S.Schema<ContractorPaymentDetailsListItemSplitsList>;
+
+export interface ContractorPaymentDetailsListItem {
+  contractor_uuid?: string;
+  first_name?: string;
+  last_name?: string;
+  payment_method?: ContractorPaymentDetailsListItemPaymentMethod;
+  /** Describes how the payment will be split. If split_by is Percentage, then the split amounts must add up to exactly 100. If split_by is Amount, then the amount represents cents and the last split amount must be `null` to capture the remainder. */
+  split_by?: ContractorPaymentDetailsListItemSplitBy | null;
+  splits?: ContractorPaymentDetailsListItemSplitsList | null;
+}
+export const ContractorPaymentDetailsListItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.optional(S.String),
+    first_name: S.optional(S.String),
+    last_name: S.optional(S.String),
+    payment_method: S.optional(ContractorPaymentDetailsListItemPaymentMethod),
+    split_by: S.optional(S.NullOr(ContractorPaymentDetailsListItemSplitBy)),
+    splits: S.optional(S.NullOr(ContractorPaymentDetailsListItemSplitsList)),
+  }),
+).annotate({
+  identifier: "ContractorPaymentDetailsListItem",
+}) as any as S.Schema<ContractorPaymentDetailsListItem>;
+
+export type ContractorPaymentDetailsList = Array<ContractorPaymentDetailsListItem>;
+export const ContractorPaymentDetailsList = /*@__PURE__*/ S.Array(
+  ContractorPaymentDetailsListItem,
+) as any as S.Schema<ContractorPaymentDetailsList>;
+
+export type GetCompanyContractorsPaymentDetailsResponse = ContractorPaymentDetailsList;
+export const GetCompanyContractorsPaymentDetailsResponse = /*@__PURE__*/ S.suspend(() =>
+  ContractorPaymentDetailsList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetCompanyContractorsPaymentDetailsResponse",
+}) as any as S.Schema<GetCompanyContractorsPaymentDetailsResponse>;
+
 export interface GetCompanyCustomFieldsRequest {
   /** The UUID of the company */
   company_id: string;
@@ -3922,13 +9366,7 @@ export const GetCompanyCustomFieldsRequest = /*@__PURE__*/ S.suspend(() =>
     company_id: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/custom_fields",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}/custom_fields", code: 200 })),
 ).annotate({
   identifier: "GetCompanyCustomFieldsRequest",
 }) as any as S.Schema<GetCompanyCustomFieldsRequest>;
@@ -3963,9 +9401,7 @@ export const CompanyCustomField = /*@__PURE__*/ S.suspend(() =>
     type: CustomFieldType,
     uuid: S.String,
   }),
-).annotate({
-  identifier: "CompanyCustomField",
-}) as any as S.Schema<CompanyCustomField>;
+).annotate({ identifier: "CompanyCustomField" }) as any as S.Schema<CompanyCustomField>;
 
 export type CompanyCustomFieldListCustomFieldsList = Array<CompanyCustomField>;
 export const CompanyCustomFieldListCustomFieldsList = /*@__PURE__*/ S.Array(
@@ -3979,9 +9415,7 @@ export const CompanyCustomFieldList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     custom_fields: S.optional(CompanyCustomFieldListCustomFieldsList),
   }),
-).annotate({
-  identifier: "CompanyCustomFieldList",
-}) as any as S.Schema<CompanyCustomFieldList>;
+).annotate({ identifier: "CompanyCustomFieldList" }) as any as S.Schema<CompanyCustomFieldList>;
 
 export interface GetCompanyEarningTypesRequest {
   /** The UUID of the company */
@@ -3990,13 +9424,7 @@ export interface GetCompanyEarningTypesRequest {
 export const GetCompanyEarningTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/earning_types",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}/earning_types", code: 200 })),
 ).annotate({
   identifier: "GetCompanyEarningTypesRequest",
 }) as any as S.Schema<GetCompanyEarningTypesRequest>;
@@ -4025,9 +9453,7 @@ export const EarningTypeList = /*@__PURE__*/ S.suspend(() =>
     custom: S.optional(EarningTypeListCustomList),
     default: S.optional(EarningTypeListDefaultList),
   }),
-).annotate({
-  identifier: "EarningTypeList",
-}) as any as S.Schema<EarningTypeList>;
+).annotate({ identifier: "EarningTypeList" }) as any as S.Schema<EarningTypeList>;
 
 export type GetCompanyEmployeesRequestIncludeItem =
   | "all_compensations"
@@ -4093,13 +9519,7 @@ export const GetCompanyEmployeesRequest = /*@__PURE__*/ S.suspend(() =>
     uuids: S.optional(GetCompanyEmployeesRequestUuidsList.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     per: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/employees",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}/employees", code: 200 })),
 ).annotate({
   identifier: "GetCompanyEmployeesRequest",
 }) as any as S.Schema<GetCompanyEmployeesRequest>;
@@ -4145,9 +9565,7 @@ export const EmployeeCustomField = /*@__PURE__*/ S.suspend(() =>
     type: CustomFieldType,
     value: S.String,
   }),
-).annotate({
-  identifier: "EmployeeCustomField",
-}) as any as S.Schema<EmployeeCustomField>;
+).annotate({ identifier: "EmployeeCustomField" }) as any as S.Schema<EmployeeCustomField>;
 
 /** Custom fields are only included for the employee if the include param has the custom_fields value set */
 export type ShowEmployeesItemCustomFieldsList = Array<EmployeeCustomField>;
@@ -4201,146 +9619,10 @@ export const ShowEmployeesItemEligiblePaidTimeOffList = /*@__PURE__*/ S.Array(
   PaidTimeOff,
 ) as any as S.Schema<ShowEmployeesItemEligiblePaidTimeOffList>;
 
-/** The FLSA status for this compensation. Salaried ('Exempt') employees are paid a fixed salary every pay period. Salaried with overtime ('Salaried Nonexempt') employees are paid a fixed salary every pay period, and receive overtime pay when applicable. Hourly ('Nonexempt') employees are paid for the hours they work, and receive overtime pay when applicable. Commissioned employees ('Commission Only Exempt') earn wages based only on commission. Commissioned with overtime ('Commission Only Nonexempt') earn wages based on commission, and receive overtime pay when applicable. Owners ('Owner') are employees that own at least twenty percent of the company. */
-export type FlsaStatusType =
-  | "Exempt"
-  | "Salaried Nonexempt"
-  | "Nonexempt"
-  | "Owner"
-  | "Commission Only Exempt"
-  | "Commission Only Nonexempt";
-export const FlsaStatusType = S.String;
-
 export type ShowEmployeesItemGarnishmentsList = Array<Garnishment>;
 export const ShowEmployeesItemGarnishmentsList = /*@__PURE__*/ S.Array(
   Garnishment,
 ) as any as S.Schema<ShowEmployeesItemGarnishmentsList>;
-
-export interface CompensationMinimumWagesItem {
-  /** The effective date of the minimum wage. */
-  effective_date?: string;
-  /** The UUID of the minimum wage. */
-  uuid?: string;
-  /** The wage amount. */
-  wage?: string;
-}
-export const CompensationMinimumWagesItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    effective_date: S.optional(S.String),
-    uuid: S.optional(S.String),
-    wage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CompensationMinimumWagesItem",
-}) as any as S.Schema<CompensationMinimumWagesItem>;
-
-/** The minimum wages associated with the compensation. */
-export type CompensationMinimumWagesList = Array<CompensationMinimumWagesItem>;
-export const CompensationMinimumWagesList = /*@__PURE__*/ S.Array(
-  CompensationMinimumWagesItem,
-) as any as S.Schema<CompensationMinimumWagesList>;
-
-/** The unit accompanying the compensation rate. If the employee is an owner, rate should be 'Paycheck'. */
-export type CompensationPaymentUnit = "Hour" | "Week" | "Month" | "Year" | "Paycheck";
-export const CompensationPaymentUnit = S.String;
-
-/** The representation of compensation in Gusto. */
-export interface Compensation {
-  /** Indicates if the compensation could be adjusted to minimum wage during payroll calculation. */
-  adjust_for_minimum_wage?: boolean;
-  /** The effective date for this compensation. For the first compensation, this defaults to the job's hire date. */
-  effective_date?: string;
-  /** The UUID of the employee to which the compensation belongs. */
-  employee_uuid?: string;
-  flsa_status?: FlsaStatusType;
-  /** The UUID of the job to which the compensation belongs. */
-  job_uuid?: string;
-  /** The minimum wages associated with the compensation. */
-  minimum_wages?: CompensationMinimumWagesList;
-  /** The unit accompanying the compensation rate. If the employee is an owner, rate should be 'Paycheck'. */
-  payment_unit?: CompensationPaymentUnit;
-  /** The dollar amount paid per payment unit. */
-  rate?: string;
-  /** The job title for this compensation. */
-  title?: string;
-  /** The UUID of the compensation in Gusto. */
-  uuid: string;
-  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
-}
-export const Compensation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    adjust_for_minimum_wage: S.optional(S.Boolean),
-    effective_date: S.optional(S.String),
-    employee_uuid: S.optional(S.String),
-    flsa_status: S.optional(FlsaStatusType),
-    job_uuid: S.optional(S.String),
-    minimum_wages: S.optional(CompensationMinimumWagesList),
-    payment_unit: S.optional(CompensationPaymentUnit),
-    rate: S.optional(S.String),
-    title: S.optional(S.String),
-    uuid: S.String,
-    version: S.optional(S.String),
-  }),
-).annotate({ identifier: "Compensation" }) as any as S.Schema<Compensation>;
-
-/** The compensation history for this job, including pay rate, payment unit, FLSA status, and effective dates. This is sensitive pay information and requires the `compensations:read` scope. */
-export type JobCompensationsList = Array<Compensation>;
-export const JobCompensationsList = /*@__PURE__*/ S.Array(
-  Compensation,
-) as any as S.Schema<JobCompensationsList>;
-
-/** The representation of a job in Gusto. */
-export interface Job {
-  /** The compensation history for this job, including pay rate, payment unit, FLSA status, and effective dates. This is sensitive pay information and requires the `compensations:read` scope. */
-  compensations?: JobCompensationsList;
-  /** The UUID of the current active compensation record for this job. Requires the `compensations:read` scope. */
-  current_compensation_uuid?: string;
-  /** The UUID of the employee to which the job belongs. */
-  employee_uuid?: string;
-  /** The date when the employee was hired or rehired for the job. */
-  hire_date?: string;
-  location?: Location;
-  /** The uuid of the employee's work location. */
-  location_uuid?: string;
-  /** How the employee is paid for this job (e.g., Hour, Week, Month, Year, Paycheck). This is sensitive compensation data and requires the `compensations:read` scope. */
-  payment_unit?: string | null;
-  /** Whether this is the employee's primary job. The value will be set to true unless an existing job exists for the employee. */
-  primary?: boolean;
-  /** The employee's pay rate for this job (e.g., hourly wage or annual salary). This is sensitive compensation data and requires the `compensations:read` scope. */
-  rate?: string;
-  /** The risk class code for workers' compensation in Washington state. Please visit [Washington state's Risk Class page](https://www.lni.wa.gov/insurance/rates-risk-classes/risk-classes-for-workers-compensation/risk-class-lookup#/) to learn more. */
-  state_wc_class_code?: string | null;
-  /** Whether this job is eligible for workers' compensation coverage in the state of Washington (WA). */
-  state_wc_covered?: boolean | null;
-  /** The title for the job. */
-  title?: string | null;
-  /** Whether the employee owns at least 2% of the company. */
-  two_percent_shareholder?: boolean;
-  /** The UUID of the job. */
-  uuid: string;
-  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
-}
-export const Job = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    compensations: S.optional(JobCompensationsList),
-    current_compensation_uuid: S.optional(S.String),
-    employee_uuid: S.optional(S.String),
-    hire_date: S.optional(S.String),
-    location: S.optional(Location),
-    location_uuid: S.optional(S.String),
-    payment_unit: S.optional(S.NullOr(S.String)),
-    primary: S.optional(S.Boolean),
-    rate: S.optional(S.String),
-    state_wc_class_code: S.optional(S.NullOr(S.String)),
-    state_wc_covered: S.optional(S.NullOr(S.Boolean)),
-    title: S.optional(S.NullOr(S.String)),
-    two_percent_shareholder: S.optional(S.Boolean),
-    uuid: S.String,
-    version: S.optional(S.String),
-  }),
-).annotate({ identifier: "Job" }) as any as S.Schema<Job>;
 
 export type ShowEmployeesItemJobsList = Array<Job>;
 export const ShowEmployeesItemJobsList = /*@__PURE__*/ S.Array(
@@ -4473,9 +9755,7 @@ export const EmployeeHomeAddress = /*@__PURE__*/ S.suspend(() =>
     uuid: S.optional(S.String),
     zip: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "EmployeeHomeAddress",
-}) as any as S.Schema<EmployeeHomeAddress>;
+).annotate({ identifier: "EmployeeHomeAddress" }) as any as S.Schema<EmployeeHomeAddress>;
 
 export interface ShowEmployeesItem {
   applicable_tax_ids?: ShowEmployeesItemApplicableTaxIdsList;
@@ -4584,9 +9864,7 @@ export const ShowEmployeesItem = /*@__PURE__*/ S.suspend(() =>
     all_home_addresses: S.optional(ShowEmployeesItemAllHomeAddressesList),
     current_home_address: S.optional(EmployeeHomeAddress),
   }),
-).annotate({
-  identifier: "ShowEmployeesItem",
-}) as any as S.Schema<ShowEmployeesItem>;
+).annotate({ identifier: "ShowEmployeesItem" }) as any as S.Schema<ShowEmployeesItem>;
 
 export type ShowEmployees = Array<ShowEmployeesItem>;
 export const ShowEmployees = /*@__PURE__*/ S.Array(
@@ -4599,6 +9877,315 @@ export const GetCompanyEmployeesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetCompanyEmployeesResponse",
 }) as any as S.Schema<GetCompanyEmployeesResponse>;
+
+export interface GetCompanyEmployeesPaymentDetailsRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The UUID of a specific employee to fetch payment details for. */
+  employee_uuid?: string;
+  /** The UUID of a specific payroll to fetch payment details for employees on that payroll. */
+  payroll_uuid?: string;
+  /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
+  page?: number;
+  /** Number of objects per page. For majority of endpoints will default to 25 */
+  per?: number;
+}
+export const GetCompanyEmployeesPaymentDetailsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    employee_uuid: S.optional(S.String.pipe(T.Query())),
+    payroll_uuid: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/companies/{company_id}/employees/payment_details",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetCompanyEmployeesPaymentDetailsRequest",
+}) as any as S.Schema<GetCompanyEmployeesPaymentDetailsRequest>;
+
+/** The type of payment method. */
+export type EmployeePaymentDetailsListItemPaymentMethod = "Direct Deposit" | "Check";
+export const EmployeePaymentDetailsListItemPaymentMethod = S.String;
+
+export type EmployeePaymentDetailsListItemSplitBy = "Amount" | "Percentage";
+export const EmployeePaymentDetailsListItemSplitBy = S.String;
+
+export interface EmployeePaymentDetailsListItemSplitsItem {
+  /** The bank account type (e.g., "Checking" or "Savings"). */
+  account_type?: string;
+  /** The UUID of the bank account. */
+  bank_account_uuid?: string;
+  /** Ciphertext containing the full bank account number, which must be decrypted using a key provided by Gusto. Only visible with the `employee_payment_methods:read:account_number` scope. */
+  encrypted_account_number?: string | null;
+  /** An obfuscated version of the account number which can be used for display purposes. */
+  hidden_account_number?: string;
+  /** The name of the bank account. */
+  name?: string;
+  /** The order of priority for each payment split, with priority 1 being the first bank account paid. Priority must be unique and sequential. */
+  priority?: number;
+  /** The routing number of the bank account. */
+  routing_number?: string;
+  /** If `split_by` is 'Amount', this is in cents (e.g., 500 for $5.00) and exactly one account must have a `split_amount` of `null` to capture the remainder. If `split_by` is 'Percentage', this is the percentage value (e.g., 60 for 60%). */
+  split_amount?: number | null;
+}
+export const EmployeePaymentDetailsListItemSplitsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_type: S.optional(S.String),
+    bank_account_uuid: S.optional(S.String),
+    encrypted_account_number: S.optional(S.NullOr(S.String)),
+    hidden_account_number: S.optional(S.String),
+    name: S.optional(S.String),
+    priority: S.optional(S.Number),
+    routing_number: S.optional(S.String),
+    split_amount: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({
+  identifier: "EmployeePaymentDetailsListItemSplitsItem",
+}) as any as S.Schema<EmployeePaymentDetailsListItemSplitsItem>;
+
+/** An array of payment splits. This field is applicable when `payment_method` is "Direct Deposit". */
+export type EmployeePaymentDetailsListItemSplitsList =
+  Array<EmployeePaymentDetailsListItemSplitsItem>;
+export const EmployeePaymentDetailsListItemSplitsList = /*@__PURE__*/ S.Array(
+  EmployeePaymentDetailsListItemSplitsItem,
+) as any as S.Schema<EmployeePaymentDetailsListItemSplitsList>;
+
+export interface EmployeePaymentDetailsListItem {
+  /** The UUID of the employee. */
+  employee_uuid?: string;
+  /** The legal first name of the employee. */
+  first_name?: string;
+  /** The last name of the employee. */
+  last_name?: string;
+  /** The type of payment method. */
+  payment_method?: EmployeePaymentDetailsListItemPaymentMethod;
+  /** How the payment is split. This field is applicable when `payment_method` is "Direct Deposit". If `split_by` is Percentage, then the split amounts must add up to exactly 100. If `split_by` is Amount, the last split amount must be `null` to capture the remainder. */
+  split_by?: EmployeePaymentDetailsListItemSplitBy | null;
+  /** An array of payment splits. This field is applicable when `payment_method` is "Direct Deposit". */
+  splits?: EmployeePaymentDetailsListItemSplitsList | null;
+}
+export const EmployeePaymentDetailsListItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_uuid: S.optional(S.String),
+    first_name: S.optional(S.String),
+    last_name: S.optional(S.String),
+    payment_method: S.optional(EmployeePaymentDetailsListItemPaymentMethod),
+    split_by: S.optional(S.NullOr(EmployeePaymentDetailsListItemSplitBy)),
+    splits: S.optional(S.NullOr(EmployeePaymentDetailsListItemSplitsList)),
+  }),
+).annotate({
+  identifier: "EmployeePaymentDetailsListItem",
+}) as any as S.Schema<EmployeePaymentDetailsListItem>;
+
+/** A list of employee payment details. */
+export type EmployeePaymentDetailsList = Array<EmployeePaymentDetailsListItem>;
+export const EmployeePaymentDetailsList = /*@__PURE__*/ S.Array(
+  EmployeePaymentDetailsListItem,
+) as any as S.Schema<EmployeePaymentDetailsList>;
+
+export type GetCompanyEmployeesPaymentDetailsResponse = EmployeePaymentDetailsList;
+export const GetCompanyEmployeesPaymentDetailsResponse = /*@__PURE__*/ S.suspend(() =>
+  EmployeePaymentDetailsList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetCompanyEmployeesPaymentDetailsResponse",
+}) as any as S.Schema<GetCompanyEmployeesPaymentDetailsResponse>;
+
+export interface GetCompanyExternalPayrollsRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
+  page?: number;
+  /** Number of objects per page. For majority of endpoints will default to 25 */
+  per?: number;
+}
+export const GetCompanyExternalPayrollsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/external_payrolls", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetCompanyExternalPayrollsRequest",
+}) as any as S.Schema<GetCompanyExternalPayrollsRequest>;
+
+/** The status of the external payroll. The status will be `unprocessed` when the external payroll is created and transition to `processed` once tax liabilities are entered and finalized. Once in the `processed` status all actions that can edit an external payroll will be disabled. */
+export type ExternalPayrollBasicStatus = "unprocessed" | "processed";
+export const ExternalPayrollBasicStatus = S.String;
+
+/** The representation of an external payroll with minimal information. */
+export interface ExternalPayrollBasic {
+  /** External payroll's check date. */
+  check_date?: string;
+  /** The UUID of the company. */
+  company_uuid?: string;
+  /** External payroll's pay period end date. */
+  payment_period_end_date?: string;
+  /** External payroll's pay period start date. */
+  payment_period_start_date?: string;
+  /** The status of the external payroll. The status will be `unprocessed` when the external payroll is created and transition to `processed` once tax liabilities are entered and finalized. Once in the `processed` status all actions that can edit an external payroll will be disabled. */
+  status?: ExternalPayrollBasicStatus;
+  /** The UUID of the external payroll. */
+  uuid: string;
+}
+export const ExternalPayrollBasic = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    check_date: S.optional(S.String),
+    company_uuid: S.optional(S.String),
+    payment_period_end_date: S.optional(S.String),
+    payment_period_start_date: S.optional(S.String),
+    status: S.optional(ExternalPayrollBasicStatus),
+    uuid: S.String,
+  }),
+).annotate({ identifier: "ExternalPayrollBasic" }) as any as S.Schema<ExternalPayrollBasic>;
+
+export type GetCompanyExternalPayrollsResponseBodyList = Array<ExternalPayrollBasic>;
+export const GetCompanyExternalPayrollsResponseBodyList = /*@__PURE__*/ S.Array(
+  ExternalPayrollBasic,
+) as any as S.Schema<GetCompanyExternalPayrollsResponseBodyList>;
+
+export type GetCompanyExternalPayrollsResponse = GetCompanyExternalPayrollsResponseBodyList;
+export const GetCompanyExternalPayrollsResponse = /*@__PURE__*/ S.suspend(() =>
+  GetCompanyExternalPayrollsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetCompanyExternalPayrollsResponse",
+}) as any as S.Schema<GetCompanyExternalPayrollsResponse>;
+
+export interface GetCompanyFederalTaxDetailsRequest {
+  /** The UUID of the company */
+  company_id: string;
+}
+export const GetCompanyFederalTaxDetailsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/companies/{company_id}/federal_tax_details", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetCompanyFederalTaxDetailsRequest",
+}) as any as S.Schema<GetCompanyFederalTaxDetailsRequest>;
+
+/** The status of EIN verification: - `pending`: The EIN verification process has not completed (or the company does not yet have an EIN). - `verified`: The EIN has been successfully verified as a valid EIN with the IRS. - `failed`: The company's EIN did not pass verification. Common issues are being entered incorrectly or not matching the company's legal name. */
+export type FederalTaxDetailsEinVerificationStatus = "pending" | "verified" | "failed";
+export const FederalTaxDetailsEinVerificationStatus = S.String;
+
+/** Information about the status of verifying the company's Employer Identification Number (EIN) */
+export interface FederalTaxDetailsEinVerification {
+  /** The status of EIN verification: - `pending`: The EIN verification process has not completed (or the company does not yet have an EIN). - `verified`: The EIN has been successfully verified as a valid EIN with the IRS. - `failed`: The company's EIN did not pass verification. Common issues are being entered incorrectly or not matching the company's legal name. */
+  status?: FederalTaxDetailsEinVerificationStatus;
+}
+export const FederalTaxDetailsEinVerification = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(FederalTaxDetailsEinVerificationStatus),
+  }),
+).annotate({
+  identifier: "FederalTaxDetailsEinVerification",
+}) as any as S.Schema<FederalTaxDetailsEinVerification>;
+
+/** The form used by the company for federal tax filing. One of: - 941 (Quarterly federal tax return form) - 944 (Annual federal tax return form) */
+export type FederalTaxDetailsFilingForm = "941" | "944";
+export const FederalTaxDetailsFilingForm = S.String;
+
+export type FederalTaxDetailsTaxPayerType =
+  | "C-Corporation"
+  | "S-Corporation"
+  | "Sole proprietor"
+  | "LLC"
+  | "LLP"
+  | "Limited partnership"
+  | "Co-ownership"
+  | "Association"
+  | "Trusteeship"
+  | "General partnership"
+  | "Joint venture"
+  | "Non-Profit";
+export const FederalTaxDetailsTaxPayerType = S.String;
+
+export interface FederalTaxDetails {
+  /** How often the company sends money to the IRS. One of: - Semiweekly - Monthly */
+  deposit_schedule?: string;
+  /** The date that these details took effect. */
+  effective_date?: string;
+  /** Information about the status of verifying the company's Employer Identification Number (EIN) */
+  ein_verification?: FederalTaxDetailsEinVerification;
+  /** Whether the EIN has been successfully verified as a valid EIN with the IRS. */
+  ein_verified?: boolean;
+  /** The form used by the company for federal tax filing. One of: - 941 (Quarterly federal tax return form) - 944 (Annual federal tax return form) */
+  filing_form?: FederalTaxDetailsFilingForm;
+  /** Whether company's Employer Identification Number (EIN) is present */
+  has_ein?: boolean;
+  /** The legal name of the company */
+  legal_name?: string;
+  /** What type of tax entity the company is. One of: - C-Corporation - S-Corporation - Sole proprietor - LLC - LLP - Limited partnership - Co-ownership - Association - Trusteeship - General partnership - Joint venture - Non-Profit */
+  tax_payer_type?: FederalTaxDetailsTaxPayerType | null;
+  /** Whether the company is taxed as an S-Corporation. Tax payer types that may be taxed as an S-Corporation include: - S-Corporation - C-Corporation - LLC */
+  taxable_as_scorp?: boolean;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version?: string;
+}
+export const FederalTaxDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    deposit_schedule: S.optional(S.String),
+    effective_date: S.optional(S.String),
+    ein_verification: S.optional(FederalTaxDetailsEinVerification),
+    ein_verified: S.optional(S.Boolean),
+    filing_form: S.optional(FederalTaxDetailsFilingForm),
+    has_ein: S.optional(S.Boolean),
+    legal_name: S.optional(S.String),
+    tax_payer_type: S.optional(S.NullOr(FederalTaxDetailsTaxPayerType)),
+    taxable_as_scorp: S.optional(S.Boolean),
+    version: S.optional(S.String),
+  }),
+).annotate({ identifier: "FederalTaxDetails" }) as any as S.Schema<FederalTaxDetails>;
+
+export interface GetCompanyFormsRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** Sort by one or more fields. Options: created_at, name, year, quarter, draft, document_content_type. Append `:asc` or `:desc` to specify direction (e.g., `created_at:asc`). Defaults to ascending. */
+  sort_by?: string;
+  /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
+  page?: number;
+  /** Number of objects per page. For majority of endpoints will default to 25 */
+  per?: number;
+}
+export const GetCompanyFormsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    sort_by: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}/forms", code: 200 })),
+).annotate({ identifier: "GetCompanyFormsRequest" }) as any as S.Schema<GetCompanyFormsRequest>;
+
+export type GetCompanyFormsResponseBodyList = Array<Form>;
+export const GetCompanyFormsResponseBodyList = /*@__PURE__*/ S.Array(
+  Form,
+) as any as S.Schema<GetCompanyFormsResponseBodyList>;
+
+export type GetCompanyFormsResponse = GetCompanyFormsResponseBodyList;
+export const GetCompanyFormsResponse = /*@__PURE__*/ S.suspend(() =>
+  GetCompanyFormsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "GetCompanyFormsResponse" }) as any as S.Schema<GetCompanyFormsResponse>;
+
+export interface GetCompanyHolidayPayPolicyRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+}
+export const GetCompanyHolidayPayPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/holiday_pay_policy", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetCompanyHolidayPayPolicyRequest",
+}) as any as S.Schema<GetCompanyHolidayPayPolicyRequest>;
 
 export interface GetCompanyLocationsRequest {
   /** The UUID of the company */
@@ -4613,13 +10200,7 @@ export const GetCompanyLocationsRequest = /*@__PURE__*/ S.suspend(() =>
     company_id: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/locations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}/locations", code: 200 })),
 ).annotate({
   identifier: "GetCompanyLocationsRequest",
 }) as any as S.Schema<GetCompanyLocationsRequest>;
@@ -4654,13 +10235,7 @@ export const GetCompanyNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(GetCompanyNotificationsRequestStatus.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     per: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_uuid}/notifications",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/notifications", code: 200 })),
 ).annotate({
   identifier: "GetCompanyNotificationsRequest",
 }) as any as S.Schema<GetCompanyNotificationsRequest>;
@@ -4710,9 +10285,7 @@ export type NotificationStatus = "open" | "resolved" | "expired";
 export const NotificationStatus = S.String;
 
 /** An object containing template variables used to render the notification. The structure of this object depends on the notification category. Each category defines a fixed set of variable names (keys), which are always present. The values of these variables can vary depending on the specific notification instance. */
-export type NotificationTemplateVariablesMap = {
-  [key: string]: string | undefined;
-};
+export type NotificationTemplateVariablesMap = { [key: string]: string | undefined };
 export const NotificationTemplateVariablesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4773,6 +10346,229 @@ export const GetCompanyNotificationsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetCompanyNotificationsResponse",
 }) as any as S.Schema<GetCompanyNotificationsResponse>;
 
+export interface GetCompanyOnboardingStatusRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** Comma-delimited string of additional onboarding steps to include. Currently only supports the value "external_payroll". */
+  additional_steps?: string;
+}
+export const GetCompanyOnboardingStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    additional_steps: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/onboarding_status", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetCompanyOnboardingStatusRequest",
+}) as any as S.Schema<GetCompanyOnboardingStatusRequest>;
+
+/** The string identifier for each onboarding step */
+export type CompanyOnboardingStatusOnboardingStepsItemId =
+  | "add_addresses"
+  | "federal_tax_setup"
+  | "select_industry"
+  | "add_bank_info"
+  | "add_employees"
+  | "state_setup"
+  | "payroll_schedule"
+  | "sign_all_forms"
+  | "verify_bank_info"
+  | "external_payroll";
+export const CompanyOnboardingStatusOnboardingStepsItemId = S.String;
+
+export type CompanyOnboardingStatusOnboardingStepsItemRequirementsItem =
+  | "add_addresses"
+  | "federal_tax_setup"
+  | "select_industry"
+  | "add_bank_info"
+  | "add_employees"
+  | "state_setup"
+  | "payroll_schedule"
+  | "sign_all_forms"
+  | "verify_bank_info"
+  | "external_payroll";
+export const CompanyOnboardingStatusOnboardingStepsItemRequirementsItem = S.String;
+
+/** A list of onboarding steps that are required to be completed in order to proceed with the current onboarding step. */
+export type CompanyOnboardingStatusOnboardingStepsItemRequirementsList =
+  Array<CompanyOnboardingStatusOnboardingStepsItemRequirementsItem>;
+export const CompanyOnboardingStatusOnboardingStepsItemRequirementsList = /*@__PURE__*/ S.Array(
+  CompanyOnboardingStatusOnboardingStepsItemRequirementsItem,
+) as any as S.Schema<CompanyOnboardingStatusOnboardingStepsItemRequirementsList>;
+
+export interface CompanyOnboardingStatusOnboardingStepsItem {
+  /** The boolean flag indicating whether the step is completed or not. */
+  completed?: boolean;
+  /** The ISO 8601 timestamp indicating when the onboarding step was completed. */
+  completed_at?: string | null;
+  /** The string identifier for each onboarding step */
+  id?: CompanyOnboardingStatusOnboardingStepsItemId;
+  /** The boolean flag indicating whether the step is required or optional */
+  required?: boolean;
+  /** A list of onboarding steps that are required to be completed in order to proceed with the current onboarding step. */
+  requirements?: CompanyOnboardingStatusOnboardingStepsItemRequirementsList;
+  /** The boolean flag indicating whether the step can be skipped or not. */
+  skippable?: boolean;
+  /** The display name of the onboarding step */
+  title?: string;
+}
+export const CompanyOnboardingStatusOnboardingStepsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    completed: S.optional(S.Boolean),
+    completed_at: S.optional(S.NullOr(S.String)),
+    id: S.optional(CompanyOnboardingStatusOnboardingStepsItemId),
+    required: S.optional(S.Boolean),
+    requirements: S.optional(CompanyOnboardingStatusOnboardingStepsItemRequirementsList),
+    skippable: S.optional(S.Boolean),
+    title: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CompanyOnboardingStatusOnboardingStepsItem",
+}) as any as S.Schema<CompanyOnboardingStatusOnboardingStepsItem>;
+
+/** a list of company onboarding steps */
+export type CompanyOnboardingStatusOnboardingStepsList =
+  Array<CompanyOnboardingStatusOnboardingStepsItem>;
+export const CompanyOnboardingStatusOnboardingStepsList = /*@__PURE__*/ S.Array(
+  CompanyOnboardingStatusOnboardingStepsItem,
+) as any as S.Schema<CompanyOnboardingStatusOnboardingStepsList>;
+
+/** The representation of a company's onboarding status */
+export interface CompanyOnboardingStatus {
+  /** a boolean flag for the company's onboarding status */
+  onboarding_completed?: boolean;
+  /** a list of company onboarding steps */
+  onboarding_steps?: CompanyOnboardingStatusOnboardingStepsList;
+  /** the UUID of the company */
+  uuid: string;
+}
+export const CompanyOnboardingStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    onboarding_completed: S.optional(S.Boolean),
+    onboarding_steps: S.optional(CompanyOnboardingStatusOnboardingStepsList),
+    uuid: S.String,
+  }),
+).annotate({ identifier: "CompanyOnboardingStatus" }) as any as S.Schema<CompanyOnboardingStatus>;
+
+export interface GetCompanyPaidHolidaysRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** If a year is passed, paid holidays for that year will be returned. Otherwise, paid holidays for the next three years will be returned. */
+  year?: string;
+}
+export const GetCompanyPaidHolidaysRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    year: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/paid_holidays", code: 200 })),
+).annotate({
+  identifier: "GetCompanyPaidHolidaysRequest",
+}) as any as S.Schema<GetCompanyPaidHolidaysRequest>;
+
+/** A paid holiday derived from the company's holiday pay policy */
+export interface PaidHoliday {
+  /** The holiday's end date (YYYY-MM-DD) */
+  end_date?: string;
+  /** The holiday's identifier (null for custom holidays) */
+  holiday_key?: string | null;
+  /** The holiday's official name */
+  holiday_name?: string;
+  /** The holiday's start date (YYYY-MM-DD) */
+  start_date?: string;
+}
+export const PaidHoliday = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    end_date: S.optional(S.String),
+    holiday_key: S.optional(S.NullOr(S.String)),
+    holiday_name: S.optional(S.String),
+    start_date: S.optional(S.String),
+  }),
+).annotate({ identifier: "PaidHoliday" }) as any as S.Schema<PaidHoliday>;
+
+export type GetCompanyPaidHolidaysResponseBodyList = Array<PaidHoliday>;
+export const GetCompanyPaidHolidaysResponseBodyList = /*@__PURE__*/ S.Array(
+  PaidHoliday,
+) as any as S.Schema<GetCompanyPaidHolidaysResponseBodyList>;
+
+export type GetCompanyPaidHolidaysResponse = GetCompanyPaidHolidaysResponseBodyList;
+export const GetCompanyPaidHolidaysResponse = /*@__PURE__*/ S.suspend(() =>
+  GetCompanyPaidHolidaysResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetCompanyPaidHolidaysResponse",
+}) as any as S.Schema<GetCompanyPaidHolidaysResponse>;
+
+export interface GetCompanyPaymentConfigsRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+}
+export const GetCompanyPaymentConfigsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/payment_configs", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetCompanyPaymentConfigsRequest",
+}) as any as S.Schema<GetCompanyPaymentConfigsRequest>;
+
+/** The type of blocker */
+export type PaymentConfigsEarnedFastAchBlockersItemBlockerType =
+  | "minimum_days"
+  | "minimum_funded_payments";
+export const PaymentConfigsEarnedFastAchBlockersItemBlockerType = S.String;
+
+export interface PaymentConfigsEarnedFastAchBlockersItem {
+  /** The type of blocker */
+  blocker_type?: PaymentConfigsEarnedFastAchBlockersItemBlockerType;
+  /** The threshold needed to unblock */
+  threshold?: number;
+}
+export const PaymentConfigsEarnedFastAchBlockersItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    blocker_type: S.optional(PaymentConfigsEarnedFastAchBlockersItemBlockerType),
+    threshold: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "PaymentConfigsEarnedFastAchBlockersItem",
+}) as any as S.Schema<PaymentConfigsEarnedFastAchBlockersItem>;
+
+/** Blockers preventing the company from earning fast ACH payments */
+export type PaymentConfigsEarnedFastAchBlockersList =
+  Array<PaymentConfigsEarnedFastAchBlockersItem>;
+export const PaymentConfigsEarnedFastAchBlockersList = /*@__PURE__*/ S.Array(
+  PaymentConfigsEarnedFastAchBlockersItem,
+) as any as S.Schema<PaymentConfigsEarnedFastAchBlockersList>;
+
+/** Payment speed. READ-ONLY. - `1-day`: Next-day ACH (only for partners that opt in). - `2-day`: Two-day ACH. - `4-day`: Standard ACH. */
+export type PaymentConfigsPaymentSpeed = "1-day" | "2-day" | "4-day";
+export const PaymentConfigsPaymentSpeed = S.String;
+
+export interface PaymentConfigs {
+  /** Company uuid */
+  company_uuid?: string;
+  /** Blockers preventing the company from earning fast ACH payments */
+  earned_fast_ach_blockers?: PaymentConfigsEarnedFastAchBlockersList;
+  /** Payment limit for 1-day or 2-day payroll (string representation of decimal). */
+  fast_payment_limit?: string | null;
+  /** Whether the company is configured to use the partner-owned disbursement payment rail */
+  partner_owned_disbursement?: boolean;
+  /** Partner uuid */
+  partner_uuid?: string;
+  /** Payment speed. READ-ONLY. - `1-day`: Next-day ACH (only for partners that opt in). - `2-day`: Two-day ACH. - `4-day`: Standard ACH. */
+  payment_speed?: PaymentConfigsPaymentSpeed;
+}
+export const PaymentConfigs = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.optional(S.String),
+    earned_fast_ach_blockers: S.optional(PaymentConfigsEarnedFastAchBlockersList),
+    fast_payment_limit: S.optional(S.NullOr(S.String)),
+    partner_owned_disbursement: S.optional(S.Boolean),
+    partner_uuid: S.optional(S.String),
+    payment_speed: S.optional(PaymentConfigsPaymentSpeed),
+  }),
+).annotate({ identifier: "PaymentConfigs" }) as any as S.Schema<PaymentConfigs>;
+
 /** Comma-separated list of payroll types to include (regular, transition). Defaults to regular only. */
 export type GetCompanyPayPeriodsRequestPayrollTypes =
   | "regular"
@@ -4795,13 +10591,7 @@ export const GetCompanyPayPeriodsRequest = /*@__PURE__*/ S.suspend(() =>
     start_date: S.optional(S.String.pipe(T.Query())),
     end_date: S.optional(S.String.pipe(T.Query())),
     payroll_types: S.optional(GetCompanyPayPeriodsRequestPayrollTypes.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/pay_periods",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}/pay_periods", code: 200 })),
 ).annotate({
   identifier: "GetCompanyPayPeriodsRequest",
 }) as any as S.Schema<GetCompanyPayPeriodsRequest>;
@@ -4831,9 +10621,7 @@ export const PayPeriodPayroll = /*@__PURE__*/ S.suspend(() =>
     payroll_uuid: S.optional(S.String),
     processed: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "PayPeriodPayroll",
-}) as any as S.Schema<PayPeriodPayroll>;
+).annotate({ identifier: "PayPeriodPayroll" }) as any as S.Schema<PayPeriodPayroll>;
 
 /** The representation of a pay period. */
 export interface PayPeriod {
@@ -4908,15 +10696,9 @@ export const GetCompanyPayrollRequest = /*@__PURE__*/ S.suspend(() =>
     per: S.optional(S.Number.pipe(T.Query())),
     sort_by: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/payrolls/{payroll_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/companies/{company_id}/payrolls/{payroll_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetCompanyPayrollRequest",
-}) as any as S.Schema<GetCompanyPayrollRequest>;
+).annotate({ identifier: "GetCompanyPayrollRequest" }) as any as S.Schema<GetCompanyPayrollRequest>;
 
 export interface PayrollCompanyTaxesTypeItem {
   /** The amount of this tax for the payroll */
@@ -4941,193 +10723,6 @@ export type PayrollCompanyTaxesType = Array<PayrollCompanyTaxesTypeItem>;
 export const PayrollCompanyTaxesType = /*@__PURE__*/ S.Array(
   PayrollCompanyTaxesTypeItem,
 ) as any as S.Schema<PayrollCompanyTaxesType>;
-
-/** The status of the credit blocker */
-export type PayrollCreditBlockerTypeStatus =
-  | "unresolved"
-  | "pending_review"
-  | "resolved"
-  | "failed";
-export const PayrollCreditBlockerTypeStatus = S.String;
-
-export interface PayrollCreditBlockerUnblockOptionSubmitWireMetadata {
-  /** The amount to be wired in (decimal string) */
-  wire_in_amount: string;
-  /** Deadline for the wire transfer to be received */
-  wire_in_deadline: string;
-  /** UUID of the wire in request */
-  wire_in_request_uuid: string;
-}
-export const PayrollCreditBlockerUnblockOptionSubmitWireMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    wire_in_amount: S.String,
-    wire_in_deadline: S.String,
-    wire_in_request_uuid: S.String,
-  }),
-).annotate({
-  identifier: "PayrollCreditBlockerUnblockOptionSubmitWireMetadata",
-}) as any as S.Schema<PayrollCreditBlockerUnblockOptionSubmitWireMetadata>;
-
-/** The type of unblock option for the credit blocker */
-export type PayrollCreditBlockerUnblockOptionSubmitWireUnblockType = "submit_wire";
-export const PayrollCreditBlockerUnblockOptionSubmitWireUnblockType = S.String;
-
-/** Unblock option to resolve a credit blocker by submitting a wire transfer */
-export interface PayrollCreditBlockerUnblockOptionSubmitWire {
-  /** The payment check date associated with the unblock option */
-  check_date: string;
-  metadata: PayrollCreditBlockerUnblockOptionSubmitWireMetadata;
-  /** The type of unblock option for the credit blocker */
-  unblock_type: PayrollCreditBlockerUnblockOptionSubmitWireUnblockType;
-}
-export const PayrollCreditBlockerUnblockOptionSubmitWire = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    check_date: S.String,
-    metadata: PayrollCreditBlockerUnblockOptionSubmitWireMetadata,
-    unblock_type: PayrollCreditBlockerUnblockOptionSubmitWireUnblockType,
-  }),
-).annotate({
-  identifier: "PayrollCreditBlockerUnblockOptionSubmitWire",
-}) as any as S.Schema<PayrollCreditBlockerUnblockOptionSubmitWire>;
-
-export interface PayrollCreditBlockerUnblockOptionSubmitBankScreenshotMetadata {
-  /** Last 4 digits of the bank account number for the bank screenshot RFI */
-  bank_account_last_four_digits?: string | null;
-  /** UUID of the information request */
-  information_request_uuid: string;
-}
-export const PayrollCreditBlockerUnblockOptionSubmitBankScreenshotMetadata =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      bank_account_last_four_digits: S.optional(S.NullOr(S.String)),
-      information_request_uuid: S.String,
-    }),
-  ).annotate({
-    identifier: "PayrollCreditBlockerUnblockOptionSubmitBankScreenshotMetadata",
-  }) as any as S.Schema<PayrollCreditBlockerUnblockOptionSubmitBankScreenshotMetadata>;
-
-/** The type of unblock option for the credit blocker */
-export type PayrollCreditBlockerUnblockOptionSubmitBankScreenshotUnblockType =
-  "submit_bank_screenshot";
-export const PayrollCreditBlockerUnblockOptionSubmitBankScreenshotUnblockType = S.String;
-
-/** Unblock option to resolve a credit blocker by submitting a bank screenshot */
-export interface PayrollCreditBlockerUnblockOptionSubmitBankScreenshot {
-  /** The payment check date associated with the unblock option */
-  check_date: string;
-  metadata: PayrollCreditBlockerUnblockOptionSubmitBankScreenshotMetadata;
-  /** The type of unblock option for the credit blocker */
-  unblock_type: PayrollCreditBlockerUnblockOptionSubmitBankScreenshotUnblockType;
-}
-export const PayrollCreditBlockerUnblockOptionSubmitBankScreenshot = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    check_date: S.String,
-    metadata: PayrollCreditBlockerUnblockOptionSubmitBankScreenshotMetadata,
-    unblock_type: PayrollCreditBlockerUnblockOptionSubmitBankScreenshotUnblockType,
-  }),
-).annotate({
-  identifier: "PayrollCreditBlockerUnblockOptionSubmitBankScreenshot",
-}) as any as S.Schema<PayrollCreditBlockerUnblockOptionSubmitBankScreenshot>;
-
-export interface PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiMetadata {
-  /** UUID of the information request */
-  information_request_uuid: string;
-}
-export const PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiMetadata =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      information_request_uuid: S.String,
-    }),
-  ).annotate({
-    identifier: "PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiMetadata",
-  }) as any as S.Schema<PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiMetadata>;
-
-/** The type of unblock option for the credit blocker */
-export type PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiUnblockType =
-  "respond_to_high_risk_fraud_rfi";
-export const PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiUnblockType = S.String;
-
-/** Unblock option to resolve a credit blocker by responding to high risk fraud RFI */
-export interface PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfi {
-  /** The payment check date associated with the unblock option */
-  check_date: string;
-  metadata: PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiMetadata;
-  /** The type of unblock option for the credit blocker */
-  unblock_type: PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiUnblockType;
-}
-export const PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfi = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      check_date: S.String,
-      metadata: PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiMetadata,
-      unblock_type: PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfiUnblockType,
-    }),
-).annotate({
-  identifier: "PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfi",
-}) as any as S.Schema<PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfi>;
-
-/** The type of unblock option for the credit blocker */
-export type PayrollCreditBlockerUnblockOptionWaitForReverseWireUnblockType =
-  "wait_for_reverse_wire";
-export const PayrollCreditBlockerUnblockOptionWaitForReverseWireUnblockType = S.String;
-
-/** Unblock option to resolve a credit blocker by waiting for reverse wire */
-export interface PayrollCreditBlockerUnblockOptionWaitForReverseWire {
-  /** The payment check date associated with the unblock option */
-  check_date: string;
-  metadata: unknown;
-  /** The type of unblock option for the credit blocker */
-  unblock_type: PayrollCreditBlockerUnblockOptionWaitForReverseWireUnblockType;
-}
-export const PayrollCreditBlockerUnblockOptionWaitForReverseWire = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    check_date: S.String,
-    metadata: S.Unknown,
-    unblock_type: PayrollCreditBlockerUnblockOptionWaitForReverseWireUnblockType,
-  }),
-).annotate({
-  identifier: "PayrollCreditBlockerUnblockOptionWaitForReverseWire",
-}) as any as S.Schema<PayrollCreditBlockerUnblockOptionWaitForReverseWire>;
-
-export type PayrollCreditBlockerTypeUnblockOptionsItem =
-  | PayrollCreditBlockerUnblockOptionSubmitWire
-  | PayrollCreditBlockerUnblockOptionSubmitBankScreenshot
-  | PayrollCreditBlockerUnblockOptionRespondToHighRiskFraudRfi
-  | PayrollCreditBlockerUnblockOptionWaitForReverseWire;
-export const PayrollCreditBlockerTypeUnblockOptionsItem =
-  S.Unknown as any as S.Schema<PayrollCreditBlockerTypeUnblockOptionsItem>;
-
-/** The available options to unblock a credit blocker. */
-export type PayrollCreditBlockerTypeUnblockOptionsList =
-  Array<PayrollCreditBlockerTypeUnblockOptionsItem>;
-export const PayrollCreditBlockerTypeUnblockOptionsList = /*@__PURE__*/ S.Array(
-  PayrollCreditBlockerTypeUnblockOptionsItem,
-) as any as S.Schema<PayrollCreditBlockerTypeUnblockOptionsList>;
-
-/** A blocker that prevents payment crediting. */
-export interface PayrollCreditBlockerType {
-  /** The name of the credit blocker. */
-  blocker_name?: string;
-  /** The type of blocker that's blocking the payment from being credited. */
-  blocker_type?: string;
-  /** The unblock option that's been selected to resolve the credit blocker. */
-  selected_option?: string | null;
-  /** The status of the credit blocker */
-  status?: PayrollCreditBlockerTypeStatus;
-  /** The available options to unblock a credit blocker. */
-  unblock_options?: PayrollCreditBlockerTypeUnblockOptionsList;
-}
-export const PayrollCreditBlockerType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    blocker_name: S.optional(S.String),
-    blocker_type: S.optional(S.String),
-    selected_option: S.optional(S.NullOr(S.String)),
-    status: S.optional(PayrollCreditBlockerTypeStatus),
-    unblock_options: S.optional(PayrollCreditBlockerTypeUnblockOptionsList),
-  }),
-).annotate({
-  identifier: "PayrollCreditBlockerType",
-}) as any as S.Schema<PayrollCreditBlockerType>;
 
 /** Only included for processed payrolls */
 export type PayrollCreditBlockersType = Array<PayrollCreditBlockerType>;
@@ -5230,93 +10825,40 @@ export const PayrollShowEmployeeCompensationsItemCustomWithholdings = /*@__PURE_
   identifier: "PayrollShowEmployeeCompensationsItemCustomWithholdings",
 }) as any as S.Schema<PayrollShowEmployeeCompensationsItemCustomWithholdings>;
 
-export interface PayrollShowEmployeeCompensationsItemFixedCompensationsItem {
-  /** The amount of the compensation for the pay period. */
-  amount?: string;
-  /** The UUID of the job for the compensation. */
-  job_uuid?: string;
-  /** The name of the compensation. This also serves as the unique, immutable identifier for this compensation. */
-  name?: string;
-}
-export const PayrollShowEmployeeCompensationsItemFixedCompensationsItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      amount: S.optional(S.String),
-      job_uuid: S.optional(S.String),
-      name: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "PayrollShowEmployeeCompensationsItemFixedCompensationsItem",
-}) as any as S.Schema<PayrollShowEmployeeCompensationsItemFixedCompensationsItem>;
+export type PayrollShowEmployeeCompensationsItemFixedCompensationsItem =
+  PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem;
+export const PayrollShowEmployeeCompensationsItemFixedCompensationsItem =
+  PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem;
 
 /** An array of fixed compensations for the employee. Fixed compensations include tips and bonuses. On regular payrolls, reimbursements are sent via the dedicated `reimbursements` array instead. Off-cycle payrolls continue to include reimbursements in `fixed_compensations`. If this payroll has been processed, only fixed compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active fixed compensations are returned. */
 export type PayrollShowEmployeeCompensationsItemFixedCompensationsList =
-  Array<PayrollShowEmployeeCompensationsItemFixedCompensationsItem>;
+  Array<PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem>;
 export const PayrollShowEmployeeCompensationsItemFixedCompensationsList = /*@__PURE__*/ S.Array(
-  PayrollShowEmployeeCompensationsItemFixedCompensationsItem,
+  PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem,
 ) as any as S.Schema<PayrollShowEmployeeCompensationsItemFixedCompensationsList>;
 
-export interface PayrollShowEmployeeCompensationsItemHourlyCompensationsItem {
-  /** The amount of the compensation. This field is only available after the payroll is calculated and cannot be used for updating hourly compensations. */
-  amount?: string;
-  /** The amount multiplied by the base rate to calculate total compensation per hour worked. */
-  compensation_multiplier?: number;
-  /** The FLSA Status of the employee's primary job compensation */
-  flsa_status?: string;
-  /** The number of hours to be compensated for this pay period. */
-  hours?: string;
-  /** The UUID of the job for the compensation. */
-  job_uuid?: string;
-  /** The name of the compensation. This also serves as the unique, immutable identifier for this compensation. */
-  name?: string;
-}
-export const PayrollShowEmployeeCompensationsItemHourlyCompensationsItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      amount: S.optional(S.String),
-      compensation_multiplier: S.optional(S.Number),
-      flsa_status: S.optional(S.String),
-      hours: S.optional(S.String),
-      job_uuid: S.optional(S.String),
-      name: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "PayrollShowEmployeeCompensationsItemHourlyCompensationsItem",
-}) as any as S.Schema<PayrollShowEmployeeCompensationsItemHourlyCompensationsItem>;
+export type PayrollShowEmployeeCompensationsItemHourlyCompensationsItem =
+  PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsItem;
+export const PayrollShowEmployeeCompensationsItemHourlyCompensationsItem =
+  PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsItem;
 
 /** An array of hourly compensations for the employee. Hourly compensations include regular, overtime, and double overtime hours. If this payroll has been processed, only hourly compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active hourly compensations are returned. */
 export type PayrollShowEmployeeCompensationsItemHourlyCompensationsList =
-  Array<PayrollShowEmployeeCompensationsItemHourlyCompensationsItem>;
+  Array<PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsItem>;
 export const PayrollShowEmployeeCompensationsItemHourlyCompensationsList = /*@__PURE__*/ S.Array(
-  PayrollShowEmployeeCompensationsItemHourlyCompensationsItem,
+  PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsItem,
 ) as any as S.Schema<PayrollShowEmployeeCompensationsItemHourlyCompensationsList>;
 
-export interface PayrollShowEmployeeCompensationsItemPaidTimeOffItem {
-  /** The dollar amount paid for this PTO entry during the pay period (as a string-formatted decimal, e.g. "1234.56"). Only available for processed payrolls. */
-  amount?: string | null;
-  /** The outstanding hours paid upon termination. This field is only applicable for termination payrolls. */
-  final_payout_unused_hours_input?: string | null;
-  /** The hours of this PTO taken during the pay period. */
-  hours?: string;
-  /** The name of the PTO. This also serves as the unique, immutable identifier for the PTO. */
-  name?: string;
-}
-export const PayrollShowEmployeeCompensationsItemPaidTimeOffItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    amount: S.optional(S.NullOr(S.String)),
-    final_payout_unused_hours_input: S.optional(S.NullOr(S.String)),
-    hours: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PayrollShowEmployeeCompensationsItemPaidTimeOffItem",
-}) as any as S.Schema<PayrollShowEmployeeCompensationsItemPaidTimeOffItem>;
+export type PayrollShowEmployeeCompensationsItemPaidTimeOffItem =
+  PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffItem;
+export const PayrollShowEmployeeCompensationsItemPaidTimeOffItem =
+  PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffItem;
 
 /** An array of all paid time off the employee is eligible for this pay period. */
 export type PayrollShowEmployeeCompensationsItemPaidTimeOffList =
-  Array<PayrollShowEmployeeCompensationsItemPaidTimeOffItem>;
+  Array<PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffItem>;
 export const PayrollShowEmployeeCompensationsItemPaidTimeOffList = /*@__PURE__*/ S.Array(
-  PayrollShowEmployeeCompensationsItemPaidTimeOffItem,
+  PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffItem,
 ) as any as S.Schema<PayrollShowEmployeeCompensationsItemPaidTimeOffList>;
 
 export type PayrollShowEmployeeCompensationsItemPaymentMethod =
@@ -5325,32 +10867,16 @@ export type PayrollShowEmployeeCompensationsItemPaymentMethod =
   | "Historical";
 export const PayrollShowEmployeeCompensationsItemPaymentMethod = S.String;
 
-export interface PayrollShowEmployeeCompensationsItemReimbursementsItem {
-  /** The dollar amount of the reimbursement for the pay period. */
-  amount: string;
-  /** The description of the reimbursement. Null for unnamed reimbursements. */
-  description: string | null;
-  /** Whether the reimbursement is recurring. This field is only available for unprocessed payrolls. */
-  recurring?: boolean;
-  /** The UUID of the reimbursement. Null for unnamed reimbursements. This field is only available for unprocessed payrolls. */
-  uuid?: string | null;
-}
-export const PayrollShowEmployeeCompensationsItemReimbursementsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    amount: S.String,
-    description: S.NullOr(S.String),
-    recurring: S.optional(S.Boolean),
-    uuid: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "PayrollShowEmployeeCompensationsItemReimbursementsItem",
-}) as any as S.Schema<PayrollShowEmployeeCompensationsItemReimbursementsItem>;
+export type PayrollShowEmployeeCompensationsItemReimbursementsItem =
+  PayrollUnprocessedEmployeeCompensationsTypeReimbursementsItem;
+export const PayrollShowEmployeeCompensationsItemReimbursementsItem =
+  PayrollUnprocessedEmployeeCompensationsTypeReimbursementsItem;
 
 /** An array of reimbursements for the employee. */
 export type PayrollShowEmployeeCompensationsItemReimbursementsList =
-  Array<PayrollShowEmployeeCompensationsItemReimbursementsItem>;
+  Array<PayrollUnprocessedEmployeeCompensationsTypeReimbursementsItem>;
 export const PayrollShowEmployeeCompensationsItemReimbursementsList = /*@__PURE__*/ S.Array(
-  PayrollShowEmployeeCompensationsItemReimbursementsItem,
+  PayrollUnprocessedEmployeeCompensationsTypeReimbursementsItem,
 ) as any as S.Schema<PayrollShowEmployeeCompensationsItemReimbursementsList>;
 
 /** The amount type of the deduction for the pay period. Only present for unprocessed payrolls. */
@@ -5505,91 +11031,6 @@ export const PayrollShowEmployeeCompensationsList = /*@__PURE__*/ S.Array(
   PayrollShowEmployeeCompensationsItem,
 ) as any as S.Schema<PayrollShowEmployeeCompensationsList>;
 
-export type OffCycleReasonType =
-  | "Adhoc"
-  | "Benefit reversal"
-  | "Bonus"
-  | "Correction"
-  | "Dismissed employee"
-  | "Hired employee"
-  | "Wage correction"
-  | "Tax reconciliation"
-  | "Reversal"
-  | "Disability insurance distribution"
-  | "Transition from old pay schedule";
-export const OffCycleReasonType = S.String;
-
-export interface PayrollPayPeriodType {
-  /** The start date, inclusive, of the pay period. */
-  end_date?: string;
-  /** The UUID of the pay schedule for the payroll. */
-  pay_schedule_uuid?: string | null;
-  /** The start date, inclusive, of the pay period. */
-  start_date?: string;
-}
-export const PayrollPayPeriodType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    end_date: S.optional(S.String),
-    pay_schedule_uuid: S.optional(S.NullOr(S.String)),
-    start_date: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PayrollPayPeriodType",
-}) as any as S.Schema<PayrollPayPeriodType>;
-
-/** Only applicable when a payroll is moved to four day processing instead of fast ach. */
-export interface PayrollPaymentSpeedChangedType {
-  /** Current check date. */
-  current_check_date?: string;
-  /** Current debit date. */
-  current_debit_date?: string;
-  /** Original check date when fast ach applies. */
-  original_check_date?: string;
-  /** Original debit date when fast ach applies. */
-  original_debit_date?: string;
-  /** The reason why the payroll is moved to four day. */
-  reason?: string;
-}
-export const PayrollPaymentSpeedChangedType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    current_check_date: S.optional(S.String),
-    current_debit_date: S.optional(S.String),
-    original_check_date: S.optional(S.String),
-    original_debit_date: S.optional(S.String),
-    reason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PayrollPaymentSpeedChangedType",
-}) as any as S.Schema<PayrollPaymentSpeedChangedType>;
-
-/** Information about the payroll's status and expected dates */
-export interface PayrollPayrollStatusMetaType {
-  /** true if the payroll may be cancelled. */
-  cancellable?: boolean;
-  /** The date an employee will be paid if the payroll is submitted now. */
-  expected_check_date?: string;
-  /** The time the employer's account will be debited if the payroll is submitted now. */
-  expected_debit_time?: string;
-  /** The normal check date for the associated pay period. Returns `null` for off-cycle payrolls (not meaningful for off-cycle). */
-  initial_check_date?: string | null;
-  /** Payroll must be submitted at or before this time to avoid late payroll. */
-  initial_debit_cutoff_time?: string;
-  /** expected_check_date > initial_check_date. Returns `null` for off-cycle payrolls (not meaningful for off-cycle). */
-  payroll_late?: boolean | null;
-}
-export const PayrollPayrollStatusMetaType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cancellable: S.optional(S.Boolean),
-    expected_check_date: S.optional(S.String),
-    expected_debit_time: S.optional(S.String),
-    initial_check_date: S.optional(S.NullOr(S.String)),
-    initial_debit_cutoff_time: S.optional(S.String),
-    payroll_late: S.optional(S.NullOr(S.Boolean)),
-  }),
-).annotate({
-  identifier: "PayrollPayrollStatusMetaType",
-}) as any as S.Schema<PayrollPayrollStatusMetaType>;
-
 export interface PayrollTaxesTypeItem {
   /** The total tax for the payroll */
   amount?: number;
@@ -5604,204 +11045,13 @@ export const PayrollTaxesTypeItem = /*@__PURE__*/ S.suspend(() =>
     employer: S.optional(S.Boolean),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PayrollTaxesTypeItem",
-}) as any as S.Schema<PayrollTaxesTypeItem>;
+).annotate({ identifier: "PayrollTaxesTypeItem" }) as any as S.Schema<PayrollTaxesTypeItem>;
 
 /** An array of tax totals applicable to this payroll. Only included for processed or calculated payrolls when `payroll_taxes` is present in the `include` parameter. */
 export type PayrollTaxesType = Array<PayrollTaxesTypeItem>;
 export const PayrollTaxesType = /*@__PURE__*/ S.Array(
   PayrollTaxesTypeItem,
 ) as any as S.Schema<PayrollTaxesType>;
-
-export interface EntityErrorObjectErrorsItem {
-  /** Specifies the type of error. The category provides error groupings and can be used to build custom error handling in your integration. If category is `nested_errors`, the object will contain a nested `errors` property with entity errors. */
-  category?: string;
-  /** Specifies where the error occurs. Typically this key identifies the attribute/parameter related to the error. */
-  error_key?: string;
-  /** Provides details about the error - generally this message can be surfaced to an end user. */
-  message?: string;
-  /** Contains relevant data to identify the resource in question when applicable. For example, to identify an entity `entity_type` and `entity_uuid` will be provided. */
-  metadata?: unknown;
-}
-export const EntityErrorObjectErrorsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    category: S.optional(S.String),
-    error_key: S.optional(S.String),
-    message: S.optional(S.String),
-    metadata: S.optional(S.Unknown),
-  }),
-).annotate({
-  identifier: "EntityErrorObjectErrorsItem",
-}) as any as S.Schema<EntityErrorObjectErrorsItem>;
-
-/** Will only exist if category is `nested_errors`. It is possible to have multiple levels of nested errors. */
-export type EntityErrorObjectErrorsList = Array<EntityErrorObjectErrorsItem>;
-export const EntityErrorObjectErrorsList = /*@__PURE__*/ S.Array(
-  EntityErrorObjectErrorsItem,
-) as any as S.Schema<EntityErrorObjectErrorsList>;
-
-/** single entity */
-export interface MetadataWithOneEntity {
-  /** Name of the entity that the error corresponds to. */
-  entity_type?: string;
-  /** Unique identifier for the entity. */
-  entity_uuid?: string;
-  key?: string | null;
-  state?: string | null;
-  valid_from?: string | null;
-  valid_up_to?: string | null;
-}
-export const MetadataWithOneEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entity_type: S.optional(S.String),
-    entity_uuid: S.optional(S.String),
-    key: S.optional(S.NullOr(S.String)),
-    state: S.optional(S.NullOr(S.String)),
-    valid_from: S.optional(S.NullOr(S.String)),
-    valid_up_to: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "MetadataWithOneEntity",
-}) as any as S.Schema<MetadataWithOneEntity>;
-
-export type MetadataWithMultipleEntitiesEntitiesList = Array<MetadataWithOneEntity>;
-export const MetadataWithMultipleEntitiesEntitiesList = /*@__PURE__*/ S.Array(
-  MetadataWithOneEntity,
-) as any as S.Schema<MetadataWithMultipleEntitiesEntitiesList>;
-
-/** multiple entities */
-export interface MetadataWithMultipleEntities {
-  entities: MetadataWithMultipleEntitiesEntitiesList;
-}
-export const MetadataWithMultipleEntities = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entities: MetadataWithMultipleEntitiesEntitiesList,
-  }),
-).annotate({
-  identifier: "MetadataWithMultipleEntities",
-}) as any as S.Schema<MetadataWithMultipleEntities>;
-
-/** Contains relevant data to identify the resource in question when applicable. For example, to identify an entity `entity_type` and `entity_uuid` will be provided. */
-export type EntityErrorObjectMetadata = MetadataWithMultipleEntities | MetadataWithOneEntity;
-export const EntityErrorObjectMetadata = S.Unknown as any as S.Schema<EntityErrorObjectMetadata>;
-
-export interface EntityErrorObject {
-  /** Specifies the type of error. The category provides error groupings and can be used to build custom error handling in your integration. If category is `nested_errors`, the object will contain a nested `errors` property with entity errors. */
-  category: string;
-  /** Specifies where the error occurs. Typically this key identifies the attribute/parameter related to the error. */
-  error_key: string;
-  /** Will only exist if category is `nested_errors`. It is possible to have multiple levels of nested errors. */
-  errors?: EntityErrorObjectErrorsList;
-  /** Provides details about the error - generally this message can be surfaced to an end user. */
-  message?: string;
-  /** Contains relevant data to identify the resource in question when applicable. For example, to identify an entity `entity_type` and `entity_uuid` will be provided. */
-  metadata?: EntityErrorObjectMetadata;
-}
-export const EntityErrorObject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    category: S.String,
-    error_key: S.String,
-    errors: S.optional(EntityErrorObjectErrorsList),
-    message: S.optional(S.String),
-    metadata: S.optional(EntityErrorObjectMetadata),
-  }),
-).annotate({
-  identifier: "EntityErrorObject",
-}) as any as S.Schema<EntityErrorObject>;
-
-/** Errors that occurred during async payroll processing */
-export type PayrollProcessingRequestErrorsList = Array<EntityErrorObject>;
-export const PayrollProcessingRequestErrorsList = /*@__PURE__*/ S.Array(
-  EntityErrorObject,
-) as any as S.Schema<PayrollProcessingRequestErrorsList>;
-
-/** The status of the payroll processing request */
-export type PayrollProcessingRequestStatus =
-  | "calculating"
-  | "calculate_success"
-  | "submitting"
-  | "submit_success"
-  | "processing_failed";
-export const PayrollProcessingRequestStatus = S.String;
-
-export interface PayrollProcessingRequest {
-  /** Errors that occurred during async payroll processing */
-  errors?: PayrollProcessingRequestErrorsList;
-  /** The status of the payroll processing request */
-  status?: PayrollProcessingRequestStatus;
-}
-export const PayrollProcessingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    errors: S.optional(PayrollProcessingRequestErrorsList),
-    status: S.optional(PayrollProcessingRequestStatus),
-  }),
-).annotate({
-  identifier: "PayrollProcessingRequest",
-}) as any as S.Schema<PayrollProcessingRequest>;
-
-/** The status of the submission blocker. */
-export type PayrollSubmissionBlockerTypeStatus = "unresolved" | "resolved";
-export const PayrollSubmissionBlockerTypeStatus = S.String;
-
-/** Additional data associated with the unblock option. */
-export type PayrollSubmissionBlockerTypeUnblockOptionsItemMetadataMap = {
-  [key: string]: unknown | undefined;
-};
-export const PayrollSubmissionBlockerTypeUnblockOptionsItemMetadataMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<PayrollSubmissionBlockerTypeUnblockOptionsItemMetadataMap>;
-
-export interface PayrollSubmissionBlockerTypeUnblockOptionsItem {
-  /** The payment check date associated with the unblock option. */
-  check_date?: string;
-  /** Additional data associated with the unblock option. */
-  metadata?: PayrollSubmissionBlockerTypeUnblockOptionsItemMetadataMap;
-  /** The type of unblock option for the submission blocker. */
-  unblock_type?: string;
-}
-export const PayrollSubmissionBlockerTypeUnblockOptionsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    check_date: S.optional(S.String),
-    metadata: S.optional(PayrollSubmissionBlockerTypeUnblockOptionsItemMetadataMap),
-    unblock_type: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PayrollSubmissionBlockerTypeUnblockOptionsItem",
-}) as any as S.Schema<PayrollSubmissionBlockerTypeUnblockOptionsItem>;
-
-/** The available options to unblock a submission blocker. */
-export type PayrollSubmissionBlockerTypeUnblockOptionsList =
-  Array<PayrollSubmissionBlockerTypeUnblockOptionsItem>;
-export const PayrollSubmissionBlockerTypeUnblockOptionsList = /*@__PURE__*/ S.Array(
-  PayrollSubmissionBlockerTypeUnblockOptionsItem,
-) as any as S.Schema<PayrollSubmissionBlockerTypeUnblockOptionsList>;
-
-/** A blocker that prevents payment submission. */
-export interface PayrollSubmissionBlockerType {
-  /** The name of the submission blocker. */
-  blocker_name?: string;
-  /** The type of blocker that's blocking the payment submission. */
-  blocker_type?: string;
-  /** The unblock option that's been selected to resolve the submission blocker. */
-  selected_option?: string | null;
-  /** The status of the submission blocker. */
-  status?: PayrollSubmissionBlockerTypeStatus;
-  /** The available options to unblock a submission blocker. */
-  unblock_options?: PayrollSubmissionBlockerTypeUnblockOptionsList;
-}
-export const PayrollSubmissionBlockerType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    blocker_name: S.optional(S.String),
-    blocker_type: S.optional(S.String),
-    selected_option: S.optional(S.NullOr(S.String)),
-    status: S.optional(PayrollSubmissionBlockerTypeStatus),
-    unblock_options: S.optional(PayrollSubmissionBlockerTypeUnblockOptionsList),
-  }),
-).annotate({
-  identifier: "PayrollSubmissionBlockerType",
-}) as any as S.Schema<PayrollSubmissionBlockerType>;
 
 /** Only included for processed or calculated payrolls */
 export type PayrollSubmissionBlockersType = Array<PayrollSubmissionBlockerType>;
@@ -5881,19 +11131,7 @@ export const PayrollTotalsType = /*@__PURE__*/ S.suspend(() =>
     reimbursements: S.optional(S.String),
     tax_debit: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PayrollTotalsType",
-}) as any as S.Schema<PayrollTotalsType>;
-
-export type PayrollWithholdingPayPeriodType =
-  | "Every week"
-  | "Every other week"
-  | "Twice per month"
-  | "Monthly"
-  | "Quarterly"
-  | "Semiannually"
-  | "Annually";
-export const PayrollWithholdingPayPeriodType = S.String;
+).annotate({ identifier: "PayrollTotalsType" }) as any as S.Schema<PayrollTotalsType>;
 
 export interface PayrollShow {
   auto_payroll?: boolean;
@@ -5957,6 +11195,143 @@ export const PayrollShow = /*@__PURE__*/ S.suspend(() =>
     withholding_pay_period: S.optional(S.NullOr(PayrollWithholdingPayPeriodType)),
   }),
 ).annotate({ identifier: "PayrollShow" }) as any as S.Schema<PayrollShow>;
+
+export interface GetCompanyPayrollPartnerDisbursementsRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The UUID of the payroll */
+  id: string;
+}
+export const GetCompanyPayrollPartnerDisbursementsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/companies/{company_id}/payrolls/{id}/partner_disbursements",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetCompanyPayrollPartnerDisbursementsRequest",
+}) as any as S.Schema<GetCompanyPayrollPartnerDisbursementsRequest>;
+
+/** The payment method for the disbursement */
+export type PayrollPartnerDisbursementsDisbursementsItemPaymentMethod = "Direct Deposit" | "Check";
+export const PayrollPartnerDisbursementsDisbursementsItemPaymentMethod = S.String;
+
+/** The status of the payment */
+export type PayrollPartnerDisbursementsDisbursementsItemPaymentStatus =
+  | "Pending"
+  | "Paid"
+  | "Not partner managed"
+  | "Converted to check";
+export const PayrollPartnerDisbursementsDisbursementsItemPaymentStatus = S.String;
+
+export interface PayrollPartnerDisbursementsDisbursementsItem {
+  /** The UUID of the employee */
+  employee_uuid?: string;
+  /** The payment method for the disbursement */
+  payment_method?: PayrollPartnerDisbursementsDisbursementsItemPaymentMethod;
+  /** The status of the payment */
+  payment_status?: PayrollPartnerDisbursementsDisbursementsItemPaymentStatus;
+}
+export const PayrollPartnerDisbursementsDisbursementsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_uuid: S.optional(S.String),
+    payment_method: S.optional(PayrollPartnerDisbursementsDisbursementsItemPaymentMethod),
+    payment_status: S.optional(PayrollPartnerDisbursementsDisbursementsItemPaymentStatus),
+  }),
+).annotate({
+  identifier: "PayrollPartnerDisbursementsDisbursementsItem",
+}) as any as S.Schema<PayrollPartnerDisbursementsDisbursementsItem>;
+
+/** List of disbursements for the payroll */
+export type PayrollPartnerDisbursementsDisbursementsList =
+  Array<PayrollPartnerDisbursementsDisbursementsItem>;
+export const PayrollPartnerDisbursementsDisbursementsList = /*@__PURE__*/ S.Array(
+  PayrollPartnerDisbursementsDisbursementsItem,
+) as any as S.Schema<PayrollPartnerDisbursementsDisbursementsList>;
+
+/** Partner disbursements for a payroll */
+export interface PayrollPartnerDisbursements {
+  /** List of disbursements for the payroll */
+  disbursements?: PayrollPartnerDisbursementsDisbursementsList;
+  /** The UUID of the payroll */
+  payroll_uuid?: string;
+}
+export const PayrollPartnerDisbursements = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    disbursements: S.optional(PayrollPartnerDisbursementsDisbursementsList),
+    payroll_uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PayrollPartnerDisbursements",
+}) as any as S.Schema<PayrollPartnerDisbursements>;
+
+export interface GetCompanyPayrollReversalsRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
+  page?: number;
+  /** Number of objects per page. For majority of endpoints will default to 25 */
+  per?: number;
+}
+export const GetCompanyPayrollReversalsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/companies/{company_id}/payroll_reversals", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetCompanyPayrollReversalsRequest",
+}) as any as S.Schema<GetCompanyPayrollReversalsRequest>;
+
+/** Array of affected employee UUIDs. */
+export type PayrollReversalReversedEmployeeUuidsList = Array<string>;
+export const PayrollReversalReversedEmployeeUuidsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PayrollReversalReversedEmployeeUuidsList>;
+
+export interface PayrollReversal {
+  /** Timestamp of when the reversal was approved. */
+  approved_at?: string | null;
+  /** Category chosen by the admin who requested the reversal. */
+  category?: string | null;
+  /** A reason provided by the admin who created the reversal. */
+  reason?: string;
+  /** The UUID of the payroll where the reversal was applied. */
+  reversal_payroll_uuid?: string | null;
+  /** Array of affected employee UUIDs. */
+  reversed_employee_uuids?: PayrollReversalReversedEmployeeUuidsList;
+  /** The UUID for the payroll run being reversed. */
+  reversed_payroll_uuid?: string;
+}
+export const PayrollReversal = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    approved_at: S.optional(S.NullOr(S.String)),
+    category: S.optional(S.NullOr(S.String)),
+    reason: S.optional(S.String),
+    reversal_payroll_uuid: S.optional(S.NullOr(S.String)),
+    reversed_employee_uuids: S.optional(PayrollReversalReversedEmployeeUuidsList),
+    reversed_payroll_uuid: S.optional(S.String),
+  }),
+).annotate({ identifier: "PayrollReversal" }) as any as S.Schema<PayrollReversal>;
+
+export type PayrollReversalList = Array<PayrollReversal>;
+export const PayrollReversalList = /*@__PURE__*/ S.Array(
+  PayrollReversal,
+) as any as S.Schema<PayrollReversalList>;
+
+export type GetCompanyPayrollReversalsResponse = PayrollReversalList;
+export const GetCompanyPayrollReversalsResponse = /*@__PURE__*/ S.suspend(() =>
+  PayrollReversalList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetCompanyPayrollReversalsResponse",
+}) as any as S.Schema<GetCompanyPayrollReversalsResponse>;
 
 export type GetCompanyPayrollsRequestProcessingStatusesItem = "processed" | "unprocessed";
 export const GetCompanyPayrollsRequestProcessingStatusesItem = S.String;
@@ -6041,13 +11416,7 @@ export const GetCompanyPayrollsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per: S.optional(S.Number.pipe(T.Query())),
     sort_order: S.optional(GetCompanyPayrollsRequestSortOrder.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/payrolls",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}/payrolls", code: 200 })),
 ).annotate({
   identifier: "GetCompanyPayrollsRequest",
 }) as any as S.Schema<GetCompanyPayrollsRequest>;
@@ -6145,75 +11514,6 @@ export const GetCompanyPayScheduleRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetCompanyPayScheduleRequest",
 }) as any as S.Schema<GetCompanyPayScheduleRequest>;
 
-/** A single blocker preventing Autopayroll enablement. */
-export interface PayScheduleAutoPayrollEnablementBlocker {
-  /** The blocker type. Possible values: employees_not_on_direct_deposit, employees_not_salaried, missing_state_tax_requirements, missing_funding_method, one_day_ach_speed_not_supported, company_suspended, earned_fast_ach_not_met, hourly_employees_missing_default_hours. */
-  key?: string;
-  /** Blocker-specific metadata (e.g. employee_uuids, states). */
-  metadata?: unknown;
-}
-export const PayScheduleAutoPayrollEnablementBlocker = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    key: S.optional(S.String),
-    metadata: S.optional(S.Unknown),
-  }),
-).annotate({
-  identifier: "PayScheduleAutoPayrollEnablementBlocker",
-}) as any as S.Schema<PayScheduleAutoPayrollEnablementBlocker>;
-
-/** List of blockers preventing automatic payroll from being enabled. If automatic payroll is already enabled, this field is null. */
-export type PayScheduleAutoPayrollEnablementBlockers =
-  Array<PayScheduleAutoPayrollEnablementBlocker>;
-export const PayScheduleAutoPayrollEnablementBlockers = /*@__PURE__*/ S.Array(
-  PayScheduleAutoPayrollEnablementBlocker,
-) as any as S.Schema<PayScheduleAutoPayrollEnablementBlockers>;
-
-/** The frequency that employees on this pay schedule are paid with Gusto. READ-ONLY in responses. Possible values: - `Every week`: Employees are paid weekly. - `Every other week`: Employees are paid bi-weekly (every two weeks). - `Twice per month`: Employees are paid on two fixed days each month (e.g. 1st and 15th); use day_1 and day_2. - `Monthly`: Employees are paid once per month; use day_1 for the pay day. - `Quarterly`: Employees are paid every three months. - `Annually`: Employees are paid once per year. */
-export type PayScheduleFrequency =
-  | "Every week"
-  | "Every other week"
-  | "Twice per month"
-  | "Monthly"
-  | "Quarterly"
-  | "Annually";
-export const PayScheduleFrequency = S.String;
-
-/** Pay schedule returned from pay schedule endpoints (GET by ID, POST create, PUT update). Same fields as Pay-Schedule with a required `version` for [optimistic concurrency](https://docs.gusto.com/embedded-payroll/docs/api-fundamentals#optimistic-version-control). For API version 2025-11-15 and later, responses use `auto_payroll`; earlier versions use `auto_pilot` for the same semantic. */
-export interface PayScheduleShow {
-  active?: boolean;
-  anchor_end_of_pay_period?: string;
-  anchor_pay_date?: string;
-  auto_payroll?: boolean;
-  auto_payroll_enablement_blockers?: PayScheduleAutoPayrollEnablementBlockers | null;
-  custom_name?: string;
-  day_1?: number | null;
-  day_2?: number | null;
-  frequency?: PayScheduleFrequency;
-  name?: string | null;
-  uuid: string;
-  version: string;
-}
-export const PayScheduleShow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.optional(S.Boolean),
-    anchor_end_of_pay_period: S.optional(S.String),
-    anchor_pay_date: S.optional(S.String),
-    auto_payroll: S.optional(S.Boolean),
-    auto_payroll_enablement_blockers: S.optional(
-      S.NullOr(PayScheduleAutoPayrollEnablementBlockers),
-    ),
-    custom_name: S.optional(S.String),
-    day_1: S.optional(S.NullOr(S.Number)),
-    day_2: S.optional(S.NullOr(S.Number)),
-    frequency: S.optional(PayScheduleFrequency),
-    name: S.optional(S.NullOr(S.String)),
-    uuid: S.String,
-    version: S.String,
-  }),
-).annotate({
-  identifier: "PayScheduleShow",
-}) as any as S.Schema<PayScheduleShow>;
-
 export interface GetCompanyPaySchedulesRequest {
   /** The UUID of the company */
   company_id: string;
@@ -6227,13 +11527,7 @@ export const GetCompanyPaySchedulesRequest = /*@__PURE__*/ S.suspend(() =>
     company_id: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/pay_schedules",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}/pay_schedules", code: 200 })),
 ).annotate({
   identifier: "GetCompanyPaySchedulesRequest",
 }) as any as S.Schema<GetCompanyPaySchedulesRequest>;
@@ -6342,9 +11636,563 @@ export const PayScheduleAssignment = /*@__PURE__*/ S.suspend(() =>
     salaried_pay_schedule_uuid: S.optional(S.NullOr(S.String)),
     type: S.optional(S.NullOr(PayScheduleAssignmentType)),
   }),
+).annotate({ identifier: "PayScheduleAssignment" }) as any as S.Schema<PayScheduleAssignment>;
+
+export type GetCompanyPaySchedulesPreviewRequestFrequency =
+  | "Every week"
+  | "Every other week"
+  | "Twice per month"
+  | "Monthly";
+export const GetCompanyPaySchedulesPreviewRequestFrequency = S.String;
+
+export interface GetCompanyPaySchedulesPreviewRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The frequency that employees on this pay schedule are paid with Gusto. */
+  frequency: GetCompanyPaySchedulesPreviewRequestFrequency | (string & {});
+  /** The first date that employees on this pay schedule are paid with Gusto. */
+  anchor_pay_date: string;
+  /** The last date of the first pay period. This can be the same date as the anchor pay date. */
+  anchor_end_of_pay_period: string;
+  /** An integer between 1 and 31 indicating the first day of the month that employees are paid. This field is only relevant for pay schedules with the "Twice per month" and "Monthly" frequencies. It will be null for pay schedules with other frequencies. */
+  day_1?: number;
+  /** An integer between 1 and 31 indicating the second day of the month that employees are paid. This field is the second pay date for pay schedules with the "Twice per month" frequency. For semi-monthly pay schedules, set this field to 31. For months shorter than 31 days, the second pay date is set to the last day of the month. It will be null for pay schedules with other frequencies. */
+  day_2?: number;
+  /** End date for the preview range. If given, this date must be in the future. When unspecified, defaults to 18 months from today. */
+  end_date?: string;
+  /** Optional UUID of an existing pay schedule. When supplied, the preview is seeded from the persisted schedule — including internal flags (such as arrears handling) that affect period boundaries but are not exposed as request parameters. Any other query parameters override individual attributes on top of the loaded schedule. */
+  pay_schedule_uuid?: string;
+}
+export const GetCompanyPaySchedulesPreviewRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    frequency: GetCompanyPaySchedulesPreviewRequestFrequency.pipe(T.Query()),
+    anchor_pay_date: S.String.pipe(T.Query()),
+    anchor_end_of_pay_period: S.String.pipe(T.Query()),
+    day_1: S.optional(S.Number.pipe(T.Query())),
+    day_2: S.optional(S.Number.pipe(T.Query())),
+    end_date: S.optional(S.String.pipe(T.Query())),
+    pay_schedule_uuid: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/companies/{company_id}/pay_schedules/preview", code: 200 }),
+  ),
 ).annotate({
-  identifier: "PayScheduleAssignment",
-}) as any as S.Schema<PayScheduleAssignment>;
+  identifier: "GetCompanyPaySchedulesPreviewRequest",
+}) as any as S.Schema<GetCompanyPaySchedulesPreviewRequest>;
+
+/** A list of dates for bank closures (ISO date strings); may affect payroll processing. */
+export type PaySchedulePreviewHolidaysList = Array<string>;
+export const PaySchedulePreviewHolidaysList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PaySchedulePreviewHolidaysList>;
+
+/** A single pay period in a pay schedule preview, with check date, period boundaries, and payroll deadline. */
+export interface PaySchedulePreviewPayPeriod {
+  /** The payment date, "Check date", for the pay period. */
+  check_date: string;
+  /** The last day of the pay period. */
+  end_date: string;
+  /** The deadline to run payroll for direct deposit on the check date. */
+  run_payroll_by: string;
+  /** The first day of the pay period. */
+  start_date: string;
+}
+export const PaySchedulePreviewPayPeriod = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    check_date: S.String,
+    end_date: S.String,
+    run_payroll_by: S.String,
+    start_date: S.String,
+  }),
+).annotate({
+  identifier: "PaySchedulePreviewPayPeriod",
+}) as any as S.Schema<PaySchedulePreviewPayPeriod>;
+
+/** A list of pay periods for the previewed pay schedule (default range is 18 months from today, or up to end_date when provided). */
+export type PaySchedulePreviewPayPeriodsList = Array<PaySchedulePreviewPayPeriod>;
+export const PaySchedulePreviewPayPeriodsList = /*@__PURE__*/ S.Array(
+  PaySchedulePreviewPayPeriod,
+) as any as S.Schema<PaySchedulePreviewPayPeriodsList>;
+
+/** Preview of pay schedule dates for the next 18 months. Use this to show partners expected pay dates, pay period boundaries, and payroll deadlines before they create or change a pay schedule. See [Preview pay schedule dates](https://docs.gusto.com/embedded-payroll/reference/get-v1-companies-company_id-pay_schedules-preview) for usage. - **pay_periods**: One entry per pay period in the range; each includes check_date, start_date, end_date, and run_payroll_by. - **holidays**: Observed bank holidays (ISO date strings) that may affect payroll timing. */
+export interface PaySchedulePreview {
+  /** A list of dates for bank closures (ISO date strings); may affect payroll processing. */
+  holidays?: PaySchedulePreviewHolidaysList;
+  /** A list of pay periods for the previewed pay schedule (default range is 18 months from today, or up to end_date when provided). */
+  pay_periods?: PaySchedulePreviewPayPeriodsList;
+}
+export const PaySchedulePreview = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    holidays: S.optional(PaySchedulePreviewHolidaysList),
+    pay_periods: S.optional(PaySchedulePreviewPayPeriodsList),
+  }),
+).annotate({ identifier: "PaySchedulePreview" }) as any as S.Schema<PaySchedulePreview>;
+
+export interface GetCompanyReportTemplatesReportTypeRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The report type */
+  report_type: string;
+}
+export const GetCompanyReportTemplatesReportTypeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    report_type: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/companies/{company_uuid}/report_templates/{report_type}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetCompanyReportTemplatesReportTypeRequest",
+}) as any as S.Schema<GetCompanyReportTemplatesReportTypeRequest>;
+
+/** List of columns recommended */
+export type ReportTemplateColumnsList = Array<string>;
+export const ReportTemplateColumnsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ReportTemplateColumnsList>;
+
+/** List of groupings recommended */
+export type ReportTemplateGroupingsList = Array<string>;
+export const ReportTemplateGroupingsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ReportTemplateGroupingsList>;
+
+export interface ReportTemplate {
+  /** List of columns recommended */
+  columns?: ReportTemplateColumnsList;
+  /** Company UUID */
+  company_uuid?: string;
+  /** List of groupings recommended */
+  groupings?: ReportTemplateGroupingsList;
+  /** Type of report template */
+  report_type?: string;
+}
+export const ReportTemplate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    columns: S.optional(ReportTemplateColumnsList),
+    company_uuid: S.optional(S.String),
+    groupings: S.optional(ReportTemplateGroupingsList),
+    report_type: S.optional(S.String),
+  }),
+).annotate({ identifier: "ReportTemplate" }) as any as S.Schema<ReportTemplate>;
+
+export interface GetCompanySignatoriesRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+}
+export const GetCompanySignatoriesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/signatories", code: 200 })),
+).annotate({
+  identifier: "GetCompanySignatoriesRequest",
+}) as any as S.Schema<GetCompanySignatoriesRequest>;
+
+export type GetCompanySignatoriesResponseBodyList = Array<Signatory>;
+export const GetCompanySignatoriesResponseBodyList = /*@__PURE__*/ S.Array(
+  Signatory,
+) as any as S.Schema<GetCompanySignatoriesResponseBodyList>;
+
+export type GetCompanySignatoriesResponse = GetCompanySignatoriesResponseBodyList;
+export const GetCompanySignatoriesResponse = /*@__PURE__*/ S.suspend(() =>
+  GetCompanySignatoriesResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetCompanySignatoriesResponse",
+}) as any as S.Schema<GetCompanySignatoriesResponse>;
+
+export interface GetCompanySuspensionsRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+}
+export const GetCompanySuspensionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/suspensions", code: 200 })),
+).annotate({
+  identifier: "GetCompanySuspensionsRequest",
+}) as any as S.Schema<GetCompanySuspensionsRequest>;
+
+/** List of suspension records for a company. */
+export type CompanySuspensionList = Array<CompanySuspension>;
+export const CompanySuspensionList = /*@__PURE__*/ S.Array(
+  CompanySuspension,
+) as any as S.Schema<CompanySuspensionList>;
+
+export type GetCompanySuspensionsResponse = CompanySuspensionList;
+export const GetCompanySuspensionsResponse = /*@__PURE__*/ S.suspend(() =>
+  CompanySuspensionList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetCompanySuspensionsResponse",
+}) as any as S.Schema<GetCompanySuspensionsResponse>;
+
+export interface GetCompanyTaxRequirementRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The two-letter state abbreviation */
+  state: string;
+  /** When true, return "new" requirement sets with valid `effective_from` dates that are available to save new effective-dated values. */
+  scheduling?: boolean;
+}
+export const GetCompanyTaxRequirementRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    state: S.String.pipe(T.Label()),
+    scheduling: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/companies/{company_uuid}/tax_requirements/{state}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetCompanyTaxRequirementRequest",
+}) as any as S.Schema<GetCompanyTaxRequirementRequest>;
+
+/** The required value of the requirement identified by `key` */
+export type TaxRequirementApplicableIfItemValue = boolean | string | number;
+export const TaxRequirementApplicableIfItemValue =
+  S.Unknown as any as S.Schema<TaxRequirementApplicableIfItemValue>;
+
+export interface TaxRequirementApplicableIfItem {
+  key?: string;
+  /** The required value of the requirement identified by `key` */
+  value?: TaxRequirementApplicableIfItemValue | null;
+}
+export const TaxRequirementApplicableIfItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    value: S.optional(S.NullOr(TaxRequirementApplicableIfItemValue)),
+  }),
+).annotate({
+  identifier: "TaxRequirementApplicableIfItem",
+}) as any as S.Schema<TaxRequirementApplicableIfItem>;
+
+/** An array of references to other requirements within the requirement set. This requirement is only applicable if all referenced requirements have values matching the corresponding `value`. The primary use-case is dynamically hiding and showing requirements as values change. E.g. Show Requirement-B when Requirement-A has been answered with `false`. To be explicit, an empty array means the requirement is applicable. */
+export type TaxRequirementApplicableIfList = Array<TaxRequirementApplicableIfItem>;
+export const TaxRequirementApplicableIfList = /*@__PURE__*/ S.Array(
+  TaxRequirementApplicableIfItem,
+) as any as S.Schema<TaxRequirementApplicableIfList>;
+
+/** The actual value to be submitted */
+export type TaxRequirementMetadataOptionsItemValue = string | boolean;
+export const TaxRequirementMetadataOptionsItemValue =
+  S.Unknown as any as S.Schema<TaxRequirementMetadataOptionsItemValue>;
+
+export interface TaxRequirementMetadataOptionsItem {
+  /** A customer facing label for the answer */
+  label: string;
+  /** A less verbose label that may sometimes be available */
+  short_label?: string | null;
+  /** The actual value to be submitted */
+  value: TaxRequirementMetadataOptionsItemValue;
+}
+export const TaxRequirementMetadataOptionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    label: S.String,
+    short_label: S.optional(S.NullOr(S.String)),
+    value: TaxRequirementMetadataOptionsItemValue,
+  }),
+).annotate({
+  identifier: "TaxRequirementMetadataOptionsItem",
+}) as any as S.Schema<TaxRequirementMetadataOptionsItem>;
+
+/** [for `select` or `radio`] An array of objects describing the possible values. */
+export type TaxRequirementMetadataOptionsList = Array<TaxRequirementMetadataOptionsItem>;
+export const TaxRequirementMetadataOptionsList = /*@__PURE__*/ S.Array(
+  TaxRequirementMetadataOptionsItem,
+) as any as S.Schema<TaxRequirementMetadataOptionsList>;
+
+/** [for `workers_compensation_rate`] The type of rate being collected. Either: - `percent`: A percentage formatted as a decimal, e.g. `0.01` for 1% - `currency_per_hour`: A dollar amount per hour, e.g. `3.24` for $3.24/hr */
+export type TaxRequirementMetadataRateType = "percent" | "currency_per_hour";
+export const TaxRequirementMetadataRateType = S.String;
+
+/** Describes the type of requirement - each type may have additional metadata properties to describe possible values, formats, etc. - `text`: free-text input, no additional requirements - `currency`: a value representing a dollar amount, e.g. `374.55` representing `$374.55` - `radio`: choose one of options provided, see `options` - `select`: choose one of options provided, see `options` - `percent`: A decimal value representing a percentage, e.g. `0.034` representing `3.4%` - `account_number`: An account number for a tax agency, more information provided by `mask` and `prefix` - `tax_rate`: A decimal value representing a tax rate, e.g. `0.034` representing a tax rate of `3.4%`, see `validation` for additional validation guidance - `workers_compensation_rate`: A decimal value representing a percentage, see `risk_class_code`, `risk_class_description`, and `rate_type` */
+export type TaxRequirementMetadataType =
+  | "text"
+  | "currency"
+  | "radio"
+  | "select"
+  | "percent"
+  | "account_number"
+  | "tax_rate"
+  | "workers_compensation_rate";
+export const TaxRequirementMetadataType = S.String;
+
+/** [for `one_of`] The possible, unformatted tax rates for selection. - e.g. ["0.0", "0.001"] representing 0% and 0.1% */
+export type TaxRequirementMetadataValidationRatesList = Array<string>;
+export const TaxRequirementMetadataValidationRatesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<TaxRequirementMetadataValidationRatesList>;
+
+/** Describes the type of tax_rate validation rule */
+export type TaxRequirementMetadataValidationType = "one_of" | "min_max";
+export const TaxRequirementMetadataValidationType = S.String;
+
+/** [for `tax_rate`] Describes the validation required for the tax rate */
+export interface TaxRequirementMetadataValidation {
+  /** [for `min_max`] The inclusive upper bound of the tax rate */
+  max?: string;
+  /** [for `min_max`] The inclusive lower bound of the tax rate */
+  min?: string;
+  /** [for `one_of`] The possible, unformatted tax rates for selection. - e.g. ["0.0", "0.001"] representing 0% and 0.1% */
+  rates?: TaxRequirementMetadataValidationRatesList;
+  /** Describes the type of tax_rate validation rule */
+  type: TaxRequirementMetadataValidationType;
+}
+export const TaxRequirementMetadataValidation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    max: S.optional(S.String),
+    min: S.optional(S.String),
+    rates: S.optional(TaxRequirementMetadataValidationRatesList),
+    type: TaxRequirementMetadataValidationType,
+  }),
+).annotate({
+  identifier: "TaxRequirementMetadataValidation",
+}) as any as S.Schema<TaxRequirementMetadataValidation>;
+
+export interface TaxRequirementMetadata {
+  /** [for `account_number`] A pattern describing the format of the account number The mask is a sequence of characters representing the requirements of the actual account number. Each character in the mask represents a single character in the account number as follows: - `#`: a digit (`\d`) - `@`: a upper or lower case letter (`[a-zA-Z]`) - `^`: an uppercase letter (`[A-Z]`) - `%`: a digit or uppercase letter (`[0-9A-Z]`) - any other character represents the literal character Examples: - mask: `WHT-######` represents `WHT-` followed by 5 digits, e.g. `WHT-33421` - mask: `%####-^^` supports values of `75544-AB` and `Z7654-HK` */
+  mask?: string | null;
+  /** [for `select` or `radio`] An array of objects describing the possible values. */
+  options?: TaxRequirementMetadataOptionsList;
+  /** [for `account_number`] A value that precedes the value to be collected - useful for display, but should not be submitted as part of the value. E.g. some tax agencies use an account number that is a company's federal ein plus two digits. In that case the mask would be `##` and the prefix `XXXXX1234`. */
+  prefix?: string | null;
+  /** [for `workers_compensation_rate`] The type of rate being collected. Either: - `percent`: A percentage formatted as a decimal, e.g. `0.01` for 1% - `currency_per_hour`: A dollar amount per hour, e.g. `3.24` for $3.24/hr */
+  rate_type?: TaxRequirementMetadataRateType;
+  /** [for `workers_compensation_rate`] The industry risk class code for the rate being requested */
+  risk_class_code?: string;
+  /** [for `workers_compensation_rate`] A description of the industry risk class for the rate being requested */
+  risk_class_description?: string;
+  /** Describes the type of requirement - each type may have additional metadata properties to describe possible values, formats, etc. - `text`: free-text input, no additional requirements - `currency`: a value representing a dollar amount, e.g. `374.55` representing `$374.55` - `radio`: choose one of options provided, see `options` - `select`: choose one of options provided, see `options` - `percent`: A decimal value representing a percentage, e.g. `0.034` representing `3.4%` - `account_number`: An account number for a tax agency, more information provided by `mask` and `prefix` - `tax_rate`: A decimal value representing a tax rate, e.g. `0.034` representing a tax rate of `3.4%`, see `validation` for additional validation guidance - `workers_compensation_rate`: A decimal value representing a percentage, see `risk_class_code`, `risk_class_description`, and `rate_type` */
+  type: TaxRequirementMetadataType;
+  /** [for `tax_rate`] Describes the validation required for the tax rate */
+  validation?: TaxRequirementMetadataValidation;
+}
+export const TaxRequirementMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mask: S.optional(S.NullOr(S.String)),
+    options: S.optional(TaxRequirementMetadataOptionsList),
+    prefix: S.optional(S.NullOr(S.String)),
+    rate_type: S.optional(TaxRequirementMetadataRateType),
+    risk_class_code: S.optional(S.String),
+    risk_class_description: S.optional(S.String),
+    type: TaxRequirementMetadataType,
+    validation: S.optional(TaxRequirementMetadataValidation),
+  }),
+).annotate({ identifier: "TaxRequirementMetadata" }) as any as S.Schema<TaxRequirementMetadata>;
+
+/** The value or "answer" for a tax requirement. Type depends on the requirement metadata type (e.g. string for text/account_number, boolean for radio/checkbox, number for percent/currency/tax_rate). Null when the requirement has not been answered. */
+export type TaxRequirementsValue = boolean | string | number;
+export const TaxRequirementsValue = S.Unknown as any as S.Schema<TaxRequirementsValue>;
+
+export interface TaxRequirement {
+  /** An array of references to other requirements within the requirement set. This requirement is only applicable if all referenced requirements have values matching the corresponding `value`. The primary use-case is dynamically hiding and showing requirements as values change. E.g. Show Requirement-B when Requirement-A has been answered with `false`. To be explicit, an empty array means the requirement is applicable. */
+  applicable_if?: TaxRequirementApplicableIfList;
+  /** Whether the current `value` is a default rather than an explicitly set one. */
+  default_value_applied?: boolean;
+  /** A more detailed customer facing description of the requirement */
+  description?: string | null;
+  /** Whether the value of this requirement can be updated */
+  editable?: boolean;
+  key?: string;
+  /** A customer facing description of the requirement */
+  label?: string;
+  metadata?: TaxRequirementMetadata;
+  /** Whether this requirement, when blank, would block payroll processing for the company in this state. Stable across changes to the field's value: a `payroll_blocking: true` field reports `true` whether currently empty or populated. */
+  payroll_blocking?: boolean;
+  value?: TaxRequirementsValue | null;
+}
+export const TaxRequirement = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    applicable_if: S.optional(TaxRequirementApplicableIfList),
+    default_value_applied: S.optional(S.Boolean),
+    description: S.optional(S.NullOr(S.String)),
+    editable: S.optional(S.Boolean),
+    key: S.optional(S.String),
+    label: S.optional(S.String),
+    metadata: S.optional(TaxRequirementMetadata),
+    payroll_blocking: S.optional(S.Boolean),
+    value: S.optional(S.NullOr(TaxRequirementsValue)),
+  }),
+).annotate({ identifier: "TaxRequirement" }) as any as S.Schema<TaxRequirement>;
+
+export type TaxRequirementSetRequirementsList = Array<TaxRequirement>;
+export const TaxRequirementSetRequirementsList = /*@__PURE__*/ S.Array(
+  TaxRequirement,
+) as any as S.Schema<TaxRequirementSetRequirementsList>;
+
+export interface TaxRequirementSet {
+  effective_from?: string | null;
+  key?: string;
+  /** Customer facing label for the requirement set, e.g. "Registrations" */
+  label?: string;
+  requirements?: TaxRequirementSetRequirementsList;
+  state?: string;
+}
+export const TaxRequirementSet = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    effective_from: S.optional(S.NullOr(S.String)),
+    key: S.optional(S.String),
+    label: S.optional(S.String),
+    requirements: S.optional(TaxRequirementSetRequirementsList),
+    state: S.optional(S.String),
+  }),
+).annotate({ identifier: "TaxRequirementSet" }) as any as S.Schema<TaxRequirementSet>;
+
+export type TaxRequirementsStateRequirementSetsList = Array<TaxRequirementSet>;
+export const TaxRequirementsStateRequirementSetsList = /*@__PURE__*/ S.Array(
+  TaxRequirementSet,
+) as any as S.Schema<TaxRequirementsStateRequirementSetsList>;
+
+export interface TaxRequirementsState {
+  company_uuid?: string;
+  requirement_sets?: TaxRequirementsStateRequirementSetsList;
+  state?: string;
+}
+export const TaxRequirementsState = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.optional(S.String),
+    requirement_sets: S.optional(TaxRequirementsStateRequirementSetsList),
+    state: S.optional(S.String),
+  }),
+).annotate({ identifier: "TaxRequirementsState" }) as any as S.Schema<TaxRequirementsState>;
+
+export interface GetCompanyTaxRequirementsRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+}
+export const GetCompanyTaxRequirementsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/tax_requirements", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetCompanyTaxRequirementsRequest",
+}) as any as S.Schema<GetCompanyTaxRequirementsRequest>;
+
+/** The current status of the state tax setup. - `not_started`: No requirements have been filled - `in_progress`: Some requirements have been filled, or default rates are applied - `complete`: All requirements have been filled without default rates */
+export type TaxRequirementStatesListItemSetupStatus = "not_started" | "in_progress" | "complete";
+export const TaxRequirementStatesListItemSetupStatus = S.String;
+
+export interface TaxRequirementStatesListItem {
+  /** Whether the state is using system-assigned default SUI rates rather than employer-specific rates. */
+  default_rates_applied?: boolean;
+  /** Whether the state tax setup is sufficiently complete for the company to run payroll. */
+  ready_to_run_payroll?: boolean;
+  /** The current status of the state tax setup. - `not_started`: No requirements have been filled - `in_progress`: Some requirements have been filled, or default rates are applied - `complete`: All requirements have been filled without default rates */
+  setup_status?: TaxRequirementStatesListItemSetupStatus;
+  state?: string;
+}
+export const TaxRequirementStatesListItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    default_rates_applied: S.optional(S.Boolean),
+    ready_to_run_payroll: S.optional(S.Boolean),
+    setup_status: S.optional(TaxRequirementStatesListItemSetupStatus),
+    state: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TaxRequirementStatesListItem",
+}) as any as S.Schema<TaxRequirementStatesListItem>;
+
+export type TaxRequirementStatesList = Array<TaxRequirementStatesListItem>;
+export const TaxRequirementStatesList = /*@__PURE__*/ S.Array(
+  TaxRequirementStatesListItem,
+) as any as S.Schema<TaxRequirementStatesList>;
+
+export type GetCompanyTaxRequirementsResponse = TaxRequirementStatesList;
+export const GetCompanyTaxRequirementsResponse = /*@__PURE__*/ S.suspend(() =>
+  TaxRequirementStatesList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetCompanyTaxRequirementsResponse",
+}) as any as S.Schema<GetCompanyTaxRequirementsResponse>;
+
+export interface GetCompanyTimeOffBalancesRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** Filter by employee UUIDs (comma-separated) */
+  employee_uuids?: string;
+  /** Filter by time off policy UUIDs (comma-separated) */
+  policy_uuids?: string;
+  /** The page that is requested */
+  page?: number;
+  /** Number of objects per page */
+  per?: number;
+}
+export const GetCompanyTimeOffBalancesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    employee_uuids: S.optional(S.String.pipe(T.Query())),
+    policy_uuids: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/time_off/balances", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetCompanyTimeOffBalancesRequest",
+}) as any as S.Schema<GetCompanyTimeOffBalancesRequest>;
+
+export interface EmbeddedTimeOffBalanceBalancesItem {
+  /** The total hours accrued year-to-date for this policy. */
+  accrued_hours?: string;
+  /** The employee's current available balance hours for this policy. */
+  balance_hours?: string;
+  /** The total hours from pending time off requests for this policy. */
+  pending_hours?: string | null;
+  /** The UUID of the time off policy. */
+  policy_uuid?: string;
+  /** The total hours used year-to-date for this policy. */
+  used_hours?: string;
+}
+export const EmbeddedTimeOffBalanceBalancesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accrued_hours: S.optional(S.String),
+    balance_hours: S.optional(S.String),
+    pending_hours: S.optional(S.NullOr(S.String)),
+    policy_uuid: S.optional(S.String),
+    used_hours: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EmbeddedTimeOffBalanceBalancesItem",
+}) as any as S.Schema<EmbeddedTimeOffBalanceBalancesItem>;
+
+/** The employee's time off balances, one entry per policy. */
+export type EmbeddedTimeOffBalanceBalancesList = Array<EmbeddedTimeOffBalanceBalancesItem>;
+export const EmbeddedTimeOffBalanceBalancesList = /*@__PURE__*/ S.Array(
+  EmbeddedTimeOffBalanceBalancesItem,
+) as any as S.Schema<EmbeddedTimeOffBalanceBalancesList>;
+
+/** Time off balance for an employee, grouped by policy. */
+export interface EmbeddedTimeOffBalance {
+  /** The employee's time off balances, one entry per policy. */
+  balances?: EmbeddedTimeOffBalanceBalancesList;
+  /** The UUID of the employee. */
+  employee_uuid?: string;
+}
+export const EmbeddedTimeOffBalance = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    balances: S.optional(EmbeddedTimeOffBalanceBalancesList),
+    employee_uuid: S.optional(S.String),
+  }),
+).annotate({ identifier: "EmbeddedTimeOffBalance" }) as any as S.Schema<EmbeddedTimeOffBalance>;
+
+export type GetCompanyTimeOffBalancesResponseBodyList = Array<EmbeddedTimeOffBalance>;
+export const GetCompanyTimeOffBalancesResponseBodyList = /*@__PURE__*/ S.Array(
+  EmbeddedTimeOffBalance,
+) as any as S.Schema<GetCompanyTimeOffBalancesResponseBodyList>;
+
+export type GetCompanyTimeOffBalancesResponse = GetCompanyTimeOffBalancesResponseBodyList;
+export const GetCompanyTimeOffBalancesResponse = /*@__PURE__*/ S.suspend(() =>
+  GetCompanyTimeOffBalancesResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetCompanyTimeOffBalancesResponse",
+}) as any as S.Schema<GetCompanyTimeOffBalancesResponse>;
 
 export interface GetCompanyTimeOffPoliciesRequest {
   /** The UUID of the company */
@@ -6354,109 +12202,11 @@ export const GetCompanyTimeOffPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_uuid}/time_off_policies",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/time_off_policies", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCompanyTimeOffPoliciesRequest",
 }) as any as S.Schema<GetCompanyTimeOffPoliciesRequest>;
-
-export interface TimeOffPolicyEmployeesItem {
-  /** The time off balance for the employee */
-  balance?: string;
-  uuid?: string;
-}
-export const TimeOffPolicyEmployeesItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    balance: S.optional(S.String),
-    uuid: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TimeOffPolicyEmployeesItem",
-}) as any as S.Schema<TimeOffPolicyEmployeesItem>;
-
-/** List of employee UUIDs under a time off policy */
-export type TimeOffPolicyEmployeesList = Array<TimeOffPolicyEmployeesItem>;
-export const TimeOffPolicyEmployeesList = /*@__PURE__*/ S.Array(
-  TimeOffPolicyEmployeesItem,
-) as any as S.Schema<TimeOffPolicyEmployeesList>;
-
-/** Type of the time off policy. Only "vacation" and "sick" can be created through the API, but other types may be present if the company was previously a Gusto.com customer. */
-export type TimeOffPolicyPolicyType =
-  | "vacation"
-  | "sick"
-  | "bereavement"
-  | "custom"
-  | "floating_holiday"
-  | "jury_duty"
-  | "learning_and_development"
-  | "parental_leave"
-  | "personal_day"
-  | "volunteer"
-  | "weather";
-export const TimeOffPolicyPolicyType = S.String;
-
-/** Representation of a Time Off Policy */
-export interface TimeOffPolicy {
-  /** Policy time off accrual method */
-  accrual_method: string;
-  /** The rate at which the time off hours will accrue for an employee on the policy. Represented as a float, e.g. "40.0". */
-  accrual_rate?: string | null;
-  /** The number of hours an employee has to work or be paid for to accrue the number of hours set in the accrual rate. Only used for hourly policies (per_hour_paid, per_hour_paid_no_overtime, per_hour_work, per_hour_worked_no_overtime). Represented as a float, e.g. "40.0". */
-  accrual_rate_unit?: string | null;
-  /** Number of days before an employee on the policy will begin accruing time off hours */
-  accrual_waiting_period_days?: number | null;
-  /** The max number of hours an employee can carryover from one year to the next */
-  carryover_limit_hours?: string | null;
-  /** Unique identifier for the company owning the time off policy */
-  company_uuid: string;
-  /** boolean representing if a policy has completed configuration */
-  complete?: boolean;
-  /** List of employee UUIDs under a time off policy */
-  employees: TimeOffPolicyEmployeesList;
-  /** boolean representing if a policy is active or not */
-  is_active: boolean;
-  /** The max number of hours an employee can accrue in a year */
-  max_accrual_hours_per_year?: string | null;
-  /** The max number of hours an employee can accrue */
-  max_hours?: string | null;
-  /** Name of the time off policy */
-  name: string;
-  /** Boolean representing if an employee's accrued time off hours will be paid out on termination */
-  paid_out_on_termination?: boolean;
-  /** The date the policy resets. Format MM-DD */
-  policy_reset_date?: string | null;
-  /** Type of the time off policy. Only "vacation" and "sick" can be created through the API, but other types may be present if the company was previously a Gusto.com customer. */
-  policy_type: TimeOffPolicyPolicyType;
-  /** Unique identifier of a time off policy */
-  uuid: string;
-  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field. The version will be null if the policy is no longer active. */
-  version?: string | null;
-}
-export const TimeOffPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accrual_method: S.String,
-    accrual_rate: S.optional(S.NullOr(S.String)),
-    accrual_rate_unit: S.optional(S.NullOr(S.String)),
-    accrual_waiting_period_days: S.optional(S.NullOr(S.Number)),
-    carryover_limit_hours: S.optional(S.NullOr(S.String)),
-    company_uuid: S.String,
-    complete: S.optional(S.Boolean),
-    employees: TimeOffPolicyEmployeesList,
-    is_active: S.Boolean,
-    max_accrual_hours_per_year: S.optional(S.NullOr(S.String)),
-    max_hours: S.optional(S.NullOr(S.String)),
-    name: S.String,
-    paid_out_on_termination: S.optional(S.Boolean),
-    policy_reset_date: S.optional(S.NullOr(S.String)),
-    policy_type: TimeOffPolicyPolicyType,
-    uuid: S.String,
-    version: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({ identifier: "TimeOffPolicy" }) as any as S.Schema<TimeOffPolicy>;
 
 export type GetCompanyTimeOffPoliciesResponseBodyList = Array<TimeOffPolicy>;
 export const GetCompanyTimeOffPoliciesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -6484,61 +12234,21 @@ export const GetCompanyTimeOffRequestsRequest = /*@__PURE__*/ S.suspend(() =>
     start_date: S.optional(S.String.pipe(T.Query())),
     end_date: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/time_off_requests",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/companies/{company_id}/time_off_requests", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCompanyTimeOffRequestsRequest",
 }) as any as S.Schema<GetCompanyTimeOffRequestsRequest>;
 
 /** This value will be null if the request has not been approved. */
-export interface TimeOffRequestApprover {
-  /** The full name of the employee who approved the time off request. */
-  full_name?: string;
-  /** The UUID of the employee who approved the time off request. */
-  uuid?: string;
-}
-export const TimeOffRequestApprover = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    full_name: S.optional(S.String),
-    uuid: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TimeOffRequestApprover",
-}) as any as S.Schema<TimeOffRequestApprover>;
+export type TimeOffRequestApprover = EmbeddedTimeOffRequestApprover;
+export const TimeOffRequestApprover = EmbeddedTimeOffRequestApprover;
 
-export interface TimeOffRequestEmployee {
-  /** The full name of the employee the time off request is for. */
-  full_name?: string;
-  /** The UUID of the employee the time off request is for. */
-  uuid?: string;
-}
-export const TimeOffRequestEmployee = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    full_name: S.optional(S.String),
-    uuid: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TimeOffRequestEmployee",
-}) as any as S.Schema<TimeOffRequestEmployee>;
+export type TimeOffRequestEmployee = EmbeddedTimeOffRequestEmployee;
+export const TimeOffRequestEmployee = EmbeddedTimeOffRequestEmployee;
 
-export interface TimeOffRequestInitiator {
-  /** The full name of the employee who initiated the time off request. */
-  full_name?: string;
-  /** The UUID of the employee who initiated the time off request. */
-  uuid?: string;
-}
-export const TimeOffRequestInitiator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    full_name: S.optional(S.String),
-    uuid: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TimeOffRequestInitiator",
-}) as any as S.Schema<TimeOffRequestInitiator>;
+export type TimeOffRequestInitiator = EmbeddedTimeOffRequestInitiator;
+export const TimeOffRequestInitiator = EmbeddedTimeOffRequestInitiator;
 
 /** The type of time off request. */
 export type TimeOffRequestRequestType = "vacation" | "sick";
@@ -6551,15 +12261,15 @@ export const TimeOffRequestStatus = S.String;
 /** The representation of a time off request. */
 export interface TimeOffRequest {
   /** This value will be null if the request has not been approved. */
-  approver?: TimeOffRequestApprover | null;
+  approver?: EmbeddedTimeOffRequestApprover | null;
   /** An object that represents the days in the time off request. The keys of the object are the dates, formatted as a YYYY-MM-DD string. The values of the object are the number of hours requested off for each day, formatted as a string representation of a numeric decimal to the thousands place. */
   days?: unknown;
-  employee?: TimeOffRequestEmployee;
+  employee?: EmbeddedTimeOffRequestEmployee;
   /** A note about the time off request, from the employee to the employer. */
   employee_note?: string;
   /** A note about the time off request, from the employer to the employee. */
   employer_note?: string;
-  initiator?: TimeOffRequestInitiator | null;
+  initiator?: EmbeddedTimeOffRequestInitiator | null;
   /** The type of the time off policy (e.g. vacation, sick). */
   policy_type?: string;
   /** The UUID of the time off policy associated with this request. */
@@ -6573,12 +12283,12 @@ export interface TimeOffRequest {
 }
 export const TimeOffRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    approver: S.optional(S.NullOr(TimeOffRequestApprover)),
+    approver: S.optional(S.NullOr(EmbeddedTimeOffRequestApprover)),
     days: S.optional(S.Unknown),
-    employee: S.optional(TimeOffRequestEmployee),
+    employee: S.optional(EmbeddedTimeOffRequestEmployee),
     employee_note: S.optional(S.String),
     employer_note: S.optional(S.String),
-    initiator: S.optional(S.NullOr(TimeOffRequestInitiator)),
+    initiator: S.optional(S.NullOr(EmbeddedTimeOffRequestInitiator)),
     policy_type: S.optional(S.String),
     policy_uuid: S.optional(S.NullOr(S.String)),
     request_type: S.optional(TimeOffRequestRequestType),
@@ -6598,6 +12308,53 @@ export const GetCompanyTimeOffRequestsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetCompanyTimeOffRequestsResponse",
 }) as any as S.Schema<GetCompanyTimeOffRequestsResponse>;
+
+export interface GetCompanyTimeOffRequestsRequest2 {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** Filter by employee UUIDs. Comma-separated for multiple values. */
+  employee_uuids?: string;
+  /** Filter by request status. Comma-separated for multiple values (e.g. pending,approved,declined,consumed). */
+  status?: string;
+  /** Filter requests that overlap with this start date */
+  start_date?: string;
+  /** Filter requests that overlap with this end date */
+  end_date?: string;
+  /** Sort order by start_date (asc or desc, defaults to desc) */
+  sort_order?: string;
+  /** The page that is requested */
+  page?: number;
+  /** Number of objects per page */
+  per?: number;
+}
+export const GetCompanyTimeOffRequestsRequest2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    employee_uuids: S.optional(S.String.pipe(T.Query())),
+    status: S.optional(S.String.pipe(T.Query())),
+    start_date: S.optional(S.String.pipe(T.Query())),
+    end_date: S.optional(S.String.pipe(T.Query())),
+    sort_order: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/time_off/requests", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetCompanyTimeOffRequestsRequest2",
+}) as any as S.Schema<GetCompanyTimeOffRequestsRequest2>;
+
+export type GetCompanyTimeOffRequestsResponseBodyList = Array<EmbeddedTimeOffRequest>;
+export const GetCompanyTimeOffRequestsResponseBodyList = /*@__PURE__*/ S.Array(
+  EmbeddedTimeOffRequest,
+) as any as S.Schema<GetCompanyTimeOffRequestsResponseBodyList>;
+
+export type GetCompanyTimeOffRequestsResponse2 = GetCompanyTimeOffRequestsResponseBodyList;
+export const GetCompanyTimeOffRequestsResponse2 = /*@__PURE__*/ S.suspend(() =>
+  GetCompanyTimeOffRequestsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetCompanyTimeOffRequestsResponse2",
+}) as any as S.Schema<GetCompanyTimeOffRequestsResponse2>;
 
 export type GetCompanyTimeTrackingTimeSheetsRequestEntityUuidsList = Array<string>;
 export const GetCompanyTimeTrackingTimeSheetsRequestEntityUuidsList = /*@__PURE__*/ S.Array(
@@ -6687,16 +12444,8 @@ export interface GetCompensationRequest {
 export const GetCompensationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     compensation_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/compensations/{compensation_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetCompensationRequest",
-}) as any as S.Schema<GetCompensationRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/compensations/{compensation_id}", code: 200 })),
+).annotate({ identifier: "GetCompensationRequest" }) as any as S.Schema<GetCompensationRequest>;
 
 export type GetContractorRequestIncludeItem = "company_name" | "portal_invitations";
 export const GetContractorRequestIncludeItem = S.String;
@@ -6718,16 +12467,830 @@ export const GetContractorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contractor_uuid: S.String.pipe(T.Label()),
     include: S.optional(GetContractorRequestIncludeList.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/contractors/{contractor_uuid}", code: 200 })),
+).annotate({ identifier: "GetContractorRequest" }) as any as S.Schema<GetContractorRequest>;
+
+export interface GetContractorAddressRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+}
+export const GetContractorAddressRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/contractors/{contractor_uuid}/address", code: 200 })),
+).annotate({
+  identifier: "GetContractorAddressRequest",
+}) as any as S.Schema<GetContractorAddressRequest>;
+
+/** An array of warning objects that provide additional information about the address. Warnings do not prevent the address from being saved. */
+export type ContractorAddressWarningsList = Array<WarningObject>;
+export const ContractorAddressWarningsList = /*@__PURE__*/ S.Array(
+  WarningObject,
+) as any as S.Schema<ContractorAddressWarningsList>;
+
+export interface ContractorAddress2 {
+  /** The status of the location. Inactive locations have been deleted, but may still have historical data associated with them. */
+  active?: boolean;
+  city?: string | null;
+  /** The UUID of the contractor */
+  contractor_uuid?: string;
+  country?: string | null;
+  state?: string | null;
+  street_1?: string | null;
+  street_2?: string | null;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version?: string;
+  /** An array of warning objects that provide additional information about the address. Warnings do not prevent the address from being saved. */
+  warnings?: ContractorAddressWarningsList;
+  zip?: string | null;
+}
+export const ContractorAddress2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    active: S.optional(S.Boolean),
+    city: S.optional(S.NullOr(S.String)),
+    contractor_uuid: S.optional(S.String),
+    country: S.optional(S.NullOr(S.String)),
+    state: S.optional(S.NullOr(S.String)),
+    street_1: S.optional(S.NullOr(S.String)),
+    street_2: S.optional(S.NullOr(S.String)),
+    version: S.optional(S.String),
+    warnings: S.optional(ContractorAddressWarningsList),
+    zip: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "ContractorAddress2" }) as any as S.Schema<ContractorAddress2>;
+
+export interface GetContractorBankAccountsRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+}
+export const GetContractorBankAccountsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/contractors/{contractor_uuid}/bank_accounts", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetContractorBankAccountsRequest",
+}) as any as S.Schema<GetContractorBankAccountsRequest>;
+
+export type ContractorBankAccountList = Array<ContractorBankAccount>;
+export const ContractorBankAccountList = /*@__PURE__*/ S.Array(
+  ContractorBankAccount,
+) as any as S.Schema<ContractorBankAccountList>;
+
+export type GetContractorBankAccountsResponse = ContractorBankAccountList;
+export const GetContractorBankAccountsResponse = /*@__PURE__*/ S.suspend(() =>
+  ContractorBankAccountList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetContractorBankAccountsResponse",
+}) as any as S.Schema<GetContractorBankAccountsResponse>;
+
+export interface GetContractorDocumentsRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+}
+export const GetContractorDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/contractors/{contractor_uuid}/documents", code: 200 })),
+).annotate({
+  identifier: "GetContractorDocumentsRequest",
+}) as any as S.Schema<GetContractorDocumentsRequest>;
+
+export interface DocumentFieldsItem {
+  /** The field's data type */
+  data_type?: string;
+  /** Height of the field. May be null when the field has no positioning information. */
+  height?: number | null;
+  /** Unique identifier of the field. May be null for custom fields that do not correspond to a known Gusto-managed key mapping. */
+  key?: string | null;
+  /** Page number of the field. May be null when the field has no positioning information. */
+  page_number?: number | null;
+  /** Whether the field is required */
+  required?: boolean;
+  /** Auto-filled value of the field */
+  value?: string | null;
+  /** Width of the field. May be null when the field has no positioning information. */
+  width?: number | null;
+  /** X-coordinate location of the field on the page. May be null when the field has no positioning information. */
+  x?: number | null;
+  /** Y-coordinate location of the field on the page. May be null when the field has no positioning information. */
+  y?: number | null;
+}
+export const DocumentFieldsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data_type: S.optional(S.String),
+    height: S.optional(S.NullOr(S.Number)),
+    key: S.optional(S.NullOr(S.String)),
+    page_number: S.optional(S.NullOr(S.Number)),
+    required: S.optional(S.Boolean),
+    value: S.optional(S.NullOr(S.String)),
+    width: S.optional(S.NullOr(S.Number)),
+    x: S.optional(S.NullOr(S.Number)),
+    y: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "DocumentFieldsItem" }) as any as S.Schema<DocumentFieldsItem>;
+
+/** List of the document's fields and associated data. Values are set for auto-filled fields. This is only returned for documents with `required_signing` = `true`, and can be used for signing preparation. */
+export type DocumentFieldsList = Array<DocumentFieldsItem>;
+export const DocumentFieldsList = /*@__PURE__*/ S.Array(
+  DocumentFieldsItem,
+) as any as S.Schema<DocumentFieldsList>;
+
+export interface DocumentPagesItem {
+  /** Image URL for the page */
+  image_url?: string;
+  /** Page number */
+  page_number?: number;
+}
+export const DocumentPagesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    image_url: S.optional(S.String),
+    page_number: S.optional(S.Number),
+  }),
+).annotate({ identifier: "DocumentPagesItem" }) as any as S.Schema<DocumentPagesItem>;
+
+/** List of the document's pages and associated image URLs. This is only returned for documents with `required_signing` = `true`, and can be used for signing preparation. */
+export type DocumentPagesList = Array<DocumentPagesItem>;
+export const DocumentPagesList = /*@__PURE__*/ S.Array(
+  DocumentPagesItem,
+) as any as S.Schema<DocumentPagesList>;
+
+/** The type of recipient associated with the document (will be `Contractor` for Contractor Documents) */
+export type DocumentRecipientType = "Company" | "Employee" | "Contractor";
+export const DocumentRecipientType = S.String;
+
+export interface Document {
+  /** The description of the document */
+  description?: string;
+  /** If the document is in a draft state */
+  draft?: boolean;
+  /** List of the document's fields and associated data. Values are set for auto-filled fields. This is only returned for documents with `required_signing` = `true`, and can be used for signing preparation. */
+  fields?: DocumentFieldsList;
+  /** The type identifier of the document */
+  name?: string;
+  /** List of the document's pages and associated image URLs. This is only returned for documents with `required_signing` = `true`, and can be used for signing preparation. */
+  pages?: DocumentPagesList;
+  /** The quarter of this document. This value is nullable and will not be present on all documents. */
+  quarter?: number | null;
+  /** The type of recipient associated with the document (will be `Contractor` for Contractor Documents) */
+  recipient_type?: DocumentRecipientType;
+  /** Unique identifier for the recipient associated with the document */
+  recipient_uuid?: string;
+  /** A boolean flag that indicates whether the document needs signing or not. Note that this value will change after the document is signed. */
+  requires_signing?: boolean;
+  /** When the document was signed (will be `null` if unsigned) */
+  signed_at?: string | null;
+  /** The title of the document */
+  title?: string;
+  /** The UUID of the document */
+  uuid?: string;
+  /** The year of this document. This value is nullable and will not be present on all documents. */
+  year?: number | null;
+}
+export const Document = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    draft: S.optional(S.Boolean),
+    fields: S.optional(DocumentFieldsList),
+    name: S.optional(S.String),
+    pages: S.optional(DocumentPagesList),
+    quarter: S.optional(S.NullOr(S.Number)),
+    recipient_type: S.optional(DocumentRecipientType),
+    recipient_uuid: S.optional(S.String),
+    requires_signing: S.optional(S.Boolean),
+    signed_at: S.optional(S.NullOr(S.String)),
+    title: S.optional(S.String),
+    uuid: S.optional(S.String),
+    year: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "Document" }) as any as S.Schema<Document>;
+
+export type GetContractorDocumentsResponseBodyList = Array<Document>;
+export const GetContractorDocumentsResponseBodyList = /*@__PURE__*/ S.Array(
+  Document,
+) as any as S.Schema<GetContractorDocumentsResponseBodyList>;
+
+export type GetContractorDocumentsResponse = GetContractorDocumentsResponseBodyList;
+export const GetContractorDocumentsResponse = /*@__PURE__*/ S.suspend(() =>
+  GetContractorDocumentsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetContractorDocumentsResponse",
+}) as any as S.Schema<GetContractorDocumentsResponse>;
+
+export interface GetContractorFormRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+  /** The UUID of the form */
+  form_id: string;
+}
+export const GetContractorFormRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+    form_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/contractors/{contractor_uuid}/forms/{form_id}", code: 200 }),
+  ),
+).annotate({ identifier: "GetContractorFormRequest" }) as any as S.Schema<GetContractorFormRequest>;
+
+export interface GetContractorFormPdfRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+  /** The UUID of the form */
+  form_id: string;
+}
+export const GetContractorFormPdfRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+    form_id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/v1/contractors/{contractor_uuid}",
+      uri: "/v1/contractors/{contractor_uuid}/forms/{form_id}/pdf",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "GetContractorRequest",
-}) as any as S.Schema<GetContractorRequest>;
+  identifier: "GetContractorFormPdfRequest",
+}) as any as S.Schema<GetContractorFormPdfRequest>;
+
+export interface FormPdf {
+  document_content_type?: string | null;
+  /** the URL of the form */
+  document_url?: string | null;
+  /** the UUID of the form */
+  uuid: string;
+}
+export const FormPdf = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    document_content_type: S.optional(S.NullOr(S.String)),
+    document_url: S.optional(S.NullOr(S.String)),
+    uuid: S.String,
+  }),
+).annotate({ identifier: "FormPdf" }) as any as S.Schema<FormPdf>;
+
+export interface GetContractorFormsRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+}
+export const GetContractorFormsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/contractors/{contractor_uuid}/forms", code: 200 })),
+).annotate({
+  identifier: "GetContractorFormsRequest",
+}) as any as S.Schema<GetContractorFormsRequest>;
+
+export type GetContractorFormsResponseBodyList = Array<Form1099>;
+export const GetContractorFormsResponseBodyList = /*@__PURE__*/ S.Array(
+  Form1099,
+) as any as S.Schema<GetContractorFormsResponseBodyList>;
+
+export type GetContractorFormsResponse = GetContractorFormsResponseBodyList;
+export const GetContractorFormsResponse = /*@__PURE__*/ S.suspend(() =>
+  GetContractorFormsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetContractorFormsResponse",
+}) as any as S.Schema<GetContractorFormsResponse>;
+
+export interface GetContractorMemberPortalInvitationsRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+}
+export const GetContractorMemberPortalInvitationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/contractors/{contractor_uuid}/member_portal_invitations",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetContractorMemberPortalInvitationsRequest",
+}) as any as S.Schema<GetContractorMemberPortalInvitationsRequest>;
+
+/** Current status of the member portal invitation. - `pending`: The invitation record has been created but the invitation email has not yet been delivered. - `sent`: The invitation email has been delivered to the member. - `verified`: The member has been verified by the member portal partner. - `complete`: The member has fully completed their member portal registration. - `cancelled`: The invitation has been cancelled, either via `DELETE` on this endpoint or because it was superseded. */
+export type MemberPortalInvitationStatus =
+  | "pending"
+  | "sent"
+  | "verified"
+  | "complete"
+  | "cancelled";
+export const MemberPortalInvitationStatus = S.String;
+
+/** The status of a member portal invitation for an employee or contractor. Returned by `GET /v1/employees/{employee_id}/member_portal_invitations` and `GET /v1/contractors/{contractor_uuid}/member_portal_invitations`. */
+export interface MemberPortalInvitation {
+  /** Whether the invitation can no longer be acted on by the member. Returns `true` when the invitation token has expired or when the invitation has been `cancelled`. To reissue an expired invitation, call `POST` on this endpoint again — a new token will be generated and will override the prior one. */
+  expired: boolean;
+  /** Current status of the member portal invitation. - `pending`: The invitation record has been created but the invitation email has not yet been delivered. - `sent`: The invitation email has been delivered to the member. - `verified`: The member has been verified by the member portal partner. - `complete`: The member has fully completed their member portal registration. - `cancelled`: The invitation has been cancelled, either via `DELETE` on this endpoint or because it was superseded. */
+  status: MemberPortalInvitationStatus;
+}
+export const MemberPortalInvitation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    expired: S.Boolean,
+    status: MemberPortalInvitationStatus,
+  }),
+).annotate({ identifier: "MemberPortalInvitation" }) as any as S.Schema<MemberPortalInvitation>;
+
+export interface GetContractorOnboardingStatusRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+}
+export const GetContractorOnboardingStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/contractors/{contractor_uuid}/onboarding_status",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetContractorOnboardingStatusRequest",
+}) as any as S.Schema<GetContractorOnboardingStatusRequest>;
+
+/** One of the "onboarding_status" enum values. */
+export type ContractorOnboardingStatusOnboardingStatus =
+  | "onboarding_completed"
+  | "admin_onboarding_review"
+  | "admin_onboarding_incomplete"
+  | "self_onboarding_not_invited"
+  | "self_onboarding_invited"
+  | "self_onboarding_started"
+  | "self_onboarding_review";
+export const ContractorOnboardingStatusOnboardingStatus = S.String;
+
+/** A list of onboarding steps required to begin this step. */
+export type ContractorOnboardingStatusOnboardingStepsItemRequirementsList = Array<string>;
+export const ContractorOnboardingStatusOnboardingStepsItemRequirementsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContractorOnboardingStatusOnboardingStepsItemRequirementsList>;
+
+export interface ContractorOnboardingStatusOnboardingStepsItem {
+  /** When true, this step has been completed. */
+  completed?: boolean;
+  /** String identifier for the onboarding step. */
+  id?: string;
+  /** When true, this step is required. */
+  required?: boolean;
+  /** A list of onboarding steps required to begin this step. */
+  requirements?: ContractorOnboardingStatusOnboardingStepsItemRequirementsList;
+  /** User-friendly description of the onboarding step. */
+  title?: string;
+}
+export const ContractorOnboardingStatusOnboardingStepsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    completed: S.optional(S.Boolean),
+    id: S.optional(S.String),
+    required: S.optional(S.Boolean),
+    requirements: S.optional(ContractorOnboardingStatusOnboardingStepsItemRequirementsList),
+    title: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ContractorOnboardingStatusOnboardingStepsItem",
+}) as any as S.Schema<ContractorOnboardingStatusOnboardingStepsItem>;
+
+/** List of steps required to onboard a contractor. */
+export type ContractorOnboardingStatusOnboardingStepsList =
+  Array<ContractorOnboardingStatusOnboardingStepsItem>;
+export const ContractorOnboardingStatusOnboardingStepsList = /*@__PURE__*/ S.Array(
+  ContractorOnboardingStatusOnboardingStepsItem,
+) as any as S.Schema<ContractorOnboardingStatusOnboardingStepsList>;
+
+/** The representation of an contractor's onboarding status. */
+export interface ContractorOnboardingStatus2 {
+  /** One of the "onboarding_status" enum values. */
+  onboarding_status?: ContractorOnboardingStatusOnboardingStatus;
+  /** List of steps required to onboard a contractor. */
+  onboarding_steps?: ContractorOnboardingStatusOnboardingStepsList;
+  /** Unique identifier for this contractor. */
+  uuid: string;
+}
+export const ContractorOnboardingStatus2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    onboarding_status: S.optional(ContractorOnboardingStatusOnboardingStatus),
+    onboarding_steps: S.optional(ContractorOnboardingStatusOnboardingStepsList),
+    uuid: S.String,
+  }),
+).annotate({
+  identifier: "ContractorOnboardingStatus2",
+}) as any as S.Schema<ContractorOnboardingStatus2>;
+
+export interface GetContractorPaymentGroupPartnerDisbursementsRequest {
+  /** The UUID of the contractor payment group */
+  id: string;
+}
+export const GetContractorPaymentGroupPartnerDisbursementsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/contractor_payment_groups/{id}/partner_disbursements",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetContractorPaymentGroupPartnerDisbursementsRequest",
+}) as any as S.Schema<GetContractorPaymentGroupPartnerDisbursementsRequest>;
+
+/** The payment method for the disbursement */
+export type ContractorPaymentGroupPartnerDisbursementsDisbursementsItemPaymentMethod =
+  | "Direct Deposit"
+  | "Check";
+export const ContractorPaymentGroupPartnerDisbursementsDisbursementsItemPaymentMethod = S.String;
+
+/** The status of the payment */
+export type ContractorPaymentGroupPartnerDisbursementsDisbursementsItemPaymentStatus =
+  | "Pending"
+  | "Paid"
+  | "Not partner managed"
+  | "Converted to check";
+export const ContractorPaymentGroupPartnerDisbursementsDisbursementsItemPaymentStatus = S.String;
+
+export interface ContractorPaymentGroupPartnerDisbursementsDisbursementsItem {
+  /** The UUID of the contractor payment */
+  contractor_payment_uuid?: string;
+  /** The UUID of the contractor */
+  contractor_uuid?: string;
+  /** The payment method for the disbursement */
+  payment_method?: ContractorPaymentGroupPartnerDisbursementsDisbursementsItemPaymentMethod;
+  /** The status of the payment */
+  payment_status?: ContractorPaymentGroupPartnerDisbursementsDisbursementsItemPaymentStatus;
+}
+export const ContractorPaymentGroupPartnerDisbursementsDisbursementsItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      contractor_payment_uuid: S.optional(S.String),
+      contractor_uuid: S.optional(S.String),
+      payment_method: S.optional(
+        ContractorPaymentGroupPartnerDisbursementsDisbursementsItemPaymentMethod,
+      ),
+      payment_status: S.optional(
+        ContractorPaymentGroupPartnerDisbursementsDisbursementsItemPaymentStatus,
+      ),
+    }),
+).annotate({
+  identifier: "ContractorPaymentGroupPartnerDisbursementsDisbursementsItem",
+}) as any as S.Schema<ContractorPaymentGroupPartnerDisbursementsDisbursementsItem>;
+
+/** List of disbursements for the contractor payment group */
+export type ContractorPaymentGroupPartnerDisbursementsDisbursementsList =
+  Array<ContractorPaymentGroupPartnerDisbursementsDisbursementsItem>;
+export const ContractorPaymentGroupPartnerDisbursementsDisbursementsList = /*@__PURE__*/ S.Array(
+  ContractorPaymentGroupPartnerDisbursementsDisbursementsItem,
+) as any as S.Schema<ContractorPaymentGroupPartnerDisbursementsDisbursementsList>;
+
+/** Partner disbursements for a contractor payment group */
+export interface ContractorPaymentGroupPartnerDisbursements {
+  /** The UUID of the contractor payment group */
+  contractor_payment_group_uuid?: string;
+  /** List of disbursements for the contractor payment group */
+  disbursements?: ContractorPaymentGroupPartnerDisbursementsDisbursementsList;
+}
+export const ContractorPaymentGroupPartnerDisbursements = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_payment_group_uuid: S.optional(S.String),
+    disbursements: S.optional(ContractorPaymentGroupPartnerDisbursementsDisbursementsList),
+  }),
+).annotate({
+  identifier: "ContractorPaymentGroupPartnerDisbursements",
+}) as any as S.Schema<ContractorPaymentGroupPartnerDisbursements>;
+
+export interface GetContractorPaymentMethodRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+}
+export const GetContractorPaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/contractors/{contractor_uuid}/payment_method", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetContractorPaymentMethodRequest",
+}) as any as S.Schema<GetContractorPaymentMethodRequest>;
+
+export type ContractorPaymentMethodSplitBy = "Amount" | "Percentage";
+export const ContractorPaymentMethodSplitBy = S.String;
+
+/** Representation of a bank account item */
+export interface PaymentMethodBankAccount {
+  /** Masked bank account number */
+  hidden_account_number?: string;
+  /** The bank account name */
+  name?: string;
+  /** The order of priority for each payment split, with priority 1 being the first bank account paid. Priority must be unique and sequential. */
+  priority?: number;
+  /** If `split_by` is 'Amount', this is in cents (e.g., 500 for $5.00) and exactly one account must have a `split_amount` of `null` to capture the remainder. If `split_by` is 'Percentage', this is the percentage value (e.g., 60 for 60%). */
+  split_amount?: number | null;
+  /** The bank account ID */
+  uuid: string;
+}
+export const PaymentMethodBankAccount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hidden_account_number: S.optional(S.String),
+    name: S.optional(S.String),
+    priority: S.optional(S.Number),
+    split_amount: S.optional(S.NullOr(S.Number)),
+    uuid: S.String,
+  }),
+).annotate({ identifier: "PaymentMethodBankAccount" }) as any as S.Schema<PaymentMethodBankAccount>;
+
+export type ContractorPaymentMethodSplitsList = Array<PaymentMethodBankAccount>;
+export const ContractorPaymentMethodSplitsList = /*@__PURE__*/ S.Array(
+  PaymentMethodBankAccount,
+) as any as S.Schema<ContractorPaymentMethodSplitsList>;
+
+export type ContractorPaymentMethodType = "Direct Deposit" | "Check";
+export const ContractorPaymentMethodType = S.String;
+
+export interface ContractorPaymentMethod2 {
+  /** Describes how the payment will be split. If `split_by` is Percentage, then the `split` amounts must add up to exactly 100. If `split_by` is Amount, then values are in cents and the last split amount must be `null` to capture the remainder. */
+  split_by?: ContractorPaymentMethodSplitBy | null;
+  splits?: ContractorPaymentMethodSplitsList | null;
+  /** The payment method type. If type is Check, then `split_by` and `splits` do not need to be populated. If type is Direct Deposit, `split_by` and `splits` are required. */
+  type?: ContractorPaymentMethodType | null;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version?: string;
+}
+export const ContractorPaymentMethod2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    split_by: S.optional(S.NullOr(ContractorPaymentMethodSplitBy)),
+    splits: S.optional(S.NullOr(ContractorPaymentMethodSplitsList)),
+    type: S.optional(S.NullOr(ContractorPaymentMethodType)),
+    version: S.optional(S.String),
+  }),
+).annotate({ identifier: "ContractorPaymentMethod2" }) as any as S.Schema<ContractorPaymentMethod2>;
+
+export interface GetContractorPaymentPdfRequest {
+  /** The UUID of the contractor payment */
+  contractor_payment_id: string;
+}
+export const GetContractorPaymentPdfRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_payment_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/contractor_payments/{contractor_payment_id}/pdf",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetContractorPaymentPdfRequest",
+}) as any as S.Schema<GetContractorPaymentPdfRequest>;
+
+export interface GetContractorPaymentPdfResponse {}
+export const GetContractorPaymentPdfResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  { identifier: "GetContractorPaymentPdfResponse" },
+) as any as S.Schema<GetContractorPaymentPdfResponse>;
+
+export interface GetContractorPaymentReceiptRequest {
+  /** The UUID of the contractor payment */
+  contractor_payment_uuid: string;
+}
+export const GetContractorPaymentReceiptRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_payment_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/contractor_payments/{contractor_payment_uuid}/receipt",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetContractorPaymentReceiptRequest",
+}) as any as S.Schema<GetContractorPaymentReceiptRequest>;
+
+/** The payment method. */
+export type ContractorPaymentReceiptContractorPaymentsItemPaymentMethod =
+  | "Direct Deposit"
+  | "Check"
+  | "Historical Payment"
+  | "Correction Payment";
+export const ContractorPaymentReceiptContractorPaymentsItemPaymentMethod = S.String;
+
+export interface ContractorPaymentReceiptContractorPaymentsItem {
+  /** The bonus amount in the payment. */
+  bonus?: string;
+  /** The business name of the contractor. Applies when `contractor_type` is `Business`. */
+  contractor_business_name?: string;
+  /** The first name of the contractor. Applies when `contractor_type` is `Individual`. */
+  contractor_first_name?: string;
+  /** The last name of the contractor. Applies when `contractor_type` is `Individual`. */
+  contractor_last_name?: string;
+  /** The type of contractor. `Individual` `Business` */
+  contractor_type?: string;
+  /** The UUID of the contractor. */
+  contractor_uuid?: string;
+  /** The payment method. */
+  payment_method?: ContractorPaymentReceiptContractorPaymentsItemPaymentMethod;
+  /** The reimbursement amount in the payment. */
+  reimbursement?: string;
+  /** The fixed wage of the payment, regardless of hours worked. */
+  wage?: string;
+}
+export const ContractorPaymentReceiptContractorPaymentsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bonus: S.optional(S.String),
+    contractor_business_name: S.optional(S.String),
+    contractor_first_name: S.optional(S.String),
+    contractor_last_name: S.optional(S.String),
+    contractor_type: S.optional(S.String),
+    contractor_uuid: S.optional(S.String),
+    payment_method: S.optional(ContractorPaymentReceiptContractorPaymentsItemPaymentMethod),
+    reimbursement: S.optional(S.String),
+    wage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ContractorPaymentReceiptContractorPaymentsItem",
+}) as any as S.Schema<ContractorPaymentReceiptContractorPaymentsItem>;
+
+/** An array of contractor payments for this contractor payment. */
+export type ContractorPaymentReceiptContractorPaymentsList =
+  Array<ContractorPaymentReceiptContractorPaymentsItem>;
+export const ContractorPaymentReceiptContractorPaymentsList = /*@__PURE__*/ S.Array(
+  ContractorPaymentReceiptContractorPaymentsItem,
+) as any as S.Schema<ContractorPaymentReceiptContractorPaymentsList>;
+
+/** The licensed payroll processor */
+export interface ContractorPaymentReceiptLicensee {
+  /** Always the fixed string "525 20th St" */
+  address?: string;
+  /** Always the fixed string "San Francisco" */
+  city?: string;
+  /** Always the fixed string "Gusto, Zenpayroll Inc." */
+  name?: string;
+  /** Always the fixed string "4157778888" */
+  phone_number?: string;
+  /** Always the fixed string "94107" */
+  postal_code?: string;
+  /** Always the fixed string "CA" */
+  state?: string;
+}
+export const ContractorPaymentReceiptLicensee = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    address: S.optional(S.String),
+    city: S.optional(S.String),
+    name: S.optional(S.String),
+    phone_number: S.optional(S.String),
+    postal_code: S.optional(S.String),
+    state: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ContractorPaymentReceiptLicensee",
+}) as any as S.Schema<ContractorPaymentReceiptLicensee>;
+
+/** The subtotals for the contractor payment. */
+export interface ContractorPaymentReceiptTotals {
+  /** The total company debit for the contractor payment. */
+  company_debit?: string;
+}
+export const ContractorPaymentReceiptTotals = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_debit: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ContractorPaymentReceiptTotals",
+}) as any as S.Schema<ContractorPaymentReceiptTotals>;
+
+export interface ContractorPaymentReceipt {
+  /** A unique identifier of the company making the contractor payment. */
+  company_uuid?: string;
+  /** A unique identifier of the contractor payment receipt. */
+  contractor_payment_uuid?: string;
+  /** An array of contractor payments for this contractor payment. */
+  contractor_payments?: ContractorPaymentReceiptContractorPaymentsList;
+  /** The debit date for the contractor payment. */
+  debit_date?: string;
+  /** URL for information related to right to liability of licensee. Always the fixed string "https://gusto.com/about/licenses" */
+  liability_of_licensee?: string;
+  /** Always the fixed string "Your payroll provider partners with Gusto Inc. for payments processing. Gusto Inc. is a licensed money transmitter. Learn more on our license page." */
+  license?: string;
+  /** URL for the license information for the licensed payroll processor. Always the fixed string "https://gusto.com/about/licenses" */
+  license_uri?: string;
+  /** The licensed payroll processor */
+  licensee?: ContractorPaymentReceiptLicensee;
+  /** The individual or company name of the contractor receiving payment. */
+  name_of_recipient?: string;
+  /** The name of the company making the contractor payment. */
+  name_of_sender?: string;
+  /** URL for information related to right to refund. Always the fixed string "https://gusto.com/about/licenses" */
+  right_to_refund?: string;
+  /** The subtotals for the contractor payment. */
+  totals?: ContractorPaymentReceiptTotals;
+}
+export const ContractorPaymentReceipt = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.optional(S.String),
+    contractor_payment_uuid: S.optional(S.String),
+    contractor_payments: S.optional(ContractorPaymentReceiptContractorPaymentsList),
+    debit_date: S.optional(S.String),
+    liability_of_licensee: S.optional(S.String),
+    license: S.optional(S.String),
+    license_uri: S.optional(S.String),
+    licensee: S.optional(ContractorPaymentReceiptLicensee),
+    name_of_recipient: S.optional(S.String),
+    name_of_sender: S.optional(S.String),
+    right_to_refund: S.optional(S.String),
+    totals: S.optional(ContractorPaymentReceiptTotals),
+  }),
+).annotate({ identifier: "ContractorPaymentReceipt" }) as any as S.Schema<ContractorPaymentReceipt>;
+
+export interface GetContractorPaymentsRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+  /** Sort the results. Format: `field` or `field:direction` where `field` is `check_date` or `created_at` and `direction` is `asc` or `desc`. */
+  sort_by?: string;
+  /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
+  page?: number;
+  /** Number of objects per page. For majority of endpoints will default to 25 */
+  per?: number;
+}
+export const GetContractorPaymentsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+    sort_by: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/contractors/{contractor_uuid}/payments", code: 200 })),
+).annotate({
+  identifier: "GetContractorPaymentsRequest",
+}) as any as S.Schema<GetContractorPaymentsRequest>;
+
+/** The payment method. */
+export type ContractorPaymentListingPaymentMethod =
+  | "Direct Deposit"
+  | "Check"
+  | "Historical Payment"
+  | "Correction Payment";
+export const ContractorPaymentListingPaymentMethod = S.String;
+
+/** Contractor payment status */
+export type ContractorPaymentListingStatus = "Funded" | "Unfunded";
+export const ContractorPaymentListingStatus = S.String;
+
+/** The wage type for the payment. */
+export type ContractorPaymentListingWageType = "Hourly" | "Fixed";
+export const ContractorPaymentListingWageType = S.String;
+
+/** The representation of a contractor payment as it appears in a contractor's payment history. */
+export interface ContractorPaymentListing {
+  /** The bonus amount in the payment. */
+  bonus?: string;
+  /** The check date for the payment. */
+  check_date?: string;
+  /** The rate per hour worked for the payment. */
+  hourly_rate?: string;
+  /** The number of hours worked for the payment. */
+  hours?: string;
+  /** The payment method. */
+  payment_method?: ContractorPaymentListingPaymentMethod;
+  /** The reimbursement amount in the payment. */
+  reimbursement?: string;
+  /** Contractor payment status */
+  status?: ContractorPaymentListingStatus;
+  /** The unique identifier of the contractor payment in Gusto. */
+  uuid: string;
+  /** The fixed wage of the payment, regardless of hours worked. */
+  wage?: string;
+  /** (hours * hourly_rate) + wage + bonus */
+  wage_total?: string;
+  /** The wage type for the payment. */
+  wage_type?: ContractorPaymentListingWageType;
+}
+export const ContractorPaymentListing = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bonus: S.optional(S.String),
+    check_date: S.optional(S.String),
+    hourly_rate: S.optional(S.String),
+    hours: S.optional(S.String),
+    payment_method: S.optional(ContractorPaymentListingPaymentMethod),
+    reimbursement: S.optional(S.String),
+    status: S.optional(ContractorPaymentListingStatus),
+    uuid: S.String,
+    wage: S.optional(S.String),
+    wage_total: S.optional(S.String),
+    wage_type: S.optional(ContractorPaymentListingWageType),
+  }),
+).annotate({ identifier: "ContractorPaymentListing" }) as any as S.Schema<ContractorPaymentListing>;
+
+export type GetContractorPaymentsResponseBodyList = Array<ContractorPaymentListing>;
+export const GetContractorPaymentsResponseBodyList = /*@__PURE__*/ S.Array(
+  ContractorPaymentListing,
+) as any as S.Schema<GetContractorPaymentsResponseBodyList>;
+
+export type GetContractorPaymentsResponse = GetContractorPaymentsResponseBodyList;
+export const GetContractorPaymentsResponse = /*@__PURE__*/ S.suspend(() =>
+  GetContractorPaymentsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetContractorPaymentsResponse",
+}) as any as S.Schema<GetContractorPaymentsResponse>;
 
 export interface GetDepartmentRequest {
   /** The UUID of the department */
@@ -6736,33 +13299,25 @@ export interface GetDepartmentRequest {
 export const GetDepartmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     department_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/departments/{department_uuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDepartmentRequest",
-}) as any as S.Schema<GetDepartmentRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/departments/{department_uuid}", code: 200 })),
+).annotate({ identifier: "GetDepartmentRequest" }) as any as S.Schema<GetDepartmentRequest>;
 
-export type GetDepartmentResponseContractorsItem = DepartmentContractorsItem;
-export const GetDepartmentResponseContractorsItem = DepartmentContractorsItem;
+export type GetDepartmentResponseContractorsItem = HolidayPayPolicyEmployeesItem;
+export const GetDepartmentResponseContractorsItem = HolidayPayPolicyEmployeesItem;
 
 /** Array of contractors assigned to the department. */
-export type GetDepartmentResponseContractorsList = Array<DepartmentContractorsItem>;
+export type GetDepartmentResponseContractorsList = Array<HolidayPayPolicyEmployeesItem>;
 export const GetDepartmentResponseContractorsList = /*@__PURE__*/ S.Array(
-  DepartmentContractorsItem,
+  HolidayPayPolicyEmployeesItem,
 ) as any as S.Schema<GetDepartmentResponseContractorsList>;
 
-export type GetDepartmentResponseEmployeesItem = DepartmentContractorsItem;
-export const GetDepartmentResponseEmployeesItem = DepartmentContractorsItem;
+export type GetDepartmentResponseEmployeesItem = HolidayPayPolicyEmployeesItem;
+export const GetDepartmentResponseEmployeesItem = HolidayPayPolicyEmployeesItem;
 
 /** Array of employees assigned to the department. */
-export type GetDepartmentResponseEmployeesList = Array<DepartmentContractorsItem>;
+export type GetDepartmentResponseEmployeesList = Array<HolidayPayPolicyEmployeesItem>;
 export const GetDepartmentResponseEmployeesList = /*@__PURE__*/ S.Array(
-  DepartmentContractorsItem,
+  HolidayPayPolicyEmployeesItem,
 ) as any as S.Schema<GetDepartmentResponseEmployeesList>;
 
 export interface GetDepartmentResponse {
@@ -6788,9 +13343,37 @@ export const GetDepartmentResponse = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     uuid: S.optional(S.String),
   }),
+).annotate({ identifier: "GetDepartmentResponse" }) as any as S.Schema<GetDepartmentResponse>;
+
+export interface GetEmployeeBankAccountsRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+  /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
+  page?: number;
+  /** Number of objects per page. For majority of endpoints will default to 25 */
+  per?: number;
+}
+export const GetEmployeeBankAccountsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employees/{employee_id}/bank_accounts", code: 200 })),
 ).annotate({
-  identifier: "GetDepartmentResponse",
-}) as any as S.Schema<GetDepartmentResponse>;
+  identifier: "GetEmployeeBankAccountsRequest",
+}) as any as S.Schema<GetEmployeeBankAccountsRequest>;
+
+export type GetEmployeeBankAccountsResponseBodyList = Array<EmployeeBankAccount>;
+export const GetEmployeeBankAccountsResponseBodyList = /*@__PURE__*/ S.Array(
+  EmployeeBankAccount,
+) as any as S.Schema<GetEmployeeBankAccountsResponseBodyList>;
+
+export type GetEmployeeBankAccountsResponse = GetEmployeeBankAccountsResponseBodyList;
+export const GetEmployeeBankAccountsResponse = /*@__PURE__*/ S.suspend(() =>
+  GetEmployeeBankAccountsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetEmployeeBankAccountsResponse",
+}) as any as S.Schema<GetEmployeeBankAccountsResponse>;
 
 export interface GetEmployeeBenefitRequest {
   /** The UUID of the employee benefit. */
@@ -6799,13 +13382,7 @@ export interface GetEmployeeBenefitRequest {
 export const GetEmployeeBenefitRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employee_benefit_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employee_benefits/{employee_benefit_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employee_benefits/{employee_benefit_id}", code: 200 })),
 ).annotate({
   identifier: "GetEmployeeBenefitRequest",
 }) as any as S.Schema<GetEmployeeBenefitRequest>;
@@ -6949,13 +13526,7 @@ export const GetEmployeeCustomFieldsRequest = /*@__PURE__*/ S.suspend(() =>
     employee_id: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employees/{employee_id}/custom_fields",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employees/{employee_id}/custom_fields", code: 200 })),
 ).annotate({
   identifier: "GetEmployeeCustomFieldsRequest",
 }) as any as S.Schema<GetEmployeeCustomFieldsRequest>;
@@ -6973,9 +13544,7 @@ export const EmployeeCustomFieldList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     custom_fields: S.optional(EmployeeCustomFieldListCustomFieldsList),
   }),
-).annotate({
-  identifier: "EmployeeCustomFieldList",
-}) as any as S.Schema<EmployeeCustomFieldList>;
+).annotate({ identifier: "EmployeeCustomFieldList" }) as any as S.Schema<EmployeeCustomFieldList>;
 
 export type GetEmployeeEmployeeBenefitsRequestInclude = "all_benefits";
 export const GetEmployeeEmployeeBenefitsRequestInclude = S.String;
@@ -6997,11 +13566,7 @@ export const GetEmployeeEmployeeBenefitsRequest = /*@__PURE__*/ S.suspend(() =>
     per: S.optional(S.Number.pipe(T.Query())),
     include: S.optional(GetEmployeeEmployeeBenefitsRequestInclude.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employees/{employee_id}/employee_benefits",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/employees/{employee_id}/employee_benefits", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEmployeeEmployeeBenefitsRequest",
@@ -7027,11 +13592,7 @@ export const GetEmployeeEmploymentHistoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employee_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employees/{employee_id}/employment_history",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/employees/{employee_id}/employment_history", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEmployeeEmploymentHistoryRequest",
@@ -7083,6 +13644,56 @@ export const GetEmployeeEmploymentHistoryResponse = /*@__PURE__*/ S.suspend(() =
   identifier: "GetEmployeeEmploymentHistoryResponse",
 }) as any as S.Schema<GetEmployeeEmploymentHistoryResponse>;
 
+export interface GetEmployeeFormRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+  /** The UUID of the form */
+  form_id: string;
+}
+export const GetEmployeeFormRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+    form_id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employees/{employee_id}/forms/{form_id}", code: 200 })),
+).annotate({ identifier: "GetEmployeeFormRequest" }) as any as S.Schema<GetEmployeeFormRequest>;
+
+export interface GetEmployeeFormPdfRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+  /** The UUID of the form */
+  form_id: string;
+}
+export const GetEmployeeFormPdfRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+    form_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/employees/{employee_id}/forms/{form_id}/pdf", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetEmployeeFormPdfRequest",
+}) as any as S.Schema<GetEmployeeFormPdfRequest>;
+
+export interface GetEmployeeFormsRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+}
+export const GetEmployeeFormsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employees/{employee_id}/forms", code: 200 })),
+).annotate({ identifier: "GetEmployeeFormsRequest" }) as any as S.Schema<GetEmployeeFormsRequest>;
+
+export type GetEmployeeFormsResponseBodyList = Array<Form>;
+export const GetEmployeeFormsResponseBodyList = /*@__PURE__*/ S.Array(
+  Form,
+) as any as S.Schema<GetEmployeeFormsResponseBodyList>;
+
+export type GetEmployeeFormsResponse = GetEmployeeFormsResponseBodyList;
+export const GetEmployeeFormsResponse = /*@__PURE__*/ S.suspend(() =>
+  GetEmployeeFormsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "GetEmployeeFormsResponse" }) as any as S.Schema<GetEmployeeFormsResponse>;
+
 export interface GetEmployeeGarnishmentsRequest {
   /** The UUID of the employee */
   employee_id: string;
@@ -7096,13 +13707,7 @@ export const GetEmployeeGarnishmentsRequest = /*@__PURE__*/ S.suspend(() =>
     employee_id: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employees/{employee_id}/garnishments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employees/{employee_id}/garnishments", code: 200 })),
 ).annotate({
   identifier: "GetEmployeeGarnishmentsRequest",
 }) as any as S.Schema<GetEmployeeGarnishmentsRequest>;
@@ -7126,13 +13731,7 @@ export interface GetEmployeeHomeAddressesRequest {
 export const GetEmployeeHomeAddressesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employee_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employees/{employee_id}/home_addresses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employees/{employee_id}/home_addresses", code: 200 })),
 ).annotate({
   identifier: "GetEmployeeHomeAddressesRequest",
 }) as any as S.Schema<GetEmployeeHomeAddressesRequest>;
@@ -7148,6 +13747,396 @@ export const GetEmployeeHomeAddressesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetEmployeeHomeAddressesResponse",
 }) as any as S.Schema<GetEmployeeHomeAddressesResponse>;
+
+export interface GetEmployeeI9AuthorizationRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+}
+export const GetEmployeeI9AuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/employees/{employee_id}/i9_authorization", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetEmployeeI9AuthorizationRequest",
+}) as any as S.Schema<GetEmployeeI9AuthorizationRequest>;
+
+/** The employee's authorization status */
+export type I9AuthorizationAuthorizationStatus =
+  | "citizen"
+  | "noncitizen"
+  | "permanent_resident"
+  | "alien";
+export const I9AuthorizationAuthorizationStatus = S.String;
+
+export type I9AuthorizationDocumentType =
+  | "uscis_alien_registration_number"
+  | "form_i94"
+  | "foreign_passport";
+export const I9AuthorizationDocumentType = S.String;
+
+/** An employee's I-9 authorization */
+export interface I9Authorization {
+  /** Any additional notes */
+  additional_info?: string | null;
+  /** Whether an alternative procedure authorized by DHS to examine documents was used */
+  alt_procedure?: boolean | null;
+  /** The employee's authorization status */
+  authorization_status: I9AuthorizationAuthorizationStatus;
+  /** The document's country of issuance */
+  country?: string | null;
+  /** The document's document type */
+  document_type?: I9AuthorizationDocumentType | null;
+  /** Whether the employee has signed the Form I-9 */
+  employee_signed: boolean;
+  /** Whether the employer has signed the Form I-9 */
+  employer_signed: boolean;
+  /** The document's expiration date */
+  expiration_date?: string | null;
+  /** The UUID of the Form associated with this I-9 authorization. Use this with "Employee Forms" API endpoints. */
+  form_uuid?: string | null;
+  /** Whether or not a `document_number` exists for this document. */
+  has_document_number?: boolean | null;
+  /** The UUID of the I-9 authorization */
+  uuid: string;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version: string;
+}
+export const I9Authorization = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    additional_info: S.optional(S.NullOr(S.String)),
+    alt_procedure: S.optional(S.NullOr(S.Boolean)),
+    authorization_status: I9AuthorizationAuthorizationStatus,
+    country: S.optional(S.NullOr(S.String)),
+    document_type: S.optional(S.NullOr(I9AuthorizationDocumentType)),
+    employee_signed: S.Boolean,
+    employer_signed: S.Boolean,
+    expiration_date: S.optional(S.NullOr(S.String)),
+    form_uuid: S.optional(S.NullOr(S.String)),
+    has_document_number: S.optional(S.NullOr(S.Boolean)),
+    uuid: S.String,
+    version: S.String,
+  }),
+).annotate({ identifier: "I9Authorization" }) as any as S.Schema<I9Authorization>;
+
+export interface GetEmployeeI9AuthorizationDocumentOptionsRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+}
+export const GetEmployeeI9AuthorizationDocumentOptionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/employees/{employee_id}/i9_authorization/document_options",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetEmployeeI9AuthorizationDocumentOptionsRequest",
+}) as any as S.Schema<GetEmployeeI9AuthorizationDocumentOptionsRequest>;
+
+/** The document option's document titles */
+export type I9AuthorizationDocumentOptionDocumentTitleList = Array<string>;
+export const I9AuthorizationDocumentOptionDocumentTitleList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<I9AuthorizationDocumentOptionDocumentTitleList>;
+
+/** The document option's section in the list of acceptable documents on the Form I-9 */
+export type I9AuthorizationDocumentOptionSection = "A" | "A1" | "A2" | "A3" | "B" | "C";
+export const I9AuthorizationDocumentOptionSection = S.String;
+
+/** An employee's I-9 verification document option based on the authorization status */
+export interface I9AuthorizationDocumentOption {
+  /** Whether the document is a common choice for I-9 verification */
+  common_choice: boolean;
+  /** The document option's description */
+  description: string;
+  /** The document option's document titles */
+  document_title: I9AuthorizationDocumentOptionDocumentTitleList;
+  /** The document option's document type */
+  document_type: string;
+  /** The document option's section in the list of acceptable documents on the Form I-9 */
+  section: I9AuthorizationDocumentOptionSection;
+}
+export const I9AuthorizationDocumentOption = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    common_choice: S.Boolean,
+    description: S.String,
+    document_title: I9AuthorizationDocumentOptionDocumentTitleList,
+    document_type: S.String,
+    section: I9AuthorizationDocumentOptionSection,
+  }),
+).annotate({
+  identifier: "I9AuthorizationDocumentOption",
+}) as any as S.Schema<I9AuthorizationDocumentOption>;
+
+export type GetEmployeeI9AuthorizationDocumentOptionsResponseBodyList =
+  Array<I9AuthorizationDocumentOption>;
+export const GetEmployeeI9AuthorizationDocumentOptionsResponseBodyList = /*@__PURE__*/ S.Array(
+  I9AuthorizationDocumentOption,
+) as any as S.Schema<GetEmployeeI9AuthorizationDocumentOptionsResponseBodyList>;
+
+export type GetEmployeeI9AuthorizationDocumentOptionsResponse =
+  GetEmployeeI9AuthorizationDocumentOptionsResponseBodyList;
+export const GetEmployeeI9AuthorizationDocumentOptionsResponse = /*@__PURE__*/ S.suspend(() =>
+  GetEmployeeI9AuthorizationDocumentOptionsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetEmployeeI9AuthorizationDocumentOptionsResponse",
+}) as any as S.Schema<GetEmployeeI9AuthorizationDocumentOptionsResponse>;
+
+export interface GetEmployeeI9AuthorizationDocumentsRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+}
+export const GetEmployeeI9AuthorizationDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/employees/{employee_id}/i9_authorization/documents",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetEmployeeI9AuthorizationDocumentsRequest",
+}) as any as S.Schema<GetEmployeeI9AuthorizationDocumentsRequest>;
+
+/** An employee's I-9 verification document */
+export interface I9AuthorizationDocument {
+  /** The document's document title */
+  document_title: string;
+  /** The document's document type */
+  document_type: string;
+  /** The document's expiration date */
+  expiration_date?: string | null;
+  /** The document's issuing authority */
+  issuing_authority: string;
+  /** The UUID of the I-9 verification document */
+  uuid: string;
+}
+export const I9AuthorizationDocument = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    document_title: S.String,
+    document_type: S.String,
+    expiration_date: S.optional(S.NullOr(S.String)),
+    issuing_authority: S.String,
+    uuid: S.String,
+  }),
+).annotate({ identifier: "I9AuthorizationDocument" }) as any as S.Schema<I9AuthorizationDocument>;
+
+export type GetEmployeeI9AuthorizationDocumentsResponseBodyList = Array<I9AuthorizationDocument>;
+export const GetEmployeeI9AuthorizationDocumentsResponseBodyList = /*@__PURE__*/ S.Array(
+  I9AuthorizationDocument,
+) as any as S.Schema<GetEmployeeI9AuthorizationDocumentsResponseBodyList>;
+
+export type GetEmployeeI9AuthorizationDocumentsResponse =
+  GetEmployeeI9AuthorizationDocumentsResponseBodyList;
+export const GetEmployeeI9AuthorizationDocumentsResponse = /*@__PURE__*/ S.suspend(() =>
+  GetEmployeeI9AuthorizationDocumentsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetEmployeeI9AuthorizationDocumentsResponse",
+}) as any as S.Schema<GetEmployeeI9AuthorizationDocumentsResponse>;
+
+export type GetEmployeeJobsRequestInclude = "all_compensations";
+export const GetEmployeeJobsRequestInclude = S.String;
+
+export interface GetEmployeeJobsRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+  /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
+  page?: number;
+  /** Number of objects per page. For majority of endpoints will default to 25 */
+  per?: number;
+  /** Available options: - all_compensations: Include all effective dated compensations for each job instead of only the current compensation */
+  include?: GetEmployeeJobsRequestInclude | (string & {});
+}
+export const GetEmployeeJobsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+    include: S.optional(GetEmployeeJobsRequestInclude.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employees/{employee_id}/jobs", code: 200 })),
+).annotate({ identifier: "GetEmployeeJobsRequest" }) as any as S.Schema<GetEmployeeJobsRequest>;
+
+export type GetEmployeeJobsResponseBodyList = Array<Job>;
+export const GetEmployeeJobsResponseBodyList = /*@__PURE__*/ S.Array(
+  Job,
+) as any as S.Schema<GetEmployeeJobsResponseBodyList>;
+
+export type GetEmployeeJobsResponse = GetEmployeeJobsResponseBodyList;
+export const GetEmployeeJobsResponse = /*@__PURE__*/ S.suspend(() =>
+  GetEmployeeJobsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "GetEmployeeJobsResponse" }) as any as S.Schema<GetEmployeeJobsResponse>;
+
+export interface GetEmployeeMemberPortalInvitationsRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+}
+export const GetEmployeeMemberPortalInvitationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/employees/{employee_id}/member_portal_invitations",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetEmployeeMemberPortalInvitationsRequest",
+}) as any as S.Schema<GetEmployeeMemberPortalInvitationsRequest>;
+
+export interface GetEmployeeOnboardingStatusRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+}
+export const GetEmployeeOnboardingStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/employees/{employee_id}/onboarding_status", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetEmployeeOnboardingStatusRequest",
+}) as any as S.Schema<GetEmployeeOnboardingStatusRequest>;
+
+/** Category of the blocker. See the array-level description for resolution guidance. */
+export type EmployeeOnboardingStatusBlockersItemCategory = "duplicate_value";
+export const EmployeeOnboardingStatusBlockersItemCategory = S.String;
+
+/** The employee field affected. */
+export type EmployeeOnboardingStatusBlockersItemField = "ssn";
+export const EmployeeOnboardingStatusBlockersItemField = S.String;
+
+export interface EmployeeOnboardingStatusBlockersItem {
+  /** Category of the blocker. See the array-level description for resolution guidance. */
+  category?: EmployeeOnboardingStatusBlockersItemCategory;
+  /** The employee field affected. */
+  field?: EmployeeOnboardingStatusBlockersItemField;
+  /** Human-readable description of the blocker. */
+  message?: string;
+}
+export const EmployeeOnboardingStatusBlockersItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.optional(EmployeeOnboardingStatusBlockersItemCategory),
+    field: S.optional(EmployeeOnboardingStatusBlockersItemField),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EmployeeOnboardingStatusBlockersItem",
+}) as any as S.Schema<EmployeeOnboardingStatusBlockersItem>;
+
+/** Validation issues that should be resolved before this employee's onboarding is complete. Each entry identifies an affected field, a category describing the type of problem, and a human-readable message. Supported categories: - `duplicate_value`: Another employee in the same company already has this value. To resolve, cancel this onboarding and initiate a rehire if it's a returning employee, or contact support to investigate the conflict. This list may grow over time as new validation rules are added. */
+export type EmployeeOnboardingStatusBlockersList = Array<EmployeeOnboardingStatusBlockersItem>;
+export const EmployeeOnboardingStatusBlockersList = /*@__PURE__*/ S.Array(
+  EmployeeOnboardingStatusBlockersItem,
+) as any as S.Schema<EmployeeOnboardingStatusBlockersList>;
+
+/** A list of onboarding steps required to begin this step. */
+export type EmployeeOnboardingStatusOnboardingStepsItemRequirementsList = Array<string>;
+export const EmployeeOnboardingStatusOnboardingStepsItemRequirementsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<EmployeeOnboardingStatusOnboardingStepsItemRequirementsList>;
+
+export interface EmployeeOnboardingStatusOnboardingStepsItem {
+  /** When true, this step has been completed. */
+  completed?: boolean;
+  /** String identifier for the onboarding step. */
+  id?: string;
+  /** When true, this step is required. */
+  required?: boolean;
+  /** A list of onboarding steps required to begin this step. */
+  requirements?: EmployeeOnboardingStatusOnboardingStepsItemRequirementsList;
+  /** User-friendly description of the onboarding step. */
+  title?: string;
+}
+export const EmployeeOnboardingStatusOnboardingStepsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    completed: S.optional(S.Boolean),
+    id: S.optional(S.String),
+    required: S.optional(S.Boolean),
+    requirements: S.optional(EmployeeOnboardingStatusOnboardingStepsItemRequirementsList),
+    title: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EmployeeOnboardingStatusOnboardingStepsItem",
+}) as any as S.Schema<EmployeeOnboardingStatusOnboardingStepsItem>;
+
+/** List of steps required to onboard an employee. */
+export type EmployeeOnboardingStatusOnboardingStepsList =
+  Array<EmployeeOnboardingStatusOnboardingStepsItem>;
+export const EmployeeOnboardingStatusOnboardingStepsList = /*@__PURE__*/ S.Array(
+  EmployeeOnboardingStatusOnboardingStepsItem,
+) as any as S.Schema<EmployeeOnboardingStatusOnboardingStepsList>;
+
+/** The representation of an employee's onboarding status. */
+export interface EmployeeOnboardingStatus2 {
+  /** Validation issues that should be resolved before this employee's onboarding is complete. Each entry identifies an affected field, a category describing the type of problem, and a human-readable message. Supported categories: - `duplicate_value`: Another employee in the same company already has this value. To resolve, cancel this onboarding and initiate a rehire if it's a returning employee, or contact support to investigate the conflict. This list may grow over time as new validation rules are added. */
+  blockers?: EmployeeOnboardingStatusBlockersList;
+  /** One of the "onboarding_status" enum values. */
+  onboarding_status?: string;
+  /** List of steps required to onboard an employee. */
+  onboarding_steps?: EmployeeOnboardingStatusOnboardingStepsList;
+  /** Unique identifier for this employee. */
+  uuid: string;
+}
+export const EmployeeOnboardingStatus2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    blockers: S.optional(EmployeeOnboardingStatusBlockersList),
+    onboarding_status: S.optional(S.String),
+    onboarding_steps: S.optional(EmployeeOnboardingStatusOnboardingStepsList),
+    uuid: S.String,
+  }),
+).annotate({
+  identifier: "EmployeeOnboardingStatus2",
+}) as any as S.Schema<EmployeeOnboardingStatus2>;
+
+export interface GetEmployeePaymentMethodRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+}
+export const GetEmployeePaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employees/{employee_id}/payment_method", code: 200 })),
+).annotate({
+  identifier: "GetEmployeePaymentMethodRequest",
+}) as any as S.Schema<GetEmployeePaymentMethodRequest>;
+
+export type EmployeePaymentMethodSplitBy = "Amount" | "Percentage";
+export const EmployeePaymentMethodSplitBy = S.String;
+
+export type EmployeePaymentMethodSplitsList = Array<PaymentMethodBankAccount>;
+export const EmployeePaymentMethodSplitsList = /*@__PURE__*/ S.Array(
+  PaymentMethodBankAccount,
+) as any as S.Schema<EmployeePaymentMethodSplitsList>;
+
+/** The payment method type. If type is Check, then `split_by` and `splits` do not need to be populated. If type is Direct Deposit, `split_by` and `splits` are required. */
+export type EmployeePaymentMethodType = "Direct Deposit" | "Check";
+export const EmployeePaymentMethodType = S.String;
+
+export interface EmployeePaymentMethod2 {
+  /** Describes how the payment will be split. If `split_by` is Percentage, then the split amounts must add up to exactly 100. If `split_by` is Amount, then the last split `amount` must be `null` to capture the remainder. */
+  split_by?: EmployeePaymentMethodSplitBy | null;
+  splits?: EmployeePaymentMethodSplitsList | null;
+  /** The payment method type. If type is Check, then `split_by` and `splits` do not need to be populated. If type is Direct Deposit, `split_by` and `splits` are required. */
+  type?: EmployeePaymentMethodType;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version?: string;
+}
+export const EmployeePaymentMethod2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    split_by: S.optional(S.NullOr(EmployeePaymentMethodSplitBy)),
+    splits: S.optional(S.NullOr(EmployeePaymentMethodSplitsList)),
+    type: S.optional(EmployeePaymentMethodType),
+    version: S.optional(S.String),
+  }),
+).annotate({ identifier: "EmployeePaymentMethod2" }) as any as S.Schema<EmployeePaymentMethod2>;
 
 export interface GetEmployeeRecurringReimbursementsRequest {
   /** The UUID of the employee */
@@ -7192,16 +14181,8 @@ export interface GetEmployeeRehireRequest {
 export const GetEmployeeRehireRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employee_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employees/{employee_id}/rehire",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetEmployeeRehireRequest",
-}) as any as S.Schema<GetEmployeeRehireRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employees/{employee_id}/rehire", code: 200 })),
+).annotate({ identifier: "GetEmployeeRehireRequest" }) as any as S.Schema<GetEmployeeRehireRequest>;
 
 export type GetEmployeesRequestIncludeItem =
   | "all_compensations"
@@ -7228,9 +14209,7 @@ export const GetEmployeesRequest = /*@__PURE__*/ S.suspend(() =>
     employee_id: S.String.pipe(T.Label()),
     include: S.optional(GetEmployeesRequestIncludeList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/employees/{employee_id}", code: 200 })),
-).annotate({
-  identifier: "GetEmployeesRequest",
-}) as any as S.Schema<GetEmployeesRequest>;
+).annotate({ identifier: "GetEmployeesRequest" }) as any as S.Schema<GetEmployeesRequest>;
 
 export type EmployeeApplicableTaxIdsList = Array<number>;
 export const EmployeeApplicableTaxIdsList = /*@__PURE__*/ S.Array(
@@ -7482,13 +14461,7 @@ export interface GetEmployeeTerminationsRequest {
 export const GetEmployeeTerminationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employee_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employees/{employee_id}/terminations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employees/{employee_id}/terminations", code: 200 })),
 ).annotate({
   identifier: "GetEmployeeTerminationsRequest",
 }) as any as S.Schema<GetEmployeeTerminationsRequest>;
@@ -7512,13 +14485,7 @@ export interface GetEmployeeWorkAddressesRequest {
 export const GetEmployeeWorkAddressesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employee_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employees/{employee_id}/work_addresses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employees/{employee_id}/work_addresses", code: 200 })),
 ).annotate({
   identifier: "GetEmployeeWorkAddressesRequest",
 }) as any as S.Schema<GetEmployeeWorkAddressesRequest>;
@@ -7616,9 +14583,7 @@ export const GetEventsRequest = /*@__PURE__*/ S.suspend(() =>
     event_type: S.optional(S.String.pipe(T.Query())),
     sort_order: S.optional(GetEventsRequestSortOrder.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/events", code: 200 })),
-).annotate({
-  identifier: "GetEventsRequest",
-}) as any as S.Schema<GetEventsRequest>;
+).annotate({ identifier: "GetEventsRequest" }) as any as S.Schema<GetEventsRequest>;
 
 /** Name of the parent resource of the described entity. */
 export type EventResourceType = "Company";
@@ -7660,9 +14625,7 @@ export const EventList = /*@__PURE__*/ S.Array(Event) as any as S.Schema<EventLi
 export type GetEventsResponse = EventList;
 export const GetEventsResponse = /*@__PURE__*/ S.suspend(() =>
   EventList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetEventsResponse",
-}) as any as S.Schema<GetEventsResponse>;
+).annotate({ identifier: "GetEventsResponse" }) as any as S.Schema<GetEventsResponse>;
 
 export interface GetGarnishmentRequest {
   /** The UUID of the garnishment */
@@ -7671,16 +14634,8 @@ export interface GetGarnishmentRequest {
 export const GetGarnishmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     garnishment_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/garnishments/{garnishment_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetGarnishmentRequest",
-}) as any as S.Schema<GetGarnishmentRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/garnishments/{garnishment_id}", code: 200 })),
+).annotate({ identifier: "GetGarnishmentRequest" }) as any as S.Schema<GetGarnishmentRequest>;
 
 export interface GetGarnishmentsChildSupportRequest {}
 export const GetGarnishmentsChildSupportRequest = /*@__PURE__*/ S.suspend(() =>
@@ -7779,9 +14734,57 @@ export const ChildSupportData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     agencies: S.optional(ChildSupportDataAgenciesList),
   }),
+).annotate({ identifier: "ChildSupportData" }) as any as S.Schema<ChildSupportData>;
+
+export type GetGeneratedDocumentRequestDocumentType = "printable_payroll_checks";
+export const GetGeneratedDocumentRequestDocumentType = S.String;
+
+export interface GetGeneratedDocumentRequest {
+  /** The type of document being generated */
+  document_type: GetGeneratedDocumentRequestDocumentType | (string & {});
+  /** The UUID of the request to generate a document. Generate document endpoints return request_uuids to be used with the GET generated document endpoint. */
+  request_uuid: string;
+}
+export const GetGeneratedDocumentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    document_type: GetGeneratedDocumentRequestDocumentType.pipe(T.Label()),
+    request_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/generated_documents/{document_type}/{request_uuid}",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "ChildSupportData",
-}) as any as S.Schema<ChildSupportData>;
+  identifier: "GetGeneratedDocumentRequest",
+}) as any as S.Schema<GetGeneratedDocumentRequest>;
+
+/** The array of urls to access the documents. */
+export type GeneratedDocumentDocumentUrlsList = Array<string>;
+export const GeneratedDocumentDocumentUrlsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GeneratedDocumentDocumentUrlsList>;
+
+/** Current status of the Generated Document */
+export type GeneratedDocumentStatus = "pending" | "started" | "succeeded" | "failed";
+export const GeneratedDocumentStatus = S.String;
+
+export interface GeneratedDocument {
+  /** The array of urls to access the documents. */
+  document_urls?: GeneratedDocumentDocumentUrlsList;
+  /** A unique identifier of the Generated Document request */
+  request_uuid?: string;
+  /** Current status of the Generated Document */
+  status?: GeneratedDocumentStatus;
+}
+export const GeneratedDocument = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    document_urls: S.optional(GeneratedDocumentDocumentUrlsList),
+    request_uuid: S.optional(S.String),
+    status: S.optional(GeneratedDocumentStatus),
+  }),
+).annotate({ identifier: "GeneratedDocument" }) as any as S.Schema<GeneratedDocument>;
 
 export interface GetHomeAddressRequest {
   /** The UUID of the home address */
@@ -7790,16 +14793,169 @@ export interface GetHomeAddressRequest {
 export const GetHomeAddressRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     home_address_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/home_addresses/{home_address_uuid}", code: 200 })),
+).annotate({ identifier: "GetHomeAddressRequest" }) as any as S.Schema<GetHomeAddressRequest>;
+
+export interface GetInformationRequestsRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** Sort by one or more fields. Options: payroll_blocker, status, type. Append `:asc` or `:desc` to specify direction (e.g., `payroll_blocker:asc`). Defaults to ascending. */
+  sort_by?: string;
+}
+export const GetInformationRequestsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    sort_by: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/home_addresses/{home_address_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/information_requests", code: 200 }),
   ),
 ).annotate({
-  identifier: "GetHomeAddressRequest",
-}) as any as S.Schema<GetHomeAddressRequest>;
+  identifier: "GetInformationRequestsRequest",
+}) as any as S.Schema<GetInformationRequestsRequest>;
+
+export interface InformationRequestRequiredQuestionsItem {
+  question_text: string;
+  question_uuid: string;
+  response_type: string;
+}
+export const InformationRequestRequiredQuestionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    question_text: S.String,
+    question_uuid: S.String,
+    response_type: S.String,
+  }),
+).annotate({
+  identifier: "InformationRequestRequiredQuestionsItem",
+}) as any as S.Schema<InformationRequestRequiredQuestionsItem>;
+
+/** Questions the partner must answer or collect documents for */
+export type InformationRequestRequiredQuestionsList =
+  Array<InformationRequestRequiredQuestionsItem>;
+export const InformationRequestRequiredQuestionsList = /*@__PURE__*/ S.Array(
+  InformationRequestRequiredQuestionsItem,
+) as any as S.Schema<InformationRequestRequiredQuestionsList>;
+
+/** The status of the information request */
+export type InformationRequestStatus = "pending_response" | "pending_review" | "approved";
+export const InformationRequestStatus = S.String;
+
+export type InformationRequestType =
+  | "company_onboarding"
+  | "account_protection"
+  | "payment_request"
+  | "payment_error";
+export const InformationRequestType = S.String;
+
+/** Representation of an information request */
+export interface InformationRequest {
+  /** If true, this information request is blocking payroll, and may require response or requires review from our Risk Ops team. */
+  blocking_payroll?: boolean;
+  /** Unique identifier of the company to which the information requests belongs */
+  company_uuid?: string;
+  /** Questions the partner must answer or collect documents for */
+  required_questions?: InformationRequestRequiredQuestionsList;
+  /** The status of the information request */
+  status?: InformationRequestStatus;
+  /** The type of information request */
+  type?: InformationRequestType | null;
+  /** Unique identifier of an information request */
+  uuid?: string;
+}
+export const InformationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    blocking_payroll: S.optional(S.Boolean),
+    company_uuid: S.optional(S.String),
+    required_questions: S.optional(InformationRequestRequiredQuestionsList),
+    status: S.optional(InformationRequestStatus),
+    type: S.optional(S.NullOr(InformationRequestType)),
+    uuid: S.optional(S.String),
+  }),
+).annotate({ identifier: "InformationRequest" }) as any as S.Schema<InformationRequest>;
+
+export type GetInformationRequestsResponseBodyList = Array<InformationRequest>;
+export const GetInformationRequestsResponseBodyList = /*@__PURE__*/ S.Array(
+  InformationRequest,
+) as any as S.Schema<GetInformationRequestsResponseBodyList>;
+
+export type GetInformationRequestsResponse = GetInformationRequestsResponseBodyList;
+export const GetInformationRequestsResponse = /*@__PURE__*/ S.suspend(() =>
+  GetInformationRequestsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetInformationRequestsResponse",
+}) as any as S.Schema<GetInformationRequestsResponse>;
+
+export interface GetInvoiceRequest {
+  /** The month we are calculating the invoice for. Must be in YYYY-MM format */
+  invoice_period: string;
+  /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
+  page?: number;
+  /** Number of objects per page. For majority of endpoints will default to 25 */
+  per?: number;
+  /** Filter companies returned in the active_companies response, will return an error if company not active during provided invoice period. i.e. `?company_uuids=781922d8-e780-4b6b-bf74-ee303166d022,bbbca930-7322-491c-ba7f-98707a52a9c5` */
+  company_uuids?: string;
+}
+export const GetInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    invoice_period: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+    company_uuids: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/invoices/{invoice_period}", code: 200 })),
+).annotate({ identifier: "GetInvoiceRequest" }) as any as S.Schema<GetInvoiceRequest>;
+
+export interface InvoiceDataActiveCompaniesItem {
+  /** The number of active contractors the company was or will be invoiced for that invoice period. Active contractors are calculated as any contractor with an active contractor payment during the invoice period. */
+  active_contractors?: number;
+  /** The number of active employees the company was or will be invoiced for that invoice period. Active employees are calculated as the count of onboarded employees hired before the end of the invoice period and not terminated before the start of the invoice period. */
+  active_employees?: number;
+  /** unique identifier for the company associated with the invoice data */
+  company_uuid?: string;
+  /** The first invoice period for the company. This will either be the invoice period of the first invoice-able event (first payroll or contractor payment) or the date they migrated to embedded, whichever is later. */
+  initial_invoice_period?: string;
+}
+export const InvoiceDataActiveCompaniesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    active_contractors: S.optional(S.Number),
+    active_employees: S.optional(S.Number),
+    company_uuid: S.optional(S.String),
+    initial_invoice_period: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "InvoiceDataActiveCompaniesItem",
+}) as any as S.Schema<InvoiceDataActiveCompaniesItem>;
+
+/** The list of companies that are active within the invoice period */
+export type InvoiceDataActiveCompaniesList = Array<InvoiceDataActiveCompaniesItem>;
+export const InvoiceDataActiveCompaniesList = /*@__PURE__*/ S.Array(
+  InvoiceDataActiveCompaniesItem,
+) as any as S.Schema<InvoiceDataActiveCompaniesList>;
+
+/** Representation of a partners invoice data */
+export interface InvoiceData {
+  /** The list of companies that are active within the invoice period */
+  active_companies?: InvoiceDataActiveCompaniesList;
+}
+export const InvoiceData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    active_companies: S.optional(InvoiceDataActiveCompaniesList),
+  }),
+).annotate({ identifier: "InvoiceData" }) as any as S.Schema<InvoiceData>;
+
+export type GetJobRequestInclude = "all_compensations";
+export const GetJobRequestInclude = S.String;
+
+export interface GetJobRequest {
+  /** The UUID of the job */
+  job_id: string;
+  /** Available options: - all_compensations: Include all effective dated compensations for each job instead of only the current compensation */
+  include?: GetJobRequestInclude | (string & {});
+}
+export const GetJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    job_id: S.String.pipe(T.Label()),
+    include: S.optional(GetJobRequestInclude.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/jobs/{job_id}", code: 200 })),
+).annotate({ identifier: "GetJobRequest" }) as any as S.Schema<GetJobRequest>;
 
 export type GetJobCompensationsRequestInclude = "all_compensations";
 export const GetJobCompensationsRequestInclude = S.String;
@@ -7820,13 +14976,7 @@ export const GetJobCompensationsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per: S.optional(S.Number.pipe(T.Query())),
     include: S.optional(GetJobCompensationsRequestInclude.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/jobs/{job_id}/compensations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/jobs/{job_id}/compensations", code: 200 })),
 ).annotate({
   identifier: "GetJobCompensationsRequest",
 }) as any as S.Schema<GetJobCompensationsRequest>;
@@ -7851,9 +15001,7 @@ export const GetLocationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     location_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/locations/{location_id}", code: 200 })),
-).annotate({
-  identifier: "GetLocationRequest",
-}) as any as S.Schema<GetLocationRequest>;
+).annotate({ identifier: "GetLocationRequest" }) as any as S.Schema<GetLocationRequest>;
 
 export interface GetLocationMinimumWagesRequest {
   /** The UUID of the location */
@@ -7864,13 +15012,7 @@ export const GetLocationMinimumWagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     location_uuid: S.String.pipe(T.Label()),
     effective_date: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/locations/{location_uuid}/minimum_wages",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/locations/{location_uuid}/minimum_wages", code: 200 })),
 ).annotate({
   identifier: "GetLocationMinimumWagesRequest",
 }) as any as S.Schema<GetLocationMinimumWagesRequest>;
@@ -7913,6 +15055,797 @@ export const GetLocationMinimumWagesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetLocationMinimumWagesResponse",
 }) as any as S.Schema<GetLocationMinimumWagesResponse>;
 
+export interface GetNotificationRequest {
+  /** The notification entity_uuid */
+  notification_uuid: string;
+}
+export const GetNotificationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    notification_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/notifications/{notification_uuid}", code: 200 })),
+).annotate({ identifier: "GetNotificationRequest" }) as any as S.Schema<GetNotificationRequest>;
+
+export interface GetPartnerManagedCompanyMigrationReadinessRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+}
+export const GetPartnerManagedCompanyMigrationReadinessRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/partner_managed_companies/{company_uuid}/migration_readiness",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetPartnerManagedCompanyMigrationReadinessRequest",
+}) as any as S.Schema<GetPartnerManagedCompanyMigrationReadinessRequest>;
+
+export interface GetPartnerManagedCompanyMigrationReadinessResponseErrorsItemMetadata {
+  /** A categorization of the migration blocker, e.g. "migrated_company" */
+  key?: string;
+}
+export const GetPartnerManagedCompanyMigrationReadinessResponseErrorsItemMetadata =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      key: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetPartnerManagedCompanyMigrationReadinessResponseErrorsItemMetadata",
+  }) as any as S.Schema<GetPartnerManagedCompanyMigrationReadinessResponseErrorsItemMetadata>;
+
+export interface GetPartnerManagedCompanyMigrationReadinessResponseErrorsItem {
+  /** Error category */
+  category?: string;
+  /** Error key */
+  error_key?: string;
+  /** Blocker message */
+  message?: string;
+  metadata?: GetPartnerManagedCompanyMigrationReadinessResponseErrorsItemMetadata;
+}
+export const GetPartnerManagedCompanyMigrationReadinessResponseErrorsItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      category: S.optional(S.String),
+      error_key: S.optional(S.String),
+      message: S.optional(S.String),
+      metadata: S.optional(GetPartnerManagedCompanyMigrationReadinessResponseErrorsItemMetadata),
+    }),
+).annotate({
+  identifier: "GetPartnerManagedCompanyMigrationReadinessResponseErrorsItem",
+}) as any as S.Schema<GetPartnerManagedCompanyMigrationReadinessResponseErrorsItem>;
+
+export type GetPartnerManagedCompanyMigrationReadinessResponseErrorsList =
+  Array<GetPartnerManagedCompanyMigrationReadinessResponseErrorsItem>;
+export const GetPartnerManagedCompanyMigrationReadinessResponseErrorsList = /*@__PURE__*/ S.Array(
+  GetPartnerManagedCompanyMigrationReadinessResponseErrorsItem,
+) as any as S.Schema<GetPartnerManagedCompanyMigrationReadinessResponseErrorsList>;
+
+export interface GetPartnerManagedCompanyMigrationReadinessResponseWarningsItemMetadata {
+  /** A categorization of the migration warning, e.g. "marijuana_related_business" */
+  key?: string;
+}
+export const GetPartnerManagedCompanyMigrationReadinessResponseWarningsItemMetadata =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      key: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetPartnerManagedCompanyMigrationReadinessResponseWarningsItemMetadata",
+  }) as any as S.Schema<GetPartnerManagedCompanyMigrationReadinessResponseWarningsItemMetadata>;
+
+export interface GetPartnerManagedCompanyMigrationReadinessResponseWarningsItem {
+  /** Error category */
+  category?: string;
+  /** Error key */
+  error_key?: string;
+  /** Warning message */
+  message?: string;
+  metadata?: GetPartnerManagedCompanyMigrationReadinessResponseWarningsItemMetadata;
+}
+export const GetPartnerManagedCompanyMigrationReadinessResponseWarningsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      category: S.optional(S.String),
+      error_key: S.optional(S.String),
+      message: S.optional(S.String),
+      metadata: S.optional(GetPartnerManagedCompanyMigrationReadinessResponseWarningsItemMetadata),
+    }),
+  ).annotate({
+    identifier: "GetPartnerManagedCompanyMigrationReadinessResponseWarningsItem",
+  }) as any as S.Schema<GetPartnerManagedCompanyMigrationReadinessResponseWarningsItem>;
+
+export type GetPartnerManagedCompanyMigrationReadinessResponseWarningsList =
+  Array<GetPartnerManagedCompanyMigrationReadinessResponseWarningsItem>;
+export const GetPartnerManagedCompanyMigrationReadinessResponseWarningsList = /*@__PURE__*/ S.Array(
+  GetPartnerManagedCompanyMigrationReadinessResponseWarningsItem,
+) as any as S.Schema<GetPartnerManagedCompanyMigrationReadinessResponseWarningsList>;
+
+export interface GetPartnerManagedCompanyMigrationReadinessResponse {
+  /** The company UUID */
+  company_uuid?: string;
+  /** Indicates if the company is ready to be migrated. */
+  ready_to_migrate?: boolean;
+  errors?: GetPartnerManagedCompanyMigrationReadinessResponseErrorsList;
+  warnings?: GetPartnerManagedCompanyMigrationReadinessResponseWarningsList;
+}
+export const GetPartnerManagedCompanyMigrationReadinessResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.optional(S.String),
+    ready_to_migrate: S.optional(S.Boolean),
+    errors: S.optional(GetPartnerManagedCompanyMigrationReadinessResponseErrorsList),
+    warnings: S.optional(GetPartnerManagedCompanyMigrationReadinessResponseWarningsList),
+  }),
+).annotate({
+  identifier: "GetPartnerManagedCompanyMigrationReadinessResponse",
+}) as any as S.Schema<GetPartnerManagedCompanyMigrationReadinessResponse>;
+
+export interface GetPayrollBatchRequest {
+  /** The UUID of the payroll cancellation batch returned by `POST /v1/payroll_batches`. */
+  payroll_batch_uuid: string;
+}
+export const GetPayrollBatchRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    payroll_batch_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/payroll_batches/{payroll_batch_uuid}", code: 200 })),
+).annotate({ identifier: "GetPayrollBatchRequest" }) as any as S.Schema<GetPayrollBatchRequest>;
+
+/** Machine-readable category for why the payroll was excluded. - `not_found`: the payroll does not exist, or is not associated with a company the partner is mapped to - `duplicate_operation`: the same payroll UUID appeared more than once in the request; only the first occurrence is processed */
+export type PayrollBatchResultsExclusionsItemCategory = "not_found" | "duplicate_operation";
+export const PayrollBatchResultsExclusionsItemCategory = S.String;
+
+/** The type of entity this exclusion represents. */
+export type PayrollBatchResultsExclusionsItemEntityType = "payroll";
+export const PayrollBatchResultsExclusionsItemEntityType = S.String;
+
+/** Always `failed` for an excluded payroll. */
+export type PayrollBatchResultsExclusionsItemStatus = "failed";
+export const PayrollBatchResultsExclusionsItemStatus = S.String;
+
+export interface PayrollBatchResultsExclusionsItem {
+  /** Machine-readable category for why the payroll was excluded. - `not_found`: the payroll does not exist, or is not associated with a company the partner is mapped to - `duplicate_operation`: the same payroll UUID appeared more than once in the request; only the first occurrence is processed */
+  category?: PayrollBatchResultsExclusionsItemCategory;
+  /** The UUID of the company asserted to own the payroll. */
+  company_uuid?: string;
+  /** The type of entity this exclusion represents. */
+  entity_type?: PayrollBatchResultsExclusionsItemEntityType;
+  /** The index of this payroll in the original POST batch array. */
+  idx?: number;
+  /** Human-readable explanation for the exclusion. */
+  message?: string;
+  /** Always `failed` for an excluded payroll. */
+  status?: PayrollBatchResultsExclusionsItemStatus;
+  /** The UUID of the excluded payroll. */
+  uuid?: string;
+}
+export const PayrollBatchResultsExclusionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.optional(PayrollBatchResultsExclusionsItemCategory),
+    company_uuid: S.optional(S.String),
+    entity_type: S.optional(PayrollBatchResultsExclusionsItemEntityType),
+    idx: S.optional(S.Number),
+    message: S.optional(S.String),
+    status: S.optional(PayrollBatchResultsExclusionsItemStatus),
+    uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PayrollBatchResultsExclusionsItem",
+}) as any as S.Schema<PayrollBatchResultsExclusionsItem>;
+
+/** Payrolls that could not be processed, determined at submission time. Only present once the batch reaches a terminal status. Every UUID submitted in the POST batch appears in exactly one of `results` or `exclusions`. */
+export type PayrollBatchResultsExclusionsList = Array<PayrollBatchResultsExclusionsItem>;
+export const PayrollBatchResultsExclusionsList = /*@__PURE__*/ S.Array(
+  PayrollBatchResultsExclusionsItem,
+) as any as S.Schema<PayrollBatchResultsExclusionsList>;
+
+/** Machine-readable reason the cancellation failed. - `not_cancellable`: the payroll is past the point where it can be cancelled - `internal_error`: an unexpected error occurred; the request can be retried */
+export type PayrollBatchResultsResultsItemErrorsItemCategory = "not_cancellable" | "internal_error";
+export const PayrollBatchResultsResultsItemErrorsItemCategory = S.String;
+
+export interface PayrollBatchResultsResultsItemErrorsItem {
+  /** Machine-readable reason the cancellation failed. - `not_cancellable`: the payroll is past the point where it can be cancelled - `internal_error`: an unexpected error occurred; the request can be retried */
+  category?: PayrollBatchResultsResultsItemErrorsItemCategory;
+  /** The key identifying the error source. */
+  error_key?: string;
+  /** Human-readable explanation of the failure. */
+  message?: string;
+}
+export const PayrollBatchResultsResultsItemErrorsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.optional(PayrollBatchResultsResultsItemErrorsItemCategory),
+    error_key: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PayrollBatchResultsResultsItemErrorsItem",
+}) as any as S.Schema<PayrollBatchResultsResultsItemErrorsItem>;
+
+/** Present only when `status` is `failed`. A cancel is a single atomic operation, so this is a flat array with exactly one error. */
+export type PayrollBatchResultsResultsItemErrorsList =
+  Array<PayrollBatchResultsResultsItemErrorsItem>;
+export const PayrollBatchResultsResultsItemErrorsList = /*@__PURE__*/ S.Array(
+  PayrollBatchResultsResultsItemErrorsItem,
+) as any as S.Schema<PayrollBatchResultsResultsItemErrorsList>;
+
+/** The outcome of cancelling this payroll. A cancel is atomic — there is no per-payroll `partial_success`. - `success`: the payroll was cancelled, or required no action (already cancelled / never run) - `failed`: the payroll could not be cancelled; see `errors` */
+export type PayrollBatchResultsResultsItemStatus = "success" | "failed";
+export const PayrollBatchResultsResultsItemStatus = S.String;
+
+export interface PayrollBatchResultsResultsItem {
+  /** Present only when `status` is `failed`. A cancel is a single atomic operation, so this is a flat array with exactly one error. */
+  errors?: PayrollBatchResultsResultsItemErrorsList;
+  /** The index of this payroll in the original POST batch array. */
+  idx?: number;
+  /** The outcome of cancelling this payroll. A cancel is atomic — there is no per-payroll `partial_success`. - `success`: the payroll was cancelled, or required no action (already cancelled / never run) - `failed`: the payroll could not be cancelled; see `errors` */
+  status?: PayrollBatchResultsResultsItemStatus;
+  /** The UUID of the payroll. */
+  uuid?: string;
+}
+export const PayrollBatchResultsResultsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    errors: S.optional(PayrollBatchResultsResultsItemErrorsList),
+    idx: S.optional(S.Number),
+    status: S.optional(PayrollBatchResultsResultsItemStatus),
+    uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PayrollBatchResultsResultsItem",
+}) as any as S.Schema<PayrollBatchResultsResultsItem>;
+
+/** Per-payroll cancellation results. Only present once the batch reaches a terminal status. One entry per authorized payroll. */
+export type PayrollBatchResultsResultsList = Array<PayrollBatchResultsResultsItem>;
+export const PayrollBatchResultsResultsList = /*@__PURE__*/ S.Array(
+  PayrollBatchResultsResultsItem,
+) as any as S.Schema<PayrollBatchResultsResultsList>;
+
+/** The lifecycle status of the batch request itself. Terminal values are `completed` (processing finished — inspect `results` and `exclusions` for per-payroll outcomes) and `failed` (the batch crashed at the system level; can be retried). This is distinct from the per-payroll `status` returned inside `results[]`. A `completed` batch does not imply every payroll was cancelled. */
+export type PayrollBatchResultsStatus = "pending" | "processing" | "completed" | "failed";
+export const PayrollBatchResultsStatus = S.String;
+
+/** A payroll cancellation batch with per-payroll results. */
+export interface PayrollBatchResults {
+  /** The timestamp when the batch processing completed. */
+  completed_at?: string | null;
+  /** The number of payrolls excluded from processing. Only present once the batch reaches a terminal status. */
+  excluded_items?: number;
+  /** Payrolls that could not be processed, determined at submission time. Only present once the batch reaches a terminal status. Every UUID submitted in the POST batch appears in exactly one of `results` or `exclusions`. */
+  exclusions?: PayrollBatchResultsExclusionsList;
+  /** The idempotency key provided when creating the batch. */
+  idempotency_key: string;
+  /** The number of payrolls processed (cancelled or attempted). Only present once the batch reaches a terminal status. */
+  processed_items?: number;
+  /** Per-payroll cancellation results. Only present once the batch reaches a terminal status. One entry per authorized payroll. */
+  results?: PayrollBatchResultsResultsList;
+  /** The lifecycle status of the batch request itself. Terminal values are `completed` (processing finished — inspect `results` and `exclusions` for per-payroll outcomes) and `failed` (the batch crashed at the system level; can be retried). This is distinct from the per-payroll `status` returned inside `results[]`. A `completed` batch does not imply every payroll was cancelled. */
+  status: PayrollBatchResultsStatus;
+  /** The timestamp when the batch was submitted. */
+  submitted_at: string;
+  /** The number of payrolls submitted in the batch. */
+  submitted_items?: number | null;
+  /** The unique identifier of the payroll cancellation batch. */
+  uuid: string;
+}
+export const PayrollBatchResults = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    completed_at: S.optional(S.NullOr(S.String)),
+    excluded_items: S.optional(S.Number),
+    exclusions: S.optional(PayrollBatchResultsExclusionsList),
+    idempotency_key: S.String,
+    processed_items: S.optional(S.Number),
+    results: S.optional(PayrollBatchResultsResultsList),
+    status: PayrollBatchResultsStatus,
+    submitted_at: S.String,
+    submitted_items: S.optional(S.NullOr(S.Number)),
+    uuid: S.String,
+  }),
+).annotate({ identifier: "PayrollBatchResults" }) as any as S.Schema<PayrollBatchResults>;
+
+export interface GetPayrollDigestRequest {
+  /** The UUID of the payroll digest batch returned by `POST /v1/payroll_digests`. */
+  payroll_digest_uuid: string;
+}
+export const GetPayrollDigestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    payroll_digest_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/payroll_digests/{payroll_digest_uuid}", code: 200 })),
+).annotate({ identifier: "GetPayrollDigestRequest" }) as any as S.Schema<GetPayrollDigestRequest>;
+
+/** Machine-readable category for why the company was excluded. */
+export type PayrollDigestResultsExclusionsItemCategory =
+  | "not_found"
+  | "company_inactive"
+  | "duplicate"
+  | "internal_error";
+export const PayrollDigestResultsExclusionsItemCategory = S.String;
+
+/** The type of entity this exclusion represents. */
+export type PayrollDigestResultsExclusionsItemEntityType = "company";
+export const PayrollDigestResultsExclusionsItemEntityType = S.String;
+
+/** The status of this company's digest computation. */
+export type PayrollDigestResultsExclusionsItemStatus = "failed";
+export const PayrollDigestResultsExclusionsItemStatus = S.String;
+
+export interface PayrollDigestResultsExclusionsItem {
+  /** Machine-readable category for why the company was excluded. */
+  category?: PayrollDigestResultsExclusionsItemCategory;
+  /** The type of entity this exclusion represents. */
+  entity_type?: PayrollDigestResultsExclusionsItemEntityType;
+  /** The index of this company in the original POST batch array. */
+  idx?: number;
+  /** Human-readable explanation for the exclusion. */
+  message?: string;
+  /** The status of this company's digest computation. */
+  status?: PayrollDigestResultsExclusionsItemStatus;
+  /** The UUID of the excluded company. */
+  uuid?: string;
+}
+export const PayrollDigestResultsExclusionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.optional(PayrollDigestResultsExclusionsItemCategory),
+    entity_type: S.optional(PayrollDigestResultsExclusionsItemEntityType),
+    idx: S.optional(S.Number),
+    message: S.optional(S.String),
+    status: S.optional(PayrollDigestResultsExclusionsItemStatus),
+    uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PayrollDigestResultsExclusionsItem",
+}) as any as S.Schema<PayrollDigestResultsExclusionsItem>;
+
+/** Companies that could not be processed. Only present once the batch reaches a terminal status. Every UUID submitted in the POST batch appears in exactly one of `results` or `exclusions`. */
+export type PayrollDigestResultsExclusionsList = Array<PayrollDigestResultsExclusionsItem>;
+export const PayrollDigestResultsExclusionsList = /*@__PURE__*/ S.Array(
+  PayrollDigestResultsExclusionsItem,
+) as any as S.Schema<PayrollDigestResultsExclusionsList>;
+
+export interface PayrollDigestResultsResultsItemBlockersItem {
+  /** Human-readable description of the blocker. */
+  description?: string;
+  /** A machine-readable blocker key (e.g. `missing_bank_account`). */
+  type?: string;
+}
+export const PayrollDigestResultsResultsItemBlockersItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    type: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PayrollDigestResultsResultsItemBlockersItem",
+}) as any as S.Schema<PayrollDigestResultsResultsItemBlockersItem>;
+
+/** Reasons the company cannot currently run payroll. Applies to every payroll in this company's `payrolls` array — blockers are evaluated at the company level, not per payroll. Empty when there are no blockers. */
+export type PayrollDigestResultsResultsItemBlockersList =
+  Array<PayrollDigestResultsResultsItemBlockersItem>;
+export const PayrollDigestResultsResultsItemBlockersList = /*@__PURE__*/ S.Array(
+  PayrollDigestResultsResultsItemBlockersItem,
+) as any as S.Schema<PayrollDigestResultsResultsItemBlockersList>;
+
+/** The type of entity this result represents. */
+export type PayrollDigestResultsResultsItemEntityType = "company";
+export const PayrollDigestResultsResultsItemEntityType = S.String;
+
+export interface PayrollDigestResultsResultsItemPayrollsItemPayPeriod {
+  /** The date employees get paid. */
+  check_date?: string | null;
+  /** Last day of the pay period. */
+  end_date?: string | null;
+  /** The deadline to run payroll for this pay period. */
+  run_payroll_by?: string | null;
+  /** First day of the pay period. */
+  start_date?: string | null;
+}
+export const PayrollDigestResultsResultsItemPayrollsItemPayPeriod = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    check_date: S.optional(S.NullOr(S.String)),
+    end_date: S.optional(S.NullOr(S.String)),
+    run_payroll_by: S.optional(S.NullOr(S.String)),
+    start_date: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "PayrollDigestResultsResultsItemPayrollsItemPayPeriod",
+}) as any as S.Schema<PayrollDigestResultsResultsItemPayrollsItemPayPeriod>;
+
+export interface PayrollDigestResultsResultsItemPayrollsItemPaySchedule {
+  /** Custom name for the pay schedule, when set. */
+  custom_name?: string | null;
+  /** Human-friendly pay frequency (e.g. "Every other week"). */
+  frequency?: string;
+  /** UUID of the pay schedule. */
+  uuid?: string;
+}
+export const PayrollDigestResultsResultsItemPayrollsItemPaySchedule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    custom_name: S.optional(S.NullOr(S.String)),
+    frequency: S.optional(S.String),
+    uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PayrollDigestResultsResultsItemPayrollsItemPaySchedule",
+}) as any as S.Schema<PayrollDigestResultsResultsItemPayrollsItemPaySchedule>;
+
+/** Pay totals. `null` when the payroll has not been calculated, or when the calculation is stale (the partner edited hours/earnings after the last calculation). */
+export interface PayrollDigestResultsResultsItemPayrollsItemTotals {
+  /** Total net pay across all employees on this payroll (string-formatted decimal). */
+  net_pay?: string;
+  /** Total amount debited from the company bank account (string-formatted decimal). */
+  total_debit_amount?: string;
+  /** Total employer cost including taxes and benefits (string-formatted decimal). */
+  total_employer_cost?: string;
+}
+export const PayrollDigestResultsResultsItemPayrollsItemTotals = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    net_pay: S.optional(S.String),
+    total_debit_amount: S.optional(S.String),
+    total_employer_cost: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PayrollDigestResultsResultsItemPayrollsItemTotals",
+}) as any as S.Schema<PayrollDigestResultsResultsItemPayrollsItemTotals>;
+
+export interface PayrollDigestResultsResultsItemPayrollsItem {
+  /** Whether the company has auto-payroll enabled for this pay schedule. */
+  auto_payroll?: boolean;
+  /** Partner-facing display title for this payroll (e.g. "Run biweekly payroll"). */
+  display_title?: string;
+  pay_period?: PayrollDigestResultsResultsItemPayrollsItemPayPeriod;
+  pay_schedule?: PayrollDigestResultsResultsItemPayrollsItemPaySchedule | null;
+  /** The type of payroll (e.g. `regular`, `new_hire`, `termination`, `transition`, `bonus`, `correction`). */
+  payroll_type?: string;
+  /** UUID of the payroll. `null` for upcoming pay periods that have not been started yet (the `payrolls` API has not yet created a payroll record). Once a payroll is created, subsequent digest requests will include the real `payroll_uuid`. */
+  payroll_uuid?: string | null;
+  /** The lifecycle status of the payroll (e.g. `ready_to_start`, `in_progress`, `submitted`, `completed`, `failed`). */
+  status?: string;
+  /** Pay totals. `null` when the payroll has not been calculated, or when the calculation is stale (the partner edited hours/earnings after the last calculation). */
+  totals?: PayrollDigestResultsResultsItemPayrollsItemTotals | null;
+}
+export const PayrollDigestResultsResultsItemPayrollsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    auto_payroll: S.optional(S.Boolean),
+    display_title: S.optional(S.String),
+    pay_period: S.optional(PayrollDigestResultsResultsItemPayrollsItemPayPeriod),
+    pay_schedule: S.optional(S.NullOr(PayrollDigestResultsResultsItemPayrollsItemPaySchedule)),
+    payroll_type: S.optional(S.String),
+    payroll_uuid: S.optional(S.NullOr(S.String)),
+    status: S.optional(S.String),
+    totals: S.optional(S.NullOr(PayrollDigestResultsResultsItemPayrollsItemTotals)),
+  }),
+).annotate({
+  identifier: "PayrollDigestResultsResultsItemPayrollsItem",
+}) as any as S.Schema<PayrollDigestResultsResultsItemPayrollsItem>;
+
+/** Payrolls for this company within the digest date window (7 days past, 30–60 days future). May be empty. */
+export type PayrollDigestResultsResultsItemPayrollsList =
+  Array<PayrollDigestResultsResultsItemPayrollsItem>;
+export const PayrollDigestResultsResultsItemPayrollsList = /*@__PURE__*/ S.Array(
+  PayrollDigestResultsResultsItemPayrollsItem,
+) as any as S.Schema<PayrollDigestResultsResultsItemPayrollsList>;
+
+/** The status of this company's digest computation. */
+export type PayrollDigestResultsResultsItemStatus = "success" | "partial_success" | "failed";
+export const PayrollDigestResultsResultsItemStatus = S.String;
+
+export interface PayrollDigestResultsResultsItem {
+  /** Reasons the company cannot currently run payroll. Applies to every payroll in this company's `payrolls` array — blockers are evaluated at the company level, not per payroll. Empty when there are no blockers. */
+  blockers?: PayrollDigestResultsResultsItemBlockersList;
+  /** The type of entity this result represents. */
+  entity_type?: PayrollDigestResultsResultsItemEntityType;
+  /** The index of this company in the original POST batch array. */
+  idx?: number;
+  /** The legal/display name of the company. */
+  name?: string;
+  /** Payrolls for this company within the digest date window (7 days past, 30–60 days future). May be empty. */
+  payrolls?: PayrollDigestResultsResultsItemPayrollsList;
+  /** The status of this company's digest computation. */
+  status?: PayrollDigestResultsResultsItemStatus;
+  /** The UUID of the company. */
+  uuid?: string;
+}
+export const PayrollDigestResultsResultsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    blockers: S.optional(PayrollDigestResultsResultsItemBlockersList),
+    entity_type: S.optional(PayrollDigestResultsResultsItemEntityType),
+    idx: S.optional(S.Number),
+    name: S.optional(S.String),
+    payrolls: S.optional(PayrollDigestResultsResultsItemPayrollsList),
+    status: S.optional(PayrollDigestResultsResultsItemStatus),
+    uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PayrollDigestResultsResultsItem",
+}) as any as S.Schema<PayrollDigestResultsResultsItem>;
+
+/** Per-company results. Only present once the batch reaches a terminal status. Includes successfully processed companies (with their `payrolls` array, which may be empty when the company has no payrolls in the date window). */
+export type PayrollDigestResultsResultsList = Array<PayrollDigestResultsResultsItem>;
+export const PayrollDigestResultsResultsList = /*@__PURE__*/ S.Array(
+  PayrollDigestResultsResultsItem,
+) as any as S.Schema<PayrollDigestResultsResultsList>;
+
+/** The lifecycle status of the batch request itself. Terminal values are `completed` (processing finished — inspect `results` and `exclusions` for per-company outcomes) and `failed` (request failed; can be retried). This is distinct from the per-company `status` returned inside `results[]` and `exclusions[]`. */
+export type PayrollDigestResultsStatus = "pending" | "processing" | "completed" | "failed";
+export const PayrollDigestResultsStatus = S.String;
+
+/** A payroll digest batch with processing results. */
+export interface PayrollDigestResults {
+  /** The timestamp when the batch processing completed. */
+  completed_at?: string | null;
+  /** The number of companies excluded from processing. Only present once the batch reaches a terminal status. */
+  excluded_items?: number;
+  /** Companies that could not be processed. Only present once the batch reaches a terminal status. Every UUID submitted in the POST batch appears in exactly one of `results` or `exclusions`. */
+  exclusions?: PayrollDigestResultsExclusionsList;
+  /** The idempotency key provided when creating the batch. */
+  idempotency_key: string;
+  /** The number of companies successfully processed. Only present once the batch reaches a terminal status. */
+  processed_items?: number;
+  /** Per-company results. Only present once the batch reaches a terminal status. Includes successfully processed companies (with their `payrolls` array, which may be empty when the company has no payrolls in the date window). */
+  results?: PayrollDigestResultsResultsList;
+  /** The lifecycle status of the batch request itself. Terminal values are `completed` (processing finished — inspect `results` and `exclusions` for per-company outcomes) and `failed` (request failed; can be retried). This is distinct from the per-company `status` returned inside `results[]` and `exclusions[]`. */
+  status: PayrollDigestResultsStatus;
+  /** The timestamp when the batch was submitted. */
+  submitted_at: string;
+  /** The number of companies submitted in the batch. */
+  submitted_items?: number | null;
+  /** The unique identifier of the payroll digest batch. */
+  uuid: string;
+}
+export const PayrollDigestResults = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    completed_at: S.optional(S.NullOr(S.String)),
+    excluded_items: S.optional(S.Number),
+    exclusions: S.optional(PayrollDigestResultsExclusionsList),
+    idempotency_key: S.String,
+    processed_items: S.optional(S.Number),
+    results: S.optional(PayrollDigestResultsResultsList),
+    status: PayrollDigestResultsStatus,
+    submitted_at: S.String,
+    submitted_items: S.optional(S.NullOr(S.Number)),
+    uuid: S.String,
+  }),
+).annotate({ identifier: "PayrollDigestResults" }) as any as S.Schema<PayrollDigestResults>;
+
+export interface GetPeopleBatchRequest {
+  /** The UUID of the people batch */
+  people_batch_uuid: string;
+}
+export const GetPeopleBatchRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    people_batch_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/people_batches/{people_batch_uuid}", code: 200 })),
+).annotate({ identifier: "GetPeopleBatchRequest" }) as any as S.Schema<GetPeopleBatchRequest>;
+
+export interface PeopleBatchResultsExclusionsItem {
+  /** The exclusion category. */
+  category?: string;
+  /** The external ID of the excluded item(s). */
+  external_id?: string;
+  /** Number of items affected by this exclusion. */
+  item_count?: number;
+  /** Human-readable explanation for exclusion. */
+  message?: string;
+}
+export const PeopleBatchResultsExclusionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.optional(S.String),
+    external_id: S.optional(S.String),
+    item_count: S.optional(S.Number),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PeopleBatchResultsExclusionsItem",
+}) as any as S.Schema<PeopleBatchResultsExclusionsItem>;
+
+/** Items excluded from processing due to validation errors. */
+export type PeopleBatchResultsExclusionsList = Array<PeopleBatchResultsExclusionsItem>;
+export const PeopleBatchResultsExclusionsList = /*@__PURE__*/ S.Array(
+  PeopleBatchResultsExclusionsItem,
+) as any as S.Schema<PeopleBatchResultsExclusionsList>;
+
+/** Nested errors for sub-operations. */
+export type PeopleBatchResultsResultsItemErrorsItemErrorsList = Array<unknown>;
+export const PeopleBatchResultsResultsItemErrorsItemErrorsList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<PeopleBatchResultsResultsItemErrorsItemErrorsList>;
+
+export interface PeopleBatchResultsResultsItemErrorsItem {
+  /** The error category. */
+  category?: string;
+  /** The key identifying the error source. */
+  error_key?: string;
+  /** Nested errors for sub-operations. */
+  errors?: PeopleBatchResultsResultsItemErrorsItemErrorsList | null;
+  /** Human-readable error message. */
+  message?: string | null;
+}
+export const PeopleBatchResultsResultsItemErrorsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.optional(S.String),
+    error_key: S.optional(S.String),
+    errors: S.optional(S.NullOr(PeopleBatchResultsResultsItemErrorsItemErrorsList)),
+    message: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "PeopleBatchResultsResultsItemErrorsItem",
+}) as any as S.Schema<PeopleBatchResultsResultsItemErrorsItem>;
+
+/** Errors encountered while processing this batch item. */
+export type PeopleBatchResultsResultsItemErrorsList =
+  Array<PeopleBatchResultsResultsItemErrorsItem>;
+export const PeopleBatchResultsResultsItemErrorsList = /*@__PURE__*/ S.Array(
+  PeopleBatchResultsResultsItemErrorsItem,
+) as any as S.Schema<PeopleBatchResultsResultsItemErrorsList>;
+
+/** The type of person created. */
+export type PeopleBatchResultsResultsItemRole = "employee";
+export const PeopleBatchResultsResultsItemRole = S.String;
+
+/** The status of this batch item. */
+export type PeopleBatchResultsResultsItemStatus = "success" | "partial_success" | "failed";
+export const PeopleBatchResultsResultsItemStatus = S.String;
+
+export interface PeopleBatchResultsResultsItem {
+  /** The UUID of the created employee (if role is employee). */
+  employee_uuid?: string;
+  /** Errors encountered while processing this batch item. */
+  errors?: PeopleBatchResultsResultsItemErrorsList | null;
+  /** The external ID provided in the batch request. */
+  external_id?: string;
+  /** The index of this item in the original batch request. */
+  idx?: number;
+  /** The type of person created. */
+  role?: PeopleBatchResultsResultsItemRole;
+  /** The status of this batch item. */
+  status?: PeopleBatchResultsResultsItemStatus;
+  /** The UUID of the created person. */
+  uuid?: string;
+}
+export const PeopleBatchResultsResultsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_uuid: S.optional(S.String),
+    errors: S.optional(S.NullOr(PeopleBatchResultsResultsItemErrorsList)),
+    external_id: S.optional(S.String),
+    idx: S.optional(S.Number),
+    role: S.optional(PeopleBatchResultsResultsItemRole),
+    status: S.optional(PeopleBatchResultsResultsItemStatus),
+    uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PeopleBatchResultsResultsItem",
+}) as any as S.Schema<PeopleBatchResultsResultsItem>;
+
+/** The results for each batch item. */
+export type PeopleBatchResultsResultsList = Array<PeopleBatchResultsResultsItem>;
+export const PeopleBatchResultsResultsList = /*@__PURE__*/ S.Array(
+  PeopleBatchResultsResultsItem,
+) as any as S.Schema<PeopleBatchResultsResultsList>;
+
+/** The current status of the batch processing. */
+export type PeopleBatchResultsStatus =
+  | "pending"
+  | "processing"
+  | "completed"
+  | "failed"
+  | "partial_success";
+export const PeopleBatchResultsStatus = S.String;
+
+/** A people batch with processing results. */
+export interface PeopleBatchResults {
+  /** The timestamp when the batch processing completed. */
+  completed_at?: string | null;
+  /** The number of items excluded from processing. */
+  excluded_items?: number;
+  /** Items excluded from processing due to validation errors. */
+  exclusions?: PeopleBatchResultsExclusionsList | null;
+  /** The idempotency key provided when creating the batch. */
+  idempotency_key: string;
+  /** The number of items successfully processed. */
+  processed_items?: number;
+  /** The results for each batch item. */
+  results?: PeopleBatchResultsResultsList;
+  /** The current status of the batch processing. */
+  status: PeopleBatchResultsStatus;
+  /** The timestamp when the batch was submitted. */
+  submitted_at?: string;
+  /** The number of items submitted in the batch. */
+  submitted_items?: number | null;
+  /** The unique identifier of the people batch. */
+  uuid: string;
+}
+export const PeopleBatchResults = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    completed_at: S.optional(S.NullOr(S.String)),
+    excluded_items: S.optional(S.Number),
+    exclusions: S.optional(S.NullOr(PeopleBatchResultsExclusionsList)),
+    idempotency_key: S.String,
+    processed_items: S.optional(S.Number),
+    results: S.optional(PeopleBatchResultsResultsList),
+    status: PeopleBatchResultsStatus,
+    submitted_at: S.optional(S.String),
+    submitted_items: S.optional(S.NullOr(S.Number)),
+    uuid: S.String,
+  }),
+).annotate({ identifier: "PeopleBatchResults" }) as any as S.Schema<PeopleBatchResults>;
+
+export interface GetRecoveryCasesRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
+  page?: number;
+  /** Number of objects per page. For majority of endpoints will default to 25 */
+  per?: number;
+}
+export const GetRecoveryCasesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/recovery_cases", code: 200 })),
+).annotate({ identifier: "GetRecoveryCasesRequest" }) as any as S.Schema<GetRecoveryCasesRequest>;
+
+/** The uuids of the associated contractor payments for which the recovery case was created. If the recovery case was created for a payroll, this field will be null. */
+export type RecoveryCaseContractorPaymentUuidsList = Array<string>;
+export const RecoveryCaseContractorPaymentUuidsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<RecoveryCaseContractorPaymentUuidsList>;
+
+/** Status of the recovery case */
+export type RecoveryCaseStatus =
+  | "open"
+  | "redebit_initiated"
+  | "wire_initiated"
+  | "recovered"
+  | "lost";
+export const RecoveryCaseStatus = S.String;
+
+/** Representation of a recovery case */
+export interface RecoveryCase {
+  /** Amount outstanding for the recovery case */
+  amount_outstanding?: string;
+  /** Check date for the associated payroll or contractor payments */
+  check_date?: string;
+  /** Unique identifier of the company to which the recovery case belongs */
+  company_uuid?: string;
+  /** The uuids of the associated contractor payments for which the recovery case was created. If the recovery case was created for a payroll, this field will be null. */
+  contractor_payment_uuids?: RecoveryCaseContractorPaymentUuidsList | null;
+  /** Total amount to be debited from the payroll or contractor payments */
+  event_total_amount?: string;
+  /** The latest bank error code for the recovery case. See [this doc](https://docs.gusto.com/embedded-payroll/docs/ach-codes-and-transaction-types) for a list of common ACH return codes. */
+  latest_error_code?: string | null;
+  /** Date when funds were originally debited from the company's bank account */
+  original_debit_date?: string | null;
+  /** The uuid of the associated payroll for which the recovery case was created. If the recovery case was created for a contractor payment, this field will be null. */
+  payroll_uuid?: string | null;
+  /** Status of the recovery case */
+  status?: RecoveryCaseStatus;
+  /** Unique identifier of an recovery case */
+  uuid: string;
+}
+export const RecoveryCase = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount_outstanding: S.optional(S.String),
+    check_date: S.optional(S.String),
+    company_uuid: S.optional(S.String),
+    contractor_payment_uuids: S.optional(S.NullOr(RecoveryCaseContractorPaymentUuidsList)),
+    event_total_amount: S.optional(S.String),
+    latest_error_code: S.optional(S.NullOr(S.String)),
+    original_debit_date: S.optional(S.NullOr(S.String)),
+    payroll_uuid: S.optional(S.NullOr(S.String)),
+    status: S.optional(RecoveryCaseStatus),
+    uuid: S.String,
+  }),
+).annotate({ identifier: "RecoveryCase" }) as any as S.Schema<RecoveryCase>;
+
+export type GetRecoveryCasesResponseBodyList = Array<RecoveryCase>;
+export const GetRecoveryCasesResponseBodyList = /*@__PURE__*/ S.Array(
+  RecoveryCase,
+) as any as S.Schema<GetRecoveryCasesResponseBodyList>;
+
+export type GetRecoveryCasesResponse = GetRecoveryCasesResponseBodyList;
+export const GetRecoveryCasesResponse = /*@__PURE__*/ S.suspend(() =>
+  GetRecoveryCasesResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "GetRecoveryCasesResponse" }) as any as S.Schema<GetRecoveryCasesResponse>;
+
 export interface GetRecurringReimbursementsRequest {
   /** The UUID of the reimbursement */
   id: string;
@@ -7920,13 +15853,7 @@ export interface GetRecurringReimbursementsRequest {
 export const GetRecurringReimbursementsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/recurring_reimbursements/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/recurring_reimbursements/{id}", code: 200 })),
 ).annotate({
   identifier: "GetRecurringReimbursementsRequest",
 }) as any as S.Schema<GetRecurringReimbursementsRequest>;
@@ -7939,9 +15866,7 @@ export const GetReportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     request_uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/reports/{request_uuid}", code: 200 })),
-).annotate({
-  identifier: "GetReportRequest",
-}) as any as S.Schema<GetReportRequest>;
+).annotate({ identifier: "GetReportRequest" }) as any as S.Schema<GetReportRequest>;
 
 /** The array of urls to access the report */
 export type ReportReportUrlsList = Array<string>;
@@ -7965,6 +15890,95 @@ export const Report = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Report" }) as any as S.Schema<Report>;
 
+export interface GetReverseWireTransactionsRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** Filter results to reverse wires associated with a specific payroll */
+  payroll_uuid?: string;
+  /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
+  page?: number;
+  /** Number of objects per page. For majority of endpoints will default to 25 */
+  per?: number;
+}
+export const GetReverseWireTransactionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    payroll_uuid: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/companies/{company_uuid}/reverse_wire_transactions",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetReverseWireTransactionsRequest",
+}) as any as S.Schema<GetReverseWireTransactionsRequest>;
+
+/** The direction of the payment. Reverse wires are always debits from the company's account. */
+export type ReverseWireTransactionPaymentDirection = "debit";
+export const ReverseWireTransactionPaymentDirection = S.String;
+
+export type ReverseWireTransactionPaymentEventType = "Payroll" | "ContractorPayment";
+export const ReverseWireTransactionPaymentEventType = S.String;
+
+/** Current status of the reverse wire transaction. - `pending_processing`: The reverse wire has been initiated and is awaiting processing by the banking network. - `processed`: The reverse wire was successfully settled and funds have been received. - `rejected`: The reverse wire was rejected by the receiving bank (e.g. invalid account, insufficient funds). - `failed`: The reverse wire failed during processing due to a system or network error. */
+export type ReverseWireTransactionStatus =
+  | "pending_processing"
+  | "processed"
+  | "rejected"
+  | "failed";
+export const ReverseWireTransactionStatus = S.String;
+
+/** Representation of a reverse wire (drawdown) transaction. Reverse wires are debit transactions initiated by Gusto to pull funds from a partner's bank account to cover payroll or contractor payment obligations. */
+export interface ReverseWireTransaction {
+  /** The amount of money moved by the reverse wire, as a decimal string. Always non-negative. */
+  amount: string;
+  /** Name of the receiving bank. Null when the bank is not known. */
+  bank_name?: string | null;
+  /** Unique identifier of the company the reverse wire transaction belongs to */
+  company_uuid: string;
+  /** The date the reverse wire record was created. */
+  created_at: string;
+  /** The direction of the payment. Reverse wires are always debits from the company's account. */
+  payment_direction: ReverseWireTransactionPaymentDirection;
+  /** The check date of the associated payment event. Null when the wire is not linked to a payment event. */
+  payment_event_check_date?: string | null;
+  /** The type of payment event this reverse wire is associated with. Null when the wire is not linked to a payroll or contractor payment. */
+  payment_event_type?: ReverseWireTransactionPaymentEventType | null;
+  /** Unique identifier of the associated payroll or contractor payment. Null when the wire is not linked to a payment event. */
+  payment_event_uuid?: string | null;
+  /** Current status of the reverse wire transaction. - `pending_processing`: The reverse wire has been initiated and is awaiting processing by the banking network. - `processed`: The reverse wire was successfully settled and funds have been received. - `rejected`: The reverse wire was rejected by the receiving bank (e.g. invalid account, insufficient funds). - `failed`: The reverse wire failed during processing due to a system or network error. */
+  status: ReverseWireTransactionStatus;
+}
+export const ReverseWireTransaction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.String,
+    bank_name: S.optional(S.NullOr(S.String)),
+    company_uuid: S.String,
+    created_at: S.String,
+    payment_direction: ReverseWireTransactionPaymentDirection,
+    payment_event_check_date: S.optional(S.NullOr(S.String)),
+    payment_event_type: S.optional(S.NullOr(ReverseWireTransactionPaymentEventType)),
+    payment_event_uuid: S.optional(S.NullOr(S.String)),
+    status: ReverseWireTransactionStatus,
+  }),
+).annotate({ identifier: "ReverseWireTransaction" }) as any as S.Schema<ReverseWireTransaction>;
+
+export type ReverseWireTransactionList = Array<ReverseWireTransaction>;
+export const ReverseWireTransactionList = /*@__PURE__*/ S.Array(
+  ReverseWireTransaction,
+) as any as S.Schema<ReverseWireTransactionList>;
+
+export type GetReverseWireTransactionsResponse = ReverseWireTransactionList;
+export const GetReverseWireTransactionsResponse = /*@__PURE__*/ S.suspend(() =>
+  ReverseWireTransactionList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetReverseWireTransactionsResponse",
+}) as any as S.Schema<GetReverseWireTransactionsResponse>;
+
 export interface GetSalaryEstimatesOccupationsRequest {
   /** Search term for occupation (minimum 3 characters) */
   search: string;
@@ -7972,13 +15986,7 @@ export interface GetSalaryEstimatesOccupationsRequest {
 export const GetSalaryEstimatesOccupationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     search: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/salary_estimates/occupations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/salary_estimates/occupations", code: 200 })),
 ).annotate({
   identifier: "GetSalaryEstimatesOccupationsRequest",
 }) as any as S.Schema<GetSalaryEstimatesOccupationsRequest>;
@@ -8012,6 +16020,158 @@ export const GetSalaryEstimatesOccupationsResponse = /*@__PURE__*/ S.suspend(() 
   identifier: "GetSalaryEstimatesOccupationsResponse",
 }) as any as S.Schema<GetSalaryEstimatesOccupationsResponse>;
 
+export interface GetTaxPaymentRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The UUID of the tax payment */
+  uuid: string;
+}
+export const GetTaxPaymentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/tax_payments/{uuid}", code: 200 }),
+  ),
+).annotate({ identifier: "GetTaxPaymentRequest" }) as any as S.Schema<GetTaxPaymentRequest>;
+
+/** A single payroll tax liability rolled up into a tax payment */
+export interface TaxPaymentLineItem {
+  /** The amount of this liability included in the tax payment */
+  amount: string;
+  /** Unique identifier of the payroll this liability came from */
+  payroll_uuid: string;
+  /** Unique identifier of the tax type this liability is for */
+  unique_tax_id: string;
+}
+export const TaxPaymentLineItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.String,
+    payroll_uuid: S.String,
+    unique_tax_id: S.String,
+  }),
+).annotate({ identifier: "TaxPaymentLineItem" }) as any as S.Schema<TaxPaymentLineItem>;
+
+/** The payroll tax liabilities that make up this payment. Empty array when the payment has no associated payroll taxes. Only included in the response of GET /v1/companies/{company_uuid}/tax_payments/{uuid}. It is omitted from the list endpoint response. */
+export type TaxPaymentLineItemsList = Array<TaxPaymentLineItem>;
+export const TaxPaymentLineItemsList = /*@__PURE__*/ S.Array(
+  TaxPaymentLineItem,
+) as any as S.Schema<TaxPaymentLineItemsList>;
+
+/** Representation of a tax payment made by Gusto to a tax agency on behalf of a company */
+export interface TaxPayment {
+  /** The name of the tax agency this payment is submitted to */
+  agency_name: string;
+  /** Total amount owed for this tax payment. Can be negative for corrections, refunds, or credits. */
+  amount: string;
+  /** Amount paid toward this tax payment so far, sourced from the payment's running balance. "0.00" until paid; equal to `amount` once fully paid. */
+  amount_paid: string;
+  /** Unique identifier of the company to which the tax payment belongs */
+  company_uuid: string;
+  /** The date this payment is due */
+  due_date: string;
+  /** The tax jurisdiction this payment is for. A two-letter state code, or US for federal. */
+  jurisdiction: string;
+  /** The payroll tax liabilities that make up this payment. Empty array when the payment has no associated payroll taxes. Only included in the response of GET /v1/companies/{company_uuid}/tax_payments/{uuid}. It is omitted from the list endpoint response. */
+  line_items?: TaxPaymentLineItemsList;
+  /** The date Gusto submitted this payment to the tax agency. It is null until submitted, and also if the payment is returned or cancelled after being sent. It is not guaranteed to stay set once populated. */
+  payment_sent_on?: string | null;
+  /** The end date of the period this payment covers */
+  period_end: string;
+  /** The start date of the period this payment covers */
+  period_start: string;
+  /** Unique identifier of the tax payment */
+  uuid: string;
+}
+export const TaxPayment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agency_name: S.String,
+    amount: S.String,
+    amount_paid: S.String,
+    company_uuid: S.String,
+    due_date: S.String,
+    jurisdiction: S.String,
+    line_items: S.optional(TaxPaymentLineItemsList),
+    payment_sent_on: S.optional(S.NullOr(S.String)),
+    period_end: S.String,
+    period_start: S.String,
+    uuid: S.String,
+  }),
+).annotate({ identifier: "TaxPayment" }) as any as S.Schema<TaxPayment>;
+
+export type GetTaxPaymentsRequestJurisdictionList = Array<string>;
+export const GetTaxPaymentsRequestJurisdictionList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetTaxPaymentsRequestJurisdictionList>;
+
+export type GetTaxPaymentsRequestPayrollUuidsList = Array<string>;
+export const GetTaxPaymentsRequestPayrollUuidsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetTaxPaymentsRequestPayrollUuidsList>;
+
+export interface GetTaxPaymentsRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** Filter by tax jurisdiction. Accepts one or more two-letter state codes, or `US` for federal, as a comma-separated list (e.g. `IL,CA`). Codes are case-insensitive. */
+  jurisdiction?: GetTaxPaymentsRequestJurisdictionList;
+  /** Filter to tax payments associated with one or more payrolls, given as a comma-separated list of payroll UUIDs. */
+  payroll_uuids?: GetTaxPaymentsRequestPayrollUuidsList;
+  /** Lower-bound (inclusive) date filter on due_date. */
+  due_date_from?: string;
+  /** Upper-bound (inclusive) date filter on due_date. */
+  due_date_to?: string;
+  /** Lower-bound (inclusive) date filter on payment_sent_on. */
+  payment_sent_on_from?: string;
+  /** Upper-bound (inclusive) date filter on payment_sent_on. */
+  payment_sent_on_to?: string;
+  /** Lower-bound (inclusive) date filter on period_start. */
+  period_start_from?: string;
+  /** Upper-bound (inclusive) date filter on period_start. */
+  period_start_to?: string;
+  /** Lower-bound (inclusive) date filter on period_end. */
+  period_end_from?: string;
+  /** Upper-bound (inclusive) date filter on period_end. */
+  period_end_to?: string;
+  /** Lower-bound (inclusive) filter on amount. */
+  amount_min?: number;
+  /** Upper-bound (inclusive) filter on amount. */
+  amount_max?: number;
+  /** Sort by one or more fields. Options: amount, due_date, payment_sent_on, period_end, period_start. Append `:asc` or `:desc` to specify direction (e.g., `amount:asc`). Defaults to ascending. */
+  sort_by?: string;
+  /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
+  page?: number;
+  /** Number of objects per page. For majority of endpoints will default to 25 */
+  per?: number;
+}
+export const GetTaxPaymentsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    jurisdiction: S.optional(GetTaxPaymentsRequestJurisdictionList.pipe(T.Query())),
+    payroll_uuids: S.optional(GetTaxPaymentsRequestPayrollUuidsList.pipe(T.Query())),
+    due_date_from: S.optional(S.String.pipe(T.Query())),
+    due_date_to: S.optional(S.String.pipe(T.Query())),
+    payment_sent_on_from: S.optional(S.String.pipe(T.Query())),
+    payment_sent_on_to: S.optional(S.String.pipe(T.Query())),
+    period_start_from: S.optional(S.String.pipe(T.Query())),
+    period_start_to: S.optional(S.String.pipe(T.Query())),
+    period_end_from: S.optional(S.String.pipe(T.Query())),
+    period_end_to: S.optional(S.String.pipe(T.Query())),
+    amount_min: S.optional(S.Number.pipe(T.Query())),
+    amount_max: S.optional(S.Number.pipe(T.Query())),
+    sort_by: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/tax_payments", code: 200 })),
+).annotate({ identifier: "GetTaxPaymentsRequest" }) as any as S.Schema<GetTaxPaymentsRequest>;
+
+export type TaxPaymentList = Array<TaxPayment>;
+export const TaxPaymentList = /*@__PURE__*/ S.Array(TaxPayment) as any as S.Schema<TaxPaymentList>;
+
+export type GetTaxPaymentsResponse = TaxPaymentList;
+export const GetTaxPaymentsResponse = /*@__PURE__*/ S.suspend(() =>
+  TaxPaymentList.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "GetTaxPaymentsResponse" }) as any as S.Schema<GetTaxPaymentsResponse>;
+
 export interface GetTerminationRequest {
   /** The UUID of the employee */
   employee_id: string;
@@ -8020,9 +16180,7 @@ export const GetTerminationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employee_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/terminations/{employee_id}", code: 200 })),
-).annotate({
-  identifier: "GetTerminationRequest",
-}) as any as S.Schema<GetTerminationRequest>;
+).annotate({ identifier: "GetTerminationRequest" }) as any as S.Schema<GetTerminationRequest>;
 
 export interface GetTimeOffPolicyRequest {
   /** The UUID of the time off policy */
@@ -8032,15 +16190,21 @@ export const GetTimeOffPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     time_off_policy_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/time_off_policies/{time_off_policy_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/time_off_policies/{time_off_policy_uuid}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetTimeOffPolicyRequest",
-}) as any as S.Schema<GetTimeOffPolicyRequest>;
+).annotate({ identifier: "GetTimeOffPolicyRequest" }) as any as S.Schema<GetTimeOffPolicyRequest>;
+
+export interface GetTimeOffRequestRequest {
+  /** The UUID of the time off request */
+  time_off_request_uuid: string;
+}
+export const GetTimeOffRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    time_off_request_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/time_off/requests/{time_off_request_uuid}", code: 200 }),
+  ),
+).annotate({ identifier: "GetTimeOffRequestRequest" }) as any as S.Schema<GetTimeOffRequestRequest>;
 
 export interface GetTimeTrackingTimeSheetRequest {
   /** UUID of the time sheet */
@@ -8050,11 +16214,7 @@ export const GetTimeTrackingTimeSheetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     time_sheet_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/time_tracking/time_sheets/{time_sheet_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/time_tracking/time_sheets/{time_sheet_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTimeTrackingTimeSheetRequest",
@@ -8063,9 +16223,7 @@ export const GetTimeTrackingTimeSheetRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetTokenInfoRequest {}
 export const GetTokenInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/token_info", code: 200 })),
-).annotate({
-  identifier: "GetTokenInfoRequest",
-}) as any as S.Schema<GetTokenInfoRequest>;
+).annotate({ identifier: "GetTokenInfoRequest" }) as any as S.Schema<GetTokenInfoRequest>;
 
 /** The resource associated with this access token. Null when the token has no associated resource. */
 export interface TokenInfoResource {
@@ -8079,9 +16237,7 @@ export const TokenInfoResource = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TokenInfoResource",
-}) as any as S.Schema<TokenInfoResource>;
+).annotate({ identifier: "TokenInfoResource" }) as any as S.Schema<TokenInfoResource>;
 
 /** The type of resource owner: - `CompanyAdmin`: A company administrator - `Employee`: An employee - `Contractor`: A contractor */
 export type TokenInfoResourceOwnerType = "CompanyAdmin" | "Employee" | "Contractor";
@@ -8099,9 +16255,7 @@ export const TokenInfoResourceOwner = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(TokenInfoResourceOwnerType),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TokenInfoResourceOwner",
-}) as any as S.Schema<TokenInfoResourceOwner>;
+).annotate({ identifier: "TokenInfoResourceOwner" }) as any as S.Schema<TokenInfoResourceOwner>;
 
 export interface TokenInfo {
   /** The resource associated with this access token. Null when the token has no associated resource. */
@@ -8136,11 +16290,7 @@ export const GetV1BenefitsCompanyBenefitIdSummaryRequest = /*@__PURE__*/ S.suspe
     end_date: S.optional(S.String.pipe(T.Query())),
     detailed: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/company_benefits/{company_benefit_id}/summary",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/company_benefits/{company_benefit_id}/summary", code: 200 }),
   ),
 ).annotate({
   identifier: "GetV1BenefitsCompanyBenefitIdSummaryRequest",
@@ -8259,6 +16409,40 @@ export const BenefitSummary = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "BenefitSummary" }) as any as S.Schema<BenefitSummary>;
 
+export interface GetV1CompaniesAttachmentUrlRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The UUID of the company attachment */
+  company_attachment_uuid: string;
+}
+export const GetV1CompaniesAttachmentUrlRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    company_attachment_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/companies/{company_id}/attachments/{company_attachment_uuid}/download_url",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetV1CompaniesAttachmentUrlRequest",
+}) as any as S.Schema<GetV1CompaniesAttachmentUrlRequest>;
+
+/** The temporary url to download a Company Attachment File */
+export interface CompanyAttachmentDownloadUrl {
+  /** A full URL to download a Company Attachment File */
+  url: string;
+}
+export const CompanyAttachmentDownloadUrl = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    url: S.String,
+  }),
+).annotate({
+  identifier: "CompanyAttachmentDownloadUrl",
+}) as any as S.Schema<CompanyAttachmentDownloadUrl>;
+
 export interface GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsRequest {
   /** The UUID of the company */
   company_id: string;
@@ -8327,6 +16511,1130 @@ export const GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsResponse =
     identifier: "GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsResponse",
   }) as any as S.Schema<GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsResponse>;
 
+export interface GetV1CompaniesPayrollBlockersCompanyUuidRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+}
+export const GetV1CompaniesPayrollBlockersCompanyUuidRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/companies/{company_uuid}/payrolls/blockers", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetV1CompaniesPayrollBlockersCompanyUuidRequest",
+}) as any as S.Schema<GetV1CompaniesPayrollBlockersCompanyUuidRequest>;
+
+/** A unique identifier for the payroll blocker reason. For a complete list of blockers and their meanings, see the [Payroll Blockers guide](https://docs.gusto.com/embedded-payroll/docs/payroll-blockers). */
+export type PayrollBlockerKey =
+  | "company_ownership_required"
+  | "contractor_only_company"
+  | "eftps_in_error"
+  | "geocode_error"
+  | "geocode_needed"
+  | "invalid_signatory"
+  | "missing_addresses"
+  | "missing_bank_info"
+  | "missing_bank_verification"
+  | "missing_employee_setup"
+  | "missing_federal_tax_setup"
+  | "missing_forms"
+  | "missing_industry_selection"
+  | "missing_pay_schedule"
+  | "missing_signatory"
+  | "missing_state_tax_setup"
+  | "needs_approval"
+  | "needs_onboarding"
+  | "pay_schedule_setup_not_complete"
+  | "pending_information_request"
+  | "pending_payroll_review"
+  | "pending_recovery_case"
+  | "soft_suspended"
+  | "suspended";
+export const PayrollBlockerKey = S.String;
+
+export interface PayrollBlocker {
+  /** A unique identifier for the payroll blocker reason. For a complete list of blockers and their meanings, see the [Payroll Blockers guide](https://docs.gusto.com/embedded-payroll/docs/payroll-blockers). */
+  key: PayrollBlockerKey;
+  /** A human-readable message describing the payroll blocker and what action is needed to resolve it. */
+  message: string;
+}
+export const PayrollBlocker = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: PayrollBlockerKey,
+    message: S.String,
+  }),
+).annotate({ identifier: "PayrollBlocker" }) as any as S.Schema<PayrollBlocker>;
+
+export type GetV1CompaniesPayrollBlockersCompanyUuidResponseBodyList = Array<PayrollBlocker>;
+export const GetV1CompaniesPayrollBlockersCompanyUuidResponseBodyList = /*@__PURE__*/ S.Array(
+  PayrollBlocker,
+) as any as S.Schema<GetV1CompaniesPayrollBlockersCompanyUuidResponseBodyList>;
+
+export type GetV1CompaniesPayrollBlockersCompanyUuidResponse =
+  GetV1CompaniesPayrollBlockersCompanyUuidResponseBodyList;
+export const GetV1CompaniesPayrollBlockersCompanyUuidResponse = /*@__PURE__*/ S.suspend(() =>
+  GetV1CompaniesPayrollBlockersCompanyUuidResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetV1CompaniesPayrollBlockersCompanyUuidResponse",
+}) as any as S.Schema<GetV1CompaniesPayrollBlockersCompanyUuidResponse>;
+
+export interface GetV1CompanyFormRequest {
+  /** The UUID of the form */
+  form_id: string;
+}
+export const GetV1CompanyFormRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    form_id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/forms/{form_id}", code: 200 })),
+).annotate({ identifier: "GetV1CompanyFormRequest" }) as any as S.Schema<GetV1CompanyFormRequest>;
+
+export interface GetV1CompanyFormPdfRequest {
+  /** The UUID of the form */
+  form_id: string;
+}
+export const GetV1CompanyFormPdfRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    form_id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/forms/{form_id}/pdf", code: 200 })),
+).annotate({
+  identifier: "GetV1CompanyFormPdfRequest",
+}) as any as S.Schema<GetV1CompanyFormPdfRequest>;
+
+export interface GetV1CompanyIndustryRequest {
+  /** The UUID of the company */
+  company_id: string;
+}
+export const GetV1CompanyIndustryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/companies/{company_id}/industry_selection", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetV1CompanyIndustryRequest",
+}) as any as S.Schema<GetV1CompanyIndustryRequest>;
+
+/** A list of Standard Industrial Classification (SIC) codes, which are four digit numbers that categorize the industries that companies belong to based on their business activities. If sic_codes is not passed in, we will perform an internal lookup with `naics_code`. */
+export type IndustrySicCodesList = Array<string>;
+export const IndustrySicCodesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<IndustrySicCodesList>;
+
+export interface Industry {
+  /** Company UUID */
+  company_uuid?: string;
+  /** North American Industry Classification System (NAICS) is used to classify businesses with a six digit number based on the primary type of work the business performs. */
+  naics_code?: string | null;
+  /** A list of Standard Industrial Classification (SIC) codes, which are four digit numbers that categorize the industries that companies belong to based on their business activities. If sic_codes is not passed in, we will perform an internal lookup with `naics_code`. */
+  sic_codes?: IndustrySicCodesList;
+  /** Industry title */
+  title?: string | null;
+}
+export const Industry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.optional(S.String),
+    naics_code: S.optional(S.NullOr(S.String)),
+    sic_codes: S.optional(IndustrySicCodesList),
+    title: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "Industry" }) as any as S.Schema<Industry>;
+
+export interface GetV1ContractorDocumentRequest {
+  /** The UUID of the document */
+  document_uuid: string;
+}
+export const GetV1ContractorDocumentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    document_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/documents/{document_uuid}", code: 200 })),
+).annotate({
+  identifier: "GetV1ContractorDocumentRequest",
+}) as any as S.Schema<GetV1ContractorDocumentRequest>;
+
+export interface GetV1ContractorDocumentPdfRequest {
+  /** The UUID of the document */
+  document_uuid: string;
+}
+export const GetV1ContractorDocumentPdfRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    document_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/documents/{document_uuid}/pdf", code: 200 })),
+).annotate({
+  identifier: "GetV1ContractorDocumentPdfRequest",
+}) as any as S.Schema<GetV1ContractorDocumentPdfRequest>;
+
+export interface DocumentPdf {
+  /** the URL of the document */
+  document_url?: string;
+  /** the UUID of the document */
+  uuid?: string;
+}
+export const DocumentPdf = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    document_url: S.optional(S.String),
+    uuid: S.optional(S.String),
+  }),
+).annotate({ identifier: "DocumentPdf" }) as any as S.Schema<DocumentPdf>;
+
+export interface GetV1ContractorPaymentGroupsContractorPaymentGroupIdRequest {
+  /** The UUID of the contractor payment group */
+  contractor_payment_group_uuid: string;
+}
+export const GetV1ContractorPaymentGroupsContractorPaymentGroupIdRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      contractor_payment_group_uuid: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/v1/contractor_payment_groups/{contractor_payment_group_uuid}",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetV1ContractorPaymentGroupsContractorPaymentGroupIdRequest",
+}) as any as S.Schema<GetV1ContractorPaymentGroupsContractorPaymentGroupIdRequest>;
+
+/** The status of the contractor payment group. Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded. A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method. */
+export type GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseStatus =
+  | "Unfunded"
+  | "Funded";
+export const GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseStatus = S.String;
+
+export type GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseContractorPaymentsList =
+  Array<ContractorPaymentForGroup>;
+export const GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseContractorPaymentsList =
+  /*@__PURE__*/ S.Array(
+    ContractorPaymentForGroup,
+  ) as any as S.Schema<GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseContractorPaymentsList>;
+
+/** List of credit blockers for the contractor payment group. */
+export type GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseCreditBlockersList =
+  Array<PayrollCreditBlockerType>;
+export const GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseCreditBlockersList =
+  /*@__PURE__*/ S.Array(
+    PayrollCreditBlockerType,
+  ) as any as S.Schema<GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseCreditBlockersList>;
+
+/** List of submission blockers for the contractor payment group. */
+export type GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseSubmissionBlockersList =
+  Array<PayrollSubmissionBlockerType>;
+export const GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseSubmissionBlockersList =
+  /*@__PURE__*/ S.Array(
+    PayrollSubmissionBlockerType,
+  ) as any as S.Schema<GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseSubmissionBlockersList>;
+
+export type GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseTotals =
+  CreateCompanyContractorPaymentGroupResponseTotals;
+export const GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseTotals =
+  CreateCompanyContractorPaymentGroupResponseTotals;
+
+export interface GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponse {
+  /** The check date of the contractor payment group. */
+  check_date?: string;
+  /** The UUID of the company. */
+  company_uuid?: string;
+  /** Token used to make contractor payment group creation idempotent. Will error if attempting to create a group with a duplicate token. */
+  creation_token?: string | null;
+  /** The debit date of the contractor payment group. */
+  debit_date?: string;
+  /** The status of the contractor payment group. Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded. A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method. */
+  status?: GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseStatus;
+  /** The unique identifier of the contractor payment group. */
+  uuid?: string;
+  contractor_payments?: GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseContractorPaymentsList;
+  /** List of credit blockers for the contractor payment group. */
+  credit_blockers?: GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseCreditBlockersList;
+  /** Whether the disbursement is partner owned. */
+  partner_owned_disbursement?: boolean | null;
+  /** List of submission blockers for the contractor payment group. */
+  submission_blockers?: GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseSubmissionBlockersList;
+  totals?: CreateCompanyContractorPaymentGroupResponseTotals;
+}
+export const GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      check_date: S.optional(S.String),
+      company_uuid: S.optional(S.String),
+      creation_token: S.optional(S.NullOr(S.String)),
+      debit_date: S.optional(S.String),
+      status: S.optional(GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseStatus),
+      uuid: S.optional(S.String),
+      contractor_payments: S.optional(
+        GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseContractorPaymentsList,
+      ),
+      credit_blockers: S.optional(
+        GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseCreditBlockersList,
+      ),
+      partner_owned_disbursement: S.optional(S.NullOr(S.Boolean)),
+      submission_blockers: S.optional(
+        GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseSubmissionBlockersList,
+      ),
+      totals: S.optional(CreateCompanyContractorPaymentGroupResponseTotals),
+    }),
+).annotate({
+  identifier: "GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponse",
+}) as any as S.Schema<GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponse>;
+
+export interface GetV1ContractorPaymentsContractorPaymentUuidFundRequest {
+  /** The UUID of the contractor payment */
+  contractor_payment_uuid: string;
+}
+export const GetV1ContractorPaymentsContractorPaymentUuidFundRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_payment_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/contractor_payments/{contractor_payment_uuid}/fund",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetV1ContractorPaymentsContractorPaymentUuidFundRequest",
+}) as any as S.Schema<GetV1ContractorPaymentsContractorPaymentUuidFundRequest>;
+
+export interface GetV1EmployeesEmployeeIdFederalTaxesRequest {
+  /** The UUID of the employee */
+  employee_uuid: string;
+}
+export const GetV1EmployeesEmployeeIdFederalTaxesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employees/{employee_uuid}/federal_taxes", code: 200 })),
+).annotate({
+  identifier: "GetV1EmployeesEmployeeIdFederalTaxesRequest",
+}) as any as S.Schema<GetV1EmployeesEmployeeIdFederalTaxesRequest>;
+
+/** The version of w4 form. */
+export type EmployeeFederalTaxPre2020W4DataType = "pre_2020_w4";
+export const EmployeeFederalTaxPre2020W4DataType = S.String;
+
+/** Federal tax information for employees using the pre-2020 W4 form. */
+export interface EmployeeFederalTaxPre2020 {
+  /** An additional withholding dollar amount. */
+  additional_withholding: string;
+  /** The internal ID of the company. */
+  company_id?: number;
+  /** The internal ID of the employee. */
+  employee_id?: number;
+  /** The UUID of the employee. */
+  employee_uuid?: string;
+  /** An exemption from paying a certain amount of income tax. May be null when filing_status is "Exempt from withholding". */
+  federal_withholding_allowance?: number | null;
+  /** It determines which tax return form an individual will use and is an important factor in computing taxable income. One of: - Single - Married - Head of Household - Exempt from withholding - Married, but withhold as Single */
+  filing_status?: string | null;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version: string;
+  /** The version of w4 form. */
+  w4_data_type: EmployeeFederalTaxPre2020W4DataType;
+}
+export const EmployeeFederalTaxPre2020 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    additional_withholding: S.String,
+    company_id: S.optional(S.Number),
+    employee_id: S.optional(S.Number),
+    employee_uuid: S.optional(S.String),
+    federal_withholding_allowance: S.optional(S.NullOr(S.Number)),
+    filing_status: S.optional(S.NullOr(S.String)),
+    version: S.String,
+    w4_data_type: EmployeeFederalTaxPre2020W4DataType,
+  }),
+).annotate({
+  identifier: "EmployeeFederalTaxPre2020",
+}) as any as S.Schema<EmployeeFederalTaxPre2020>;
+
+/** The version of w4 form. */
+export type EmployeeFederalTaxRev2020W4DataType = "rev_2020_w4";
+export const EmployeeFederalTaxRev2020W4DataType = S.String;
+
+/** Federal tax information for employees using the revised 2020 W4 form. */
+export interface EmployeeFederalTaxRev2020 {
+  /** The internal ID of the company. */
+  company_id?: number;
+  /** Deductions other than the standard deduction to reduce withholding. */
+  deductions: string | null;
+  /** A dependent is a person other than the taxpayer or spouse who entitles the taxpayer to claim a dependency exemption. */
+  dependents_amount: string | null;
+  /** The internal ID of the employee. */
+  employee_id?: number;
+  /** The UUID of the employee. */
+  employee_uuid?: string;
+  /** An employee can request an additional amount to be withheld from each paycheck. */
+  extra_withholding: string | null;
+  /** It determines which tax return form an individual will use and is an important factor in computing taxable income. One of: - Single - Married - Head of Household - Exempt from withholding */
+  filing_status: string | null;
+  /** Other income amount. */
+  other_income: string | null;
+  /** If there are only two jobs (i.e., you and your spouse each have a job, or you have two), you can set it to true. */
+  two_jobs: boolean | null;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version: string;
+  /** The version of w4 form. */
+  w4_data_type: EmployeeFederalTaxRev2020W4DataType;
+}
+export const EmployeeFederalTaxRev2020 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.optional(S.Number),
+    deductions: S.NullOr(S.String),
+    dependents_amount: S.NullOr(S.String),
+    employee_id: S.optional(S.Number),
+    employee_uuid: S.optional(S.String),
+    extra_withholding: S.NullOr(S.String),
+    filing_status: S.NullOr(S.String),
+    other_income: S.NullOr(S.String),
+    two_jobs: S.NullOr(S.Boolean),
+    version: S.String,
+    w4_data_type: EmployeeFederalTaxRev2020W4DataType,
+  }),
+).annotate({
+  identifier: "EmployeeFederalTaxRev2020",
+}) as any as S.Schema<EmployeeFederalTaxRev2020>;
+
+/** Federal tax information for an employee. The response structure varies based on the w4_data_type field. */
+export type EmployeeFederalTax = EmployeeFederalTaxPre2020 | EmployeeFederalTaxRev2020;
+export const EmployeeFederalTax = S.Unknown as any as S.Schema<EmployeeFederalTax>;
+
+export type GetV1EmployeesEmployeeIdFederalTaxesResponse = EmployeeFederalTax;
+export const GetV1EmployeesEmployeeIdFederalTaxesResponse = /*@__PURE__*/ S.suspend(() =>
+  EmployeeFederalTax.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetV1EmployeesEmployeeIdFederalTaxesResponse",
+}) as any as S.Schema<GetV1EmployeesEmployeeIdFederalTaxesResponse>;
+
+export interface GetV1EmployeesEmployeeIdStateTaxesRequest {
+  /** The UUID of the employee */
+  employee_uuid: string;
+}
+export const GetV1EmployeesEmployeeIdStateTaxesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employees/{employee_uuid}/state_taxes", code: 200 })),
+).annotate({
+  identifier: "GetV1EmployeesEmployeeIdStateTaxesRequest",
+}) as any as S.Schema<GetV1EmployeesEmployeeIdStateTaxesRequest>;
+
+/** The answer to the corresponding question - this may be a string, number, boolean, or null. */
+export type EmployeeStateTaxAnswerValue = string | number | boolean;
+export const EmployeeStateTaxAnswerValue =
+  S.Unknown as any as S.Schema<EmployeeStateTaxAnswerValue>;
+
+export interface EmployeeStateTaxAnswer {
+  /** The effective date of the answer - currently always “2010-01-01”. */
+  valid_from?: string;
+  /** The effective end date of the answer - currently always null. */
+  valid_up_to?: string | null;
+  /** The answer to the corresponding question - this may be a string, number, boolean, or null. */
+  value?: EmployeeStateTaxAnswerValue | null;
+}
+export const EmployeeStateTaxAnswer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    valid_from: S.optional(S.String),
+    valid_up_to: S.optional(S.NullOr(S.String)),
+    value: S.optional(S.NullOr(EmployeeStateTaxAnswerValue)),
+  }),
+).annotate({ identifier: "EmployeeStateTaxAnswer" }) as any as S.Schema<EmployeeStateTaxAnswer>;
+
+export type EmployeeStateTaxQuestionAnswersList = Array<EmployeeStateTaxAnswer>;
+export const EmployeeStateTaxQuestionAnswersList = /*@__PURE__*/ S.Array(
+  EmployeeStateTaxAnswer,
+) as any as S.Schema<EmployeeStateTaxQuestionAnswersList>;
+
+/** An allowed value to answer the question */
+export type EmployeeStateTaxInputQuestionFormatOptionsItemValue = string | boolean | number;
+export const EmployeeStateTaxInputQuestionFormatOptionsItemValue =
+  S.Unknown as any as S.Schema<EmployeeStateTaxInputQuestionFormatOptionsItemValue>;
+
+export interface EmployeeStateTaxInputQuestionFormatOptionsItem {
+  /** A display label that corresponds to the answer value */
+  label: string;
+  /** An allowed value to answer the question */
+  value?: EmployeeStateTaxInputQuestionFormatOptionsItemValue;
+}
+export const EmployeeStateTaxInputQuestionFormatOptionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    label: S.String,
+    value: S.optional(EmployeeStateTaxInputQuestionFormatOptionsItemValue),
+  }),
+).annotate({
+  identifier: "EmployeeStateTaxInputQuestionFormatOptionsItem",
+}) as any as S.Schema<EmployeeStateTaxInputQuestionFormatOptionsItem>;
+
+/** For "Select" type questions, the allowed values and display labels. */
+export type EmployeeStateTaxInputQuestionFormatOptionsList =
+  Array<EmployeeStateTaxInputQuestionFormatOptionsItem>;
+export const EmployeeStateTaxInputQuestionFormatOptionsList = /*@__PURE__*/ S.Array(
+  EmployeeStateTaxInputQuestionFormatOptionsItem,
+) as any as S.Schema<EmployeeStateTaxInputQuestionFormatOptionsList>;
+
+export interface EmployeeStateTaxInputQuestionFormat {
+  /** For "Select" type questions, the allowed values and display labels. */
+  options?: EmployeeStateTaxInputQuestionFormatOptionsList;
+  /** Describes the type of question - Text, Number, Select, Currency, Date */
+  type: string;
+}
+export const EmployeeStateTaxInputQuestionFormat = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    options: S.optional(EmployeeStateTaxInputQuestionFormatOptionsList),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "EmployeeStateTaxInputQuestionFormat",
+}) as any as S.Schema<EmployeeStateTaxInputQuestionFormat>;
+
+export interface EmployeeStateTaxQuestion {
+  answers: EmployeeStateTaxQuestionAnswersList;
+  /** An explaination of the question - this may contain inline html formatted links. */
+  description: string | null;
+  input_question_format: EmployeeStateTaxInputQuestionFormat;
+  is_question_for_admin_only: boolean;
+  /** A unique identifier of the question (for the given state) - used for updating the answer. */
+  key: string;
+  /** A short title for the question */
+  label: string;
+}
+export const EmployeeStateTaxQuestion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    answers: EmployeeStateTaxQuestionAnswersList,
+    description: S.NullOr(S.String),
+    input_question_format: EmployeeStateTaxInputQuestionFormat,
+    is_question_for_admin_only: S.Boolean,
+    key: S.String,
+    label: S.String,
+  }),
+).annotate({ identifier: "EmployeeStateTaxQuestion" }) as any as S.Schema<EmployeeStateTaxQuestion>;
+
+export type EmployeeStateTaxesListItemQuestionsList = Array<EmployeeStateTaxQuestion>;
+export const EmployeeStateTaxesListItemQuestionsList = /*@__PURE__*/ S.Array(
+  EmployeeStateTaxQuestion,
+) as any as S.Schema<EmployeeStateTaxesListItemQuestionsList>;
+
+export interface EmployeeStateTaxesListItem {
+  /** The employee's uuid */
+  employee_uuid?: string;
+  file_new_hire_report?: boolean | null;
+  is_work_state?: boolean;
+  questions?: EmployeeStateTaxesListItemQuestionsList;
+  /** Two letter US state abbreviation */
+  state?: string;
+  /** The uuid of the employee state field. */
+  uuid?: string;
+}
+export const EmployeeStateTaxesListItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_uuid: S.optional(S.String),
+    file_new_hire_report: S.optional(S.NullOr(S.Boolean)),
+    is_work_state: S.optional(S.Boolean),
+    questions: S.optional(EmployeeStateTaxesListItemQuestionsList),
+    state: S.optional(S.String),
+    uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EmployeeStateTaxesListItem",
+}) as any as S.Schema<EmployeeStateTaxesListItem>;
+
+export type EmployeeStateTaxesList = Array<EmployeeStateTaxesListItem>;
+export const EmployeeStateTaxesList = /*@__PURE__*/ S.Array(
+  EmployeeStateTaxesListItem,
+) as any as S.Schema<EmployeeStateTaxesList>;
+
+export type GetV1EmployeesEmployeeIdStateTaxesResponse = EmployeeStateTaxesList;
+export const GetV1EmployeesEmployeeIdStateTaxesResponse = /*@__PURE__*/ S.suspend(() =>
+  EmployeeStateTaxesList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetV1EmployeesEmployeeIdStateTaxesResponse",
+}) as any as S.Schema<GetV1EmployeesEmployeeIdStateTaxesResponse>;
+
+export interface GetV1EmployeesEmployeeUuidPayStubsRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+  /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
+  page?: number;
+  /** Number of objects per page. For majority of endpoints will default to 25 */
+  per?: number;
+}
+export const GetV1EmployeesEmployeeUuidPayStubsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employees/{employee_id}/pay_stubs", code: 200 })),
+).annotate({
+  identifier: "GetV1EmployeesEmployeeUuidPayStubsRequest",
+}) as any as S.Schema<GetV1EmployeesEmployeeUuidPayStubsRequest>;
+
+/** The payment method for the pay stub. */
+export type EmployeePayStubsListItemPaymentMethod = "Direct Deposit" | "Check";
+export const EmployeePayStubsListItemPaymentMethod = S.String;
+
+/** The representation of an employee pay stub information. */
+export interface EmployeePayStubsListItem {
+  /** The check amount for the pay stub. */
+  check_amount?: string;
+  /** The check date of the pay stub. */
+  check_date?: string;
+  /** The gross pay amount for the pay stub. */
+  gross_pay?: string;
+  /** The net pay amount for the pay stub. */
+  net_pay?: string;
+  /** The payment method for the pay stub. */
+  payment_method?: EmployeePayStubsListItemPaymentMethod;
+  /** A unique identifier of the payroll to which the pay stub belongs. */
+  payroll_uuid?: string;
+  /** The UUID of the employee pay stub. */
+  uuid: string;
+}
+export const EmployeePayStubsListItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    check_amount: S.optional(S.String),
+    check_date: S.optional(S.String),
+    gross_pay: S.optional(S.String),
+    net_pay: S.optional(S.String),
+    payment_method: S.optional(EmployeePayStubsListItemPaymentMethod),
+    payroll_uuid: S.optional(S.String),
+    uuid: S.String,
+  }),
+).annotate({ identifier: "EmployeePayStubsListItem" }) as any as S.Schema<EmployeePayStubsListItem>;
+
+export type EmployeePayStubsList = Array<EmployeePayStubsListItem>;
+export const EmployeePayStubsList = /*@__PURE__*/ S.Array(
+  EmployeePayStubsListItem,
+) as any as S.Schema<EmployeePayStubsList>;
+
+export type GetV1EmployeesEmployeeUuidPayStubsResponse = EmployeePayStubsList;
+export const GetV1EmployeesEmployeeUuidPayStubsResponse = /*@__PURE__*/ S.suspend(() =>
+  EmployeePayStubsList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetV1EmployeesEmployeeUuidPayStubsResponse",
+}) as any as S.Schema<GetV1EmployeesEmployeeUuidPayStubsResponse>;
+
+export interface GetV1ExternalPayrollRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The UUID of the external payroll */
+  external_payroll_id: string;
+}
+export const GetV1ExternalPayrollRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    external_payroll_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/companies/{company_uuid}/external_payrolls/{external_payroll_id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetV1ExternalPayrollRequest",
+}) as any as S.Schema<GetV1ExternalPayrollRequest>;
+
+export interface ExternalPayrollApplicableBenefitsItem {
+  active?: boolean;
+  description?: string;
+  id?: number;
+}
+export const ExternalPayrollApplicableBenefitsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    active: S.optional(S.Boolean),
+    description: S.optional(S.String),
+    id: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ExternalPayrollApplicableBenefitsItem",
+}) as any as S.Schema<ExternalPayrollApplicableBenefitsItem>;
+
+/** Applicable benefits based on company provisioning. */
+export type ExternalPayrollApplicableBenefitsList = Array<ExternalPayrollApplicableBenefitsItem>;
+export const ExternalPayrollApplicableBenefitsList = /*@__PURE__*/ S.Array(
+  ExternalPayrollApplicableBenefitsItem,
+) as any as S.Schema<ExternalPayrollApplicableBenefitsList>;
+
+export interface ExternalPayrollApplicableEarningsItem {
+  category?: string;
+  earning_id?: number;
+  earning_type?: string;
+  input_type?: string;
+  name?: string;
+}
+export const ExternalPayrollApplicableEarningsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.optional(S.String),
+    earning_id: S.optional(S.Number),
+    earning_type: S.optional(S.String),
+    input_type: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ExternalPayrollApplicableEarningsItem",
+}) as any as S.Schema<ExternalPayrollApplicableEarningsItem>;
+
+/** Applicable earnings based on company provisioning. */
+export type ExternalPayrollApplicableEarningsList = Array<ExternalPayrollApplicableEarningsItem>;
+export const ExternalPayrollApplicableEarningsList = /*@__PURE__*/ S.Array(
+  ExternalPayrollApplicableEarningsItem,
+) as any as S.Schema<ExternalPayrollApplicableEarningsList>;
+
+export interface ExternalPayrollApplicableTaxesItem {
+  /** Some taxes may have an amount withheld from the employee and an amount withheld from the employer, e.g. Social Security. A `true` value indicates this is the employer's amount. */
+  employer_tax?: boolean;
+  id?: number;
+  name?: string;
+  /** Some taxes may have different rates or reporting requirements depending on if the employee is a resident or non-resident of the tax jurisdiction. */
+  resident_tax?: boolean;
+}
+export const ExternalPayrollApplicableTaxesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employer_tax: S.optional(S.Boolean),
+    id: S.optional(S.Number),
+    name: S.optional(S.String),
+    resident_tax: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ExternalPayrollApplicableTaxesItem",
+}) as any as S.Schema<ExternalPayrollApplicableTaxesItem>;
+
+/** Applicable taxes based on company provisioning. */
+export type ExternalPayrollApplicableTaxesList = Array<ExternalPayrollApplicableTaxesItem>;
+export const ExternalPayrollApplicableTaxesList = /*@__PURE__*/ S.Array(
+  ExternalPayrollApplicableTaxesItem,
+) as any as S.Schema<ExternalPayrollApplicableTaxesList>;
+
+export interface ExternalPayrollExternalPayrollItemsItemBenefitsItem {
+  benefit_id?: number;
+  company_contribution_amount?: string;
+  employee_deduction_amount?: string;
+}
+export const ExternalPayrollExternalPayrollItemsItemBenefitsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    benefit_id: S.optional(S.Number),
+    company_contribution_amount: S.optional(S.String),
+    employee_deduction_amount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ExternalPayrollExternalPayrollItemsItemBenefitsItem",
+}) as any as S.Schema<ExternalPayrollExternalPayrollItemsItemBenefitsItem>;
+
+export type ExternalPayrollExternalPayrollItemsItemBenefitsList =
+  Array<ExternalPayrollExternalPayrollItemsItemBenefitsItem>;
+export const ExternalPayrollExternalPayrollItemsItemBenefitsList = /*@__PURE__*/ S.Array(
+  ExternalPayrollExternalPayrollItemsItemBenefitsItem,
+) as any as S.Schema<ExternalPayrollExternalPayrollItemsItemBenefitsList>;
+
+export interface ExternalPayrollExternalPayrollItemsItemEarningsItem {
+  amount?: string;
+  earning_id?: number;
+  earning_type?: string;
+  hours?: string;
+}
+export const ExternalPayrollExternalPayrollItemsItemEarningsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.optional(S.String),
+    earning_id: S.optional(S.Number),
+    earning_type: S.optional(S.String),
+    hours: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ExternalPayrollExternalPayrollItemsItemEarningsItem",
+}) as any as S.Schema<ExternalPayrollExternalPayrollItemsItemEarningsItem>;
+
+export type ExternalPayrollExternalPayrollItemsItemEarningsList =
+  Array<ExternalPayrollExternalPayrollItemsItemEarningsItem>;
+export const ExternalPayrollExternalPayrollItemsItemEarningsList = /*@__PURE__*/ S.Array(
+  ExternalPayrollExternalPayrollItemsItemEarningsItem,
+) as any as S.Schema<ExternalPayrollExternalPayrollItemsItemEarningsList>;
+
+export interface ExternalPayrollExternalPayrollItemsItemTaxesItem {
+  amount?: string;
+  tax_id?: number;
+}
+export const ExternalPayrollExternalPayrollItemsItemTaxesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.optional(S.String),
+    tax_id: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ExternalPayrollExternalPayrollItemsItemTaxesItem",
+}) as any as S.Schema<ExternalPayrollExternalPayrollItemsItemTaxesItem>;
+
+export type ExternalPayrollExternalPayrollItemsItemTaxesList =
+  Array<ExternalPayrollExternalPayrollItemsItemTaxesItem>;
+export const ExternalPayrollExternalPayrollItemsItemTaxesList = /*@__PURE__*/ S.Array(
+  ExternalPayrollExternalPayrollItemsItemTaxesItem,
+) as any as S.Schema<ExternalPayrollExternalPayrollItemsItemTaxesList>;
+
+export interface ExternalPayrollExternalPayrollItemsItem {
+  benefits?: ExternalPayrollExternalPayrollItemsItemBenefitsList;
+  earnings?: ExternalPayrollExternalPayrollItemsItemEarningsList;
+  employee_uuid?: string;
+  taxes?: ExternalPayrollExternalPayrollItemsItemTaxesList;
+}
+export const ExternalPayrollExternalPayrollItemsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    benefits: S.optional(ExternalPayrollExternalPayrollItemsItemBenefitsList),
+    earnings: S.optional(ExternalPayrollExternalPayrollItemsItemEarningsList),
+    employee_uuid: S.optional(S.String),
+    taxes: S.optional(ExternalPayrollExternalPayrollItemsItemTaxesList),
+  }),
+).annotate({
+  identifier: "ExternalPayrollExternalPayrollItemsItem",
+}) as any as S.Schema<ExternalPayrollExternalPayrollItemsItem>;
+
+/** External payroll items for employees */
+export type ExternalPayrollExternalPayrollItemsList =
+  Array<ExternalPayrollExternalPayrollItemsItem>;
+export const ExternalPayrollExternalPayrollItemsList = /*@__PURE__*/ S.Array(
+  ExternalPayrollExternalPayrollItemsItem,
+) as any as S.Schema<ExternalPayrollExternalPayrollItemsList>;
+
+/** Stores metadata of the external payroll. */
+export interface ExternalPayrollMetadata {
+  /** Determines if the external payroll can be deleted. */
+  deletable?: boolean;
+}
+export const ExternalPayrollMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    deletable: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "ExternalPayrollMetadata" }) as any as S.Schema<ExternalPayrollMetadata>;
+
+/** The status of the external payroll. The status will be `unprocessed` when the external payroll is created and transition to `processed` once tax liabilities are entered and finalized. Once in the `processed` status all actions that can edit an external payroll will be disabled. */
+export type ExternalPayrollStatus = "unprocessed" | "processed";
+export const ExternalPayrollStatus = S.String;
+
+/** The representation of an external payroll. */
+export interface ExternalPayroll {
+  /** Applicable benefits based on company provisioning. */
+  applicable_benefits?: ExternalPayrollApplicableBenefitsList | null;
+  /** Applicable earnings based on company provisioning. */
+  applicable_earnings?: ExternalPayrollApplicableEarningsList;
+  /** Applicable taxes based on company provisioning. */
+  applicable_taxes?: ExternalPayrollApplicableTaxesList;
+  /** External payroll's check date. */
+  check_date?: string;
+  /** The UUID of the company. */
+  company_uuid?: string;
+  /** External payroll items for employees */
+  external_payroll_items?: ExternalPayrollExternalPayrollItemsList;
+  /** Stores metadata of the external payroll. */
+  metadata?: ExternalPayrollMetadata;
+  /** External payroll's pay period end date. */
+  payment_period_end_date?: string;
+  /** External payroll's pay period start date. */
+  payment_period_start_date?: string;
+  /** The status of the external payroll. The status will be `unprocessed` when the external payroll is created and transition to `processed` once tax liabilities are entered and finalized. Once in the `processed` status all actions that can edit an external payroll will be disabled. */
+  status?: ExternalPayrollStatus;
+  /** The UUID of the external payroll. */
+  uuid: string;
+}
+export const ExternalPayroll = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    applicable_benefits: S.optional(S.NullOr(ExternalPayrollApplicableBenefitsList)),
+    applicable_earnings: S.optional(ExternalPayrollApplicableEarningsList),
+    applicable_taxes: S.optional(ExternalPayrollApplicableTaxesList),
+    check_date: S.optional(S.String),
+    company_uuid: S.optional(S.String),
+    external_payroll_items: S.optional(ExternalPayrollExternalPayrollItemsList),
+    metadata: S.optional(ExternalPayrollMetadata),
+    payment_period_end_date: S.optional(S.String),
+    payment_period_start_date: S.optional(S.String),
+    status: S.optional(ExternalPayrollStatus),
+    uuid: S.String,
+  }),
+).annotate({ identifier: "ExternalPayroll" }) as any as S.Schema<ExternalPayroll>;
+
+export interface GetV1ExternalPayrollCalculateTaxesRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The UUID of the external payroll */
+  external_payroll_id: string;
+}
+export const GetV1ExternalPayrollCalculateTaxesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    external_payroll_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/companies/{company_uuid}/external_payrolls/{external_payroll_id}/calculate_taxes",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetV1ExternalPayrollCalculateTaxesRequest",
+}) as any as S.Schema<GetV1ExternalPayrollCalculateTaxesRequest>;
+
+export interface ExternalPayrollTaxSuggestionsTaxSuggestionsItem {
+  /** Calculated tax amount. */
+  amount?: string;
+  /** The ID of the tax. */
+  tax_id?: number;
+}
+export const ExternalPayrollTaxSuggestionsTaxSuggestionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.optional(S.String),
+    tax_id: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ExternalPayrollTaxSuggestionsTaxSuggestionsItem",
+}) as any as S.Schema<ExternalPayrollTaxSuggestionsTaxSuggestionsItem>;
+
+/** Possible tax liabilities selections. */
+export type ExternalPayrollTaxSuggestionsTaxSuggestionsList =
+  Array<ExternalPayrollTaxSuggestionsTaxSuggestionsItem>;
+export const ExternalPayrollTaxSuggestionsTaxSuggestionsList = /*@__PURE__*/ S.Array(
+  ExternalPayrollTaxSuggestionsTaxSuggestionsItem,
+) as any as S.Schema<ExternalPayrollTaxSuggestionsTaxSuggestionsList>;
+
+/** The representation of an external payroll with minimal information. */
+export interface ExternalPayrollTaxSuggestions {
+  /** The UUID of the employee. */
+  employee_uuid?: string;
+  /** Possible tax liabilities selections. */
+  tax_suggestions?: ExternalPayrollTaxSuggestionsTaxSuggestionsList;
+}
+export const ExternalPayrollTaxSuggestions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_uuid: S.optional(S.String),
+    tax_suggestions: S.optional(ExternalPayrollTaxSuggestionsTaxSuggestionsList),
+  }),
+).annotate({
+  identifier: "ExternalPayrollTaxSuggestions",
+}) as any as S.Schema<ExternalPayrollTaxSuggestions>;
+
+export type GetV1ExternalPayrollCalculateTaxesResponseBodyList =
+  Array<ExternalPayrollTaxSuggestions>;
+export const GetV1ExternalPayrollCalculateTaxesResponseBodyList = /*@__PURE__*/ S.Array(
+  ExternalPayrollTaxSuggestions,
+) as any as S.Schema<GetV1ExternalPayrollCalculateTaxesResponseBodyList>;
+
+export type GetV1ExternalPayrollCalculateTaxesResponse =
+  GetV1ExternalPayrollCalculateTaxesResponseBodyList;
+export const GetV1ExternalPayrollCalculateTaxesResponse = /*@__PURE__*/ S.suspend(() =>
+  GetV1ExternalPayrollCalculateTaxesResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetV1ExternalPayrollCalculateTaxesResponse",
+}) as any as S.Schema<GetV1ExternalPayrollCalculateTaxesResponse>;
+
+export interface GetV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+}
+export const GetV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      company_uuid: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/v1/partner_managed_companies/{company_uuid}/terms_of_service",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest",
+}) as any as S.Schema<GetV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest>;
+
+export interface PartnerManagedCompanyTermsOfServiceResponse {
+  /** Whether the latest terms have been accepted by the user. */
+  latest_terms_accepted?: boolean;
+}
+export const PartnerManagedCompanyTermsOfServiceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    latest_terms_accepted: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "PartnerManagedCompanyTermsOfServiceResponse",
+}) as any as S.Schema<PartnerManagedCompanyTermsOfServiceResponse>;
+
+export interface GetV1PaymentReceiptsPayrollsPayrollUuidRequest {
+  /** The UUID of the payroll */
+  payroll_uuid: string;
+  /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
+  page?: number;
+  /** Number of objects per page. For majority of endpoints will default to 25 */
+  per?: number;
+}
+export const GetV1PaymentReceiptsPayrollsPayrollUuidRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    payroll_uuid: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/payrolls/{payroll_uuid}/receipt", code: 200 })),
+).annotate({
+  identifier: "GetV1PaymentReceiptsPayrollsPayrollUuidRequest",
+}) as any as S.Schema<GetV1PaymentReceiptsPayrollsPayrollUuidRequest>;
+
+/** The employee's compensation payment method. */
+export type PayrollReceiptEmployeeCompensationsItemPaymentMethod = "Direct Deposit" | "Check";
+export const PayrollReceiptEmployeeCompensationsItemPaymentMethod = S.String;
+
+export interface PayrollReceiptEmployeeCompensationsItem {
+  /** The total child support garnishment for the pay period. */
+  child_support_garnishment?: string;
+  /** The first name of the employee. */
+  employee_first_name?: string;
+  /** The last name of the employee. */
+  employee_last_name?: string;
+  /** The UUID of the employee. */
+  employee_uuid?: string;
+  /** The employee's net pay. Net pay paid by check is available for reference but is not included in the `["totals"]["net_pay_debit"]` amount. */
+  net_pay?: string;
+  /** The employee's compensation payment method. */
+  payment_method?: PayrollReceiptEmployeeCompensationsItemPaymentMethod;
+  /** The total garnishments for the pay period. */
+  total_garnishments?: string;
+  /** The total reimbursement for the pay period. */
+  total_reimbursement?: string;
+  /** The total of employer and employee taxes for the pay period. */
+  total_tax?: string;
+}
+export const PayrollReceiptEmployeeCompensationsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    child_support_garnishment: S.optional(S.String),
+    employee_first_name: S.optional(S.String),
+    employee_last_name: S.optional(S.String),
+    employee_uuid: S.optional(S.String),
+    net_pay: S.optional(S.String),
+    payment_method: S.optional(PayrollReceiptEmployeeCompensationsItemPaymentMethod),
+    total_garnishments: S.optional(S.String),
+    total_reimbursement: S.optional(S.String),
+    total_tax: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PayrollReceiptEmployeeCompensationsItem",
+}) as any as S.Schema<PayrollReceiptEmployeeCompensationsItem>;
+
+/** An array of employee compensations and withholdings for this payroll */
+export type PayrollReceiptEmployeeCompensationsList =
+  Array<PayrollReceiptEmployeeCompensationsItem>;
+export const PayrollReceiptEmployeeCompensationsList = /*@__PURE__*/ S.Array(
+  PayrollReceiptEmployeeCompensationsItem,
+) as any as S.Schema<PayrollReceiptEmployeeCompensationsList>;
+
+/** The licensed payroll processor */
+export type PayrollReceiptLicensee = ContractorPaymentReceiptLicensee;
+export const PayrollReceiptLicensee = ContractorPaymentReceiptLicensee;
+
+export interface PayrollReceiptTaxesItem {
+  /** The total amount paid by both employer and employee for this tax. */
+  amount?: string;
+  /** The amount paid for this tax. */
+  name?: string;
+}
+export const PayrollReceiptTaxesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "PayrollReceiptTaxesItem" }) as any as S.Schema<PayrollReceiptTaxesItem>;
+
+/** An array of totaled employer and employee taxes for the pay period. */
+export type PayrollReceiptTaxesList = Array<PayrollReceiptTaxesItem>;
+export const PayrollReceiptTaxesList = /*@__PURE__*/ S.Array(
+  PayrollReceiptTaxesItem,
+) as any as S.Schema<PayrollReceiptTaxesList>;
+
+/** The subtotals for the payroll. */
+export interface PayrollReceiptTotals {
+  /** The total child support debit for the payroll. */
+  child_support_debit?: string;
+  /** The total company debit for the payroll. */
+  company_debit?: string;
+  /** The total company net pay for the payroll. */
+  net_pay_debit?: string;
+  /** The total reimbursements for the payroll. */
+  reimbursement_debit?: string;
+  /** The total tax debit for the payroll. */
+  tax_debit?: string;
+}
+export const PayrollReceiptTotals = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    child_support_debit: S.optional(S.String),
+    company_debit: S.optional(S.String),
+    net_pay_debit: S.optional(S.String),
+    reimbursement_debit: S.optional(S.String),
+    tax_debit: S.optional(S.String),
+  }),
+).annotate({ identifier: "PayrollReceiptTotals" }) as any as S.Schema<PayrollReceiptTotals>;
+
+export interface PayrollReceipt {
+  /** A unique identifier of the company for the payroll. */
+  company_uuid?: string;
+  /** The debit or funding date for the payroll */
+  debit_date?: string;
+  /** An array of employee compensations and withholdings for this payroll */
+  employee_compensations?: PayrollReceiptEmployeeCompensationsList;
+  liability_of_licensee?: string;
+  /** Always the fixed string "ZenPayroll, Inc., dba Gusto is a licensed money transmitter. For more about Gusto’s licenses and your state-specific rights to request information, submit complaints, dispute errors, or cancel transactions, visit our license page." */
+  license?: string;
+  /** URL for the license information for the licensed payroll processor. Always the fixed string "https://gusto.com/about/licenses" */
+  license_uri?: string;
+  /** The licensed payroll processor */
+  licensee?: ContractorPaymentReceiptLicensee;
+  /** Always the fixed string "Payroll Recipients" */
+  name_of_recipient?: string;
+  /** The name of the company by whom the payroll was paid */
+  name_of_sender?: string;
+  /** A unique identifier of the payroll receipt. */
+  payroll_uuid?: string;
+  /** Always the fixed string "Payroll recipients include the employees listed below plus the tax agencies for the taxes listed below." */
+  recipient_notice?: string;
+  right_to_refund?: string;
+  /** An array of totaled employer and employee taxes for the pay period. */
+  taxes?: PayrollReceiptTaxesList;
+  /** The subtotals for the payroll. */
+  totals?: PayrollReceiptTotals;
+}
+export const PayrollReceipt = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.optional(S.String),
+    debit_date: S.optional(S.String),
+    employee_compensations: S.optional(PayrollReceiptEmployeeCompensationsList),
+    liability_of_licensee: S.optional(S.String),
+    license: S.optional(S.String),
+    license_uri: S.optional(S.String),
+    licensee: S.optional(ContractorPaymentReceiptLicensee),
+    name_of_recipient: S.optional(S.String),
+    name_of_sender: S.optional(S.String),
+    payroll_uuid: S.optional(S.String),
+    recipient_notice: S.optional(S.String),
+    right_to_refund: S.optional(S.String),
+    taxes: S.optional(PayrollReceiptTaxesList),
+    totals: S.optional(PayrollReceiptTotals),
+  }),
+).annotate({ identifier: "PayrollReceipt" }) as any as S.Schema<PayrollReceipt>;
+
+export interface GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubRequest {
+  /** The UUID of the payroll */
+  payroll_id: string;
+  /** The UUID of the employee */
+  employee_id: string;
+}
+export const GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      payroll_id: S.String.pipe(T.Label()),
+      employee_id: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/v1/payrolls/{payroll_id}/employees/{employee_id}/pay_stub",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubRequest",
+}) as any as S.Schema<GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubRequest>;
+
+export interface GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubResponse {}
+export const GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubResponse",
+}) as any as S.Schema<GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubResponse>;
+
 export interface GetV1SalaryEstimatesIdRequest {
   /** The UUID of the salary estimate */
   uuid: string;
@@ -8338,6 +17646,84 @@ export const GetV1SalaryEstimatesIdRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetV1SalaryEstimatesIdRequest",
 }) as any as S.Schema<GetV1SalaryEstimatesIdRequest>;
+
+export interface GetV1TaxLiabilitiesRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+}
+export const GetV1TaxLiabilitiesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/companies/{company_uuid}/external_payrolls/tax_liabilities",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetV1TaxLiabilitiesRequest",
+}) as any as S.Schema<GetV1TaxLiabilitiesRequest>;
+
+export interface TaxLiabilitiesSelectionsPossibleLiabilitiesItem {
+  /** The UUID of the external payroll. */
+  external_payroll_uuid?: string | null;
+  /** Liability amount. */
+  liability_amount?: string;
+  /** The external payroll check date. */
+  payroll_check_date?: string | null;
+}
+export const TaxLiabilitiesSelectionsPossibleLiabilitiesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    external_payroll_uuid: S.optional(S.NullOr(S.String)),
+    liability_amount: S.optional(S.String),
+    payroll_check_date: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "TaxLiabilitiesSelectionsPossibleLiabilitiesItem",
+}) as any as S.Schema<TaxLiabilitiesSelectionsPossibleLiabilitiesItem>;
+
+/** Possible tax liabilities selections. */
+export type TaxLiabilitiesSelectionsPossibleLiabilitiesList =
+  Array<TaxLiabilitiesSelectionsPossibleLiabilitiesItem>;
+export const TaxLiabilitiesSelectionsPossibleLiabilitiesList = /*@__PURE__*/ S.Array(
+  TaxLiabilitiesSelectionsPossibleLiabilitiesItem,
+) as any as S.Schema<TaxLiabilitiesSelectionsPossibleLiabilitiesList>;
+
+/** The representation of tax liabilities selections. */
+export interface TaxLiabilitiesSelections {
+  /** A description of the tax, providing additional detail about the tax type. */
+  description?: string | null;
+  /** The UUID of last unpaid external payroll. */
+  last_unpaid_external_payroll_uuid?: string | null;
+  /** Possible tax liabilities selections. */
+  possible_liabilities?: TaxLiabilitiesSelectionsPossibleLiabilitiesList;
+  /** The ID of the tax. */
+  tax_id?: number;
+  /** The name of the tax. */
+  tax_name?: string;
+}
+export const TaxLiabilitiesSelections = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.NullOr(S.String)),
+    last_unpaid_external_payroll_uuid: S.optional(S.NullOr(S.String)),
+    possible_liabilities: S.optional(TaxLiabilitiesSelectionsPossibleLiabilitiesList),
+    tax_id: S.optional(S.Number),
+    tax_name: S.optional(S.String),
+  }),
+).annotate({ identifier: "TaxLiabilitiesSelections" }) as any as S.Schema<TaxLiabilitiesSelections>;
+
+export type GetV1TaxLiabilitiesResponseBodyList = Array<TaxLiabilitiesSelections>;
+export const GetV1TaxLiabilitiesResponseBodyList = /*@__PURE__*/ S.Array(
+  TaxLiabilitiesSelections,
+) as any as S.Schema<GetV1TaxLiabilitiesResponseBodyList>;
+
+export type GetV1TaxLiabilitiesResponse = GetV1TaxLiabilitiesResponseBodyList;
+export const GetV1TaxLiabilitiesResponse = /*@__PURE__*/ S.suspend(() =>
+  GetV1TaxLiabilitiesResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetV1TaxLiabilitiesResponse",
+}) as any as S.Schema<GetV1TaxLiabilitiesResponse>;
 
 export interface GetV1WebhookSubscriptionVerificationTokenUuidRequest {
   /** The webhook subscription UUID. */
@@ -8381,11 +17767,7 @@ export const GetVersionEmployeesTimeOffActivitiesRequest = /*@__PURE__*/ S.suspe
     employee_uuid: S.String.pipe(T.Label()),
     time_off_type: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employees/{employee_uuid}/time_off_activities",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/employees/{employee_uuid}/time_off_activities", code: 200 }),
   ),
 ).annotate({
   identifier: "GetVersionEmployeesTimeOffActivitiesRequest",
@@ -8425,9 +17807,7 @@ export const TimeOffActivity = /*@__PURE__*/ S.suspend(() =>
     policy_uuid: S.optional(S.NullOr(S.String)),
     time_off_type: S.optional(TimeOffActivityTimeOffType),
   }),
-).annotate({
-  identifier: "TimeOffActivity",
-}) as any as S.Schema<TimeOffActivity>;
+).annotate({ identifier: "TimeOffActivity" }) as any as S.Schema<TimeOffActivity>;
 
 /** A list of time off activities for an employee */
 export type TimeOffActivityList = Array<TimeOffActivity>;
@@ -8506,6 +17886,18 @@ export const GetWebhookSubscriptionUuidRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetWebhookSubscriptionUuidRequest",
 }) as any as S.Schema<GetWebhookSubscriptionUuidRequest>;
 
+export interface GetWireInRequestsWireInRequestUuidRequest {
+  /** The UUID of the Wire In Request */
+  wire_in_request_uuid: string;
+}
+export const GetWireInRequestsWireInRequestUuidRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    wire_in_request_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/wire_in_requests/{wire_in_request_uuid}", code: 200 })),
+).annotate({
+  identifier: "GetWireInRequestsWireInRequestUuidRequest",
+}) as any as S.Schema<GetWireInRequestsWireInRequestUuidRequest>;
+
 export interface GetWorkAddressRequest {
   /** The UUID of the work address */
   work_address_uuid: string;
@@ -8513,16 +17905,8 @@ export interface GetWorkAddressRequest {
 export const GetWorkAddressRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     work_address_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/work_addresses/{work_address_uuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetWorkAddressRequest",
-}) as any as S.Schema<GetWorkAddressRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/work_addresses/{work_address_uuid}", code: 200 })),
+).annotate({ identifier: "GetWorkAddressRequest" }) as any as S.Schema<GetWorkAddressRequest>;
 
 /** Set system_access to create a system access token, refresh_token to refresh an existing token */
 export type OauthAccessTokenRequestBodyCase0GrantType = "refresh_token";
@@ -8586,9 +17970,7 @@ export const OauthAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: OauthAccessTokenRequestBody.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/oauth/token", code: 200 })),
-).annotate({
-  identifier: "OauthAccessTokenRequest",
-}) as any as S.Schema<OauthAccessTokenRequest>;
+).annotate({ identifier: "OauthAccessTokenRequest" }) as any as S.Schema<OauthAccessTokenRequest>;
 
 export interface CreateTokenAuthentication {
   /** A new access token that can be used for subsequent authenticated requests */
@@ -8647,9 +18029,57 @@ export const Authentication = S.Unknown as any as S.Schema<Authentication>;
 export type OauthAccessTokenResponse = Authentication;
 export const OauthAccessTokenResponse = /*@__PURE__*/ S.suspend(() =>
   Authentication.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "OauthAccessTokenResponse" }) as any as S.Schema<OauthAccessTokenResponse>;
+
+/** An array of employees. This field is only applicable to new hire payroll and termination payroll */
+export type PostCompaniesPayrollSkipCompanyUuidRequestEmployeeUuidsList = Array<string>;
+export const PostCompaniesPayrollSkipCompanyUuidRequestEmployeeUuidsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PostCompaniesPayrollSkipCompanyUuidRequestEmployeeUuidsList>;
+
+/** Payroll type */
+export type PostCompaniesPayrollSkipCompanyUuidRequestPayrollType =
+  | "Regular"
+  | "Hired employee"
+  | "Dismissed employee"
+  | "Transition from old pay schedule";
+export const PostCompaniesPayrollSkipCompanyUuidRequestPayrollType = S.String;
+
+export interface PostCompaniesPayrollSkipCompanyUuidRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** An array of employees. This field is only applicable to new hire payroll and termination payroll */
+  employee_uuids?: PostCompaniesPayrollSkipCompanyUuidRequestEmployeeUuidsList | null;
+  /** Pay period end date. If left empty, defaults to today's date. Required when skipping a termination payroll (`payroll_type` = `Dismissed employee`). */
+  end_date?: string;
+  /** The UUID of the pay schedule. Required when skipping a termination payroll (`payroll_type` = `Dismissed employee`). */
+  pay_schedule_uuid?: string;
+  /** Payroll type */
+  payroll_type: PostCompaniesPayrollSkipCompanyUuidRequestPayrollType | (string & {});
+  /** Pay period start date */
+  start_date?: string;
+}
+export const PostCompaniesPayrollSkipCompanyUuidRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    employee_uuids: S.optional(
+      S.NullOr(PostCompaniesPayrollSkipCompanyUuidRequestEmployeeUuidsList),
+    ),
+    end_date: S.optional(S.String),
+    pay_schedule_uuid: S.optional(S.String),
+    payroll_type: PostCompaniesPayrollSkipCompanyUuidRequestPayrollType,
+    start_date: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/companies/{company_uuid}/payrolls/skip", code: 200 })),
 ).annotate({
-  identifier: "OauthAccessTokenResponse",
-}) as any as S.Schema<OauthAccessTokenResponse>;
+  identifier: "PostCompaniesPayrollSkipCompanyUuidRequest",
+}) as any as S.Schema<PostCompaniesPayrollSkipCompanyUuidRequest>;
+
+export interface PostCompaniesPayrollSkipCompanyUuidResponse {}
+export const PostCompaniesPayrollSkipCompanyUuidResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "PostCompaniesPayrollSkipCompanyUuidResponse",
+}) as any as S.Schema<PostCompaniesPayrollSkipCompanyUuidResponse>;
 
 export interface PostDepartmentsRequest {
   /** The UUID of the company */
@@ -8661,33 +18091,25 @@ export const PostDepartmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_uuid: S.String.pipe(T.Label()),
     title: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/companies/{company_uuid}/departments",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PostDepartmentsRequest",
-}) as any as S.Schema<PostDepartmentsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/companies/{company_uuid}/departments", code: 200 })),
+).annotate({ identifier: "PostDepartmentsRequest" }) as any as S.Schema<PostDepartmentsRequest>;
 
-export type PostDepartmentsResponseContractorsItem = DepartmentContractorsItem;
-export const PostDepartmentsResponseContractorsItem = DepartmentContractorsItem;
+export type PostDepartmentsResponseContractorsItem = HolidayPayPolicyEmployeesItem;
+export const PostDepartmentsResponseContractorsItem = HolidayPayPolicyEmployeesItem;
 
 /** Array of contractors assigned to the department. */
-export type PostDepartmentsResponseContractorsList = Array<DepartmentContractorsItem>;
+export type PostDepartmentsResponseContractorsList = Array<HolidayPayPolicyEmployeesItem>;
 export const PostDepartmentsResponseContractorsList = /*@__PURE__*/ S.Array(
-  DepartmentContractorsItem,
+  HolidayPayPolicyEmployeesItem,
 ) as any as S.Schema<PostDepartmentsResponseContractorsList>;
 
-export type PostDepartmentsResponseEmployeesItem = DepartmentContractorsItem;
-export const PostDepartmentsResponseEmployeesItem = DepartmentContractorsItem;
+export type PostDepartmentsResponseEmployeesItem = HolidayPayPolicyEmployeesItem;
+export const PostDepartmentsResponseEmployeesItem = HolidayPayPolicyEmployeesItem;
 
 /** Array of employees assigned to the department. */
-export type PostDepartmentsResponseEmployeesList = Array<DepartmentContractorsItem>;
+export type PostDepartmentsResponseEmployeesList = Array<HolidayPayPolicyEmployeesItem>;
 export const PostDepartmentsResponseEmployeesList = /*@__PURE__*/ S.Array(
-  DepartmentContractorsItem,
+  HolidayPayPolicyEmployeesItem,
 ) as any as S.Schema<PostDepartmentsResponseEmployeesList>;
 
 export interface PostDepartmentsResponse {
@@ -8713,9 +18135,36 @@ export const PostDepartmentsResponse = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     uuid: S.optional(S.String),
   }),
+).annotate({ identifier: "PostDepartmentsResponse" }) as any as S.Schema<PostDepartmentsResponse>;
+
+export interface PostPayrollsGrossUpPayrollUuidRequest {
+  /** The UUID of the payroll */
+  payroll_uuid: string;
+  /** The UUID of the employee */
+  employee_uuid: string;
+  /** Employee net earnings */
+  net_pay: string;
+}
+export const PostPayrollsGrossUpPayrollUuidRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    payroll_uuid: S.String.pipe(T.Label()),
+    employee_uuid: S.String,
+    net_pay: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/payrolls/{payroll_uuid}/gross_up", code: 200 })),
 ).annotate({
-  identifier: "PostDepartmentsResponse",
-}) as any as S.Schema<PostDepartmentsResponse>;
+  identifier: "PostPayrollsGrossUpPayrollUuidRequest",
+}) as any as S.Schema<PostPayrollsGrossUpPayrollUuidRequest>;
+
+/** Response containing the calculated gross up amount */
+export interface PayrollGrossUpResponse {
+  /** Gross up earnings. */
+  gross_up?: string;
+}
+export const PayrollGrossUpResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    gross_up: S.optional(S.String),
+  }),
+).annotate({ identifier: "PayrollGrossUpResponse" }) as any as S.Schema<PayrollGrossUpResponse>;
 
 export interface PostV1CompensationsCompensationIdRequestMinimumWagesItem {
   /** The UUID of the minimum wage. */
@@ -8771,13 +18220,7 @@ export const PostV1CompensationsCompensationIdRequest = /*@__PURE__*/ S.suspend(
     payment_unit: PostV1CompensationsCompensationIdRequestPaymentUnit,
     rate: S.String,
     title: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/jobs/{job_id}/compensations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/jobs/{job_id}/compensations", code: 200 })),
 ).annotate({
   identifier: "PostV1CompensationsCompensationIdRequest",
 }) as any as S.Schema<PostV1CompensationsCompensationIdRequest>;
@@ -8835,16 +18278,189 @@ export const PostV1EmployeesRequest = /*@__PURE__*/ S.suspend(() =>
     self_onboarding: S.optional(S.Boolean),
     ssn: S.optional(S.String),
     work_email: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/companies/{company_id}/employees", code: 200 })),
+).annotate({ identifier: "PostV1EmployeesRequest" }) as any as S.Schema<PostV1EmployeesRequest>;
+
+export interface PostV1ExternalPayrollRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The check date of the external payroll. */
+  check_date: string;
+  /** The end date of the external payroll payment period. */
+  payment_period_end_date: string;
+  /** The start date of the external payroll payment period. */
+  payment_period_start_date: string;
+}
+export const PostV1ExternalPayrollRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    check_date: S.String,
+    payment_period_end_date: S.String,
+    payment_period_start_date: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/companies/{company_id}/employees",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/companies/{company_uuid}/external_payrolls", code: 200 }),
   ),
 ).annotate({
-  identifier: "PostV1EmployeesRequest",
-}) as any as S.Schema<PostV1EmployeesRequest>;
+  identifier: "PostV1ExternalPayrollRequest",
+}) as any as S.Schema<PostV1ExternalPayrollRequest>;
+
+/** Workers' compensation fields for Washington (WA) or Wyoming (WY) when the work address is in those states; omit when not applicable. */
+export interface PostV1HistoricalEmployeesRequestEmployeeStateTaxes {
+  /** The risk class code for workers' compensation in Washington or Wyoming state. For Washington, visit [Washington state's Risk Class page](https://www.lni.wa.gov/insurance/rates-risk-classes/risk-classes-for-workers-compensation/risk-class-lookup#/) to learn more. For Wyoming you can search for the code online using [WY Workforce Services website](https://dws.wyo.gov/dws-division/workers-compensation/) or call the agency at (307) 235-3217. */
+  wc_class_code?: string;
+  /** Whether this job is eligible for workers' compensation coverage in the states of Washington (WA) or Wyoming (WY). */
+  wc_covered?: boolean;
+}
+export const PostV1HistoricalEmployeesRequestEmployeeStateTaxes = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    wc_class_code: S.optional(S.String),
+    wc_covered: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "PostV1HistoricalEmployeesRequestEmployeeStateTaxes",
+}) as any as S.Schema<PostV1HistoricalEmployeesRequestEmployeeStateTaxes>;
+
+/** Residential address on file for tax withholding and compliance mail. */
+export interface PostV1HistoricalEmployeesRequestHomeAddress {
+  /** City. */
+  city: string;
+  /** Two-letter U.S. state or territory postal abbreviation. */
+  state: string;
+  /** Street address line 1. */
+  street_1: string;
+  /** Apartment, suite, unit, or building (optional). */
+  street_2?: string | null;
+  /** ZIP or ZIP+4. */
+  zip: string;
+}
+export const PostV1HistoricalEmployeesRequestHomeAddress = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    city: S.String,
+    state: S.String,
+    street_1: S.String,
+    street_2: S.optional(S.NullOr(S.String)),
+    zip: S.String,
+  }),
+).annotate({
+  identifier: "PostV1HistoricalEmployeesRequestHomeAddress",
+}) as any as S.Schema<PostV1HistoricalEmployeesRequestHomeAddress>;
+
+/** Hire date for the historical job used to build employments and filings. */
+export interface PostV1HistoricalEmployeesRequestJob {
+  /** First calendar day the employee was employed in this role at the company. */
+  hire_date: string;
+}
+export const PostV1HistoricalEmployeesRequestJob = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hire_date: S.String,
+  }),
+).annotate({
+  identifier: "PostV1HistoricalEmployeesRequestJob",
+}) as any as S.Schema<PostV1HistoricalEmployeesRequestJob>;
+
+/** End of the historical employment period. */
+export interface PostV1HistoricalEmployeesRequestTermination {
+  /** Last day of employment (termination date). This is recorded on the employment; use the calendar date the person stopped working for the company. */
+  effective_date: string;
+}
+export const PostV1HistoricalEmployeesRequestTermination = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    effective_date: S.String,
+  }),
+).annotate({
+  identifier: "PostV1HistoricalEmployeesRequestTermination",
+}) as any as S.Schema<PostV1HistoricalEmployeesRequestTermination>;
+
+/** Primary work location for this historical employment row. */
+export interface PostV1HistoricalEmployeesRequestWorkAddress {
+  /** UUID of a company work location from the company locations response. */
+  location_uuid: string;
+}
+export const PostV1HistoricalEmployeesRequestWorkAddress = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    location_uuid: S.String,
+  }),
+).annotate({
+  identifier: "PostV1HistoricalEmployeesRequestWorkAddress",
+}) as any as S.Schema<PostV1HistoricalEmployeesRequestWorkAddress>;
+
+export interface PostV1HistoricalEmployeesRequest {
+  /** The UUID of the company that will employ this historical record. */
+  company_uuid: string;
+  /** Date of birth (YYYY-MM-DD). */
+  date_of_birth: string;
+  /** Optional. When provided, stored on the employee record for notifications and profile. */
+  email?: string;
+  /** Workers' compensation fields for Washington (WA) or Wyoming (WY) when the work address is in those states; omit when not applicable. */
+  employee_state_taxes?: PostV1HistoricalEmployeesRequestEmployeeStateTaxes;
+  /** Legal first name as it appears on government-issued identification. */
+  first_name: string;
+  /** Residential address on file for tax withholding and compliance mail. */
+  home_address: PostV1HistoricalEmployeesRequestHomeAddress;
+  /** Hire date for the historical job used to build employments and filings. */
+  job: PostV1HistoricalEmployeesRequestJob;
+  /** Legal last name as it appears on government-issued identification. */
+  last_name: string;
+  /** Single middle initial, if any. */
+  middle_initial?: string;
+  /** Preferred given name for display; omit when the same as legal first name. */
+  preferred_first_name?: string;
+  /** Nine-digit U.S. Social Security number **without** dashes or spaces. Must pass Gusto/SSA validation in production; use a valid test SSN in sandbox environments. */
+  ssn: string;
+  /** End of the historical employment period. */
+  termination: PostV1HistoricalEmployeesRequestTermination;
+  /** Primary work location for this historical employment row. */
+  work_address: PostV1HistoricalEmployeesRequestWorkAddress;
+}
+export const PostV1HistoricalEmployeesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    date_of_birth: S.String,
+    email: S.optional(S.String),
+    employee_state_taxes: S.optional(PostV1HistoricalEmployeesRequestEmployeeStateTaxes),
+    first_name: S.String,
+    home_address: PostV1HistoricalEmployeesRequestHomeAddress,
+    job: PostV1HistoricalEmployeesRequestJob,
+    last_name: S.String,
+    middle_initial: S.optional(S.String),
+    preferred_first_name: S.optional(S.String),
+    ssn: S.String,
+    termination: PostV1HistoricalEmployeesRequestTermination,
+    work_address: PostV1HistoricalEmployeesRequestWorkAddress,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v1/companies/{company_uuid}/historical_employees", code: 200 }),
+  ),
+).annotate({
+  identifier: "PostV1HistoricalEmployeesRequest",
+}) as any as S.Schema<PostV1HistoricalEmployeesRequest>;
+
+export interface PostV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The user's email address on Gusto. You can retrieve the user's email via company's `/admins`, `/employees`, `/signatories`, and `/contractors` endpoints. */
+  email: string;
+  /** The user ID on your platform. */
+  external_user_id: string;
+  /** The IP address of the user who viewed and accepted the Terms of Service. */
+  ip_address: string;
+}
+export const PostV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      company_uuid: S.String.pipe(T.Label()),
+      email: S.String,
+      external_user_id: S.String,
+      ip_address: S.String,
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/v1/partner_managed_companies/{company_uuid}/terms_of_service",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "PostV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest",
+  }) as any as S.Schema<PostV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest>;
 
 export interface PostV1PayrollsPayrollIdCalculateAccruingTimeOffHoursRequest {
   /** The UUID of the payroll */
@@ -8919,22 +18535,22 @@ export const PayrollCalculateAccruingTimeOffHoursResponse = /*@__PURE__*/ S.susp
   identifier: "PayrollCalculateAccruingTimeOffHoursResponse",
 }) as any as S.Schema<PayrollCalculateAccruingTimeOffHoursResponse>;
 
-export type PutAddPeopleToDepartmentRequestContractorsItem = DepartmentContractorsItem;
-export const PutAddPeopleToDepartmentRequestContractorsItem = DepartmentContractorsItem;
+export type PutAddPeopleToDepartmentRequestContractorsItem = HolidayPayPolicyEmployeesItem;
+export const PutAddPeopleToDepartmentRequestContractorsItem = HolidayPayPolicyEmployeesItem;
 
 /** Array of contractors to add or remove from the department */
-export type PutAddPeopleToDepartmentRequestContractorsList = Array<DepartmentContractorsItem>;
+export type PutAddPeopleToDepartmentRequestContractorsList = Array<HolidayPayPolicyEmployeesItem>;
 export const PutAddPeopleToDepartmentRequestContractorsList = /*@__PURE__*/ S.Array(
-  DepartmentContractorsItem,
+  HolidayPayPolicyEmployeesItem,
 ) as any as S.Schema<PutAddPeopleToDepartmentRequestContractorsList>;
 
-export type PutAddPeopleToDepartmentRequestEmployeesItem = DepartmentContractorsItem;
-export const PutAddPeopleToDepartmentRequestEmployeesItem = DepartmentContractorsItem;
+export type PutAddPeopleToDepartmentRequestEmployeesItem = HolidayPayPolicyEmployeesItem;
+export const PutAddPeopleToDepartmentRequestEmployeesItem = HolidayPayPolicyEmployeesItem;
 
 /** Array of employees to add or remove from the department */
-export type PutAddPeopleToDepartmentRequestEmployeesList = Array<DepartmentContractorsItem>;
+export type PutAddPeopleToDepartmentRequestEmployeesList = Array<HolidayPayPolicyEmployeesItem>;
 export const PutAddPeopleToDepartmentRequestEmployeesList = /*@__PURE__*/ S.Array(
-  DepartmentContractorsItem,
+  HolidayPayPolicyEmployeesItem,
 ) as any as S.Schema<PutAddPeopleToDepartmentRequestEmployeesList>;
 
 export interface PutAddPeopleToDepartmentRequest {
@@ -8953,33 +18569,27 @@ export const PutAddPeopleToDepartmentRequest = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     contractors: S.optional(PutAddPeopleToDepartmentRequestContractorsList),
     employees: S.optional(PutAddPeopleToDepartmentRequestEmployeesList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/departments/{department_uuid}/add",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/departments/{department_uuid}/add", code: 200 })),
 ).annotate({
   identifier: "PutAddPeopleToDepartmentRequest",
 }) as any as S.Schema<PutAddPeopleToDepartmentRequest>;
 
-export type PutAddPeopleToDepartmentResponseContractorsItem = DepartmentContractorsItem;
-export const PutAddPeopleToDepartmentResponseContractorsItem = DepartmentContractorsItem;
+export type PutAddPeopleToDepartmentResponseContractorsItem = HolidayPayPolicyEmployeesItem;
+export const PutAddPeopleToDepartmentResponseContractorsItem = HolidayPayPolicyEmployeesItem;
 
 /** Array of contractors assigned to the department. */
-export type PutAddPeopleToDepartmentResponseContractorsList = Array<DepartmentContractorsItem>;
+export type PutAddPeopleToDepartmentResponseContractorsList = Array<HolidayPayPolicyEmployeesItem>;
 export const PutAddPeopleToDepartmentResponseContractorsList = /*@__PURE__*/ S.Array(
-  DepartmentContractorsItem,
+  HolidayPayPolicyEmployeesItem,
 ) as any as S.Schema<PutAddPeopleToDepartmentResponseContractorsList>;
 
-export type PutAddPeopleToDepartmentResponseEmployeesItem = DepartmentContractorsItem;
-export const PutAddPeopleToDepartmentResponseEmployeesItem = DepartmentContractorsItem;
+export type PutAddPeopleToDepartmentResponseEmployeesItem = HolidayPayPolicyEmployeesItem;
+export const PutAddPeopleToDepartmentResponseEmployeesItem = HolidayPayPolicyEmployeesItem;
 
 /** Array of employees assigned to the department. */
-export type PutAddPeopleToDepartmentResponseEmployeesList = Array<DepartmentContractorsItem>;
+export type PutAddPeopleToDepartmentResponseEmployeesList = Array<HolidayPayPolicyEmployeesItem>;
 export const PutAddPeopleToDepartmentResponseEmployeesList = /*@__PURE__*/ S.Array(
-  DepartmentContractorsItem,
+  HolidayPayPolicyEmployeesItem,
 ) as any as S.Schema<PutAddPeopleToDepartmentResponseEmployeesList>;
 
 export interface PutAddPeopleToDepartmentResponse {
@@ -9009,6 +18619,66 @@ export const PutAddPeopleToDepartmentResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutAddPeopleToDepartmentResponse",
 }) as any as S.Schema<PutAddPeopleToDepartmentResponse>;
 
+export interface PutApiV1CompaniesCompanyIdPayrollsPayrollIdCancelRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The UUID of the payroll */
+  payroll_id: string;
+}
+export const PutApiV1CompaniesCompanyIdPayrollsPayrollIdCancelRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      company_id: S.String.pipe(T.Label()),
+      payroll_id: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/v1/companies/{company_id}/payrolls/{payroll_id}/cancel",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "PutApiV1CompaniesCompanyIdPayrollsPayrollIdCancelRequest",
+}) as any as S.Schema<PutApiV1CompaniesCompanyIdPayrollsPayrollIdCancelRequest>;
+
+/** A payroll that has been transitioned back to unprocessed state after cancellation. */
+export interface UnprocessedPayroll {
+  auto_payroll?: boolean;
+  calculated_at?: string | null;
+  check_date?: string;
+  company_uuid?: string;
+  created_at?: string;
+  external?: boolean;
+  off_cycle?: boolean;
+  off_cycle_reason?: OffCycleReasonType | null;
+  partner_owned_disbursement?: boolean | null;
+  pay_period?: PayrollPayPeriodType;
+  payroll_deadline?: string;
+  payroll_uuid?: string;
+  processed?: boolean;
+  processed_date?: string | null;
+  uuid?: string;
+}
+export const UnprocessedPayroll = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    auto_payroll: S.optional(S.Boolean),
+    calculated_at: S.optional(S.NullOr(S.String)),
+    check_date: S.optional(S.String),
+    company_uuid: S.optional(S.String),
+    created_at: S.optional(S.String),
+    external: S.optional(S.Boolean),
+    off_cycle: S.optional(S.Boolean),
+    off_cycle_reason: S.optional(S.NullOr(OffCycleReasonType)),
+    partner_owned_disbursement: S.optional(S.NullOr(S.Boolean)),
+    pay_period: S.optional(PayrollPayPeriodType),
+    payroll_deadline: S.optional(S.String),
+    payroll_uuid: S.optional(S.String),
+    processed: S.optional(S.Boolean),
+    processed_date: S.optional(S.NullOr(S.String)),
+    uuid: S.optional(S.String),
+  }),
+).annotate({ identifier: "UnprocessedPayroll" }) as any as S.Schema<UnprocessedPayroll>;
+
 export interface PutCompaniesRequest {
   /** The UUID of the company */
   company_id: string;
@@ -9020,9 +18690,34 @@ export const PutCompaniesRequest = /*@__PURE__*/ S.suspend(() =>
     company_id: S.String.pipe(T.Label()),
     contractor_only: S.Boolean,
   }).pipe(T.Http({ method: "PUT", uri: "/v1/companies/{company_id}", code: 200 })),
+).annotate({ identifier: "PutCompaniesRequest" }) as any as S.Schema<PutCompaniesRequest>;
+
+export interface PutCompanyBankAccountsVerifyRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The UUID of the company bank account */
+  bank_account_uuid: string;
+  /** The first micro-deposit amount (order does not matter). */
+  deposit_1: number;
+  /** The second micro-deposit amount (order does not matter). */
+  deposit_2: number;
+}
+export const PutCompanyBankAccountsVerifyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    bank_account_uuid: S.String.pipe(T.Label()),
+    deposit_1: S.Number,
+    deposit_2: S.Number,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/companies/{company_id}/bank_accounts/{bank_account_uuid}/verify",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "PutCompaniesRequest",
-}) as any as S.Schema<PutCompaniesRequest>;
+  identifier: "PutCompanyBankAccountsVerifyRequest",
+}) as any as S.Schema<PutCompanyBankAccountsVerifyRequest>;
 
 export type PutCompanyBenefitRequestCatchUpType = "elective" | "deemed";
 export const PutCompanyBenefitRequestCatchUpType = S.String;
@@ -9052,16 +18747,8 @@ export const PutCompanyBenefitRequest = /*@__PURE__*/ S.suspend(() =>
     responsible_for_employee_w2: S.optional(S.Boolean),
     responsible_for_employer_taxes: S.optional(S.Boolean),
     version: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/company_benefits/{company_benefit_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutCompanyBenefitRequest",
-}) as any as S.Schema<PutCompanyBenefitRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/company_benefits/{company_benefit_id}", code: 200 })),
+).annotate({ identifier: "PutCompanyBenefitRequest" }) as any as S.Schema<PutCompanyBenefitRequest>;
 
 /** The list of contribution exclusions to update */
 export type PutCompanyBenefitContributionExclusionsRequestContributionExclusionsList =
@@ -9307,6 +18994,273 @@ export const PutCompanyEarningTypeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutCompanyEarningTypeRequest",
 }) as any as S.Schema<PutCompanyEarningTypeRequest>;
 
+/** The form used by the company for federal tax filing. One of: - 941 (Quarterly federal tax return form) - 944 (Annual federal tax return form) */
+export type PutCompanyFederalTaxDetailsRequestFilingForm = "941" | "944";
+export const PutCompanyFederalTaxDetailsRequestFilingForm = S.String;
+
+/** What type of tax entity the company is. One of: - C-Corporation - S-Corporation - Sole proprietor - LLC - LLP - Limited partnership - Co-ownership - Association - Trusteeship - General partnership - Joint venture - Non-Profit */
+export type PutCompanyFederalTaxDetailsRequestTaxPayerType =
+  | "C-Corporation"
+  | "S-Corporation"
+  | "Sole proprietor"
+  | "LLC"
+  | "LLP"
+  | "Limited partnership"
+  | "Co-ownership"
+  | "Association"
+  | "Trusteeship"
+  | "General partnership"
+  | "Joint venture"
+  | "Non-Profit";
+export const PutCompanyFederalTaxDetailsRequestTaxPayerType = S.String;
+
+export interface PutCompanyFederalTaxDetailsRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The company's Employer Identification Number (EIN). Must be 9 digits. Dashes are optional (e.g., '12-3456789' or '123456789'). */
+  ein?: string;
+  /** The form used by the company for federal tax filing. One of: - 941 (Quarterly federal tax return form) - 944 (Annual federal tax return form) */
+  filing_form?: PutCompanyFederalTaxDetailsRequestFilingForm | (string & {});
+  /** The legal name of the company */
+  legal_name?: string;
+  /** What type of tax entity the company is. One of: - C-Corporation - S-Corporation - Sole proprietor - LLC - LLP - Limited partnership - Co-ownership - Association - Trusteeship - General partnership - Joint venture - Non-Profit */
+  tax_payer_type?: PutCompanyFederalTaxDetailsRequestTaxPayerType | (string & {});
+  /** Whether the company is taxed as an S-Corporation */
+  taxable_as_scorp?: boolean;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version: string;
+}
+export const PutCompanyFederalTaxDetailsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    ein: S.optional(S.String),
+    filing_form: S.optional(PutCompanyFederalTaxDetailsRequestFilingForm),
+    legal_name: S.optional(S.String),
+    tax_payer_type: S.optional(PutCompanyFederalTaxDetailsRequestTaxPayerType),
+    taxable_as_scorp: S.optional(S.Boolean),
+    version: S.String,
+  }).pipe(
+    T.Http({ method: "PUT", uri: "/v1/companies/{company_id}/federal_tax_details", code: 200 }),
+  ),
+).annotate({
+  identifier: "PutCompanyFederalTaxDetailsRequest",
+}) as any as S.Schema<PutCompanyFederalTaxDetailsRequest>;
+
+export type PutCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const PutCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type PutCompanyHolidayPayPolicyRequestFederalHolidaysColumbusDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const PutCompanyHolidayPayPolicyRequestFederalHolidaysColumbusDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type PutCompanyHolidayPayPolicyRequestFederalHolidaysIndependenceDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const PutCompanyHolidayPayPolicyRequestFederalHolidaysIndependenceDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type PutCompanyHolidayPayPolicyRequestFederalHolidaysJuneteenth =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const PutCompanyHolidayPayPolicyRequestFederalHolidaysJuneteenth =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type PutCompanyHolidayPayPolicyRequestFederalHolidaysLaborDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const PutCompanyHolidayPayPolicyRequestFederalHolidaysLaborDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type PutCompanyHolidayPayPolicyRequestFederalHolidaysMemorialDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const PutCompanyHolidayPayPolicyRequestFederalHolidaysMemorialDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type PutCompanyHolidayPayPolicyRequestFederalHolidaysMlkDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const PutCompanyHolidayPayPolicyRequestFederalHolidaysMlkDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type PutCompanyHolidayPayPolicyRequestFederalHolidaysNewYearsDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const PutCompanyHolidayPayPolicyRequestFederalHolidaysNewYearsDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type PutCompanyHolidayPayPolicyRequestFederalHolidaysPresidentsDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const PutCompanyHolidayPayPolicyRequestFederalHolidaysPresidentsDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type PutCompanyHolidayPayPolicyRequestFederalHolidaysThanksgiving =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const PutCompanyHolidayPayPolicyRequestFederalHolidaysThanksgiving =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+export type PutCompanyHolidayPayPolicyRequestFederalHolidaysVeteransDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+export const PutCompanyHolidayPayPolicyRequestFederalHolidaysVeteransDay =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+
+/** An object containing federal holiday objects, each containing a boolean selected property. */
+export type PutCompanyHolidayPayPolicyRequestFederalHolidays =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidays;
+export const PutCompanyHolidayPayPolicyRequestFederalHolidays =
+  CreateCompanyHolidayPayPolicyRequestFederalHolidays;
+
+export interface PutCompanyHolidayPayPolicyRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version: string;
+  /** An object containing federal holiday objects, each containing a boolean selected property. */
+  federal_holidays?: CreateCompanyHolidayPayPolicyRequestFederalHolidays;
+}
+export const PutCompanyHolidayPayPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    version: S.String,
+    federal_holidays: S.optional(CreateCompanyHolidayPayPolicyRequestFederalHolidays),
+  }).pipe(
+    T.Http({ method: "PUT", uri: "/v1/companies/{company_uuid}/holiday_pay_policy", code: 200 }),
+  ),
+).annotate({
+  identifier: "PutCompanyHolidayPayPolicyRequest",
+}) as any as S.Schema<PutCompanyHolidayPayPolicyRequest>;
+
+export type PutCompanyHolidayPayPolicyAddRequestEmployeesItem = HolidayPayPolicyEmployeesItem;
+export const PutCompanyHolidayPayPolicyAddRequestEmployeesItem = HolidayPayPolicyEmployeesItem;
+
+/** An array of employee objects, each containing an employee_uuid. */
+export type PutCompanyHolidayPayPolicyAddRequestEmployeesList =
+  Array<HolidayPayPolicyEmployeesItem>;
+export const PutCompanyHolidayPayPolicyAddRequestEmployeesList = /*@__PURE__*/ S.Array(
+  HolidayPayPolicyEmployeesItem,
+) as any as S.Schema<PutCompanyHolidayPayPolicyAddRequestEmployeesList>;
+
+export interface PutCompanyHolidayPayPolicyAddRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version: string;
+  /** An array of employee objects, each containing an employee_uuid. */
+  employees: PutCompanyHolidayPayPolicyAddRequestEmployeesList;
+}
+export const PutCompanyHolidayPayPolicyAddRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    version: S.String,
+    employees: PutCompanyHolidayPayPolicyAddRequestEmployeesList,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/companies/{company_uuid}/holiday_pay_policy/add",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutCompanyHolidayPayPolicyAddRequest",
+}) as any as S.Schema<PutCompanyHolidayPayPolicyAddRequest>;
+
+export type PutCompanyHolidayPayPolicyRemoveRequestEmployeesItem = HolidayPayPolicyEmployeesItem;
+export const PutCompanyHolidayPayPolicyRemoveRequestEmployeesItem = HolidayPayPolicyEmployeesItem;
+
+/** An array of employee objects, each containing an employee_uuid. */
+export type PutCompanyHolidayPayPolicyRemoveRequestEmployeesList =
+  Array<HolidayPayPolicyEmployeesItem>;
+export const PutCompanyHolidayPayPolicyRemoveRequestEmployeesList = /*@__PURE__*/ S.Array(
+  HolidayPayPolicyEmployeesItem,
+) as any as S.Schema<PutCompanyHolidayPayPolicyRemoveRequestEmployeesList>;
+
+export interface PutCompanyHolidayPayPolicyRemoveRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version: string;
+  /** An array of employee objects, each containing an employee_uuid. */
+  employees: PutCompanyHolidayPayPolicyRemoveRequestEmployeesList;
+}
+export const PutCompanyHolidayPayPolicyRemoveRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    version: S.String,
+    employees: PutCompanyHolidayPayPolicyRemoveRequestEmployeesList,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/companies/{company_uuid}/holiday_pay_policy/remove",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutCompanyHolidayPayPolicyRemoveRequest",
+}) as any as S.Schema<PutCompanyHolidayPayPolicyRemoveRequest>;
+
+/** Desired payment speed. 1-day is only applicable to partners that opt in. */
+export type PutCompanyPaymentConfigsRequestPaymentConfigsPaymentSpeed = "1-day" | "2-day" | "4-day";
+export const PutCompanyPaymentConfigsRequestPaymentConfigsPaymentSpeed = S.String;
+
+export interface PutCompanyPaymentConfigsRequestPaymentConfigs {
+  /** Payment limit for 1-day or 2-day payroll (in dollars). */
+  fast_payment_limit?: number | null;
+  /** Whether to use the partner-owned disbursement payment rail. */
+  partner_owned_disbursement?: boolean;
+  /** Desired payment speed. 1-day is only applicable to partners that opt in. */
+  payment_speed?: PutCompanyPaymentConfigsRequestPaymentConfigsPaymentSpeed | (string & {});
+}
+export const PutCompanyPaymentConfigsRequestPaymentConfigs = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fast_payment_limit: S.optional(S.NullOr(S.Number)),
+    partner_owned_disbursement: S.optional(S.Boolean),
+    payment_speed: S.optional(PutCompanyPaymentConfigsRequestPaymentConfigsPaymentSpeed),
+  }),
+).annotate({
+  identifier: "PutCompanyPaymentConfigsRequestPaymentConfigs",
+}) as any as S.Schema<PutCompanyPaymentConfigsRequestPaymentConfigs>;
+
+export interface PutCompanyPaymentConfigsRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  payment_configs?: PutCompanyPaymentConfigsRequestPaymentConfigs;
+}
+export const PutCompanyPaymentConfigsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    payment_configs: S.optional(PutCompanyPaymentConfigsRequestPaymentConfigs),
+  }).pipe(
+    T.Http({ method: "PUT", uri: "/v1/companies/{company_uuid}/payment_configs", code: 200 }),
+  ),
+).annotate({
+  identifier: "PutCompanyPaymentConfigsRequest",
+}) as any as S.Schema<PutCompanyPaymentConfigsRequest>;
+
+export interface PutCompanyPayrollCalculateRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The UUID of the payroll */
+  payroll_id: string;
+}
+export const PutCompanyPayrollCalculateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    payroll_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/companies/{company_id}/payrolls/{payroll_id}/calculate",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutCompanyPayrollCalculateRequest",
+}) as any as S.Schema<PutCompanyPayrollCalculateRequest>;
+
+export interface PutCompanyPayrollCalculateResponse {}
+export const PutCompanyPayrollCalculateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "PutCompanyPayrollCalculateResponse",
+}) as any as S.Schema<PutCompanyPayrollCalculateResponse>;
+
 /** The employees to prepare, identified by UUID. If omitted, every employee currently on the payroll is prepared. **Off-cycle payrolls that support multiple employees (`Bonus`, `Correction`, `Adhoc`):** passing `employee_uuids` also adds eligible employees who aren't yet on the payroll - a listed employee not on the payroll is added, while one already on it is simply prepared. A request may include up to 100 UUIDs, of which at most 25 may be employees not already on the payroll; an ineligible or unknown UUID, or more than 25 new employees, is rejected with a 422. **All other payrolls:** `employee_uuids` selects which of the payroll's existing employees to prepare; a UUID for an employee not on the payroll is rejected with a 422. */
 export type PutCompanyPayrollPrepareRequestEmployeeUuidsList = Array<string>;
 export const PutCompanyPayrollPrepareRequestEmployeeUuidsList = /*@__PURE__*/ S.Array(
@@ -9438,39 +19392,39 @@ export const PayrollEmployeeCompensationsTypeCustomWithholdings = /*@__PURE__*/ 
 }) as any as S.Schema<PayrollEmployeeCompensationsTypeCustomWithholdings>;
 
 export type PayrollEmployeeCompensationsTypeFixedCompensationsItem =
-  PayrollShowEmployeeCompensationsItemFixedCompensationsItem;
+  PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem;
 export const PayrollEmployeeCompensationsTypeFixedCompensationsItem =
-  PayrollShowEmployeeCompensationsItemFixedCompensationsItem;
+  PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem;
 
 /** An array of fixed compensations for the employee. Fixed compensations include tips and bonuses. On regular payrolls, reimbursements are sent via the dedicated `reimbursements` array instead. Off-cycle payrolls continue to include reimbursements in `fixed_compensations`. If this payroll has been processed, only fixed compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active fixed compensations are returned. */
 export type PayrollEmployeeCompensationsTypeFixedCompensationsList =
-  Array<PayrollShowEmployeeCompensationsItemFixedCompensationsItem>;
+  Array<PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem>;
 export const PayrollEmployeeCompensationsTypeFixedCompensationsList = /*@__PURE__*/ S.Array(
-  PayrollShowEmployeeCompensationsItemFixedCompensationsItem,
+  PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem,
 ) as any as S.Schema<PayrollEmployeeCompensationsTypeFixedCompensationsList>;
 
 export type PayrollEmployeeCompensationsTypeHourlyCompensationsItem =
-  PayrollShowEmployeeCompensationsItemHourlyCompensationsItem;
+  PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsItem;
 export const PayrollEmployeeCompensationsTypeHourlyCompensationsItem =
-  PayrollShowEmployeeCompensationsItemHourlyCompensationsItem;
+  PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsItem;
 
 /** An array of hourly compensations for the employee. Hourly compensations include regular, overtime, and double overtime hours. If this payroll has been processed, only hourly compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active hourly compensations are returned. */
 export type PayrollEmployeeCompensationsTypeHourlyCompensationsList =
-  Array<PayrollShowEmployeeCompensationsItemHourlyCompensationsItem>;
+  Array<PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsItem>;
 export const PayrollEmployeeCompensationsTypeHourlyCompensationsList = /*@__PURE__*/ S.Array(
-  PayrollShowEmployeeCompensationsItemHourlyCompensationsItem,
+  PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsItem,
 ) as any as S.Schema<PayrollEmployeeCompensationsTypeHourlyCompensationsList>;
 
 export type PayrollEmployeeCompensationsTypePaidTimeOffItem =
-  PayrollShowEmployeeCompensationsItemPaidTimeOffItem;
+  PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffItem;
 export const PayrollEmployeeCompensationsTypePaidTimeOffItem =
-  PayrollShowEmployeeCompensationsItemPaidTimeOffItem;
+  PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffItem;
 
 /** An array of all paid time off the employee is eligible for this pay period. */
 export type PayrollEmployeeCompensationsTypePaidTimeOffList =
-  Array<PayrollShowEmployeeCompensationsItemPaidTimeOffItem>;
+  Array<PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffItem>;
 export const PayrollEmployeeCompensationsTypePaidTimeOffList = /*@__PURE__*/ S.Array(
-  PayrollShowEmployeeCompensationsItemPaidTimeOffItem,
+  PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffItem,
 ) as any as S.Schema<PayrollEmployeeCompensationsTypePaidTimeOffList>;
 
 export type PayrollEmployeeCompensationsTypePaymentMethod =
@@ -9480,15 +19434,15 @@ export type PayrollEmployeeCompensationsTypePaymentMethod =
 export const PayrollEmployeeCompensationsTypePaymentMethod = S.String;
 
 export type PayrollEmployeeCompensationsTypeReimbursementsItem =
-  PayrollShowEmployeeCompensationsItemReimbursementsItem;
+  PayrollUnprocessedEmployeeCompensationsTypeReimbursementsItem;
 export const PayrollEmployeeCompensationsTypeReimbursementsItem =
-  PayrollShowEmployeeCompensationsItemReimbursementsItem;
+  PayrollUnprocessedEmployeeCompensationsTypeReimbursementsItem;
 
 /** An array of reimbursements for the employee. */
 export type PayrollEmployeeCompensationsTypeReimbursementsList =
-  Array<PayrollShowEmployeeCompensationsItemReimbursementsItem>;
+  Array<PayrollUnprocessedEmployeeCompensationsTypeReimbursementsItem>;
 export const PayrollEmployeeCompensationsTypeReimbursementsList = /*@__PURE__*/ S.Array(
-  PayrollShowEmployeeCompensationsItemReimbursementsItem,
+  PayrollUnprocessedEmployeeCompensationsTypeReimbursementsItem,
 ) as any as S.Schema<PayrollEmployeeCompensationsTypeReimbursementsList>;
 
 /** The amount type of the deduction for the pay period. Only present for unprocessed payrolls. */
@@ -9591,23 +19545,6 @@ export const PayrollPreparedEmployeeCompensationsList = /*@__PURE__*/ S.Array(
   PayrollEmployeeCompensationsType,
 ) as any as S.Schema<PayrollPreparedEmployeeCompensationsList>;
 
-export interface PayrollFixedCompensationTypesTypeItem {
-  /** The name of an available type of fixed compensation. */
-  name?: string;
-}
-export const PayrollFixedCompensationTypesTypeItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PayrollFixedCompensationTypesTypeItem",
-}) as any as S.Schema<PayrollFixedCompensationTypesTypeItem>;
-
-export type PayrollFixedCompensationTypesType = Array<PayrollFixedCompensationTypesTypeItem>;
-export const PayrollFixedCompensationTypesType = /*@__PURE__*/ S.Array(
-  PayrollFixedCompensationTypesTypeItem,
-) as any as S.Schema<PayrollFixedCompensationTypesType>;
-
 /** The response from preparing a payroll for update. Contains refreshed employee compensations, updated payroll dates, and version information needed for subsequent payroll updates. */
 export interface PayrollPrepared {
   auto_payroll?: boolean;
@@ -9662,9 +19599,7 @@ export const PayrollPrepared = /*@__PURE__*/ S.suspend(() =>
     uuid: S.optional(S.String),
     withholding_pay_period: S.optional(S.NullOr(PayrollWithholdingPayPeriodType)),
   }),
-).annotate({
-  identifier: "PayrollPrepared",
-}) as any as S.Schema<PayrollPrepared>;
+).annotate({ identifier: "PayrollPrepared" }) as any as S.Schema<PayrollPrepared>;
 
 /** How to interpret the amount. */
 export type PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdingsFederalAmountType =
@@ -9821,15 +19756,15 @@ export const PutCompanyPayrollsRequestEmployeeCompensationsItemDeductionsList =
 
 /** An array of fixed compensations for the employee. Fixed compensations include tips, bonuses, and one time reimbursements. */
 export type PutCompanyPayrollsRequestEmployeeCompensationsItemFixedCompensationsItem =
-  PayrollShowEmployeeCompensationsItemFixedCompensationsItem;
+  PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem;
 export const PutCompanyPayrollsRequestEmployeeCompensationsItemFixedCompensationsItem =
-  PayrollShowEmployeeCompensationsItemFixedCompensationsItem;
+  PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem;
 
 export type PutCompanyPayrollsRequestEmployeeCompensationsItemFixedCompensationsList =
-  Array<PayrollShowEmployeeCompensationsItemFixedCompensationsItem>;
+  Array<PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem>;
 export const PutCompanyPayrollsRequestEmployeeCompensationsItemFixedCompensationsList =
   /*@__PURE__*/ S.Array(
-    PayrollShowEmployeeCompensationsItemFixedCompensationsItem,
+    PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem,
   ) as any as S.Schema<PutCompanyPayrollsRequestEmployeeCompensationsItemFixedCompensationsList>;
 
 /** An array of hourly compensations for the employee. Hourly compensations include regular, overtime, and double overtime hours. */
@@ -10008,15 +19943,223 @@ export const PutCompanyPayrollsRequest = /*@__PURE__*/ S.suspend(() =>
     skip_regular_deductions: S.optional(S.Boolean),
     withholding_pay_period: S.optional(PutCompanyPayrollsRequestWithholdingPayPeriod),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/companies/{company_id}/payrolls/{payroll_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v1/companies/{company_id}/payrolls/{payroll_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutCompanyPayrollsRequest",
 }) as any as S.Schema<PutCompanyPayrollsRequest>;
+
+/** Request object for resolving a submission blocker. Each submission_blocker should include a selected unblock option. */
+export interface PayrollSubmissionBlockerRequestType {
+  /** The type of submission_blocker that is blocking the payment. */
+  blocker_type: string;
+  /** The selected option to unblock the payment's submission_blocker. */
+  selected_option: string;
+}
+export const PayrollSubmissionBlockerRequestType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    blocker_type: S.String,
+    selected_option: S.String,
+  }),
+).annotate({
+  identifier: "PayrollSubmissionBlockerRequestType",
+}) as any as S.Schema<PayrollSubmissionBlockerRequestType>;
+
+/** An array of submission_blockers, each with a selected unblock option. */
+export type PutCompanyPayrollSubmitRequestSubmissionBlockersList =
+  Array<PayrollSubmissionBlockerRequestType>;
+export const PutCompanyPayrollSubmitRequestSubmissionBlockersList = /*@__PURE__*/ S.Array(
+  PayrollSubmissionBlockerRequestType,
+) as any as S.Schema<PutCompanyPayrollSubmitRequestSubmissionBlockersList>;
+
+export interface PutCompanyPayrollSubmitRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The UUID of the payroll */
+  payroll_id: string;
+  /** An array of submission_blockers, each with a selected unblock option. */
+  submission_blockers?: PutCompanyPayrollSubmitRequestSubmissionBlockersList;
+}
+export const PutCompanyPayrollSubmitRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    payroll_id: S.String.pipe(T.Label()),
+    submission_blockers: S.optional(PutCompanyPayrollSubmitRequestSubmissionBlockersList),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/companies/{company_id}/payrolls/{payroll_id}/submit",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutCompanyPayrollSubmitRequest",
+}) as any as S.Schema<PutCompanyPayrollSubmitRequest>;
+
+export interface PutCompanyPayrollSubmitResponse {}
+export const PutCompanyPayrollSubmitResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  { identifier: "PutCompanyPayrollSubmitResponse" },
+) as any as S.Schema<PutCompanyPayrollSubmitResponse>;
+
+export interface PutCompanyPayScheduleRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The UUID of the pay schedule */
+  pay_schedule_id: string;
+  anchor_end_of_pay_period?: string;
+  anchor_pay_date?: string;
+  /** With automatic payroll enabled, payroll runs automatically one day before payroll deadlines. When false, payroll does not run automatically and must be run manually. For API versions before 2025-11-15 the request field is auto_pilot. */
+  auto_payroll?: boolean;
+  /** A custom pay schedule name; null clears any custom name so the default frequency description applies. */
+  custom_name?: string | null;
+  /** An integer between 1 and 31 indicating the first day of the month that employees are paid. This field is only relevant for pay schedules with the "Twice per month" and "Monthly" frequencies. It will be null for pay schedules with other frequencies. */
+  day_1?: number | null;
+  /** An integer between 1 and 31 indicating the second day of the month that employees are paid. This field is the second pay date for pay schedules with the "Twice per month" frequency. For semi-monthly pay schedules, set this field to 31. For months shorter than 31 days, the second pay date is set to the last day of the month. It will be null for pay schedules with other frequencies. */
+  day_2?: number | null;
+  frequency?: PayScheduleFrequencyCreateUpdate | (string & {});
+  /** Current version of the pay schedule from the GET response; required for optimistic concurrency. Mismatch returns 409 Conflict. */
+  version: string;
+}
+export const PutCompanyPayScheduleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    pay_schedule_id: S.String.pipe(T.Label()),
+    anchor_end_of_pay_period: S.optional(S.String),
+    anchor_pay_date: S.optional(S.String),
+    auto_payroll: S.optional(S.Boolean),
+    custom_name: S.optional(S.NullOr(S.String)),
+    day_1: S.optional(S.NullOr(S.Number)),
+    day_2: S.optional(S.NullOr(S.Number)),
+    frequency: S.optional(PayScheduleFrequencyCreateUpdate),
+    version: S.String,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/companies/{company_id}/pay_schedules/{pay_schedule_id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutCompanyPayScheduleRequest",
+}) as any as S.Schema<PutCompanyPayScheduleRequest>;
+
+export type PutCompanySignatoryRequestHomeAddress =
+  CreateCompanySignatoriesInviteRequestHomeAddress;
+export const PutCompanySignatoryRequestHomeAddress =
+  CreateCompanySignatoriesInviteRequestHomeAddress;
+
+export interface PutCompanySignatoryRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The UUID of the signatory */
+  signatory_uuid: string;
+  birthday?: string;
+  first_name?: string;
+  home_address?: CreateCompanySignatoriesInviteRequestHomeAddress;
+  last_name?: string;
+  middle_initial?: string;
+  phone?: string;
+  /** The signatory's SSN. */
+  ssn?: string;
+  title?: string;
+  /** Current version of the signatory (required for optimistic concurrency). */
+  version: string;
+}
+export const PutCompanySignatoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    signatory_uuid: S.String.pipe(T.Label()),
+    birthday: S.optional(S.String),
+    first_name: S.optional(S.String),
+    home_address: S.optional(CreateCompanySignatoriesInviteRequestHomeAddress),
+    last_name: S.optional(S.String),
+    middle_initial: S.optional(S.String),
+    phone: S.optional(S.String),
+    ssn: S.optional(S.String),
+    title: S.optional(S.String),
+    version: S.String,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/companies/{company_uuid}/signatories/{signatory_uuid}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutCompanySignatoryRequest",
+}) as any as S.Schema<PutCompanySignatoryRequest>;
+
+export interface TaxRequirementSetUpdateItemRequirementsItem {
+  key: string;
+  value?: TaxRequirementsValue | null;
+}
+export const TaxRequirementSetUpdateItemRequirementsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    value: S.optional(S.NullOr(TaxRequirementsValue)),
+  }),
+).annotate({
+  identifier: "TaxRequirementSetUpdateItemRequirementsItem",
+}) as any as S.Schema<TaxRequirementSetUpdateItemRequirementsItem>;
+
+export type TaxRequirementSetUpdateItemRequirementsList =
+  Array<TaxRequirementSetUpdateItemRequirementsItem>;
+export const TaxRequirementSetUpdateItemRequirementsList = /*@__PURE__*/ S.Array(
+  TaxRequirementSetUpdateItemRequirementsItem,
+) as any as S.Schema<TaxRequirementSetUpdateItemRequirementsList>;
+
+export interface TaxRequirementSetUpdateItem {
+  effective_from?: string | null;
+  key: string;
+  requirements?: TaxRequirementSetUpdateItemRequirementsList;
+  state: string;
+}
+export const TaxRequirementSetUpdateItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    effective_from: S.optional(S.NullOr(S.String)),
+    key: S.String,
+    requirements: S.optional(TaxRequirementSetUpdateItemRequirementsList),
+    state: S.String,
+  }),
+).annotate({
+  identifier: "TaxRequirementSetUpdateItem",
+}) as any as S.Schema<TaxRequirementSetUpdateItem>;
+
+/** Array of requirement sets to update. Each set corresponds to a category of requirements for the state. */
+export type TaxRequirementSetUpdate = Array<TaxRequirementSetUpdateItem>;
+export const TaxRequirementSetUpdate = /*@__PURE__*/ S.Array(
+  TaxRequirementSetUpdateItem,
+) as any as S.Schema<TaxRequirementSetUpdate>;
+
+export interface PutCompanyTaxRequirementRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The two-letter state abbreviation */
+  state: string;
+  requirement_sets?: TaxRequirementSetUpdate;
+}
+export const PutCompanyTaxRequirementRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    state: S.String.pipe(T.Label()),
+    requirement_sets: S.optional(TaxRequirementSetUpdate),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/companies/{company_uuid}/tax_requirements/{state}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutCompanyTaxRequirementRequest",
+}) as any as S.Schema<PutCompanyTaxRequirementRequest>;
+
+export interface PutCompanyTaxRequirementResponse {}
+export const PutCompanyTaxRequirementResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "PutCompanyTaxRequirementResponse",
+}) as any as S.Schema<PutCompanyTaxRequirementResponse>;
 
 export type PutCompensationRequestMinimumWagesItem =
   PostV1CompensationsCompensationIdRequestMinimumWagesItem;
@@ -10062,16 +20205,8 @@ export const PutCompensationRequest = /*@__PURE__*/ S.suspend(() =>
     payment_unit: S.optional(PutCompensationRequestPaymentUnit),
     rate: S.optional(S.String),
     title: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/compensations/{compensation_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutCompensationRequest",
-}) as any as S.Schema<PutCompensationRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/compensations/{compensation_id}", code: 200 })),
+).annotate({ identifier: "PutCompensationRequest" }) as any as S.Schema<PutCompensationRequest>;
 
 /** The contractor type. */
 export type PutContractorRequestType = "Individual" | "Business";
@@ -10139,16 +20274,65 @@ export const PutContractorRequest = /*@__PURE__*/ S.suspend(() =>
     wage_type: S.optional(PutContractorRequestWageType),
     work_email: S.optional(S.String),
     work_state: S.optional(S.NullOr(S.String)),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/contractors/{contractor_uuid}", code: 200 })),
+).annotate({ identifier: "PutContractorRequest" }) as any as S.Schema<PutContractorRequest>;
+
+export interface PutContractorAddressRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+  city?: string;
+  state?: string;
+  street_1?: string;
+  street_2?: string;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version: string;
+  zip?: string;
+}
+export const PutContractorAddressRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+    city: S.optional(S.String),
+    state: S.optional(S.String),
+    street_1: S.optional(S.String),
+    street_2: S.optional(S.String),
+    version: S.String,
+    zip: S.optional(S.String),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/contractors/{contractor_uuid}/address", code: 200 })),
+).annotate({
+  identifier: "PutContractorAddressRequest",
+}) as any as S.Schema<PutContractorAddressRequest>;
+
+/** The updated onboarding status for the contractor. */
+export type PutContractorOnboardingStatusRequestOnboardingStatus =
+  | "admin_onboarding_incomplete"
+  | "admin_onboarding_review"
+  | "self_onboarding_not_invited"
+  | "self_onboarding_invited"
+  | "self_onboarding_started"
+  | "self_onboarding_review"
+  | "onboarding_completed";
+export const PutContractorOnboardingStatusRequestOnboardingStatus = S.String;
+
+export interface PutContractorOnboardingStatusRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+  /** The updated onboarding status for the contractor. */
+  onboarding_status: PutContractorOnboardingStatusRequestOnboardingStatus | (string & {});
+}
+export const PutContractorOnboardingStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+    onboarding_status: PutContractorOnboardingStatusRequestOnboardingStatus,
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/v1/contractors/{contractor_uuid}",
+      uri: "/v1/contractors/{contractor_uuid}/onboarding_status",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "PutContractorRequest",
-}) as any as S.Schema<PutContractorRequest>;
+  identifier: "PutContractorOnboardingStatusRequest",
+}) as any as S.Schema<PutContractorOnboardingStatusRequest>;
 
 export interface PutDepartmentsRequest {
   /** The UUID of the department */
@@ -10163,33 +20347,25 @@ export const PutDepartmentsRequest = /*@__PURE__*/ S.suspend(() =>
     department_uuid: S.String.pipe(T.Label()),
     version: S.String,
     title: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/departments/{department_uuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutDepartmentsRequest",
-}) as any as S.Schema<PutDepartmentsRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/departments/{department_uuid}", code: 200 })),
+).annotate({ identifier: "PutDepartmentsRequest" }) as any as S.Schema<PutDepartmentsRequest>;
 
-export type PutDepartmentsResponseContractorsItem = DepartmentContractorsItem;
-export const PutDepartmentsResponseContractorsItem = DepartmentContractorsItem;
+export type PutDepartmentsResponseContractorsItem = HolidayPayPolicyEmployeesItem;
+export const PutDepartmentsResponseContractorsItem = HolidayPayPolicyEmployeesItem;
 
 /** Array of contractors assigned to the department. */
-export type PutDepartmentsResponseContractorsList = Array<DepartmentContractorsItem>;
+export type PutDepartmentsResponseContractorsList = Array<HolidayPayPolicyEmployeesItem>;
 export const PutDepartmentsResponseContractorsList = /*@__PURE__*/ S.Array(
-  DepartmentContractorsItem,
+  HolidayPayPolicyEmployeesItem,
 ) as any as S.Schema<PutDepartmentsResponseContractorsList>;
 
-export type PutDepartmentsResponseEmployeesItem = DepartmentContractorsItem;
-export const PutDepartmentsResponseEmployeesItem = DepartmentContractorsItem;
+export type PutDepartmentsResponseEmployeesItem = HolidayPayPolicyEmployeesItem;
+export const PutDepartmentsResponseEmployeesItem = HolidayPayPolicyEmployeesItem;
 
 /** Array of employees assigned to the department. */
-export type PutDepartmentsResponseEmployeesList = Array<DepartmentContractorsItem>;
+export type PutDepartmentsResponseEmployeesList = Array<HolidayPayPolicyEmployeesItem>;
 export const PutDepartmentsResponseEmployeesList = /*@__PURE__*/ S.Array(
-  DepartmentContractorsItem,
+  HolidayPayPolicyEmployeesItem,
 ) as any as S.Schema<PutDepartmentsResponseEmployeesList>;
 
 export interface PutDepartmentsResponse {
@@ -10215,9 +20391,44 @@ export const PutDepartmentsResponse = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     uuid: S.optional(S.String),
   }),
+).annotate({ identifier: "PutDepartmentsResponse" }) as any as S.Schema<PutDepartmentsResponse>;
+
+/** The bank account type. */
+export type PutEmployeeBankAccountsRequestAccountType = "Checking" | "Savings";
+export const PutEmployeeBankAccountsRequestAccountType = S.String;
+
+export interface PutEmployeeBankAccountsRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+  /** The UUID of the bank account */
+  bank_account_uuid: string;
+  /** The bank account number. */
+  account_number: string;
+  /** The bank account type. */
+  account_type: PutEmployeeBankAccountsRequestAccountType | (string & {});
+  /** A name for the bank account (e.g. "Primary Checking"). */
+  name: string;
+  /** The bank routing number (nine digits). */
+  routing_number: string;
+}
+export const PutEmployeeBankAccountsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+    bank_account_uuid: S.String.pipe(T.Label()),
+    account_number: S.String,
+    account_type: PutEmployeeBankAccountsRequestAccountType,
+    name: S.String,
+    routing_number: S.String,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/employees/{employee_id}/bank_accounts/{bank_account_uuid}",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "PutDepartmentsResponse",
-}) as any as S.Schema<PutDepartmentsResponse>;
+  identifier: "PutEmployeeBankAccountsRequest",
+}) as any as S.Schema<PutEmployeeBankAccountsRequest>;
 
 /** The company contribution scheme. `amount`: The company contributes a fixed amount per payroll. If elective is true, the contribution is matching, dollar-for-dollar. `percentage`: The company contributes a percentage of the payroll amount per payroll period. If elective is true, the contribution is matching, dollar-for-dollar. `tiered`: The size of the company contribution corresponds to the size of the employee deduction relative to a tiered matching scheme. */
 export type PutEmployeeBenefitRequestContributionType = "amount" | "percentage" | "tiered";
@@ -10335,13 +20546,7 @@ export const PutEmployeeBenefitRequest = /*@__PURE__*/ S.suspend(() =>
     expiration_date: S.optional(S.NullOr(S.String)),
     limit_option: S.optional(S.NullOr(PutEmployeeBenefitRequestLimitOption)),
     version: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/employee_benefits/{employee_benefit_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/employee_benefits/{employee_benefit_id}", code: 200 })),
 ).annotate({
   identifier: "PutEmployeeBenefitRequest",
 }) as any as S.Schema<PutEmployeeBenefitRequest>;
@@ -10472,6 +20677,385 @@ export const PutEmployeeBenefitResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutEmployeeBenefitResponse",
 }) as any as S.Schema<PutEmployeeBenefitResponse>;
 
+export interface PutEmployeeFormSignRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+  /** The UUID of the form */
+  form_id: string;
+  /** Whether you agree to sign electronically */
+  agree: boolean;
+  /** Whether there is a preparer */
+  preparer?: boolean;
+  /** Whether there is a 2nd preparer */
+  preparer2?: boolean;
+  /** Whether 2nd preparer agrees to sign electronically */
+  preparer2_agree?: string;
+  preparer2_city?: string;
+  preparer2_first_name?: string;
+  preparer2_last_name?: string;
+  preparer2_state?: string;
+  preparer2_street_1?: string;
+  preparer2_street_2?: string;
+  preparer2_zip?: string;
+  /** Whether there is a 3rd preparer */
+  preparer3?: boolean;
+  /** Whether 3rd preparer agrees to sign electronically */
+  preparer3_agree?: string;
+  preparer3_city?: string;
+  preparer3_first_name?: string;
+  preparer3_last_name?: string;
+  preparer3_state?: string;
+  preparer3_street_1?: string;
+  preparer3_street_2?: string;
+  preparer3_zip?: string;
+  /** Whether there is a 4th preparer */
+  preparer4?: boolean;
+  /** Whether 4th preparer agrees to sign electronically */
+  preparer4_agree?: string;
+  preparer4_city?: string;
+  preparer4_first_name?: string;
+  preparer4_last_name?: string;
+  preparer4_state?: string;
+  preparer4_street_1?: string;
+  preparer4_street_2?: string;
+  preparer4_zip?: string;
+  /** Whether preparer agrees to sign electronically */
+  preparer_agree?: string;
+  preparer_city?: string;
+  preparer_first_name?: string;
+  preparer_last_name?: string;
+  preparer_state?: string;
+  preparer_street_1?: string;
+  preparer_street_2?: string;
+  preparer_zip?: string;
+  /** The signature */
+  signature_text: string;
+  /** The IP address of the signatory who signed the form. Both IPv4 AND IPv6 are supported. You must provide the IP address with either this parameter OR you can leave out this parameter and set the IP address in the request header using the `x-gusto-client-ip` header instead. */
+  signed_by_ip_address?: string;
+}
+export const PutEmployeeFormSignRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+    form_id: S.String.pipe(T.Label()),
+    agree: S.Boolean,
+    preparer: S.optional(S.Boolean),
+    preparer2: S.optional(S.Boolean),
+    preparer2_agree: S.optional(S.String),
+    preparer2_city: S.optional(S.String),
+    preparer2_first_name: S.optional(S.String),
+    preparer2_last_name: S.optional(S.String),
+    preparer2_state: S.optional(S.String),
+    preparer2_street_1: S.optional(S.String),
+    preparer2_street_2: S.optional(S.String),
+    preparer2_zip: S.optional(S.String),
+    preparer3: S.optional(S.Boolean),
+    preparer3_agree: S.optional(S.String),
+    preparer3_city: S.optional(S.String),
+    preparer3_first_name: S.optional(S.String),
+    preparer3_last_name: S.optional(S.String),
+    preparer3_state: S.optional(S.String),
+    preparer3_street_1: S.optional(S.String),
+    preparer3_street_2: S.optional(S.String),
+    preparer3_zip: S.optional(S.String),
+    preparer4: S.optional(S.Boolean),
+    preparer4_agree: S.optional(S.String),
+    preparer4_city: S.optional(S.String),
+    preparer4_first_name: S.optional(S.String),
+    preparer4_last_name: S.optional(S.String),
+    preparer4_state: S.optional(S.String),
+    preparer4_street_1: S.optional(S.String),
+    preparer4_street_2: S.optional(S.String),
+    preparer4_zip: S.optional(S.String),
+    preparer_agree: S.optional(S.String),
+    preparer_city: S.optional(S.String),
+    preparer_first_name: S.optional(S.String),
+    preparer_last_name: S.optional(S.String),
+    preparer_state: S.optional(S.String),
+    preparer_street_1: S.optional(S.String),
+    preparer_street_2: S.optional(S.String),
+    preparer_zip: S.optional(S.String),
+    signature_text: S.String,
+    signed_by_ip_address: S.optional(S.String),
+  }).pipe(
+    T.Http({ method: "PUT", uri: "/v1/employees/{employee_id}/forms/{form_id}/sign", code: 200 }),
+  ),
+).annotate({
+  identifier: "PutEmployeeFormSignRequest",
+}) as any as S.Schema<PutEmployeeFormSignRequest>;
+
+/** The employee's authorization status. - `citizen`: A citizen is someone who was born in the United States or is a naturalized citizen living in the United States. - `noncitizen`: A noncitizen national is someone born in American Samoa, certain former citizens of the former Trust Territory of the Pacific Islands, and certain children of noncitizen nationals born abroad. - `permanent_resident`: A lawful permanent resident is someone who is not a US citizen and who resides under legally recognized and lawfully recorded permanent residence as an immigrant. - `alien`: Also referred to as a "noncitizen authorized to work". This includes anyone who is authorized to work in the United States but is not a US citizen, US national or lawful permanent resident. */
+export type PutEmployeeI9AuthorizationRequestAuthorizationStatus =
+  | "citizen"
+  | "noncitizen"
+  | "permanent_resident"
+  | "alien";
+export const PutEmployeeI9AuthorizationRequestAuthorizationStatus = S.String;
+
+/** The type of document an employee holds, based on their authorization status. - This is unused for authorization status `citizen` or `noncitizen`. - If the authorization status is `permanent_resident`, this must be `uscis_alien_registration_number`. - If the authorization status is `alien`, this is required and may be any of the valid values. */
+export type PutEmployeeI9AuthorizationRequestDocumentType =
+  | "uscis_alien_registration_number"
+  | "form_i94"
+  | "foreign_passport";
+export const PutEmployeeI9AuthorizationRequestDocumentType = S.String;
+
+export interface PutEmployeeI9AuthorizationRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+  /** The employee's authorization status. - `citizen`: A citizen is someone who was born in the United States or is a naturalized citizen living in the United States. - `noncitizen`: A noncitizen national is someone born in American Samoa, certain former citizens of the former Trust Territory of the Pacific Islands, and certain children of noncitizen nationals born abroad. - `permanent_resident`: A lawful permanent resident is someone who is not a US citizen and who resides under legally recognized and lawfully recorded permanent residence as an immigrant. - `alien`: Also referred to as a "noncitizen authorized to work". This includes anyone who is authorized to work in the United States but is not a US citizen, US national or lawful permanent resident. */
+  authorization_status: PutEmployeeI9AuthorizationRequestAuthorizationStatus | (string & {});
+  /** The document's country of issuance. This is required when the document type is `foreign_passport`. */
+  country?: string;
+  /** The document number. Formatting depends on the employee's document type. - For `document_type:'uscis_alien_registration_number'`, this must be a USCIS Number/A-Number, which is 7 to 9 digits. - For `document_type:'form_i94'`, this must be a Form I-94 Admission Number, which is 11 digits. - For `document_type:'foreign_passport'`, this must be the passport number. This is required when the document type is present. */
+  document_number?: string;
+  /** The type of document an employee holds, based on their authorization status. - This is unused for authorization status `citizen` or `noncitizen`. - If the authorization status is `permanent_resident`, this must be `uscis_alien_registration_number`. - If the authorization status is `alien`, this is required and may be any of the valid values. */
+  document_type?: PutEmployeeI9AuthorizationRequestDocumentType | (string & {});
+  /** The document's expiration date. This may only be used when the authorization status is `alien`. */
+  expiration_date?: string;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. If supplied, this endpoint will update the existing I-9 authorization if it exists. */
+  version?: string;
+}
+export const PutEmployeeI9AuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+    authorization_status: PutEmployeeI9AuthorizationRequestAuthorizationStatus,
+    country: S.optional(S.String),
+    document_number: S.optional(S.String),
+    document_type: S.optional(PutEmployeeI9AuthorizationRequestDocumentType),
+    expiration_date: S.optional(S.String),
+    version: S.optional(S.String),
+  }).pipe(
+    T.Http({ method: "PUT", uri: "/v1/employees/{employee_id}/i9_authorization", code: 200 }),
+  ),
+).annotate({
+  identifier: "PutEmployeeI9AuthorizationRequest",
+}) as any as S.Schema<PutEmployeeI9AuthorizationRequest>;
+
+export interface PutEmployeeI9AuthorizationDocumentsRequestDocumentsItem {
+  /** The document's document number */
+  document_number?: string;
+  /** The document title associated with the document type */
+  document_title: string;
+  /** The document type. Use the document options endpoint to get the possible values. */
+  document_type: string;
+  /** The document's expiration date */
+  expiration_date?: string;
+  /** The document's issuing authority */
+  issuing_authority: string;
+}
+export const PutEmployeeI9AuthorizationDocumentsRequestDocumentsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    document_number: S.optional(S.String),
+    document_title: S.String,
+    document_type: S.String,
+    expiration_date: S.optional(S.String),
+    issuing_authority: S.String,
+  }),
+).annotate({
+  identifier: "PutEmployeeI9AuthorizationDocumentsRequestDocumentsItem",
+}) as any as S.Schema<PutEmployeeI9AuthorizationDocumentsRequestDocumentsItem>;
+
+/** An array of I-9 verification documents. Every request must contain the complete list of documents for the employee, as previous records are replaced. */
+export type PutEmployeeI9AuthorizationDocumentsRequestDocumentsList =
+  Array<PutEmployeeI9AuthorizationDocumentsRequestDocumentsItem>;
+export const PutEmployeeI9AuthorizationDocumentsRequestDocumentsList = /*@__PURE__*/ S.Array(
+  PutEmployeeI9AuthorizationDocumentsRequestDocumentsItem,
+) as any as S.Schema<PutEmployeeI9AuthorizationDocumentsRequestDocumentsList>;
+
+export interface PutEmployeeI9AuthorizationDocumentsRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+  /** An array of I-9 verification documents. Every request must contain the complete list of documents for the employee, as previous records are replaced. */
+  documents: PutEmployeeI9AuthorizationDocumentsRequestDocumentsList;
+}
+export const PutEmployeeI9AuthorizationDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+    documents: PutEmployeeI9AuthorizationDocumentsRequestDocumentsList,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/employees/{employee_id}/i9_authorization/documents",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutEmployeeI9AuthorizationDocumentsRequest",
+}) as any as S.Schema<PutEmployeeI9AuthorizationDocumentsRequest>;
+
+export type PutEmployeeI9AuthorizationDocumentsResponseBodyList = Array<I9AuthorizationDocument>;
+export const PutEmployeeI9AuthorizationDocumentsResponseBodyList = /*@__PURE__*/ S.Array(
+  I9AuthorizationDocument,
+) as any as S.Schema<PutEmployeeI9AuthorizationDocumentsResponseBodyList>;
+
+export type PutEmployeeI9AuthorizationDocumentsResponse =
+  PutEmployeeI9AuthorizationDocumentsResponseBodyList;
+export const PutEmployeeI9AuthorizationDocumentsResponse = /*@__PURE__*/ S.suspend(() =>
+  PutEmployeeI9AuthorizationDocumentsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "PutEmployeeI9AuthorizationDocumentsResponse",
+}) as any as S.Schema<PutEmployeeI9AuthorizationDocumentsResponse>;
+
+export interface PutEmployeeI9AuthorizationEmployerSignRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+  /** Any additional notes */
+  additional_info?: string;
+  /** Whether you agree to sign electronically */
+  agree: boolean;
+  /** Whether an alternative procedure authorized by DHS to examine documents was used */
+  alt_procedure?: boolean;
+  /** The signature */
+  signature_text: string;
+  /** The IP address of the signatory who signed the form. Both IPv4 AND IPv6 are supported. You must provide the IP address with either this parameter OR you can leave out this parameter and set the IP address in the request header using the `x-gusto-client-ip` header instead. */
+  signed_by_ip_address?: string;
+  /** The signer's job title */
+  signer_title: string;
+}
+export const PutEmployeeI9AuthorizationEmployerSignRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+    additional_info: S.optional(S.String),
+    agree: S.Boolean,
+    alt_procedure: S.optional(S.Boolean),
+    signature_text: S.String,
+    signed_by_ip_address: S.optional(S.String),
+    signer_title: S.String,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/employees/{employee_id}/i9_authorization/employer_sign",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutEmployeeI9AuthorizationEmployerSignRequest",
+}) as any as S.Schema<PutEmployeeI9AuthorizationEmployerSignRequest>;
+
+export interface PutEmployeeOnboardingDocumentsConfigRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+  /** Whether to include Form I-9 for this employee during onboarding. When true, the employee will be prompted to complete Form I-9 as part of their onboarding. */
+  i9_document?: boolean;
+}
+export const PutEmployeeOnboardingDocumentsConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+    i9_document: S.optional(S.Boolean),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/employees/{employee_id}/onboarding_documents_config",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutEmployeeOnboardingDocumentsConfigRequest",
+}) as any as S.Schema<PutEmployeeOnboardingDocumentsConfigRequest>;
+
+/** Configuration for which onboarding documents (e.g. Form I-9) are required for an employee during onboarding. */
+export interface EmployeeOnboardingDocument {
+  /** Whether to include Form I-9 for this employee during onboarding. When true, the employee will be prompted to complete Form I-9 as part of their onboarding. */
+  i9_document?: boolean;
+  /** The UUID of the onboarding documents config record. Null when no config has been saved yet. */
+  uuid?: string | null;
+}
+export const EmployeeOnboardingDocument = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    i9_document: S.optional(S.Boolean),
+    uuid: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "EmployeeOnboardingDocument",
+}) as any as S.Schema<EmployeeOnboardingDocument>;
+
+/** Onboarding status value */
+export type PutEmployeeOnboardingStatusRequestOnboardingStatus =
+  | "admin_onboarding_incomplete"
+  | "self_onboarding_pending_invite"
+  | "self_onboarding_invited"
+  | "self_onboarding_invited_started"
+  | "self_onboarding_invited_overdue"
+  | "self_onboarding_completed_by_employee"
+  | "self_onboarding_awaiting_admin_review"
+  | "onboarding_completed";
+export const PutEmployeeOnboardingStatusRequestOnboardingStatus = S.String;
+
+export interface PutEmployeeOnboardingStatusRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+  /** Onboarding status value */
+  onboarding_status: PutEmployeeOnboardingStatusRequestOnboardingStatus | (string & {});
+}
+export const PutEmployeeOnboardingStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+    onboarding_status: PutEmployeeOnboardingStatusRequestOnboardingStatus,
+  }).pipe(
+    T.Http({ method: "PUT", uri: "/v1/employees/{employee_id}/onboarding_status", code: 200 }),
+  ),
+).annotate({
+  identifier: "PutEmployeeOnboardingStatusRequest",
+}) as any as S.Schema<PutEmployeeOnboardingStatusRequest>;
+
+export type PutEmployeePaymentMethodRequestSplitBy = "Percentage" | "Amount";
+export const PutEmployeePaymentMethodRequestSplitBy = S.String;
+
+export interface PutEmployeePaymentMethodRequestSplitsItem {
+  /** The bank account name. */
+  name?: string;
+  /** Order of priority for each payment split; priority 1 is the first account paid. Must be unique and sequential. */
+  priority?: number;
+  /** If split_by is Amount, value is in cents (e.g., 500 for $5.00) and exactly one account must have null to capture the remainder. If split_by is Percentage, value is the percentage (e.g., 60 for 60%). */
+  split_amount?: number | null;
+  /** The bank account UUID. */
+  uuid?: string;
+}
+export const PutEmployeePaymentMethodRequestSplitsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    priority: S.optional(S.Number),
+    split_amount: S.optional(S.NullOr(S.Number)),
+    uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PutEmployeePaymentMethodRequestSplitsItem",
+}) as any as S.Schema<PutEmployeePaymentMethodRequestSplitsItem>;
+
+/** Array of payment splits. Required when type is Direct Deposit. */
+export type PutEmployeePaymentMethodRequestSplitsList =
+  Array<PutEmployeePaymentMethodRequestSplitsItem>;
+export const PutEmployeePaymentMethodRequestSplitsList = /*@__PURE__*/ S.Array(
+  PutEmployeePaymentMethodRequestSplitsItem,
+) as any as S.Schema<PutEmployeePaymentMethodRequestSplitsList>;
+
+/** The payment method type. If type is Check, split_by and splits do not need to be populated. If type is Direct Deposit, split_by and splits are required. */
+export type PutEmployeePaymentMethodRequestType = "Check" | "Direct Deposit";
+export const PutEmployeePaymentMethodRequestType = S.String;
+
+export interface PutEmployeePaymentMethodRequest {
+  /** The UUID of the employee */
+  employee_id: string;
+  /** How the payment will be split. If Percentage, split amounts must add up to exactly 100. If Amount, values are in cents and the last split amount must be null to capture the remainder. */
+  split_by?: PutEmployeePaymentMethodRequestSplitBy | (string & {}) | null;
+  /** Array of payment splits. Required when type is Direct Deposit. */
+  splits?: PutEmployeePaymentMethodRequestSplitsList | null;
+  /** The payment method type. If type is Check, split_by and splits do not need to be populated. If type is Direct Deposit, split_by and splits are required. */
+  type: PutEmployeePaymentMethodRequestType | (string & {});
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field. */
+  version: string;
+}
+export const PutEmployeePaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_id: S.String.pipe(T.Label()),
+    split_by: S.optional(S.NullOr(PutEmployeePaymentMethodRequestSplitBy)),
+    splits: S.optional(S.NullOr(PutEmployeePaymentMethodRequestSplitsList)),
+    type: PutEmployeePaymentMethodRequestType,
+    version: S.String,
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/employees/{employee_id}/payment_method", code: 200 })),
+).annotate({
+  identifier: "PutEmployeePaymentMethodRequest",
+}) as any as S.Schema<PutEmployeePaymentMethodRequest>;
+
 /** The employee's employment status. Supplying an invalid option will set the employment_status to *not_set*. */
 export type PutEmployeeRehireRequestEmploymentStatus =
   | "part_time"
@@ -10507,16 +21091,8 @@ export const PutEmployeeRehireRequest = /*@__PURE__*/ S.suspend(() =>
     file_new_hire_report: S.Boolean,
     two_percent_shareholder: S.optional(S.Boolean),
     work_location_uuid: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/employees/{employee_id}/rehire",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutEmployeeRehireRequest",
-}) as any as S.Schema<PutEmployeeRehireRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/employees/{employee_id}/rehire", code: 200 })),
+).annotate({ identifier: "PutEmployeeRehireRequest" }) as any as S.Schema<PutEmployeeRehireRequest>;
 
 export interface PutEmployeesRequest {
   /** The UUID of the employee */
@@ -10548,9 +21124,7 @@ export const PutEmployeesRequest = /*@__PURE__*/ S.suspend(() =>
     two_percent_shareholder: S.optional(S.Boolean),
     work_email: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/v1/employees/{employee_id}", code: 200 })),
-).annotate({
-  identifier: "PutEmployeesRequest",
-}) as any as S.Schema<PutEmployeesRequest>;
+).annotate({ identifier: "PutEmployeesRequest" }) as any as S.Schema<PutEmployeesRequest>;
 
 export type PutGarnishmentRequestGarnishmentType =
   | "child_support"
@@ -10607,16 +21181,8 @@ export const PutGarnishmentRequest = /*@__PURE__*/ S.suspend(() =>
     times: S.optional(S.NullOr(S.Number)),
     total_amount: S.optional(S.NullOr(S.String)),
     version: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/garnishments/{garnishment_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutGarnishmentRequest",
-}) as any as S.Schema<PutGarnishmentRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/garnishments/{garnishment_id}", code: 200 })),
+).annotate({ identifier: "PutGarnishmentRequest" }) as any as S.Schema<PutGarnishmentRequest>;
 
 export interface PutHomeAddressRequest {
   /** The UUID of the home address */
@@ -10642,16 +21208,36 @@ export const PutHomeAddressRequest = /*@__PURE__*/ S.suspend(() =>
     street_1: S.optional(S.String),
     street_2: S.optional(S.NullOr(S.String)),
     zip: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/home_addresses/{home_address_uuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutHomeAddressRequest",
-}) as any as S.Schema<PutHomeAddressRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/home_addresses/{home_address_uuid}", code: 200 })),
+).annotate({ identifier: "PutHomeAddressRequest" }) as any as S.Schema<PutHomeAddressRequest>;
+
+export interface PutJobRequest {
+  /** The UUID of the job */
+  job_id: string;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version: string;
+  /** The date when the employee was hired or rehired for the job. */
+  hire_date?: string;
+  /** The risk class code for workers' compensation in Washington state. Please visit [Washington state's Risk Class page](https://www.lni.wa.gov/insurance/rates-risk-classes/risk-classes-for-workers-compensation/risk-class-lookup#/) to learn more. */
+  state_wc_class_code?: string | null;
+  /** Whether this job is eligible for workers' compensation coverage in the state of Washington (WA). */
+  state_wc_covered?: boolean | null;
+  /** The job title. */
+  title?: string | null;
+  /** Whether the employee owns at least 2% of the company. */
+  two_percent_shareholder?: boolean;
+}
+export const PutJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    job_id: S.String.pipe(T.Label()),
+    version: S.String,
+    hire_date: S.optional(S.String),
+    state_wc_class_code: S.optional(S.NullOr(S.String)),
+    state_wc_covered: S.optional(S.NullOr(S.Boolean)),
+    title: S.optional(S.NullOr(S.String)),
+    two_percent_shareholder: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/jobs/{job_id}", code: 200 })),
+).annotate({ identifier: "PutJobRequest" }) as any as S.Schema<PutJobRequest>;
 
 export interface PutLocationRequest {
   /** The UUID of the location */
@@ -10684,9 +21270,162 @@ export const PutLocationRequest = /*@__PURE__*/ S.suspend(() =>
     street_2: S.optional(S.NullOr(S.String)),
     zip: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/v1/locations/{location_id}", code: 200 })),
+).annotate({ identifier: "PutLocationRequest" }) as any as S.Schema<PutLocationRequest>;
+
+export interface PutPartnerManagedCompanyDisassociateRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+}
+export const PutPartnerManagedCompanyDisassociateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/partner_managed_companies/{company_uuid}/disassociate",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "PutLocationRequest",
-}) as any as S.Schema<PutLocationRequest>;
+  identifier: "PutPartnerManagedCompanyDisassociateRequest",
+}) as any as S.Schema<PutPartnerManagedCompanyDisassociateRequest>;
+
+/** The company that was disassociated from the partner's embedded payroll product. */
+export interface PartnerManagedCompanyDisassociateResponse {
+  /** The name of the disassociated company. */
+  company_name: string;
+  /** The UUID of the disassociated company. */
+  company_uuid: string;
+}
+export const PartnerManagedCompanyDisassociateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_name: S.String,
+    company_uuid: S.String,
+  }),
+).annotate({
+  identifier: "PartnerManagedCompanyDisassociateResponse",
+}) as any as S.Schema<PartnerManagedCompanyDisassociateResponse>;
+
+export interface PutPartnerManagedCompanyMigrateRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+}
+export const PutPartnerManagedCompanyMigrateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/partner_managed_companies/{company_uuid}/migrate",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutPartnerManagedCompanyMigrateRequest",
+}) as any as S.Schema<PutPartnerManagedCompanyMigrateRequest>;
+
+/** Returns `migration_blocker` for blockers. */
+export type PartnerManagedCompanyMigrateResponseErrorsItemCategory = "migration_blocker";
+export const PartnerManagedCompanyMigrateResponseErrorsItemCategory = S.String;
+
+export interface PartnerManagedCompanyMigrateResponseErrorsItemMetadata {
+  /** Issue key (e.g., `company_suspended`, `terms_of_service`, `gusto_managed_benefits`). */
+  key?: string;
+}
+export const PartnerManagedCompanyMigrateResponseErrorsItemMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PartnerManagedCompanyMigrateResponseErrorsItemMetadata",
+}) as any as S.Schema<PartnerManagedCompanyMigrateResponseErrorsItemMetadata>;
+
+export interface PartnerManagedCompanyMigrateResponseErrorsItem {
+  /** Returns `migration_blocker` for blockers. */
+  category?: PartnerManagedCompanyMigrateResponseErrorsItemCategory;
+  error_key?: string;
+  message?: string;
+  metadata?: PartnerManagedCompanyMigrateResponseErrorsItemMetadata;
+}
+export const PartnerManagedCompanyMigrateResponseErrorsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.optional(PartnerManagedCompanyMigrateResponseErrorsItemCategory),
+    error_key: S.optional(S.String),
+    message: S.optional(S.String),
+    metadata: S.optional(PartnerManagedCompanyMigrateResponseErrorsItemMetadata),
+  }),
+).annotate({
+  identifier: "PartnerManagedCompanyMigrateResponseErrorsItem",
+}) as any as S.Schema<PartnerManagedCompanyMigrateResponseErrorsItem>;
+
+/** Migration blockers preventing the migration. Empty array when `migration_status` is `true`. */
+export type PartnerManagedCompanyMigrateResponseErrorsList =
+  Array<PartnerManagedCompanyMigrateResponseErrorsItem>;
+export const PartnerManagedCompanyMigrateResponseErrorsList = /*@__PURE__*/ S.Array(
+  PartnerManagedCompanyMigrateResponseErrorsItem,
+) as any as S.Schema<PartnerManagedCompanyMigrateResponseErrorsList>;
+
+/** Returns `migration_warning` for warnings. */
+export type PartnerManagedCompanyMigrateResponseWarningsItemCategory = "migration_warning";
+export const PartnerManagedCompanyMigrateResponseWarningsItemCategory = S.String;
+
+export interface PartnerManagedCompanyMigrateResponseWarningsItemMetadata {
+  key?: string;
+}
+export const PartnerManagedCompanyMigrateResponseWarningsItemMetadata = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      key: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "PartnerManagedCompanyMigrateResponseWarningsItemMetadata",
+}) as any as S.Schema<PartnerManagedCompanyMigrateResponseWarningsItemMetadata>;
+
+export interface PartnerManagedCompanyMigrateResponseWarningsItem {
+  /** Returns `migration_warning` for warnings. */
+  category?: PartnerManagedCompanyMigrateResponseWarningsItemCategory;
+  error_key?: string;
+  message?: string;
+  metadata?: PartnerManagedCompanyMigrateResponseWarningsItemMetadata;
+}
+export const PartnerManagedCompanyMigrateResponseWarningsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.optional(PartnerManagedCompanyMigrateResponseWarningsItemCategory),
+    error_key: S.optional(S.String),
+    message: S.optional(S.String),
+    metadata: S.optional(PartnerManagedCompanyMigrateResponseWarningsItemMetadata),
+  }),
+).annotate({
+  identifier: "PartnerManagedCompanyMigrateResponseWarningsItem",
+}) as any as S.Schema<PartnerManagedCompanyMigrateResponseWarningsItem>;
+
+/** Non-blocking issues surfaced during migration (e.g., suspended company, active integrations). May be present even when `migration_status` is `true`. */
+export type PartnerManagedCompanyMigrateResponseWarningsList =
+  Array<PartnerManagedCompanyMigrateResponseWarningsItem>;
+export const PartnerManagedCompanyMigrateResponseWarningsList = /*@__PURE__*/ S.Array(
+  PartnerManagedCompanyMigrateResponseWarningsItem,
+) as any as S.Schema<PartnerManagedCompanyMigrateResponseWarningsList>;
+
+export interface PartnerManagedCompanyMigrateResponse {
+  /** The company UUID. */
+  company_uuid?: string;
+  /** Migration blockers preventing the migration. Empty array when `migration_status` is `true`. */
+  errors?: PartnerManagedCompanyMigrateResponseErrorsList;
+  /** Returns `true` when the migration completed successfully, `false` otherwise. */
+  migration_status?: boolean;
+  /** Non-blocking issues surfaced during migration (e.g., suspended company, active integrations). May be present even when `migration_status` is `true`. */
+  warnings?: PartnerManagedCompanyMigrateResponseWarningsList;
+}
+export const PartnerManagedCompanyMigrateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.optional(S.String),
+    errors: S.optional(PartnerManagedCompanyMigrateResponseErrorsList),
+    migration_status: S.optional(S.Boolean),
+    warnings: S.optional(PartnerManagedCompanyMigrateResponseWarningsList),
+  }),
+).annotate({
+  identifier: "PartnerManagedCompanyMigrateResponse",
+}) as any as S.Schema<PartnerManagedCompanyMigrateResponse>;
 
 export interface PutRecurringReimbursementsRequest {
   /** The UUID of the reimbursement */
@@ -10704,33 +21443,29 @@ export const PutRecurringReimbursementsRequest = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     amount: S.optional(S.Number),
     description: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/recurring_reimbursements/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/recurring_reimbursements/{id}", code: 200 })),
 ).annotate({
   identifier: "PutRecurringReimbursementsRequest",
 }) as any as S.Schema<PutRecurringReimbursementsRequest>;
 
-export type PutRemovePeopleFromDepartmentRequestContractorsItem = DepartmentContractorsItem;
-export const PutRemovePeopleFromDepartmentRequestContractorsItem = DepartmentContractorsItem;
+export type PutRemovePeopleFromDepartmentRequestContractorsItem = HolidayPayPolicyEmployeesItem;
+export const PutRemovePeopleFromDepartmentRequestContractorsItem = HolidayPayPolicyEmployeesItem;
 
 /** Array of contractors to add or remove from the department */
-export type PutRemovePeopleFromDepartmentRequestContractorsList = Array<DepartmentContractorsItem>;
+export type PutRemovePeopleFromDepartmentRequestContractorsList =
+  Array<HolidayPayPolicyEmployeesItem>;
 export const PutRemovePeopleFromDepartmentRequestContractorsList = /*@__PURE__*/ S.Array(
-  DepartmentContractorsItem,
+  HolidayPayPolicyEmployeesItem,
 ) as any as S.Schema<PutRemovePeopleFromDepartmentRequestContractorsList>;
 
-export type PutRemovePeopleFromDepartmentRequestEmployeesItem = DepartmentContractorsItem;
-export const PutRemovePeopleFromDepartmentRequestEmployeesItem = DepartmentContractorsItem;
+export type PutRemovePeopleFromDepartmentRequestEmployeesItem = HolidayPayPolicyEmployeesItem;
+export const PutRemovePeopleFromDepartmentRequestEmployeesItem = HolidayPayPolicyEmployeesItem;
 
 /** Array of employees to add or remove from the department */
-export type PutRemovePeopleFromDepartmentRequestEmployeesList = Array<DepartmentContractorsItem>;
+export type PutRemovePeopleFromDepartmentRequestEmployeesList =
+  Array<HolidayPayPolicyEmployeesItem>;
 export const PutRemovePeopleFromDepartmentRequestEmployeesList = /*@__PURE__*/ S.Array(
-  DepartmentContractorsItem,
+  HolidayPayPolicyEmployeesItem,
 ) as any as S.Schema<PutRemovePeopleFromDepartmentRequestEmployeesList>;
 
 export interface PutRemovePeopleFromDepartmentRequest {
@@ -10749,33 +21484,29 @@ export const PutRemovePeopleFromDepartmentRequest = /*@__PURE__*/ S.suspend(() =
     version: S.String,
     contractors: S.optional(PutRemovePeopleFromDepartmentRequestContractorsList),
     employees: S.optional(PutRemovePeopleFromDepartmentRequestEmployeesList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/departments/{department_uuid}/remove",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/departments/{department_uuid}/remove", code: 200 })),
 ).annotate({
   identifier: "PutRemovePeopleFromDepartmentRequest",
 }) as any as S.Schema<PutRemovePeopleFromDepartmentRequest>;
 
-export type PutRemovePeopleFromDepartmentResponseContractorsItem = DepartmentContractorsItem;
-export const PutRemovePeopleFromDepartmentResponseContractorsItem = DepartmentContractorsItem;
+export type PutRemovePeopleFromDepartmentResponseContractorsItem = HolidayPayPolicyEmployeesItem;
+export const PutRemovePeopleFromDepartmentResponseContractorsItem = HolidayPayPolicyEmployeesItem;
 
 /** Array of contractors assigned to the department. */
-export type PutRemovePeopleFromDepartmentResponseContractorsList = Array<DepartmentContractorsItem>;
+export type PutRemovePeopleFromDepartmentResponseContractorsList =
+  Array<HolidayPayPolicyEmployeesItem>;
 export const PutRemovePeopleFromDepartmentResponseContractorsList = /*@__PURE__*/ S.Array(
-  DepartmentContractorsItem,
+  HolidayPayPolicyEmployeesItem,
 ) as any as S.Schema<PutRemovePeopleFromDepartmentResponseContractorsList>;
 
-export type PutRemovePeopleFromDepartmentResponseEmployeesItem = DepartmentContractorsItem;
-export const PutRemovePeopleFromDepartmentResponseEmployeesItem = DepartmentContractorsItem;
+export type PutRemovePeopleFromDepartmentResponseEmployeesItem = HolidayPayPolicyEmployeesItem;
+export const PutRemovePeopleFromDepartmentResponseEmployeesItem = HolidayPayPolicyEmployeesItem;
 
 /** Array of employees assigned to the department. */
-export type PutRemovePeopleFromDepartmentResponseEmployeesList = Array<DepartmentContractorsItem>;
+export type PutRemovePeopleFromDepartmentResponseEmployeesList =
+  Array<HolidayPayPolicyEmployeesItem>;
 export const PutRemovePeopleFromDepartmentResponseEmployeesList = /*@__PURE__*/ S.Array(
-  DepartmentContractorsItem,
+  HolidayPayPolicyEmployeesItem,
 ) as any as S.Schema<PutRemovePeopleFromDepartmentResponseEmployeesList>;
 
 export interface PutRemovePeopleFromDepartmentResponse {
@@ -10822,9 +21553,74 @@ export const PutTerminationRequest = /*@__PURE__*/ S.suspend(() =>
     effective_date: S.String,
     run_termination_payroll: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/v1/terminations/{employee_id}", code: 200 })),
-).annotate({
-  identifier: "PutTerminationRequest",
-}) as any as S.Schema<PutTerminationRequest>;
+).annotate({ identifier: "PutTerminationRequest" }) as any as S.Schema<PutTerminationRequest>;
+
+/** Accrual method of the time off policy */
+export type PutTimeOffPolicyRequestAccrualMethod =
+  | "unlimited"
+  | "per_pay_period"
+  | "per_calendar_year"
+  | "per_anniversary_year"
+  | "per_hour_worked"
+  | "per_hour_worked_no_overtime"
+  | "per_hour_paid"
+  | "per_hour_paid_no_overtime";
+export const PutTimeOffPolicyRequestAccrualMethod = S.String;
+
+/** Type of the time off policy. Currently only "vacation" and "sick" are supported */
+export type PutTimeOffPolicyRequestPolicyType = "vacation" | "sick";
+export const PutTimeOffPolicyRequestPolicyType = S.String;
+
+export interface PutTimeOffPolicyRequest {
+  /** The UUID of the time off policy */
+  time_off_policy_uuid: string;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version: string;
+  /** Accrual method of the time off policy */
+  accrual_method?: PutTimeOffPolicyRequestAccrualMethod | (string & {});
+  /** The rate at which the time off hours will accrue for an employee on the policy. Represented as a float, e.g. "40.0". */
+  accrual_rate?: string | null;
+  /** The number of hours an employee has to work or be paid for to accrue the number of hours set in the accrual rate. Only used for hourly policies (per_hour_paid, per_hour_paid_no_overtime, per_hour_work, per_hour_worked_no_overtime). Represented as a float, e.g. "40.0". */
+  accrual_rate_unit?: string | null;
+  /** Number of days before an employee on the policy will begin accruing time off hours. If accrual_method is per_anniversary_year, per_calendar_year, or unlimited, then accrual_waiting_period_days should be 0. */
+  accrual_waiting_period_days?: number | null;
+  /** The max number of hours an employee can carryover from one year to the next. If accrual_method is unlimited, then carryover_limit_hours must be blank. */
+  carryover_limit_hours?: string | null;
+  /** boolean representing if a policy has completed configuration */
+  complete?: boolean;
+  /** The max number of hours an employee can accrue in a year. If accrual_method is yearly (per_anniversary_year, per_calendar_year) or unlimited, then max_accrual_hours_per_year must be blank. */
+  max_accrual_hours_per_year?: string | null;
+  /** The max number of hours an employee can accrue. If accrual_method is unlimited, then max_hours must be blank. */
+  max_hours?: string | null;
+  /** Name of the time off policy */
+  name?: string;
+  /** Boolean representing if an employee's accrued time off hours will be paid out on termination. If accrual_method is unlimited, then paid_out_on_termination must be `false`. */
+  paid_out_on_termination?: boolean;
+  /** The date the policy resets. Format MM-DD */
+  policy_reset_date?: string | null;
+  /** Type of the time off policy. Currently only "vacation" and "sick" are supported */
+  policy_type?: PutTimeOffPolicyRequestPolicyType | (string & {});
+}
+export const PutTimeOffPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    time_off_policy_uuid: S.String.pipe(T.Label()),
+    version: S.String,
+    accrual_method: S.optional(PutTimeOffPolicyRequestAccrualMethod),
+    accrual_rate: S.optional(S.NullOr(S.String)),
+    accrual_rate_unit: S.optional(S.NullOr(S.String)),
+    accrual_waiting_period_days: S.optional(S.NullOr(S.Number)),
+    carryover_limit_hours: S.optional(S.NullOr(S.String)),
+    complete: S.optional(S.Boolean),
+    max_accrual_hours_per_year: S.optional(S.NullOr(S.String)),
+    max_hours: S.optional(S.NullOr(S.String)),
+    name: S.optional(S.String),
+    paid_out_on_termination: S.optional(S.Boolean),
+    policy_reset_date: S.optional(S.NullOr(S.String)),
+    policy_type: S.optional(PutTimeOffPolicyRequestPolicyType),
+  }).pipe(
+    T.Http({ method: "PUT", uri: "/v1/time_off_policies/{time_off_policy_uuid}", code: 200 }),
+  ),
+).annotate({ identifier: "PutTimeOffPolicyRequest" }) as any as S.Schema<PutTimeOffPolicyRequest>;
 
 export interface PutTimeOffPolicyAddEmployeesRequestEmployeesItem {
   /** The starting balance for the employee */
@@ -10867,6 +21663,161 @@ export const PutTimeOffPolicyAddEmployeesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutTimeOffPolicyAddEmployeesRequest",
 }) as any as S.Schema<PutTimeOffPolicyAddEmployeesRequest>;
 
+export interface PutTimeOffPolicyBalanceRequestEmployeesItem {
+  /** The new balance for the employee */
+  balance: string;
+  /** The UUID of the employee */
+  uuid: string;
+}
+export const PutTimeOffPolicyBalanceRequestEmployeesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    balance: S.String,
+    uuid: S.String,
+  }),
+).annotate({
+  identifier: "PutTimeOffPolicyBalanceRequestEmployeesItem",
+}) as any as S.Schema<PutTimeOffPolicyBalanceRequestEmployeesItem>;
+
+export type PutTimeOffPolicyBalanceRequestEmployeesList =
+  Array<PutTimeOffPolicyBalanceRequestEmployeesItem>;
+export const PutTimeOffPolicyBalanceRequestEmployeesList = /*@__PURE__*/ S.Array(
+  PutTimeOffPolicyBalanceRequestEmployeesItem,
+) as any as S.Schema<PutTimeOffPolicyBalanceRequestEmployeesList>;
+
+export interface PutTimeOffPolicyBalanceRequest {
+  /** The UUID of the time off policy */
+  time_off_policy_uuid: string;
+  employees: PutTimeOffPolicyBalanceRequestEmployeesList;
+}
+export const PutTimeOffPolicyBalanceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    time_off_policy_uuid: S.String.pipe(T.Label()),
+    employees: PutTimeOffPolicyBalanceRequestEmployeesList,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/time_off_policies/{time_off_policy_uuid}/balance",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutTimeOffPolicyBalanceRequest",
+}) as any as S.Schema<PutTimeOffPolicyBalanceRequest>;
+
+export interface PutTimeOffPolicyDeactivateRequest {
+  /** The UUID of the time off policy */
+  time_off_policy_uuid: string;
+}
+export const PutTimeOffPolicyDeactivateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    time_off_policy_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/time_off_policies/{time_off_policy_uuid}/deactivate",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutTimeOffPolicyDeactivateRequest",
+}) as any as S.Schema<PutTimeOffPolicyDeactivateRequest>;
+
+export interface PutTimeOffPolicyRemoveEmployeesRequestEmployeesItem {
+  /** The UUID of the employee */
+  uuid: string;
+}
+export const PutTimeOffPolicyRemoveEmployeesRequestEmployeesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String,
+  }),
+).annotate({
+  identifier: "PutTimeOffPolicyRemoveEmployeesRequestEmployeesItem",
+}) as any as S.Schema<PutTimeOffPolicyRemoveEmployeesRequestEmployeesItem>;
+
+export type PutTimeOffPolicyRemoveEmployeesRequestEmployeesList =
+  Array<PutTimeOffPolicyRemoveEmployeesRequestEmployeesItem>;
+export const PutTimeOffPolicyRemoveEmployeesRequestEmployeesList = /*@__PURE__*/ S.Array(
+  PutTimeOffPolicyRemoveEmployeesRequestEmployeesItem,
+) as any as S.Schema<PutTimeOffPolicyRemoveEmployeesRequestEmployeesList>;
+
+export interface PutTimeOffPolicyRemoveEmployeesRequest {
+  /** The UUID of the time off policy */
+  time_off_policy_uuid: string;
+  employees: PutTimeOffPolicyRemoveEmployeesRequestEmployeesList;
+}
+export const PutTimeOffPolicyRemoveEmployeesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    time_off_policy_uuid: S.String.pipe(T.Label()),
+    employees: PutTimeOffPolicyRemoveEmployeesRequestEmployeesList,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/time_off_policies/{time_off_policy_uuid}/remove_employees",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutTimeOffPolicyRemoveEmployeesRequest",
+}) as any as S.Schema<PutTimeOffPolicyRemoveEmployeesRequest>;
+
+/** An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}). Use this to override the requested hours. */
+export type PutTimeOffRequestApproveRequestDaysMap = { [key: string]: string | undefined };
+export const PutTimeOffRequestApproveRequestDaysMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<PutTimeOffRequestApproveRequestDaysMap>;
+
+export interface PutTimeOffRequestApproveRequest {
+  /** The UUID of the time off request */
+  time_off_request_uuid: string;
+  /** The UUID of the admin approving the request. Defaults to the company's primary payroll admin. */
+  approver_uuid?: string;
+  /** An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}). Use this to override the requested hours. */
+  days?: PutTimeOffRequestApproveRequestDaysMap;
+  /** A note from the employer about the approval */
+  employer_note?: string;
+}
+export const PutTimeOffRequestApproveRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    time_off_request_uuid: S.String.pipe(T.Label()),
+    approver_uuid: S.optional(S.String),
+    days: S.optional(PutTimeOffRequestApproveRequestDaysMap),
+    employer_note: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/time_off/requests/{time_off_request_uuid}/approve",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutTimeOffRequestApproveRequest",
+}) as any as S.Schema<PutTimeOffRequestApproveRequest>;
+
+export interface PutTimeOffRequestDeclineRequest {
+  /** The UUID of the time off request */
+  time_off_request_uuid: string;
+  /** The UUID of the admin declining the request. Defaults to the company's primary payroll admin. */
+  approver_uuid?: string;
+  /** Note explaining why the request was declined */
+  employer_note: string;
+}
+export const PutTimeOffRequestDeclineRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    time_off_request_uuid: S.String.pipe(T.Label()),
+    approver_uuid: S.optional(S.String),
+    employer_note: S.String,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/time_off/requests/{time_off_request_uuid}/decline",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutTimeOffRequestDeclineRequest",
+}) as any as S.Schema<PutTimeOffRequestDeclineRequest>;
+
 /** Pay classification for the entry. */
 export type PutTimeTrackingTimeSheetRequestEntriesItemPayClassification =
   | "Regular"
@@ -10900,9 +21851,7 @@ export const PutTimeTrackingTimeSheetRequestEntriesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<PutTimeTrackingTimeSheetRequestEntriesList>;
 
 /** Metadata associated with the time sheet. Key-value pairs of arbitrary data. Both keys and values must be strings. */
-export type PutTimeTrackingTimeSheetRequestMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type PutTimeTrackingTimeSheetRequestMetadataMap = { [key: string]: string | undefined };
 export const PutTimeTrackingTimeSheetRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10943,15 +21892,738 @@ export const PutTimeTrackingTimeSheetRequest = /*@__PURE__*/ S.suspend(() =>
     shift_started_at: S.optional(S.String),
     time_zone: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/time_tracking/time_sheets/{time_sheet_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v1/time_tracking/time_sheets/{time_sheet_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutTimeTrackingTimeSheetRequest",
 }) as any as S.Schema<PutTimeTrackingTimeSheetRequest>;
+
+export interface PutV1CompanyFormSignRequest {
+  /** The UUID of the form */
+  form_id: string;
+  /** Whether you agree to sign electronically */
+  agree: boolean;
+  /** The signature */
+  signature_text: string;
+  /** The IP address of the signatory who signed the form. Both IPv4 AND IPv6 are supported. You must provide the IP address with either this parameter OR you can leave out this parameter and set the IP address in the request header using the `x-gusto-client-ip` header instead. */
+  signed_by_ip_address?: string;
+}
+export const PutV1CompanyFormSignRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    form_id: S.String.pipe(T.Label()),
+    agree: S.Boolean,
+    signature_text: S.String,
+    signed_by_ip_address: S.optional(S.String),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/forms/{form_id}/sign", code: 200 })),
+).annotate({
+  identifier: "PutV1CompanyFormSignRequest",
+}) as any as S.Schema<PutV1CompanyFormSignRequest>;
+
+/** A list of Standard Industrial Classification (SIC) codes, which are four digit numbers that categorize the industries that companies belong to based on their business activities. If sic_codes is not passed in, we will perform an internal lookup with `naics_code`. */
+export type PutV1CompanyIndustryRequestSicCodesList = Array<string>;
+export const PutV1CompanyIndustryRequestSicCodesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PutV1CompanyIndustryRequestSicCodesList>;
+
+export interface PutV1CompanyIndustryRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** North American Industry Classification System (NAICS) is used to classify businesses with a six digit number based on the primary type of work the business performs. */
+  naics_code: string;
+  /** A list of Standard Industrial Classification (SIC) codes, which are four digit numbers that categorize the industries that companies belong to based on their business activities. If sic_codes is not passed in, we will perform an internal lookup with `naics_code`. */
+  sic_codes?: PutV1CompanyIndustryRequestSicCodesList;
+  /** Industry title */
+  title?: string | null;
+}
+export const PutV1CompanyIndustryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    naics_code: S.String,
+    sic_codes: S.optional(PutV1CompanyIndustryRequestSicCodesList),
+    title: S.optional(S.NullOr(S.String)),
+  }).pipe(
+    T.Http({ method: "PUT", uri: "/v1/companies/{company_id}/industry_selection", code: 200 }),
+  ),
+).annotate({
+  identifier: "PutV1CompanyIndustryRequest",
+}) as any as S.Schema<PutV1CompanyIndustryRequest>;
+
+export interface PutV1ContractorDocumentSignRequestFieldsItem {
+  /** Unique identifier of the field */
+  key?: string;
+  /** Value for the field */
+  value?: string;
+}
+export const PutV1ContractorDocumentSignRequestFieldsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    value: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PutV1ContractorDocumentSignRequestFieldsItem",
+}) as any as S.Schema<PutV1ContractorDocumentSignRequestFieldsItem>;
+
+/** List of fields and the values they will be set to. */
+export type PutV1ContractorDocumentSignRequestFieldsList =
+  Array<PutV1ContractorDocumentSignRequestFieldsItem>;
+export const PutV1ContractorDocumentSignRequestFieldsList = /*@__PURE__*/ S.Array(
+  PutV1ContractorDocumentSignRequestFieldsItem,
+) as any as S.Schema<PutV1ContractorDocumentSignRequestFieldsList>;
+
+export interface PutV1ContractorDocumentSignRequest {
+  /** The UUID of the document */
+  document_uuid: string;
+  /** Whether you agree to sign electronically */
+  agree: boolean;
+  /** List of fields and the values they will be set to. */
+  fields: PutV1ContractorDocumentSignRequestFieldsList;
+  /** The IP address of the signatory who signed the form. You must provide the IP address with either this parameter OR you can leave out this parameter and set the IP address in the request header using the `x-gusto-client-ip` header instead. */
+  signed_by_ip_address?: string;
+}
+export const PutV1ContractorDocumentSignRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    document_uuid: S.String.pipe(T.Label()),
+    agree: S.Boolean,
+    fields: PutV1ContractorDocumentSignRequestFieldsList,
+    signed_by_ip_address: S.optional(S.String),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/documents/{document_uuid}/sign", code: 200 })),
+).annotate({
+  identifier: "PutV1ContractorDocumentSignRequest",
+}) as any as S.Schema<PutV1ContractorDocumentSignRequest>;
+
+export interface DocumentSignedFieldsItem {
+  /** The field's data type */
+  data_type?: string;
+  /** Height of the field. May be null when the field has no positioning information. */
+  height?: number | null;
+  /** Unique identifier of the field. May be null for custom fields that do not correspond to a known Gusto-managed key mapping. */
+  key?: string | null;
+  /** Page number of the field. May be null when the field has no positioning information. */
+  page_number?: number | null;
+  /** Whether the field is required */
+  required?: boolean;
+  /** Value of the field */
+  value?: string | null;
+  /** Width of the field. May be null when the field has no positioning information. */
+  width?: number | null;
+  /** X-coordinate location of the field on the page. May be null when the field has no positioning information. */
+  x?: number | null;
+  /** Y-coordinate location of the field on the page. May be null when the field has no positioning information. */
+  y?: number | null;
+}
+export const DocumentSignedFieldsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data_type: S.optional(S.String),
+    height: S.optional(S.NullOr(S.Number)),
+    key: S.optional(S.NullOr(S.String)),
+    page_number: S.optional(S.NullOr(S.Number)),
+    required: S.optional(S.Boolean),
+    value: S.optional(S.NullOr(S.String)),
+    width: S.optional(S.NullOr(S.Number)),
+    x: S.optional(S.NullOr(S.Number)),
+    y: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "DocumentSignedFieldsItem" }) as any as S.Schema<DocumentSignedFieldsItem>;
+
+/** List of the document's fields and associated data. Values reflect the data provided at signing. */
+export type DocumentSignedFieldsList = Array<DocumentSignedFieldsItem>;
+export const DocumentSignedFieldsList = /*@__PURE__*/ S.Array(
+  DocumentSignedFieldsItem,
+) as any as S.Schema<DocumentSignedFieldsList>;
+
+export type DocumentSignedPagesItem = DocumentPagesItem;
+export const DocumentSignedPagesItem = DocumentPagesItem;
+
+/** List of the document's pages and associated image URLs. */
+export type DocumentSignedPagesList = Array<DocumentPagesItem>;
+export const DocumentSignedPagesList = /*@__PURE__*/ S.Array(
+  DocumentPagesItem,
+) as any as S.Schema<DocumentSignedPagesList>;
+
+/** The type of recipient associated with the document (will be `Contractor` for Contractor Documents) */
+export type DocumentSignedRecipientType = "Company" | "Employee" | "Contractor";
+export const DocumentSignedRecipientType = S.String;
+
+export interface DocumentSigned {
+  /** The description of the document */
+  description?: string;
+  /** If the document is in a draft state */
+  draft?: boolean;
+  /** List of the document's fields and associated data. Values reflect the data provided at signing. */
+  fields?: DocumentSignedFieldsList;
+  /** The type identifier of the document */
+  name?: string;
+  /** List of the document's pages and associated image URLs. */
+  pages?: DocumentSignedPagesList;
+  /** The quarter of this document. This value is nullable and will not be present on all documents. */
+  quarter?: number | null;
+  /** The type of recipient associated with the document (will be `Contractor` for Contractor Documents) */
+  recipient_type?: DocumentSignedRecipientType;
+  /** Unique identifier for the recipient associated with the document */
+  recipient_uuid?: string;
+  /** A boolean flag that indicates whether the document needs signing or not. Note that this value will change after the document is signed. */
+  requires_signing?: boolean;
+  /** When the document was signed (will be `null` if unsigned) */
+  signed_at?: string | null;
+  /** The title of the document */
+  title?: string;
+  /** The UUID of the document */
+  uuid?: string;
+  /** The year of this document. This value is nullable and will not be present on all documents. */
+  year?: number | null;
+}
+export const DocumentSigned = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    draft: S.optional(S.Boolean),
+    fields: S.optional(DocumentSignedFieldsList),
+    name: S.optional(S.String),
+    pages: S.optional(DocumentSignedPagesList),
+    quarter: S.optional(S.NullOr(S.Number)),
+    recipient_type: S.optional(DocumentSignedRecipientType),
+    recipient_uuid: S.optional(S.String),
+    requires_signing: S.optional(S.Boolean),
+    signed_at: S.optional(S.NullOr(S.String)),
+    title: S.optional(S.String),
+    uuid: S.optional(S.String),
+    year: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "DocumentSigned" }) as any as S.Schema<DocumentSigned>;
+
+export interface PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundRequest {
+  /** The UUID of the contractor payment group */
+  contractor_payment_group_uuid: string;
+}
+export const PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      contractor_payment_group_uuid: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/v1/contractor_payment_groups/{contractor_payment_group_uuid}/fund",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundRequest",
+  }) as any as S.Schema<PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundRequest>;
+
+/** The status of the contractor payment group. Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded. A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method. */
+export type PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseStatus =
+  | "Unfunded"
+  | "Funded";
+export const PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseStatus = S.String;
+
+export type PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseContractorPaymentsList =
+  Array<ContractorPaymentForGroup>;
+export const PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseContractorPaymentsList =
+  /*@__PURE__*/ S.Array(
+    ContractorPaymentForGroup,
+  ) as any as S.Schema<PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseContractorPaymentsList>;
+
+/** List of credit blockers for the contractor payment group. */
+export type PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseCreditBlockersList =
+  Array<PayrollCreditBlockerType>;
+export const PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseCreditBlockersList =
+  /*@__PURE__*/ S.Array(
+    PayrollCreditBlockerType,
+  ) as any as S.Schema<PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseCreditBlockersList>;
+
+/** List of submission blockers for the contractor payment group. */
+export type PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseSubmissionBlockersList =
+  Array<PayrollSubmissionBlockerType>;
+export const PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseSubmissionBlockersList =
+  /*@__PURE__*/ S.Array(
+    PayrollSubmissionBlockerType,
+  ) as any as S.Schema<PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseSubmissionBlockersList>;
+
+export type PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseTotals =
+  CreateCompanyContractorPaymentGroupResponseTotals;
+export const PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseTotals =
+  CreateCompanyContractorPaymentGroupResponseTotals;
+
+export interface PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponse {
+  /** The check date of the contractor payment group. */
+  check_date?: string;
+  /** The UUID of the company. */
+  company_uuid?: string;
+  /** Token used to make contractor payment group creation idempotent. Will error if attempting to create a group with a duplicate token. */
+  creation_token?: string | null;
+  /** The debit date of the contractor payment group. */
+  debit_date?: string;
+  /** The status of the contractor payment group. Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded. A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method. */
+  status?: PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseStatus;
+  /** The unique identifier of the contractor payment group. */
+  uuid?: string;
+  contractor_payments?: PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseContractorPaymentsList;
+  /** List of credit blockers for the contractor payment group. */
+  credit_blockers?: PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseCreditBlockersList;
+  /** Whether the disbursement is partner owned. */
+  partner_owned_disbursement?: boolean | null;
+  /** List of submission blockers for the contractor payment group. */
+  submission_blockers?: PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseSubmissionBlockersList;
+  totals?: CreateCompanyContractorPaymentGroupResponseTotals;
+}
+export const PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      check_date: S.optional(S.String),
+      company_uuid: S.optional(S.String),
+      creation_token: S.optional(S.NullOr(S.String)),
+      debit_date: S.optional(S.String),
+      status: S.optional(PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseStatus),
+      uuid: S.optional(S.String),
+      contractor_payments: S.optional(
+        PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseContractorPaymentsList,
+      ),
+      credit_blockers: S.optional(
+        PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseCreditBlockersList,
+      ),
+      partner_owned_disbursement: S.optional(S.NullOr(S.Boolean)),
+      submission_blockers: S.optional(
+        PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseSubmissionBlockersList,
+      ),
+      totals: S.optional(CreateCompanyContractorPaymentGroupResponseTotals),
+    }),
+  ).annotate({
+    identifier: "PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponse",
+  }) as any as S.Schema<PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponse>;
+
+/** The payment method type. If type is Direct Deposit, the contractor is required to have a bank account. See [Bank account endpoint](./post-v1-contractors-contractor_uuid-bank_accounts). */
+export type PutV1ContractorsContractorIdPaymentMethodRequestType = "Direct Deposit" | "Check";
+export const PutV1ContractorsContractorIdPaymentMethodRequestType = S.String;
+
+export interface PutV1ContractorsContractorIdPaymentMethodRequest {
+  /** The UUID of the contractor */
+  contractor_uuid: string;
+  /** The payment method type. If type is Direct Deposit, the contractor is required to have a bank account. See [Bank account endpoint](./post-v1-contractors-contractor_uuid-bank_accounts). */
+  type: PutV1ContractorsContractorIdPaymentMethodRequestType | (string & {});
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version: string;
+}
+export const PutV1ContractorsContractorIdPaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contractor_uuid: S.String.pipe(T.Label()),
+    type: PutV1ContractorsContractorIdPaymentMethodRequestType,
+    version: S.String,
+  }).pipe(
+    T.Http({ method: "PUT", uri: "/v1/contractors/{contractor_uuid}/payment_method", code: 200 }),
+  ),
+).annotate({
+  identifier: "PutV1ContractorsContractorIdPaymentMethodRequest",
+}) as any as S.Schema<PutV1ContractorsContractorIdPaymentMethodRequest>;
+
+/** Determines which tax return form an individual will use. One of: Single, Married, Head of Household, Exempt from withholding. */
+export type PutV1EmployeesEmployeeIdFederalTaxesRequestFilingStatus =
+  | "Single"
+  | "Married"
+  | "Head of Household"
+  | "Exempt from withholding";
+export const PutV1EmployeesEmployeeIdFederalTaxesRequestFilingStatus = S.String;
+
+/** The version of the W4 form. Only rev_2020_w4 is accepted for updates. */
+export type PutV1EmployeesEmployeeIdFederalTaxesRequestW4DataType = "rev_2020_w4";
+export const PutV1EmployeesEmployeeIdFederalTaxesRequestW4DataType = S.String;
+
+export interface PutV1EmployeesEmployeeIdFederalTaxesRequest {
+  /** The UUID of the employee */
+  employee_uuid: string;
+  /** Only applicable when w4_data_type is 'pre_2020_w4' (pre-2020 W4 forms are deprecated for updates). */
+  additional_withholding?: number;
+  /** Deductions other than the standard deduction to reduce withholding. */
+  deductions?: number;
+  /** Amount for dependents; a dependent entitles the taxpayer to claim a dependency exemption. */
+  dependents_amount?: number;
+  /** Additional amount to be withheld from each paycheck. */
+  extra_withholding?: number;
+  /** Only applicable when w4_data_type is 'pre_2020_w4' (pre-2020 W4 forms are deprecated for updates). */
+  federal_withholding_allowance?: number;
+  /** Determines which tax return form an individual will use. One of: Single, Married, Head of Household, Exempt from withholding. */
+  filing_status: PutV1EmployeesEmployeeIdFederalTaxesRequestFilingStatus | (string & {});
+  /** Other income amount. */
+  other_income?: number;
+  /** If there are only two jobs (e.g., you and your spouse each have a job), set to true. */
+  two_jobs?: boolean;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field. */
+  version: string;
+  /** The version of the W4 form. Only rev_2020_w4 is accepted for updates. */
+  w4_data_type: PutV1EmployeesEmployeeIdFederalTaxesRequestW4DataType | (string & {});
+}
+export const PutV1EmployeesEmployeeIdFederalTaxesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_uuid: S.String.pipe(T.Label()),
+    additional_withholding: S.optional(S.Number),
+    deductions: S.optional(S.Number),
+    dependents_amount: S.optional(S.Number),
+    extra_withholding: S.optional(S.Number),
+    federal_withholding_allowance: S.optional(S.Number),
+    filing_status: PutV1EmployeesEmployeeIdFederalTaxesRequestFilingStatus,
+    other_income: S.optional(S.Number),
+    two_jobs: S.optional(S.Boolean),
+    version: S.String,
+    w4_data_type: PutV1EmployeesEmployeeIdFederalTaxesRequestW4DataType,
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/employees/{employee_uuid}/federal_taxes", code: 200 })),
+).annotate({
+  identifier: "PutV1EmployeesEmployeeIdFederalTaxesRequest",
+}) as any as S.Schema<PutV1EmployeesEmployeeIdFederalTaxesRequest>;
+
+export type PutV1EmployeesEmployeeIdFederalTaxesResponse = EmployeeFederalTax;
+export const PutV1EmployeesEmployeeIdFederalTaxesResponse = /*@__PURE__*/ S.suspend(() =>
+  EmployeeFederalTax.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "PutV1EmployeesEmployeeIdFederalTaxesResponse",
+}) as any as S.Schema<PutV1EmployeesEmployeeIdFederalTaxesResponse>;
+
+export type PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersItemValue =
+  | string
+  | number
+  | boolean;
+export const PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersItemValue =
+  S.Unknown as any as S.Schema<PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersItemValue>;
+
+export interface PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersItem {
+  valid_from: string;
+  valid_up_to?: string | null;
+  value: PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersItemValue | null;
+}
+export const PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      valid_from: S.String,
+      valid_up_to: S.optional(S.NullOr(S.String)),
+      value: S.NullOr(
+        PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersItemValue,
+      ),
+    }),
+  ).annotate({
+    identifier: "PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersItem",
+  }) as any as S.Schema<PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersItem>;
+
+export type PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersList =
+  Array<PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersItem>;
+export const PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersList =
+  /*@__PURE__*/ S.Array(
+    PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersItem,
+  ) as any as S.Schema<PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersList>;
+
+export interface PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItem {
+  answers?: PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersList;
+  key: string;
+}
+export const PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      answers: S.optional(
+        PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersList,
+      ),
+      key: S.String,
+    }),
+  ).annotate({
+    identifier: "PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItem",
+  }) as any as S.Schema<PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItem>;
+
+export type PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsList =
+  Array<PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItem>;
+export const PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsList =
+  /*@__PURE__*/ S.Array(
+    PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItem,
+  ) as any as S.Schema<PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsList>;
+
+export interface PutV1EmployeesEmployeeIdStateTaxesRequestStatesItem {
+  questions?: PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsList;
+  state: string;
+}
+export const PutV1EmployeesEmployeeIdStateTaxesRequestStatesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    questions: S.optional(PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsList),
+    state: S.String,
+  }),
+).annotate({
+  identifier: "PutV1EmployeesEmployeeIdStateTaxesRequestStatesItem",
+}) as any as S.Schema<PutV1EmployeesEmployeeIdStateTaxesRequestStatesItem>;
+
+export type PutV1EmployeesEmployeeIdStateTaxesRequestStatesList =
+  Array<PutV1EmployeesEmployeeIdStateTaxesRequestStatesItem>;
+export const PutV1EmployeesEmployeeIdStateTaxesRequestStatesList = /*@__PURE__*/ S.Array(
+  PutV1EmployeesEmployeeIdStateTaxesRequestStatesItem,
+) as any as S.Schema<PutV1EmployeesEmployeeIdStateTaxesRequestStatesList>;
+
+export interface PutV1EmployeesEmployeeIdStateTaxesRequest {
+  /** The UUID of the employee */
+  employee_uuid: string;
+  states: PutV1EmployeesEmployeeIdStateTaxesRequestStatesList;
+}
+export const PutV1EmployeesEmployeeIdStateTaxesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employee_uuid: S.String.pipe(T.Label()),
+    states: PutV1EmployeesEmployeeIdStateTaxesRequestStatesList,
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/employees/{employee_uuid}/state_taxes", code: 200 })),
+).annotate({
+  identifier: "PutV1EmployeesEmployeeIdStateTaxesRequest",
+}) as any as S.Schema<PutV1EmployeesEmployeeIdStateTaxesRequest>;
+
+export type PutV1EmployeesEmployeeIdStateTaxesResponse = EmployeeStateTaxesList;
+export const PutV1EmployeesEmployeeIdStateTaxesResponse = /*@__PURE__*/ S.suspend(() =>
+  EmployeeStateTaxesList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "PutV1EmployeesEmployeeIdStateTaxesResponse",
+}) as any as S.Schema<PutV1EmployeesEmployeeIdStateTaxesResponse>;
+
+export interface PutV1ExternalPayrollRequestExternalPayrollItemsItemBenefitsItem {
+  /** The ID of the company benefit. */
+  benefit_id?: number;
+  /** The company contribution amount in dollars. */
+  company_contribution_amount?: string;
+  /** The employee deduction amount in dollars. */
+  employee_deduction_amount?: string;
+}
+export const PutV1ExternalPayrollRequestExternalPayrollItemsItemBenefitsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      benefit_id: S.optional(S.Number),
+      company_contribution_amount: S.optional(S.String),
+      employee_deduction_amount: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "PutV1ExternalPayrollRequestExternalPayrollItemsItemBenefitsItem",
+  }) as any as S.Schema<PutV1ExternalPayrollRequestExternalPayrollItemsItemBenefitsItem>;
+
+/** Benefits for the employee. */
+export type PutV1ExternalPayrollRequestExternalPayrollItemsItemBenefitsList =
+  Array<PutV1ExternalPayrollRequestExternalPayrollItemsItemBenefitsItem>;
+export const PutV1ExternalPayrollRequestExternalPayrollItemsItemBenefitsList =
+  /*@__PURE__*/ S.Array(
+    PutV1ExternalPayrollRequestExternalPayrollItemsItemBenefitsItem,
+  ) as any as S.Schema<PutV1ExternalPayrollRequestExternalPayrollItemsItemBenefitsList>;
+
+/** The earning type class name. */
+export type PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsItemEarningType =
+  | "CompanyPayType"
+  | "CompanyEarningType";
+export const PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsItemEarningType = S.String;
+
+export interface PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsItem {
+  /** The earning amount in dollars. */
+  amount?: string;
+  /** The ID of the earning type. */
+  earning_id?: number;
+  /** The earning type class name. */
+  earning_type?:
+    | PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsItemEarningType
+    | (string & {});
+  /** The number of hours worked. */
+  hours?: string;
+}
+export const PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      amount: S.optional(S.String),
+      earning_id: S.optional(S.Number),
+      earning_type: S.optional(
+        PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsItemEarningType,
+      ),
+      hours: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsItem",
+  }) as any as S.Schema<PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsItem>;
+
+/** Earnings for the employee. */
+export type PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsList =
+  Array<PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsItem>;
+export const PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsList =
+  /*@__PURE__*/ S.Array(
+    PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsItem,
+  ) as any as S.Schema<PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsList>;
+
+export interface PutV1ExternalPayrollRequestExternalPayrollItemsItemTaxesItem {
+  /** The tax amount in dollars. */
+  amount?: string;
+  /** The ID of the tax. */
+  tax_id?: number;
+}
+export const PutV1ExternalPayrollRequestExternalPayrollItemsItemTaxesItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      amount: S.optional(S.String),
+      tax_id: S.optional(S.Number),
+    }),
+).annotate({
+  identifier: "PutV1ExternalPayrollRequestExternalPayrollItemsItemTaxesItem",
+}) as any as S.Schema<PutV1ExternalPayrollRequestExternalPayrollItemsItemTaxesItem>;
+
+/** Taxes for the employee. */
+export type PutV1ExternalPayrollRequestExternalPayrollItemsItemTaxesList =
+  Array<PutV1ExternalPayrollRequestExternalPayrollItemsItemTaxesItem>;
+export const PutV1ExternalPayrollRequestExternalPayrollItemsItemTaxesList = /*@__PURE__*/ S.Array(
+  PutV1ExternalPayrollRequestExternalPayrollItemsItemTaxesItem,
+) as any as S.Schema<PutV1ExternalPayrollRequestExternalPayrollItemsItemTaxesList>;
+
+export interface PutV1ExternalPayrollRequestExternalPayrollItemsItem {
+  /** Benefits for the employee. */
+  benefits?: PutV1ExternalPayrollRequestExternalPayrollItemsItemBenefitsList;
+  /** Earnings for the employee. */
+  earnings?: PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsList;
+  /** The UUID of the employee. */
+  employee_uuid: string;
+  /** Taxes for the employee. */
+  taxes?: PutV1ExternalPayrollRequestExternalPayrollItemsItemTaxesList;
+}
+export const PutV1ExternalPayrollRequestExternalPayrollItemsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    benefits: S.optional(PutV1ExternalPayrollRequestExternalPayrollItemsItemBenefitsList),
+    earnings: S.optional(PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsList),
+    employee_uuid: S.String,
+    taxes: S.optional(PutV1ExternalPayrollRequestExternalPayrollItemsItemTaxesList),
+  }),
+).annotate({
+  identifier: "PutV1ExternalPayrollRequestExternalPayrollItemsItem",
+}) as any as S.Schema<PutV1ExternalPayrollRequestExternalPayrollItemsItem>;
+
+/** Payroll items for each employee in the external payroll. */
+export type PutV1ExternalPayrollRequestExternalPayrollItemsList =
+  Array<PutV1ExternalPayrollRequestExternalPayrollItemsItem>;
+export const PutV1ExternalPayrollRequestExternalPayrollItemsList = /*@__PURE__*/ S.Array(
+  PutV1ExternalPayrollRequestExternalPayrollItemsItem,
+) as any as S.Schema<PutV1ExternalPayrollRequestExternalPayrollItemsList>;
+
+export interface PutV1ExternalPayrollRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The UUID of the external payroll */
+  external_payroll_id: string;
+  /** Payroll items for each employee in the external payroll. */
+  external_payroll_items: PutV1ExternalPayrollRequestExternalPayrollItemsList;
+  /** Patch update external payroll items when set to true, otherwise it will overwrite the previous changes. */
+  replace_fields?: boolean;
+}
+export const PutV1ExternalPayrollRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    external_payroll_id: S.String.pipe(T.Label()),
+    external_payroll_items: PutV1ExternalPayrollRequestExternalPayrollItemsList,
+    replace_fields: S.optional(S.Boolean),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/companies/{company_uuid}/external_payrolls/{external_payroll_id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutV1ExternalPayrollRequest",
+}) as any as S.Schema<PutV1ExternalPayrollRequest>;
+
+/** Workers' compensation fields for Washington (WA) or Wyoming (WY) when the work address is in those states; omit when not applicable. */
+export type PutV1HistoricalEmployeesRequestEmployeeStateTaxes =
+  PostV1HistoricalEmployeesRequestEmployeeStateTaxes;
+export const PutV1HistoricalEmployeesRequestEmployeeStateTaxes =
+  PostV1HistoricalEmployeesRequestEmployeeStateTaxes;
+
+/** Residential address on file for tax withholding and compliance mail. */
+export type PutV1HistoricalEmployeesRequestHomeAddress =
+  PostV1HistoricalEmployeesRequestHomeAddress;
+export const PutV1HistoricalEmployeesRequestHomeAddress =
+  PostV1HistoricalEmployeesRequestHomeAddress;
+
+/** Hire date for the historical job used to build employments and filings. */
+export type PutV1HistoricalEmployeesRequestJob = PostV1HistoricalEmployeesRequestJob;
+export const PutV1HistoricalEmployeesRequestJob = PostV1HistoricalEmployeesRequestJob;
+
+/** End of the historical employment period. */
+export type PutV1HistoricalEmployeesRequestTermination =
+  PostV1HistoricalEmployeesRequestTermination;
+export const PutV1HistoricalEmployeesRequestTermination =
+  PostV1HistoricalEmployeesRequestTermination;
+
+/** Primary work location for this historical employment row. */
+export type PutV1HistoricalEmployeesRequestWorkAddress =
+  PostV1HistoricalEmployeesRequestWorkAddress;
+export const PutV1HistoricalEmployeesRequestWorkAddress =
+  PostV1HistoricalEmployeesRequestWorkAddress;
+
+export interface PutV1HistoricalEmployeesRequest {
+  /** The UUID of the company that will employ this historical record. */
+  company_uuid: string;
+  /** The UUID of the historical employee returned from create or list responses. */
+  historical_employee_uuid: string;
+  /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
+  version: string;
+  /** Date of birth (YYYY-MM-DD). */
+  date_of_birth: string;
+  /** Optional. When provided, stored on the employee record for notifications and profile. */
+  email?: string;
+  /** Workers' compensation fields for Washington (WA) or Wyoming (WY) when the work address is in those states; omit when not applicable. */
+  employee_state_taxes?: PostV1HistoricalEmployeesRequestEmployeeStateTaxes;
+  /** Legal first name as it appears on government-issued identification. */
+  first_name: string;
+  /** Residential address on file for tax withholding and compliance mail. */
+  home_address: PostV1HistoricalEmployeesRequestHomeAddress;
+  /** Hire date for the historical job used to build employments and filings. */
+  job: PostV1HistoricalEmployeesRequestJob;
+  /** Legal last name as it appears on government-issued identification. */
+  last_name: string;
+  /** Single middle initial, if any. */
+  middle_initial?: string;
+  /** Preferred given name for display; omit when the same as legal first name. */
+  preferred_first_name?: string;
+  /** Nine-digit U.S. Social Security number **without** dashes or spaces. Must pass Gusto/SSA validation in production; use a valid test SSN in sandbox environments. */
+  ssn: string;
+  /** End of the historical employment period. */
+  termination: PostV1HistoricalEmployeesRequestTermination;
+  /** Primary work location for this historical employment row. */
+  work_address: PostV1HistoricalEmployeesRequestWorkAddress;
+}
+export const PutV1HistoricalEmployeesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    historical_employee_uuid: S.String.pipe(T.Label()),
+    version: S.String,
+    date_of_birth: S.String,
+    email: S.optional(S.String),
+    employee_state_taxes: S.optional(PostV1HistoricalEmployeesRequestEmployeeStateTaxes),
+    first_name: S.String,
+    home_address: PostV1HistoricalEmployeesRequestHomeAddress,
+    job: PostV1HistoricalEmployeesRequestJob,
+    last_name: S.String,
+    middle_initial: S.optional(S.String),
+    preferred_first_name: S.optional(S.String),
+    ssn: S.String,
+    termination: PostV1HistoricalEmployeesRequestTermination,
+    work_address: PostV1HistoricalEmployeesRequestWorkAddress,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/companies/{company_uuid}/historical_employees/{historical_employee_uuid}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutV1HistoricalEmployeesRequest",
+}) as any as S.Schema<PutV1HistoricalEmployeesRequest>;
+
+export interface PutV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** The user's email address on Gusto. You can retrieve the user's email via company's `/admins`, `/employees`, `/signatories`, and `/contractors` endpoints. */
+  email: string;
+}
+export const PutV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      company_uuid: S.String.pipe(T.Label()),
+      email: S.String,
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/v1/partner_managed_companies/{company_uuid}/terms_of_service",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "PutV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest",
+}) as any as S.Schema<PutV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest>;
 
 /** Experience level for this occupation */
 export type PutV1SalaryEstimatesIdRequestOccupationsItemExperienceLevel =
@@ -11010,6 +22682,89 @@ export const PutV1SalaryEstimatesIdRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PutV1SalaryEstimatesIdRequest",
 }) as any as S.Schema<PutV1SalaryEstimatesIdRequest>;
+
+export interface PutV1TaxLiabilitiesRequestLiabilitySelectionsItem {
+  /** The UUID of the last external payroll with an unpaid liability for this tax. Set to `null` to indicate no liability. */
+  last_unpaid_external_payroll_uuid: string | null;
+  /** The ID of the tax. */
+  tax_id: number;
+  /** The total cumulative unpaid liability amount for this tax across all external payrolls up to and including the one specified by `last_unpaid_external_payroll_uuid`. */
+  unpaid_liability_amount: string;
+}
+export const PutV1TaxLiabilitiesRequestLiabilitySelectionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    last_unpaid_external_payroll_uuid: S.NullOr(S.String),
+    tax_id: S.Number,
+    unpaid_liability_amount: S.String,
+  }),
+).annotate({
+  identifier: "PutV1TaxLiabilitiesRequestLiabilitySelectionsItem",
+}) as any as S.Schema<PutV1TaxLiabilitiesRequestLiabilitySelectionsItem>;
+
+/** Tax liability selections to record for the company's external payrolls. */
+export type PutV1TaxLiabilitiesRequestLiabilitySelectionsList =
+  Array<PutV1TaxLiabilitiesRequestLiabilitySelectionsItem>;
+export const PutV1TaxLiabilitiesRequestLiabilitySelectionsList = /*@__PURE__*/ S.Array(
+  PutV1TaxLiabilitiesRequestLiabilitySelectionsItem,
+) as any as S.Schema<PutV1TaxLiabilitiesRequestLiabilitySelectionsList>;
+
+export interface PutV1TaxLiabilitiesRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+  /** Tax liability selections to record for the company's external payrolls. */
+  liability_selections: PutV1TaxLiabilitiesRequestLiabilitySelectionsList;
+}
+export const PutV1TaxLiabilitiesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+    liability_selections: PutV1TaxLiabilitiesRequestLiabilitySelectionsList,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/companies/{company_uuid}/external_payrolls/tax_liabilities",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutV1TaxLiabilitiesRequest",
+}) as any as S.Schema<PutV1TaxLiabilitiesRequest>;
+
+export type PutV1TaxLiabilitiesResponseBodyList = Array<TaxLiabilitiesSelections>;
+export const PutV1TaxLiabilitiesResponseBodyList = /*@__PURE__*/ S.Array(
+  TaxLiabilitiesSelections,
+) as any as S.Schema<PutV1TaxLiabilitiesResponseBodyList>;
+
+export type PutV1TaxLiabilitiesResponse = PutV1TaxLiabilitiesResponseBodyList;
+export const PutV1TaxLiabilitiesResponse = /*@__PURE__*/ S.suspend(() =>
+  PutV1TaxLiabilitiesResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "PutV1TaxLiabilitiesResponse",
+}) as any as S.Schema<PutV1TaxLiabilitiesResponse>;
+
+export interface PutV1TaxLiabilitiesFinishRequest {
+  /** The UUID of the company */
+  company_uuid: string;
+}
+export const PutV1TaxLiabilitiesFinishRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v1/companies/{company_uuid}/external_payrolls/tax_liabilities/finish",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PutV1TaxLiabilitiesFinishRequest",
+}) as any as S.Schema<PutV1TaxLiabilitiesFinishRequest>;
+
+export interface PutV1TaxLiabilitiesFinishResponse {}
+export const PutV1TaxLiabilitiesFinishResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "PutV1TaxLiabilitiesFinishResponse",
+}) as any as S.Schema<PutV1TaxLiabilitiesFinishResponse>;
 
 export interface PutV1VerifyWebhookSubscriptionUuidRequest {
   /** The webhook subscription UUID. */
@@ -11082,6 +22837,30 @@ export const PutWebhookSubscriptionUuidRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutWebhookSubscriptionUuidRequest",
 }) as any as S.Schema<PutWebhookSubscriptionUuidRequest>;
 
+export interface PutWireInRequestsWireInRequestUuidRequest {
+  /** The UUID of the Wire In Request */
+  wire_in_request_uuid: string;
+  /** Additional notes */
+  additional_notes?: string;
+  /** Amount of money sent */
+  amount_sent: string;
+  /** Name of the bank sending the wire */
+  bank_name: string;
+  /** The date the wire was sent */
+  date_sent: string;
+}
+export const PutWireInRequestsWireInRequestUuidRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    wire_in_request_uuid: S.String.pipe(T.Label()),
+    additional_notes: S.optional(S.String),
+    amount_sent: S.String,
+    bank_name: S.String,
+    date_sent: S.String,
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/wire_in_requests/{wire_in_request_uuid}", code: 200 })),
+).annotate({
+  identifier: "PutWireInRequestsWireInRequestUuidRequest",
+}) as any as S.Schema<PutWireInRequestsWireInRequestUuidRequest>;
+
 export interface PutWorkAddressRequest {
   /** The UUID of the work address */
   work_address_uuid: string;
@@ -11097,16 +22876,27 @@ export const PutWorkAddressRequest = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     effective_date: S.optional(S.String),
     location_uuid: S.optional(S.String),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/work_addresses/{work_address_uuid}", code: 200 })),
+).annotate({ identifier: "PutWorkAddressRequest" }) as any as S.Schema<PutWorkAddressRequest>;
+
+export interface RedebitRecoveryCaseRequest {
+  /** The UUID of the recovery case */
+  recovery_case_uuid: string;
+}
+export const RedebitRecoveryCaseRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recovery_case_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/work_addresses/{work_address_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v1/recovery_cases/{recovery_case_uuid}/redebit", code: 200 }),
   ),
 ).annotate({
-  identifier: "PutWorkAddressRequest",
-}) as any as S.Schema<PutWorkAddressRequest>;
+  identifier: "RedebitRecoveryCaseRequest",
+}) as any as S.Schema<RedebitRecoveryCaseRequest>;
+
+export interface RedebitRecoveryCaseResponse {}
+export const RedebitRecoveryCaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "RedebitRecoveryCaseResponse",
+}) as any as S.Schema<RedebitRecoveryCaseResponse>;
 
 export interface RevokeAccessTokenRequest {
   /** Your client id */
@@ -11122,14 +22912,157 @@ export const RevokeAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
     client_secret: S.String.pipe(T.SensitiveValue({})),
     token: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/oauth/revoke", code: 200 })),
-).annotate({
-  identifier: "RevokeAccessTokenRequest",
-}) as any as S.Schema<RevokeAccessTokenRequest>;
+).annotate({ identifier: "RevokeAccessTokenRequest" }) as any as S.Schema<RevokeAccessTokenRequest>;
 
 export interface RevokeAccessTokenResponse {}
 export const RevokeAccessTokenResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "RevokeAccessTokenResponse",
 }) as any as S.Schema<RevokeAccessTokenResponse>;
+
+/** Payment method for the employee */
+export type UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsItemPaymentMethod =
+  | "Direct Deposit"
+  | "Check";
+export const UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsItemPaymentMethod =
+  S.String;
+
+/** Status of the payment disbursement */
+export type UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsItemPaymentStatus =
+  | "Pending"
+  | "Paid"
+  | "Not partner managed"
+  | "Converted to check";
+export const UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsItemPaymentStatus =
+  S.String;
+
+export interface UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsItem {
+  /** UUID of the employee */
+  employee_uuid: string;
+  /** Payment method for the employee */
+  payment_method?:
+    | UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsItemPaymentMethod
+    | (string & {});
+  /** Status of the payment disbursement */
+  payment_status?:
+    | UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsItemPaymentStatus
+    | (string & {});
+}
+export const UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      employee_uuid: S.String,
+      payment_method: S.optional(
+        UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsItemPaymentMethod,
+      ),
+      payment_status: S.optional(
+        UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsItemPaymentStatus,
+      ),
+    }),
+  ).annotate({
+    identifier: "UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsItem",
+  }) as any as S.Schema<UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsItem>;
+
+export type UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsList =
+  Array<UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsItem>;
+export const UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsList =
+  /*@__PURE__*/ S.Array(
+    UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsItem,
+  ) as any as S.Schema<UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsList>;
+
+export interface UpdateCompanyPayrollPartnerDisbursementsRequest {
+  /** The UUID of the company */
+  company_id: string;
+  /** The UUID of the payroll */
+  id: string;
+  disbursements: UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsList;
+}
+export const UpdateCompanyPayrollPartnerDisbursementsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    disbursements: UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsList,
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/v1/companies/{company_id}/payrolls/{id}/partner_disbursements",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateCompanyPayrollPartnerDisbursementsRequest",
+}) as any as S.Schema<UpdateCompanyPayrollPartnerDisbursementsRequest>;
+
+/** Payment method for the contractor */
+export type UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsItemPaymentMethod =
+  | "Direct Deposit"
+  | "Check"
+  | "Historical Payment"
+  | "Correction Payment";
+export const UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsItemPaymentMethod =
+  S.String;
+
+/** Status of the payment disbursement */
+export type UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsItemPaymentStatus =
+  | "Pending"
+  | "Paid"
+  | "Not partner managed"
+  | "Converted to check";
+export const UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsItemPaymentStatus =
+  S.String;
+
+export interface UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsItem {
+  /** UUID of the contractor payment */
+  contractor_payment_uuid: string;
+  /** Payment method for the contractor */
+  payment_method?:
+    | UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsItemPaymentMethod
+    | (string & {});
+  /** Status of the payment disbursement */
+  payment_status?:
+    | UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsItemPaymentStatus
+    | (string & {});
+}
+export const UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      contractor_payment_uuid: S.String,
+      payment_method: S.optional(
+        UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsItemPaymentMethod,
+      ),
+      payment_status: S.optional(
+        UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsItemPaymentStatus,
+      ),
+    }),
+  ).annotate({
+    identifier: "UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsItem",
+  }) as any as S.Schema<UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsItem>;
+
+export type UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsList =
+  Array<UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsItem>;
+export const UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsList =
+  /*@__PURE__*/ S.Array(
+    UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsItem,
+  ) as any as S.Schema<UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsList>;
+
+export interface UpdateContractorPaymentGroupPartnerDisbursementsRequest {
+  /** The UUID of the contractor payment group */
+  id: string;
+  disbursements: UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsList;
+}
+export const UpdateContractorPaymentGroupPartnerDisbursementsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+    disbursements: UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsList,
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/v1/contractor_payment_groups/{id}/partner_disbursements",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateContractorPaymentGroupPartnerDisbursementsRequest",
+}) as any as S.Schema<UpdateContractorPaymentGroupPartnerDisbursementsRequest>;
 
 export interface UpdateEmployeeSection603HighEarnerStatusRequest {
   /** The UUID of the employee */
@@ -11154,6 +23087,66 @@ export const UpdateEmployeeSection603HighEarnerStatusRequest = /*@__PURE__*/ S.s
 ).annotate({
   identifier: "UpdateEmployeeSection603HighEarnerStatusRequest",
 }) as any as S.Schema<UpdateEmployeeSection603HighEarnerStatusRequest>;
+
+export type CreateBulkReport2Error = UnprocessableEntity | GustoOpError;
+/** Create a bulk report batch Triggers asynchronous generation of up to 25 reports across companies the partner is mapped to. Each `batch` item is a `custom_report` (same parameters as [create a custom report](https://docs.gusto.com/embedded-payroll/reference/post-companies-company_uuid-reports)) or a `general_ledger` report (same parameters as [create a general ledger report](https://docs.gusto.com/embedded-payroll/reference/post-payrolls-payroll_uuid-reports-general_ledger)), keyed by `company_uuid` and `report_type`. Items are validated synchronously; if any is invalid, the entire batch is rejected. Poll the [bulk report GET endpoint](https://docs.gusto.com/embedded-payroll/reference/get-v1-bulk_reports-request_uuid) with the returned `uuid` for status and the report URL, which is valid for 10 minutes. 📘 System Access Authentication This endpoint uses the [Bearer Auth scheme with the system-level access token in the HTTP Authorization header](https://docs.gusto.com/embedded-payroll/docs/system-access) scope: `company_reports:write` */
+export const createBulkReport2: API.OperationMethod<
+  CreateBulkReportRequest,
+  CreateBulkReport,
+  CreateBulkReport2Error,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateBulkReportRequest,
+  output: CreateBulkReport,
+  errors: [UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompaniesAttachmentError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create Company Attachment and Upload File Upload a file and create a company attachment. We recommend uploading PDF files for optimal compatibility. However, the following file types are allowed: .qbb, .qbm, .gif, .jpg, .png, .pdf, .xls, .xlsx, .doc and .docx. ### Related guides - [Manage company attachments](https://docs.gusto.com/embedded-payroll/docs/manage-company-attachments) scope: `company_attachments:write` */
+export const createCompaniesAttachment: API.OperationMethod<
+  CreateCompaniesAttachmentRequest,
+  CompanyAttachment,
+  CreateCompaniesAttachmentError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompaniesAttachmentRequest,
+  output: CompanyAttachment,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanyAdminError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create an admin for the company Creates a new admin for a company. If the email matches an existing user, this will create an admin account for the current user. Otherwise, this will create a new user. scope: `company_admin:write` */
+export const createCompanyAdmin: API.OperationMethod<
+  CreateCompanyAdminRequest,
+  Admin,
+  CreateCompanyAdminError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanyAdminRequest,
+  output: Admin,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanyBankAccountError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create a company bank account This endpoint creates a new company bank account. Upon being created, two verification deposits are automatically sent to the bank account, and the bank account's verification_status is 'awaiting_deposits'. When the deposits are successfully transferred, the verification_status changes to 'ready_for_verification', at which point the verify endpoint can be used to verify the bank account. After successful verification, the bank account's verification_status is 'verified'. >🚧 Warning > > If a default bank account exists, it will be disabled and the new bank account will replace it as the company's default funding method. scope: `company_bank_accounts:write` */
+export const createCompanyBankAccount: API.OperationMethod<
+  CreateCompanyBankAccountRequest,
+  CompanyBankAccount,
+  CreateCompanyBankAccountError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanyBankAccountRequest,
+  output: CompanyBankAccount,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
 
 export type CreateCompanyCompanyBenefitError = NotFound | UnprocessableEntity | GustoOpError;
 /** Create a company benefit Company benefits represent the benefits that a company is offering to employees. This ties together a particular supported benefit with the company-specific information for the offering of that benefit. Note that company benefits can be deactivated only when no employees are enrolled. When the application has the `company_benefits:write:benefit_type_limited` data scope, the application can only create company benefits for benefit types that are permitted for the application. scope: `company_benefits:write` */
@@ -11185,6 +23178,57 @@ export const createCompanyContractor: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateCompanyContractorPaymentError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create a contractor payment Pay a contractor. Information needed depends on the contractor's wage type (hourly vs fixed) scope: `payrolls:run` */
+export const createCompanyContractorPayment: API.OperationMethod<
+  CreateCompanyContractorPaymentRequest,
+  ContractorPayment,
+  CreateCompanyContractorPaymentError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanyContractorPaymentRequest,
+  output: ContractorPayment,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanyContractorPaymentGroupError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Create a contractor payment group Pay a group of contractors. Information needed depends on the contractor's wage type (hourly vs fixed) scope: `payrolls:run` */
+export const createCompanyContractorPaymentGroup: API.OperationMethod<
+  CreateCompanyContractorPaymentGroupRequest,
+  CreateCompanyContractorPaymentGroupResponse,
+  CreateCompanyContractorPaymentGroupError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanyContractorPaymentGroupRequest,
+  output: CreateCompanyContractorPaymentGroupResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanyContractorPaymentGroupsPreviewError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Preview a contractor payment group Preview a group of contractor payments. Request will validate inputs and return preview of the contractor payment group including the expected `debit_date`. The `uuid` field will be null in the response. The returned `creation_token` is a required parameter in order to create the contractor payment group. scope: `payrolls:read` */
+export const createCompanyContractorPaymentGroupsPreview: API.OperationMethod<
+  CreateCompanyContractorPaymentGroupsPreviewRequest,
+  ContractorPaymentGroupPreview,
+  CreateCompanyContractorPaymentGroupsPreviewError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanyContractorPaymentGroupsPreviewRequest,
+  output: ContractorPaymentGroupPreview,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateCompanyEarningTypeError = NotFound | UnprocessableEntity | GustoOpError;
 /** Create a custom earning type Create a custom earning type. If an inactive earning type exists with the same name, this will reactivate it instead of creating a new one. scope: `payrolls:write` */
 export const createCompanyEarningType: API.OperationMethod<
@@ -11195,6 +23239,21 @@ export const createCompanyEarningType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateCompanyEarningTypeRequest,
   output: EarningType,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanyHolidayPayPolicyError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create a holiday pay policy for a company Create a holiday pay policy for a company scope: `holiday_pay_policies:write` */
+export const createCompanyHolidayPayPolicy: API.OperationMethod<
+  CreateCompanyHolidayPayPolicyRequest,
+  HolidayPayPolicy,
+  CreateCompanyHolidayPayPolicyError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanyHolidayPayPolicyRequest,
+  output: HolidayPayPolicy,
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -11215,6 +23274,226 @@ export const createCompanyLocation: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateCompanyPayrollError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create an off-cycle payroll Creates a new, unprocessed, off-cycle payroll. ## `off_cycle_reason` By default: - External benefits and deductions will be included when the `off_cycle_reason` is set to `Correction`. - All benefits and deductions are blocked when the `off_cycle_reason` is set to `Bonus`. These elections can be overridden with the `skip_regular_deductions` boolean. scope: `payrolls:run` */
+export const createCompanyPayroll: API.OperationMethod<
+  CreateCompanyPayrollRequest,
+  PayrollUnprocessed,
+  CreateCompanyPayrollError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanyPayrollRequest,
+  output: PayrollUnprocessed,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanyPayScheduleError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create a new pay schedule If a company does not have any pay schedules, this endpoint will create a single pay schedule and assign it to all employees. This is a common use case during company onboarding. If a company has an existing active pay schedule and want to support multiple pay schedules, this endpoint will create a pay schedule that is not assigned to any employee. Be sure to **[check state laws](https://www.dol.gov/agencies/whd/state/payday)** to know what schedule is right for your customers. > If an onboarded company misses their first pay date, Gusto will automatically adjust the pay schedule to the next available pay date. ### Webhooks - `pay_schedule.created`: Fires when a pay schedule is successfully created. ### Related guides - [Create a pay schedule](https://docs.gusto.com/embedded-payroll/docs/create-a-pay-schedule) - [Pay Schedules](https://docs.gusto.com/embedded-payroll/docs/pay-schedule-info) - [Manage Pay Schedules via API](https://docs.gusto.com/embedded-payroll/docs/manage-pay-schedules-api) scope: `pay_schedules:write` */
+export const createCompanyPaySchedule: API.OperationMethod<
+  CreateCompanyPayScheduleRequest,
+  PayScheduleShow,
+  CreateCompanyPayScheduleError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanyPayScheduleRequest,
+  output: PayScheduleShow,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanyPaySchedulesAssignError = NotFound | UnprocessableEntity | GustoOpError;
+/** Assign pay schedules for a company This endpoint assigns employees to pay schedules based on the schedule type. For `by_employee` and `by_department` schedules, use the `partial_assignment` parameter to control the assignment scope. Set it to `true` for partial assignments (only some employees or departments at a time) and `false` for full assignments (all employees or departments at once). scope: `pay_schedules:write` */
+export const createCompanyPaySchedulesAssign: API.OperationMethod<
+  CreateCompanyPaySchedulesAssignRequest,
+  CreateCompanyPaySchedulesAssignResponse,
+  CreateCompanyPaySchedulesAssignError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanyPaySchedulesAssignRequest,
+  output: CreateCompanyPaySchedulesAssignResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanyPaySchedulesAssignmentPreviewError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Preview pay schedule assignments for a company This endpoint returns the employee changes, including pay period and transition pay periods, for changing the pay schedule. scope: `pay_schedules:write` */
+export const createCompanyPaySchedulesAssignmentPreview: API.OperationMethod<
+  CreateCompanyPaySchedulesAssignmentPreviewRequest,
+  PayScheduleAssignmentPreview,
+  CreateCompanyPaySchedulesAssignmentPreviewError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanyPaySchedulesAssignmentPreviewRequest,
+  output: PayScheduleAssignmentPreview,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanyPeopleBatchError =
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | GustoOpError;
+/** Create a people batch Creates a batch for bulk employee creation. The batch is processed asynchronously. Use the returned batch UUID to poll for status and results. scope: `people_batches:write` */
+export const createCompanyPeopleBatch: API.OperationMethod<
+  CreateCompanyPeopleBatchRequest,
+  PeopleBatch,
+  CreateCompanyPeopleBatchError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanyPeopleBatchRequest,
+  output: PeopleBatch,
+  errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanyReportError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create a custom report Create a custom report for a company. This endpoint initiates creating a custom report with custom columns, groupings, and filters. The `request_uuid` in the response can then be used to poll for the status and report URL upon completion using the [report GET endpoint](https://docs.gusto.com/embedded-payroll/reference/get-reports-request_uuid). This URL is valid for 10 minutes. scope: `company_reports:write` */
+export const createCompanyReport: API.OperationMethod<
+  CreateCompanyReportRequest,
+  CreateReport,
+  CreateCompanyReportError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanyReportRequest,
+  output: CreateReport,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanyReportsEmployeesAnnualFicaWageError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Create an employees annual FICA wage report Generates a report containing annual FICA (Federal Insurance Contributions Act) wage data for all employees in a company over a specified year range. This report provides detailed wage information subject to Social Security and Medicare taxes, useful for benefits integrations that need to verify employee earnings for compliance and benefit calculations. The report is generated asynchronously. After making this request, you will receive a `request_uuid` which can be used to poll the [Get a report](https://docs.gusto.com/embedded-payroll/reference/get-v1-reports-request_uuid) endpoint to check the status and retrieve the report when complete. scope: `company_reports:write` */
+export const createCompanyReportsEmployeesAnnualFicaWage: API.OperationMethod<
+  CreateCompanyReportsEmployeesAnnualFicaWageRequest,
+  CreateCompanyReportsEmployeesAnnualFicaWageResponse,
+  CreateCompanyReportsEmployeesAnnualFicaWageError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanyReportsEmployeesAnnualFicaWageRequest,
+  output: CreateCompanyReportsEmployeesAnnualFicaWageResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanySignatoriesInviteError = NotFound | UnprocessableEntity | GustoOpError;
+/** Invite a signatory Creates a signatory with minimal information. This signatory can be invited to provide more information through the [Update a signatory](https://docs.gusto.com/embedded-payroll/reference/put-v1-companies-company_uuid-signatories-signatory_uuid) endpoint. This will start the identity verification process and allow the signatory to be verified to sign documents. ## Related guides - [Signatory Events](https://docs.gusto.com/embedded-payroll/docs/signatory-events) scope: `signatories:manage` */
+export const createCompanySignatoriesInvite: API.OperationMethod<
+  CreateCompanySignatoriesInviteRequest,
+  Signatory,
+  CreateCompanySignatoriesInviteError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanySignatoriesInviteRequest,
+  output: Signatory,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanySignatoryError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create a signatory Creates a company signatory with complete information. The company must not already have a signatory. A signatory can legally sign forms once the identity verification process is successful. The signatory should be an officer, owner, general partner or LLC member manager, plan administrator, fiduciary, or an authorized representative who is designated to sign agreements on the company's behalf. An officer is the president, vice president, treasurer, chief accounting officer, etc. There can only be a single primary signatory in a company. ### Webhooks - `signatory.created`: Fires when a signatory is successfully created. ### Related guides - [Signatory Events](https://docs.gusto.com/embedded-payroll/docs/signatory-events) scope: `signatories:manage` */
+export const createCompanySignatory: API.OperationMethod<
+  CreateCompanySignatoryRequest,
+  Signatory,
+  CreateCompanySignatoryError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanySignatoryRequest,
+  output: Signatory,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanySuspensionError = UnprocessableEntity | GustoOpError;
+/** Suspend a company's account Use this endpoint to suspend a company. After suspension, company will no longer be able to run payroll but will retain access to their information, such as retrieving employee info or retrieving past payrolls. scope: `company_suspensions:write` */
+export const createCompanySuspension: API.OperationMethod<
+  CreateCompanySuspensionRequest,
+  CompanySuspension,
+  CreateCompanySuspensionError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanySuspensionRequest,
+  output: CompanySuspension,
+  errors: [UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanyTimeOffAdminApprovedRequestError = NotFound | GustoOpError;
+/** Create an admin-approved time off request Create a pre-approved time off request on behalf of an employee (admin or system initiated). The request is always created with approved status. scope: `time_off_requests:manage` */
+export const createCompanyTimeOffAdminApprovedRequest: API.OperationMethod<
+  CreateCompanyTimeOffAdminApprovedRequestRequest,
+  EmbeddedTimeOffRequest,
+  CreateCompanyTimeOffAdminApprovedRequestError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanyTimeOffAdminApprovedRequestRequest,
+  output: EmbeddedTimeOffRequest,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanyTimeOffPolicyError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create a time off policy Create a time off policy scope: `time_off_policies:write` */
+export const createCompanyTimeOffPolicy: API.OperationMethod<
+  CreateCompanyTimeOffPolicyRequest,
+  TimeOffPolicy,
+  CreateCompanyTimeOffPolicyError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanyTimeOffPolicyRequest,
+  output: TimeOffPolicy,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanyTimeOffRequestError = NotFound | GustoOpError;
+/** Create a time off request Create a time off request for an employee scope: `time_off_requests:write` */
+export const createCompanyTimeOffRequest: API.OperationMethod<
+  CreateCompanyTimeOffRequestRequest,
+  EmbeddedTimeOffRequest,
+  CreateCompanyTimeOffRequestError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanyTimeOffRequestRequest,
+  output: EmbeddedTimeOffRequest,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCompanyTimeOffRequestsPreviewError = NotFound | GustoOpError;
+/** Preview a time off request Preview a time off request to see balance impact before creating scope: `time_off_requests:read` */
+export const createCompanyTimeOffRequestsPreview: API.OperationMethod<
+  CreateCompanyTimeOffRequestsPreviewRequest,
+  EmbeddedTimeOffRequestPreview,
+  CreateCompanyTimeOffRequestsPreviewError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCompanyTimeOffRequestsPreviewRequest,
+  output: EmbeddedTimeOffRequestPreview,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateCompanyTimeTrackingTimeSheetError = NotFound | UnprocessableEntity | GustoOpError;
 /** Create a time sheet Create a time sheet for a company. Time sheets represent the time worked by an employee or contractor for a given time range. Hours are classified by pay classification, and can be regular, overtime, or double overtime. scope: `time_sheet:write` */
 export const createCompanyTimeTrackingTimeSheet: API.OperationMethod<
@@ -11225,6 +23504,84 @@ export const createCompanyTimeTrackingTimeSheet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateCompanyTimeTrackingTimeSheetRequest,
   output: TimeSheet,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateContractorBankAccountError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create a contractor bank account Creates a contractor bank account. Note: We currently only support one bank account per contractor. Using this endpoint on a contractor who already has a bank account will just replace it. scope: `contractor_payment_methods:write` */
+export const createContractorBankAccount: API.OperationMethod<
+  CreateContractorBankAccountRequest,
+  ContractorBankAccount,
+  CreateContractorBankAccountError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateContractorBankAccountRequest,
+  output: ContractorBankAccount,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateContractorMemberPortalInvitationError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Create a contractor member portal invitation Generates a member portal invitation for the specified contractor. If the contractor already has an invitation and its token has expired, calling this endpoint regenerates the invitation and overrides the prior token. scope: `member_portal_invitation:write` */
+export const createContractorMemberPortalInvitation: API.OperationMethod<
+  CreateContractorMemberPortalInvitationRequest,
+  CreateContractorMemberPortalInvitationResponse,
+  CreateContractorMemberPortalInvitationError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateContractorMemberPortalInvitationRequest,
+  output: CreateContractorMemberPortalInvitationResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateContractorRehireError = UnprocessableEntity | GustoOpError;
+/** Schedule a contractor rehire ## Purpose Schedules a contractor rehire for a given date. Creates a new employment record for the contractor. ## Prerequisites Before calling this endpoint: 1. The contractor must be inactive (previously dismissed) 2. The contractor must not already have an upcoming employment ## Related webhooks - `contractor.reactivated`: Fires when the contractor becomes active again (on or after start_date) scope: `contractors:write` */
+export const createContractorRehire: API.OperationMethod<
+  CreateContractorRehireRequest,
+  CreateContractorRehireResponse,
+  CreateContractorRehireError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateContractorRehireRequest,
+  output: CreateContractorRehireResponse,
+  errors: [UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateContractorTerminationError = UnprocessableEntity | GustoOpError;
+/** Schedule a contractor termination ## Purpose Schedules a contractor dismissal for a given date. Supports both immediate (past dates) and future-dated dismissals. ## Prerequisites Before calling this endpoint: 1. The contractor must be active (no existing pending dismissal) 2. The contractor must have a current employment ## Related webhooks - `contractor.deactivated`: Fires when the contractor becomes inactive (on or after end_date) scope: `contractors:write` */
+export const createContractorTermination: API.OperationMethod<
+  CreateContractorTerminationRequest,
+  CreateContractorTerminationResponse,
+  CreateContractorTerminationError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateContractorTerminationRequest,
+  output: CreateContractorTerminationResponse,
+  errors: [UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateEmployeeBankAccountError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create an employee bank account Creates an employee bank account. An employee can have multiple bank accounts. Note that creating an employee bank account will also update the employee's payment method. scope: `employee_payment_methods:write` */
+export const createEmployeeBankAccount: API.OperationMethod<
+  CreateEmployeeBankAccountRequest,
+  EmployeeBankAccount,
+  CreateEmployeeBankAccountError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateEmployeeBankAccountRequest,
+  output: EmployeeBankAccount,
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -11270,6 +23627,39 @@ export const createEmployeeHomeAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateEmployeeHomeAddressRequest,
   output: EmployeeAddress,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateEmployeeJobError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create a job Create a job. scope: `jobs:write` */
+export const createEmployeeJob: API.OperationMethod<
+  CreateEmployeeJobRequest,
+  Job,
+  CreateEmployeeJobError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateEmployeeJobRequest,
+  output: Job,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateEmployeeMemberPortalInvitationError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Create an employee member portal invitation Generates a member portal invitation for the specified employee. If the employee already has an invitation and its token has expired, calling this endpoint regenerates the invitation and overrides the prior token. scope: `member_portal_invitation:write` */
+export const createEmployeeMemberPortalInvitation: API.OperationMethod<
+  CreateEmployeeMemberPortalInvitationRequest,
+  CreateEmployeeMemberPortalInvitationResponse,
+  CreateEmployeeMemberPortalInvitationError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateEmployeeMemberPortalInvitationRequest,
+  output: CreateEmployeeMemberPortalInvitationResponse,
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -11390,6 +23780,69 @@ export const createEmployeeYtdBenefitAmountsFromDifferentCompany: API.OperationM
   retry: Retry.Retry,
 }));
 
+export type CreatePartnerManagedCompanyError = UnprocessableEntity | GustoOpError;
+/** Create a partner managed company Create a partner managed company. When you successfully call the API, it does the following: * Creates a new company in Gusto * Creates a new user using the provided email if the user does not already exist. * Makes the user the primary payroll administrator of the new company. In response, you will receive oauth access tokens for the created company. IMPORTANT: the returned access and refresh tokens are reserved for this company only. They cannot be used to access other companies AND previously granted tokens cannot be used to access this company. 📘 System Access Authentication This endpoint uses the [Bearer Auth scheme with the system-level access token in the HTTP Authorization header](https://docs.gusto.com/embedded-payroll/docs/system-access) scope: `partner_managed_companies:manage` */
+export const createPartnerManagedCompany: API.OperationMethod<
+  CreatePartnerManagedCompanyRequest,
+  PartnerManagedCompany,
+  CreatePartnerManagedCompanyError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePartnerManagedCompanyRequest,
+  output: PartnerManagedCompany,
+  errors: [UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreatePayrollBatchError = Conflict | UnprocessableEntity | GustoOpError;
+/** Create a payroll cancellation batch Cancels up to 100 payrolls across one or more companies the partner is mapped to, asynchronously. The batch is processed asynchronously. Use the returned batch UUID to poll `GET /v1/payroll_batches/{payroll_batch_uuid}` for status and per-payroll results. Each item carries the payroll `uuid` and the `company_uuid` that owns it. A payroll whose company is not mapped to the partner — or that doesn't exist — is recorded as a `not_found` exclusion rather than a hard error, so every requested UUID lands in either `results` or `exclusions`. Idempotency is scoped per `(partner, idempotency_key)`. A duplicate POST with the same `idempotency_key` returns a 409 Conflict referencing the existing batch UUID — no duplicate processing occurs. 📘 System Access Authentication This endpoint uses the [Bearer Auth scheme with the system-level access token in the HTTP Authorization header](https://docs.gusto.com/embedded-payroll/docs/system-access) scope: `payroll_batches:write` */
+export const createPayrollBatch: API.OperationMethod<
+  CreatePayrollBatchRequest,
+  PayrollBatch,
+  CreatePayrollBatchError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePayrollBatchRequest,
+  output: PayrollBatch,
+  errors: [Conflict, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreatePayrollDigestError = Conflict | UnprocessableEntity | GustoOpError;
+/** Create a payroll digest batch Triggers an asynchronous computation of payroll digest data (statuses, blockers, pay periods, totals) across up to 25 companies that the partner is mapped to. The batch is processed asynchronously. Use the returned batch UUID to poll `GET /v1/payroll_digests/{payroll_digest_uuid}` for status and results. Idempotency is scoped per `(partner, idempotency_key)`. A duplicate POST with the same `idempotency_key` returns a 409 Conflict referencing the existing batch UUID — no duplicate computation occurs. 📘 System Access Authentication This endpoint uses the [Bearer Auth scheme with the system-level access token in the HTTP Authorization header](https://docs.gusto.com/embedded-payroll/docs/system-access) scope: `payroll_digests:write` */
+export const createPayrollDigest: API.OperationMethod<
+  CreatePayrollDigestRequest,
+  PayrollDigest,
+  CreatePayrollDigestError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePayrollDigestRequest,
+  output: PayrollDigest,
+  errors: [Conflict, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreatePayrollGeneratedDocumentsPrintablePayrollCheckError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Generate printable payroll checks (pdf) This endpoint initiates the generation of employee checks for the payroll specified by payroll_uuid. A generation status and corresponding request_uuid will be returned. Use the generated document GET endpoint with document_type: `printable_payroll_checks` and request_uuid to poll the check generation process and retrieve the generated check URL upon completion. scope: `generated_documents:write` */
+export const createPayrollGeneratedDocumentsPrintablePayrollCheck: API.OperationMethod<
+  CreatePayrollGeneratedDocumentsPrintablePayrollCheckRequest,
+  PayrollCheck,
+  CreatePayrollGeneratedDocumentsPrintablePayrollCheckError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePayrollGeneratedDocumentsPrintablePayrollCheckRequest,
+  output: PayrollCheck,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreatePayrollReportsGeneralLedgerError = NotFound | UnprocessableEntity | GustoOpError;
 /** Create a general ledger report Create a general ledger report for a payroll. The report can be aggregated by different dimensions such as job or department. Use the `request_uuid` in the response with the [report GET endpoint](../reference/get-reports-request_uuid) to poll for the status and report URL upon completion. The retrieved report will be generated in a JSON format. scope: `company_reports:write` */
 export const createPayrollReportsGeneralLedger: API.OperationMethod<
@@ -11400,6 +23853,21 @@ export const createPayrollReportsGeneralLedger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePayrollReportsGeneralLedgerRequest,
   output: GeneralLedgerReport,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreatePlaidProcessorTokenError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create a bank account from a plaid processor token This endpoint creates a new **verified** bank account by using a plaid processor token to retrieve its information. > 📘 > To create a token please use the [plaid api](https://plaid.com/docs/api/processors/#processortokencreate) and select "gusto" as processor. > 🚧 Warning - Company Bank Accounts > > If a default company bank account exists, it will be disabled and the new bank account will replace it as the company's default funding method. scope: `plaid_processor:write` */
+export const createPlaidProcessorToken: API.OperationMethod<
+  CreatePlaidProcessorTokenRequest,
+  CompanyBankAccount,
+  CreatePlaidProcessorTokenError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePlaidProcessorTokenRequest,
+  output: CompanyBankAccount,
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -11435,6 +23903,36 @@ export const createSalaryEstimateAccept: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateSandboxGenerate1099Error = NotFound | UnprocessableEntity | GustoOpError;
+/** Generate a 1099 form [DEMO] > 🚧 Demo action > > This action is only available in the Demo environment Generates a 1099 document for testing purposes. scope: `contractors:write` */
+export const createSandboxGenerate1099: API.OperationMethod<
+  CreateSandboxGenerate1099Request,
+  Form1099,
+  CreateSandboxGenerate1099Error,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateSandboxGenerate1099Request,
+  output: Form1099,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateSandboxGenerateW2Error = NotFound | UnprocessableEntity | GustoOpError;
+/** Generate a W2 form [DEMO] > 🚧 Demo action > > This action is only available in the Demo environment Generates a W2 document for testing purposes. scope: `employees:write` */
+export const createSandboxGenerateW2: API.OperationMethod<
+  CreateSandboxGenerateW2Request,
+  Form,
+  CreateSandboxGenerateW2Error,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateSandboxGenerateW2Request,
+  output: Form,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateWebhookSubscriptionError = UnprocessableEntity | GustoOpError;
 /** Create a webhook subscription Create a webhook subscription to receive events of the specified subscription_types whenever there is a state change. 📘 System Access Authentication This endpoint uses the [Bearer Auth scheme with the system-level access token in the HTTP Authorization header](https://docs.gusto.com/embedded-payroll/docs/system-access) scope: `webhook_subscriptions:write` */
 export const createWebhookSubscription: API.OperationMethod<
@@ -11450,6 +23948,21 @@ export const createWebhookSubscription: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteCompanyBankAccountError = NotFound | UnprocessableEntity | GustoOpError;
+/** Delete a company bank account This endpoint disables a company bank account. A bank account cannot be disabled if it is used for any unprocessed payments. scope: `company_bank_accounts:write` */
+export const deleteCompanyBankAccount: API.OperationMethod<
+  DeleteCompanyBankAccountRequest,
+  DeleteCompanyBankAccountResponse,
+  DeleteCompanyBankAccountError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteCompanyBankAccountRequest,
+  output: DeleteCompanyBankAccountResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteCompanyBenefitError = NotFound | UnprocessableEntity | GustoOpError;
 /** Delete a company benefit The following must be true in order to delete a company benefit - There are no employee benefits associated with the company benefit - There are no payroll items associated with the company benefit - The benefit is not managed by a Partner or by Gusto (type must be 'External') When the application has the `company_benefits:write:benefit_type_limited` data scope, the application can only delete company benefits for benefit types that are permitted for the application. scope: `company_benefits:write` */
 export const deleteCompanyBenefit: API.OperationMethod<
@@ -11460,6 +23973,24 @@ export const deleteCompanyBenefit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteCompanyBenefitRequest,
   output: DeleteCompanyBenefitResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteCompanyContractorPaymentContractorPaymentError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Cancel a contractor payment Cancels and deletes a contractor payment. If the contractor payment has already started processing ("may_cancel": true), the payment cannot be cancelled. scope: `payrolls:run` */
+export const deleteCompanyContractorPaymentContractorPayment: API.OperationMethod<
+  DeleteCompanyContractorPaymentContractorPaymentRequest,
+  DeleteCompanyContractorPaymentContractorPaymentResponse,
+  DeleteCompanyContractorPaymentContractorPaymentError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteCompanyContractorPaymentContractorPaymentRequest,
+  output: DeleteCompanyContractorPaymentContractorPaymentResponse,
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -11480,6 +24011,51 @@ export const deleteCompanyEarningType: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteCompanyHolidayPayPolicyError = NotFound | UnprocessableEntity | GustoOpError;
+/** Delete a company's holiday pay policy Delete a company's holiday pay policy scope: `holiday_pay_policies:write` */
+export const deleteCompanyHolidayPayPolicy: API.OperationMethod<
+  DeleteCompanyHolidayPayPolicyRequest,
+  DeleteCompanyHolidayPayPolicyResponse,
+  DeleteCompanyHolidayPayPolicyError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteCompanyHolidayPayPolicyRequest,
+  output: DeleteCompanyHolidayPayPolicyResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteCompanyPayrollsError = NotFound | GustoOpError;
+/** Delete a payroll This endpoint allows you to delete an **unprocessed** payroll. By default the payroll and associated data is deleted synchronously. To request an asynchronous delete, use the `async=true` query parameter. In both cases validation of ability to delete will be performed and an Unprocessable Entity error will be returned if the payroll is not able to be deleted. A successful synchronous delete will return `204/No Content`. When a payroll has been enqueued for asynchronous deletion, `202/Accepted` will be returned. scope: `payrolls:run` */
+export const deleteCompanyPayrolls: API.OperationMethod<
+  DeleteCompanyPayrollsRequest,
+  DeleteCompanyPayrollsResponse,
+  DeleteCompanyPayrollsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteCompanyPayrollsRequest,
+  output: DeleteCompanyPayrollsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteCompanySignatoryError = NotFound | GustoOpError;
+/** Delete a signatory Deletes a company signatory. ## Related guides - [Signatory Events](https://docs.gusto.com/embedded-payroll/docs/signatory-events) scope: `signatories:manage` */
+export const deleteCompanySignatory: API.OperationMethod<
+  DeleteCompanySignatoryRequest,
+  DeleteCompanySignatoryResponse,
+  DeleteCompanySignatoryError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteCompanySignatoryRequest,
+  output: DeleteCompanySignatoryResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteCompensationError = NotFound | UnprocessableEntity | GustoOpError;
 /** Delete a compensation Compensations contain information on how much is paid out for a job. Jobs may have many compensations, but only one that is active. The current compensation is the one with the most recent `effective_date`. This endpoint deletes a compensation for a job that hasn't been processed on payroll. ### Webhooks - `employee_job_compensation.destroyed`: Fires when a compensation is successfully deleted scope: `compensations:write` */
 export const deleteCompensation: API.OperationMethod<
@@ -11491,6 +24067,69 @@ export const deleteCompensation: API.OperationMethod<
   input: DeleteCompensationRequest,
   output: DeleteCompensationResponse,
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteContractorError = NotFound | UnprocessableEntity | GustoOpError;
+/** Delete a contractor A contractor can only be deleted when there are no contractor payments. scope: `contractors:manage` */
+export const deleteContractor: API.OperationMethod<
+  DeleteContractorRequest,
+  DeleteContractorResponse,
+  DeleteContractorError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteContractorRequest,
+  output: DeleteContractorResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteContractorMemberPortalInvitationsError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Cancel a contractor member portal invitation Cancels the member portal invitation for the specified contractor. Note: this endpoint does not cancel the contractor's self-onboarding flow. If you want the company admin to take full control of onboarding the contractor, cancel the self-onboarding request instead. scope: `member_portal_invitation:write` */
+export const deleteContractorMemberPortalInvitations: API.OperationMethod<
+  DeleteContractorMemberPortalInvitationsRequest,
+  DeleteContractorMemberPortalInvitationsResponse,
+  DeleteContractorMemberPortalInvitationsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteContractorMemberPortalInvitationsRequest,
+  output: DeleteContractorMemberPortalInvitationsResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteContractorRehireError = UnprocessableEntity | GustoOpError;
+/** Cancel a pending contractor rehire ## Purpose Cancels a pending contractor rehire. For future-dated rehires, cancellation is available anytime before the date. For past-dated rehires, cancellation is only available within the 2-day grace period. ## Prerequisites Before calling this endpoint: - The contractor must have a pending rehire (upcoming employment) ## Related webhooks - `contractor.deactivated`: Fires when the contractor returns to inactive state after cancellation scope: `contractors:write` */
+export const deleteContractorRehire: API.OperationMethod<
+  DeleteContractorRehireRequest,
+  DeleteContractorRehireResponse,
+  DeleteContractorRehireError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteContractorRehireRequest,
+  output: DeleteContractorRehireResponse,
+  errors: [UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteContractorTerminationError = UnprocessableEntity | GustoOpError;
+/** Cancel a pending contractor termination ## Purpose Cancels a pending contractor dismissal. For future-dated dismissals, cancellation is available anytime before the date. For past-dated dismissals, cancellation is only available within the 2-day grace period. ## Prerequisites Before calling this endpoint: - The contractor must have a pending dismissal (scheduled or within the grace period) ## Related webhooks - `contractor.reactivated`: Fires when the contractor becomes active again after cancellation scope: `contractors:write` */
+export const deleteContractorTermination: API.OperationMethod<
+  DeleteContractorTerminationRequest,
+  DeleteContractorTerminationResponse,
+  DeleteContractorTerminationError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteContractorTerminationRequest,
+  output: DeleteContractorTerminationResponse,
+  errors: [UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
 }));
@@ -11535,6 +24174,42 @@ export const deleteEmployeeBenefit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteEmployeeBenefitRequest,
   output: DeleteEmployeeBenefitResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteEmployeeI9AuthorizationDocumentError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Delete an employee's I-9 verification document An employee's I-9 verification documents are the documents an employee has provided the employer to verify their identity and authorization to work in the United States. This endpoint deletes a specific verification document. ### Related guides - [I-9 employment verification](https://docs.gusto.com/embedded-payroll/docs/i-9-employment-verification) scope: `i9_authorizations:manage` */
+export const deleteEmployeeI9AuthorizationDocument: API.OperationMethod<
+  DeleteEmployeeI9AuthorizationDocumentRequest,
+  DeleteEmployeeI9AuthorizationDocumentResponse,
+  DeleteEmployeeI9AuthorizationDocumentError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteEmployeeI9AuthorizationDocumentRequest,
+  output: DeleteEmployeeI9AuthorizationDocumentResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteEmployeeMemberPortalInvitationsError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Cancel an employee member portal invitation Cancels the member portal invitation for the specified employee. Note: this endpoint does not cancel the employee's self-onboarding flow. If you want the company admin to take full control of onboarding the employee, cancel the self-onboarding request instead. scope: `member_portal_invitation:write` */
+export const deleteEmployeeMemberPortalInvitations: API.OperationMethod<
+  DeleteEmployeeMemberPortalInvitationsRequest,
+  DeleteEmployeeMemberPortalInvitationsResponse,
+  DeleteEmployeeMemberPortalInvitationsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteEmployeeMemberPortalInvitationsRequest,
+  output: DeleteEmployeeMemberPortalInvitationsResponse,
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -11585,6 +24260,21 @@ export const deleteHomeAddress: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteJobError = NotFound | UnprocessableEntity | GustoOpError;
+/** Delete an individual job Deletes a specific job that an employee holds. scope: `jobs:write` */
+export const deleteJob: API.OperationMethod<
+  DeleteJobRequest,
+  DeleteJobResponse,
+  DeleteJobError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteJobRequest,
+  output: DeleteJobResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteRecurringReimbursementsError = NotFound | GustoOpError;
 /** Delete a recurring reimbursement Delete (soft delete) a recurring reimbursement for an employee. scope: `reimbursements:write` */
 export const deleteRecurringReimbursements: API.OperationMethod<
@@ -11600,6 +24290,21 @@ export const deleteRecurringReimbursements: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteTimeOffRequestError = NotFound | UnprocessableEntity | GustoOpError;
+/** Delete a time off request Delete a time off request scope: `time_off_requests:write` */
+export const deleteTimeOffRequest: API.OperationMethod<
+  DeleteTimeOffRequestRequest,
+  DeleteTimeOffRequestResponse,
+  DeleteTimeOffRequestError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteTimeOffRequestRequest,
+  output: DeleteTimeOffRequestResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteTimeTrackingTimeSheetError = NotFound | UnprocessableEntity | GustoOpError;
 /** Delete a time sheet Delete a company's time sheet. Time sheets represent the time worked by an employee or contractor for a given time range. Hours are classified by pay classification, and can be regular, overtime, or double overtime. scope: `time_sheet:write` */
 export const deleteTimeTrackingTimeSheet: API.OperationMethod<
@@ -11610,6 +24315,57 @@ export const deleteTimeTrackingTimeSheet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteTimeTrackingTimeSheetRequest,
   output: DeleteTimeTrackingTimeSheetResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Cancel a contractor payment group Cancels a contractor payment group and all associated contractor payments. All contractor payments must be cancellable, unfunded. scope: `payrolls:run` */
+export const deleteV1ContractorPaymentGroupsContractorPaymentGroupId: API.OperationMethod<
+  DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdRequest,
+  DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdResponse,
+  DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdRequest,
+  output: DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Delete an employee bank account Deletes an employee bank account. To update an employee's bank account details, delete the bank account first and create a new one. scope: `employee_payment_methods:write` */
+export const deleteV1EmployeesEmployeeIdBankAccountsBankAccountId: API.OperationMethod<
+  DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdRequest,
+  DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdResponse,
+  DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdRequest,
+  output: DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteV1ExternalPayrollError = NotFound | UnprocessableEntity | GustoOpError;
+/** Delete an external payroll Delete an external payroll. scope: `external_payrolls:write` */
+export const deleteV1ExternalPayroll: API.OperationMethod<
+  DeleteV1ExternalPayrollRequest,
+  DeleteV1ExternalPayrollResponse,
+  DeleteV1ExternalPayrollError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteV1ExternalPayrollRequest,
+  output: DeleteV1ExternalPayrollResponse,
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -11641,6 +24397,21 @@ export const deleteWorkAddress: API.OperationMethod<
   input: DeleteWorkAddressRequest,
   output: DeleteWorkAddressResponse,
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAchTransactionsError = NotFound | GustoOpError;
+/** Get all ACH transactions for a company Fetches all ACH transactions for a company. scope: `ach_transactions:read` */
+export const getAchTransactions: API.OperationMethod<
+  GetAchTransactionsRequest,
+  GetAchTransactionsResponse,
+  GetAchTransactionsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAchTransactionsRequest,
+  output: GetAchTransactionsResponse,
+  errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
 }));
@@ -11690,6 +24461,21 @@ export const getBenefitsBenefitRequirements: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetBulkReportError = NotFound | GustoOpError;
+/** Get a bulk report batch Get a bulk report batch's status and results given the `request_uuid`. While in progress, only batch metadata is returned; once complete, it also includes a signed `report_url` (a zip of all generated reports, valid for 10 minutes) and a per-company breakdown. Reports containing PHI are inaccessible with `company_reports:read:tier_2_only` data scope. 📘 System Access Authentication This endpoint uses the [Bearer Auth scheme with the system-level access token in the HTTP Authorization header](https://docs.gusto.com/embedded-payroll/docs/system-access) scope: `company_reports:read` */
+export const getBulkReport: API.OperationMethod<
+  GetBulkReportRequest,
+  BulkReport,
+  GetBulkReportError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBulkReportRequest,
+  output: BulkReport,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetCompaniesError = NotFound | GustoOpError;
 /** Get a company Get a company. The employees:read scope is required to return home_address and non-work locations. The company_admin:read scope is required to return primary_payroll_admin. The signatories:read scope is required to return primary_signatory. scope: `companies:read` */
 export const getCompanies: API.OperationMethod<
@@ -11701,6 +24487,51 @@ export const getCompanies: API.OperationMethod<
   input: GetCompaniesRequest,
   output: Company,
   errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompaniesAttachmentError = NotFound | GustoOpError;
+/** Get Company Attachment Details Retrieve the detail of an attachment uploaded by the company. ### Related guides - [Manage company attachments](https://docs.gusto.com/embedded-payroll/docs/manage-company-attachments) scope: `company_attachments:read` */
+export const getCompaniesAttachment: API.OperationMethod<
+  GetCompaniesAttachmentRequest,
+  CompanyAttachment,
+  GetCompaniesAttachmentError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompaniesAttachmentRequest,
+  output: CompanyAttachment,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompaniesAttachmentsError = NotFound | GustoOpError;
+/** Get List of Company Attachments Retrieve a list of all the attachments uploaded by the company. ### Related guides - [Manage company attachments](https://docs.gusto.com/embedded-payroll/docs/manage-company-attachments) scope: `company_attachments:read` */
+export const getCompaniesAttachments: API.OperationMethod<
+  GetCompaniesAttachmentsRequest,
+  GetCompaniesAttachmentsResponse,
+  GetCompaniesAttachmentsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompaniesAttachmentsRequest,
+  output: GetCompaniesAttachmentsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompaniesCompanyUuidWireInRequestUuidError = GustoOpError;
+/** Get all Wire In Requests for a company Fetches all Wire In Requests for a company. scope: `payrolls:read` */
+export const getCompaniesCompanyUuidWireInRequestUuid: API.OperationMethod<
+  GetCompaniesCompanyUuidWireInRequestUuidRequest,
+  GetCompaniesCompanyUuidWireInRequestUuidResponse,
+  GetCompaniesCompanyUuidWireInRequestUuidError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompaniesCompanyUuidWireInRequestUuidRequest,
+  output: GetCompaniesCompanyUuidWireInRequestUuidResponse,
+  errors: [UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
 }));
@@ -11730,6 +24561,21 @@ export const getCompanyAdmins: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCompanyAdminsRequest,
   output: GetCompanyAdminsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompanyBankAccountsError = NotFound | GustoOpError;
+/** Get all company bank accounts Returns company bank accounts. Currently, we only support a single default bank account per company. scope: `company_bank_accounts:read` */
+export const getCompanyBankAccounts: API.OperationMethod<
+  GetCompanyBankAccountsRequest,
+  GetCompanyBankAccountsResponse,
+  GetCompanyBankAccountsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyBankAccountsRequest,
+  output: GetCompanyBankAccountsResponse,
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -11810,6 +24656,21 @@ export const getCompanyContractorPaymentContractorPayment: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetCompanyContractorPaymentGroupsError = NotFound | GustoOpError;
+/** Get contractor payment groups for a company Returns a list of minimal contractor payment groups within a given time period, including totals but not associated contractor payments. scope: `payrolls:read` */
+export const getCompanyContractorPaymentGroups: API.OperationMethod<
+  GetCompanyContractorPaymentGroupsRequest,
+  GetCompanyContractorPaymentGroupsResponse,
+  GetCompanyContractorPaymentGroupsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyContractorPaymentGroupsRequest,
+  output: GetCompanyContractorPaymentGroupsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetCompanyContractorPaymentsError = NotFound | GustoOpError;
 /** Get contractor payments for a company Returns an object containing individual contractor payments, within a given time period, including totals. Results are returned in reverse chronological order (newest first). scope: `payrolls:read` */
 export const getCompanyContractorPayments: API.OperationMethod<
@@ -11825,6 +24686,24 @@ export const getCompanyContractorPayments: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetCompanyContractorPaymentsPreviewError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Preview contractor payment debit date Returns a debit_date dependent on the ACH payment speed of the company. If the payment method is Check or Historical payment, the debit_date will be the same as the check_date. scope: `payrolls:read` */
+export const getCompanyContractorPaymentsPreview: API.OperationMethod<
+  GetCompanyContractorPaymentsPreviewRequest,
+  ContractorPaymentsPreview,
+  GetCompanyContractorPaymentsPreviewError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyContractorPaymentsPreviewRequest,
+  output: ContractorPaymentsPreview,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetCompanyContractorsError = NotFound | GustoOpError;
 /** Get contractors of a company Get all contractors, active and inactive, individual and business, for a company. scope: `contractors:read` */
 export const getCompanyContractors: API.OperationMethod<
@@ -11835,6 +24714,21 @@ export const getCompanyContractors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCompanyContractorsRequest,
   output: GetCompanyContractorsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompanyContractorsPaymentDetailsError = NotFound | GustoOpError;
+/** List contractor payment details Get payment details for contractors in a company. This endpoint returns a list of all contractors associated with the specified company, including their payment methods and bank account details if they are paid via direct deposit. For contractors paid by direct deposit, the response includes their bank account information with sensitive data masked for security. The payment details also include information about how their payments are split if they have multiple bank accounts configured. For contractors paid by check, only the basic payment method information is returned. ### Response Details - For direct deposit contractors: - Bank account details (masked) - Payment splits configuration - Routing numbers - Account types - For check payments: - Basic payment method designation ### Common Use Cases - Fetching contractor payment information for payroll processing - Verifying contractor payment methods - Reviewing payment split configurations `encrypted_account_number` is available only with the additional scope `contractor_payment_methods:read:account_numbers`. scope: `contractor_payment_methods:read` */
+export const getCompanyContractorsPaymentDetails: API.OperationMethod<
+  GetCompanyContractorsPaymentDetailsRequest,
+  GetCompanyContractorsPaymentDetailsResponse,
+  GetCompanyContractorsPaymentDetailsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyContractorsPaymentDetailsRequest,
+  output: GetCompanyContractorsPaymentDetailsResponse,
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -11885,6 +24779,81 @@ export const getCompanyEmployees: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetCompanyEmployeesPaymentDetailsError = NotFound | UnprocessableEntity | GustoOpError;
+/** Get employee payment details for a company Fetches payment details for employees in a given company. Results are paginated. Use the `employee_uuid` query parameter to filter for a single employee. Use the `payroll_uuid` query parameter to filter for employees on a specific payroll. Providing both `employee_uuid` and `payroll_uuid` will result in a 422 error. An empty array is returned if the company has no employees or if no employees match the filter criteria. The `encrypted_account_number` in the `splits` array is only visible if the `employee_payment_methods:read:account_number` scope is present. scope: `employee_payment_methods:read` */
+export const getCompanyEmployeesPaymentDetails: API.OperationMethod<
+  GetCompanyEmployeesPaymentDetailsRequest,
+  GetCompanyEmployeesPaymentDetailsResponse,
+  GetCompanyEmployeesPaymentDetailsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyEmployeesPaymentDetailsRequest,
+  output: GetCompanyEmployeesPaymentDetailsResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompanyExternalPayrollsError = NotFound | GustoOpError;
+/** Get external payrolls for a company Get external payrolls for a company. scope: `external_payrolls:read` */
+export const getCompanyExternalPayrolls: API.OperationMethod<
+  GetCompanyExternalPayrollsRequest,
+  GetCompanyExternalPayrollsResponse,
+  GetCompanyExternalPayrollsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyExternalPayrollsRequest,
+  output: GetCompanyExternalPayrollsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompanyFederalTaxDetailsError = NotFound | GustoOpError;
+/** Get a company's federal tax details Retrieves a company's federal tax details including EIN verification status, tax payer type, filing form, and other federal tax configuration. scope: `company_federal_taxes:read` */
+export const getCompanyFederalTaxDetails: API.OperationMethod<
+  GetCompanyFederalTaxDetailsRequest,
+  FederalTaxDetails,
+  GetCompanyFederalTaxDetailsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyFederalTaxDetailsRequest,
+  output: FederalTaxDetails,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompanyFormsError = NotFound | GustoOpError;
+/** Get all company forms Get a list of all company's forms ### Related guides - [Company Forms](https://docs.gusto.com/embedded-payroll/docs/company-form) scope: `company_forms:read` */
+export const getCompanyForms: API.OperationMethod<
+  GetCompanyFormsRequest,
+  GetCompanyFormsResponse,
+  GetCompanyFormsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyFormsRequest,
+  output: GetCompanyFormsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompanyHolidayPayPolicyError = NotFound | GustoOpError;
+/** Get a company's holiday pay policy Get a company's holiday pay policy scope: `holiday_pay_policies:read` */
+export const getCompanyHolidayPayPolicy: API.OperationMethod<
+  GetCompanyHolidayPayPolicyRequest,
+  HolidayPayPolicy,
+  GetCompanyHolidayPayPolicyError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyHolidayPayPolicyRequest,
+  output: HolidayPayPolicy,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetCompanyLocationsError = NotFound | GustoOpError;
 /** Get all company locations Retrieves all company locations (addresses) associated with a company: mailing addresses, filing addresses, or work locations. A single address may serve multiple, or all, purposes. Since all company locations are subsets of locations, use the Locations endpoints to [get](https://docs.gusto.com/app-integrations/reference/get-v1-locations-location_id) or [update](https://docs.gusto.com/app-integrations/reference/put-v1-locations-location_id) an individual record. scope: `companies:read` */
 export const getCompanyLocations: API.OperationMethod<
@@ -11915,6 +24884,51 @@ export const getCompanyNotifications: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetCompanyOnboardingStatusError = NotFound | GustoOpError;
+/** Get company onboarding status Retrieves a company's onboarding status, including whether onboarding is complete and the list of required onboarding steps with their respective completion state. scope: `company_onboarding_status:read` */
+export const getCompanyOnboardingStatus: API.OperationMethod<
+  GetCompanyOnboardingStatusRequest,
+  CompanyOnboardingStatus,
+  GetCompanyOnboardingStatusError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyOnboardingStatusRequest,
+  output: CompanyOnboardingStatus,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompanyPaidHolidaysError = NotFound | UnprocessableEntity | GustoOpError;
+/** Preview a company's paid holidays Preview a company's paid holidays If a year is passed, paid holidays for that year will be returned. Otherwise, paid holidays for the next three years will be returned. scope: `holiday_pay_policies:read` */
+export const getCompanyPaidHolidays: API.OperationMethod<
+  GetCompanyPaidHolidaysRequest,
+  GetCompanyPaidHolidaysResponse,
+  GetCompanyPaidHolidaysError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyPaidHolidaysRequest,
+  output: GetCompanyPaidHolidaysResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompanyPaymentConfigsError = NotFound | GustoOpError;
+/** Get a company's payment configs Get payment speed configurations for the company: payment speed (1-day, 2-day, or 4-day ACH), fast payment limit, partner-owned disbursement setting, and earned fast ACH blockers when applicable. 1-day is only available to partners that opt in. ### Related guides - [Payroll Processing Speeds](https://docs.gusto.com/embedded-payroll/docs/2-day-vs-4-day) scope: `company_payment_configs:read` */
+export const getCompanyPaymentConfigs: API.OperationMethod<
+  GetCompanyPaymentConfigsRequest,
+  PaymentConfigs,
+  GetCompanyPaymentConfigsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyPaymentConfigsRequest,
+  output: PaymentConfigs,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetCompanyPayPeriodsError = NotFound | UnprocessableEntity | GustoOpError;
 /** Get pay periods for a company Pay periods are the foundation of payroll. Compensation, time & attendance, taxes, and expense reports all rely on when they happened. To begin submitting information for a given payroll, we need to agree on the time period. By default, this endpoint returns pay periods starting from 6 months ago to the date today. Use the `start_date` and `end_date` parameters to change the scope of the response. End dates can be up to 3 months in the future and there is no limit on start dates. Starting in version 2023-04-01, the `eligible_employees` attribute was removed from the response. The eligible employees for a payroll are determined by the employee_compensations returned from the [PUT /v1/companies/{company_id}/payrolls/{payroll_id}/prepare](https://docs.gusto.com/app-integrations/reference/put-v1-companies-company_id-payrolls-payroll_id-prepare) endpoint. scope: `payrolls:read` */
 export const getCompanyPayPeriods: API.OperationMethod<
@@ -11940,6 +24954,36 @@ export const getCompanyPayroll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCompanyPayrollRequest,
   output: PayrollShow,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompanyPayrollPartnerDisbursementsError = NotFound | GustoOpError;
+/** Get partner disbursements for a payroll Get partner disbursements for a specific payroll. scope: `partner_disbursements:read` */
+export const getCompanyPayrollPartnerDisbursements: API.OperationMethod<
+  GetCompanyPayrollPartnerDisbursementsRequest,
+  PayrollPartnerDisbursements,
+  GetCompanyPayrollPartnerDisbursementsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyPayrollPartnerDisbursementsRequest,
+  output: PayrollPartnerDisbursements,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompanyPayrollReversalsError = NotFound | GustoOpError;
+/** Get approved payroll reversals Returns all approved Payroll Reversals for a Company. scope: `payrolls:read` */
+export const getCompanyPayrollReversals: API.OperationMethod<
+  GetCompanyPayrollReversalsRequest,
+  GetCompanyPayrollReversalsResponse,
+  GetCompanyPayrollReversalsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyPayrollReversalsRequest,
+  output: GetCompanyPayrollReversalsResponse,
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -12005,6 +25049,114 @@ export const getCompanyPaySchedulesAssignments: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetCompanyPaySchedulesPreviewError = NotFound | UnprocessableEntity | GustoOpError;
+/** Preview pay schedule dates Provides a preview of a pay schedule with the specified parameters for the next 18 months. Use this before creating or updating a pay schedule to show expected check dates, pay period boundaries, and payroll deadlines. ### Related guides - [Create a pay schedule](https://docs.gusto.com/embedded-payroll/docs/create-a-pay-schedule) - [Manage Pay Schedules via API](https://docs.gusto.com/embedded-payroll/docs/manage-pay-schedules-api) scope: `pay_schedules:write` */
+export const getCompanyPaySchedulesPreview: API.OperationMethod<
+  GetCompanyPaySchedulesPreviewRequest,
+  PaySchedulePreview,
+  GetCompanyPaySchedulesPreviewError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyPaySchedulesPreviewRequest,
+  output: PaySchedulePreview,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompanyReportTemplatesReportTypeError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Get a report template Get a company's report template. The only supported report type is `payroll_journal`. The resulting columns and groupings from this endpoint can be used as a guidance to create the report using the POST create report endpoint. scope: `company_reports:write` */
+export const getCompanyReportTemplatesReportType: API.OperationMethod<
+  GetCompanyReportTemplatesReportTypeRequest,
+  ReportTemplate,
+  GetCompanyReportTemplatesReportTypeError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyReportTemplatesReportTypeRequest,
+  output: ReportTemplate,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompanySignatoriesError = NotFound | GustoOpError;
+/** Get the signatories for a company Returns the signatories for a company. A company has at most one signatory. ## Related guides - [Signatory Events](https://docs.gusto.com/embedded-payroll/docs/signatory-events) scope: `signatories:read` */
+export const getCompanySignatories: API.OperationMethod<
+  GetCompanySignatoriesRequest,
+  GetCompanySignatoriesResponse,
+  GetCompanySignatoriesError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanySignatoriesRequest,
+  output: GetCompanySignatoriesResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompanySuspensionsError = NotFound | GustoOpError;
+/** Get suspensions for this company Get existing suspension records for this company. A company may have multiple suspension records if they have suspended their Gusto account more than once. >📘 To check if company is already suspended > > To determine if a company is _currently_ suspended, use the `is_suspended` and `company_status` fields in the [Get a company](https://docs.gusto.com/embedded-payroll/reference/get-v1-companies) endpoint. scope: `company_suspensions:read` */
+export const getCompanySuspensions: API.OperationMethod<
+  GetCompanySuspensionsRequest,
+  GetCompanySuspensionsResponse,
+  GetCompanySuspensionsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanySuspensionsRequest,
+  output: GetCompanySuspensionsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompanyTaxRequirementError = NotFound | GustoOpError;
+/** Get tax requirements for a state Retrieves the detailed tax requirements for a specific state. The response includes requirement sets grouped by category (e.g., registrations, tax rates, deposit schedules), each containing individual requirements with their current values, labels, and metadata describing the expected input format. Use this to build dynamic UIs for tax setup or to read the current tax configuration for a state. scope: `company_tax_requirements:read` */
+export const getCompanyTaxRequirement: API.OperationMethod<
+  GetCompanyTaxRequirementRequest,
+  TaxRequirementsState,
+  GetCompanyTaxRequirementError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyTaxRequirementRequest,
+  output: TaxRequirementsState,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompanyTaxRequirementsError = NotFound | GustoOpError;
+/** Get all tax requirements for a company Retrieves all states for which a company has tax requirements, along with a boolean indicating whether tax setup is complete for each state. Use this to determine which states still need tax setup during company onboarding. scope: `company_tax_requirements:read` */
+export const getCompanyTaxRequirements: API.OperationMethod<
+  GetCompanyTaxRequirementsRequest,
+  GetCompanyTaxRequirementsResponse,
+  GetCompanyTaxRequirementsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyTaxRequirementsRequest,
+  output: GetCompanyTaxRequirementsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompanyTimeOffBalancesError = NotFound | GustoOpError;
+/** Get time off balances for a company Get time off balances for all employees in a company scope: `time_off_requests:read` */
+export const getCompanyTimeOffBalances: API.OperationMethod<
+  GetCompanyTimeOffBalancesRequest,
+  GetCompanyTimeOffBalancesResponse,
+  GetCompanyTimeOffBalancesError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyTimeOffBalancesRequest,
+  output: GetCompanyTimeOffBalancesResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetCompanyTimeOffPoliciesError = NotFound | GustoOpError;
 /** Get all time off policies for a company Get all time off policies for a company scope: `time_off_policies:read` */
 export const getCompanyTimeOffPolicies: API.OperationMethod<
@@ -12031,6 +25183,21 @@ export const getCompanyTimeOffRequests: API.OperationMethod<
   input: GetCompanyTimeOffRequestsRequest,
   output: GetCompanyTimeOffRequestsResponse,
   errors: [UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCompanyTimeOffRequests2Error = NotFound | UnprocessableEntity | GustoOpError;
+/** List time off requests for a company Get all time off requests for a company. Supports filtering by status, employee, and date ranges. Possible statuses: - `pending` — awaiting approval - `approved` — approved by an admin but not yet processed in a payroll - `declined` — declined by an admin - `consumed` — processed in a completed payroll Allowed values for `status`: pending, approved, declined, consumed. scope: `time_off_requests:read` */
+export const getCompanyTimeOffRequests2: API.OperationMethod<
+  GetCompanyTimeOffRequestsRequest2,
+  GetCompanyTimeOffRequestsResponse2,
+  GetCompanyTimeOffRequests2Error,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCompanyTimeOffRequestsRequest2,
+  output: GetCompanyTimeOffRequestsResponse2,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
 }));
@@ -12080,6 +25247,201 @@ export const getContractor: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetContractorAddressError = NotFound | GustoOpError;
+/** Get a contractor address The address of a contractor is used to determine certain tax information about them. Addresses are geocoded on create and update to ensure validity. scope: `contractors:read` */
+export const getContractorAddress: API.OperationMethod<
+  GetContractorAddressRequest,
+  ContractorAddress2,
+  GetContractorAddressError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetContractorAddressRequest,
+  output: ContractorAddress2,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetContractorBankAccountsError = NotFound | GustoOpError;
+/** Get all contractor bank accounts Returns all contractor bank accounts. scope: `contractor_payment_methods:read` */
+export const getContractorBankAccounts: API.OperationMethod<
+  GetContractorBankAccountsRequest,
+  GetContractorBankAccountsResponse,
+  GetContractorBankAccountsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetContractorBankAccountsRequest,
+  output: GetContractorBankAccountsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetContractorDocumentsError = NotFound | GustoOpError;
+/** Get all contractor documents Get a list of all contractor's documents scope: `contractor_documents:read` */
+export const getContractorDocuments: API.OperationMethod<
+  GetContractorDocumentsRequest,
+  GetContractorDocumentsResponse,
+  GetContractorDocumentsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetContractorDocumentsRequest,
+  output: GetContractorDocumentsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetContractorFormError = NotFound | GustoOpError;
+/** Get a contractor form Get a contractor form scope: `contractor_forms:read` */
+export const getContractorForm: API.OperationMethod<
+  GetContractorFormRequest,
+  Form1099,
+  GetContractorFormError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetContractorFormRequest,
+  output: Form1099,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetContractorFormPdfError = NotFound | GustoOpError;
+/** Get the contractor form pdf Get the link to the form PDF scope: `contractor_forms:read` */
+export const getContractorFormPdf: API.OperationMethod<
+  GetContractorFormPdfRequest,
+  FormPdf,
+  GetContractorFormPdfError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetContractorFormPdfRequest,
+  output: FormPdf,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetContractorFormsError = NotFound | GustoOpError;
+/** Get all contractor forms Get a list of all contractor's forms scope: `contractor_forms:read` */
+export const getContractorForms: API.OperationMethod<
+  GetContractorFormsRequest,
+  GetContractorFormsResponse,
+  GetContractorFormsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetContractorFormsRequest,
+  output: GetContractorFormsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetContractorMemberPortalInvitationsError = NotFound | GustoOpError;
+/** Get a contractor member portal invitation Returns the current status of a contractor's member portal invitation (`pending`, `sent`, `verified`, `complete`, or `cancelled`) along with an `expired` flag indicating whether the invitation can still be acted on by the contractor. scope: `member_portal_invitation:read` */
+export const getContractorMemberPortalInvitations: API.OperationMethod<
+  GetContractorMemberPortalInvitationsRequest,
+  MemberPortalInvitation,
+  GetContractorMemberPortalInvitationsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetContractorMemberPortalInvitationsRequest,
+  output: MemberPortalInvitation,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetContractorOnboardingStatusError = NotFound | GustoOpError;
+/** Get the contractor's onboarding status Retrieves a contractor's onboarding status. The data returned helps inform the required onboarding steps and respective completion status. ## onboarding_status ### Admin-facilitated onboarding ### Contractor self-onboarding ## onboarding_steps scope: `contractors:read` */
+export const getContractorOnboardingStatus: API.OperationMethod<
+  GetContractorOnboardingStatusRequest,
+  ContractorOnboardingStatus2,
+  GetContractorOnboardingStatusError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetContractorOnboardingStatusRequest,
+  output: ContractorOnboardingStatus2,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetContractorPaymentGroupPartnerDisbursementsError = NotFound | GustoOpError;
+/** Get partner disbursements for a contractor payment group Get partner disbursements for a specific contractor payment group. scope: `partner_disbursements:read` */
+export const getContractorPaymentGroupPartnerDisbursements: API.OperationMethod<
+  GetContractorPaymentGroupPartnerDisbursementsRequest,
+  ContractorPaymentGroupPartnerDisbursements,
+  GetContractorPaymentGroupPartnerDisbursementsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetContractorPaymentGroupPartnerDisbursementsRequest,
+  output: ContractorPaymentGroupPartnerDisbursements,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetContractorPaymentMethodError = NotFound | GustoOpError;
+/** Get a contractor's payment method Fetches a contractor's payment method. A contractor payment method describes how the payment should be split across the contractor's associated bank accounts. scope: `contractor_payment_methods:read` */
+export const getContractorPaymentMethod: API.OperationMethod<
+  GetContractorPaymentMethodRequest,
+  ContractorPaymentMethod2,
+  GetContractorPaymentMethodError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetContractorPaymentMethodRequest,
+  output: ContractorPaymentMethod2,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetContractorPaymentPdfError = NotFound | GustoOpError;
+/** Get a contractor payment PDF Get a PDF document for a single contractor payment. scope: `payrolls:read` */
+export const getContractorPaymentPdf: API.OperationMethod<
+  GetContractorPaymentPdfRequest,
+  GetContractorPaymentPdfResponse,
+  GetContractorPaymentPdfError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetContractorPaymentPdfRequest,
+  output: GetContractorPaymentPdfResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetContractorPaymentReceiptError = NotFound | GustoOpError;
+/** Get a single contractor payment receipt Returns a contractor payment receipt. Notes: * Receipts are only available for direct deposit payments and are only available once those payments have been funded. * Payroll Receipt requests for payrolls which do not have receipts available (e.g. payment by check) will return a 404 status. * Hour and dollar amounts are returned as string representations of numeric decimals. * Dollar amounts are represented to the cent. * If no data has yet be inserted for a given field, it defaults to “0.00” (for fixed amounts). scope: `payrolls:read` */
+export const getContractorPaymentReceipt: API.OperationMethod<
+  GetContractorPaymentReceiptRequest,
+  ContractorPaymentReceipt,
+  GetContractorPaymentReceiptError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetContractorPaymentReceiptRequest,
+  output: ContractorPaymentReceipt,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetContractorPaymentsError = NotFound | UnprocessableEntity | GustoOpError;
+/** Get contractor payments Returns a paginated list of payments for a single contractor. Results are sortable by `check_date` or `created_at`. Append `:asc` or `:desc` to control direction (e.g., `check_date:desc`). scope: `contractor_pay_stubs:read` */
+export const getContractorPayments: API.OperationMethod<
+  GetContractorPaymentsRequest,
+  GetContractorPaymentsResponse,
+  GetContractorPaymentsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetContractorPaymentsRequest,
+  output: GetContractorPaymentsResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetDepartmentError = NotFound | GustoOpError;
 /** Get a department Get a department given the UUID scope: `departments:read` */
 export const getDepartment: API.OperationMethod<
@@ -12090,6 +25452,21 @@ export const getDepartment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDepartmentRequest,
   output: GetDepartmentResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetEmployeeBankAccountsError = NotFound | GustoOpError;
+/** List employee bank accounts Returns all employee bank accounts. scope: `employee_payment_methods:read` */
+export const getEmployeeBankAccounts: API.OperationMethod<
+  GetEmployeeBankAccountsRequest,
+  GetEmployeeBankAccountsResponse,
+  GetEmployeeBankAccountsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetEmployeeBankAccountsRequest,
+  output: GetEmployeeBankAccountsResponse,
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -12155,6 +25532,51 @@ export const getEmployeeEmploymentHistory: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetEmployeeFormError = NotFound | GustoOpError;
+/** Get an employee form Get an employee form scope: `employee_forms:read` */
+export const getEmployeeForm: API.OperationMethod<
+  GetEmployeeFormRequest,
+  Form,
+  GetEmployeeFormError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetEmployeeFormRequest,
+  output: Form,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetEmployeeFormPdfError = NotFound | GustoOpError;
+/** Get the employee form pdf Get the link to the employee form PDF scope: `employee_forms:read` */
+export const getEmployeeFormPdf: API.OperationMethod<
+  GetEmployeeFormPdfRequest,
+  FormPdf,
+  GetEmployeeFormPdfError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetEmployeeFormPdfRequest,
+  output: FormPdf,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetEmployeeFormsError = NotFound | GustoOpError;
+/** Get all employee forms Get a list of all employee's forms scope: `employee_forms:read` */
+export const getEmployeeForms: API.OperationMethod<
+  GetEmployeeFormsRequest,
+  GetEmployeeFormsResponse,
+  GetEmployeeFormsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetEmployeeFormsRequest,
+  output: GetEmployeeFormsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetEmployeeGarnishmentsError = NotFound | GustoOpError;
 /** Get garnishments for an employee Garnishments, or employee deductions, are fixed amounts or percentages deducted from an employee’s pay. They can be deducted a specific number of times or on a recurring basis. Garnishments can also have maximum deductions on a yearly or per-pay-period bases. Common uses for garnishments are court-ordered payments for child support or back taxes. Some companies provide loans to their employees that are repaid via garnishments. scope: `garnishments:read` */
 export const getEmployeeGarnishments: API.OperationMethod<
@@ -12180,6 +25602,111 @@ export const getEmployeeHomeAddresses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEmployeeHomeAddressesRequest,
   output: GetEmployeeHomeAddressesResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetEmployeeI9AuthorizationError = NotFound | GustoOpError;
+/** Get an employee's I-9 authorization An employee's I-9 authorization stores information about an employee's authorization status and I-9 signatures, information required to fill out the Form I-9 for employment eligibility verification. **NOTE:** The `form_uuid` in responses from this endpoint can be used to retrieve the PDF version of the I-9. See the "get employee form PDF" request for more details. ### Related guides - [I-9 employment verification](https://docs.gusto.com/embedded-payroll/docs/i-9-employment-verification) scope: `i9_authorizations:read` */
+export const getEmployeeI9Authorization: API.OperationMethod<
+  GetEmployeeI9AuthorizationRequest,
+  I9Authorization,
+  GetEmployeeI9AuthorizationError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetEmployeeI9AuthorizationRequest,
+  output: I9Authorization,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetEmployeeI9AuthorizationDocumentOptionsError = NotFound | GustoOpError;
+/** Get an employee's I-9 verification document options An employee's I-9 verification documents are the documents an employee has provided the employer to verify their identity and authorization to work in the United States. This endpoint returns the possible document options based on the employee's authorization status. These options can then be used to create the I-9 verification documents. ### Related guides - [I-9 employment verification](https://docs.gusto.com/embedded-payroll/docs/i-9-employment-verification) scope: `i9_authorizations:read` */
+export const getEmployeeI9AuthorizationDocumentOptions: API.OperationMethod<
+  GetEmployeeI9AuthorizationDocumentOptionsRequest,
+  GetEmployeeI9AuthorizationDocumentOptionsResponse,
+  GetEmployeeI9AuthorizationDocumentOptionsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetEmployeeI9AuthorizationDocumentOptionsRequest,
+  output: GetEmployeeI9AuthorizationDocumentOptionsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetEmployeeI9AuthorizationDocumentsError = NotFound | GustoOpError;
+/** Get an employee's I-9 verification documents An employee's I-9 verification documents are the documents an employee has provided the employer to verify their identity and authorization to work in the United States. ### Related guides - [I-9 employment verification](https://docs.gusto.com/embedded-payroll/docs/i-9-employment-verification) scope: `i9_authorizations:read` */
+export const getEmployeeI9AuthorizationDocuments: API.OperationMethod<
+  GetEmployeeI9AuthorizationDocumentsRequest,
+  GetEmployeeI9AuthorizationDocumentsResponse,
+  GetEmployeeI9AuthorizationDocumentsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetEmployeeI9AuthorizationDocumentsRequest,
+  output: GetEmployeeI9AuthorizationDocumentsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetEmployeeJobsError = NotFound | GustoOpError;
+/** Get jobs for an employee Get all of the jobs that an employee holds. Note: Compensation data (pay rate, payment unit, and related fields) represents sensitive employee pay information. When retrieving employee job data, these fields (`rate`, `payment_unit`, `current_compensation_uuid`, `compensations`) are only returned when the `compensations:read` scope is included. This allows you to access employee and job metadata without exposing pay rates. Compensation data in the response requires the `compensations:read` scope. scope: `jobs:read` */
+export const getEmployeeJobs: API.OperationMethod<
+  GetEmployeeJobsRequest,
+  GetEmployeeJobsResponse,
+  GetEmployeeJobsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetEmployeeJobsRequest,
+  output: GetEmployeeJobsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetEmployeeMemberPortalInvitationsError = NotFound | GustoOpError;
+/** Get an employee member portal invitation Returns the current status of an employee's member portal invitation (`pending`, `sent`, `verified`, `complete`, or `cancelled`) along with an `expired` flag indicating whether the invitation can still be acted on by the employee. scope: `member_portal_invitation:read` */
+export const getEmployeeMemberPortalInvitations: API.OperationMethod<
+  GetEmployeeMemberPortalInvitationsRequest,
+  MemberPortalInvitation,
+  GetEmployeeMemberPortalInvitationsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetEmployeeMemberPortalInvitationsRequest,
+  output: MemberPortalInvitation,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetEmployeeOnboardingStatusError = NotFound | GustoOpError;
+/** Get the employee's onboarding status # Description Retrieves an employee's onboarding status. The data returned helps inform the required onboarding steps and respective completion status. ## onboarding_status ### Admin-facilitated onboarding ### Employee self-onboarding ## onboarding_steps scope: `employees:read` */
+export const getEmployeeOnboardingStatus: API.OperationMethod<
+  GetEmployeeOnboardingStatusRequest,
+  EmployeeOnboardingStatus2,
+  GetEmployeeOnboardingStatusError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetEmployeeOnboardingStatusRequest,
+  output: EmployeeOnboardingStatus2,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetEmployeePaymentMethodError = NotFound | GustoOpError;
+/** Get payment method for an employee Returns the payment method for an employee (e.g. Check or Direct Deposit with split configuration). scope: `employee_payment_methods:read` */
+export const getEmployeePaymentMethod: API.OperationMethod<
+  GetEmployeePaymentMethodRequest,
+  EmployeePaymentMethod2,
+  GetEmployeePaymentMethodError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetEmployeePaymentMethodRequest,
+  output: EmployeePaymentMethod2,
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -12353,6 +25880,21 @@ export const getGarnishmentsChildSupport: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetGeneratedDocumentError = NotFound | GustoOpError;
+/** Get a generated document Get a document given the request_uuid. The response will include the generation request's status and urls to the document. A list of urls is returned as certain document types require several urls. scope: `generated_documents:read` */
+export const getGeneratedDocument: API.OperationMethod<
+  GetGeneratedDocumentRequest,
+  GeneratedDocument,
+  GetGeneratedDocumentError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetGeneratedDocumentRequest,
+  output: GeneratedDocument,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetHomeAddressError = NotFound | GustoOpError;
 /** Get an employee's home address The home address of an employee is used to determine certain tax information about them. Addresses are geocoded on create and update to ensure validity. Supports home address effective dating and courtesy withholding. scope: `employees:read` */
 export const getHomeAddress: API.OperationMethod<
@@ -12367,6 +25909,47 @@ export const getHomeAddress: API.OperationMethod<
   protocol: GustoProtocol,
   retry: Retry.Retry,
 }));
+
+export type GetInformationRequestsError = NotFound | GustoOpError;
+/** Get all information requests for a company Fetch all information requests for a company. scope: `information_requests:read` */
+export const getInformationRequests: API.OperationMethod<
+  GetInformationRequestsRequest,
+  GetInformationRequestsResponse,
+  GetInformationRequestsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetInformationRequestsRequest,
+  output: GetInformationRequestsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetInvoiceError = UnprocessableEntity | GustoOpError;
+/** Retrieve invoicing data for companies Retrieve data for active companies used to calculate invoices for Gusto Embedded Payroll. A company is considered active for an invoice period if they are an active partner managed company, have run payroll or created contractor payments since becoming a partner managed company, and are not suspended at any point during the invoice period. This endpoint forces pagination, with 100 results returned at a time. You can learn more about our pagination here: [pagination guide](https://docs.gusto.com/embedded-payroll/docs/pagination) 📘 System Access Authentication This endpoint uses the [Bearer Auth scheme with the system-level access token in the HTTP Authorization header](https://docs.gusto.com/embedded-payroll/docs/system-access) scope: `invoices:read` */
+export const getInvoice: API.OperationMethod<
+  GetInvoiceRequest,
+  InvoiceData,
+  GetInvoiceError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetInvoiceRequest,
+  output: InvoiceData,
+  errors: [UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetJobError = NotFound | GustoOpError;
+/** Get a job Get a job. Note: Compensation data (pay rate, payment unit, and related fields) represents sensitive employee pay information. When retrieving employee job data, these fields (`rate`, `payment_unit`, `current_compensation_uuid`, `compensations`) are only returned when the `compensations:read` scope is included. This allows you to access employee and job metadata without exposing pay rates. Compensation data in the response requires the `compensations:read` scope. scope: `jobs:read` */
+export const getJob: API.OperationMethod<GetJobRequest, Job, GetJobError, GustoOpContext> =
+  /*@__PURE__*/ API.make(() => ({
+    input: GetJobRequest,
+    output: Job,
+    errors: [NotFound, UnknownGustoError],
+    protocol: GustoProtocol,
+    retry: Retry.Retry,
+  }));
 
 export type GetJobCompensationsError = NotFound | GustoOpError;
 /** Get compensations for a job Compensations contain information on how much is paid out for a job. Jobs may have many compensations, but only one that is active. The current compensation is the one with the most recent `effective_date`. *Note: Currently the API does not support creating multiple compensations per job - creating a compensation with the same job_uuid as another will fail with a relevant error.* Use `flsa_status` to determine if an employee is eligible for overtime By default the API returns only the current compensation - use the `include` parameter to return all compensations. scope: `compensations:read` */
@@ -12413,6 +25996,96 @@ export const getLocationMinimumWages: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetNotificationError = NotFound | UnprocessableEntity | GustoOpError;
+/** Get a notification's details Upon receiving a notification webhook event, use this endpoint to fetch the notification's details. The notification details include basic suggested content that can help you build notifications in your platform. Note: partners are responsible for the delivery and any custom state management of notifications in their application. Refer to our [partner notification guide](https://docs.gusto.com/embedded-payroll/docs/partner-notifications) for more details. If the notification UUID is not found, the response will be 404 Not Found. If the notification's supporting data is no longer valid, the response will be 422 Unprocessable Entity. scope: `notifications:read` */
+export const getNotification: API.OperationMethod<
+  GetNotificationRequest,
+  Notification,
+  GetNotificationError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetNotificationRequest,
+  output: Notification,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetPartnerManagedCompanyMigrationReadinessError = NotFound | GustoOpError;
+/** Check company migration readiness Check if an existing Gusto customer is ready to be migrated to embedded payroll. This endpoint returns blockers and warnings associated with migrating the company and is recommended to be called before attempting to migrate a company. scope: `partner_managed_companies:read` */
+export const getPartnerManagedCompanyMigrationReadiness: API.OperationMethod<
+  GetPartnerManagedCompanyMigrationReadinessRequest,
+  GetPartnerManagedCompanyMigrationReadinessResponse,
+  GetPartnerManagedCompanyMigrationReadinessError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPartnerManagedCompanyMigrationReadinessRequest,
+  output: GetPartnerManagedCompanyMigrationReadinessResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetPayrollBatchError = NotFound | GustoOpError;
+/** Get a payroll cancellation batch Returns the status and per-payroll results of a payroll cancellation batch. Poll this endpoint until the batch `status` reaches a terminal value (`completed` or `failed`). Once terminal, the response includes the `results` array (one entry per authorized payroll, each with its own per-payroll `status` — `success` or `failed`) and the `exclusions` array (one entry per payroll that could not be processed). A cancel is atomic, so a per-payroll result is only ever `success` or `failed` — never `partial_success`. Note that the top-level batch `status` (`pending` / `processing` / `completed` / `failed`) is the request lifecycle, distinct from the per-payroll `status` inside `results[]`. A `completed` batch does not imply every payroll was cancelled — inspect the array for per-payroll outcomes. Results are stored in Redis with a limited TTL after completion. If the partner polls after results have expired, this endpoint returns 410 Gone — partners should re-submit a new batch. 📘 System Access Authentication This endpoint uses the [Bearer Auth scheme with the system-level access token in the HTTP Authorization header](https://docs.gusto.com/embedded-payroll/docs/system-access) scope: `payroll_batches:read` */
+export const getPayrollBatch: API.OperationMethod<
+  GetPayrollBatchRequest,
+  PayrollBatchResults,
+  GetPayrollBatchError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPayrollBatchRequest,
+  output: PayrollBatchResults,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetPayrollDigestError = NotFound | GustoOpError;
+/** Get a payroll digest batch Returns the status and results of a payroll digest batch. Poll this endpoint until the batch `status` reaches a terminal value (`completed` or `failed`). Once terminal, the response includes the full `results` array (one entry per attempted company, each with its own per-company `status` — `success`, `partial_success`, or `failed`) and the `exclusions` array (one entry per company that could not be looked up or processed). Note that the top-level batch `status` (`pending` / `processing` / `completed` / `failed`) is distinct from the per-company `status` returned inside `results[]` and `exclusions[]`. A `completed` batch does not imply every company succeeded — inspect the arrays for per-company outcomes. Results are stored in Redis with a short TTL after completion. If the partner polls after results have expired, this endpoint returns 410 Gone — partners should re-submit a new batch to fetch fresh data. 📘 System Access Authentication This endpoint uses the [Bearer Auth scheme with the system-level access token in the HTTP Authorization header](https://docs.gusto.com/embedded-payroll/docs/system-access) scope: `payroll_digests:read` */
+export const getPayrollDigest: API.OperationMethod<
+  GetPayrollDigestRequest,
+  PayrollDigestResults,
+  GetPayrollDigestError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPayrollDigestRequest,
+  output: PayrollDigestResults,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetPeopleBatchError = NotFound | GustoOpError;
+/** Get a people batch Returns the status and results of a people batch. Poll this endpoint to check the batch processing status and retrieve results. scope: `people_batches:read` */
+export const getPeopleBatch: API.OperationMethod<
+  GetPeopleBatchRequest,
+  PeopleBatchResults,
+  GetPeopleBatchError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPeopleBatchRequest,
+  output: PeopleBatchResults,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetRecoveryCasesError = NotFound | GustoOpError;
+/** Get all recovery cases for a company Fetch all recovery cases for a company. scope: `recovery_cases:read` */
+export const getRecoveryCases: API.OperationMethod<
+  GetRecoveryCasesRequest,
+  GetRecoveryCasesResponse,
+  GetRecoveryCasesError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetRecoveryCasesRequest,
+  output: GetRecoveryCasesResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetRecurringReimbursementsError = NotFound | GustoOpError;
 /** Get a recurring reimbursement Get a specific recurring reimbursement. scope: `reimbursements:read` */
 export const getRecurringReimbursements: API.OperationMethod<
@@ -12443,6 +26116,21 @@ export const getReport: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetReverseWireTransactionsError = NotFound | GustoOpError;
+/** Get all reverse wire transactions for a company Returns a paginated list of reverse wire (drawdown) transactions for a company. Reverse wires are debit transactions initiated by Gusto to pull funds from a partner's bank account to cover payroll or contractor payment obligations. Pagination is returned via the `x-page`, `x-per-page`, `x-total-count`, and `x-total-pages` response headers. scope: `reverse_wire_transactions:read` */
+export const getReverseWireTransactions: API.OperationMethod<
+  GetReverseWireTransactionsRequest,
+  GetReverseWireTransactionsResponse,
+  GetReverseWireTransactionsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetReverseWireTransactionsRequest,
+  output: GetReverseWireTransactionsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetSalaryEstimatesOccupationsError = UnprocessableEntity | GustoOpError;
 /** Search for BLS occupations Search for Bureau of Labor Statistics (BLS) occupations by name or keyword. This endpoint helps users find the appropriate occupation codes to use when creating or updating salary estimates. Returns a list of matching occupations with their codes, titles, and descriptions. 📘 System Access Authentication This endpoint uses the [Bearer Auth scheme with the system-level access token in the HTTP Authorization header](https://docs.gusto.com/embedded-payroll/docs/system-access) scope: `salary_estimates:read` */
 export const getSalaryEstimatesOccupations: API.OperationMethod<
@@ -12454,6 +26142,36 @@ export const getSalaryEstimatesOccupations: API.OperationMethod<
   input: GetSalaryEstimatesOccupationsRequest,
   output: GetSalaryEstimatesOccupationsResponse,
   errors: [UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetTaxPaymentError = NotFound | GustoOpError;
+/** Get a tax payment for a company Fetches a single tax payment by UUID, including the payroll tax liabilities that make up the payment. scope: `tax_payments:read` */
+export const getTaxPayment: API.OperationMethod<
+  GetTaxPaymentRequest,
+  TaxPayment,
+  GetTaxPaymentError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetTaxPaymentRequest,
+  output: TaxPayment,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetTaxPaymentsError = NotFound | UnprocessableEntity | GustoOpError;
+/** Get all tax payments for a company Fetches all tax payments Gusto has made (or scheduled) to tax agencies on behalf of a company. scope: `tax_payments:read` */
+export const getTaxPayments: API.OperationMethod<
+  GetTaxPaymentsRequest,
+  GetTaxPaymentsResponse,
+  GetTaxPaymentsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetTaxPaymentsRequest,
+  output: GetTaxPaymentsResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
 }));
@@ -12483,6 +26201,21 @@ export const getTimeOffPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTimeOffPolicyRequest,
   output: TimeOffPolicy,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetTimeOffRequestError = NotFound | GustoOpError;
+/** Get a time off request Get a single time off request by UUID scope: `time_off_requests:read` */
+export const getTimeOffRequest: API.OperationMethod<
+  GetTimeOffRequestRequest,
+  EmbeddedTimeOffRequest,
+  GetTimeOffRequestError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetTimeOffRequestRequest,
+  output: EmbeddedTimeOffRequest,
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -12533,6 +26266,21 @@ export const getV1BenefitsCompanyBenefitIdSummary: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetV1CompaniesAttachmentUrlError = NotFound | GustoOpError;
+/** Get a temporary url to download the Company Attachment file Retrieve a temporary url to download an attachment file uploaded by the company. ### Related guides - [Manage company attachments](https://docs.gusto.com/embedded-payroll/docs/manage-company-attachments) scope: `company_attachments:read` */
+export const getV1CompaniesAttachmentUrl: API.OperationMethod<
+  GetV1CompaniesAttachmentUrlRequest,
+  CompanyAttachmentDownloadUrl,
+  GetV1CompaniesAttachmentUrlError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1CompaniesAttachmentUrlRequest,
+  output: CompanyAttachmentDownloadUrl,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsError = NotFound | GustoOpError;
 /** Get termination pay periods for a company When a payroll admin terminates an employee and selects "Dismissal Payroll" as the employee's final payroll, their last pay period will appear on the list. This endpoint returns the unprocessed pay periods for past and future terminated employees in a given company. scope: `payrolls:read` */
 export const getV1CompaniesCompanyIdUnprocessedTerminationPayPeriods: API.OperationMethod<
@@ -12548,6 +26296,249 @@ export const getV1CompaniesCompanyIdUnprocessedTerminationPayPeriods: API.Operat
   retry: Retry.Retry,
 }));
 
+export type GetV1CompaniesPayrollBlockersCompanyUuidError = NotFound | GustoOpError;
+/** Get all payroll blockers for a company Returns a list of reasons that prevent the company from running payrolls. See the [Payroll Blockers guide](https://docs.gusto.com/embedded-payroll/docs/payroll-blockers) for a complete list of reasons. The list is empty if there are no payroll blockers. scope: `payrolls:run` */
+export const getV1CompaniesPayrollBlockersCompanyUuid: API.OperationMethod<
+  GetV1CompaniesPayrollBlockersCompanyUuidRequest,
+  GetV1CompaniesPayrollBlockersCompanyUuidResponse,
+  GetV1CompaniesPayrollBlockersCompanyUuidError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1CompaniesPayrollBlockersCompanyUuidRequest,
+  output: GetV1CompaniesPayrollBlockersCompanyUuidResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetV1CompanyFormError = NotFound | GustoOpError;
+/** Get a company form Get a company form scope: `company_forms:read` */
+export const getV1CompanyForm: API.OperationMethod<
+  GetV1CompanyFormRequest,
+  Form,
+  GetV1CompanyFormError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1CompanyFormRequest,
+  output: Form,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetV1CompanyFormPdfError = NotFound | GustoOpError;
+/** Get a company form pdf Get the link to the form PDF scope: `company_forms:read` */
+export const getV1CompanyFormPdf: API.OperationMethod<
+  GetV1CompanyFormPdfRequest,
+  FormPdf,
+  GetV1CompanyFormPdfError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1CompanyFormPdfRequest,
+  output: FormPdf,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetV1CompanyIndustryError = NotFound | GustoOpError;
+/** Get a company industry selection Returns the industry classification for a company, including NAICS code, SIC codes, and industry title. scope: `companies:read` */
+export const getV1CompanyIndustry: API.OperationMethod<
+  GetV1CompanyIndustryRequest,
+  Industry,
+  GetV1CompanyIndustryError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1CompanyIndustryRequest,
+  output: Industry,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetV1ContractorDocumentError = NotFound | UnprocessableEntity | GustoOpError;
+/** Get a contractor document Get a contractor document. scope: `contractor_documents:read` */
+export const getV1ContractorDocument: API.OperationMethod<
+  GetV1ContractorDocumentRequest,
+  Document,
+  GetV1ContractorDocumentError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1ContractorDocumentRequest,
+  output: Document,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetV1ContractorDocumentPdfError = NotFound | UnprocessableEntity | GustoOpError;
+/** Get the contractor document pdf Get the contractor document pdf. scope: `contractor_documents:read` */
+export const getV1ContractorDocumentPdf: API.OperationMethod<
+  GetV1ContractorDocumentPdfRequest,
+  DocumentPdf,
+  GetV1ContractorDocumentPdfError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1ContractorDocumentPdfRequest,
+  output: DocumentPdf,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetV1ContractorPaymentGroupsContractorPaymentGroupIdError = NotFound | GustoOpError;
+/** Get a contractor payment group Returns a contractor payment group with all associated contractor payments. scope: `payrolls:read` */
+export const getV1ContractorPaymentGroupsContractorPaymentGroupId: API.OperationMethod<
+  GetV1ContractorPaymentGroupsContractorPaymentGroupIdRequest,
+  GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponse,
+  GetV1ContractorPaymentGroupsContractorPaymentGroupIdError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1ContractorPaymentGroupsContractorPaymentGroupIdRequest,
+  output: GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetV1ContractorPaymentsContractorPaymentUuidFundError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Fund a contractor payment [DEMO] > 🚧 Demo action > > This action is only available in the Demo environment Simulate funding a contractor payment. Funding only occurs automatically in the production environment when bank transactions are generated. Use this action in the demo environment to transition a contractor payment's `status` from `Unfunded` to `Funded`. A `Funded` status is required for generating a contractor payment receipt. scope: `payrolls:run` */
+export const getV1ContractorPaymentsContractorPaymentUuidFund: API.OperationMethod<
+  GetV1ContractorPaymentsContractorPaymentUuidFundRequest,
+  ContractorPayment,
+  GetV1ContractorPaymentsContractorPaymentUuidFundError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1ContractorPaymentsContractorPaymentUuidFundRequest,
+  output: ContractorPayment,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetV1EmployeesEmployeeIdFederalTaxesError = NotFound | GustoOpError;
+/** Get federal taxes for an employee Returns federal tax information for an employee. The response structure varies based on the w4_data_type (pre_2020_w4 or rev_2020_w4). scope: `employee_federal_taxes:read` */
+export const getV1EmployeesEmployeeIdFederalTaxes: API.OperationMethod<
+  GetV1EmployeesEmployeeIdFederalTaxesRequest,
+  GetV1EmployeesEmployeeIdFederalTaxesResponse,
+  GetV1EmployeesEmployeeIdFederalTaxesError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1EmployeesEmployeeIdFederalTaxesRequest,
+  output: GetV1EmployeesEmployeeIdFederalTaxesResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetV1EmployeesEmployeeIdStateTaxesError = NotFound | GustoOpError;
+/** Get an employee's state taxes Get attributes relevant for an employee's state taxes. The data required to correctly calculate an employee's state taxes varies by both home and work location. This API returns information about each question that must be answered grouped by state. Mostly commonly, an employee lives and works in the same state and will only have questions for a single state. The response contains metadata about each question, the type of answer expected, and the current answer stored in Gusto for that question. Answers are represented by an array. Today, this array can only be empty or contain exactly one element, but is designed to allow for forward compatibility with effective-dated fields. The `valid_from` and `valid_up_to` fields are optional and currently ignored. ## About filing new hire reports Payroll Admins are responsible for filing a new hire report for each Employee. The `file_new_hire_report` question will only be listed if: - the `employee.onboarding_status` is one of the following: - `admin_onboarding_incomplete` - `self_onboarding_awaiting_admin_review` - that employee's work state requires filing a new hire report scope: `employee_state_taxes:read` */
+export const getV1EmployeesEmployeeIdStateTaxes: API.OperationMethod<
+  GetV1EmployeesEmployeeIdStateTaxesRequest,
+  GetV1EmployeesEmployeeIdStateTaxesResponse,
+  GetV1EmployeesEmployeeIdStateTaxesError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1EmployeesEmployeeIdStateTaxesRequest,
+  output: GetV1EmployeesEmployeeIdStateTaxesResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetV1EmployeesEmployeeUuidPayStubsError = NotFound | GustoOpError;
+/** Get an employee's pay stubs Get an employee's pay stubs. Results are returned in reverse chronological order (newest first). scope: `pay_stubs:read` */
+export const getV1EmployeesEmployeeUuidPayStubs: API.OperationMethod<
+  GetV1EmployeesEmployeeUuidPayStubsRequest,
+  GetV1EmployeesEmployeeUuidPayStubsResponse,
+  GetV1EmployeesEmployeeUuidPayStubsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1EmployeesEmployeeUuidPayStubsRequest,
+  output: GetV1EmployeesEmployeeUuidPayStubsResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetV1ExternalPayrollError = NotFound | GustoOpError;
+/** Get an external payroll Get an external payroll for a given company. scope: `external_payrolls:read` */
+export const getV1ExternalPayroll: API.OperationMethod<
+  GetV1ExternalPayrollRequest,
+  ExternalPayroll,
+  GetV1ExternalPayrollError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1ExternalPayrollRequest,
+  output: ExternalPayroll,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetV1ExternalPayrollCalculateTaxesError = NotFound | UnprocessableEntity | GustoOpError;
+/** Get tax suggestions for an external payroll Get tax suggestions for an external payroll. Earnings and/or benefits data must be saved prior to the calculation in order to retrieve accurate tax calculation. scope: `external_payrolls:read` */
+export const getV1ExternalPayrollCalculateTaxes: API.OperationMethod<
+  GetV1ExternalPayrollCalculateTaxesRequest,
+  GetV1ExternalPayrollCalculateTaxesResponse,
+  GetV1ExternalPayrollCalculateTaxesError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1ExternalPayrollCalculateTaxesRequest,
+  output: GetV1ExternalPayrollCalculateTaxesResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetV1PartnerManagedCompaniesCompanyUuidTermsOfServiceError = NotFound | GustoOpError;
+/** Get the terms of service status for a company Check if any company payroll admin has accepted the Gusto Embedded Payroll's [Terms of Service](https://flows.gusto.com/terms). This is useful for partners with multiple payroll admins who need to check TOS status at the company level rather than for a specific user. scope: `terms_of_services:read` */
+export const getV1PartnerManagedCompaniesCompanyUuidTermsOfService: API.OperationMethod<
+  GetV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest,
+  PartnerManagedCompanyTermsOfServiceResponse,
+  GetV1PartnerManagedCompaniesCompanyUuidTermsOfServiceError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest,
+  output: PartnerManagedCompanyTermsOfServiceResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetV1PaymentReceiptsPayrollsPayrollUuidError = NotFound | GustoOpError;
+/** Get a single payroll receipt Returns a payroll receipt. Notes: * Hour and dollar amounts are returned as string representations of numeric decimals. * Dollar amounts are represented to the cent. * If no data has yet be inserted for a given field, it defaults to "0.00" (for fixed amounts). * Employee compensations are always paginated. Maximum page size is 100 employee compensations per request. * Responses include the `X-Page`, `X-Total-Count`, `X-Total-Pages`, and `X-Per-Page` pagination headers. scope: `payrolls:read` */
+export const getV1PaymentReceiptsPayrollsPayrollUuid: API.OperationMethod<
+  GetV1PaymentReceiptsPayrollsPayrollUuidRequest,
+  PayrollReceipt,
+  GetV1PaymentReceiptsPayrollsPayrollUuidError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1PaymentReceiptsPayrollsPayrollUuidRequest,
+  output: PayrollReceipt,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubError = NotFound | GustoOpError;
+/** Get an employee pay stub (pdf) Get an employee's pay stub for the specified payroll. By default, an application/pdf response will be returned. No other content types are currently supported, but may be supported in the future. scope: `pay_stubs:read` */
+export const getV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStub: API.OperationMethod<
+  GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubRequest,
+  GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubResponse,
+  GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubRequest,
+  output: GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubResponse,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetV1SalaryEstimatesIdError = NotFound | GustoOpError;
 /** Get a salary estimate Retrieve a salary estimate by its UUID. Returns the estimated salary calculation along with all occupation details, revenue, and location information. scope: `salary_estimates:read` */
 export const getV1SalaryEstimatesId: API.OperationMethod<
@@ -12558,6 +26549,21 @@ export const getV1SalaryEstimatesId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetV1SalaryEstimatesIdRequest,
   output: SalaryEstimate,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetV1TaxLiabilitiesError = NotFound | GustoOpError;
+/** Get tax liabilities Get tax liabilities from aggregate external payrolls for a company. scope: `external_payrolls:read` */
+export const getV1TaxLiabilities: API.OperationMethod<
+  GetV1TaxLiabilitiesRequest,
+  GetV1TaxLiabilitiesResponse,
+  GetV1TaxLiabilitiesError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1TaxLiabilitiesRequest,
+  output: GetV1TaxLiabilitiesResponse,
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -12641,6 +26647,21 @@ export const getWebhookSubscriptionUuid: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetWireInRequestsWireInRequestUuidError = NotFound | GustoOpError;
+/** Get a single Wire In Request Fetch a Wire In Request. scope: `payrolls:read` */
+export const getWireInRequestsWireInRequestUuid: API.OperationMethod<
+  GetWireInRequestsWireInRequestUuidRequest,
+  WireInRequest,
+  GetWireInRequestsWireInRequestUuidError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetWireInRequestsWireInRequestUuidRequest,
+  output: WireInRequest,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetWorkAddressError = NotFound | GustoOpError;
 /** Get an employee work address The work address of an employee is used for payroll tax purposes. scope: `employees:read` */
 export const getWorkAddress: API.OperationMethod<
@@ -12671,6 +26692,25 @@ export const oauthAccessToken: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PostCompaniesPayrollSkipCompanyUuidError =
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | GustoOpError;
+/** Skip a payroll Submits a $0 payroll for employees associated with the pay schedule to skip payroll. This submission is asynchronous and a successful request responds with a 202 HTTP status. Upon success, the payroll is transitioned to the `processed` state. If the company is blocked from running payroll due to issues like incomplete setup, missing information or other compliance issues, the response will be 422 Unprocessable Entity with a categorization of the blockers as described in the error responses. scope: `payrolls:run` */
+export const postCompaniesPayrollSkipCompanyUuid: API.OperationMethod<
+  PostCompaniesPayrollSkipCompanyUuidRequest,
+  PostCompaniesPayrollSkipCompanyUuidResponse,
+  PostCompaniesPayrollSkipCompanyUuidError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PostCompaniesPayrollSkipCompanyUuidRequest,
+  output: PostCompaniesPayrollSkipCompanyUuidResponse,
+  errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PostDepartmentsError = NotFound | UnprocessableEntity | GustoOpError;
 /** Create a department Create a department scope: `departments:write` */
 export const postDepartments: API.OperationMethod<
@@ -12681,6 +26721,21 @@ export const postDepartments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PostDepartmentsRequest,
   output: PostDepartmentsResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PostPayrollsGrossUpPayrollUuidError = NotFound | UnprocessableEntity | GustoOpError;
+/** Calculate gross up for a payroll Calculates gross up earnings for an employee's payroll, given net earnings. This endpoint is only applicable to off-cycle unprocessed payrolls. The gross up amount must then be mapped to the corresponding fixed compensation earning type to get the correct payroll amount. For example, for bonus off-cycles, the gross up amount should be set with the Bonus earning type in the payroll `fixed_compensations` field. scope: `payrolls:run` */
+export const postPayrollsGrossUpPayrollUuid: API.OperationMethod<
+  PostPayrollsGrossUpPayrollUuidRequest,
+  PayrollGrossUpResponse,
+  PostPayrollsGrossUpPayrollUuidError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PostPayrollsGrossUpPayrollUuidRequest,
+  output: PayrollGrossUpResponse,
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -12731,6 +26786,54 @@ export const postV1Employees: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PostV1ExternalPayrollError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create an external payroll for a company Creates a new external payroll for a company. scope: `external_payrolls:write` */
+export const postV1ExternalPayroll: API.OperationMethod<
+  PostV1ExternalPayrollRequest,
+  ExternalPayroll,
+  PostV1ExternalPayrollError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PostV1ExternalPayrollRequest,
+  output: ExternalPayroll,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PostV1HistoricalEmployeesError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create a historical employee Create a historical employee, an employee that was previously dismissed from the company in the current year. scope: `employees:manage` */
+export const postV1HistoricalEmployees: API.OperationMethod<
+  PostV1HistoricalEmployeesRequest,
+  Employee,
+  PostV1HistoricalEmployeesError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PostV1HistoricalEmployeesRequest,
+  output: Employee,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PostV1PartnerManagedCompaniesCompanyUuidTermsOfServiceError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Accept terms of service for a specific user Accept the Gusto Embedded Payroll's [Terms of Service](https://flows.gusto.com/terms) on behalf of a specific user. The user must have a role on the company. scope: `terms_of_services:write` */
+export const postV1PartnerManagedCompaniesCompanyUuidTermsOfService: API.OperationMethod<
+  PostV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest,
+  PartnerManagedCompanyTermsOfServiceResponse,
+  PostV1PartnerManagedCompaniesCompanyUuidTermsOfServiceError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PostV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest,
+  output: PartnerManagedCompanyTermsOfServiceResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PostV1PayrollsPayrollIdCalculateAccruingTimeOffHoursError =
   | NotFound
   | UnprocessableEntity
@@ -12764,6 +26867,24 @@ export const putAddPeopleToDepartment: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PutApiV1CompaniesCompanyIdPayrollsPayrollIdCancelError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Cancel a payroll Transitions a `processed` payroll back to the `unprocessed` state. A payroll can be canceled if it meets both criteria: - `processed` is `true` - Current time is earlier than 4pm PT on the `payroll_deadline` scope: `payrolls:run` */
+export const putApiV1CompaniesCompanyIdPayrollsPayrollIdCancel: API.OperationMethod<
+  PutApiV1CompaniesCompanyIdPayrollsPayrollIdCancelRequest,
+  UnprocessedPayroll,
+  PutApiV1CompaniesCompanyIdPayrollsPayrollIdCancelError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutApiV1CompaniesCompanyIdPayrollsPayrollIdCancelRequest,
+  output: UnprocessedPayroll,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PutCompaniesError = NotFound | UnprocessableEntity | GustoOpError;
 /** Update a company Update a company. scope: `companies:write` */
 export const putCompanies: API.OperationMethod<
@@ -12774,6 +26895,21 @@ export const putCompanies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutCompaniesRequest,
   output: Company,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutCompanyBankAccountsVerifyError = NotFound | UnprocessableEntity | GustoOpError;
+/** Verify a company bank account Verify a company bank account by confirming the two micro-deposits sent to the bank account. Note that the order of the two deposits specified in request parameters does not matter. There's a maximum of 5 verification attempts, after which we will automatically initiate a new set of micro-deposits and require the bank account to be verified with the new micro-deposits. ### Bank account verification in demo In the demo environment, use the `POST /v1/companies/{company_id}/bank_accounts/{bank_account_uuid}/send_test_deposits` endpoint to simulate the micro-deposits transfer and return the two amounts in the response. You can call this endpoint as many times as you wish to retrieve the values of the two micro-deposits. ### Webhooks - `company.bank_account.verified`: Fires when the company bank account is successfully verified. ### Related guides - [Manage company bank accounts](https://docs.gusto.com/embedded-payroll/docs/manage-company-bank-accounts) - [Bank Account Events](https://docs.gusto.com/embedded-payroll/docs/bank-account-events) scope: `company_bank_accounts:write` */
+export const putCompanyBankAccountsVerify: API.OperationMethod<
+  PutCompanyBankAccountsVerifyRequest,
+  CompanyBankAccount,
+  PutCompanyBankAccountsVerifyError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutCompanyBankAccountsVerifyRequest,
+  output: CompanyBankAccount,
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -12842,6 +26978,101 @@ export const putCompanyEarningType: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PutCompanyFederalTaxDetailsError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | GustoOpError;
+/** Update a company's federal tax details Updates a company's federal tax details including EIN, legal name, tax payer type, filing form, and S-Corp taxation status. This information is required to onboard a company for use with Gusto Embedded Payroll. ### Prerequisites Before calling this endpoint, retrieve the current federal tax details and `version` via [GET /v1/companies/{company_id}/federal_tax_details](https://docs.gusto.com/embedded-payroll/reference/get-v1-companies-company_id-federal_tax_details) ### Webhooks - `company.updated`: Fires when federal tax details for a company are successfully updated **Setup:** [POST /v1/webhook_subscriptions](https://docs.gusto.com/embedded-payroll/reference/post-v1-webhook-subscription) with `subscription_types`: `["Company"]` scope: `company_federal_taxes:write` */
+export const putCompanyFederalTaxDetails: API.OperationMethod<
+  PutCompanyFederalTaxDetailsRequest,
+  FederalTaxDetails,
+  PutCompanyFederalTaxDetailsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutCompanyFederalTaxDetailsRequest,
+  output: FederalTaxDetails,
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutCompanyHolidayPayPolicyError = NotFound | UnprocessableEntity | GustoOpError;
+/** Update a company's holiday pay policy Update a company's holiday pay policy scope: `holiday_pay_policies:write` */
+export const putCompanyHolidayPayPolicy: API.OperationMethod<
+  PutCompanyHolidayPayPolicyRequest,
+  HolidayPayPolicy,
+  PutCompanyHolidayPayPolicyError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutCompanyHolidayPayPolicyRequest,
+  output: HolidayPayPolicy,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutCompanyHolidayPayPolicyAddError = NotFound | UnprocessableEntity | GustoOpError;
+/** Add employees to a company's holiday pay policy Add employees to a company's holiday pay policy scope: `holiday_pay_policies:write` */
+export const putCompanyHolidayPayPolicyAdd: API.OperationMethod<
+  PutCompanyHolidayPayPolicyAddRequest,
+  HolidayPayPolicy,
+  PutCompanyHolidayPayPolicyAddError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutCompanyHolidayPayPolicyAddRequest,
+  output: HolidayPayPolicy,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutCompanyHolidayPayPolicyRemoveError = NotFound | UnprocessableEntity | GustoOpError;
+/** Remove employees from a company's holiday pay policy Remove employees from a company's holiday pay policy scope: `holiday_pay_policies:write` */
+export const putCompanyHolidayPayPolicyRemove: API.OperationMethod<
+  PutCompanyHolidayPayPolicyRemoveRequest,
+  HolidayPayPolicy,
+  PutCompanyHolidayPayPolicyRemoveError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutCompanyHolidayPayPolicyRemoveRequest,
+  output: HolidayPayPolicy,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutCompanyPaymentConfigsError = NotFound | UnprocessableEntity | GustoOpError;
+/** Update a company's payment configs Update payment speed, fast payment limit, and/or partner-owned disbursement for a company. At least one of `payment_speed`, `fast_payment_limit`, or `partner_owned_disbursement` is required. 1-day payment speed is only applicable to partners that opt in. 1-day is not allowed when AutoPilot is enabled. ### Related guides - [Payroll Processing Speeds](https://docs.gusto.com/embedded-payroll/docs/2-day-vs-4-day) scope: `company_payment_configs:write` */
+export const putCompanyPaymentConfigs: API.OperationMethod<
+  PutCompanyPaymentConfigsRequest,
+  PaymentConfigs,
+  PutCompanyPaymentConfigsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutCompanyPaymentConfigsRequest,
+  output: PaymentConfigs,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutCompanyPayrollCalculateError = NotFound | UnprocessableEntity | GustoOpError;
+/** Calculate a payroll Performs calculations for taxes, benefits, and deductions for an unprocessed payroll. The calculated payroll details provide a preview of the actual values that will be used when the payroll is run. This calculation is asynchronous and a successful request responds with a 202 HTTP status. To view the details of the calculated payroll, use the GET /v1/companies/{company_id}/payrolls/{payroll_id} endpoint with *include=taxes,benefits,deductions* params. If the company is blocked from running payroll due to issues like incomplete setup, missing information or other compliance issues, the response will be 422 Unprocessable Entity with a categorization of the blockers as described in the error responses. scope: `payrolls:run` */
+export const putCompanyPayrollCalculate: API.OperationMethod<
+  PutCompanyPayrollCalculateRequest,
+  PutCompanyPayrollCalculateResponse,
+  PutCompanyPayrollCalculateError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutCompanyPayrollCalculateRequest,
+  output: PutCompanyPayrollCalculateResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PutCompanyPayrollPrepareError = NotFound | UnprocessableEntity | GustoOpError;
 /** Prepare a payroll for update Prepares an unprocessed payroll for update, including: adding eligible employees to off-cycle payrolls that support multiple employees (`Bonus`, `Correction`, and `Adhoc`), and updating `check_date`, `payroll_deadline`, and `payroll_status_meta` dates and times. Use this endpoint before calling [PUT /v1/companies/{company_id}/payrolls/{payroll_id}](https://docs.gusto.com/app-integrations/reference/put-v1-companies-company_id-payrolls). ### Notes * Nullifies `calculated_at` and `totals` if the payroll was previously calculated * Returns the `version` parameter required for [updating the payroll](https://docs.gusto.com/app-integrations/reference/put-v1-companies-company_id-payrolls) * `employees:read` scope is required to include employee compensations data in the response. * Results are paginated, with a maximum page size of 100 employee compensations. scope: `payrolls:write employees:read` */
 export const putCompanyPayrollPrepare: API.OperationMethod<
@@ -12868,6 +27099,66 @@ export const putCompanyPayrolls: API.OperationMethod<
   input: PutCompanyPayrollsRequest,
   output: PayrollPrepared,
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutCompanyPayrollSubmitError = NotFound | UnprocessableEntity | GustoOpError;
+/** Submit payroll Submits an unprocessed payroll to be calculated and run. This submission is asynchronous and a successful request responds with a 202 HTTP status. Upon success, transitions the payroll to the `processed` state. You should poll to ensure that payroll is processed successfully, as async errors only occur after async processing is complete. If the company is blocked from running payroll due to issues like incomplete setup, missing information or other compliance issues, the response will be 422 Unprocessable Entity with a categorization of the blockers as described in the error responses. scope: `payrolls:run` */
+export const putCompanyPayrollSubmit: API.OperationMethod<
+  PutCompanyPayrollSubmitRequest,
+  PutCompanyPayrollSubmitResponse,
+  PutCompanyPayrollSubmitError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutCompanyPayrollSubmitRequest,
+  output: PutCompanyPayrollSubmitResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutCompanyPayScheduleError = NotFound | Conflict | UnprocessableEntity | GustoOpError;
+/** Update a pay schedule Updates a pay schedule. The `version` parameter from the GET response is required for [optimistic concurrency](https://docs.gusto.com/embedded-payroll/docs/api-fundamentals); a mismatch returns 409 Conflict. ### Effect on payrolls Updating a pay schedule will delete any unprocessed regular payrolls whose pay period end date is today or in the future. Already-processed payrolls are not affected. ### Pay schedules may be automatically adjusted If an onboarded company misses their first pay date, Gusto will automatically adjust the pay schedule to the next available pay date. ### Webhooks - `pay_schedule.updated`: Fires when a pay schedule is successfully updated. ### Related guides - [Create a pay schedule](https://docs.gusto.com/embedded-payroll/docs/create-a-pay-schedule) - [Manage Pay Schedules via API](https://docs.gusto.com/embedded-payroll/docs/manage-pay-schedules-api) scope: `pay_schedules:write` */
+export const putCompanyPaySchedule: API.OperationMethod<
+  PutCompanyPayScheduleRequest,
+  PayScheduleShow,
+  PutCompanyPayScheduleError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutCompanyPayScheduleRequest,
+  output: PayScheduleShow,
+  errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutCompanySignatoryError = NotFound | Conflict | UnprocessableEntity | GustoOpError;
+/** Update a signatory Updates a signatory that has been either invited or created. If the signatory has been created with minimal information through the [Invite a signatory](https://docs.gusto.com/embedded-payroll/reference/post-v1-companies-company_uuid-signatories-invite) endpoint, then the first update must contain all attributes specified in the request body in order to start the identity verification process. ## Related guides - [Signatory Events](https://docs.gusto.com/embedded-payroll/docs/signatory-events) scope: `signatories:write` */
+export const putCompanySignatory: API.OperationMethod<
+  PutCompanySignatoryRequest,
+  Signatory,
+  PutCompanySignatoryError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutCompanySignatoryRequest,
+  output: Signatory,
+  errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutCompanyTaxRequirementError = NotFound | UnprocessableEntity | GustoOpError;
+/** Update tax requirements for a state Updates the tax requirement answers for a specific state. Submit answers to the requirement questions returned by [GET /v1/companies/{company_uuid}/tax_requirements/{state}](https://docs.gusto.com/embedded-payroll/reference/get-v1-companies-company_uuid-tax_requirements-state). ### Prerequisites 1. Retrieve current requirements via [GET /v1/companies/{company_uuid}/tax_requirements/{state}](https://docs.gusto.com/embedded-payroll/reference/get-v1-companies-company_uuid-tax_requirements-state) 2. Ensure that each requirement set that you're updating includes the correct `key`, `state`, and `effective_from` values from the GET response scope: `company_tax_requirements:write` */
+export const putCompanyTaxRequirement: API.OperationMethod<
+  PutCompanyTaxRequirementRequest,
+  PutCompanyTaxRequirementResponse,
+  PutCompanyTaxRequirementError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutCompanyTaxRequirementRequest,
+  output: PutCompanyTaxRequirementResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
 }));
@@ -12902,6 +27193,36 @@ export const putContractor: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PutContractorAddressError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create or update a contractor's address The address of a contractor is used to determine certain tax information about them. Addresses are geocoded on create and update to ensure validity. > 🚧 Contractors can only have one address. > > When a contractor is created, an address is created for them by default. Updating the address will replace the existing address. scope: `contractors:write` */
+export const putContractorAddress: API.OperationMethod<
+  PutContractorAddressRequest,
+  ContractorAddress2,
+  PutContractorAddressError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutContractorAddressRequest,
+  output: ContractorAddress2,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutContractorOnboardingStatusError = NotFound | UnprocessableEntity | GustoOpError;
+/** Change the contractor's onboarding status Updates a contractor's onboarding status. Below is a list of valid onboarding status changes depending on the intended action to be performed on behalf of the contractor. scope: `contractors:write` */
+export const putContractorOnboardingStatus: API.OperationMethod<
+  PutContractorOnboardingStatusRequest,
+  ContractorOnboardingStatus2,
+  PutContractorOnboardingStatusError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutContractorOnboardingStatusRequest,
+  output: ContractorOnboardingStatus2,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PutDepartmentsError = NotFound | Conflict | UnprocessableEntity | GustoOpError;
 /** Update a department Update a department scope: `departments:write` */
 export const putDepartments: API.OperationMethod<
@@ -12917,6 +27238,21 @@ export const putDepartments: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PutEmployeeBankAccountsError = NotFound | UnprocessableEntity | GustoOpError;
+/** Update an employee bank account Updates an employee bank account. scope: `employee_payment_methods:write` */
+export const putEmployeeBankAccounts: API.OperationMethod<
+  PutEmployeeBankAccountsRequest,
+  EmployeeBankAccount,
+  PutEmployeeBankAccountsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutEmployeeBankAccountsRequest,
+  output: EmployeeBankAccount,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PutEmployeeBenefitError = NotFound | UnprocessableEntity | GustoOpError;
 /** Update an employee benefit Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee's enrollment. When the application has the `employee_benefits:write:benefit_type_limited` data scope, the application can only update employee benefits for benefit types that are permitted for the application. scope: `employee_benefits:write` */
 export const putEmployeeBenefit: API.OperationMethod<
@@ -12928,6 +27264,121 @@ export const putEmployeeBenefit: API.OperationMethod<
   input: PutEmployeeBenefitRequest,
   output: PutEmployeeBenefitResponse,
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutEmployeeFormSignError = NotFound | UnprocessableEntity | GustoOpError;
+/** Sign an employee form Sign an employee form. The optional preparer attributes are only valid for I-9 form. When a preparer is used, the first name, last name, street address, city, state, and zip for that preparer are all required. scope: `employee_forms:sign` */
+export const putEmployeeFormSign: API.OperationMethod<
+  PutEmployeeFormSignRequest,
+  Form,
+  PutEmployeeFormSignError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutEmployeeFormSignRequest,
+  output: Form,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutEmployeeI9AuthorizationError = NotFound | UnprocessableEntity | GustoOpError;
+/** Create or update an employee's I-9 authorization An employee's I-9 authorization stores information about an employee's authorization status, as well as signatures and other information required to complete the Form I-9 for employment eligibility verification. If the version is supplied and the employee I-9 authorization exists, this endpoint acts as an update. Otherwise, it will create an employee I-9 authorization. Validations on this endpoint are conditional: * `document_type` may be required, depending on `authorization_status`. * Valid formats for `document_number` vary, depending on `document_type`. * `country` is only allowed with `document_type: 'foreign_passport'`. * `expiration_date` is only allowed with `authorization_status: 'alien'`. > ℹ️ Unneeded information is automatically removed during updates. > > If an update causes some formerly-required fields to be unneeded, the now-unneeded data will be removed automatically. > > **Example:** Updating `authorization_status` from `alien` to `citizen` will cause any data in `document_type`, `document_number`, `country`, and `expiration_date` to be removed, since these fields are unused for `authorization_status:'citizen'`. Detailed instructions for completing Form I-9 can be found at https://www.uscis.gov/sites/default/files/document/forms/i-9instr.pdf ### Related guides - [I-9 employment verification](https://docs.gusto.com/embedded-payroll/docs/i-9-employment-verification) scope: `i9_authorizations:write` */
+export const putEmployeeI9Authorization: API.OperationMethod<
+  PutEmployeeI9AuthorizationRequest,
+  I9Authorization,
+  PutEmployeeI9AuthorizationError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutEmployeeI9AuthorizationRequest,
+  output: I9Authorization,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutEmployeeI9AuthorizationDocumentsError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Create an employee's I-9 authorization verification documents An employee's I-9 verification documents are the documents an employee has provided the employer to verify their identity and authorization to work in the United States. Use the [document options endpoint](https://docs.gusto.com/embedded-payroll/reference/get-v1-employees-employee_id-i9_authorization-document_options) to get the possible document types and titles, which can vary depending on the employee's authorization status. > 🚧 Every request must contain the complete list of documents for the Employee. > > Every request to this endpoint removes any previous verification document records for the employee. ### Related guides - [I-9 employment verification](https://docs.gusto.com/embedded-payroll/docs/i-9-employment-verification) scope: `i9_authorizations:manage` */
+export const putEmployeeI9AuthorizationDocuments: API.OperationMethod<
+  PutEmployeeI9AuthorizationDocumentsRequest,
+  PutEmployeeI9AuthorizationDocumentsResponse,
+  PutEmployeeI9AuthorizationDocumentsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutEmployeeI9AuthorizationDocumentsRequest,
+  output: PutEmployeeI9AuthorizationDocumentsResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutEmployeeI9AuthorizationEmployerSignError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Employer sign an employee's Form I-9 Sign an employee's Form I-9 as an employer. Once the form is signed, the employee's I-9 authorization is considered complete and cannot be modified. ### Prerequisites Before calling this endpoint: 1. The employee must have a completed [I-9 authorization](https://docs.gusto.com/embedded-payroll/reference/put-v1-employees-employee_id-i9_authorization) 2. The employee must have signed the Form I-9 3. [I-9 verification documents](https://docs.gusto.com/embedded-payroll/reference/put-v1-employees-employee_id-i9_authorization-documents) must be submitted ### Related guides - [I-9 employment verification](https://docs.gusto.com/embedded-payroll/docs/i-9-employment-verification) scope: `i9_authorizations:manage` */
+export const putEmployeeI9AuthorizationEmployerSign: API.OperationMethod<
+  PutEmployeeI9AuthorizationEmployerSignRequest,
+  I9Authorization,
+  PutEmployeeI9AuthorizationEmployerSignError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutEmployeeI9AuthorizationEmployerSignRequest,
+  output: I9Authorization,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutEmployeeOnboardingDocumentsConfigError = NotFound | GustoOpError;
+/** Update employee onboarding documents config Indicate whether to include the Form I-9 for an employee during the onboarding process. If included, the employee will be prompted to complete Form I-9 as part of their onboarding. ## Related guides - [Employee onboarding](https://docs.gusto.com/embedded-payroll/docs/employee-onboarding) scope: `employees:manage` */
+export const putEmployeeOnboardingDocumentsConfig: API.OperationMethod<
+  PutEmployeeOnboardingDocumentsConfigRequest,
+  EmployeeOnboardingDocument,
+  PutEmployeeOnboardingDocumentsConfigError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutEmployeeOnboardingDocumentsConfigRequest,
+  output: EmployeeOnboardingDocument,
+  errors: [NotFound, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutEmployeeOnboardingStatusError = NotFound | UnprocessableEntity | GustoOpError;
+/** Update the employee's onboarding status Updates an employee's onboarding status. Below is a list of valid onboarding status changes depending on the intended action to be performed on behalf of the employee. scope: `employees:manage` */
+export const putEmployeeOnboardingStatus: API.OperationMethod<
+  PutEmployeeOnboardingStatusRequest,
+  EmployeeOnboardingStatus2,
+  PutEmployeeOnboardingStatusError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutEmployeeOnboardingStatusRequest,
+  output: EmployeeOnboardingStatus2,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutEmployeePaymentMethodError =
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | GustoOpError;
+/** Update payment method for an employee Updates the payment method for an employee. Can set to Check or Direct Deposit with split configuration. scope: `employee_payment_methods:write` */
+export const putEmployeePaymentMethod: API.OperationMethod<
+  PutEmployeePaymentMethodRequest,
+  EmployeePaymentMethod2,
+  PutEmployeePaymentMethodError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutEmployeePaymentMethodRequest,
+  output: EmployeePaymentMethod2,
+  errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
 }));
@@ -12992,6 +27443,17 @@ export const putHomeAddress: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PutJobError = NotFound | UnprocessableEntity | GustoOpError;
+/** Update a job Update a job. scope: `jobs:write` */
+export const putJob: API.OperationMethod<PutJobRequest, Job, PutJobError, GustoOpContext> =
+  /*@__PURE__*/ API.make(() => ({
+    input: PutJobRequest,
+    output: Job,
+    errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+    protocol: GustoProtocol,
+    retry: Retry.Retry,
+  }));
+
 export type PutLocationError = NotFound | Conflict | UnprocessableEntity | GustoOpError;
 /** Update a location Update a location. scope: `companies:write` */
 export const putLocation: API.OperationMethod<
@@ -13003,6 +27465,39 @@ export const putLocation: API.OperationMethod<
   input: PutLocationRequest,
   output: Location,
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutPartnerManagedCompanyDisassociateError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Disassociate a partner managed company Disassociate a company from your embedded payroll product, reversing an earlier association or migration. You can only disassociate a company that is currently associated with your application. 📘 System Access Authentication This endpoint uses the [Bearer Auth scheme with the system-level access token in the HTTP Authorization header](https://docs.gusto.com/embedded-payroll/docs/system-access) scope: `partner_managed_companies:disassociate` */
+export const putPartnerManagedCompanyDisassociate: API.OperationMethod<
+  PutPartnerManagedCompanyDisassociateRequest,
+  PartnerManagedCompanyDisassociateResponse,
+  PutPartnerManagedCompanyDisassociateError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutPartnerManagedCompanyDisassociateRequest,
+  output: PartnerManagedCompanyDisassociateResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutPartnerManagedCompanyMigrateError = NotFound | UnprocessableEntity | GustoOpError;
+/** Migrate company to embedded payroll Migrate an existing Gusto customer to your embedded payroll product. ### Prerequisites Before calling this endpoint: 1. The customer must connect their Gusto account to your application using [OAuth2](https://docs.gusto.com/embedded-payroll/docs/oauth2) 2. The customer must view and [accept the Embedded Payroll Terms of Service](https://docs.gusto.com/embedded-payroll/reference/post-partner-managed-companies-company_uuid-accept_terms_of_service) ### Related guides - [Migrate an existing company](https://docs.gusto.com/embedded-payroll/docs/migrate-existing-company) scope: `partner_managed_companies:write` */
+export const putPartnerManagedCompanyMigrate: API.OperationMethod<
+  PutPartnerManagedCompanyMigrateRequest,
+  PartnerManagedCompanyMigrateResponse,
+  PutPartnerManagedCompanyMigrateError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutPartnerManagedCompanyMigrateRequest,
+  output: PartnerManagedCompanyMigrateResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
 }));
@@ -13056,6 +27551,21 @@ export const putTermination: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PutTimeOffPolicyError = NotFound | UnprocessableEntity | GustoOpError;
+/** Update a time off policy Update a time off policy scope: `time_off_policies:write` */
+export const putTimeOffPolicy: API.OperationMethod<
+  PutTimeOffPolicyRequest,
+  TimeOffPolicy,
+  PutTimeOffPolicyError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutTimeOffPolicyRequest,
+  output: TimeOffPolicy,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PutTimeOffPolicyAddEmployeesError = NotFound | UnprocessableEntity | GustoOpError;
 /** Add employees to a time off policy Add employees to a time off policy. Employees are required to have at least one job to be added to a time off policy. Accepts starting balances for non-unlimited policies scope: `time_off_policies:write` */
 export const putTimeOffPolicyAddEmployees: API.OperationMethod<
@@ -13066,6 +27576,81 @@ export const putTimeOffPolicyAddEmployees: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutTimeOffPolicyAddEmployeesRequest,
   output: TimeOffPolicy,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutTimeOffPolicyBalanceError = NotFound | UnprocessableEntity | GustoOpError;
+/** Update employee time off balances Updates time off hours balances for employees for a time off policy. scope: `time_off_policies:write` */
+export const putTimeOffPolicyBalance: API.OperationMethod<
+  PutTimeOffPolicyBalanceRequest,
+  TimeOffPolicy,
+  PutTimeOffPolicyBalanceError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutTimeOffPolicyBalanceRequest,
+  output: TimeOffPolicy,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutTimeOffPolicyDeactivateError = NotFound | UnprocessableEntity | GustoOpError;
+/** Deactivate a time off policy Deactivate a time off policy scope: `time_off_policies:write` */
+export const putTimeOffPolicyDeactivate: API.OperationMethod<
+  PutTimeOffPolicyDeactivateRequest,
+  TimeOffPolicy,
+  PutTimeOffPolicyDeactivateError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutTimeOffPolicyDeactivateRequest,
+  output: TimeOffPolicy,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutTimeOffPolicyRemoveEmployeesError = NotFound | UnprocessableEntity | GustoOpError;
+/** Remove employees from a time off policy Remove employees from a time off policy scope: `time_off_policies:write` */
+export const putTimeOffPolicyRemoveEmployees: API.OperationMethod<
+  PutTimeOffPolicyRemoveEmployeesRequest,
+  TimeOffPolicy,
+  PutTimeOffPolicyRemoveEmployeesError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutTimeOffPolicyRemoveEmployeesRequest,
+  output: TimeOffPolicy,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutTimeOffRequestApproveError = NotFound | UnprocessableEntity | GustoOpError;
+/** Approve a time off request Approve a pending time off request. Optionally override the dates and hours. Only requests with a `pending` status can be approved. Attempting to approve a request that has already been `declined` or `consumed` will fail with a 422 error. scope: `time_off_requests:manage` */
+export const putTimeOffRequestApprove: API.OperationMethod<
+  PutTimeOffRequestApproveRequest,
+  EmbeddedTimeOffRequest,
+  PutTimeOffRequestApproveError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutTimeOffRequestApproveRequest,
+  output: EmbeddedTimeOffRequest,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutTimeOffRequestDeclineError = NotFound | UnprocessableEntity | GustoOpError;
+/** Decline a time off request Decline a pending or approved time off request. Requires an employer_note. scope: `time_off_requests:manage` */
+export const putTimeOffRequestDecline: API.OperationMethod<
+  PutTimeOffRequestDeclineRequest,
+  EmbeddedTimeOffRequest,
+  PutTimeOffRequestDeclineError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutTimeOffRequestDeclineRequest,
+  output: EmbeddedTimeOffRequest,
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -13086,6 +27671,170 @@ export const putTimeTrackingTimeSheet: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PutV1CompanyFormSignError = NotFound | UnprocessableEntity | GustoOpError;
+/** Sign a company form Sign a company form. Company forms must be signed by the company signatory. scope: `company_forms:sign` */
+export const putV1CompanyFormSign: API.OperationMethod<
+  PutV1CompanyFormSignRequest,
+  Form,
+  PutV1CompanyFormSignError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutV1CompanyFormSignRequest,
+  output: Form,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutV1CompanyIndustryError = NotFound | UnprocessableEntity | GustoOpError;
+/** Update a company industry selection Update the industry classification for a company by passing in a [NAICS code](https://www.naics.com). Optionally provide an industry title and [SIC codes](https://siccode.com/). If you do not provide SIC codes, we will use the NAICS code to perform an internal lookup. Our UI leverages [Middesk API](https://docs.middesk.com/reference/introduction) to determine industry classification codes. scope: `companies:write` */
+export const putV1CompanyIndustry: API.OperationMethod<
+  PutV1CompanyIndustryRequest,
+  Industry,
+  PutV1CompanyIndustryError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutV1CompanyIndustryRequest,
+  output: Industry,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutV1ContractorDocumentSignError = NotFound | UnprocessableEntity | GustoOpError;
+/** Sign a contractor document Sign a contractor document. scope: `contractor_documents:write` */
+export const putV1ContractorDocumentSign: API.OperationMethod<
+  PutV1ContractorDocumentSignRequest,
+  DocumentSigned,
+  PutV1ContractorDocumentSignError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutV1ContractorDocumentSignRequest,
+  output: DocumentSigned,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Fund a contractor payment group [DEMO] > 🚧 Demo action > This action is only available in the Demo environment Simulate funding a contractor payment group. Funding only occurs automatically in the production environment when bank transactions are generated. Use this action in the demo environment to transition a contractor payment group's `status` from `Unfunded` to `Funded`. A `Funded` status is required for generating a contractor payment receipt. scope: `payrolls:run` */
+export const putV1ContractorPaymentGroupsContractorPaymentGroupIdFund: API.OperationMethod<
+  PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundRequest,
+  PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponse,
+  PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundRequest,
+  output: PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutV1ContractorsContractorIdPaymentMethodError =
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | GustoOpError;
+/** Update a contractor's payment method Updates a contractor's payment method. Note that creating a contractor bank account will also update the contractor's payment method. scope: `contractor_payment_methods:write` */
+export const putV1ContractorsContractorIdPaymentMethod: API.OperationMethod<
+  PutV1ContractorsContractorIdPaymentMethodRequest,
+  ContractorPaymentMethod2,
+  PutV1ContractorsContractorIdPaymentMethodError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutV1ContractorsContractorIdPaymentMethodRequest,
+  output: ContractorPaymentMethod2,
+  errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutV1EmployeesEmployeeIdFederalTaxesError =
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | GustoOpError;
+/** Update federal taxes for an employee Updates federal tax (W4) information for an employee. Only rev_2020_w4 format is accepted for updates. scope: `employee_federal_taxes:write` */
+export const putV1EmployeesEmployeeIdFederalTaxes: API.OperationMethod<
+  PutV1EmployeesEmployeeIdFederalTaxesRequest,
+  PutV1EmployeesEmployeeIdFederalTaxesResponse,
+  PutV1EmployeesEmployeeIdFederalTaxesError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutV1EmployeesEmployeeIdFederalTaxesRequest,
+  output: PutV1EmployeesEmployeeIdFederalTaxesResponse,
+  errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutV1EmployeesEmployeeIdStateTaxesError = NotFound | UnprocessableEntity | GustoOpError;
+/** Update an employee's state taxes Update attributes relevant for an employee's state taxes. As described for the GET endpoint, the answers must be supplied in the effective-dated format, but currently only a single answer will be accepted. The `valid_from` and `valid_up_to` fields are optional and currently ignored. scope: `employee_state_taxes:write` */
+export const putV1EmployeesEmployeeIdStateTaxes: API.OperationMethod<
+  PutV1EmployeesEmployeeIdStateTaxesRequest,
+  PutV1EmployeesEmployeeIdStateTaxesResponse,
+  PutV1EmployeesEmployeeIdStateTaxesError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutV1EmployeesEmployeeIdStateTaxesRequest,
+  output: PutV1EmployeesEmployeeIdStateTaxesResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutV1ExternalPayrollError = NotFound | UnprocessableEntity | GustoOpError;
+/** Update an external payroll Update an external payroll with a list of external payroll items. scope: `external_payrolls:write` */
+export const putV1ExternalPayroll: API.OperationMethod<
+  PutV1ExternalPayrollRequest,
+  ExternalPayroll,
+  PutV1ExternalPayrollError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutV1ExternalPayrollRequest,
+  output: ExternalPayroll,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutV1HistoricalEmployeesError = NotFound | UnprocessableEntity | GustoOpError;
+/** Update a historical employee Update a historical employee, an employee that was previously dismissed from the company in the current year. scope: `employees:manage employees:write` */
+export const putV1HistoricalEmployees: API.OperationMethod<
+  PutV1HistoricalEmployeesRequest,
+  Employee,
+  PutV1HistoricalEmployeesError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutV1HistoricalEmployeesRequest,
+  output: Employee,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutV1PartnerManagedCompaniesCompanyUuidTermsOfServiceError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Check terms of service status for a specific user Check user-specific Terms of Service acceptance for the Gusto Embedded Payroll [Terms of Service](https://flows.gusto.com/terms). The user must have a role on the company. Returns whether the specific user has accepted the latest TOS version. Uses PUT (rather than GET) to hide the email address from URL logs. scope: `terms_of_services:read` */
+export const putV1PartnerManagedCompaniesCompanyUuidTermsOfService: API.OperationMethod<
+  PutV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest,
+  PartnerManagedCompanyTermsOfServiceResponse,
+  PutV1PartnerManagedCompaniesCompanyUuidTermsOfServiceError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest,
+  output: PartnerManagedCompanyTermsOfServiceResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PutV1SalaryEstimatesIdError = NotFound | UnprocessableEntity | GustoOpError;
 /** Update a salary estimate Update an existing salary estimate. You can modify the annual net revenue, ZIP code, and occupations. The salary estimate must not be finalized (accepted). Once accepted, salary estimates become read-only for record-keeping purposes. scope: `salary_estimates:write` */
 export const putV1SalaryEstimatesId: API.OperationMethod<
@@ -13096,6 +27845,36 @@ export const putV1SalaryEstimatesId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutV1SalaryEstimatesIdRequest,
   output: SalaryEstimate,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutV1TaxLiabilitiesError = NotFound | UnprocessableEntity | GustoOpError;
+/** Update tax liabilities Update tax liabilities for a company. scope: `external_payrolls:write` */
+export const putV1TaxLiabilities: API.OperationMethod<
+  PutV1TaxLiabilitiesRequest,
+  PutV1TaxLiabilitiesResponse,
+  PutV1TaxLiabilitiesError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutV1TaxLiabilitiesRequest,
+  output: PutV1TaxLiabilitiesResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutV1TaxLiabilitiesFinishError = NotFound | UnprocessableEntity | GustoOpError;
+/** Finalize tax liabilities options and convert into processed payrolls Finalizes tax liabilities for a company. All external payrolls edit action will be disabled. ### Asynchronous processing This endpoint triggers an asynchronous operation. The external payrolls will be processed in the background after finalization. scope: `external_payrolls:write` */
+export const putV1TaxLiabilitiesFinish: API.OperationMethod<
+  PutV1TaxLiabilitiesFinishRequest,
+  PutV1TaxLiabilitiesFinishResponse,
+  PutV1TaxLiabilitiesFinishError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutV1TaxLiabilitiesFinishRequest,
+  output: PutV1TaxLiabilitiesFinishResponse,
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -13131,6 +27910,21 @@ export const putWebhookSubscriptionUuid: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PutWireInRequestsWireInRequestUuidError = NotFound | UnprocessableEntity | GustoOpError;
+/** Submit a wire in request Submit a wire in request for a payment scope: `payrolls:run` */
+export const putWireInRequestsWireInRequestUuid: API.OperationMethod<
+  PutWireInRequestsWireInRequestUuidRequest,
+  WireInRequest,
+  PutWireInRequestsWireInRequestUuidError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutWireInRequestsWireInRequestUuidRequest,
+  output: WireInRequest,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PutWorkAddressError = NotFound | UnprocessableEntity | GustoOpError;
 /** Update an employee work address The work address of an employee is used for payroll tax purposes. scope: `employees:manage` */
 export const putWorkAddress: API.OperationMethod<
@@ -13141,6 +27935,21 @@ export const putWorkAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutWorkAddressRequest,
   output: EmployeeWorkAddress,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RedebitRecoveryCaseError = NotFound | UnprocessableEntity | GustoOpError;
+/** Initiate a redebit for a recovery case After resolving the underlying bank error, initiate a redebit for an open recovery case. This submission is asynchronous and a successful request responds with a 202 HTTP status. It may take up to four business days for the ACH debit to process; in the meantime, the status of the recovery case will be in the `initiated_redebit` state. When funds are successfully redebited, the recovery case is transitioned to the `recovered` state. If the company has exceeded maximum redebit attempts, or if the recovery case is not in a redebitable state, the response will be 422 Unprocessable Entity. scope: `recovery_cases:write` */
+export const redebitRecoveryCase: API.OperationMethod<
+  RedebitRecoveryCaseRequest,
+  RedebitRecoveryCaseResponse,
+  RedebitRecoveryCaseError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RedebitRecoveryCaseRequest,
+  output: RedebitRecoveryCaseResponse,
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
@@ -13157,6 +27966,42 @@ export const revokeAccessToken: API.OperationMethod<
   input: RevokeAccessTokenRequest,
   output: RevokeAccessTokenResponse,
   errors: [UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateCompanyPayrollPartnerDisbursementsError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Update partner disbursements for a payroll Update partner disbursements for a specific payroll. scope: `partner_disbursements:write` */
+export const updateCompanyPayrollPartnerDisbursements: API.OperationMethod<
+  UpdateCompanyPayrollPartnerDisbursementsRequest,
+  PayrollPartnerDisbursements,
+  UpdateCompanyPayrollPartnerDisbursementsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateCompanyPayrollPartnerDisbursementsRequest,
+  output: PayrollPartnerDisbursements,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
+  protocol: GustoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateContractorPaymentGroupPartnerDisbursementsError =
+  | NotFound
+  | UnprocessableEntity
+  | GustoOpError;
+/** Update partner disbursements for a contractor payment group Update partner disbursements for a specific contractor payment group. scope: `partner_disbursements:write` */
+export const updateContractorPaymentGroupPartnerDisbursements: API.OperationMethod<
+  UpdateContractorPaymentGroupPartnerDisbursementsRequest,
+  ContractorPaymentGroupPartnerDisbursements,
+  UpdateContractorPaymentGroupPartnerDisbursementsError,
+  GustoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateContractorPaymentGroupPartnerDisbursementsRequest,
+  output: ContractorPaymentGroupPartnerDisbursements,
+  errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
 }));
