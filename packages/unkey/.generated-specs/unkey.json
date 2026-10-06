@@ -987,19 +987,33 @@
         "repository": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The GitHub repository to connect, as \"owner/repo\". The workspace must have\nthe Unkey GitHub App installed with access to it.\n",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The GitHub repository to connect, as \"owner/repo\". The workspace must have\nthe Unkey GitHub App installed with access to it. Omit this field to create\nthe Git app before selecting its repository.\n"
           }
         },
         "defaultBranch": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The branch this app's deployments track. Omit to adopt the repository's\ndefault branch on GitHub.\n"
+            "smithy.api#documentation": "The branch this app's deployments track. This requires `repository`.\nOmit it to adopt the repository's default branch on GitHub.\n"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Connect a GitHub repository to the app on creation. Omit to create the app\nwithout a repository and connect one later with apps.updateApp.\n"
+        "smithy.api#documentation": "Configure Git as the app source. Provide `repository` to connect it during\ncreation, or use an empty object to connect a repository later.\n"
+      }
+    },
+    "com.unkey.api#AppOCI": {
+      "type": "structure",
+      "members": {
+        "image": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The configured default OCI image reference for new deployments. It must include an explicit tag or digest.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An app's OCI image source."
       }
     },
     "com.unkey.api#CreateAppRequest": {
@@ -1014,7 +1028,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Human-readable name for this app.\nUse a descriptive name like 'Payments API' to identify its purpose.\n",
+            "smithy.api#documentation": "Human-readable name for this app.",
             "smithy.api#required": {}
           }
         },
@@ -1026,6 +1040,9 @@
         },
         "git": {
           "target": "com.unkey.api#AppGitCreateInput"
+        },
+        "oci": {
+          "target": "com.unkey.api#AppOCI"
         }
       },
       "traits": {
@@ -1091,7 +1108,7 @@
           "uri": "/v2/apps.createApp",
           "code": 200
         },
-        "smithy.api#documentation": "Create app\n\nCreate an app within a project. The app is created with default `production` and `preview` environments.\n\nThe slug you provide is the stable, caller-defined handle used to reference this app. It must be unique within the project.\n\n**Important**: The slug cannot collide with an existing app in the same project. A duplicate slug returns a 409 conflict.\n\n**Required Permissions**\n\nYour root key must have one of the following permissions:\n- `project.*.create_app` (to create apps in any project)\n- `project.<project_id>.create_app` (to create apps in a specific project)"
+        "smithy.api#documentation": "Create app\n\nCreate an app within a project. The app is created with default `production` and `preview` environments.\n\nSet exactly one source. Use `git` to create a GitHub-sourced app and connect its repository. Use `oci` to create an app from a prebuilt OCI image.\n\nThe slug you provide is the stable, caller-defined handle used to reference this app. It must be unique within the project.\n\n**Important**: The slug cannot collide with an existing app in the same project. A duplicate slug returns a 409 conflict.\n\n**Required Permissions**\n\nYour root key must have one of the following permissions:\n- `project.*.create_app` (to create apps in any project)\n- `project.<project_id>.create_app` (to create apps in a specific project)"
       }
     },
     "com.unkey.api#DeleteAppRequest": {
@@ -1204,10 +1221,22 @@
             "smithy.api#required": {}
           }
         },
+        "sourceType": {
+          "target": "com.unkey.api#AppSourceType",
+          "traits": {
+            "smithy.api#documentation": "The configured source used to create deployments. Omitted for historical\napps whose source could not be classified.\n"
+          }
+        },
         "git": {
           "target": "com.unkey.api#AppGit",
           "traits": {
-            "smithy.api#documentation": "The connected GitHub repository and the branch its deployments track.\nOmitted when the app has no repository connected (for example a\nDocker-based app).\n"
+            "smithy.api#documentation": "The connected GitHub repository and the branch its deployments track.\nOmitted when the app has no repository connected (for example a\nprebuilt OCI image app).\n"
+          }
+        },
+        "oci": {
+          "target": "com.unkey.api#AppOCI",
+          "traits": {
+            "smithy.api#documentation": "The configured OCI image source. Omitted when the app is not OCI-sourced.\n"
           }
         },
         "currentDeploymentId": {
@@ -1245,6 +1274,26 @@
         }
       },
       "traits": {}
+    },
+    "com.unkey.api#AppSourceType": {
+      "type": "enum",
+      "members": {
+        "GIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "git"
+          }
+        },
+        "OCI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oci"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The configured source used to create deployments. Omitted for historical\napps whose source could not be classified.\n"
+      }
     },
     "com.unkey.api#AppGit": {
       "type": "structure",
@@ -1436,6 +1485,12 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "oci": {
+          "target": "com.unkey.api#AppOCI",
+          "traits": {
+            "smithy.api#documentation": "Change the default image reference for an OCI-sourced app. This does not\ncreate a deployment. It can be combined with other app settings. Source\nswitching is not supported.\n"
+          }
+        },
         "deleteProtection": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -1494,155 +1549,6 @@
           "code": 200
         },
         "smithy.api#documentation": "Update app\n\nUpdate an existing app, identified by its id.\n\nThe app name, slug, default branch, and delete protection setting can be changed. Omitted fields are left unchanged. Changing the slug affects the deployment domains generated for this app.\n\n**Important**: The slug cannot collide with an existing app in the same project. A duplicate slug returns a 409 conflict.\n\n**Required Permissions**\n\nYour root key must have one of the following permissions:\n- `app.*.update_app` (to update any app)\n- `app.<app_id>.update_app` (to update a specific app)"
-      }
-    },
-    "com.unkey.api#DeploymentSourceGit": {
-      "type": "structure",
-      "members": {
-        "branch": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Branch to build (its HEAD). Omit branch and commitSha to use the app's default branch."
-          }
-        },
-        "commitSha": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Commit to build (full or abbreviated SHA). Takes precedence over branch."
-          }
-        },
-        "repository": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Build from a fork instead of the app's connected repository, as \"owner/repo\". Requires commitSha."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Build from the app's connected GitHub repository."
-      }
-    },
-    "com.unkey.api#DeploymentSourceImage": {
-      "type": "structure",
-      "members": {
-        "dockerImage": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Docker image to deploy as-is.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Deploy a prebuilt Docker image as-is."
-      }
-    },
-    "com.unkey.api#DeploymentSourceDeployment": {
-      "type": "structure",
-      "members": {
-        "deploymentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Re-run an existing deployment."
-      }
-    },
-    "com.unkey.api#CreateDeploymentRequest": {
-      "type": "structure",
-      "members": {
-        "project": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "app": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "environment": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "git": {
-          "target": "com.unkey.api#DeploymentSourceGit"
-        },
-        "image": {
-          "target": "com.unkey.api#DeploymentSourceImage"
-        },
-        "deployment": {
-          "target": "com.unkey.api#DeploymentSourceDeployment"
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.unkey.api#V2DeploymentsCreateDeploymentResponseBody": {
-      "type": "structure",
-      "members": {
-        "meta": {
-          "target": "com.unkey.api#Meta",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "data": {
-          "target": "com.unkey.api#V2DeploymentsCreateDeploymentResponseData",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.unkey.api#V2DeploymentsCreateDeploymentResponseData": {
-      "type": "structure",
-      "members": {
-        "deploymentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Unique deployment identifier. Poll deployments.getDeployment with this id to watch status.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.unkey.api#CreateDeployment": {
-      "type": "operation",
-      "input": {
-        "target": "com.unkey.api#CreateDeploymentRequest"
-      },
-      "output": {
-        "target": "com.unkey.api#V2DeploymentsCreateDeploymentResponseBody"
-      },
-      "errors": [
-        {
-          "target": "com.unkey.api#BadRequest"
-        },
-        {
-          "target": "com.unkey.api#Forbidden"
-        },
-        {
-          "target": "com.unkey.api#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/v2/deployments.createDeployment",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create deployment\n\nCreate a deployment for an app in a project.\n\nProvide exactly one source:\n- `image`: deploy a prebuilt Docker image as-is (no build).\n- `git`: build and deploy from the app's connected GitHub repository, a branch, a specific commit, or a fork commit. Requires the app to have a repository connected.\n- `deployment`: re-run an existing deployment by its id. Git-connected apps rebuild from the recorded commit; other apps reuse the recorded image.\n\nReturns immediately with a `deploymentId`. The build and rollout run asynchronously — poll `deployments.getDeployment` to watch status until it is ready.\n\n**Authentication**: requires a root key with permission to create deployments."
       }
     },
     "com.unkey.api#GetDeploymentRequest": {
@@ -1730,7 +1636,7 @@
         "docker": {
           "target": "com.unkey.api#DeploymentDocker",
           "traits": {
-            "smithy.api#documentation": "Present for image-sourced deployments. Mutually exclusive with `git`.\n"
+            "smithy.api#documentation": "Compatibility field present for OCI image-sourced deployments. Mutually exclusive with `git`.\n"
           }
         },
         "availableActions": {
@@ -1892,7 +1798,7 @@
         "image": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Docker image this deployment runs.",
+            "smithy.api#documentation": "The OCI image reference requested for this deployment.",
             "smithy.api#required": {}
           }
         }
@@ -1961,7 +1867,7 @@
         "step": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The pipeline step that failed (e.g. `building`, `deploying`, `starting`).\n",
+            "smithy.api#documentation": "The pipeline step that failed (e.g. `queued`, `building`, `deploying`).\n",
             "smithy.api#required": {}
           }
         },
@@ -2969,19 +2875,19 @@
         "project": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Match domains whose project ID or slug equals this value. This filter does not require\nan app or environment filter.\n"
           }
         },
         "app": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Match domains whose app ID or slug equals this value. This filter does not require a\nproject or environment filter.\n"
           }
         },
         "environment": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Match domains whose environment ID or slug equals this value. This filter does not require\na project or app filter.\n"
           }
         },
         "limit": {
@@ -3019,13 +2925,14 @@
         "data": {
           "target": "com.unkey.api#V2DomainsListDomainsResponseBodyDataList",
           "traits": {
-            "smithy.api#documentation": "The domains attached to the environment, sorted by their id.\nThe array is empty when the environment has no domains. This is not an error.\n",
+            "smithy.api#documentation": "Domains that match every request filter and that you have permission to read, sorted by ID.\nThe array is empty when no readable domains match, including when a filtered resource\nis missing or mismatched.\n",
             "smithy.api#required": {}
           }
         },
         "pagination": {
           "target": "com.unkey.api#Pagination",
           "traits": {
+            "smithy.api#documentation": "Pagination over permitted domains. When more permitted domains exist, `cursor` identifies\nthe first permitted domain after this page. A domain the credential cannot read is never\nreturned as the cursor.\n",
             "smithy.api#required": {}
           }
         }
@@ -3038,7 +2945,7 @@
         "target": "com.unkey.api#Domain"
       },
       "traits": {
-        "smithy.api#documentation": "The domains attached to the environment, sorted by their id.\nThe array is empty when the environment has no domains. This is not an error.\n"
+        "smithy.api#documentation": "Domains that match every request filter and that you have permission to read, sorted by ID.\nThe array is empty when no readable domains match, including when a filtered resource\nis missing or mismatched.\n"
       }
     },
     "com.unkey.api#ListDomains": {
@@ -3066,7 +2973,7 @@
           "uri": "/v2/domains.listDomains",
           "code": 200
         },
-        "smithy.api#documentation": "List domains\n\nList the custom domains attached to an environment and their verification status.\n\nResults are paginated and sorted by their id. When `hasMore` is true, send the\nreturned `cursor` to get the next page. An environment with no domains returns an\nempty array, not a 404.\n\n`status: verified` means the domain is verified. Unkey has configured routing and requested a\ncertificate. Each domain includes its full `dnsRecords`. Each record has a `verified` flag.\nThe flag shows which records Unkey has read back, so you can see which records are still\nmissing without a second call. Some providers hide a record from DNS lookups, for example a\nproxied or flattened routing record. Such a record stays `false` while it serves traffic.\n\n**Required Permissions**\n\nYour root key must have one of the following permissions:\n- `environment.*.read_domain` (to read domains in any environment)\n- `environment.<environment_id>.read_domain` (to read domains in a specific environment)"
+        "smithy.api#documentation": "List domains\n\nList your custom domains with their verification status and DNS records.\nFilter by project, app, or environment using IDs or slugs, or send `{}` to list\ndomains across your workspace.\n\nUse any filter on its own or combine filters to narrow the results.\nResults match all supplied filters. Omitting `environment` includes all matching environments.\n\nResults include only domains you have permission to read, sorted by ID.\nWhen `hasMore` is true, send the returned `cursor` to get the next page.\n\n`status: verified` means the domain is verified. Unkey has configured routing and requested a\ncertificate. Each domain includes its full `dnsRecords`. Each record has a `verified` flag.\nThe flag shows which records Unkey has read back, so you can see which records are still\nmissing without a second call. Some providers hide a record from DNS lookups, for example a\nproxied or flattened routing record. Such a record stays `false` while it serves traffic.\n\n**Required Permissions**\n\nUse a root key with the `environment.*.read_domain` permission.\nA successful request returns an empty list if no matching domains are readable by your key."
       }
     },
     "com.unkey.api#VerifyDomainRequest": {
@@ -3898,7 +3805,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Glob paths that trigger auto-deploys when changed.\nOmit to leave unchanged.\n"
+        "smithy.api#documentation": "Glob patterns that trigger auto-deploys when matching files change.\nDo not start a pattern with \"/\" or \"./\".\nUse \"src/**\" for everything under a directory and \"**/*.go\" for a file type.\nA pattern with no wildcard matches only that exact file, so \"src\" is not \"src/**\".\nOmit to leave unchanged. Invalid patterns are rejected with a 400.\n"
       }
     },
     "com.unkey.api#EnvironmentsUpdateSettingsRequestCommandList": {
@@ -3963,7 +3870,7 @@
         "watchPaths": {
           "target": "com.unkey.api#EnvironmentsUpdateSettingsRequestWatchPathsList",
           "traits": {
-            "smithy.api#documentation": "Glob paths that trigger auto-deploys when changed.\nOmit to leave unchanged.\n"
+            "smithy.api#documentation": "Glob patterns that trigger auto-deploys when matching files change.\nDo not start a pattern with \"/\" or \"./\".\nUse \"src/**\" for everything under a directory and \"**/*.go\" for a file type.\nA pattern with no wildcard matches only that exact file, so \"src\" is not \"src/**\".\nOmit to leave unchanged. Invalid patterns are rejected with a 400.\n"
           }
         },
         "autoDeploy": {
@@ -4202,10 +4109,13 @@
         },
         "queryParam": {
           "target": "com.unkey.api#FieldMatch"
+        },
+        "remoteIp": {
+          "target": "com.unkey.api#RemoteIpMatch"
         }
       },
       "traits": {
-        "smithy.api#documentation": "A single request match expression. Exactly one of `path`, `method`,\n`header` or `queryParam` must be set."
+        "smithy.api#documentation": "A single request match expression. Exactly one of `path`, `method`,\n`header`, `queryParam` or `remoteIp` must be set."
       }
     },
     "com.unkey.api#PathMatch": {
@@ -4344,6 +4254,44 @@
       },
       "traits": {
         "smithy.api#documentation": "Matches a named request field (header or query parameter). Exactly one of\n`present` or `value` must be set."
+      }
+    },
+    "com.unkey.api#RemoteIpMatch": {
+      "type": "structure",
+      "members": {
+        "in": {
+          "target": "com.unkey.api#RemoteIpMatchInList",
+          "traits": {
+            "smithy.api#documentation": "Matches when the remote IP is in at least one of these ranges. Entries\nare CIDRs such as `203.0.113.0/24` or single addresses such as\n`203.0.113.7`."
+          }
+        },
+        "notIn": {
+          "target": "com.unkey.api#RemoteIpMatchNotInList",
+          "traits": {
+            "smithy.api#documentation": "Matches when the remote IP is in none of these ranges. Entries are CIDRs\nsuch as `198.51.100.0/24` or single addresses such as `198.51.100.7`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Matches the remote IP against IPv4 or IPv6 CIDR ranges. Exactly one of `in`\nor `notIn` must be set. Entries are rejected if they have host bits set (such\nas `10.1.2.3/8`), are IPv4-mapped IPv6 addresses, or carry a zone. Single\naddresses are returned as full-length prefixes, such as `203.0.113.7/32`."
+      }
+    },
+    "com.unkey.api#RemoteIpMatchInList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Matches when the remote IP is in at least one of these ranges. Entries\nare CIDRs such as `203.0.113.0/24` or single addresses such as\n`203.0.113.7`."
+      }
+    },
+    "com.unkey.api#RemoteIpMatchNotInList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Matches when the remote IP is in none of these ranges. Entries are CIDRs\nsuch as `198.51.100.0/24` or single addresses such as `198.51.100.7`."
       }
     },
     "com.unkey.api#PolicyResponseMatchList": {
@@ -6458,8 +6406,9 @@
         "expiration": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Duration in milliseconds until the ORIGINAL key is revoked, starting from now.\n\nThis parameter controls the overlap period for key rotation:\n- Set to `0` to revoke the original key immediately\n- Positive values keep the original key active for the specified duration\n- Allows graceful migration by giving users time to update their credentials\n\nCommon overlap periods:\n- Immediate revocation: 0\n- 1 hour grace period: 3600000\n- 24 hours grace period: 86400000\n- 7 days grace period: 604800000\n- 30 days grace period: 2592000000\n",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Duration in milliseconds until the ORIGINAL key is revoked, starting from now.\n\nThis parameter controls the overlap period for key rotation:\n- Set to `0` to revoke the original key immediately\n- Positive values keep the original key active for the specified duration\n- Set to `null` to keep the original key active; it keeps its current expiration, if any\n- Allows graceful migration by giving users time to update their credentials\n\nCommon overlap periods:\n- Immediate revocation: 0\n- 1 hour grace period: 3600000\n- 24 hours grace period: 86400000\n- 7 days grace period: 604800000\n- 30 days grace period: 2592000000\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -7049,6 +6998,15 @@
         "smithy.api#documentation": "Controls credit consumption for usage-based billing and quota enforcement.\nOmitting this field uses the default cost of 1 credit per verification.\nCredits provide globally consistent usage tracking, essential for paid APIs with strict quotas.\n"
       }
     },
+    "com.unkey.api#VerifyKeyRequestKeyspacesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Restricts verification to keys in these keyspaces, matched by exact ID.\nOmit this field to verify without a keyspace restriction.\nA failed keyspace check returns `NOT_FOUND` without consuming credits or rate limits.\n"
+      }
+    },
     "com.unkey.api#KeysVerifyKeyRatelimit": {
       "type": "structure",
       "members": {
@@ -7114,6 +7072,12 @@
         "credits": {
           "target": "com.unkey.api#KeysVerifyKeyCredits"
         },
+        "keyspaces": {
+          "target": "com.unkey.api#VerifyKeyRequestKeyspacesList",
+          "traits": {
+            "smithy.api#documentation": "Restricts verification to keys in these keyspaces, matched by exact ID.\nOmit this field to verify without a keyspace restriction.\nA failed keyspace check returns `NOT_FOUND` without consuming credits or rate limits.\n"
+          }
+        },
         "ratelimits": {
           "target": "com.unkey.api#VerifyKeyRequestRatelimitsList",
           "traits": {
@@ -7170,6 +7134,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier of the verified key in Unkey's system.\nUse this ID for operations like updating or revoking the key. This field\nis returned for both valid and invalid keys (except when `code=NOT_FOUND`).\n"
+          }
+        },
+        "keyspaceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the keyspace the key belongs to.\nReturned for both valid and invalid keys, except when `code=NOT_FOUND`.\n"
           }
         },
         "name": {
@@ -8126,11 +8096,16 @@
     "com.unkey.api#PermissionsSetRolePermissionsRequest": {
       "type": "structure",
       "members": {
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The role whose directly assigned permissions will be replaced.\nAccepts either the generated role ID or the unique role name.\n"
+          }
+        },
         "roleId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the role whose directly assigned permissions will be replaced.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Deprecated. Use `role` instead.\nAccepts either the generated role ID or the unique role name.\n"
           }
         },
         "permissions": {
@@ -8270,7 +8245,7 @@
         "portalId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The unique identifier of the newly created portal, generated by Unkey.\nAlways begins with 'pc_' followed by a unique alphanumeric sequence.\n",
+            "smithy.api#documentation": "The unique identifier of the newly created portal, generated by Unkey.\nAlways begins with 'prt_' followed by a unique alphanumeric sequence.\n",
             "smithy.api#required": {}
           }
         }
@@ -8317,12 +8292,6 @@
             "smithy.api#enumValue": "keys:read"
           }
         },
-        "KEYS_CREATE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "keys:create"
-          }
-        },
         "KEYS_REROLL": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -8344,7 +8313,7 @@
         "target": "com.unkey.api#PortalCreateSessionRequestScopesItem"
       },
       "traits": {
-        "smithy.api#documentation": "The capabilities granted to the end user in the Portal, from a fixed\nvocabulary. All capabilities are scoped to this end user: key capabilities\n(`keys:*`) apply only to keys the end user owns within the keyspace\nconfigured on the portal, and `analytics:read` returns only the end user's\nown verification events. An end user can never see another identity's keys\nor analytics.\n\nTab visibility is derived from the scopes:\n- Keys tab: any `keys:*` scope\n- Analytics tab: `analytics:read`\n- Docs tab: visible when any scope is present\n\n`keys:create` is accepted but has no portal route behind it yet. It is\nstill authorized like the others, so a session minted with it required\n`create_key` on the keyspace at mint time, and a future portal create-key\nroute inherits an enforced ceiling rather than trusting sessions minted\nwhile the capability was inert.\n\nEach scope requires the equivalent permission on your own root key. See\nRequired Permissions on this operation.\n"
+        "smithy.api#documentation": "The capabilities granted to the end user in the Portal, from a fixed\nvocabulary. All capabilities are scoped to this end user: key capabilities\n(`keys:*`) apply only to keys the end user owns within the keyspace\nconfigured on the portal. An end user can never see another identity's\nkeys.\n\nRerolling and usage analytics are both reached from the keys page, so\n`keys:reroll` and `analytics:read` each require `keys:read` in the same\nsession; requesting either without it is rejected.\n\nEach scope requires the equivalent permission on your own root key. See\nRequired Permissions on this operation.\n"
       }
     },
     "com.unkey.api#PortalCreateSessionRequest": {
@@ -8366,14 +8335,8 @@
         "scopes": {
           "target": "com.unkey.api#PortalCreateSessionRequestScopesList",
           "traits": {
-            "smithy.api#documentation": "The capabilities granted to the end user in the Portal, from a fixed\nvocabulary. All capabilities are scoped to this end user: key capabilities\n(`keys:*`) apply only to keys the end user owns within the keyspace\nconfigured on the portal, and `analytics:read` returns only the end user's\nown verification events. An end user can never see another identity's keys\nor analytics.\n\nTab visibility is derived from the scopes:\n- Keys tab: any `keys:*` scope\n- Analytics tab: `analytics:read`\n- Docs tab: visible when any scope is present\n\n`keys:create` is accepted but has no portal route behind it yet. It is\nstill authorized like the others, so a session minted with it required\n`create_key` on the keyspace at mint time, and a future portal create-key\nroute inherits an enforced ceiling rather than trusting sessions minted\nwhile the capability was inert.\n\nEach scope requires the equivalent permission on your own root key. See\nRequired Permissions on this operation.\n",
+            "smithy.api#documentation": "The capabilities granted to the end user in the Portal, from a fixed\nvocabulary. All capabilities are scoped to this end user: key capabilities\n(`keys:*`) apply only to keys the end user owns within the keyspace\nconfigured on the portal. An end user can never see another identity's\nkeys.\n\nRerolling and usage analytics are both reached from the keys page, so\n`keys:reroll` and `analytics:read` each require `keys:read` in the same\nsession; requesting either without it is rejected.\n\nEach scope requires the equivalent permission on your own root key. See\nRequired Permissions on this operation.\n",
             "smithy.api#required": {}
-          }
-        },
-        "preview": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "When true, creates a preview session for testing the portal experience.\n"
           }
         },
         "returnUrl": {
@@ -8442,6 +8405,9 @@
         },
         {
           "target": "com.unkey.api#NotFound"
+        },
+        {
+          "target": "com.unkey.api#Conflict"
         }
       ],
       "traits": {
@@ -8450,7 +8416,7 @@
           "uri": "/v2/portal.createSession",
           "code": 200
         },
-        "smithy.api#documentation": "Create portal session\n\nCreate a portal session for an end user and get the URL to redirect them to.\n\nThe URL carries a single-use exchange code valid for 15 minutes, which the portal\nredeems exactly once for a 24-hour access token via `portal.exchangeCode`.\n\n**Required Permissions**\n\nAuthorization runs in two stages, and both must pass.\n\nFirst, your root key must have one of the following permissions:\n- `portal.*.create_portal_session` (to mint sessions for any portal in the workspace)\n- `portal.<portal_id>.create_portal_session` (to mint sessions for a specific portal)\n\nSecond, a session can never carry a capability your root key does not itself\nhold. Each requested scope additionally requires the equivalent permission on\nevery keyspace the portal resolves to:\n- `keys:read` requires `api.<api_id>.read_key` **and** `api.<api_id>.read_api`\n- `keys:reroll` and `keys:create` require `api.<api_id>.create_key`, plus\n  `api.<api_id>.encrypt_key` when the keyspace stores encrypted keys\n- `analytics:read` requires `api.<api_id>.read_analytics`\n\nThe `*` form of each is also accepted. Requesting a scope you do not hold\nreturns 403 for the whole request rather than minting a reduced session, so a\nmissing grant is visible instead of surfacing later as a broken portal.\n\nMissing the portal permission itself returns **404**, not 403: a caller who\ncannot mint for a portal is not told whether it exists.\n\nYour root key must also be associated with a workspace that has an enabled portal."
+        "smithy.api#documentation": "Create portal session\n\nCreate a portal session for an end user and get the URL to redirect them to.\n\nThe URL carries a single-use exchange code valid for 15 minutes, which the portal\nredeems exactly once for a 24-hour access token via `portal.exchangeCode`.\n\n**Required Permissions**\n\nAuthorization runs in two stages, and both must pass.\n\nFirst, your root key must have one of the following permissions:\n- `portal.*.create_portal_session` (to mint sessions for any portal in the workspace)\n- `portal.<portal_id>.create_portal_session` (to mint sessions for a specific portal)\n\nSecond, a session can never carry a capability your root key does not itself\nhold. Each requested scope additionally requires the equivalent permission on\nevery keyspace the portal resolves to:\n- `keys:read` requires `api.<api_id>.read_key` **and** `api.<api_id>.read_api`\n- `keys:reroll` requires `api.<api_id>.create_key`, plus\n  `api.<api_id>.encrypt_key` when the keyspace stores encrypted keys\n- `analytics:read` requires `api.<api_id>.read_analytics`\n\nThe `*` form of each is also accepted. Requesting a scope you do not hold\nreturns 403 for the whole request rather than minting a reduced session, so a\nmissing grant is visible instead of surfacing later as a broken portal.\n\nMissing the portal permission itself returns **404**, not 403: a caller who\ncannot mint for a portal is not told whether it exists.\n\nYour root key must also be associated with a workspace that has an enabled portal."
       }
     },
     "com.unkey.api#DeletePortalRequest": {
@@ -8764,10 +8730,37 @@
             "smithy.api#required": {}
           }
         },
-        "data": {
-          "target": "com.unkey.api#V2PortalGetVerificationsResponseBodyDataList",
+        "bucketMillis": {
+          "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Zero-filled verification timeseries for the authenticated end user, ordered\nby time ascending. Buckets with no verifications are present with zero\ncounts so the series is contiguous across the requested window.\n",
+            "smithy.api#documentation": "Width of one bucket in milliseconds, chosen from the window size. Every\nseries below is aligned to it, so a client can build the buckets for a\nwindow that returned no keys at all without restating the granularity\nrule.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "keys": {
+          "target": "com.unkey.api#V2PortalGetVerificationsResponseBodyKeysList",
+          "traits": {
+            "smithy.api#documentation": "One entry per key the end user has verifications for in the window, each\nzero-filled across the whole window and ordered by time ascending. Sum\nthem to get the account-wide series.\n\nKeys with no verifications anywhere in the window are omitted. Entries\ncome from the verification events themselves, so a `keyId` may name a key\nthat has since been deleted and will not appear in `portal.listKeys`;\nrender those totals without assuming the key is still listable.\n",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.unkey.api#V2PortalGetVerificationsKeySeries": {
+      "type": "structure",
+      "members": {
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The key these buckets belong to.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.unkey.api#V2PortalGetVerificationsKeySeriesDataList",
+          "traits": {
+            "smithy.api#documentation": "Verification timeseries for this key, zero-filled across the requested\nwindow and ordered by time ascending.\n",
             "smithy.api#required": {}
           }
         }
@@ -8843,13 +8836,22 @@
       },
       "traits": {}
     },
-    "com.unkey.api#V2PortalGetVerificationsResponseBodyDataList": {
+    "com.unkey.api#V2PortalGetVerificationsKeySeriesDataList": {
       "type": "list",
       "member": {
         "target": "com.unkey.api#V2PortalGetVerificationsDataPoint"
       },
       "traits": {
-        "smithy.api#documentation": "Zero-filled verification timeseries for the authenticated end user, ordered\nby time ascending. Buckets with no verifications are present with zero\ncounts so the series is contiguous across the requested window.\n"
+        "smithy.api#documentation": "Verification timeseries for this key, zero-filled across the requested\nwindow and ordered by time ascending.\n"
+      }
+    },
+    "com.unkey.api#V2PortalGetVerificationsResponseBodyKeysList": {
+      "type": "list",
+      "member": {
+        "target": "com.unkey.api#V2PortalGetVerificationsKeySeries"
+      },
+      "traits": {
+        "smithy.api#documentation": "One entry per key the end user has verifications for in the window, each\nzero-filled across the whole window and ordered by time ascending. Sum\nthem to get the account-wide series.\n\nKeys with no verifications anywhere in the window are omitted. Entries\ncome from the verification events themselves, so a `keyId` may name a key\nthat has since been deleted and will not appear in `portal.listKeys`;\nrender those totals without assuming the key is still listable.\n"
       }
     },
     "com.unkey.api#PortalGetVerifications": {
@@ -8869,6 +8871,9 @@
         },
         {
           "target": "com.unkey.api#NotFound"
+        },
+        {
+          "target": "com.unkey.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -8877,7 +8882,7 @@
           "uri": "/v2/portal.getVerifications",
           "code": 200
         },
-        "smithy.api#documentation": "Get portal verifications\n\nReturn a verification analytics timeseries for the authenticated portal\nsession's end user.\n\nAuthenticates only with a portal session cookie and always restricts results\nto verification events attributed to the session's external identity. Unlike\n`analytics.getVerifications`, this endpoint takes a fixed time window (no\nquery language) and returns a zero-filled, outcome-broken-out timeseries.\nBucket granularity is chosen automatically from the window size."
+        "smithy.api#documentation": "Get portal verifications\n\nReturn a verification analytics timeseries for the authenticated portal\nsession's end user.\n\nAuthenticates only with a portal session cookie and always restricts results\nto verification events attributed to the session's external identity. Unlike\n`analytics.getVerifications`, this endpoint takes a fixed time window (no\nquery language) and returns outcome-broken-out counts. Bucket granularity is\nchosen automatically from the window size.\n\nThe response carries one zero-filled series per key the end user has\nverifications for, so a client can render both a per-key table and an\naccount-wide chart from one call by summing them. Pass `keyId` to narrow the\nwindow to a single key."
       }
     },
     "com.unkey.api#PortalListKeysRequest": {
@@ -8961,6 +8966,196 @@
         "smithy.api#documentation": "List portal keys\n\nRetrieve a paginated list of API keys owned by the authenticated portal\nsession's end user.\n\nThis is the portal-scoped variant of `apis.listKeys`. It authenticates only\nwith a portal session cookie and always restricts results to the keys owned\nby the session's external identity, within the keyspaces configured on the\nportal configuration. Both the identity and the keyspaces come from the\nsession, so the request body has no `externalId` or `apiId` field."
       }
     },
+    "com.unkey.api#PortalListSessionsRequest": {
+      "type": "structure",
+      "members": {
+        "portal": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of end users to return per request."
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Pagination cursor from a previous response to fetch the next page.\nUse when `hasMore: true` in the previous response.\n"
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns only end users whose `externalId` starts with this string.\nMatching is case-sensitive, and `%` and `_` match literally.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.unkey.api#V2PortalListSessionsResponseBody": {
+      "type": "structure",
+      "members": {
+        "meta": {
+          "target": "com.unkey.api#Meta",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.unkey.api#V2PortalListSessionsResponseBodyDataList",
+          "traits": {
+            "smithy.api#documentation": "End users with revocable sessions, ordered by `externalId`.",
+            "smithy.api#required": {}
+          }
+        },
+        "pagination": {
+          "target": "com.unkey.api#Pagination",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.unkey.api#V2PortalListSessionsResponseData": {
+      "type": "structure",
+      "members": {
+        "externalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end user's identifier, as passed to `portal.createSession`.",
+            "smithy.api#required": {}
+          }
+        },
+        "sessions": {
+          "target": "com.unkey.api#V2PortalListSessionsResponseDataSessionsList",
+          "traits": {
+            "smithy.api#documentation": "The end user's revocable sessions, newest first.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.unkey.api#V2PortalListSessionsSession": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The session id.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.unkey.api#V2PortalListSessionsSessionStatus",
+          "traits": {
+            "smithy.api#documentation": "`pending` when the portal URL was created but not opened yet. `active`\nwhen the end user opened it.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "When the session was created, in Unix milliseconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "expiresAt": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "When the session stops working, in Unix milliseconds. For a `pending`\nsession this is when its portal URL expires.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "scopes": {
+          "target": "com.unkey.api#V2PortalListSessionsSessionScopesList",
+          "traits": {
+            "smithy.api#documentation": "The capabilities the session was created with.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.unkey.api#V2PortalListSessionsSessionStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`pending` when the portal URL was created but not opened yet. `active`\nwhen the end user opened it.\n"
+      }
+    },
+    "com.unkey.api#V2PortalListSessionsSessionScopesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The capabilities the session was created with."
+      }
+    },
+    "com.unkey.api#V2PortalListSessionsResponseDataSessionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.unkey.api#V2PortalListSessionsSession"
+      },
+      "traits": {
+        "smithy.api#documentation": "The end user's revocable sessions, newest first."
+      }
+    },
+    "com.unkey.api#V2PortalListSessionsResponseBodyDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.unkey.api#V2PortalListSessionsResponseData"
+      },
+      "traits": {
+        "smithy.api#documentation": "End users with revocable sessions, ordered by `externalId`."
+      }
+    },
+    "com.unkey.api#PortalListSessions": {
+      "type": "operation",
+      "input": {
+        "target": "com.unkey.api#PortalListSessionsRequest"
+      },
+      "output": {
+        "target": "com.unkey.api#V2PortalListSessionsResponseBody"
+      },
+      "errors": [
+        {
+          "target": "com.unkey.api#BadRequest"
+        },
+        {
+          "target": "com.unkey.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/portal.listSessions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List portal sessions\n\nList the end users holding a revocable session on a portal, with each\nend user's sessions.\n\nUnreleased and subject to change without notice.\n\nA session is revocable until it expires or is revoked. That includes\nsessions whose portal URL was created but not opened yet. Pass an end\nuser's `externalId` to `portal.revokeSession` to end their sessions.\n\n**Required Permissions**\n\nYour root key must have one of:\n- `portal.*.create_portal_session` (for any portal in the workspace)\n- `portal.<portal_id>.create_portal_session` (for a specific portal)\n\nIt also accepts `unkey:v1:<workspace_id>:projects/<project_id>/portals/<portal_id>/sessions/*`\nwith `#read` or `#write`. Reading the portal itself is not enough.\n\nWithout the permission this returns **404**, not 403."
+      }
+    },
     "com.unkey.api#PortalRerollKeyRequest": {
       "type": "structure",
       "members": {
@@ -8974,8 +9169,9 @@
         "expiration": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Duration in milliseconds until the ORIGINAL key is revoked, starting from now.\n\nThis parameter controls the overlap period for key rotation:\n- Set to `0` to revoke the original key immediately\n- Positive values keep the original key active for the specified duration\n- Allows graceful migration by giving users time to update their credentials\n\nCommon overlap periods:\n- Immediate revocation: 0\n- 1 hour grace period: 3600000\n- 24 hours grace period: 86400000\n- 7 days grace period: 604800000\n- 30 days grace period: 2592000000\n",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Duration in milliseconds until the ORIGINAL key is revoked, starting from now.\n\nThis parameter controls the overlap period for key rotation:\n- Set to `0` to revoke the original key immediately\n- Positive values keep the original key active for the specified duration\n- Set to `null` to keep the original key active; it keeps its current expiration, if any\n- Allows graceful migration by giving users time to update their credentials\n\nCommon overlap periods:\n- Immediate revocation: 0\n- 1 hour grace period: 3600000\n- 24 hours grace period: 86400000\n- 7 days grace period: 604800000\n- 30 days grace period: 2592000000\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -9011,6 +9207,83 @@
         "smithy.api#documentation": "Reroll portal key\n\nReroll an API key owned by the authenticated portal session's end user,\nissuing a new key while preserving its configuration.\n\nThis is the portal-scoped variant of `keys.rerollKey`. It authenticates only\nwith a portal session cookie and may only reroll keys owned by the session's\nexternal identity; any other key returns 404."
       }
     },
+    "com.unkey.api#PortalRevokeSessionRequest": {
+      "type": "structure",
+      "members": {
+        "portal": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "externalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end user's identifier in your system, as passed to\n`portal.createSession`. Every live session this end user holds on the\nportal is revoked.\n",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.unkey.api#V2PortalRevokeSessionResponseBody": {
+      "type": "structure",
+      "members": {
+        "meta": {
+          "target": "com.unkey.api#Meta",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.unkey.api#V2PortalRevokeSessionResponseData",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.unkey.api#V2PortalRevokeSessionResponseData": {
+      "type": "structure",
+      "members": {
+        "sessionsRevoked": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many live sessions were revoked. Zero when the end user had none,\nincluding when an earlier call already revoked them.\n",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.unkey.api#PortalRevokeSession": {
+      "type": "operation",
+      "input": {
+        "target": "com.unkey.api#PortalRevokeSessionRequest"
+      },
+      "output": {
+        "target": "com.unkey.api#V2PortalRevokeSessionResponseBody"
+      },
+      "errors": [
+        {
+          "target": "com.unkey.api#BadRequest"
+        },
+        {
+          "target": "com.unkey.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/portal.revokeSession",
+          "code": 200
+        },
+        "smithy.api#documentation": "Revoke portal sessions\n\nRevoke every live session an end user holds on a portal.\n\nUnreleased and subject to change without notice.\n\nSessions that were created but not yet opened are revoked too, so their\nportal URLs stop working. Revocation is not instantaneous: session lookups\nare cached briefly, so a request already in flight may still succeed.\n\nRevoking ends existing sessions only. To keep the end user out, also stop\ncalling `portal.createSession` for them.\n\nCalling this again for the same end user is safe and revokes nothing.\n\n**Required Permissions**\n\nYour root key must have one of:\n- `portal.*.create_portal_session` (for any portal in the workspace)\n- `portal.<portal_id>.create_portal_session` (for a specific portal)\n\nIt also accepts `unkey:v1:<workspace_id>:projects/<project_id>/portals/<portal_id>/sessions/*#write`,\nwhich dashboard roles carry. Unlike `portal.createSession`, a dashboard\nsession can call this, not just a root key.\n\nWithout the permission this returns **404**, not 403."
+      }
+    },
     "com.unkey.api#UpdatePortalRequest": {
       "type": "structure",
       "members": {
@@ -9035,19 +9308,19 @@
         "keyspaceId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Re-point the portal at a different keyspace. Omit to leave the resource it\nserves alone.\n\nRe-pointing revokes the portal's live sessions, because a session carries\nthe keyspace scope it was minted with and would otherwise keep reaching the\nresource the portal no longer serves.\n"
+            "smithy.api#documentation": "Re-point the portal at a different keyspace. Omit to leave the resource it\nserves alone.\n\nRe-pointing revokes the portal's live sessions, because a session carries\nthe keyspace scope it was minted with and would otherwise keep reaching the\nresource the portal no longer serves.\n\nThe new keyspace must belong to the same project as the portal's current\nresource. A portal cannot move between projects, because its permissions\nare addressed under the project it belongs to. Re-pointing across projects\nreturns 412; create a portal in the target project instead.\n"
           }
         },
         "appId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Re-point the portal at a different app. Omit to leave the resource it\nserves alone.\n\nRe-pointing revokes the portal's live sessions, for the same reason as\n`keyspaceId`.\n"
+            "smithy.api#documentation": "Re-point the portal at a different app. Omit to leave the resource it\nserves alone.\n\nRe-pointing revokes the portal's live sessions, for the same reason as\n`keyspaceId`.\n\nThe same project restriction applies, and it is easy to hit when switching\nbetween an app and a keyspace: keyspaces are created in the workspace's\ndefault project, while an app belongs to the project you created it in.\n"
           }
         },
         "enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether new sessions can be minted. Omit to leave unchanged.\n\nDisabling does not end sessions that are already live.\n"
+            "smithy.api#documentation": "Whether new sessions can be minted. Omit to leave unchanged.\n\nDisabling also revokes the portal's live sessions. Re-enabling does not\nrestore them.\n"
           }
         },
         "logoUrl": {
@@ -9112,7 +9385,7 @@
           "uri": "/v2/portal.updatePortal",
           "code": 200
         },
-        "smithy.api#documentation": "Update portal\n\nChange a portal's slug, display name, the resource it serves, its enabled\nstate, or its branding.\n\nUnreleased and subject to change without notice.\n\nOnly the fields you send change. Omitting a field leaves it as it is, and for\nbranding, sending null clears it. Send at most one of `keyspaceId` or `appId`.\n\nTwo changes affect your end users immediately:\n- Re-pointing at a different resource revokes the portal's live sessions,\n  because a session carries the scope it was minted with.\n- Disabling stops new sessions but leaves live ones running until they expire.\n\n**Required Permissions**\n\nYour root key must have one of:\n- `portal.*.update_portal` (to update any portal in the workspace)\n- `portal.<portal_id>.update_portal` (to update a specific portal)\n\nWithout the permission this returns **404**, not 403."
+        "smithy.api#documentation": "Update portal\n\nChange a portal's slug, display name, the resource it serves, its enabled\nstate, or its branding.\n\nUnreleased and subject to change without notice.\n\nOnly the fields you send change. Omitting a field leaves it as it is, and for\nbranding, sending null clears it. Send at most one of `keyspaceId` or `appId`.\n\nTwo changes affect your end users immediately:\n- Re-pointing at a different resource revokes the portal's live sessions,\n  because a session carries the scope it was minted with.\n- Disabling stops new sessions and revokes the live ones. Re-enabling does\n  not restore them.\n\n**Required Permissions**\n\nYour root key must have one of:\n- `portal.*.update_portal` (to update any portal in the workspace)\n- `portal.<portal_id>.update_portal` (to update a specific portal)\n\nWithout the permission this returns **404**, not 403."
       }
     },
     "com.unkey.api#CreateProjectRequest": {
@@ -10181,6 +10454,647 @@
         "smithy.api#documentation": "Set ratelimit override\n\nCreate or update a custom rate limit for specific identifiers, bypassing the namespace default.\n\nUse this to create premium tiers with higher limits, apply stricter limits to specific users, or implement emergency throttling.\n\n**Important:** Overrides take effect immediately and completely replace the default limit for matching identifiers. Use wildcard patterns (e.g., `premium_*`) to match multiple identifiers.\n\n**Permissions:** Requires `ratelimit.*.set_override` or `ratelimit.<namespace_id>.set_override`"
       }
     },
+    "com.unkey.api#RootKeysCreateKeyRequestPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Permissions to grant to the root key. Each permission must be within the caller's existing permissions."
+      }
+    },
+    "com.unkey.api#RootKeysCreateKeyRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional name for the root key."
+          }
+        },
+        "permissions": {
+          "target": "com.unkey.api#RootKeysCreateKeyRequestPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "Permissions to grant to the root key. Each permission must be within the caller's existing permissions.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Expiration as Unix milliseconds, strictly in the future. Expiring root-key callers must provide a child expiry no later than their own. JWT admins and nonexpiring root-key callers may omit it or set null for no expiration.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.unkey.api#V2RootKeysCreateKeyResponseBody": {
+      "type": "structure",
+      "members": {
+        "meta": {
+          "target": "com.unkey.api#Meta",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.unkey.api#V2RootKeysCreateKeyResponseData",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.unkey.api#V2RootKeysCreateKeyResponseData": {
+      "type": "structure",
+      "members": {
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier used to manage the root key.",
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Root key secret, returned only once. Store it securely.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.unkey.api#RootKeysCreateKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.unkey.api#RootKeysCreateKeyRequest"
+      },
+      "output": {
+        "target": "com.unkey.api#V2RootKeysCreateKeyResponseBody"
+      },
+      "errors": [
+        {
+          "target": "com.unkey.api#BadRequest"
+        },
+        {
+          "target": "com.unkey.api#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/rootKeys.createKey",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create root key\n\nCreates a root key for the authenticated workspace.\nRequires `unkey:v1:<workspace_id>:rootKeys/*#write`.\nThe created root key cannot have more permissions than the caller."
+      }
+    },
+    "com.unkey.api#RootKeysDeleteKeyRequest": {
+      "type": "structure",
+      "members": {
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Root key identifier returned by rootKeys.createKey or rootKeys.listKeys.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.unkey.api#V2RootKeysDeleteKeyResponseBody": {
+      "type": "structure",
+      "members": {
+        "meta": {
+          "target": "com.unkey.api#Meta",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.unkey.api#RootKeysDeleteKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.unkey.api#RootKeysDeleteKeyRequest"
+      },
+      "output": {
+        "target": "com.unkey.api#V2RootKeysDeleteKeyResponseBody"
+      },
+      "errors": [
+        {
+          "target": "com.unkey.api#BadRequest"
+        },
+        {
+          "target": "com.unkey.api#Forbidden"
+        },
+        {
+          "target": "com.unkey.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/rootKeys.deleteKey",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete root key\n\nDeletes a root key in the authenticated workspace.\nRequires `unkey:v1:<workspace_id>:rootKeys/<key_id>#delete`.\nUse `rootKeys/*#delete` to delete any root key in the workspace.\nDeleted keys cannot authenticate."
+      }
+    },
+    "com.unkey.api#RootKeysListKeysRequest": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of readable root keys per page."
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Opaque cursor from a previous response. Omit for the first page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.unkey.api#V2RootKeysListKeysResponseBody": {
+      "type": "structure",
+      "members": {
+        "meta": {
+          "target": "com.unkey.api#Meta",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.unkey.api#V2RootKeysListKeysResponseBodyDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pagination": {
+          "target": "com.unkey.api#Pagination",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.unkey.api#V2RootKeysListKeysResponseData": {
+      "type": "structure",
+      "members": {
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable root key identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-supplied name, or null when absent.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stored display fragment, including the prefix when present.",
+            "smithy.api#required": {}
+          }
+        },
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stored trailing display fragment. Empty for keys without a recorded suffix.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the key is administratively enabled. An enabled key can still be expired.",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Creation time in Unix milliseconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "lastUsedAt": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Last verification time in Unix milliseconds. Zero means the root key has not been used.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Expiration time in Unix milliseconds, or null for no expiration.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "permissions": {
+          "target": "com.unkey.api#V2RootKeysListKeysResponseDataPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "All permissions assigned to the root key.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.unkey.api#V2RootKeysListKeysResponseDataPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "All permissions assigned to the root key."
+      }
+    },
+    "com.unkey.api#V2RootKeysListKeysResponseBodyDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.unkey.api#V2RootKeysListKeysResponseData"
+      },
+      "traits": {}
+    },
+    "com.unkey.api#RootKeysListKeys": {
+      "type": "operation",
+      "input": {
+        "target": "com.unkey.api#RootKeysListKeysRequest"
+      },
+      "output": {
+        "target": "com.unkey.api#V2RootKeysListKeysResponseBody"
+      },
+      "errors": [
+        {
+          "target": "com.unkey.api#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/rootKeys.listKeys",
+          "code": 200
+        },
+        "smithy.api#documentation": "List root keys\n\nLists readable root keys in the authenticated workspace, ordered by key ID.\nRequires `unkey:v1:<workspace_id>:rootKeys/<key_id>#read` for each returned key.\nUse `rootKeys/*#read` to read all root keys. Write permission does not imply read.\nA caller with no readable keys receives an empty page.\n\nIncludes disabled and expired keys from the new root-key store.\nDeleted keys are excluded. Secrets and hashes are never returned.\nPass the returned cursor when hasMore is true to retrieve the next page."
+      }
+    },
+    "com.unkey.api#RootKeysRerollKeyRequest": {
+      "type": "structure",
+      "members": {
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Root key identifier returned by rootKeys.createKey or rootKeys.listKeys.",
+            "smithy.api#required": {}
+          }
+        },
+        "expiration": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Milliseconds until the original root key expires. Use 0 to revoke it immediately.\nUse null to keep the original key's current expiration. This value never extends\nan existing expiration.\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.unkey.api#V2RootKeysRerollKeyResponseBody": {
+      "type": "structure",
+      "members": {
+        "meta": {
+          "target": "com.unkey.api#Meta",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.unkey.api#V2RootKeysRerollKeyResponseData",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.unkey.api#V2RootKeysRerollKeyResponseData": {
+      "type": "structure",
+      "members": {
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the new root key.",
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New root key secret, returned only once. Store it securely.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.unkey.api#RootKeysRerollKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.unkey.api#RootKeysRerollKeyRequest"
+      },
+      "output": {
+        "target": "com.unkey.api#V2RootKeysRerollKeyResponseBody"
+      },
+      "errors": [
+        {
+          "target": "com.unkey.api#BadRequest"
+        },
+        {
+          "target": "com.unkey.api#Forbidden"
+        },
+        {
+          "target": "com.unkey.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/rootKeys.rerollKey",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reroll root key\n\nCreates a new root key secret with the same name, enabled state, expiration, and\neffective permissions as an existing root key in the authenticated workspace.\nRequires `unkey:v1:<workspace_id>:rootKeys/<key_id>#write`, and the caller must\nalready hold every permission of the original key. When `expiration` is not null,\nit also requires `unkey:v1:<workspace_id>:rootKeys/<key_id>#delete`.\n\n`expiration` controls the original key: 0 revokes it immediately, a positive value\nkeeps it valid for that many milliseconds, and null keeps its current expiration."
+      }
+    },
+    "com.unkey.api#RootKeysUpdateKeyRequestPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Complete replacement permission set. Every permission must be a supported URN in the authenticated workspace\nand within the caller's permissions. Omit to keep the current permissions.\n"
+      }
+    },
+    "com.unkey.api#RootKeysUpdateKeyRequest": {
+      "type": "structure",
+      "members": {
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Root key identifier returned by rootKeys.createKey or rootKeys.listKeys.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New root key name. Set null to remove the name. Omit to keep the current name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the root key can authenticate. Omit to keep the current state."
+          }
+        },
+        "permissions": {
+          "target": "com.unkey.api#RootKeysUpdateKeyRequestPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "Complete replacement permission set. Every permission must be a supported URN in the authenticated workspace\nand within the caller's permissions. Omit to keep the current permissions.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.unkey.api#V2RootKeysUpdateKeyResponseBody": {
+      "type": "structure",
+      "members": {
+        "meta": {
+          "target": "com.unkey.api#Meta",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.unkey.api#RootKeysUpdateKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.unkey.api#RootKeysUpdateKeyRequest"
+      },
+      "output": {
+        "target": "com.unkey.api#V2RootKeysUpdateKeyResponseBody"
+      },
+      "errors": [
+        {
+          "target": "com.unkey.api#BadRequest"
+        },
+        {
+          "target": "com.unkey.api#Forbidden"
+        },
+        {
+          "target": "com.unkey.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/rootKeys.updateKey",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update root key\n\nUpdates a root key in the authenticated workspace.\nRequires `unkey:v1:<workspace_id>:rootKeys/<key_id>#write`.\nUse `rootKeys/*#write` to update any root key in the workspace.\n\n`permissions` replaces the complete permission set. Each permission must be a supported URN\nin the authenticated workspace and within the caller's permissions.\nAn expiring root key can only update root keys that expire no later than itself."
+      }
+    },
+    "com.unkey.api#DeploymentSourceGit": {
+      "type": "structure",
+      "members": {
+        "branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Branch to build (its HEAD). Omit branch and commitSha to use the app's default branch."
+          }
+        },
+        "commitSha": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Commit to build (full or abbreviated SHA). Takes precedence over branch."
+          }
+        },
+        "repository": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Build from a fork instead of the app's connected repository, as \"owner/repo\". Requires commitSha."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Build from the app's connected GitHub repository."
+      }
+    },
+    "com.unkey.api#DeploymentSourceOCI": {
+      "type": "structure",
+      "members": {
+        "image": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OCI image to deploy. Mutable tags are resolved to immutable digests before rollout.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Deploy a prebuilt OCI image without a build."
+      }
+    },
+    "com.unkey.api#DeploymentSourceDeployment": {
+      "type": "structure",
+      "members": {
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Re-run an existing deployment."
+      }
+    },
+    "com.unkey.api#CreateDeploymentV3Request": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "app": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "environment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "git": {
+          "target": "com.unkey.api#DeploymentSourceGit"
+        },
+        "oci": {
+          "target": "com.unkey.api#DeploymentSourceOCI"
+        },
+        "deployment": {
+          "target": "com.unkey.api#DeploymentSourceDeployment"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.unkey.api#V3DeploymentsCreateDeploymentResponseBody": {
+      "type": "structure",
+      "members": {
+        "meta": {
+          "target": "com.unkey.api#Meta",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.unkey.api#V3DeploymentsCreateDeploymentResponseData",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.unkey.api#V3DeploymentsCreateDeploymentResponseData": {
+      "type": "structure",
+      "members": {
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique deployment identifier",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.unkey.api#CreateDeploymentV3": {
+      "type": "operation",
+      "input": {
+        "target": "com.unkey.api#CreateDeploymentV3Request"
+      },
+      "output": {
+        "target": "com.unkey.api#V3DeploymentsCreateDeploymentResponseBody"
+      },
+      "errors": [
+        {
+          "target": "com.unkey.api#BadRequest"
+        },
+        {
+          "target": "com.unkey.api#Forbidden"
+        },
+        {
+          "target": "com.unkey.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v3/deployments.createDeployment",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create deployment\n\nCreate a deployment for an app in a project.\n\nOmit the source to use the app's configured default. A Git app builds its default branch. An OCI app deploys its default image.\n\nOptionally provide one source override:\n- `oci`: deploy a prebuilt OCI image without a build. Mutable tags are resolved to immutable digests before rollout.\n- `git`: build and deploy from the app's connected GitHub repository, a branch, a specific commit, or a fork commit. Requires the app to have a repository connected.\n- `deployment`: re-run an existing deployment by its id. Git deployments rebuild from the recorded commit; OCI deployments reuse the recorded resolved image.\n\nReturns immediately with a `deploymentId`. The build and rollout run asynchronously. Poll `deployments.getDeployment` to watch status until it is ready.\n\n**Authentication**: requires a root key with permission to create deployments."
+      }
+    },
     "com.unkey.api#BadRequest": {
       "type": "structure",
       "members": {},
@@ -10288,9 +11202,6 @@
         },
         {
           "target": "com.unkey.api#UpdateApp"
-        },
-        {
-          "target": "com.unkey.api#CreateDeployment"
         },
         {
           "target": "com.unkey.api#GetDeployment"
@@ -10467,7 +11378,13 @@
           "target": "com.unkey.api#PortalListKeys"
         },
         {
+          "target": "com.unkey.api#PortalListSessions"
+        },
+        {
           "target": "com.unkey.api#PortalRerollKey"
+        },
+        {
+          "target": "com.unkey.api#PortalRevokeSession"
         },
         {
           "target": "com.unkey.api#UpdatePortal"
@@ -10504,6 +11421,24 @@
         },
         {
           "target": "com.unkey.api#RatelimitSetOverride"
+        },
+        {
+          "target": "com.unkey.api#RootKeysCreateKey"
+        },
+        {
+          "target": "com.unkey.api#RootKeysDeleteKey"
+        },
+        {
+          "target": "com.unkey.api#RootKeysListKeys"
+        },
+        {
+          "target": "com.unkey.api#RootKeysRerollKey"
+        },
+        {
+          "target": "com.unkey.api#RootKeysUpdateKey"
+        },
+        {
+          "target": "com.unkey.api#CreateDeploymentV3"
         }
       ],
       "traits": {

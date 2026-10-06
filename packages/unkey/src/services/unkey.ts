@@ -63,13 +63,7 @@ export interface AnalyticsGetGatewayRequestsRequest {
 export const AnalyticsGetGatewayRequestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     query: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/analytics.getGatewayRequests",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/analytics.getGatewayRequests", code: 200 })),
 ).annotate({
   identifier: "AnalyticsGetGatewayRequestsRequest",
 }) as any as S.Schema<AnalyticsGetGatewayRequestsRequest>;
@@ -127,9 +121,7 @@ export const AnalyticsGetRatelimitsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AnalyticsGetRatelimitsRequest>;
 
 /** Dynamic row with fields determined by the query. */
-export type V2AnalyticsGetRatelimitsResponseDataItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type V2AnalyticsGetRatelimitsResponseDataItemMap = { [key: string]: unknown | undefined };
 export const V2AnalyticsGetRatelimitsResponseDataItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -168,9 +160,7 @@ export const AnalyticsGetRuntimeLogsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AnalyticsGetRuntimeLogsRequest>;
 
 /** One result row. The query sets its fields. */
-export type V2AnalyticsGetRuntimeLogsResponseDataItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type V2AnalyticsGetRuntimeLogsResponseDataItemMap = { [key: string]: unknown | undefined };
 export const V2AnalyticsGetRuntimeLogsResponseDataItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -203,21 +193,13 @@ export interface AnalyticsGetVerificationsRequest {
 export const AnalyticsGetVerificationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     query: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/analytics.getVerifications",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/analytics.getVerifications", code: 200 })),
 ).annotate({
   identifier: "AnalyticsGetVerificationsRequest",
 }) as any as S.Schema<AnalyticsGetVerificationsRequest>;
 
 /** Dynamic row with fields determined by the query. Can include any combination of fields like time, outcome, count, key_id, etc. */
-export type V2AnalyticsGetVerificationsResponseDataItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type V2AnalyticsGetVerificationsResponseDataItemMap = { [key: string]: unknown | undefined };
 export const V2AnalyticsGetVerificationsResponseDataItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -251,9 +233,7 @@ export const ApisCreateApiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/apis.createApi", code: 200 })),
-).annotate({
-  identifier: "ApisCreateApiRequest",
-}) as any as S.Schema<ApisCreateApiRequest>;
+).annotate({ identifier: "ApisCreateApiRequest" }) as any as S.Schema<ApisCreateApiRequest>;
 
 export interface V2ApisCreateApiResponseData {
   /** The unique identifier assigned to the newly created API. Use this ID for all subsequent operations including key creation, verification, and API management. Always begins with 'api_' followed by a unique alphanumeric sequence. Store this ID securely as it's required when: - Creating API keys within this namespace - Verifying keys associated with this API - Managing API settings and metadata - Listing keys belonging to this API This identifier is permanent and cannot be changed after creation. */
@@ -288,9 +268,7 @@ export const ApisDeleteApiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     apiId: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/apis.deleteApi", code: 200 })),
-).annotate({
-  identifier: "ApisDeleteApiRequest",
-}) as any as S.Schema<ApisDeleteApiRequest>;
+).annotate({ identifier: "ApisDeleteApiRequest" }) as any as S.Schema<ApisDeleteApiRequest>;
 
 export interface V2ApisDeleteApiResponseBody {
   meta: Meta;
@@ -313,9 +291,7 @@ export const ApisGetApiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     apiId: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/apis.getApi", code: 200 })),
-).annotate({
-  identifier: "ApisGetApiRequest",
-}) as any as S.Schema<ApisGetApiRequest>;
+).annotate({ identifier: "ApisGetApiRequest" }) as any as S.Schema<ApisGetApiRequest>;
 
 export interface V2ApisGetApiResponseData {
   /** The unique identifier of this API within Unkey's system. Used in all operations related to this API including key creation, verification, and management. Always begins with 'api_' followed by alphanumeric characters and underscores. This identifier is permanent and never changes after API creation. */
@@ -328,9 +304,7 @@ export const V2ApisGetApiResponseData = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "V2ApisGetApiResponseData",
-}) as any as S.Schema<V2ApisGetApiResponseData>;
+).annotate({ identifier: "V2ApisGetApiResponseData" }) as any as S.Schema<V2ApisGetApiResponseData>;
 
 export interface V2ApisGetApiResponseBody {
   meta: Meta;
@@ -341,9 +315,7 @@ export const V2ApisGetApiResponseBody = /*@__PURE__*/ S.suspend(() =>
     meta: Meta,
     data: V2ApisGetApiResponseData,
   }),
-).annotate({
-  identifier: "V2ApisGetApiResponseBody",
-}) as any as S.Schema<V2ApisGetApiResponseBody>;
+).annotate({ identifier: "V2ApisGetApiResponseBody" }) as any as S.Schema<V2ApisGetApiResponseBody>;
 
 export interface ApisListKeysRequest {
   /** The API namespace whose keys you want to list. Returns all keys in this API, subject to pagination and filters. */
@@ -368,9 +340,7 @@ export const ApisListKeysRequest = /*@__PURE__*/ S.suspend(() =>
     decrypt: S.optional(S.Boolean),
     revalidateKeysCache: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/v2/apis.listKeys", code: 200 })),
-).annotate({
-  identifier: "ApisListKeysRequest",
-}) as any as S.Schema<ApisListKeysRequest>;
+).annotate({ identifier: "ApisListKeysRequest" }) as any as S.Schema<ApisListKeysRequest>;
 
 /** Custom metadata associated with this key. */
 export type KeyResponseDataMetaMap = { [key: string]: unknown | undefined };
@@ -408,9 +378,7 @@ export const KeyCreditsRefill = /*@__PURE__*/ S.suspend(() =>
     amount: S.Number,
     refillDay: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "KeyCreditsRefill",
-}) as any as S.Schema<KeyCreditsRefill>;
+).annotate({ identifier: "KeyCreditsRefill" }) as any as S.Schema<KeyCreditsRefill>;
 
 /** Credit configuration and remaining balance for this key. */
 export interface KeyCreditsData {
@@ -452,9 +420,7 @@ export const RatelimitResponse = /*@__PURE__*/ S.suspend(() =>
     duration: S.Number,
     autoApply: S.Boolean,
   }),
-).annotate({
-  identifier: "RatelimitResponse",
-}) as any as S.Schema<RatelimitResponse>;
+).annotate({ identifier: "RatelimitResponse" }) as any as S.Schema<RatelimitResponse>;
 
 /** Identity ratelimits */
 export type IdentityRatelimitsList = Array<RatelimitResponse>;
@@ -531,9 +497,7 @@ export const KeyResponseData = /*@__PURE__*/ S.suspend(() =>
     plaintext: S.optional(S.String.pipe(T.SensitiveValue({}))),
     ratelimits: S.optional(KeyResponseDataRatelimitsList),
   }),
-).annotate({
-  identifier: "KeyResponseData",
-}) as any as S.Schema<KeyResponseData>;
+).annotate({ identifier: "KeyResponseData" }) as any as S.Schema<KeyResponseData>;
 
 /** Array of API keys with complete configuration and metadata. */
 export type V2ApisListKeysResponseData = Array<KeyResponseData>;
@@ -570,28 +534,38 @@ export const V2ApisListKeysResponseBody = /*@__PURE__*/ S.suspend(() =>
   identifier: "V2ApisListKeysResponseBody",
 }) as any as S.Schema<V2ApisListKeysResponseBody>;
 
-/** Connect a GitHub repository to the app on creation. Omit to create the app without a repository and connect one later with apps.updateApp. */
+/** Configure Git as the app source. Provide `repository` to connect it during creation, or use an empty object to connect a repository later. */
 export interface AppGitCreateInput {
-  /** The GitHub repository to connect, as "owner/repo". The workspace must have the Unkey GitHub App installed with access to it. */
-  repository: string;
-  /** The branch this app's deployments track. Omit to adopt the repository's default branch on GitHub. */
+  /** The GitHub repository to connect, as "owner/repo". The workspace must have the Unkey GitHub App installed with access to it. Omit this field to create the Git app before selecting its repository. */
+  repository?: string;
+  /** The branch this app's deployments track. This requires `repository`. Omit it to adopt the repository's default branch on GitHub. */
   defaultBranch?: string;
 }
 export const AppGitCreateInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    repository: S.String,
+    repository: S.optional(S.String),
     defaultBranch: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppGitCreateInput",
-}) as any as S.Schema<AppGitCreateInput>;
+).annotate({ identifier: "AppGitCreateInput" }) as any as S.Schema<AppGitCreateInput>;
+
+/** An app's OCI image source. */
+export interface AppOCI {
+  /** The configured default OCI image reference for new deployments. It must include an explicit tag or digest. */
+  image: string;
+}
+export const AppOCI = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    image: S.String,
+  }),
+).annotate({ identifier: "AppOCI" }) as any as S.Schema<AppOCI>;
 
 export interface CreateAppRequest {
   project: string;
-  /** Human-readable name for this app. Use a descriptive name like 'Payments API' to identify its purpose. */
+  /** Human-readable name for this app. */
   name: string;
   slug: string;
   git?: AppGitCreateInput;
+  oci?: AppOCI;
 }
 export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -599,10 +573,9 @@ export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     slug: S.String,
     git: S.optional(AppGitCreateInput),
+    oci: S.optional(AppOCI),
   }).pipe(T.Http({ method: "POST", uri: "/v2/apps.createApp", code: 200 })),
-).annotate({
-  identifier: "CreateAppRequest",
-}) as any as S.Schema<CreateAppRequest>;
+).annotate({ identifier: "CreateAppRequest" }) as any as S.Schema<CreateAppRequest>;
 
 export interface V2AppsCreateAppResponseData {
   /** The unique identifier of the newly created app, generated by Unkey. Always begins with 'app_' followed by a unique alphanumeric sequence. */
@@ -644,22 +617,18 @@ export const DeploymentSourceGit = /*@__PURE__*/ S.suspend(() =>
     commitSha: S.optional(S.String),
     repository: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeploymentSourceGit",
-}) as any as S.Schema<DeploymentSourceGit>;
+).annotate({ identifier: "DeploymentSourceGit" }) as any as S.Schema<DeploymentSourceGit>;
 
-/** Deploy a prebuilt Docker image as-is. */
-export interface DeploymentSourceImage {
-  /** Docker image to deploy as-is. */
-  dockerImage: string;
+/** Deploy a prebuilt OCI image without a build. */
+export interface DeploymentSourceOCI {
+  /** OCI image to deploy. Mutable tags are resolved to immutable digests before rollout. */
+  image: string;
 }
-export const DeploymentSourceImage = /*@__PURE__*/ S.suspend(() =>
+export const DeploymentSourceOCI = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dockerImage: S.String,
+    image: S.String,
   }),
-).annotate({
-  identifier: "DeploymentSourceImage",
-}) as any as S.Schema<DeploymentSourceImage>;
+).annotate({ identifier: "DeploymentSourceOCI" }) as any as S.Schema<DeploymentSourceOCI>;
 
 /** Re-run an existing deployment. */
 export interface DeploymentSourceDeployment {
@@ -673,57 +642,51 @@ export const DeploymentSourceDeployment = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeploymentSourceDeployment",
 }) as any as S.Schema<DeploymentSourceDeployment>;
 
-export interface CreateDeploymentRequest {
+export interface CreateDeploymentV3Request {
   project: string;
   app: string;
   environment: string;
   git?: DeploymentSourceGit;
-  image?: DeploymentSourceImage;
+  oci?: DeploymentSourceOCI;
   deployment?: DeploymentSourceDeployment;
 }
-export const CreateDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
+export const CreateDeploymentV3Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.String,
     app: S.String,
     environment: S.String,
     git: S.optional(DeploymentSourceGit),
-    image: S.optional(DeploymentSourceImage),
+    oci: S.optional(DeploymentSourceOCI),
     deployment: S.optional(DeploymentSourceDeployment),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/deployments.createDeployment",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v3/deployments.createDeployment", code: 200 })),
 ).annotate({
-  identifier: "CreateDeploymentRequest",
-}) as any as S.Schema<CreateDeploymentRequest>;
+  identifier: "CreateDeploymentV3Request",
+}) as any as S.Schema<CreateDeploymentV3Request>;
 
-export interface V2DeploymentsCreateDeploymentResponseData {
-  /** Unique deployment identifier. Poll deployments.getDeployment with this id to watch status. */
+export interface V3DeploymentsCreateDeploymentResponseData {
+  /** Unique deployment identifier */
   deploymentId: string;
 }
-export const V2DeploymentsCreateDeploymentResponseData = /*@__PURE__*/ S.suspend(() =>
+export const V3DeploymentsCreateDeploymentResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deploymentId: S.String,
   }),
 ).annotate({
-  identifier: "V2DeploymentsCreateDeploymentResponseData",
-}) as any as S.Schema<V2DeploymentsCreateDeploymentResponseData>;
+  identifier: "V3DeploymentsCreateDeploymentResponseData",
+}) as any as S.Schema<V3DeploymentsCreateDeploymentResponseData>;
 
-export interface V2DeploymentsCreateDeploymentResponseBody {
+export interface V3DeploymentsCreateDeploymentResponseBody {
   meta: Meta;
-  data: V2DeploymentsCreateDeploymentResponseData;
+  data: V3DeploymentsCreateDeploymentResponseData;
 }
-export const V2DeploymentsCreateDeploymentResponseBody = /*@__PURE__*/ S.suspend(() =>
+export const V3DeploymentsCreateDeploymentResponseBody = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     meta: Meta,
-    data: V2DeploymentsCreateDeploymentResponseData,
+    data: V3DeploymentsCreateDeploymentResponseData,
   }),
 ).annotate({
-  identifier: "V2DeploymentsCreateDeploymentResponseBody",
-}) as any as S.Schema<V2DeploymentsCreateDeploymentResponseBody>;
+  identifier: "V3DeploymentsCreateDeploymentResponseBody",
+}) as any as S.Schema<V3DeploymentsCreateDeploymentResponseBody>;
 
 export interface CreateDomainRequest {
   project: string;
@@ -739,9 +702,7 @@ export const CreateDomainRequest = /*@__PURE__*/ S.suspend(() =>
     environment: S.String,
     domain: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/domains.createDomain", code: 200 })),
-).annotate({
-  identifier: "CreateDomainRequest",
-}) as any as S.Schema<CreateDomainRequest>;
+).annotate({ identifier: "CreateDomainRequest" }) as any as S.Schema<CreateDomainRequest>;
 
 /** Record type to create. `ALIAS` is not a real DNS record type: it means an apex-compatible alias, which providers expose as ALIAS, ANAME, or a flattened CNAME. Apex domains cannot hold a plain CNAME, so they receive `ALIAS` where a subdomain receives `CNAME`. */
 export type DnsRecordType = "CNAME" | "ALIAS" | "TXT";
@@ -822,9 +783,7 @@ export const V2DomainsCreateDomainResponseBody = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<V2DomainsCreateDomainResponseBody>;
 
 /** Stores arbitrary JSON metadata returned during key verification for contextual information. Eliminates additional database lookups during verification, improving performance for stateless services. Avoid storing sensitive data here as it's returned in verification responses. Large metadata objects increase verification latency and should stay under 10KB total size. Use this for subscription details, feature flags, user preferences, and organization information. Metadata is returned as-is whenever keys associated with this identity are verified. */
-export type CreateIdentityRequestMetaMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateIdentityRequestMetaMap = { [key: string]: unknown | undefined };
 export const CreateIdentityRequestMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -847,9 +806,7 @@ export const RatelimitRequest = /*@__PURE__*/ S.suspend(() =>
     duration: S.Number,
     autoApply: S.Boolean,
   }),
-).annotate({
-  identifier: "RatelimitRequest",
-}) as any as S.Schema<RatelimitRequest>;
+).annotate({ identifier: "RatelimitRequest" }) as any as S.Schema<RatelimitRequest>;
 
 /** Defines shared rate limits that apply to all keys belonging to this identity. Prevents abuse by users with multiple keys by enforcing consistent limits across their entire key portfolio. Essential for implementing fair usage policies and tiered access levels in multi-tenant applications. Rate limit counters are shared across all keys with this identity, regardless of how many keys the user creates. During verification, specify which named limits to check for enforcement. Identity rate limits supplement any key-specific rate limits that may also be configured. - Each named limit can have different thresholds and windows When verifying keys, you can specify which limits you want to use and all keys attached to this identity will share the limits, regardless of which specific key is used. */
 export type CreateIdentityRequestRatelimitsList = Array<RatelimitRequest>;
@@ -871,9 +828,7 @@ export const CreateIdentityRequest = /*@__PURE__*/ S.suspend(() =>
     meta: S.optional(CreateIdentityRequestMetaMap),
     ratelimits: S.optional(CreateIdentityRequestRatelimitsList),
   }).pipe(T.Http({ method: "POST", uri: "/v2/identities.createIdentity", code: 200 })),
-).annotate({
-  identifier: "CreateIdentityRequest",
-}) as any as S.Schema<CreateIdentityRequest>;
+).annotate({ identifier: "CreateIdentityRequest" }) as any as S.Schema<CreateIdentityRequest>;
 
 export interface V2IdentitiesCreateIdentityResponseData {
   /** The unique identifier of the created identity. */
@@ -969,9 +924,7 @@ export const CreateKeyRequest = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     recoverable: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/v2/keys.createKey", code: 200 })),
-).annotate({
-  identifier: "CreateKeyRequest",
-}) as any as S.Schema<CreateKeyRequest>;
+).annotate({ identifier: "CreateKeyRequest" }) as any as S.Schema<CreateKeyRequest>;
 
 export interface V2KeysCreateKeyResponseData {
   /** The unique identifier for this key in Unkey's system. This is NOT the actual API key, but a reference ID used for management operations like updating or deleting the key. Store this ID in your database to reference the key later. This ID is not sensitive and can be logged or displayed in dashboards. */
@@ -1025,12 +978,10 @@ export const CreatePortalRequest = /*@__PURE__*/ S.suspend(() =>
     logoUrl: S.optional(S.String),
     primaryColor: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v2/portal.createPortal", code: 200 })),
-).annotate({
-  identifier: "CreatePortalRequest",
-}) as any as S.Schema<CreatePortalRequest>;
+).annotate({ identifier: "CreatePortalRequest" }) as any as S.Schema<CreatePortalRequest>;
 
 export interface V2PortalCreatePortalResponseData {
-  /** The unique identifier of the newly created portal, generated by Unkey. Always begins with 'pc_' followed by a unique alphanumeric sequence. */
+  /** The unique identifier of the newly created portal, generated by Unkey. Always begins with 'prt_' followed by a unique alphanumeric sequence. */
   portalId: string;
 }
 export const V2PortalCreatePortalResponseData = /*@__PURE__*/ S.suspend(() =>
@@ -1064,9 +1015,7 @@ export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     slug: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/projects.createProject", code: 200 })),
-).annotate({
-  identifier: "CreateProjectRequest",
-}) as any as S.Schema<CreateProjectRequest>;
+).annotate({ identifier: "CreateProjectRequest" }) as any as S.Schema<CreateProjectRequest>;
 
 export interface V2ProjectsCreateProjectResponseData {
   /** The unique identifier of the newly created project, generated by Unkey. Always begins with 'proj_' followed by a unique alphanumeric sequence. */
@@ -1102,9 +1051,7 @@ export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
     project: S.String,
     app: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/apps.deleteApp", code: 200 })),
-).annotate({
-  identifier: "DeleteAppRequest",
-}) as any as S.Schema<DeleteAppRequest>;
+).annotate({ identifier: "DeleteAppRequest" }) as any as S.Schema<DeleteAppRequest>;
 
 export interface DeleteAppResponse {}
 export const DeleteAppResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1119,9 +1066,7 @@ export const DeleteDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/domains.deleteDomain", code: 200 })),
-).annotate({
-  identifier: "DeleteDomainRequest",
-}) as any as S.Schema<DeleteDomainRequest>;
+).annotate({ identifier: "DeleteDomainRequest" }) as any as S.Schema<DeleteDomainRequest>;
 
 export interface V2DomainsDeleteDomainResponseBody {
   meta: Meta;
@@ -1144,9 +1089,7 @@ export const DeleteIdentityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     identity: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/identities.deleteIdentity", code: 200 })),
-).annotate({
-  identifier: "DeleteIdentityRequest",
-}) as any as S.Schema<DeleteIdentityRequest>;
+).annotate({ identifier: "DeleteIdentityRequest" }) as any as S.Schema<DeleteIdentityRequest>;
 
 /** Empty response object. A successful response indicates the identity was deleted successfully. */
 export interface V2IdentitiesDeleteIdentityResponseBody {
@@ -1171,9 +1114,7 @@ export const DeleteKeyRequest = /*@__PURE__*/ S.suspend(() =>
     keyId: S.String,
     permanent: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/v2/keys.deleteKey", code: 200 })),
-).annotate({
-  identifier: "DeleteKeyRequest",
-}) as any as S.Schema<DeleteKeyRequest>;
+).annotate({ identifier: "DeleteKeyRequest" }) as any as S.Schema<DeleteKeyRequest>;
 
 export interface V2KeysDeleteKeyResponseBody {
   meta: Meta;
@@ -1195,9 +1136,7 @@ export const DeletePortalRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     portal: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/portal.deletePortal", code: 200 })),
-).annotate({
-  identifier: "DeletePortalRequest",
-}) as any as S.Schema<DeletePortalRequest>;
+).annotate({ identifier: "DeletePortalRequest" }) as any as S.Schema<DeletePortalRequest>;
 
 export interface V2PortalDeletePortalResponseBody {
   meta: Meta;
@@ -1219,9 +1158,7 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/projects.deleteProject", code: 200 })),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Schema<DeleteProjectRequest>;
 
 export interface DeleteProjectResponse {}
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1234,13 +1171,7 @@ export interface DeploymentsPromoteDeploymentRequest {
 export const DeploymentsPromoteDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deploymentId: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/deployments.promoteDeployment",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/deployments.promoteDeployment", code: 200 })),
 ).annotate({
   identifier: "DeploymentsPromoteDeploymentRequest",
 }) as any as S.Schema<DeploymentsPromoteDeploymentRequest>;
@@ -1259,13 +1190,7 @@ export interface DeploymentsRollbackDeploymentRequest {
 export const DeploymentsRollbackDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deploymentId: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/deployments.rollbackDeployment",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/deployments.rollbackDeployment", code: 200 })),
 ).annotate({
   identifier: "DeploymentsRollbackDeploymentRequest",
 }) as any as S.Schema<DeploymentsRollbackDeploymentRequest>;
@@ -1299,9 +1224,7 @@ export const EnvironmentVariableInput = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(EnvironmentVariableKind),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnvironmentVariableInput",
-}) as any as S.Schema<EnvironmentVariableInput>;
+).annotate({ identifier: "EnvironmentVariableInput" }) as any as S.Schema<EnvironmentVariableInput>;
 
 /** The variables to upsert. Each entry is created if its key is new or fully overwritten if the key already exists. Existing variables whose keys are not in this list are left untouched, unless `prune` is true. Each entry is written exactly as sent, never merged with the current state. Only `value` is required; omitted optional fields (`kind`, `description`) fall back to their defaults rather than any previous value, so overwriting a variable without a `description` clears it. Each key may appear at most once; a duplicate key is rejected with a 400. The whole operation is atomic: if any part fails the environment is left unchanged. All values are encrypted at rest. Limited to 50 variables per request. */
 export type EnvironmentsSetEnvironmentVariablesRequestVariablesList =
@@ -1326,13 +1249,7 @@ export const EnvironmentsSetEnvironmentVariablesRequest = /*@__PURE__*/ S.suspen
     environment: S.String,
     variables: EnvironmentsSetEnvironmentVariablesRequestVariablesList,
     prune: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/environments.setEnvironmentVariables",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/environments.setEnvironmentVariables", code: 200 })),
 ).annotate({
   identifier: "EnvironmentsSetEnvironmentVariablesRequest",
 }) as any as S.Schema<EnvironmentsSetEnvironmentVariablesRequest>;
@@ -1350,7 +1267,7 @@ export const V2EnvironmentsSetEnvironmentVariablesResponseBody = /*@__PURE__*/ S
   identifier: "V2EnvironmentsSetEnvironmentVariablesResponseBody",
 }) as any as S.Schema<V2EnvironmentsSetEnvironmentVariablesResponseBody>;
 
-/** Glob paths that trigger auto-deploys when changed. Omit to leave unchanged. */
+/** Glob patterns that trigger auto-deploys when matching files change. Do not start a pattern with "/" or "./". Use "src/**" for everything under a directory and "**\/*.go" for a file type. A pattern with no wildcard matches only that exact file, so "src" is not "src/**". Omit to leave unchanged. Invalid patterns are rejected with a 400. */
 export type EnvironmentsUpdateSettingsRequestWatchPathsList = Array<string>;
 export const EnvironmentsUpdateSettingsRequestWatchPathsList = /*@__PURE__*/ S.Array(
   S.String,
@@ -1389,9 +1306,7 @@ export const EnvironmentHealthcheck = /*@__PURE__*/ S.suspend(() =>
     failureThreshold: S.optional(S.Number),
     initialDelaySeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EnvironmentHealthcheck",
-}) as any as S.Schema<EnvironmentHealthcheck>;
+).annotate({ identifier: "EnvironmentHealthcheck" }) as any as S.Schema<EnvironmentHealthcheck>;
 
 /** Signal sent to the container on shutdown. */
 export type EnvironmentShutdownSignal = "SIGTERM" | "SIGINT" | "SIGQUIT" | "SIGKILL";
@@ -1426,9 +1341,7 @@ export const EnvironmentRegion = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     replicas: Replicas,
   }),
-).annotate({
-  identifier: "EnvironmentRegion",
-}) as any as S.Schema<EnvironmentRegion>;
+).annotate({ identifier: "EnvironmentRegion" }) as any as S.Schema<EnvironmentRegion>;
 
 /** Desired set of regions with per-region replica bounds. Omit to leave regions unchanged; when present, this replaces the full set (regions absent from the list are removed). At least one region is required; an empty list is rejected because an environment cannot have zero regions. */
 export type EnvironmentsUpdateSettingsRequestRegionsList = Array<EnvironmentRegion>;
@@ -1446,7 +1359,7 @@ export interface EnvironmentsUpdateSettingsRequest {
   rootDirectory?: string;
   /** Overrides the build command auto-detected by Railpack. Omit to leave unchanged; set null to clear and fall back to auto-detection. */
   buildCommand?: string | null;
-  /** Glob paths that trigger auto-deploys when changed. Omit to leave unchanged. */
+  /** Glob patterns that trigger auto-deploys when matching files change. Do not start a pattern with "/" or "./". Use "src/**" for everything under a directory and "**\/*.go" for a file type. A pattern with no wildcard matches only that exact file, so "src" is not "src/**". Omit to leave unchanged. Invalid patterns are rejected with a 400. */
   watchPaths?: EnvironmentsUpdateSettingsRequestWatchPathsList;
   /** Whether pushes auto-deploy. Omit to leave unchanged. */
   autoDeploy?: boolean;
@@ -1491,13 +1404,7 @@ export const EnvironmentsUpdateSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     upstreamProtocol: S.optional(EnvironmentUpstreamProtocol),
     openapiSpecPath: S.optional(S.NullOr(S.String)),
     regions: S.optional(EnvironmentsUpdateSettingsRequestRegionsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/environments.updateSettings",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/environments.updateSettings", code: 200 })),
 ).annotate({
   identifier: "EnvironmentsUpdateSettingsRequest",
 }) as any as S.Schema<EnvironmentsUpdateSettingsRequest>;
@@ -1600,12 +1507,39 @@ export const FieldMatch = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "FieldMatch" }) as any as S.Schema<FieldMatch>;
 
-/** A single request match expression. Exactly one of `path`, `method`, `header` or `queryParam` must be set. */
+/** Matches when the remote IP is in at least one of these ranges. Entries are CIDRs such as `203.0.113.0/24` or single addresses such as `203.0.113.7`. */
+export type RemoteIpMatchInList = Array<string>;
+export const RemoteIpMatchInList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<RemoteIpMatchInList>;
+
+/** Matches when the remote IP is in none of these ranges. Entries are CIDRs such as `198.51.100.0/24` or single addresses such as `198.51.100.7`. */
+export type RemoteIpMatchNotInList = Array<string>;
+export const RemoteIpMatchNotInList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<RemoteIpMatchNotInList>;
+
+/** Matches the remote IP against IPv4 or IPv6 CIDR ranges. Exactly one of `in` or `notIn` must be set. Entries are rejected if they have host bits set (such as `10.1.2.3/8`), are IPv4-mapped IPv6 addresses, or carry a zone. Single addresses are returned as full-length prefixes, such as `203.0.113.7/32`. */
+export interface RemoteIpMatch {
+  /** Matches when the remote IP is in at least one of these ranges. Entries are CIDRs such as `203.0.113.0/24` or single addresses such as `203.0.113.7`. */
+  in?: RemoteIpMatchInList;
+  /** Matches when the remote IP is in none of these ranges. Entries are CIDRs such as `198.51.100.0/24` or single addresses such as `198.51.100.7`. */
+  notIn?: RemoteIpMatchNotInList;
+}
+export const RemoteIpMatch = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    in: S.optional(RemoteIpMatchInList),
+    notIn: S.optional(RemoteIpMatchNotInList),
+  }),
+).annotate({ identifier: "RemoteIpMatch" }) as any as S.Schema<RemoteIpMatch>;
+
+/** A single request match expression. Exactly one of `path`, `method`, `header`, `queryParam` or `remoteIp` must be set. */
 export interface MatchExpr {
   path?: PathMatch;
   method?: MethodMatch;
   header?: FieldMatch;
   queryParam?: FieldMatch;
+  remoteIp?: RemoteIpMatch;
 }
 export const MatchExpr = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1613,6 +1547,7 @@ export const MatchExpr = /*@__PURE__*/ S.suspend(() =>
     method: S.optional(MethodMatch),
     header: S.optional(FieldMatch),
     queryParam: S.optional(FieldMatch),
+    remoteIp: S.optional(RemoteIpMatch),
   }),
 ).annotate({ identifier: "MatchExpr" }) as any as S.Schema<MatchExpr>;
 
@@ -1639,9 +1574,7 @@ export const HeaderKeyLocation = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     stripPrefix: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HeaderKeyLocation",
-}) as any as S.Schema<HeaderKeyLocation>;
+).annotate({ identifier: "HeaderKeyLocation" }) as any as S.Schema<HeaderKeyLocation>;
 
 /** Extract the key from a query parameter. */
 export interface QueryParamKeyLocation {
@@ -1651,9 +1584,7 @@ export const QueryParamKeyLocation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
   }),
-).annotate({
-  identifier: "QueryParamKeyLocation",
-}) as any as S.Schema<QueryParamKeyLocation>;
+).annotate({ identifier: "QueryParamKeyLocation" }) as any as S.Schema<QueryParamKeyLocation>;
 
 /** Where to look for the API key on incoming requests. Exactly one of `bearer`, `header` or `queryParam` must be set. */
 export interface KeyLocation {
@@ -1736,9 +1667,7 @@ export const PrincipalFieldKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     path: S.String,
   }),
-).annotate({
-  identifier: "PrincipalFieldKey",
-}) as any as S.Schema<PrincipalFieldKey>;
+).annotate({ identifier: "PrincipalFieldKey" }) as any as S.Schema<PrincipalFieldKey>;
 
 /** How requests are grouped for rate limiting. Exactly one of `remoteIp`, `header`, `authenticatedSubject`, `path` or `principalField` must be set. */
 export interface RatelimitIdentifier {
@@ -1756,9 +1685,7 @@ export const RatelimitIdentifier = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.Unknown),
     principalField: S.optional(PrincipalFieldKey),
   }),
-).annotate({
-  identifier: "RatelimitIdentifier",
-}) as any as S.Schema<RatelimitIdentifier>;
+).annotate({ identifier: "RatelimitIdentifier" }) as any as S.Schema<RatelimitIdentifier>;
 
 /** Ordered list of sources that form a compound rate limit key. The gateway resolves each source for each request. Each unique combination of resolved values has its own counter. All counters use the same limit and window. Example: `[authenticatedSubject, path]` limits each subject separately on each path. */
 export type RatelimitPolicyIdentifiersList = Array<RatelimitIdentifier>;
@@ -1784,9 +1711,7 @@ export const RatelimitPolicy = /*@__PURE__*/ S.suspend(() =>
     identifier: S.optional(RatelimitIdentifier),
     identifiers: S.optional(RatelimitPolicyIdentifiersList),
   }),
-).annotate({
-  identifier: "RatelimitPolicy",
-}) as any as S.Schema<RatelimitPolicy>;
+).annotate({ identifier: "RatelimitPolicy" }) as any as S.Schema<RatelimitPolicy>;
 
 /** What to do with matching requests. */
 export type FirewallPolicyAction = "ACTION_DENY";
@@ -2010,6 +1935,10 @@ export const GetAppRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "POST", uri: "/v2/apps.getApp", code: 200 })),
 ).annotate({ identifier: "GetAppRequest" }) as any as S.Schema<GetAppRequest>;
 
+/** The configured source used to create deployments. Omitted for historical apps whose source could not be classified. */
+export type AppSourceType = "git" | "oci";
+export const AppSourceType = S.String;
+
 export interface AppGit {
   /** The connected GitHub repository, as "owner/repo". */
   repository: string;
@@ -2030,8 +1959,12 @@ export interface App {
   name: string;
   /** URL-safe handle for this app, unique within its project. Chosen at creation time. */
   slug: string;
-  /** The connected GitHub repository and the branch its deployments track. Omitted when the app has no repository connected (for example a Docker-based app). */
+  /** The configured source used to create deployments. Omitted for historical apps whose source could not be classified. */
+  sourceType?: AppSourceType;
+  /** The connected GitHub repository and the branch its deployments track. Omitted when the app has no repository connected (for example a prebuilt OCI image app). */
   git?: AppGit;
+  /** The configured OCI image source. Omitted when the app is not OCI-sourced. */
+  oci?: AppOCI;
   /** The identifier of the deployment currently serving this app. Omitted if the app has no active deployment yet. */
   currentDeploymentId?: string;
   /** Whether the app is currently serving a rolled-back deployment rather than its latest one. */
@@ -2048,7 +1981,9 @@ export const App = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
     slug: S.String,
+    sourceType: S.optional(AppSourceType),
     git: S.optional(AppGit),
+    oci: S.optional(AppOCI),
     currentDeploymentId: S.optional(S.String),
     isRolledBack: S.Boolean,
     deleteProtection: S.Boolean,
@@ -2066,9 +2001,7 @@ export const V2AppsGetAppResponseBody = /*@__PURE__*/ S.suspend(() =>
     meta: Meta,
     data: App,
   }),
-).annotate({
-  identifier: "V2AppsGetAppResponseBody",
-}) as any as S.Schema<V2AppsGetAppResponseBody>;
+).annotate({ identifier: "V2AppsGetAppResponseBody" }) as any as S.Schema<V2AppsGetAppResponseBody>;
 
 export interface GetDeploymentRequest {
   deploymentId: string;
@@ -2077,9 +2010,7 @@ export const GetDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deploymentId: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/deployments.getDeployment", code: 200 })),
-).annotate({
-  identifier: "GetDeploymentRequest",
-}) as any as S.Schema<GetDeploymentRequest>;
+).annotate({ identifier: "GetDeploymentRequest" }) as any as S.Schema<GetDeploymentRequest>;
 
 /** Current lifecycle status of the deployment. Poll until it reaches a terminal state: ready (serving), failed, skipped, superseded, stopped, or cancelled. */
 export type DeploymentStatus =
@@ -2112,16 +2043,14 @@ export const DeploymentGit = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "DeploymentGit" }) as any as S.Schema<DeploymentGit>;
 
 export interface DeploymentDocker {
-  /** The Docker image this deployment runs. */
+  /** The OCI image reference requested for this deployment. */
   image: string;
 }
 export const DeploymentDocker = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     image: S.String,
   }),
-).annotate({
-  identifier: "DeploymentDocker",
-}) as any as S.Schema<DeploymentDocker>;
+).annotate({ identifier: "DeploymentDocker" }) as any as S.Schema<DeploymentDocker>;
 
 /** A lifecycle operation that can be performed on the deployment in its current state, given its status, environment, and whether it is the current deployment. */
 export type DeploymentAction = "promote" | "rollback" | "stop" | "start";
@@ -2152,7 +2081,7 @@ export const DeploymentErrorCode = S.String;
 
 export interface DeploymentError {
   code: DeploymentErrorCode;
-  /** The pipeline step that failed (e.g. `building`, `deploying`, `starting`). */
+  /** The pipeline step that failed (e.g. `queued`, `building`, `deploying`). */
   step: string;
   /** Human-readable description of why the deployment failed. For programmatic handling, use `code`. */
   message: string;
@@ -2163,9 +2092,7 @@ export const DeploymentError = /*@__PURE__*/ S.suspend(() =>
     step: S.String,
     message: S.String,
   }),
-).annotate({
-  identifier: "DeploymentError",
-}) as any as S.Schema<DeploymentError>;
+).annotate({ identifier: "DeploymentError" }) as any as S.Schema<DeploymentError>;
 
 /** Public hostnames this deployment is reachable at. */
 export type DeploymentDomainsList = Array<string>;
@@ -2206,9 +2133,7 @@ export const DeploymentRuntime = /*@__PURE__*/ S.suspend(() =>
     upstreamProtocol: EnvironmentUpstreamProtocol,
     healthcheck: S.optional(EnvironmentHealthcheck),
   }),
-).annotate({
-  identifier: "DeploymentRuntime",
-}) as any as S.Schema<DeploymentRuntime>;
+).annotate({ identifier: "DeploymentRuntime" }) as any as S.Schema<DeploymentRuntime>;
 
 export interface Deployment {
   /** The unique identifier of the deployment, generated by Unkey. */
@@ -2224,7 +2149,7 @@ export interface Deployment {
   project: string;
   /** Present for git-sourced deployments. Mutually exclusive with `docker`. */
   git?: DeploymentGit;
-  /** Present for image-sourced deployments. Mutually exclusive with `git`. */
+  /** Compatibility field present for OCI image-sourced deployments. Mutually exclusive with `git`. */
   docker?: DeploymentDocker;
   /** Lifecycle operations you are allowed to call on this deployment right now. Empty when none apply (e.g. while building or in a terminal state). */
   availableActions: DeploymentAvailableActionsList;
@@ -2281,9 +2206,7 @@ export const GetDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/domains.getDomain", code: 200 })),
-).annotate({
-  identifier: "GetDomainRequest",
-}) as any as S.Schema<GetDomainRequest>;
+).annotate({ identifier: "GetDomainRequest" }) as any as S.Schema<GetDomainRequest>;
 
 /** The verification status of the domain. - `pending`: the domain is created. No DNS check has completed yet. - `verifying`: Unkey checks the DNS records approximately each minute. - `verified`: the domain is verified. Unkey has configured routing and requested a certificate. - `failed`: the required DNS records did not appear within 24 hours. Fix the records, then retry verification. */
 export type DomainStatus = "pending" | "verifying" | "verified" | "failed";
@@ -2356,16 +2279,8 @@ export const GetEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     project: S.String,
     app: S.String,
     environment: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/environments.getEnvironment",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetEnvironmentRequest",
-}) as any as S.Schema<GetEnvironmentRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/environments.getEnvironment", code: 200 })),
+).annotate({ identifier: "GetEnvironmentRequest" }) as any as S.Schema<GetEnvironmentRequest>;
 
 /** The deployment lifecycle role of an environment. - `production`: Deployments serve production traffic, support promotion and rollback, and cannot be stopped. - `preview`: Deployments can be stopped and started and are eligible for preview lifecycle automation. */
 export type EnvironmentKind = "production" | "preview";
@@ -2407,9 +2322,7 @@ export const EnvironmentRuntime = /*@__PURE__*/ S.suspend(() =>
     upstreamProtocol: EnvironmentUpstreamProtocol,
     openapiSpecPath: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnvironmentRuntime",
-}) as any as S.Schema<EnvironmentRuntime>;
+).annotate({ identifier: "EnvironmentRuntime" }) as any as S.Schema<EnvironmentRuntime>;
 
 /** Paths that trigger a rebuild when changed. */
 export type EnvironmentBuildWatchPathsList = Array<string>;
@@ -2438,9 +2351,7 @@ export const EnvironmentBuild = /*@__PURE__*/ S.suspend(() =>
     watchPaths: EnvironmentBuildWatchPathsList,
     autoDeploy: S.Boolean,
   }),
-).annotate({
-  identifier: "EnvironmentBuild",
-}) as any as S.Schema<EnvironmentBuild>;
+).annotate({ identifier: "EnvironmentBuild" }) as any as S.Schema<EnvironmentBuild>;
 
 /** Per-region deployment settings for this environment. Empty until regional settings are configured. */
 export type EnvironmentRegionsList = Array<EnvironmentRegion>;
@@ -2504,9 +2415,7 @@ export const GetIdentityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     identity: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/identities.getIdentity", code: 200 })),
-).annotate({
-  identifier: "GetIdentityRequest",
-}) as any as S.Schema<GetIdentityRequest>;
+).annotate({ identifier: "GetIdentityRequest" }) as any as S.Schema<GetIdentityRequest>;
 
 export interface V2IdentitiesGetIdentityResponseBody {
   meta: Meta;
@@ -2543,9 +2452,7 @@ export const V2KeysGetKeyResponseBody = /*@__PURE__*/ S.suspend(() =>
     meta: Meta,
     data: KeyResponseData,
   }),
-).annotate({
-  identifier: "V2KeysGetKeyResponseBody",
-}) as any as S.Schema<V2KeysGetKeyResponseBody>;
+).annotate({ identifier: "V2KeysGetKeyResponseBody" }) as any as S.Schema<V2KeysGetKeyResponseBody>;
 
 export interface GetPortalRequest {
   portal?: string;
@@ -2558,9 +2465,7 @@ export const GetPortalRequest = /*@__PURE__*/ S.suspend(() =>
     keyspaceId: S.optional(S.String),
     appId: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v2/portal.getPortal", code: 200 })),
-).annotate({
-  identifier: "GetPortalRequest",
-}) as any as S.Schema<GetPortalRequest>;
+).annotate({ identifier: "GetPortalRequest" }) as any as S.Schema<GetPortalRequest>;
 
 /** How the portal looks to your end users. Both fields are optional; a portal with neither set renders with default styling. */
 export interface PortalBranding {
@@ -2629,9 +2534,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/projects.getProject", code: 200 })),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
 
 export interface Project {
   /** The unique identifier of the project, generated by Unkey. */
@@ -2674,9 +2577,7 @@ export const V2ProjectsGetProjectResponseBody = /*@__PURE__*/ S.suspend(() =>
 export interface GithubInstallAppRequest {}
 export const GithubInstallAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/v2/github.installApp", code: 200 })),
-).annotate({
-  identifier: "GithubInstallAppRequest",
-}) as any as S.Schema<GithubInstallAppRequest>;
+).annotate({ identifier: "GithubInstallAppRequest" }) as any as S.Schema<GithubInstallAppRequest>;
 
 export interface V2GithubInstallAppResponseData {
   /** The GitHub App install URL. Open it in a browser to install the app and grant repository access. After installation GitHub returns to Unkey, which binds the installation and lands you in the workspace settings. */
@@ -2782,9 +2683,7 @@ export const KeysAddRolesRequest = /*@__PURE__*/ S.suspend(() =>
     keyId: S.String,
     roles: KeysAddRolesRequestRolesList,
   }).pipe(T.Http({ method: "POST", uri: "/v2/keys.addRoles", code: 200 })),
-).annotate({
-  identifier: "KeysAddRolesRequest",
-}) as any as S.Schema<KeysAddRolesRequest>;
+).annotate({ identifier: "KeysAddRolesRequest" }) as any as S.Schema<KeysAddRolesRequest>;
 
 /** Complete list of permissions currently assigned to this role. Each permission grants specific access rights that will be inherited by any keys or users assigned this role. Use this list to understand the full scope of access provided by this role. Permissions can be added or removed from roles without affecting the role's identity or other properties. Empty array indicates a role with no permissions currently assigned. */
 export type RolePermissionsList = Array<Permission>;
@@ -2887,9 +2786,7 @@ export const KeysRemoveRolesRequest = /*@__PURE__*/ S.suspend(() =>
     keyId: S.String,
     roles: KeysRemoveRolesRequestRolesList,
   }).pipe(T.Http({ method: "POST", uri: "/v2/keys.removeRoles", code: 200 })),
-).annotate({
-  identifier: "KeysRemoveRolesRequest",
-}) as any as S.Schema<KeysRemoveRolesRequest>;
+).annotate({ identifier: "KeysRemoveRolesRequest" }) as any as S.Schema<KeysRemoveRolesRequest>;
 
 /** Complete list of all roles directly assigned to the key after the removal operation completes. The response includes: - The remaining roles still assigned to the key (after removing the specified roles) - Both ID and name for each role for easy reference Important notes: - The response reflects the current state after the removal operation - An empty array indicates the key now has no roles assigned - This only shows direct role assignments - Role permissions are not expanded in this response - use keys.getKey for full details - Changes take effect immediately for new verifications but cached sessions may retain old permissions briefly */
 export type V2KeysRemoveRolesResponseData = Array<Role>;
@@ -2913,17 +2810,15 @@ export const V2KeysRemoveRolesResponseBody = /*@__PURE__*/ S.suspend(() =>
 export interface KeysRerollKeyRequest {
   /** The database identifier of the key to reroll. This is the unique ID returned when creating or listing keys, NOT the actual API key token. You can find this ID in: - The response from `keys.createKey` - Key verification responses - The Unkey dashboard - API key listing endpoints */
   keyId: string;
-  /** Duration in milliseconds until the ORIGINAL key is revoked, starting from now. This parameter controls the overlap period for key rotation: - Set to `0` to revoke the original key immediately - Positive values keep the original key active for the specified duration - Allows graceful migration by giving users time to update their credentials Common overlap periods: - Immediate revocation: 0 - 1 hour grace period: 3600000 - 24 hours grace period: 86400000 - 7 days grace period: 604800000 - 30 days grace period: 2592000000 */
-  expiration: number;
+  /** Duration in milliseconds until the ORIGINAL key is revoked, starting from now. This parameter controls the overlap period for key rotation: - Set to `0` to revoke the original key immediately - Positive values keep the original key active for the specified duration - Set to `null` to keep the original key active; it keeps its current expiration, if any - Allows graceful migration by giving users time to update their credentials Common overlap periods: - Immediate revocation: 0 - 1 hour grace period: 3600000 - 24 hours grace period: 86400000 - 7 days grace period: 604800000 - 30 days grace period: 2592000000 */
+  expiration: number | null;
 }
 export const KeysRerollKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keyId: S.String,
-    expiration: S.Number,
+    expiration: S.NullOr(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/v2/keys.rerollKey", code: 200 })),
-).annotate({
-  identifier: "KeysRerollKeyRequest",
-}) as any as S.Schema<KeysRerollKeyRequest>;
+).annotate({ identifier: "KeysRerollKeyRequest" }) as any as S.Schema<KeysRerollKeyRequest>;
 
 export interface V2KeysRerollKeyResponseData {
   /** The unique identifier for the newly created key. This is NOT the actual API key token, but a reference ID for management operations. Store this ID to: - Update or revoke the key later - Track the key in your database - Display in admin dashboards (safe to log) Note: This is a new ID - the original key retains its own ID. */
@@ -3010,9 +2905,7 @@ export const KeysSetRolesRequest = /*@__PURE__*/ S.suspend(() =>
     keyId: S.String,
     roles: KeysSetRolesRequestRolesList,
   }).pipe(T.Http({ method: "POST", uri: "/v2/keys.setRoles", code: 200 })),
-).annotate({
-  identifier: "KeysSetRolesRequest",
-}) as any as S.Schema<KeysSetRolesRequest>;
+).annotate({ identifier: "KeysSetRolesRequest" }) as any as S.Schema<KeysSetRolesRequest>;
 
 /** Complete list of all roles now directly assigned to the key after the set operation has completed. The response includes: - The comprehensive, updated set of roles (reflecting the complete replacement) - Both ID and name for each role for easy reference Important notes: - This response shows the final state after the complete replacement - If you provided an empty array in the request, this will also be empty - This only shows direct role assignments on the key - Role permissions are not expanded in this response - use keys.getKey for complete details - An empty array indicates the key now has no roles assigned at all */
 export type V2KeysSetRolesResponseData = Array<Role>;
@@ -3051,9 +2944,7 @@ export const KeysUpdateCreditsRequest = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.NullOr(S.Number)),
     operation: KeysUpdateCreditsRequestOperation,
   }).pipe(T.Http({ method: "POST", uri: "/v2/keys.updateCredits", code: 200 })),
-).annotate({
-  identifier: "KeysUpdateCreditsRequest",
-}) as any as S.Schema<KeysUpdateCreditsRequest>;
+).annotate({ identifier: "KeysUpdateCreditsRequest" }) as any as S.Schema<KeysUpdateCreditsRequest>;
 
 export interface V2KeysUpdateCreditsResponseBody {
   meta: Meta;
@@ -3076,9 +2967,7 @@ export const KeysWhoamiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/keys.whoami", code: 200 })),
-).annotate({
-  identifier: "KeysWhoamiRequest",
-}) as any as S.Schema<KeysWhoamiRequest>;
+).annotate({ identifier: "KeysWhoamiRequest" }) as any as S.Schema<KeysWhoamiRequest>;
 
 export interface V2KeysWhoamiResponseBody {
   meta: Meta;
@@ -3089,9 +2978,7 @@ export const V2KeysWhoamiResponseBody = /*@__PURE__*/ S.suspend(() =>
     meta: Meta,
     data: KeyResponseData,
   }),
-).annotate({
-  identifier: "V2KeysWhoamiResponseBody",
-}) as any as S.Schema<V2KeysWhoamiResponseBody>;
+).annotate({ identifier: "V2KeysWhoamiResponseBody" }) as any as S.Schema<V2KeysWhoamiResponseBody>;
 
 export interface ListAppsRequest {
   project: string;
@@ -3109,9 +2996,7 @@ export const ListAppsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String),
     search: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v2/apps.listApps", code: 200 })),
-).annotate({
-  identifier: "ListAppsRequest",
-}) as any as S.Schema<ListAppsRequest>;
+).annotate({ identifier: "ListAppsRequest" }) as any as S.Schema<ListAppsRequest>;
 
 /** Array of apps in the project, ordered by app id. */
 export type V2AppsListAppsResponseBodyDataList = Array<App>;
@@ -3163,16 +3048,8 @@ export const ListDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ListDeploymentsRequestStatusList),
     limit: S.optional(S.Number),
     cursor: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/deployments.listDeployments",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListDeploymentsRequest",
-}) as any as S.Schema<ListDeploymentsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/deployments.listDeployments", code: 200 })),
+).annotate({ identifier: "ListDeploymentsRequest" }) as any as S.Schema<ListDeploymentsRequest>;
 
 /** Array of deployments, ordered newest first. */
 export type V2DeploymentsListDeploymentsResponseBodyDataList = Array<Deployment>;
@@ -3197,9 +3074,12 @@ export const V2DeploymentsListDeploymentsResponseBody = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<V2DeploymentsListDeploymentsResponseBody>;
 
 export interface ListDomainsRequest {
-  project: string;
-  app: string;
-  environment: string;
+  /** Match domains whose project ID or slug equals this value. This filter does not require an app or environment filter. */
+  project?: string;
+  /** Match domains whose app ID or slug equals this value. This filter does not require a project or environment filter. */
+  app?: string;
+  /** Match domains whose environment ID or slug equals this value. This filter does not require a project or app filter. */
+  environment?: string;
   /** The maximum number of domains one response contains. A small limit makes the response smaller, but makes more requests necessary. */
   limit?: number;
   /** The pagination cursor from the response that came before. Send it to get the next page when that response has `hasMore: true`. */
@@ -3209,18 +3089,16 @@ export interface ListDomainsRequest {
 }
 export const ListDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    project: S.String,
-    app: S.String,
-    environment: S.String,
+    project: S.optional(S.String),
+    app: S.optional(S.String),
+    environment: S.optional(S.String),
     limit: S.optional(S.Number),
     cursor: S.optional(S.String),
     search: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v2/domains.listDomains", code: 200 })),
-).annotate({
-  identifier: "ListDomainsRequest",
-}) as any as S.Schema<ListDomainsRequest>;
+).annotate({ identifier: "ListDomainsRequest" }) as any as S.Schema<ListDomainsRequest>;
 
-/** The domains attached to the environment, sorted by their id. The array is empty when the environment has no domains. This is not an error. */
+/** Domains that match every request filter and that you have permission to read, sorted by ID. The array is empty when no readable domains match, including when a filtered resource is missing or mismatched. */
 export type V2DomainsListDomainsResponseBodyDataList = Array<Domain>;
 export const V2DomainsListDomainsResponseBodyDataList = /*@__PURE__*/ S.Array(
   Domain,
@@ -3228,8 +3106,9 @@ export const V2DomainsListDomainsResponseBodyDataList = /*@__PURE__*/ S.Array(
 
 export interface V2DomainsListDomainsResponseBody {
   meta: Meta;
-  /** The domains attached to the environment, sorted by their id. The array is empty when the environment has no domains. This is not an error. */
+  /** Domains that match every request filter and that you have permission to read, sorted by ID. The array is empty when no readable domains match, including when a filtered resource is missing or mismatched. */
   data: V2DomainsListDomainsResponseBodyDataList;
+  /** Pagination over permitted domains. When more permitted domains exist, `cursor` identifies the first permitted domain after this page. A domain the credential cannot read is never returned as the cursor. */
   pagination: Pagination;
 }
 export const V2DomainsListDomainsResponseBody = /*@__PURE__*/ S.suspend(() =>
@@ -3250,16 +3129,8 @@ export const ListEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.String,
     app: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/environments.listEnvironments",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListEnvironmentsRequest",
-}) as any as S.Schema<ListEnvironmentsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/environments.listEnvironments", code: 200 })),
+).annotate({ identifier: "ListEnvironmentsRequest" }) as any as S.Schema<ListEnvironmentsRequest>;
 
 /** Array of environments in the app, ordered by environment id. */
 export type V2EnvironmentsListEnvironmentsResponseBodyDataList = Array<Environment>;
@@ -3297,13 +3168,7 @@ export const ListEnvironmentVariablesRequest = /*@__PURE__*/ S.suspend(() =>
     environment: S.String,
     limit: S.optional(S.Number),
     cursor: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/environments.listEnvironmentVariables",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/environments.listEnvironmentVariables", code: 200 })),
 ).annotate({
   identifier: "ListEnvironmentVariablesRequest",
 }) as any as S.Schema<ListEnvironmentVariablesRequest>;
@@ -3327,9 +3192,7 @@ export const EnvironmentVariable = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     createdAt: S.Number,
   }),
-).annotate({
-  identifier: "EnvironmentVariable",
-}) as any as S.Schema<EnvironmentVariable>;
+).annotate({ identifier: "EnvironmentVariable" }) as any as S.Schema<EnvironmentVariable>;
 
 export type V2EnvironmentsListEnvironmentVariablesResponseBodyDataList = Array<EnvironmentVariable>;
 export const V2EnvironmentsListEnvironmentVariablesResponseBodyDataList = /*@__PURE__*/ S.Array(
@@ -3365,9 +3228,7 @@ export const ListIdentitiesRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String),
     search: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v2/identities.listIdentities", code: 200 })),
-).annotate({
-  identifier: "ListIdentitiesRequest",
-}) as any as S.Schema<ListIdentitiesRequest>;
+).annotate({ identifier: "ListIdentitiesRequest" }) as any as S.Schema<ListIdentitiesRequest>;
 
 /** List of identities matching the specified criteria. */
 export type V2IdentitiesListIdentitiesResponseData = Array<Identity>;
@@ -3403,16 +3264,8 @@ export const ListPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String),
     limit: S.optional(S.Number),
     search: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/permissions.listPermissions",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListPermissionsRequest",
-}) as any as S.Schema<ListPermissionsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/permissions.listPermissions", code: 200 })),
+).annotate({ identifier: "ListPermissionsRequest" }) as any as S.Schema<ListPermissionsRequest>;
 
 /** Array of permission objects with complete configuration details. */
 export type V2PermissionsListPermissionsResponseData = Array<Permission>;
@@ -3449,9 +3302,7 @@ export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String),
     search: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v2/projects.listProjects", code: 200 })),
-).annotate({
-  identifier: "ListProjectsRequest",
-}) as any as S.Schema<ListProjectsRequest>;
+).annotate({ identifier: "ListProjectsRequest" }) as any as S.Schema<ListProjectsRequest>;
 
 /** Array of projects in the workspace, ordered by project id. */
 export type V2ProjectsListProjectsResponseBodyDataList = Array<Project>;
@@ -3478,9 +3329,7 @@ export const V2ProjectsListProjectsResponseBody = /*@__PURE__*/ S.suspend(() =>
 export interface LivenessRequest {}
 export const LivenessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/liveness", code: 200 })),
-).annotate({
-  identifier: "LivenessRequest",
-}) as any as S.Schema<LivenessRequest>;
+).annotate({ identifier: "LivenessRequest" }) as any as S.Schema<LivenessRequest>;
 
 /** Response data for the liveness check endpoint. This provides a simple indication of whether the Unkey API service is running and able to process requests. Monitoring systems can use this endpoint to track service availability and trigger alerts if the service becomes unhealthy. */
 export interface V2LivenessResponseData {
@@ -3491,9 +3340,7 @@ export const V2LivenessResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.String,
   }),
-).annotate({
-  identifier: "V2LivenessResponseData",
-}) as any as S.Schema<V2LivenessResponseData>;
+).annotate({ identifier: "V2LivenessResponseData" }) as any as S.Schema<V2LivenessResponseData>;
 
 export interface V2LivenessResponseBody {
   meta: Meta;
@@ -3504,14 +3351,10 @@ export const V2LivenessResponseBody = /*@__PURE__*/ S.suspend(() =>
     meta: Meta,
     data: V2LivenessResponseData,
   }),
-).annotate({
-  identifier: "V2LivenessResponseBody",
-}) as any as S.Schema<V2LivenessResponseBody>;
+).annotate({ identifier: "V2LivenessResponseBody" }) as any as S.Schema<V2LivenessResponseBody>;
 
 /** Stores arbitrary JSON metadata returned during key verification for contextual information. Eliminates additional database lookups during verification, improving performance for stateless services. Avoid storing sensitive data here as it's returned in verification responses. Large metadata objects increase verification latency and should stay under 10KB total size. */
-export type V2KeysMigrateKeyDataMetaMap = {
-  [key: string]: unknown | undefined;
-};
+export type V2KeysMigrateKeyDataMetaMap = { [key: string]: unknown | undefined };
 export const V2KeysMigrateKeyDataMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3570,9 +3413,7 @@ export const V2KeysMigrateKeyData = /*@__PURE__*/ S.suspend(() =>
     credits: S.optional(KeyCreditsData),
     ratelimits: S.optional(V2KeysMigrateKeyDataRatelimitsList),
   }),
-).annotate({
-  identifier: "V2KeysMigrateKeyData",
-}) as any as S.Schema<V2KeysMigrateKeyData>;
+).annotate({ identifier: "V2KeysMigrateKeyData" }) as any as S.Schema<V2KeysMigrateKeyData>;
 
 export type MigrateKeysRequestKeysList = Array<V2KeysMigrateKeyData>;
 export const MigrateKeysRequestKeysList = /*@__PURE__*/ S.Array(
@@ -3592,9 +3433,7 @@ export const MigrateKeysRequest = /*@__PURE__*/ S.suspend(() =>
     apiId: S.String,
     keys: MigrateKeysRequestKeysList,
   }).pipe(T.Http({ method: "POST", uri: "/v2/keys.migrateKeys", code: 200 })),
-).annotate({
-  identifier: "MigrateKeysRequest",
-}) as any as S.Schema<MigrateKeysRequest>;
+).annotate({ identifier: "MigrateKeysRequest" }) as any as S.Schema<MigrateKeysRequest>;
 
 export interface V2KeysMigrateKeysMigration {
   /** The hash provided in the migration request */
@@ -3664,13 +3503,7 @@ export const PermissionsCreatePermissionRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     slug: S.String,
     description: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/permissions.createPermission",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/permissions.createPermission", code: 200 })),
 ).annotate({
   identifier: "PermissionsCreatePermissionRequest",
 }) as any as S.Schema<PermissionsCreatePermissionRequest>;
@@ -3756,13 +3589,7 @@ export interface PermissionsDeletePermissionRequest {
 export const PermissionsDeletePermissionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     permission: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/permissions.deletePermission",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/permissions.deletePermission", code: 200 })),
 ).annotate({
   identifier: "PermissionsDeletePermissionRequest",
 }) as any as S.Schema<PermissionsDeletePermissionRequest>;
@@ -3901,22 +3728,19 @@ export const PermissionsSetRolePermissionsRequestPermissionsList = /*@__PURE__*/
 ) as any as S.Schema<PermissionsSetRolePermissionsRequestPermissionsList>;
 
 export interface PermissionsSetRolePermissionsRequest {
-  /** The ID of the role whose directly assigned permissions will be replaced. */
-  roleId: string;
+  /** The role whose directly assigned permissions will be replaced. Accepts either the generated role ID or the unique role name. */
+  role?: string;
+  /** Deprecated. Use `role` instead. Accepts either the generated role ID or the unique role name. */
+  roleId?: string;
   /** The complete set of permission slugs to assign directly to the role. Missing permissions are created when authorized. An empty array clears all direct permissions. */
   permissions: PermissionsSetRolePermissionsRequestPermissionsList;
 }
 export const PermissionsSetRolePermissionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    roleId: S.String,
+    role: S.optional(S.String),
+    roleId: S.optional(S.String),
     permissions: PermissionsSetRolePermissionsRequestPermissionsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/permissions.setRolePermissions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/permissions.setRolePermissions", code: 200 })),
 ).annotate({
   identifier: "PermissionsSetRolePermissionsRequest",
 }) as any as S.Schema<PermissionsSetRolePermissionsRequest>;
@@ -3940,14 +3764,10 @@ export const V2PermissionsSetRolePermissionsResponseBody = /*@__PURE__*/ S.suspe
   identifier: "V2PermissionsSetRolePermissionsResponseBody",
 }) as any as S.Schema<V2PermissionsSetRolePermissionsResponseBody>;
 
-export type PortalCreateSessionRequestScopesItem =
-  | "keys:read"
-  | "keys:create"
-  | "keys:reroll"
-  | "analytics:read";
+export type PortalCreateSessionRequestScopesItem = "keys:read" | "keys:reroll" | "analytics:read";
 export const PortalCreateSessionRequestScopesItem = S.String;
 
-/** The capabilities granted to the end user in the Portal, from a fixed vocabulary. All capabilities are scoped to this end user: key capabilities (`keys:*`) apply only to keys the end user owns within the keyspace configured on the portal, and `analytics:read` returns only the end user's own verification events. An end user can never see another identity's keys or analytics. Tab visibility is derived from the scopes: - Keys tab: any `keys:*` scope - Analytics tab: `analytics:read` - Docs tab: visible when any scope is present `keys:create` is accepted but has no portal route behind it yet. It is still authorized like the others, so a session minted with it required `create_key` on the keyspace at mint time, and a future portal create-key route inherits an enforced ceiling rather than trusting sessions minted while the capability was inert. Each scope requires the equivalent permission on your own root key. See Required Permissions on this operation. */
+/** The capabilities granted to the end user in the Portal, from a fixed vocabulary. All capabilities are scoped to this end user: key capabilities (`keys:*`) apply only to keys the end user owns within the keyspace configured on the portal. An end user can never see another identity's keys. Rerolling and usage analytics are both reached from the keys page, so `keys:reroll` and `analytics:read` each require `keys:read` in the same session; requesting either without it is rejected. Each scope requires the equivalent permission on your own root key. See Required Permissions on this operation. */
 export type PortalCreateSessionRequestScopesList = Array<
   PortalCreateSessionRequestScopesItem | (string & {})
 >;
@@ -3959,10 +3779,8 @@ export interface PortalCreateSessionRequest {
   portal: string;
   /** The end user's identifier in the customer's system. Accepts arbitrary string values (user IDs, emails, UUIDs, etc.). */
   externalId: string;
-  /** The capabilities granted to the end user in the Portal, from a fixed vocabulary. All capabilities are scoped to this end user: key capabilities (`keys:*`) apply only to keys the end user owns within the keyspace configured on the portal, and `analytics:read` returns only the end user's own verification events. An end user can never see another identity's keys or analytics. Tab visibility is derived from the scopes: - Keys tab: any `keys:*` scope - Analytics tab: `analytics:read` - Docs tab: visible when any scope is present `keys:create` is accepted but has no portal route behind it yet. It is still authorized like the others, so a session minted with it required `create_key` on the keyspace at mint time, and a future portal create-key route inherits an enforced ceiling rather than trusting sessions minted while the capability was inert. Each scope requires the equivalent permission on your own root key. See Required Permissions on this operation. */
+  /** The capabilities granted to the end user in the Portal, from a fixed vocabulary. All capabilities are scoped to this end user: key capabilities (`keys:*`) apply only to keys the end user owns within the keyspace configured on the portal. An end user can never see another identity's keys. Rerolling and usage analytics are both reached from the keys page, so `keys:reroll` and `analytics:read` each require `keys:read` in the same session; requesting either without it is rejected. Each scope requires the equivalent permission on your own root key. See Required Permissions on this operation. */
   scopes: PortalCreateSessionRequestScopesList;
-  /** When true, creates a preview session for testing the portal experience. */
-  preview?: boolean;
   /** Absolute URL the end user is sent back to when they leave the portal, or when their session expires mid-visit. Set per session rather than per portal, so one portal can serve several entry points and return each user to the page they came from. When omitted, the portal shows no return link. */
   returnUrl?: string;
 }
@@ -3971,7 +3789,6 @@ export const PortalCreateSessionRequest = /*@__PURE__*/ S.suspend(() =>
     portal: S.String,
     externalId: S.String,
     scopes: PortalCreateSessionRequestScopesList,
-    preview: S.optional(S.Boolean),
     returnUrl: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v2/portal.createSession", code: 200 })),
 ).annotate({
@@ -4100,21 +3917,45 @@ export const V2PortalGetVerificationsDataPoint = /*@__PURE__*/ S.suspend(() =>
   identifier: "V2PortalGetVerificationsDataPoint",
 }) as any as S.Schema<V2PortalGetVerificationsDataPoint>;
 
-/** Zero-filled verification timeseries for the authenticated end user, ordered by time ascending. Buckets with no verifications are present with zero counts so the series is contiguous across the requested window. */
-export type V2PortalGetVerificationsResponseBodyDataList = Array<V2PortalGetVerificationsDataPoint>;
-export const V2PortalGetVerificationsResponseBodyDataList = /*@__PURE__*/ S.Array(
+/** Verification timeseries for this key, zero-filled across the requested window and ordered by time ascending. */
+export type V2PortalGetVerificationsKeySeriesDataList = Array<V2PortalGetVerificationsDataPoint>;
+export const V2PortalGetVerificationsKeySeriesDataList = /*@__PURE__*/ S.Array(
   V2PortalGetVerificationsDataPoint,
-) as any as S.Schema<V2PortalGetVerificationsResponseBodyDataList>;
+) as any as S.Schema<V2PortalGetVerificationsKeySeriesDataList>;
+
+export interface V2PortalGetVerificationsKeySeries {
+  /** The key these buckets belong to. */
+  keyId: string;
+  /** Verification timeseries for this key, zero-filled across the requested window and ordered by time ascending. */
+  data: V2PortalGetVerificationsKeySeriesDataList;
+}
+export const V2PortalGetVerificationsKeySeries = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    keyId: S.String,
+    data: V2PortalGetVerificationsKeySeriesDataList,
+  }),
+).annotate({
+  identifier: "V2PortalGetVerificationsKeySeries",
+}) as any as S.Schema<V2PortalGetVerificationsKeySeries>;
+
+/** One entry per key the end user has verifications for in the window, each zero-filled across the whole window and ordered by time ascending. Sum them to get the account-wide series. Keys with no verifications anywhere in the window are omitted. Entries come from the verification events themselves, so a `keyId` may name a key that has since been deleted and will not appear in `portal.listKeys`; render those totals without assuming the key is still listable. */
+export type V2PortalGetVerificationsResponseBodyKeysList = Array<V2PortalGetVerificationsKeySeries>;
+export const V2PortalGetVerificationsResponseBodyKeysList = /*@__PURE__*/ S.Array(
+  V2PortalGetVerificationsKeySeries,
+) as any as S.Schema<V2PortalGetVerificationsResponseBodyKeysList>;
 
 export interface V2PortalGetVerificationsResponseBody {
   meta: Meta;
-  /** Zero-filled verification timeseries for the authenticated end user, ordered by time ascending. Buckets with no verifications are present with zero counts so the series is contiguous across the requested window. */
-  data: V2PortalGetVerificationsResponseBodyDataList;
+  /** Width of one bucket in milliseconds, chosen from the window size. Every series below is aligned to it, so a client can build the buckets for a window that returned no keys at all without restating the granularity rule. */
+  bucketMillis: number;
+  /** One entry per key the end user has verifications for in the window, each zero-filled across the whole window and ordered by time ascending. Sum them to get the account-wide series. Keys with no verifications anywhere in the window are omitted. Entries come from the verification events themselves, so a `keyId` may name a key that has since been deleted and will not appear in `portal.listKeys`; render those totals without assuming the key is still listable. */
+  keys: V2PortalGetVerificationsResponseBodyKeysList;
 }
 export const V2PortalGetVerificationsResponseBody = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     meta: Meta,
-    data: V2PortalGetVerificationsResponseBodyDataList,
+    bucketMillis: S.Number,
+    keys: V2PortalGetVerificationsResponseBodyKeysList,
   }),
 ).annotate({
   identifier: "V2PortalGetVerificationsResponseBody",
@@ -4131,9 +3972,7 @@ export const PortalListKeysRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number),
     cursor: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v2/portal.listKeys", code: 200 })),
-).annotate({
-  identifier: "PortalListKeysRequest",
-}) as any as S.Schema<PortalListKeysRequest>;
+).annotate({ identifier: "PortalListKeysRequest" }) as any as S.Schema<PortalListKeysRequest>;
 
 /** Array of the portal end user's API keys. */
 export type V2PortalListKeysResponseData = Array<KeyResponseData>;
@@ -4156,20 +3995,154 @@ export const V2PortalListKeysResponseBody = /*@__PURE__*/ S.suspend(() =>
   identifier: "V2PortalListKeysResponseBody",
 }) as any as S.Schema<V2PortalListKeysResponseBody>;
 
+export interface PortalListSessionsRequest {
+  portal: string;
+  /** Maximum number of end users to return per request. */
+  limit?: number;
+  /** Pagination cursor from a previous response to fetch the next page. Use when `hasMore: true` in the previous response. */
+  cursor?: string;
+  /** Returns only end users whose `externalId` starts with this string. Matching is case-sensitive, and `%` and `_` match literally. */
+  search?: string;
+}
+export const PortalListSessionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    portal: S.String,
+    limit: S.optional(S.Number),
+    cursor: S.optional(S.String),
+    search: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/portal.listSessions", code: 200 })),
+).annotate({
+  identifier: "PortalListSessionsRequest",
+}) as any as S.Schema<PortalListSessionsRequest>;
+
+/** `pending` when the portal URL was created but not opened yet. `active` when the end user opened it. */
+export type V2PortalListSessionsSessionStatus = "pending" | "active";
+export const V2PortalListSessionsSessionStatus = S.String;
+
+/** The capabilities the session was created with. */
+export type V2PortalListSessionsSessionScopesList = Array<string>;
+export const V2PortalListSessionsSessionScopesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<V2PortalListSessionsSessionScopesList>;
+
+export interface V2PortalListSessionsSession {
+  /** The session id. */
+  id: string;
+  /** `pending` when the portal URL was created but not opened yet. `active` when the end user opened it. */
+  status: V2PortalListSessionsSessionStatus;
+  /** When the session was created, in Unix milliseconds. */
+  createdAt: number;
+  /** When the session stops working, in Unix milliseconds. For a `pending` session this is when its portal URL expires. */
+  expiresAt: number;
+  /** The capabilities the session was created with. */
+  scopes: V2PortalListSessionsSessionScopesList;
+}
+export const V2PortalListSessionsSession = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    status: V2PortalListSessionsSessionStatus,
+    createdAt: S.Number,
+    expiresAt: S.Number,
+    scopes: V2PortalListSessionsSessionScopesList,
+  }),
+).annotate({
+  identifier: "V2PortalListSessionsSession",
+}) as any as S.Schema<V2PortalListSessionsSession>;
+
+/** The end user's revocable sessions, newest first. */
+export type V2PortalListSessionsResponseDataSessionsList = Array<V2PortalListSessionsSession>;
+export const V2PortalListSessionsResponseDataSessionsList = /*@__PURE__*/ S.Array(
+  V2PortalListSessionsSession,
+) as any as S.Schema<V2PortalListSessionsResponseDataSessionsList>;
+
+export interface V2PortalListSessionsResponseData {
+  /** The end user's identifier, as passed to `portal.createSession`. */
+  externalId: string;
+  /** The end user's revocable sessions, newest first. */
+  sessions: V2PortalListSessionsResponseDataSessionsList;
+}
+export const V2PortalListSessionsResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    externalId: S.String,
+    sessions: V2PortalListSessionsResponseDataSessionsList,
+  }),
+).annotate({
+  identifier: "V2PortalListSessionsResponseData",
+}) as any as S.Schema<V2PortalListSessionsResponseData>;
+
+/** End users with revocable sessions, ordered by `externalId`. */
+export type V2PortalListSessionsResponseBodyDataList = Array<V2PortalListSessionsResponseData>;
+export const V2PortalListSessionsResponseBodyDataList = /*@__PURE__*/ S.Array(
+  V2PortalListSessionsResponseData,
+) as any as S.Schema<V2PortalListSessionsResponseBodyDataList>;
+
+export interface V2PortalListSessionsResponseBody {
+  meta: Meta;
+  /** End users with revocable sessions, ordered by `externalId`. */
+  data: V2PortalListSessionsResponseBodyDataList;
+  pagination: Pagination;
+}
+export const V2PortalListSessionsResponseBody = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    meta: Meta,
+    data: V2PortalListSessionsResponseBodyDataList,
+    pagination: Pagination,
+  }),
+).annotate({
+  identifier: "V2PortalListSessionsResponseBody",
+}) as any as S.Schema<V2PortalListSessionsResponseBody>;
+
 export interface PortalRerollKeyRequest {
   /** The database identifier of the key to reroll. This is the unique ID returned when creating or listing keys, NOT the actual API key token. You can find this ID in: - The response from `keys.createKey` - Key verification responses - The Unkey dashboard - API key listing endpoints */
   keyId: string;
-  /** Duration in milliseconds until the ORIGINAL key is revoked, starting from now. This parameter controls the overlap period for key rotation: - Set to `0` to revoke the original key immediately - Positive values keep the original key active for the specified duration - Allows graceful migration by giving users time to update their credentials Common overlap periods: - Immediate revocation: 0 - 1 hour grace period: 3600000 - 24 hours grace period: 86400000 - 7 days grace period: 604800000 - 30 days grace period: 2592000000 */
-  expiration: number;
+  /** Duration in milliseconds until the ORIGINAL key is revoked, starting from now. This parameter controls the overlap period for key rotation: - Set to `0` to revoke the original key immediately - Positive values keep the original key active for the specified duration - Set to `null` to keep the original key active; it keeps its current expiration, if any - Allows graceful migration by giving users time to update their credentials Common overlap periods: - Immediate revocation: 0 - 1 hour grace period: 3600000 - 24 hours grace period: 86400000 - 7 days grace period: 604800000 - 30 days grace period: 2592000000 */
+  expiration: number | null;
 }
 export const PortalRerollKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keyId: S.String,
-    expiration: S.Number,
+    expiration: S.NullOr(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/v2/portal.rerollKey", code: 200 })),
+).annotate({ identifier: "PortalRerollKeyRequest" }) as any as S.Schema<PortalRerollKeyRequest>;
+
+export interface PortalRevokeSessionRequest {
+  portal: string;
+  /** The end user's identifier in your system, as passed to `portal.createSession`. Every live session this end user holds on the portal is revoked. */
+  externalId: string;
+}
+export const PortalRevokeSessionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    portal: S.String,
+    externalId: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/v2/portal.revokeSession", code: 200 })),
 ).annotate({
-  identifier: "PortalRerollKeyRequest",
-}) as any as S.Schema<PortalRerollKeyRequest>;
+  identifier: "PortalRevokeSessionRequest",
+}) as any as S.Schema<PortalRevokeSessionRequest>;
+
+export interface V2PortalRevokeSessionResponseData {
+  /** How many live sessions were revoked. Zero when the end user had none, including when an earlier call already revoked them. */
+  sessionsRevoked: number;
+}
+export const V2PortalRevokeSessionResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionsRevoked: S.Number,
+  }),
+).annotate({
+  identifier: "V2PortalRevokeSessionResponseData",
+}) as any as S.Schema<V2PortalRevokeSessionResponseData>;
+
+export interface V2PortalRevokeSessionResponseBody {
+  meta: Meta;
+  data: V2PortalRevokeSessionResponseData;
+}
+export const V2PortalRevokeSessionResponseBody = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    meta: Meta,
+    data: V2PortalRevokeSessionResponseData,
+  }),
+).annotate({
+  identifier: "V2PortalRevokeSessionResponseBody",
+}) as any as S.Schema<V2PortalRevokeSessionResponseBody>;
 
 export interface RatelimitDeleteOverrideRequest {
   /** The id or name of the namespace containing the override. */
@@ -4231,9 +4204,7 @@ export const RatelimitOverride = /*@__PURE__*/ S.suspend(() =>
     identifier: S.String,
     limit: S.Number,
   }),
-).annotate({
-  identifier: "RatelimitOverride",
-}) as any as S.Schema<RatelimitOverride>;
+).annotate({ identifier: "RatelimitOverride" }) as any as S.Schema<RatelimitOverride>;
 
 export interface V2RatelimitGetOverrideResponseBody {
   meta: Meta;
@@ -4268,9 +4239,7 @@ export const RatelimitLimitRequest = /*@__PURE__*/ S.suspend(() =>
     identifier: S.String,
     limit: S.Number,
   }).pipe(T.Http({ method: "POST", uri: "/v2/ratelimit.limit", code: 200 })),
-).annotate({
-  identifier: "RatelimitLimitRequest",
-}) as any as S.Schema<RatelimitLimitRequest>;
+).annotate({ identifier: "RatelimitLimitRequest" }) as any as S.Schema<RatelimitLimitRequest>;
 
 export interface V2RatelimitLimitResponseData {
   /** The maximum number of operations allowed within the time window. This reflects either the default limit specified in the request or an override limit if one exists for this identifier. This value helps clients understand their total quota for the current window. */
@@ -4519,11 +4488,7 @@ export const RemoveEnvironmentVariablesRequest = /*@__PURE__*/ S.suspend(() =>
     environment: S.String,
     variables: RemoveEnvironmentVariablesRequestVariablesList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/environments.removeEnvironmentVariables",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/environments.removeEnvironmentVariables", code: 200 }),
   ),
 ).annotate({
   identifier: "RemoveEnvironmentVariablesRequest",
@@ -4542,6 +4507,233 @@ export const V2EnvironmentsRemoveEnvironmentVariablesResponseBody = /*@__PURE__*
   identifier: "V2EnvironmentsRemoveEnvironmentVariablesResponseBody",
 }) as any as S.Schema<V2EnvironmentsRemoveEnvironmentVariablesResponseBody>;
 
+/** Permissions to grant to the root key. Each permission must be within the caller's existing permissions. */
+export type RootKeysCreateKeyRequestPermissionsList = Array<string>;
+export const RootKeysCreateKeyRequestPermissionsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<RootKeysCreateKeyRequestPermissionsList>;
+
+export interface RootKeysCreateKeyRequest {
+  /** Optional name for the root key. */
+  name?: string;
+  /** Permissions to grant to the root key. Each permission must be within the caller's existing permissions. */
+  permissions: RootKeysCreateKeyRequestPermissionsList;
+  /** Expiration as Unix milliseconds, strictly in the future. Expiring root-key callers must provide a child expiry no later than their own. JWT admins and nonexpiring root-key callers may omit it or set null for no expiration. */
+  expires?: number | null;
+}
+export const RootKeysCreateKeyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    permissions: RootKeysCreateKeyRequestPermissionsList,
+    expires: S.optional(S.NullOr(S.Number)),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/rootKeys.createKey", code: 200 })),
+).annotate({ identifier: "RootKeysCreateKeyRequest" }) as any as S.Schema<RootKeysCreateKeyRequest>;
+
+export interface V2RootKeysCreateKeyResponseData {
+  /** Identifier used to manage the root key. */
+  keyId: string;
+  /** Root key secret, returned only once. Store it securely. */
+  key: string;
+}
+export const V2RootKeysCreateKeyResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    keyId: S.String,
+    key: S.String,
+  }),
+).annotate({
+  identifier: "V2RootKeysCreateKeyResponseData",
+}) as any as S.Schema<V2RootKeysCreateKeyResponseData>;
+
+export interface V2RootKeysCreateKeyResponseBody {
+  meta: Meta;
+  data: V2RootKeysCreateKeyResponseData;
+}
+export const V2RootKeysCreateKeyResponseBody = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    meta: Meta,
+    data: V2RootKeysCreateKeyResponseData,
+  }),
+).annotate({
+  identifier: "V2RootKeysCreateKeyResponseBody",
+}) as any as S.Schema<V2RootKeysCreateKeyResponseBody>;
+
+export interface RootKeysDeleteKeyRequest {
+  /** Root key identifier returned by rootKeys.createKey or rootKeys.listKeys. */
+  keyId: string;
+}
+export const RootKeysDeleteKeyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    keyId: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/v2/rootKeys.deleteKey", code: 200 })),
+).annotate({ identifier: "RootKeysDeleteKeyRequest" }) as any as S.Schema<RootKeysDeleteKeyRequest>;
+
+export interface V2RootKeysDeleteKeyResponseBody {
+  meta: Meta;
+  data: unknown;
+}
+export const V2RootKeysDeleteKeyResponseBody = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    meta: Meta,
+    data: S.Unknown,
+  }),
+).annotate({
+  identifier: "V2RootKeysDeleteKeyResponseBody",
+}) as any as S.Schema<V2RootKeysDeleteKeyResponseBody>;
+
+export interface RootKeysListKeysRequest {
+  /** Maximum number of readable root keys per page. */
+  limit?: number;
+  /** Opaque cursor from a previous response. Omit for the first page. */
+  cursor?: string;
+}
+export const RootKeysListKeysRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    limit: S.optional(S.Number),
+    cursor: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/rootKeys.listKeys", code: 200 })),
+).annotate({ identifier: "RootKeysListKeysRequest" }) as any as S.Schema<RootKeysListKeysRequest>;
+
+/** All permissions assigned to the root key. */
+export type V2RootKeysListKeysResponseDataPermissionsList = Array<string>;
+export const V2RootKeysListKeysResponseDataPermissionsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<V2RootKeysListKeysResponseDataPermissionsList>;
+
+export interface V2RootKeysListKeysResponseData {
+  /** Stable root key identifier. */
+  keyId: string;
+  /** User-supplied name, or null when absent. */
+  name: string | null;
+  /** Stored display fragment, including the prefix when present. */
+  start: string;
+  /** Stored trailing display fragment. Empty for keys without a recorded suffix. */
+  end: string;
+  /** Whether the key is administratively enabled. An enabled key can still be expired. */
+  enabled: boolean;
+  /** Creation time in Unix milliseconds. */
+  createdAt: number;
+  /** Last verification time in Unix milliseconds. Zero means the root key has not been used. */
+  lastUsedAt: number;
+  /** Expiration time in Unix milliseconds, or null for no expiration. */
+  expires: number | null;
+  /** All permissions assigned to the root key. */
+  permissions: V2RootKeysListKeysResponseDataPermissionsList;
+}
+export const V2RootKeysListKeysResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    keyId: S.String,
+    name: S.NullOr(S.String),
+    start: S.String,
+    end: S.String,
+    enabled: S.Boolean,
+    createdAt: S.Number,
+    lastUsedAt: S.Number,
+    expires: S.NullOr(S.Number),
+    permissions: V2RootKeysListKeysResponseDataPermissionsList,
+  }),
+).annotate({
+  identifier: "V2RootKeysListKeysResponseData",
+}) as any as S.Schema<V2RootKeysListKeysResponseData>;
+
+export type V2RootKeysListKeysResponseBodyDataList = Array<V2RootKeysListKeysResponseData>;
+export const V2RootKeysListKeysResponseBodyDataList = /*@__PURE__*/ S.Array(
+  V2RootKeysListKeysResponseData,
+) as any as S.Schema<V2RootKeysListKeysResponseBodyDataList>;
+
+export interface V2RootKeysListKeysResponseBody {
+  meta: Meta;
+  data: V2RootKeysListKeysResponseBodyDataList;
+  pagination: Pagination;
+}
+export const V2RootKeysListKeysResponseBody = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    meta: Meta,
+    data: V2RootKeysListKeysResponseBodyDataList,
+    pagination: Pagination,
+  }),
+).annotate({
+  identifier: "V2RootKeysListKeysResponseBody",
+}) as any as S.Schema<V2RootKeysListKeysResponseBody>;
+
+export interface RootKeysRerollKeyRequest {
+  /** Root key identifier returned by rootKeys.createKey or rootKeys.listKeys. */
+  keyId: string;
+  /** Milliseconds until the original root key expires. Use 0 to revoke it immediately. Use null to keep the original key's current expiration. This value never extends an existing expiration. */
+  expiration: number | null;
+}
+export const RootKeysRerollKeyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    keyId: S.String,
+    expiration: S.NullOr(S.Number),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/rootKeys.rerollKey", code: 200 })),
+).annotate({ identifier: "RootKeysRerollKeyRequest" }) as any as S.Schema<RootKeysRerollKeyRequest>;
+
+export interface V2RootKeysRerollKeyResponseData {
+  /** Identifier of the new root key. */
+  keyId: string;
+  /** New root key secret, returned only once. Store it securely. */
+  key: string;
+}
+export const V2RootKeysRerollKeyResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    keyId: S.String,
+    key: S.String,
+  }),
+).annotate({
+  identifier: "V2RootKeysRerollKeyResponseData",
+}) as any as S.Schema<V2RootKeysRerollKeyResponseData>;
+
+export interface V2RootKeysRerollKeyResponseBody {
+  meta: Meta;
+  data: V2RootKeysRerollKeyResponseData;
+}
+export const V2RootKeysRerollKeyResponseBody = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    meta: Meta,
+    data: V2RootKeysRerollKeyResponseData,
+  }),
+).annotate({
+  identifier: "V2RootKeysRerollKeyResponseBody",
+}) as any as S.Schema<V2RootKeysRerollKeyResponseBody>;
+
+/** Complete replacement permission set. Every permission must be a supported URN in the authenticated workspace and within the caller's permissions. Omit to keep the current permissions. */
+export type RootKeysUpdateKeyRequestPermissionsList = Array<string>;
+export const RootKeysUpdateKeyRequestPermissionsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<RootKeysUpdateKeyRequestPermissionsList>;
+
+export interface RootKeysUpdateKeyRequest {
+  /** Root key identifier returned by rootKeys.createKey or rootKeys.listKeys. */
+  keyId: string;
+  /** New root key name. Set null to remove the name. Omit to keep the current name. */
+  name?: string | null;
+  /** Whether the root key can authenticate. Omit to keep the current state. */
+  enabled?: boolean;
+  /** Complete replacement permission set. Every permission must be a supported URN in the authenticated workspace and within the caller's permissions. Omit to keep the current permissions. */
+  permissions?: RootKeysUpdateKeyRequestPermissionsList;
+}
+export const RootKeysUpdateKeyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    keyId: S.String,
+    name: S.optional(S.NullOr(S.String)),
+    enabled: S.optional(S.Boolean),
+    permissions: S.optional(RootKeysUpdateKeyRequestPermissionsList),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/rootKeys.updateKey", code: 200 })),
+).annotate({ identifier: "RootKeysUpdateKeyRequest" }) as any as S.Schema<RootKeysUpdateKeyRequest>;
+
+export interface V2RootKeysUpdateKeyResponseBody {
+  meta: Meta;
+  data: unknown;
+}
+export const V2RootKeysUpdateKeyResponseBody = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    meta: Meta,
+    data: S.Unknown,
+  }),
+).annotate({
+  identifier: "V2RootKeysUpdateKeyResponseBody",
+}) as any as S.Schema<V2RootKeysUpdateKeyResponseBody>;
+
 export interface StartDeploymentRequest {
   /** The stopped deployment to start. */
   deploymentId: string;
@@ -4549,16 +4741,8 @@ export interface StartDeploymentRequest {
 export const StartDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deploymentId: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/deployments.startDeployment",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StartDeploymentRequest",
-}) as any as S.Schema<StartDeploymentRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/deployments.startDeployment", code: 200 })),
+).annotate({ identifier: "StartDeploymentRequest" }) as any as S.Schema<StartDeploymentRequest>;
 
 export interface StartDeploymentResponse {}
 export const StartDeploymentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4571,16 +4755,8 @@ export interface StopDeploymentRequest {
 export const StopDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deploymentId: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/deployments.stopDeployment",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StopDeploymentRequest",
-}) as any as S.Schema<StopDeploymentRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/deployments.stopDeployment", code: 200 })),
+).annotate({ identifier: "StopDeploymentRequest" }) as any as S.Schema<StopDeploymentRequest>;
 
 export interface StopDeploymentResponse {}
 export const StopDeploymentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4598,9 +4774,7 @@ export const AppGitUpdateInput = /*@__PURE__*/ S.suspend(() =>
     repository: S.optional(S.String),
     defaultBranch: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppGitUpdateInput",
-}) as any as S.Schema<AppGitUpdateInput>;
+).annotate({ identifier: "AppGitUpdateInput" }) as any as S.Schema<AppGitUpdateInput>;
 
 export interface UpdateAppRequest {
   project: string;
@@ -4610,6 +4784,8 @@ export interface UpdateAppRequest {
   slug?: string;
   /** Connect, reconfigure, or disconnect this app's GitHub repository. Omit to leave unchanged, set null to disconnect, or set an object with a "repository" to connect or replace it and/or a "defaultBranch" to set which branch it tracks. Fields are independent, so send only the one you change. */
   git?: AppGitUpdateInput | null;
+  /** Change the default image reference for an OCI-sourced app. This does not create a deployment. It can be combined with other app settings. Source switching is not supported. */
+  oci?: AppOCI;
   /** Enable or disable delete protection for the app. Omit this field to leave the current setting unchanged. */
   deleteProtection?: boolean;
 }
@@ -4620,11 +4796,10 @@ export const UpdateAppRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     slug: S.optional(S.String),
     git: S.optional(S.NullOr(AppGitUpdateInput)),
+    oci: S.optional(AppOCI),
     deleteProtection: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/v2/apps.updateApp", code: 200 })),
-).annotate({
-  identifier: "UpdateAppRequest",
-}) as any as S.Schema<UpdateAppRequest>;
+).annotate({ identifier: "UpdateAppRequest" }) as any as S.Schema<UpdateAppRequest>;
 
 export interface V2AppsUpdateAppResponseBody {
   meta: Meta;
@@ -4640,9 +4815,7 @@ export const V2AppsUpdateAppResponseBody = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<V2AppsUpdateAppResponseBody>;
 
 /** Replaces all existing metadata with this new metadata object. Omitting this field preserves existing metadata, while providing an empty object clears all metadata. Avoid storing sensitive data here as it's returned in verification responses. Large metadata objects increase verification latency and should stay under 10KB total size. */
-export type UpdateIdentityRequestMetaMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateIdentityRequestMetaMap = { [key: string]: unknown | undefined };
 export const UpdateIdentityRequestMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -4668,9 +4841,7 @@ export const UpdateIdentityRequest = /*@__PURE__*/ S.suspend(() =>
     meta: S.optional(UpdateIdentityRequestMetaMap),
     ratelimits: S.optional(UpdateIdentityRequestRatelimitsList),
   }).pipe(T.Http({ method: "POST", uri: "/v2/identities.updateIdentity", code: 200 })),
-).annotate({
-  identifier: "UpdateIdentityRequest",
-}) as any as S.Schema<UpdateIdentityRequest>;
+).annotate({ identifier: "UpdateIdentityRequest" }) as any as S.Schema<UpdateIdentityRequest>;
 
 export interface V2IdentitiesUpdateIdentityResponseBody {
   data: Identity;
@@ -4711,9 +4882,7 @@ export const UpdateKeyCreditsRefill = /*@__PURE__*/ S.suspend(() =>
     amount: S.Number,
     refillDay: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "UpdateKeyCreditsRefill",
-}) as any as S.Schema<UpdateKeyCreditsRefill>;
+).annotate({ identifier: "UpdateKeyCreditsRefill" }) as any as S.Schema<UpdateKeyCreditsRefill>;
 
 /** Credit configuration and remaining balance for this key. */
 export interface UpdateKeyCreditsData {
@@ -4726,9 +4895,7 @@ export const UpdateKeyCreditsData = /*@__PURE__*/ S.suspend(() =>
     remaining: S.optional(S.NullOr(S.Number)),
     refill: S.optional(S.NullOr(UpdateKeyCreditsRefill)),
   }),
-).annotate({
-  identifier: "UpdateKeyCreditsData",
-}) as any as S.Schema<UpdateKeyCreditsData>;
+).annotate({ identifier: "UpdateKeyCreditsData" }) as any as S.Schema<UpdateKeyCreditsData>;
 
 /** Defines time-based rate limits that protect against abuse by controlling request frequency. Omitting this field preserves existing rate limits, while setting null removes all rate limits. Unlike credits which track total usage, rate limits reset automatically after each window expires. Multiple rate limits can control different operation types with separate thresholds and windows. */
 export type UpdateKeyRequestRatelimitsList = Array<RatelimitRequest>;
@@ -4779,9 +4946,7 @@ export const UpdateKeyRequest = /*@__PURE__*/ S.suspend(() =>
     roles: S.optional(UpdateKeyRequestRolesList),
     permissions: S.optional(UpdateKeyRequestPermissionsList),
   }).pipe(T.Http({ method: "POST", uri: "/v2/keys.updateKey", code: 200 })),
-).annotate({
-  identifier: "UpdateKeyRequest",
-}) as any as S.Schema<UpdateKeyRequest>;
+).annotate({ identifier: "UpdateKeyRequest" }) as any as S.Schema<UpdateKeyRequest>;
 
 export interface V2KeysUpdateKeyResponseBody {
   meta: Meta;
@@ -4802,11 +4967,11 @@ export interface UpdatePortalRequest {
   slug?: string;
   /** New human-readable name shown to your end users. Omit to leave unchanged. */
   displayName?: string;
-  /** Re-point the portal at a different keyspace. Omit to leave the resource it serves alone. Re-pointing revokes the portal's live sessions, because a session carries the keyspace scope it was minted with and would otherwise keep reaching the resource the portal no longer serves. */
+  /** Re-point the portal at a different keyspace. Omit to leave the resource it serves alone. Re-pointing revokes the portal's live sessions, because a session carries the keyspace scope it was minted with and would otherwise keep reaching the resource the portal no longer serves. The new keyspace must belong to the same project as the portal's current resource. A portal cannot move between projects, because its permissions are addressed under the project it belongs to. Re-pointing across projects returns 412; create a portal in the target project instead. */
   keyspaceId?: string;
-  /** Re-point the portal at a different app. Omit to leave the resource it serves alone. Re-pointing revokes the portal's live sessions, for the same reason as `keyspaceId`. */
+  /** Re-point the portal at a different app. Omit to leave the resource it serves alone. Re-pointing revokes the portal's live sessions, for the same reason as `keyspaceId`. The same project restriction applies, and it is easy to hit when switching between an app and a keyspace: keyspaces are created in the workspace's default project, while an app belongs to the project you created it in. */
   appId?: string;
-  /** Whether new sessions can be minted. Omit to leave unchanged. Disabling does not end sessions that are already live. */
+  /** Whether new sessions can be minted. Omit to leave unchanged. Disabling also revokes the portal's live sessions. Re-enabling does not restore them. */
   enabled?: boolean;
   /** Absolute `https://` URL of the portal logo. Omit to leave unchanged, or set null to remove the logo. */
   logoUrl?: string | null;
@@ -4824,9 +4989,7 @@ export const UpdatePortalRequest = /*@__PURE__*/ S.suspend(() =>
     logoUrl: S.optional(S.NullOr(S.String)),
     primaryColor: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/v2/portal.updatePortal", code: 200 })),
-).annotate({
-  identifier: "UpdatePortalRequest",
-}) as any as S.Schema<UpdatePortalRequest>;
+).annotate({ identifier: "UpdatePortalRequest" }) as any as S.Schema<UpdatePortalRequest>;
 
 export interface V2PortalUpdatePortalResponseBody {
   meta: Meta;
@@ -4856,9 +5019,7 @@ export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     deleteProtection: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/v2/projects.updateProject", code: 200 })),
-).annotate({
-  identifier: "UpdateProjectRequest",
-}) as any as S.Schema<UpdateProjectRequest>;
+).annotate({ identifier: "UpdateProjectRequest" }) as any as S.Schema<UpdateProjectRequest>;
 
 export interface V2ProjectsUpdateProjectResponseBody {
   meta: Meta;
@@ -4881,9 +5042,7 @@ export const VerifyDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/domains.verifyDomain", code: 200 })),
-).annotate({
-  identifier: "VerifyDomainRequest",
-}) as any as S.Schema<VerifyDomainRequest>;
+).annotate({ identifier: "VerifyDomainRequest" }) as any as S.Schema<VerifyDomainRequest>;
 
 export interface VerifyDomainResponse {}
 export const VerifyDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4905,9 +5064,13 @@ export const KeysVerifyKeyCredits = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cost: S.Number,
   }),
-).annotate({
-  identifier: "KeysVerifyKeyCredits",
-}) as any as S.Schema<KeysVerifyKeyCredits>;
+).annotate({ identifier: "KeysVerifyKeyCredits" }) as any as S.Schema<KeysVerifyKeyCredits>;
+
+/** Restricts verification to keys in these keyspaces, matched by exact ID. Omit this field to verify without a keyspace restriction. A failed keyspace check returns `NOT_FOUND` without consuming credits or rate limits. */
+export type VerifyKeyRequestKeyspacesList = Array<string>;
+export const VerifyKeyRequestKeyspacesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<VerifyKeyRequestKeyspacesList>;
 
 export interface KeysVerifyKeyRatelimit {
   /** References an existing ratelimit by its name. Key Ratelimits will take precedence over identifier-based limits. */
@@ -4926,9 +5089,7 @@ export const KeysVerifyKeyRatelimit = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number),
     duration: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "KeysVerifyKeyRatelimit",
-}) as any as S.Schema<KeysVerifyKeyRatelimit>;
+).annotate({ identifier: "KeysVerifyKeyRatelimit" }) as any as S.Schema<KeysVerifyKeyRatelimit>;
 
 /** Enforces time-based rate limiting during verification to prevent abuse and ensure fair usage. Omitting this field skips rate limit checks entirely, relying only on configured key rate limits. Multiple rate limits can be checked simultaneously, each with different costs and temporary overrides. Rate limit checks are optimized for performance but may allow brief bursts during high concurrency. */
 export type VerifyKeyRequestRatelimitsList = Array<KeysVerifyKeyRatelimit>;
@@ -4944,6 +5105,8 @@ export interface VerifyKeyRequest {
   /** Checks if the key has the specified permission(s) using a query syntax. Supports single permissions, logical operators (AND, OR), and parentheses for grouping. Examples: - Single permission: "documents.read" - Multiple permissions: "documents.read AND documents.write" - Complex queries: "(documents.read OR documents.write) AND users.view" Verification fails if the key lacks the required permissions through direct assignment or role inheritance. */
   permissions?: string;
   credits?: KeysVerifyKeyCredits;
+  /** Restricts verification to keys in these keyspaces, matched by exact ID. Omit this field to verify without a keyspace restriction. A failed keyspace check returns `NOT_FOUND` without consuming credits or rate limits. */
+  keyspaces?: VerifyKeyRequestKeyspacesList;
   /** Enforces time-based rate limiting during verification to prevent abuse and ensure fair usage. Omitting this field skips rate limit checks entirely, relying only on configured key rate limits. Multiple rate limits can be checked simultaneously, each with different costs and temporary overrides. Rate limit checks are optimized for performance but may allow brief bursts during high concurrency. */
   ratelimits?: VerifyKeyRequestRatelimitsList;
   /** Migrate keys on demand from your previous system. Reach out for migration support at support@unkey.dev */
@@ -4955,12 +5118,11 @@ export const VerifyKeyRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(VerifyKeyRequestTagsList),
     permissions: S.optional(S.String),
     credits: S.optional(KeysVerifyKeyCredits),
+    keyspaces: S.optional(VerifyKeyRequestKeyspacesList),
     ratelimits: S.optional(VerifyKeyRequestRatelimitsList),
     migrationId: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v2/keys.verifyKey", code: 200 })),
-).annotate({
-  identifier: "VerifyKeyRequest",
-}) as any as S.Schema<VerifyKeyRequest>;
+).annotate({ identifier: "VerifyKeyRequest" }) as any as S.Schema<VerifyKeyRequest>;
 
 /** A machine-readable code indicating the verification status or failure reason. Values: `VALID` (key is valid and passed all checks), `NOT_FOUND` (key doesn't exist or belongs to wrong API), `FORBIDDEN` (key lacks required permissions), `INSUFFICIENT_PERMISSIONS` (key lacks specific required permissions for this request), `USAGE_EXCEEDED` (key has no remaining credits), `RATE_LIMITED` (key exceeded rate limits), `DISABLED` (key was explicitly disabled), `EXPIRED` (key has passed its expiration date). */
 export type V2KeysVerifyKeyResponseDataCode =
@@ -4975,9 +5137,7 @@ export type V2KeysVerifyKeyResponseDataCode =
 export const V2KeysVerifyKeyResponseDataCode = S.String;
 
 /** Custom metadata associated with the key. This can include any JSON-serializable data you stored with the key during creation or updates, such as plan information, feature flags, or user details. Use this to avoid additional database lookups for contextual information needed during API calls. */
-export type V2KeysVerifyKeyResponseDataMetaMap = {
-  [key: string]: unknown | undefined;
-};
+export type V2KeysVerifyKeyResponseDataMetaMap = { [key: string]: unknown | undefined };
 export const V2KeysVerifyKeyResponseDataMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5024,9 +5184,7 @@ export const VerifyKeyRatelimitData = /*@__PURE__*/ S.suspend(() =>
     remaining: S.Number,
     autoApply: S.Boolean,
   }),
-).annotate({
-  identifier: "VerifyKeyRatelimitData",
-}) as any as S.Schema<VerifyKeyRatelimitData>;
+).annotate({ identifier: "VerifyKeyRatelimitData" }) as any as S.Schema<VerifyKeyRatelimitData>;
 
 export type V2KeysVerifyKeyResponseDataRatelimitsList = Array<VerifyKeyRatelimitData>;
 export const V2KeysVerifyKeyResponseDataRatelimitsList = /*@__PURE__*/ S.Array(
@@ -5040,6 +5198,8 @@ export interface V2KeysVerifyKeyResponseData {
   code: V2KeysVerifyKeyResponseDataCode;
   /** The unique identifier of the verified key in Unkey's system. Use this ID for operations like updating or revoking the key. This field is returned for both valid and invalid keys (except when `code=NOT_FOUND`). */
   keyId?: string;
+  /** The ID of the keyspace the key belongs to. Returned for both valid and invalid keys, except when `code=NOT_FOUND`. */
+  keyspaceId?: string;
   /** The human-readable name assigned to this key during creation. This is useful for displaying in logs or admin interfaces to identify the key's purpose. */
   name?: string;
   /** Custom metadata associated with the key. This can include any JSON-serializable data you stored with the key during creation or updates, such as plan information, feature flags, or user details. Use this to avoid additional database lookups for contextual information needed during API calls. */
@@ -5063,6 +5223,7 @@ export const V2KeysVerifyKeyResponseData = /*@__PURE__*/ S.suspend(() =>
     valid: S.Boolean,
     code: V2KeysVerifyKeyResponseDataCode,
     keyId: S.optional(S.String),
+    keyspaceId: S.optional(S.String),
     name: S.optional(S.String),
     meta: S.optional(V2KeysVerifyKeyResponseDataMetaMap),
     expires: S.optional(S.Number),
@@ -5238,7 +5399,7 @@ export const apisListKeys: API.PaginatedOperationMethod<
 ) as any;
 
 export type CreateAppError = BadRequest | Forbidden | NotFound | Conflict | UnkeyOpError;
-/** Create app Create an app within a project. The app is created with default `production` and `preview` environments. The slug you provide is the stable, caller-defined handle used to reference this app. It must be unique within the project. **Important**: The slug cannot collide with an existing app in the same project. A duplicate slug returns a 409 conflict. **Required Permissions** Your root key must have one of the following permissions: - `project.*.create_app` (to create apps in any project) - `project.<project_id>.create_app` (to create apps in a specific project) */
+/** Create app Create an app within a project. The app is created with default `production` and `preview` environments. Set exactly one source. Use `git` to create a GitHub-sourced app and connect its repository. Use `oci` to create an app from a prebuilt OCI image. The slug you provide is the stable, caller-defined handle used to reference this app. It must be unique within the project. **Important**: The slug cannot collide with an existing app in the same project. A duplicate slug returns a 409 conflict. **Required Permissions** Your root key must have one of the following permissions: - `project.*.create_app` (to create apps in any project) - `project.<project_id>.create_app` (to create apps in a specific project) */
 export const createApp: API.OperationMethod<
   CreateAppRequest,
   V2AppsCreateAppResponseBody,
@@ -5252,16 +5413,16 @@ export const createApp: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateDeploymentError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Create deployment Create a deployment for an app in a project. Provide exactly one source: - `image`: deploy a prebuilt Docker image as-is (no build). - `git`: build and deploy from the app's connected GitHub repository, a branch, a specific commit, or a fork commit. Requires the app to have a repository connected. - `deployment`: re-run an existing deployment by its id. Git-connected apps rebuild from the recorded commit; other apps reuse the recorded image. Returns immediately with a `deploymentId`. The build and rollout run asynchronously — poll `deployments.getDeployment` to watch status until it is ready. **Authentication**: requires a root key with permission to create deployments. */
-export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
-  V2DeploymentsCreateDeploymentResponseBody,
-  CreateDeploymentError,
+export type CreateDeploymentV3Error = BadRequest | Forbidden | NotFound | UnkeyOpError;
+/** Create deployment Create a deployment for an app in a project. Omit the source to use the app's configured default. A Git app builds its default branch. An OCI app deploys its default image. Optionally provide one source override: - `oci`: deploy a prebuilt OCI image without a build. Mutable tags are resolved to immutable digests before rollout. - `git`: build and deploy from the app's connected GitHub repository, a branch, a specific commit, or a fork commit. Requires the app to have a repository connected. - `deployment`: re-run an existing deployment by its id. Git deployments rebuild from the recorded commit; OCI deployments reuse the recorded resolved image. Returns immediately with a `deploymentId`. The build and rollout run asynchronously. Poll `deployments.getDeployment` to watch status until it is ready. **Authentication**: requires a root key with permission to create deployments. */
+export const createDeploymentV3: API.OperationMethod<
+  CreateDeploymentV3Request,
+  V3DeploymentsCreateDeploymentResponseBody,
+  CreateDeploymentV3Error,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDeploymentRequest,
-  output: V2DeploymentsCreateDeploymentResponseBody,
+  input: CreateDeploymentV3Request,
+  output: V3DeploymentsCreateDeploymentResponseBody,
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
@@ -5864,7 +6025,7 @@ export const listDeployments: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListDomainsError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** List domains List the custom domains attached to an environment and their verification status. Results are paginated and sorted by their id. When `hasMore` is true, send the returned `cursor` to get the next page. An environment with no domains returns an empty array, not a 404. `status: verified` means the domain is verified. Unkey has configured routing and requested a certificate. Each domain includes its full `dnsRecords`. Each record has a `verified` flag. The flag shows which records Unkey has read back, so you can see which records are still missing without a second call. Some providers hide a record from DNS lookups, for example a proxied or flattened routing record. Such a record stays `false` while it serves traffic. **Required Permissions** Your root key must have one of the following permissions: - `environment.*.read_domain` (to read domains in any environment) - `environment.<environment_id>.read_domain` (to read domains in a specific environment) */
+/** List domains List your custom domains with their verification status and DNS records. Filter by project, app, or environment using IDs or slugs, or send `{}` to list domains across your workspace. Use any filter on its own or combine filters to narrow the results. Results match all supplied filters. Omitting `environment` includes all matching environments. Results include only domains you have permission to read, sorted by ID. When `hasMore` is true, send the returned `cursor` to get the next page. `status: verified` means the domain is verified. Unkey has configured routing and requested a certificate. Each domain includes its full `dnsRecords`. Each record has a `verified` flag. The flag shows which records Unkey has read back, so you can see which records are still missing without a second call. Some providers hide a record from DNS lookups, for example a proxied or flattened routing record. Such a record stays `false` while it serves traffic. **Required Permissions** Use a root key with the `environment.*.read_domain` permission. A successful request returns an empty list if no matching domains are readable by your key. */
 export const listDomains: API.PaginatedOperationMethod<
   ListDomainsRequest,
   V2DomainsListDomainsResponseBody,
@@ -6169,8 +6330,8 @@ export const permissionsSetRolePermissions: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type PortalCreateSessionError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Create portal session Create a portal session for an end user and get the URL to redirect them to. The URL carries a single-use exchange code valid for 15 minutes, which the portal redeems exactly once for a 24-hour access token via `portal.exchangeCode`. **Required Permissions** Authorization runs in two stages, and both must pass. First, your root key must have one of the following permissions: - `portal.*.create_portal_session` (to mint sessions for any portal in the workspace) - `portal.<portal_id>.create_portal_session` (to mint sessions for a specific portal) Second, a session can never carry a capability your root key does not itself hold. Each requested scope additionally requires the equivalent permission on every keyspace the portal resolves to: - `keys:read` requires `api.<api_id>.read_key` **and** `api.<api_id>.read_api` - `keys:reroll` and `keys:create` require `api.<api_id>.create_key`, plus `api.<api_id>.encrypt_key` when the keyspace stores encrypted keys - `analytics:read` requires `api.<api_id>.read_analytics` The `*` form of each is also accepted. Requesting a scope you do not hold returns 403 for the whole request rather than minting a reduced session, so a missing grant is visible instead of surfacing later as a broken portal. Missing the portal permission itself returns **404**, not 403: a caller who cannot mint for a portal is not told whether it exists. Your root key must also be associated with a workspace that has an enabled portal. */
+export type PortalCreateSessionError = BadRequest | Forbidden | NotFound | Conflict | UnkeyOpError;
+/** Create portal session Create a portal session for an end user and get the URL to redirect them to. The URL carries a single-use exchange code valid for 15 minutes, which the portal redeems exactly once for a 24-hour access token via `portal.exchangeCode`. **Required Permissions** Authorization runs in two stages, and both must pass. First, your root key must have one of the following permissions: - `portal.*.create_portal_session` (to mint sessions for any portal in the workspace) - `portal.<portal_id>.create_portal_session` (to mint sessions for a specific portal) Second, a session can never carry a capability your root key does not itself hold. Each requested scope additionally requires the equivalent permission on every keyspace the portal resolves to: - `keys:read` requires `api.<api_id>.read_key` **and** `api.<api_id>.read_api` - `keys:reroll` requires `api.<api_id>.create_key`, plus `api.<api_id>.encrypt_key` when the keyspace stores encrypted keys - `analytics:read` requires `api.<api_id>.read_analytics` The `*` form of each is also accepted. Requesting a scope you do not hold returns 403 for the whole request rather than minting a reduced session, so a missing grant is visible instead of surfacing later as a broken portal. Missing the portal permission itself returns **404**, not 403: a caller who cannot mint for a portal is not told whether it exists. Your root key must also be associated with a workspace that has an enabled portal. */
 export const portalCreateSession: API.OperationMethod<
   PortalCreateSessionRequest,
   V2PortalCreateSessionResponseBody,
@@ -6179,7 +6340,7 @@ export const portalCreateSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PortalCreateSessionRequest,
   output: V2PortalCreateSessionResponseBody,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
 }));
@@ -6199,8 +6360,13 @@ export const portalExchangeCode: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type PortalGetVerificationsError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Get portal verifications Return a verification analytics timeseries for the authenticated portal session's end user. Authenticates only with a portal session cookie and always restricts results to verification events attributed to the session's external identity. Unlike `analytics.getVerifications`, this endpoint takes a fixed time window (no query language) and returns a zero-filled, outcome-broken-out timeseries. Bucket granularity is chosen automatically from the window size. */
+export type PortalGetVerificationsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | UnkeyOpError;
+/** Get portal verifications Return a verification analytics timeseries for the authenticated portal session's end user. Authenticates only with a portal session cookie and always restricts results to verification events attributed to the session's external identity. Unlike `analytics.getVerifications`, this endpoint takes a fixed time window (no query language) and returns outcome-broken-out counts. Bucket granularity is chosen automatically from the window size. The response carries one zero-filled series per key the end user has verifications for, so a client can render both a per-key table and an account-wide chart from one call by summing them. Pass `keyId` to narrow the window to a single key. */
 export const portalGetVerifications: API.OperationMethod<
   PortalGetVerificationsRequest,
   V2PortalGetVerificationsResponseBody,
@@ -6209,7 +6375,7 @@ export const portalGetVerifications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PortalGetVerificationsRequest,
   output: V2PortalGetVerificationsResponseBody,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
 }));
@@ -6240,6 +6406,32 @@ export const portalListKeys: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
+export type PortalListSessionsError = BadRequest | NotFound | UnkeyOpError;
+/** List portal sessions List the end users holding a revocable session on a portal, with each end user's sessions. Unreleased and subject to change without notice. A session is revocable until it expires or is revoked. That includes sessions whose portal URL was created but not opened yet. Pass an end user's `externalId` to `portal.revokeSession` to end their sessions. **Required Permissions** Your root key must have one of: - `portal.*.create_portal_session` (for any portal in the workspace) - `portal.<portal_id>.create_portal_session` (for a specific portal) It also accepts `unkey:v1:<workspace_id>:projects/<project_id>/portals/<portal_id>/sessions/*` with `#read` or `#write`. Reading the portal itself is not enough. Without the permission this returns **404**, not 403. */
+export const portalListSessions: API.PaginatedOperationMethod<
+  PortalListSessionsRequest,
+  V2PortalListSessionsResponseBody,
+  PortalListSessionsError,
+  UnkeyOpContext,
+  V2PortalListSessionsResponseData
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: PortalListSessionsRequest,
+    output: V2PortalListSessionsResponseBody,
+    errors: [BadRequest, NotFound, UnknownUnkeyError],
+    protocol: UnkeyProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "cursor",
+      inputToken: "cursor",
+      outputToken: "pagination.cursor",
+      items: "data",
+      pageSize: "limit",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
+
 export type PortalRerollKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
 /** Reroll portal key Reroll an API key owned by the authenticated portal session's end user, issuing a new key while preserving its configuration. This is the portal-scoped variant of `keys.rerollKey`. It authenticates only with a portal session cookie and may only reroll keys owned by the session's external identity; any other key returns 404. */
 export const portalRerollKey: API.OperationMethod<
@@ -6251,6 +6443,21 @@ export const portalRerollKey: API.OperationMethod<
   input: PortalRerollKeyRequest,
   output: V2KeysRerollKeyResponseBody,
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  protocol: UnkeyProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PortalRevokeSessionError = BadRequest | NotFound | UnkeyOpError;
+/** Revoke portal sessions Revoke every live session an end user holds on a portal. Unreleased and subject to change without notice. Sessions that were created but not yet opened are revoked too, so their portal URLs stop working. Revocation is not instantaneous: session lookups are cached briefly, so a request already in flight may still succeed. Revoking ends existing sessions only. To keep the end user out, also stop calling `portal.createSession` for them. Calling this again for the same end user is safe and revokes nothing. **Required Permissions** Your root key must have one of: - `portal.*.create_portal_session` (for any portal in the workspace) - `portal.<portal_id>.create_portal_session` (for a specific portal) It also accepts `unkey:v1:<workspace_id>:projects/<project_id>/portals/<portal_id>/sessions/*#write`, which dashboard roles carry. Unlike `portal.createSession`, a dashboard session can call this, not just a root key. Without the permission this returns **404**, not 403. */
+export const portalRevokeSession: API.OperationMethod<
+  PortalRevokeSessionRequest,
+  V2PortalRevokeSessionResponseBody,
+  PortalRevokeSessionError,
+  UnkeyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PortalRevokeSessionRequest,
+  output: V2PortalRevokeSessionResponseBody,
+  errors: [BadRequest, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
 }));
@@ -6371,6 +6578,92 @@ export const removeEnvironmentVariables: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type RootKeysCreateKeyError = BadRequest | Forbidden | UnkeyOpError;
+/** Create root key Creates a root key for the authenticated workspace. Requires `unkey:v1:<workspace_id>:rootKeys/*#write`. The created root key cannot have more permissions than the caller. */
+export const rootKeysCreateKey: API.OperationMethod<
+  RootKeysCreateKeyRequest,
+  V2RootKeysCreateKeyResponseBody,
+  RootKeysCreateKeyError,
+  UnkeyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RootKeysCreateKeyRequest,
+  output: V2RootKeysCreateKeyResponseBody,
+  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  protocol: UnkeyProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RootKeysDeleteKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
+/** Delete root key Deletes a root key in the authenticated workspace. Requires `unkey:v1:<workspace_id>:rootKeys/<key_id>#delete`. Use `rootKeys/*#delete` to delete any root key in the workspace. Deleted keys cannot authenticate. */
+export const rootKeysDeleteKey: API.OperationMethod<
+  RootKeysDeleteKeyRequest,
+  V2RootKeysDeleteKeyResponseBody,
+  RootKeysDeleteKeyError,
+  UnkeyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RootKeysDeleteKeyRequest,
+  output: V2RootKeysDeleteKeyResponseBody,
+  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  protocol: UnkeyProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RootKeysListKeysError = BadRequest | UnkeyOpError;
+/** List root keys Lists readable root keys in the authenticated workspace, ordered by key ID. Requires `unkey:v1:<workspace_id>:rootKeys/<key_id>#read` for each returned key. Use `rootKeys/*#read` to read all root keys. Write permission does not imply read. A caller with no readable keys receives an empty page. Includes disabled and expired keys from the new root-key store. Deleted keys are excluded. Secrets and hashes are never returned. Pass the returned cursor when hasMore is true to retrieve the next page. */
+export const rootKeysListKeys: API.PaginatedOperationMethod<
+  RootKeysListKeysRequest,
+  V2RootKeysListKeysResponseBody,
+  RootKeysListKeysError,
+  UnkeyOpContext,
+  V2RootKeysListKeysResponseData
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: RootKeysListKeysRequest,
+    output: V2RootKeysListKeysResponseBody,
+    errors: [BadRequest, UnknownUnkeyError],
+    protocol: UnkeyProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "cursor",
+      inputToken: "cursor",
+      outputToken: "pagination.cursor",
+      items: "data",
+      pageSize: "limit",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
+
+export type RootKeysRerollKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
+/** Reroll root key Creates a new root key secret with the same name, enabled state, expiration, and effective permissions as an existing root key in the authenticated workspace. Requires `unkey:v1:<workspace_id>:rootKeys/<key_id>#write`, and the caller must already hold every permission of the original key. When `expiration` is not null, it also requires `unkey:v1:<workspace_id>:rootKeys/<key_id>#delete`. `expiration` controls the original key: 0 revokes it immediately, a positive value keeps it valid for that many milliseconds, and null keeps its current expiration. */
+export const rootKeysRerollKey: API.OperationMethod<
+  RootKeysRerollKeyRequest,
+  V2RootKeysRerollKeyResponseBody,
+  RootKeysRerollKeyError,
+  UnkeyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RootKeysRerollKeyRequest,
+  output: V2RootKeysRerollKeyResponseBody,
+  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  protocol: UnkeyProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RootKeysUpdateKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
+/** Update root key Updates a root key in the authenticated workspace. Requires `unkey:v1:<workspace_id>:rootKeys/<key_id>#write`. Use `rootKeys/*#write` to update any root key in the workspace. `permissions` replaces the complete permission set. Each permission must be a supported URN in the authenticated workspace and within the caller's permissions. An expiring root key can only update root keys that expire no later than itself. */
+export const rootKeysUpdateKey: API.OperationMethod<
+  RootKeysUpdateKeyRequest,
+  V2RootKeysUpdateKeyResponseBody,
+  RootKeysUpdateKeyError,
+  UnkeyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RootKeysUpdateKeyRequest,
+  output: V2RootKeysUpdateKeyResponseBody,
+  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  protocol: UnkeyProtocol,
+  retry: Retry.Retry,
+}));
+
 export type StartDeploymentError = BadRequest | NotFound | UnkeyOpError;
 /** Start deployment Start a deployment that was previously stopped with `stopDeployment`, so it serves traffic again. The deployment keeps the configuration it had when it was stopped; nothing is rebuilt or redeployed. The deployment must currently be stopped, and must belong to a non-production environment. Production deployments are never stopped, so they cannot be started. Starting is asynchronous: this endpoint only enqueues the start and returns immediately. Poll `getDeployment` until the status reaches `ready`. **Required Permissions** Your root key must have one of the following permissions: - `environment.*.start_deployment` (to start deployments in any environment) - `environment.<environment_id>.start_deployment` (to start deployments in a specific environment) */
 export const startDeployment: API.OperationMethod<
@@ -6447,7 +6740,7 @@ export const updateKey: API.OperationMethod<
 }));
 
 export type UpdatePortalError = BadRequest | NotFound | Conflict | UnkeyOpError;
-/** Update portal Change a portal's slug, display name, the resource it serves, its enabled state, or its branding. Unreleased and subject to change without notice. Only the fields you send change. Omitting a field leaves it as it is, and for branding, sending null clears it. Send at most one of `keyspaceId` or `appId`. Two changes affect your end users immediately: - Re-pointing at a different resource revokes the portal's live sessions, because a session carries the scope it was minted with. - Disabling stops new sessions but leaves live ones running until they expire. **Required Permissions** Your root key must have one of: - `portal.*.update_portal` (to update any portal in the workspace) - `portal.<portal_id>.update_portal` (to update a specific portal) Without the permission this returns **404**, not 403. */
+/** Update portal Change a portal's slug, display name, the resource it serves, its enabled state, or its branding. Unreleased and subject to change without notice. Only the fields you send change. Omitting a field leaves it as it is, and for branding, sending null clears it. Send at most one of `keyspaceId` or `appId`. Two changes affect your end users immediately: - Re-pointing at a different resource revokes the portal's live sessions, because a session carries the scope it was minted with. - Disabling stops new sessions and revokes the live ones. Re-enabling does not restore them. **Required Permissions** Your root key must have one of: - `portal.*.update_portal` (to update any portal in the workspace) - `portal.<portal_id>.update_portal` (to update a specific portal) Without the permission this returns **404**, not 403. */
 export const updatePortal: API.OperationMethod<
   UpdatePortalRequest,
   V2PortalUpdatePortalResponseBody,
