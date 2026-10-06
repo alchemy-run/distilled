@@ -35,9 +35,7 @@ export const CancelCardRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cardId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}/cancel", code: 200 })),
-).annotate({
-  identifier: "CancelCardRequest",
-}) as any as S.Schema<CancelCardRequest>;
+).annotate({ identifier: "CancelCardRequest" }) as any as S.Schema<CancelCardRequest>;
 
 /** Current-cycle limits for one budget linked to this card and cardholder. */
 export interface CardBudget {
@@ -135,14 +133,12 @@ export const CardMerchantLock = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "CardMerchantLock",
-}) as any as S.Schema<CardMerchantLock>;
+).annotate({ identifier: "CardMerchantLock" }) as any as S.Schema<CardMerchantLock>;
 
 export interface CardSpendLimit {
   /** Maximum total spend allowed per interval, in cents. */
   amountCents: number;
-  /** Maximum ATM withdrawal allowed per interval, in cents. Null for virtual cards. */
+  /** Maximum ATM withdrawal allowed per interval, in cents. Null for virtual cards and credit cards. */
   atmAmountCents?: number | null;
   interval: unknown;
 }
@@ -214,16 +210,8 @@ export interface CancelInvoiceRequest {
 export const CancelInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     invoiceId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ar/invoices/{invoiceId}/cancel",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CancelInvoiceRequest",
-}) as any as S.Schema<CancelInvoiceRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/ar/invoices/{invoiceId}/cancel", code: 200 })),
+).annotate({ identifier: "CancelInvoiceRequest" }) as any as S.Schema<CancelInvoiceRequest>;
 
 export interface CancelInvoiceResponse {}
 export const CancelInvoiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -262,9 +250,7 @@ export const CreateCardRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.Unknown,
     userId: S.Unknown,
   }).pipe(T.Http({ method: "POST", uri: "/cards", code: 200 })),
-).annotate({
-  identifier: "CreateCardRequest",
-}) as any as S.Schema<CreateCardRequest>;
+).annotate({ identifier: "CreateCardRequest" }) as any as S.Schema<CreateCardRequest>;
 
 export interface CreateCategoryRequest {
   name: unknown;
@@ -282,9 +268,7 @@ export const CreateCategoryRequest = /*@__PURE__*/ S.suspend(() =>
     visibleForOther: S.Boolean,
     visibleForReimbursements: S.Boolean,
   }).pipe(T.Http({ method: "POST", uri: "/categories", code: 200 })),
-).annotate({
-  identifier: "CreateCategoryRequest",
-}) as any as S.Schema<CreateCategoryRequest>;
+).annotate({ identifier: "CreateCategoryRequest" }) as any as S.Schema<CreateCategoryRequest>;
 
 /** Represents an expense category for transaction classification. */
 export interface CategoryData {
@@ -348,9 +332,7 @@ export const CreateCustomerRequest = /*@__PURE__*/ S.suspend(() =>
     email: S.Unknown,
     name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/ar/customers", code: 200 })),
-).annotate({
-  identifier: "CreateCustomerRequest",
-}) as any as S.Schema<CreateCustomerRequest>;
+).annotate({ identifier: "CreateCustomerRequest" }) as any as S.Schema<CreateCustomerRequest>;
 
 export interface ApiV1ArCustomerResponseDataAddress {
   /** Primary street address line. */
@@ -431,9 +413,7 @@ export const TransactionAttachment = /*@__PURE__*/ S.suspend(() =>
     fileName: S.String,
     url: S.String,
   }),
-).annotate({
-  identifier: "TransactionAttachment",
-}) as any as S.Schema<TransactionAttachment>;
+).annotate({ identifier: "TransactionAttachment" }) as any as S.Schema<TransactionAttachment>;
 
 export type TransactionAttachmentsList = Array<TransactionAttachment>;
 export const TransactionAttachmentsList = /*@__PURE__*/ S.Array(
@@ -462,9 +442,7 @@ export const CurrencyExchangeInfo = /*@__PURE__*/ S.suspend(() =>
     feePercentage: S.Number,
     feeTransactionId: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CurrencyExchangeInfo",
-}) as any as S.Schema<CurrencyExchangeInfo>;
+).annotate({ identifier: "CurrencyExchangeInfo" }) as any as S.Schema<CurrencyExchangeInfo>;
 
 export type USState =
   | "AL"
@@ -576,9 +554,7 @@ export const AddressWithoutName = /*@__PURE__*/ S.suspend(() =>
     postalCode: S.String,
     region: S.String,
   }),
-).annotate({
-  identifier: "AddressWithoutName",
-}) as any as S.Schema<AddressWithoutName>;
+).annotate({ identifier: "AddressWithoutName" }) as any as S.Schema<AddressWithoutName>;
 
 export interface DomesticWireRoutingInfo {
   accountNumber: string;
@@ -593,15 +569,17 @@ export const DomesticWireRoutingInfo = /*@__PURE__*/ S.suspend(() =>
     bankName: S.optional(S.NullOr(S.String)),
     routingNumber: S.String,
   }),
-).annotate({
-  identifier: "DomesticWireRoutingInfo",
-}) as any as S.Schema<DomesticWireRoutingInfo>;
+).annotate({ identifier: "DomesticWireRoutingInfo" }) as any as S.Schema<DomesticWireRoutingInfo>;
 
 export type ElectronicAccountType =
   | "businessChecking"
   | "businessSavings"
   | "personalChecking"
-  | "personalSavings";
+  | "personalSavings"
+  | "businessGeneralLedger"
+  | "personalGeneralLedger"
+  | "businessLoan"
+  | "personalLoan";
 export const ElectronicAccountType = S.String;
 
 export interface ElectronicRoutingInfo {
@@ -619,9 +597,7 @@ export const ElectronicRoutingInfo = /*@__PURE__*/ S.suspend(() =>
     electronicAccountType: ElectronicAccountType,
     routingNumber: S.String,
   }),
-).annotate({
-  identifier: "ElectronicRoutingInfo",
-}) as any as S.Schema<ElectronicRoutingInfo>;
+).annotate({ identifier: "ElectronicRoutingInfo" }) as any as S.Schema<ElectronicRoutingInfo>;
 
 export interface SwiftCodeData {
   bankCityState: string;
@@ -856,9 +832,7 @@ export const TransactionMethodData = /*@__PURE__*/ S.suspend(() =>
     electronicRoutingInfo: S.optional(S.NullOr(ElectronicRoutingInfo)),
     internationalWireRoutingInfo: S.optional(S.NullOr(InternationalWireRoutingInfo)),
   }),
-).annotate({
-  identifier: "TransactionMethodData",
-}) as any as S.Schema<TransactionMethodData>;
+).annotate({ identifier: "TransactionMethodData" }) as any as S.Schema<TransactionMethodData>;
 
 /** A GL code allocation on a transaction — a GL code name paired with the amount allocated to it. When a transaction is fully categorized, the amounts across all allocations sum to the transaction total. */
 export interface GlAllocation {
@@ -927,9 +901,7 @@ export const TransactionMerchant = /*@__PURE__*/ S.suspend(() =>
     currency: S.optional(S.NullOr(S.Unknown)),
     id: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TransactionMerchant",
-}) as any as S.Schema<TransactionMerchant>;
+).annotate({ identifier: "TransactionMerchant" }) as any as S.Schema<TransactionMerchant>;
 
 export type TransactionRelationKind =
   | "ProvisionalCreditReversalToMerchantRefund"
@@ -976,9 +948,7 @@ export const RelatedTransactionData = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     relationKind: TransactionRelationKind,
   }),
-).annotate({
-  identifier: "RelatedTransactionData",
-}) as any as S.Schema<RelatedTransactionData>;
+).annotate({ identifier: "RelatedTransactionData" }) as any as S.Schema<RelatedTransactionData>;
 
 export type TransactionRelatedTransactionsList = Array<RelatedTransactionData>;
 export const TransactionRelatedTransactionsList = /*@__PURE__*/ S.Array(
@@ -1112,9 +1082,7 @@ export const ApiV1ArLineItemData = /*@__PURE__*/ S.suspend(() =>
     salesTaxRate: S.optional(S.NullOr(S.Number)),
     unitPrice: S.Number,
   }),
-).annotate({
-  identifier: "ApiV1ArLineItemData",
-}) as any as S.Schema<ApiV1ArLineItemData>;
+).annotate({ identifier: "ApiV1ArLineItemData" }) as any as S.Schema<ApiV1ArLineItemData>;
 
 /** The line items for the invoice */
 export type CreateInvoiceRequestLineItemsList = Array<ApiV1ArLineItemData>;
@@ -1170,9 +1138,7 @@ export const CreateInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
     servicePeriodStartDate: S.optional(S.NullOr(S.Unknown)),
     useRealAccountNumber: S.Boolean,
   }).pipe(T.Http({ method: "POST", uri: "/ar/invoices", code: 200 })),
-).annotate({
-  identifier: "CreateInvoiceRequest",
-}) as any as S.Schema<CreateInvoiceRequest>;
+).annotate({ identifier: "CreateInvoiceRequest" }) as any as S.Schema<CreateInvoiceRequest>;
 
 /** Emails to be CCed on invoice notifications/reminders. */
 export type ApiV1ArInvoiceResponseCcEmailsList = Array<string>;
@@ -1249,9 +1215,7 @@ export const ApiV1ArInvoiceResponse = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.Unknown,
     useRealAccountNumber: S.Boolean,
   }),
-).annotate({
-  identifier: "ApiV1ArInvoiceResponse",
-}) as any as S.Schema<ApiV1ArInvoiceResponse>;
+).annotate({ identifier: "ApiV1ArInvoiceResponse" }) as any as S.Schema<ApiV1ArInvoiceResponse>;
 
 export type CheckInfoRawAddress = AddressWithoutName;
 export const CheckInfoRawAddress = AddressWithoutName;
@@ -1303,14 +1267,33 @@ export const ElectronicRoutingInfoRaw = /*@__PURE__*/ S.suspend(() =>
     electronicAccountType: S.Unknown,
     routingNumber: S.String,
   }),
-).annotate({
-  identifier: "ElectronicRoutingInfoRaw",
-}) as any as S.Schema<ElectronicRoutingInfoRaw>;
+).annotate({ identifier: "ElectronicRoutingInfoRaw" }) as any as S.Schema<ElectronicRoutingInfoRaw>;
 
 export type CreateRecipientRequestEmailsList = Array<string>;
 export const CreateRecipientRequestEmailsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CreateRecipientRequestEmailsList>;
+
+export type RealTimePaymentRoutingInfoRawAddress = AddressWithoutName;
+export const RealTimePaymentRoutingInfoRawAddress = AddressWithoutName;
+
+/** Routing information for real-time payments. */
+export interface RealTimePaymentRoutingInfoRaw {
+  /** The account number of the bank account to use for real-time payments. */
+  accountNumber: string;
+  address: AddressWithoutName;
+  /** The routing number of the bank account to use for real-time payments. */
+  routingNumber: string;
+}
+export const RealTimePaymentRoutingInfoRaw = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountNumber: S.String,
+    address: AddressWithoutName,
+    routingNumber: S.String,
+  }),
+).annotate({
+  identifier: "RealTimePaymentRoutingInfoRaw",
+}) as any as S.Schema<RealTimePaymentRoutingInfoRaw>;
 
 export interface CreateRecipientRequest {
   /** Deprecated. Use checkInfo instead. */
@@ -1326,6 +1309,8 @@ export interface CreateRecipientRequest {
   emails: CreateRecipientRequestEmailsList;
   name: string;
   nickname?: string;
+  /** Information needed to send a real-time payment. */
+  realTimePaymentRoutingInfo?: RealTimePaymentRoutingInfoRaw;
 }
 export const CreateRecipientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1337,10 +1322,9 @@ export const CreateRecipientRequest = /*@__PURE__*/ S.suspend(() =>
     emails: CreateRecipientRequestEmailsList,
     name: S.String,
     nickname: S.optional(S.String),
+    realTimePaymentRoutingInfo: S.optional(RealTimePaymentRoutingInfoRaw),
   }).pipe(T.Http({ method: "POST", uri: "/recipients", code: 200 })),
-).annotate({
-  identifier: "CreateRecipientRequest",
-}) as any as S.Schema<CreateRecipientRequest>;
+).annotate({ identifier: "CreateRecipientRequest" }) as any as S.Schema<CreateRecipientRequest>;
 
 export interface Address {
   address1: string;
@@ -1378,9 +1362,7 @@ export const RecipientAttachment = /*@__PURE__*/ S.suspend(() =>
     uploadedAt: S.Unknown,
     url: S.String,
   }),
-).annotate({
-  identifier: "RecipientAttachment",
-}) as any as S.Schema<RecipientAttachment>;
+).annotate({ identifier: "RecipientAttachment" }) as any as S.Schema<RecipientAttachment>;
 
 export type RecipientInfoAttachmentsList = Array<RecipientAttachment>;
 export const RecipientInfoAttachmentsList = /*@__PURE__*/ S.Array(
@@ -1531,7 +1513,7 @@ export const RecipientInviteApiResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "RecipientInviteApiResponse",
 }) as any as S.Schema<RecipientInviteApiResponse>;
 
-export type PostTransactionPaymentMethod = "ach" | "check" | "domesticWire";
+export type PostTransactionPaymentMethod = "ach" | "check" | "domesticWire" | "realTimePayment";
 export const PostTransactionPaymentMethod = S.String;
 
 /** Payment category. */
@@ -1603,16 +1585,8 @@ export const CreateTransactionRequest = /*@__PURE__*/ S.suspend(() =>
     paymentMethod: PostTransactionPaymentMethod,
     purpose: S.optional(PostTransactionSendMoneyPurpose),
     recipientId: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/account/{accountId}/transactions",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateTransactionRequest",
-}) as any as S.Schema<CreateTransactionRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/account/{accountId}/transactions", code: 200 })),
+).annotate({ identifier: "CreateTransactionRequest" }) as any as S.Schema<CreateTransactionRequest>;
 
 export type WebhookEventType =
   | "transaction.created"
@@ -1682,9 +1656,7 @@ export const CreateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     filterPaths: S.optional(S.NullOr(CreateWebhookRequestFilterPathsList)),
     url: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/webhooks", code: 200 })),
-).annotate({
-  identifier: "CreateWebhookRequest",
-}) as any as S.Schema<CreateWebhookRequest>;
+).annotate({ identifier: "CreateWebhookRequest" }) as any as S.Schema<CreateWebhookRequest>;
 
 /** Optional array of event types this webhook is subscribed to. Nothing means all events. */
 export type ApiWebhookResponseEventTypesList = Array<WebhookEventType>;
@@ -1724,9 +1696,7 @@ export const ApiWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.Unknown,
     url: S.String,
   }),
-).annotate({
-  identifier: "ApiWebhookResponse",
-}) as any as S.Schema<ApiWebhookResponse>;
+).annotate({ identifier: "ApiWebhookResponse" }) as any as S.Schema<ApiWebhookResponse>;
 
 export interface DeleteCategoryRequest {
   expenseCategoryId: string;
@@ -1734,16 +1704,8 @@ export interface DeleteCategoryRequest {
 export const DeleteCategoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     expenseCategoryId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/categories/{expenseCategoryId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteCategoryRequest",
-}) as any as S.Schema<DeleteCategoryRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/categories/{expenseCategoryId}", code: 200 })),
+).annotate({ identifier: "DeleteCategoryRequest" }) as any as S.Schema<DeleteCategoryRequest>;
 
 export interface DeleteCategoryResponse {}
 export const DeleteCategoryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1757,9 +1719,7 @@ export const DeleteCustomerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     customerId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/ar/customers/{customerId}", code: 200 })),
-).annotate({
-  identifier: "DeleteCustomerRequest",
-}) as any as S.Schema<DeleteCustomerRequest>;
+).annotate({ identifier: "DeleteCustomerRequest" }) as any as S.Schema<DeleteCustomerRequest>;
 
 export interface DeleteCustomerResponse {}
 export const DeleteCustomerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1773,9 +1733,7 @@ export const DeleteRecipientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recipientId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/recipient/{recipientId}", code: 200 })),
-).annotate({
-  identifier: "DeleteRecipientRequest",
-}) as any as S.Schema<DeleteRecipientRequest>;
+).annotate({ identifier: "DeleteRecipientRequest" }) as any as S.Schema<DeleteRecipientRequest>;
 
 export interface DeleteRecipientResponse {}
 export const DeleteRecipientResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1788,13 +1746,7 @@ export interface DeleteRecipientInviteRequest {
 export const DeleteRecipientInviteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     inviteId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/recipients/invites/{inviteId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/recipients/invites/{inviteId}", code: 200 })),
 ).annotate({
   identifier: "DeleteRecipientInviteRequest",
 }) as any as S.Schema<DeleteRecipientInviteRequest>;
@@ -1810,16 +1762,8 @@ export interface DeleteWebhookRequest {
 export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     webhookEndpointId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/webhooks/{webhookEndpointId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteWebhookRequest",
-}) as any as S.Schema<DeleteWebhookRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/webhooks/{webhookEndpointId}", code: 200 })),
+).annotate({ identifier: "DeleteWebhookRequest" }) as any as S.Schema<DeleteWebhookRequest>;
 
 export interface DeleteWebhookResponse {}
 export const DeleteWebhookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1843,16 +1787,8 @@ export const EditCategoryRequest = /*@__PURE__*/ S.suspend(() =>
     visibleForCardSpend: S.optional(S.NullOr(S.Boolean)),
     visibleForOther: S.optional(S.NullOr(S.Boolean)),
     visibleForReimbursements: S.optional(S.NullOr(S.Boolean)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/categories/{expenseCategoryId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "EditCategoryRequest",
-}) as any as S.Schema<EditCategoryRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/categories/{expenseCategoryId}", code: 200 })),
+).annotate({ identifier: "EditCategoryRequest" }) as any as S.Schema<EditCategoryRequest>;
 
 export interface FreezeCardRequest {
   cardId: string;
@@ -1861,9 +1797,7 @@ export const FreezeCardRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cardId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}/freeze", code: 200 })),
-).annotate({
-  identifier: "FreezeCardRequest",
-}) as any as S.Schema<FreezeCardRequest>;
+).annotate({ identifier: "FreezeCardRequest" }) as any as S.Schema<FreezeCardRequest>;
 
 export interface GetAccountCardsRequest {
   accountId: string;
@@ -1872,9 +1806,7 @@ export const GetAccountCardsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/account/{accountId}/cards", code: 200 })),
-).annotate({
-  identifier: "GetAccountCardsRequest",
-}) as any as S.Schema<GetAccountCardsRequest>;
+).annotate({ identifier: "GetAccountCardsRequest" }) as any as S.Schema<GetAccountCardsRequest>;
 
 export type CardNetwork = "visa" | "mastercard";
 export const CardNetwork = S.String;
@@ -1934,9 +1866,7 @@ export const AccountCardsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cards: AccountCardsResponseCardsList,
   }),
-).annotate({
-  identifier: "AccountCardsResponse",
-}) as any as S.Schema<AccountCardsResponse>;
+).annotate({ identifier: "AccountCardsResponse" }) as any as S.Schema<AccountCardsResponse>;
 
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type GetAccountsRequestOrder = "asc" | "desc";
@@ -1955,9 +1885,7 @@ export const GetAccountsRequest = /*@__PURE__*/ S.suspend(() =>
     start_after: S.optional(S.String.pipe(T.Query())),
     end_before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/accounts", code: 200 })),
-).annotate({
-  identifier: "GetAccountsRequest",
-}) as any as S.Schema<GetAccountsRequest>;
+).annotate({ identifier: "GetAccountsRequest" }) as any as S.Schema<GetAccountsRequest>;
 
 export type AccountStatus = "active" | "deleted" | "pending" | "archived";
 export const AccountStatus = S.String;
@@ -1969,6 +1897,8 @@ export interface Account {
   accountNumber: string;
   availableBalance: number;
   canReceiveTransactions?: boolean | null;
+  /** Whether this account's partner bank supports sending real-time payments. Sending one also requires the recipient's routing number to be RTP-eligible. */
+  canSendRealTimePayments: boolean;
   createdAt: string;
   currentBalance: number;
   dashboardLink: string;
@@ -1986,6 +1916,7 @@ export const Account = /*@__PURE__*/ S.suspend(() =>
     accountNumber: S.String,
     availableBalance: S.Number,
     canReceiveTransactions: S.optional(S.NullOr(S.Boolean)),
+    canSendRealTimePayments: S.Boolean,
     createdAt: S.String,
     currentBalance: S.Number,
     dashboardLink: S.String,
@@ -2058,13 +1989,7 @@ export const GetAccountStatementsRequest = /*@__PURE__*/ S.suspend(() =>
     end_before: S.optional(S.String.pipe(T.Query())),
     start: S.optional(S.String.pipe(T.Query())),
     end: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/account/{accountId}/statements",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/account/{accountId}/statements", code: 200 })),
 ).annotate({
   identifier: "GetAccountStatementsRequest",
 }) as any as S.Schema<GetAccountStatementsRequest>;
@@ -2150,9 +2075,7 @@ export const GetAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     attachmentId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/ar/attachments/{attachmentId}", code: 200 })),
-).annotate({
-  identifier: "GetAttachmentRequest",
-}) as any as S.Schema<GetAttachmentRequest>;
+).annotate({ identifier: "GetAttachmentRequest" }) as any as S.Schema<GetAttachmentRequest>;
 
 /** The object representing a file attachment for an invoice. The file is not a part of this object itself but information for where to download it will be in this object. */
 export interface ApiV1ArAttachmentResponseData {
@@ -2188,9 +2111,7 @@ export const GetCustomerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     customerId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/ar/customers/{customerId}", code: 200 })),
-).annotate({
-  identifier: "GetCustomerRequest",
-}) as any as S.Schema<GetCustomerRequest>;
+).annotate({ identifier: "GetCustomerRequest" }) as any as S.Schema<GetCustomerRequest>;
 
 export interface GetEventRequest {
   eventId: string;
@@ -2199,9 +2120,7 @@ export const GetEventRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     eventId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/events/{eventId}", code: 200 })),
-).annotate({
-  identifier: "GetEventRequest",
-}) as any as S.Schema<GetEventRequest>;
+).annotate({ identifier: "GetEventRequest" }) as any as S.Schema<GetEventRequest>;
 
 /** List of JSON paths that were modified in this event */
 export type ApiEventResponseChangedPathsList = Array<string>;
@@ -2236,9 +2155,7 @@ export const ApiEventResponse = /*@__PURE__*/ S.suspend(() =>
     resourceType: S.Unknown,
     resourceVersion: S.Unknown,
   }),
-).annotate({
-  identifier: "ApiEventResponse",
-}) as any as S.Schema<ApiEventResponse>;
+).annotate({ identifier: "ApiEventResponse" }) as any as S.Schema<ApiEventResponse>;
 
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type GetEventsRequestOrder = "asc" | "desc";
@@ -2270,9 +2187,7 @@ export const GetEventsRequest = /*@__PURE__*/ S.suspend(() =>
     resourceType: S.optional(GetEventsRequestResourceType.pipe(T.Query())),
     resourceId: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/events", code: 200 })),
-).annotate({
-  identifier: "GetEventsRequest",
-}) as any as S.Schema<GetEventsRequest>;
+).annotate({ identifier: "GetEventsRequest" }) as any as S.Schema<GetEventsRequest>;
 
 /** List of events in the current page */
 export type ApiEventsPaginatedResponseEventsList = Array<ApiEventResponse>;
@@ -2307,9 +2222,7 @@ export const GetInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     invoiceId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/ar/invoices/{invoiceId}", code: 200 })),
-).annotate({
-  identifier: "GetInvoiceRequest",
-}) as any as S.Schema<GetInvoiceRequest>;
+).annotate({ identifier: "GetInvoiceRequest" }) as any as S.Schema<GetInvoiceRequest>;
 
 export interface GetInvoicePdfRequest {
   invoiceId: string;
@@ -2318,9 +2231,7 @@ export const GetInvoicePdfRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     invoiceId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/ar/invoices/{invoiceId}/pdf", code: 200 })),
-).annotate({
-  identifier: "GetInvoicePdfRequest",
-}) as any as S.Schema<GetInvoicePdfRequest>;
+).annotate({ identifier: "GetInvoicePdfRequest" }) as any as S.Schema<GetInvoicePdfRequest>;
 
 export interface GetInvoicePdfResponse {}
 export const GetInvoicePdfResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2330,9 +2241,7 @@ export const GetInvoicePdfResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}))
 export interface GetOrganizationRequest {}
 export const GetOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/organization", code: 200 })),
-).annotate({
-  identifier: "GetOrganizationRequest",
-}) as any as S.Schema<GetOrganizationRequest>;
+).annotate({ identifier: "GetOrganizationRequest" }) as any as S.Schema<GetOrganizationRequest>;
 
 /** DBA (Doing Business As) information */
 export interface OrganizationDBA {
@@ -2346,9 +2255,7 @@ export const OrganizationDBA = /*@__PURE__*/ S.suspend(() =>
     dbaIsDefault: S.Boolean,
     dbaName: S.String,
   }),
-).annotate({
-  identifier: "OrganizationDBA",
-}) as any as S.Schema<OrganizationDBA>;
+).annotate({ identifier: "OrganizationDBA" }) as any as S.Schema<OrganizationDBA>;
 
 /** List of DBAs (Doing Business As names) for this organization */
 export type OrganizationResponseOrganizationDbasList = Array<OrganizationDBA>;
@@ -2390,9 +2297,7 @@ export const OrganizationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization: OrganizationResponseOrganization,
   }),
-).annotate({
-  identifier: "OrganizationResponse",
-}) as any as S.Schema<OrganizationResponse>;
+).annotate({ identifier: "OrganizationResponse" }) as any as S.Schema<OrganizationResponse>;
 
 export interface GetRecipientRequest {
   recipientId: string;
@@ -2401,9 +2306,7 @@ export const GetRecipientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recipientId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/recipient/{recipientId}", code: 200 })),
-).annotate({
-  identifier: "GetRecipientRequest",
-}) as any as S.Schema<GetRecipientRequest>;
+).annotate({ identifier: "GetRecipientRequest" }) as any as S.Schema<GetRecipientRequest>;
 
 export interface GetRecipientInviteRequest {
   inviteId: string;
@@ -2433,9 +2336,7 @@ export const GetRecipientsRequest = /*@__PURE__*/ S.suspend(() =>
     end_before: S.optional(S.String.pipe(T.Query())),
     order: S.optional(GetRecipientsRequestOrder.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/recipients", code: 200 })),
-).annotate({
-  identifier: "GetRecipientsRequest",
-}) as any as S.Schema<GetRecipientsRequest>;
+).annotate({ identifier: "GetRecipientsRequest" }) as any as S.Schema<GetRecipientsRequest>;
 
 /** Pagination information including cursors for navigating to next/previous pages */
 export type RecipientsPaginatedResponsePage = AccountsPaginatedResponsePage;
@@ -2471,9 +2372,7 @@ export const GetSafeRequestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     safeRequestId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/safes/{safeRequestId}", code: 200 })),
-).annotate({
-  identifier: "GetSafeRequestRequest",
-}) as any as S.Schema<GetSafeRequestRequest>;
+).annotate({ identifier: "GetSafeRequestRequest" }) as any as S.Schema<GetSafeRequestRequest>;
 
 export type SafeRequestInvestorType =
   | "SafeRequestInvestorTypeIndividual"
@@ -2501,9 +2400,7 @@ export const APISafeRequestInvestor = /*@__PURE__*/ S.suspend(() =>
     signatoryName: S.String,
     signatoryTitle: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "APISafeRequestInvestor",
-}) as any as S.Schema<APISafeRequestInvestor>;
+).annotate({ identifier: "APISafeRequestInvestor" }) as any as S.Schema<APISafeRequestInvestor>;
 
 /** Details about the organization selling the equity */
 export interface APISafeRequestOrganization {
@@ -2574,13 +2471,7 @@ export interface GetSafeRequestDocumentRequest {
 export const GetSafeRequestDocumentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     safeRequestId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/safes/{safeRequestId}/document",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/safes/{safeRequestId}/document", code: 200 })),
 ).annotate({
   identifier: "GetSafeRequestDocumentRequest",
 }) as any as S.Schema<GetSafeRequestDocumentRequest>;
@@ -2593,9 +2484,7 @@ export const GetSafeRequestDocumentResponse = /*@__PURE__*/ S.suspend(() => S.St
 export interface GetSafeRequestsRequest {}
 export const GetSafeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/safes", code: 200 })),
-).annotate({
-  identifier: "GetSafeRequestsRequest",
-}) as any as S.Schema<GetSafeRequestsRequest>;
+).annotate({ identifier: "GetSafeRequestsRequest" }) as any as S.Schema<GetSafeRequestsRequest>;
 
 export type GetSafeRequestsResponseBodyList = Array<APISafeRequest>;
 export const GetSafeRequestsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2605,9 +2494,7 @@ export const GetSafeRequestsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetSafeRequestsResponse = GetSafeRequestsResponseBodyList;
 export const GetSafeRequestsResponse = /*@__PURE__*/ S.suspend(() =>
   GetSafeRequestsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetSafeRequestsResponse",
-}) as any as S.Schema<GetSafeRequestsResponse>;
+).annotate({ identifier: "GetSafeRequestsResponse" }) as any as S.Schema<GetSafeRequestsResponse>;
 
 export interface GetSendMoneyApprovalRequestRequest {
   requestId: string;
@@ -2615,18 +2502,17 @@ export interface GetSendMoneyApprovalRequestRequest {
 export const GetSendMoneyApprovalRequestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     requestId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/request-send-money/{requestId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/request-send-money/{requestId}", code: 200 })),
 ).annotate({
   identifier: "GetSendMoneyApprovalRequestRequest",
 }) as any as S.Schema<GetSendMoneyApprovalRequestRequest>;
 
-export type RequestSendMoneyPaymentMethod = "ach" | "check" | "domesticWire" | "internationalWire";
+export type RequestSendMoneyPaymentMethod =
+  | "ach"
+  | "check"
+  | "domesticWire"
+  | "internationalWire"
+  | "realTimePayment";
 export const RequestSendMoneyPaymentMethod = S.String;
 
 export type PaymentApprovalReviewStatus = "approved" | "rejected";
@@ -2643,9 +2529,7 @@ export const PaymentApprovalReview = /*@__PURE__*/ S.suspend(() =>
     reviewerUserId: S.String,
     status: PaymentApprovalReviewStatus,
   }),
-).annotate({
-  identifier: "PaymentApprovalReview",
-}) as any as S.Schema<PaymentApprovalReview>;
+).annotate({ identifier: "PaymentApprovalReview" }) as any as S.Schema<PaymentApprovalReview>;
 
 /** Approval decisions recorded against this request, ordered from oldest to most recent. */
 export type SendMoneyApprovalRequestResponseReviewsList = Array<PaymentApprovalReview>;
@@ -2702,9 +2586,7 @@ export const GetStatementPdfRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     statementId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/statements/{statementId}/pdf", code: 200 })),
-).annotate({
-  identifier: "GetStatementPdfRequest",
-}) as any as S.Schema<GetStatementPdfRequest>;
+).annotate({ identifier: "GetStatementPdfRequest" }) as any as S.Schema<GetStatementPdfRequest>;
 
 export interface GetStatementPdfResponse {}
 export const GetStatementPdfResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2720,15 +2602,9 @@ export const GetTransactionRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label()),
     transactionId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/account/{accountId}/transaction/{transactionId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/account/{accountId}/transaction/{transactionId}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetTransactionRequest",
-}) as any as S.Schema<GetTransactionRequest>;
+).annotate({ identifier: "GetTransactionRequest" }) as any as S.Schema<GetTransactionRequest>;
 
 export interface GetTransactionByTransactionIdRequest {
   transactionId: string;
@@ -2758,9 +2634,7 @@ export const GetTreasuryRequest = /*@__PURE__*/ S.suspend(() =>
     end_before: S.optional(S.String.pipe(T.Query())),
     order: S.optional(GetTreasuryRequestOrder.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/treasury", code: 200 })),
-).annotate({
-  identifier: "GetTreasuryRequest",
-}) as any as S.Schema<GetTreasuryRequest>;
+).annotate({ identifier: "GetTreasuryRequest" }) as any as S.Schema<GetTreasuryRequest>;
 
 /** Dividend information for a specific treasury security */
 export interface TreasuryDividend {
@@ -2779,9 +2653,7 @@ export const TreasuryDividend = /*@__PURE__*/ S.suspend(() =>
     securityName: S.String,
     type: S.Unknown,
   }),
-).annotate({
-  identifier: "TreasuryDividend",
-}) as any as S.Schema<TreasuryDividend>;
+).annotate({ identifier: "TreasuryDividend" }) as any as S.Schema<TreasuryDividend>;
 
 /** List of dividends received by security */
 export type TreasuryNetReturnDividendsList = Array<TreasuryDividend>;
@@ -2808,9 +2680,7 @@ export const TreasuryNetReturn = /*@__PURE__*/ S.suspend(() =>
     status: S.Unknown,
     treasuryFee: S.Number,
   }),
-).annotate({
-  identifier: "TreasuryNetReturn",
-}) as any as S.Schema<TreasuryNetReturn>;
+).annotate({ identifier: "TreasuryNetReturn" }) as any as S.Schema<TreasuryNetReturn>;
 
 /** Monthly net return breakdown with dividend and fee details */
 export type TreasuryAccountNetReturnsList = Array<TreasuryNetReturn>;
@@ -2836,9 +2706,7 @@ export const TreasuryAccount = /*@__PURE__*/ S.suspend(() =>
     netReturns: TreasuryAccountNetReturnsList,
     status: AccountStatus,
   }),
-).annotate({
-  identifier: "TreasuryAccount",
-}) as any as S.Schema<TreasuryAccount>;
+).annotate({ identifier: "TreasuryAccount" }) as any as S.Schema<TreasuryAccount>;
 
 /** List of treasury accounts in the current page */
 export type TreasuryAccountsPaginatedResponseAccountsList = Array<TreasuryAccount>;
@@ -2900,13 +2768,7 @@ export const GetTreasuryStatementsRequest = /*@__PURE__*/ S.suspend(() =>
     start_after: S.optional(S.String.pipe(T.Query())),
     end_before: S.optional(S.String.pipe(T.Query())),
     documentType: S.optional(GetTreasuryStatementsRequestDocumentType.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/treasury/{treasuryId}/statements",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/treasury/{treasuryId}/statements", code: 200 })),
 ).annotate({
   identifier: "GetTreasuryStatementsRequest",
 }) as any as S.Schema<GetTreasuryStatementsRequest>;
@@ -2942,9 +2804,7 @@ export const TreasuryStatement = /*@__PURE__*/ S.suspend(() =>
     periodStart: S.Unknown,
     updatedAt: S.Unknown,
   }),
-).annotate({
-  identifier: "TreasuryStatement",
-}) as any as S.Schema<TreasuryStatement>;
+).annotate({ identifier: "TreasuryStatement" }) as any as S.Schema<TreasuryStatement>;
 
 export type TreasuryStatementsPaginatedResponseStatementsList = Array<TreasuryStatement>;
 export const TreasuryStatementsPaginatedResponseStatementsList = /*@__PURE__*/ S.Array(
@@ -2981,13 +2841,7 @@ export const GetTreasuryTransactionsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     order: S.optional(GetTreasuryTransactionsRequestOrder.pipe(T.Query())),
     cursor: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/treasury/{treasuryId}/transactions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/treasury/{treasuryId}/transactions", code: 200 })),
 ).annotate({
   identifier: "GetTreasuryTransactionsRequest",
 }) as any as S.Schema<GetTreasuryTransactionsRequest>;
@@ -3149,9 +3003,7 @@ export const GetUsersRequest = /*@__PURE__*/ S.suspend(() =>
     end_before: S.optional(S.String.pipe(T.Query())),
     order: S.optional(GetUsersRequestOrder.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/users", code: 200 })),
-).annotate({
-  identifier: "GetUsersRequest",
-}) as any as S.Schema<GetUsersRequest>;
+).annotate({ identifier: "GetUsersRequest" }) as any as S.Schema<GetUsersRequest>;
 
 /** Pagination information including cursors for navigating to next/previous pages */
 export type UsersPaginatedResponsePage = AccountsPaginatedResponsePage;
@@ -3175,9 +3027,7 @@ export const UsersPaginatedResponse = /*@__PURE__*/ S.suspend(() =>
     page: AccountsPaginatedResponsePage,
     users: UsersPaginatedResponseUsersList,
   }),
-).annotate({
-  identifier: "UsersPaginatedResponse",
-}) as any as S.Schema<UsersPaginatedResponse>;
+).annotate({ identifier: "UsersPaginatedResponse" }) as any as S.Schema<UsersPaginatedResponse>;
 
 export interface GetWebhookRequest {
   webhookEndpointId: string;
@@ -3186,9 +3036,7 @@ export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     webhookEndpointId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/webhooks/{webhookEndpointId}", code: 200 })),
-).annotate({
-  identifier: "GetWebhookRequest",
-}) as any as S.Schema<GetWebhookRequest>;
+).annotate({ identifier: "GetWebhookRequest" }) as any as S.Schema<GetWebhookRequest>;
 
 export type GetWebhooksRequestStatusItem = "active" | "paused" | "disabled" | "deleted";
 export const GetWebhooksRequestStatusItem = S.String;
@@ -3217,9 +3065,7 @@ export const GetWebhooksRequest = /*@__PURE__*/ S.suspend(() =>
     end_before: S.optional(S.String.pipe(T.Query())),
     order: S.optional(GetWebhooksRequestOrder.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/webhooks", code: 200 })),
-).annotate({
-  identifier: "GetWebhooksRequest",
-}) as any as S.Schema<GetWebhooksRequest>;
+).annotate({ identifier: "GetWebhooksRequest" }) as any as S.Schema<GetWebhooksRequest>;
 
 /** Pagination information including cursors for navigating to next/previous pages */
 export type ApiWebhooksPaginatedResponsePage = AccountsPaginatedResponsePage;
@@ -3286,13 +3132,7 @@ export const ListAccountTransactionsRequest = /*@__PURE__*/ S.suspend(() =>
     requestId: S.optional(S.String.pipe(T.Query())),
     mercuryCategory: S.optional(S.String.pipe(T.Query())),
     categoryId: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/account/{accountId}/transactions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/account/{accountId}/transactions", code: 200 })),
 ).annotate({
   identifier: "ListAccountTransactionsRequest",
 }) as any as S.Schema<ListAccountTransactionsRequest>;
@@ -3311,9 +3151,7 @@ export const TransactionsResponse = /*@__PURE__*/ S.suspend(() =>
     total: S.Number,
     transactions: TransactionsResponseTransactionsList,
   }),
-).annotate({
-  identifier: "TransactionsResponse",
-}) as any as S.Schema<TransactionsResponse>;
+).annotate({ identifier: "TransactionsResponse" }) as any as S.Schema<TransactionsResponse>;
 
 /** Filter cards by one or more account IDs. */
 export type ListCardsRequestAccountIdList = Array<string>;
@@ -3383,9 +3221,7 @@ export const ListCardsRequest = /*@__PURE__*/ S.suspend(() =>
     start_after: S.optional(S.String.pipe(T.Query())),
     end_before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/cards", code: 200 })),
-).annotate({
-  identifier: "ListCardsRequest",
-}) as any as S.Schema<ListCardsRequest>;
+).annotate({ identifier: "ListCardsRequest" }) as any as S.Schema<ListCardsRequest>;
 
 /** List of cards in the current page. */
 export type CardListResponseCardsList = Array<Card>;
@@ -3405,9 +3241,7 @@ export const CardListResponsePage = /*@__PURE__*/ S.suspend(() =>
     nextPage: S.optional(S.String),
     previousPage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CardListResponsePage",
-}) as any as S.Schema<CardListResponsePage>;
+).annotate({ identifier: "CardListResponsePage" }) as any as S.Schema<CardListResponsePage>;
 
 export interface CardListResponse {
   /** List of cards in the current page. */
@@ -3420,9 +3254,7 @@ export const CardListResponse = /*@__PURE__*/ S.suspend(() =>
     cards: CardListResponseCardsList,
     page: CardListResponsePage,
   }),
-).annotate({
-  identifier: "CardListResponse",
-}) as any as S.Schema<CardListResponse>;
+).annotate({ identifier: "CardListResponse" }) as any as S.Schema<CardListResponse>;
 
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type ListCategoriesRequestOrder = "asc" | "desc";
@@ -3441,9 +3273,7 @@ export const ListCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
     start_after: S.optional(S.String.pipe(T.Query())),
     end_before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/categories", code: 200 })),
-).annotate({
-  identifier: "ListCategoriesRequest",
-}) as any as S.Schema<ListCategoriesRequest>;
+).annotate({ identifier: "ListCategoriesRequest" }) as any as S.Schema<ListCategoriesRequest>;
 
 /** List of categories in the current page */
 export type CategoriesPaginatedResponseCategoriesList = Array<CategoryData>;
@@ -3474,9 +3304,7 @@ export const CategoriesPaginatedResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListCreditRequest {}
 export const ListCreditRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/credit", code: 200 })),
-).annotate({
-  identifier: "ListCreditRequest",
-}) as any as S.Schema<ListCreditRequest>;
+).annotate({ identifier: "ListCreditRequest" }) as any as S.Schema<ListCreditRequest>;
 
 export interface CreditAccount {
   availableBalance: number;
@@ -3507,9 +3335,7 @@ export const CreditAccountsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accounts: CreditAccountsResponseAccountsList,
   }),
-).annotate({
-  identifier: "CreditAccountsResponse",
-}) as any as S.Schema<CreditAccountsResponse>;
+).annotate({ identifier: "CreditAccountsResponse" }) as any as S.Schema<CreditAccountsResponse>;
 
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type ListCustomersRequestOrder = "asc" | "desc";
@@ -3528,9 +3354,7 @@ export const ListCustomersRequest = /*@__PURE__*/ S.suspend(() =>
     end_before: S.optional(S.String.pipe(T.Query())),
     order: S.optional(ListCustomersRequestOrder.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/ar/customers", code: 200 })),
-).annotate({
-  identifier: "ListCustomersRequest",
-}) as any as S.Schema<ListCustomersRequest>;
+).annotate({ identifier: "ListCustomersRequest" }) as any as S.Schema<ListCustomersRequest>;
 
 /** The list of customers for this page */
 export type ApiV1ArCustomerPaginatedResponseDataCustomersList = Array<ApiV1ArCustomerResponseData>;
@@ -3564,13 +3388,7 @@ export interface ListInvoiceAttachmentsRequest {
 export const ListInvoiceAttachmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     invoiceId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ar/invoices/{invoiceId}/attachments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ar/invoices/{invoiceId}/attachments", code: 200 })),
 ).annotate({
   identifier: "ListInvoiceAttachmentsRequest",
 }) as any as S.Schema<ListInvoiceAttachmentsRequest>;
@@ -3611,9 +3429,7 @@ export const ListInvoicesRequest = /*@__PURE__*/ S.suspend(() =>
     start_after: S.optional(S.String.pipe(T.Query())),
     end_before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/ar/invoices", code: 200 })),
-).annotate({
-  identifier: "ListInvoicesRequest",
-}) as any as S.Schema<ListInvoicesRequest>;
+).annotate({ identifier: "ListInvoicesRequest" }) as any as S.Schema<ListInvoicesRequest>;
 
 /** Emails to be CCed on invoice notifications/reminders. */
 export type ApiV1ArInvoicesDataCcEmailsList = Array<string>;
@@ -3677,9 +3493,7 @@ export const ApiV1ArInvoicesData = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.Unknown,
     useRealAccountNumber: S.Boolean,
   }),
-).annotate({
-  identifier: "ApiV1ArInvoicesData",
-}) as any as S.Schema<ApiV1ArInvoicesData>;
+).annotate({ identifier: "ApiV1ArInvoicesData" }) as any as S.Schema<ApiV1ArInvoicesData>;
 
 /** List of invoices in the current page */
 export type ApiV1ArInvoicesPaginatedResponseInvoicesList = Array<ApiV1ArInvoicesData>;
@@ -3726,9 +3540,7 @@ export const ListMerchantsRequest = /*@__PURE__*/ S.suspend(() =>
     end_before: S.optional(S.String.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/merchants", code: 200 })),
-).annotate({
-  identifier: "ListMerchantsRequest",
-}) as any as S.Schema<ListMerchantsRequest>;
+).annotate({ identifier: "ListMerchantsRequest" }) as any as S.Schema<ListMerchantsRequest>;
 
 /** Information about a merchant that can be used for spend controls like merchant locking. */
 export type MerchantInfo = CardMerchantLock;
@@ -3752,9 +3564,7 @@ export const MerchantsResponse = /*@__PURE__*/ S.suspend(() =>
     data: MerchantsResponseDataList,
     page: AccountsPaginatedResponsePage,
   }),
-).annotate({
-  identifier: "MerchantsResponse",
-}) as any as S.Schema<MerchantsResponse>;
+).annotate({ identifier: "MerchantsResponse" }) as any as S.Schema<MerchantsResponse>;
 
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type ListRecipientInvitesRequestOrder = "asc" | "desc";
@@ -3993,9 +3803,7 @@ export const ListTransactionsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     order: S.optional(ListTransactionsRequestOrder.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/transactions", code: 200 })),
-).annotate({
-  identifier: "ListTransactionsRequest",
-}) as any as S.Schema<ListTransactionsRequest>;
+).annotate({ identifier: "ListTransactionsRequest" }) as any as S.Schema<ListTransactionsRequest>;
 
 export type TransactionsPaginatedResponsePage = AccountsPaginatedResponsePage;
 export const TransactionsPaginatedResponsePage = AccountsPaginatedResponsePage;
@@ -4045,9 +3853,7 @@ export const ObtainAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
     refresh_token: S.String.pipe(T.SensitiveValue({})),
     scope: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/oauth2/token", code: 200 })),
-).annotate({
-  identifier: "ObtainAccessTokenRequest",
-}) as any as S.Schema<ObtainAccessTokenRequest>;
+).annotate({ identifier: "ObtainAccessTokenRequest" }) as any as S.Schema<ObtainAccessTokenRequest>;
 
 export interface OAuth2TokenResponse {
   /** The access token issued by the authorization server. */
@@ -4069,14 +3875,18 @@ export const OAuth2TokenResponse = /*@__PURE__*/ S.suspend(() =>
     scope: S.optional(S.String),
     token_type: S.String,
   }),
-).annotate({
-  identifier: "OAuth2TokenResponse",
-}) as any as S.Schema<OAuth2TokenResponse>;
+).annotate({ identifier: "OAuth2TokenResponse" }) as any as S.Schema<OAuth2TokenResponse>;
+
+/** Who pays intermediary bank fees on a USD international wire. Pass 'ours' so the recipient receives the full amount (Mercury charges a $15 fee), or 'shared' to split those fees. If omitted on a USD international wire, this defaults to 'ours'. Do not include this field for other payment methods or accounts that are not charged international-wire fees. */
+export type RequestSendMoneyRequestChargeType = "ours" | "shared";
+export const RequestSendMoneyRequestChargeType = S.String;
 
 export interface RequestSendMoneyRequest {
   accountId: string;
   /** Amount of USD you want to send, must be a positive number. */
   amount: number;
+  /** Who pays intermediary bank fees on a USD international wire. Pass 'ours' so the recipient receives the full amount (Mercury charges a $15 fee), or 'shared' to split those fees. If omitted on a USD international wire, this defaults to 'ours'. Do not include this field for other payment methods or accounts that are not charged international-wire fees. */
+  chargeType?: RequestSendMoneyRequestChargeType | (string & {});
   /** Optional external memo */
   externalMemo?: string;
   /** Unique string identifying the transaction */
@@ -4094,22 +3904,79 @@ export const RequestSendMoneyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label()),
     amount: S.Number,
+    chargeType: S.optional(RequestSendMoneyRequestChargeType),
     externalMemo: S.optional(S.String),
     idempotencyKey: S.String,
     note: S.optional(S.String),
     paymentMethod: RequestSendMoneyPaymentMethod,
     purpose: S.optional(PostTransactionSendMoneyPurpose),
     recipientId: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/account/{accountId}/request-send-money",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/account/{accountId}/request-send-money", code: 200 })),
+).annotate({ identifier: "RequestSendMoneyRequest" }) as any as S.Schema<RequestSendMoneyRequest>;
+
+export interface RequestTransferMoneyRequest {
+  amount: number;
+  destinationAccountId: string;
+  idempotencyKey: string;
+  note?: string | null;
+  sourceAccountId: string;
+}
+export const RequestTransferMoneyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.Number,
+    destinationAccountId: S.String,
+    idempotencyKey: S.String,
+    note: S.optional(S.NullOr(S.String)),
+    sourceAccountId: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/request-transfer", code: 200 })),
 ).annotate({
-  identifier: "RequestSendMoneyRequest",
-}) as any as S.Schema<RequestSendMoneyRequest>;
+  identifier: "RequestTransferMoneyRequest",
+}) as any as S.Schema<RequestTransferMoneyRequest>;
+
+/** Approval decisions recorded on this request, oldest first. */
+export type TransferMoneyApprovalRequestResponseReviewsList = Array<PaymentApprovalReview>;
+export const TransferMoneyApprovalRequestResponseReviewsList = /*@__PURE__*/ S.Array(
+  PaymentApprovalReview,
+) as any as S.Schema<TransferMoneyApprovalRequestResponseReviewsList>;
+
+/** An approval request for a transfer between accounts. */
+export interface TransferMoneyApprovalRequestResponse {
+  amount: number;
+  createdAt: unknown;
+  destinationAccountId: unknown;
+  /** Memo that appears on the resulting transaction. */
+  memo?: string | null;
+  /** Internal note recorded on the request. Not shown to any counterparty. */
+  note?: string | null;
+  /** Number of approvals required before the transfer is sent. */
+  numberOfApproversRequired?: number | null;
+  requestId: string;
+  requestedByUserId: unknown;
+  /** Whether the requester may approve this request. Omitted whenever numberOfApproversRequired is omitted. */
+  requesterMayApprove?: boolean | null;
+  /** Approval decisions recorded on this request, oldest first. */
+  reviews: TransferMoneyApprovalRequestResponseReviewsList;
+  sourceAccountId: unknown;
+  status: ReviewRequestStatus;
+}
+export const TransferMoneyApprovalRequestResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.Number,
+    createdAt: S.Unknown,
+    destinationAccountId: S.Unknown,
+    memo: S.optional(S.NullOr(S.String)),
+    note: S.optional(S.NullOr(S.String)),
+    numberOfApproversRequired: S.optional(S.NullOr(S.Number)),
+    requestId: S.String,
+    requestedByUserId: S.Unknown,
+    requesterMayApprove: S.optional(S.NullOr(S.Boolean)),
+    reviews: TransferMoneyApprovalRequestResponseReviewsList,
+    sourceAccountId: S.Unknown,
+    status: ReviewRequestStatus,
+  }),
+).annotate({
+  identifier: "TransferMoneyApprovalRequestResponse",
+}) as any as S.Schema<TransferMoneyApprovalRequestResponse>;
 
 export interface RevealCardPanRequest {
   cardId: string;
@@ -4118,9 +3985,7 @@ export const RevealCardPanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cardId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/cards/{cardId}/reveal", code: 200 })),
-).annotate({
-  identifier: "RevealCardPanRequest",
-}) as any as S.Schema<RevealCardPanRequest>;
+).annotate({ identifier: "RevealCardPanRequest" }) as any as S.Schema<RevealCardPanRequest>;
 
 export type CardRevealResponseExpiration = CardExpiration;
 export const CardRevealResponseExpiration = CardExpiration;
@@ -4139,9 +4004,7 @@ export const CardRevealResponse = /*@__PURE__*/ S.suspend(() =>
     cvc: S.String,
     expiration: CardExpiration,
   }),
-).annotate({
-  identifier: "CardRevealResponse",
-}) as any as S.Schema<CardRevealResponse>;
+).annotate({ identifier: "CardRevealResponse" }) as any as S.Schema<CardRevealResponse>;
 
 export interface StartOAuth2FlowRequest {
   /** The client ID you received from Mercury when you registered the client. */
@@ -4169,9 +4032,7 @@ export const StartOAuth2FlowRequest = /*@__PURE__*/ S.suspend(() =>
     code_challenge: S.optional(S.String.pipe(T.Query())),
     code_challenge_method: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/oauth2/auth", code: 200 })),
-).annotate({
-  identifier: "StartOAuth2FlowRequest",
-}) as any as S.Schema<StartOAuth2FlowRequest>;
+).annotate({ identifier: "StartOAuth2FlowRequest" }) as any as S.Schema<StartOAuth2FlowRequest>;
 
 export interface StartOAuth2FlowResponse {}
 export const StartOAuth2FlowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4185,9 +4046,7 @@ export const UnfreezeCardRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cardId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}/unfreeze", code: 200 })),
-).annotate({
-  identifier: "UnfreezeCardRequest",
-}) as any as S.Schema<UnfreezeCardRequest>;
+).annotate({ identifier: "UnfreezeCardRequest" }) as any as S.Schema<UnfreezeCardRequest>;
 
 export type UpdateCardRequestSpendLimit = CardSpendLimit;
 export const UpdateCardRequestSpendLimit = CardSpendLimit;
@@ -4203,9 +4062,7 @@ export const UpdateCardRequest = /*@__PURE__*/ S.suspend(() =>
     nickname: S.Unknown,
     spendLimit: S.optional(S.NullOr(CardSpendLimit)),
   }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}", code: 200 })),
-).annotate({
-  identifier: "UpdateCardRequest",
-}) as any as S.Schema<UpdateCardRequest>;
+).annotate({ identifier: "UpdateCardRequest" }) as any as S.Schema<UpdateCardRequest>;
 
 export type UpdateCustomerRequestAddress = CreateCustomerRequestAddress;
 export const UpdateCustomerRequestAddress = CreateCustomerRequestAddress;
@@ -4227,9 +4084,7 @@ export const UpdateCustomerRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     resendOpenInvoices: S.Boolean,
   }).pipe(T.Http({ method: "POST", uri: "/ar/customers/{customerId}", code: 200 })),
-).annotate({
-  identifier: "UpdateCustomerRequest",
-}) as any as S.Schema<UpdateCustomerRequest>;
+).annotate({ identifier: "UpdateCustomerRequest" }) as any as S.Schema<UpdateCustomerRequest>;
 
 /** List of emails to be CCed on notifications/reminders. */
 export type UpdateInvoiceRequestCcEmailsList = Array<string>;
@@ -4285,9 +4140,7 @@ export const UpdateInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
     servicePeriodStartDate: S.optional(S.NullOr(S.Unknown)),
     useRealAccountNumber: S.Boolean,
   }).pipe(T.Http({ method: "POST", uri: "/ar/invoices/{invoiceId}", code: 200 })),
-).annotate({
-  identifier: "UpdateInvoiceRequest",
-}) as any as S.Schema<UpdateInvoiceRequest>;
+).annotate({ identifier: "UpdateInvoiceRequest" }) as any as S.Schema<UpdateInvoiceRequest>;
 
 export type UpdateRecipientRequestEmailsList = Array<string>;
 export const UpdateRecipientRequestEmailsList = /*@__PURE__*/ S.Array(
@@ -4309,6 +4162,8 @@ export interface UpdateRecipientRequest {
   emails?: UpdateRecipientRequestEmailsList;
   name?: string;
   nickname?: string;
+  /** Information needed to send a real-time payment. */
+  realTimePaymentRoutingInfo?: RealTimePaymentRoutingInfoRaw;
 }
 export const UpdateRecipientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4321,10 +4176,9 @@ export const UpdateRecipientRequest = /*@__PURE__*/ S.suspend(() =>
     emails: S.optional(UpdateRecipientRequestEmailsList),
     name: S.optional(S.String),
     nickname: S.optional(S.String),
+    realTimePaymentRoutingInfo: S.optional(RealTimePaymentRoutingInfoRaw),
   }).pipe(T.Http({ method: "POST", uri: "/recipient/{recipientId}", code: 200 })),
-).annotate({
-  identifier: "UpdateRecipientRequest",
-}) as any as S.Schema<UpdateRecipientRequest>;
+).annotate({ identifier: "UpdateRecipientRequest" }) as any as S.Schema<UpdateRecipientRequest>;
 
 export interface UpdateTransactionRequest {
   transactionId: string;
@@ -4337,9 +4191,7 @@ export const UpdateTransactionRequest = /*@__PURE__*/ S.suspend(() =>
     categoryId: S.Unknown,
     note: S.Unknown,
   }).pipe(T.Http({ method: "PATCH", uri: "/transaction/{transactionId}", code: 200 })),
-).annotate({
-  identifier: "UpdateTransactionRequest",
-}) as any as S.Schema<UpdateTransactionRequest>;
+).annotate({ identifier: "UpdateTransactionRequest" }) as any as S.Schema<UpdateTransactionRequest>;
 
 /** Event types to subscribe to. Send null to subscribe to all event types. Send an array to subscribe to specific types. Omit to leave unchanged. */
 export type UpdateWebhookRequestEventTypesList = Array<WebhookEventType | (string & {})>;
@@ -4371,9 +4223,7 @@ export const UpdateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(S.Unknown)),
     url: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/webhooks/{webhookEndpointId}", code: 200 })),
-).annotate({
-  identifier: "UpdateWebhookRequest",
-}) as any as S.Schema<UpdateWebhookRequest>;
+).annotate({ identifier: "UpdateWebhookRequest" }) as any as S.Schema<UpdateWebhookRequest>;
 
 export interface UploadRecipientAttachmentRequest {
   /** ID of the recipient to attach the file to */
@@ -4448,16 +4298,8 @@ export const VerifyWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     webhookEndpointId: S.String.pipe(T.Label()),
     eventType: S.optional(S.NullOr(S.Unknown)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/webhooks/{webhookEndpointId}/verify",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "VerifyWebhookRequest",
-}) as any as S.Schema<VerifyWebhookRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/webhooks/{webhookEndpointId}/verify", code: 200 })),
+).annotate({ identifier: "VerifyWebhookRequest" }) as any as S.Schema<VerifyWebhookRequest>;
 
 export interface VerifyWebhookResponse {}
 export const VerifyWebhookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5356,6 +5198,21 @@ export const requestSendMoney: API.OperationMethod<
   input: RequestSendMoneyRequest,
   output: SendMoneyApprovalRequestResponse,
   errors: [BadRequest, NotFound, UnknownMercuryError],
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RequestTransferMoneyError = BadRequest | MercuryOpError;
+/** Request to transfer money Create a transfer between two accounts in your organization that will require approval based on your organization's approval policies. */
+export const requestTransferMoney: API.OperationMethod<
+  RequestTransferMoneyRequest,
+  TransferMoneyApprovalRequestResponse,
+  RequestTransferMoneyError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RequestTransferMoneyRequest,
+  output: TransferMoneyApprovalRequestResponse,
+  errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
 }));
