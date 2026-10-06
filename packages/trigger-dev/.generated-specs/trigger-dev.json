@@ -106,6 +106,12 @@
             "smithy.api#documentation": "The next time the schedule will run"
           }
         },
+        "appliedSchedulePolicy": {
+          "target": "com.trigger.dev.api#ScheduleObjectAppliedSchedulePolicy",
+          "traits": {
+            "smithy.api#documentation": "Present only when a non-overridable plan policy applies a minimum window to this schedule (for example, a free-plan schedule's minimum run interval). The configured `window` is returned separately and unchanged."
+          }
+        },
         "environments": {
           "target": "com.trigger.dev.api#ScheduleObjectEnvironmentsList"
         }
@@ -144,6 +150,40 @@
         }
       },
       "traits": {}
+    },
+    "com.trigger.dev.api#ScheduleObjectAppliedSchedulePolicyReason": {
+      "type": "enum",
+      "members": {
+        "FREE_SCHEDULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "free_schedule"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why the minimum window is applied."
+      }
+    },
+    "com.trigger.dev.api#ScheduleObjectAppliedSchedulePolicy": {
+      "type": "structure",
+      "members": {
+        "minimumWindowSeconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The minimum window, in seconds, applied on top of the configured window."
+          }
+        },
+        "reason": {
+          "target": "com.trigger.dev.api#ScheduleObjectAppliedSchedulePolicyReason",
+          "traits": {
+            "smithy.api#documentation": "Why the minimum window is applied."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Present only when a non-overridable plan policy applies a minimum window to this schedule (for example, a free-plan schedule's minimum run interval). The configured `window` is returned separately and unchanged."
+      }
     },
     "com.trigger.dev.api#ScheduleEnvironment": {
       "type": "structure",
@@ -1581,6 +1621,12 @@
             "smithy.api#documentation": "Error data if the deployment failed",
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "externalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external deployment id this deployment was deployed under (`--external-id`), used by version skew protection to pin runs. Absent if the deployment was deployed without one"
+          }
         }
       },
       "traits": {}
@@ -1793,6 +1839,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Platform of the deployment image"
+          }
+        },
+        "externalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external deployment id this deployment was deployed under (`--external-id`), used by version skew protection to pin runs. Absent if the deployment was deployed without one"
           }
         },
         "externalBuildData": {
@@ -6056,6 +6108,7 @@
         "value": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The value to store. An empty string is valid and is stored as-is, not treated as a deletion.",
             "smithy.api#required": {}
           }
         }
@@ -6141,6 +6194,7 @@
         "value": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The value to store. An empty string is valid and is stored as-is, not treated as a deletion.",
             "smithy.api#required": {}
           }
         }
@@ -6370,7 +6424,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The id of a task"
+            "smithy.api#documentation": "The id of a task. If the id contains characters that are reserved in a URL path, such as a\nslash (`/`), percent-encode it when building the request path (e.g. `types/zod` becomes\n`types%2Fzod`).\n"
           }
         },
         "payload": {
@@ -6557,7 +6611,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The id of a task"
+            "smithy.api#documentation": "The id of a task. If the id contains characters that are reserved in a URL path, such as a\nslash (`/`), percent-encode it when building the request path (e.g. `types/zod` becomes\n`types%2Fzod`).\n"
           }
         },
         "items": {
@@ -7174,6 +7228,13 @@
             "smithy.api#required": {}
           }
         },
+        "version": {
+          "target": "com.trigger.dev.api#QueueObjectVersion",
+          "traits": {
+            "smithy.api#documentation": "Discriminates the shape:\n- `V1`: the queue carries its own `concurrencyLimit` (applied per key when runs pass a `concurrencyKey`, to the whole queue when they don't) and its `concurrency` override state\n- `V2`: the queue is only the line runs wait in; concurrency is declared with the task `concurrency` option and managed through the concurrency-limits endpoints. `concurrencyLimit` is always null and `concurrency` is absent.\n",
+            "smithy.api#required": {}
+          }
+        },
         "running": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -7198,14 +7259,14 @@
         "concurrencyLimit": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The current concurrency limit of the queue",
+            "smithy.api#documentation": "The queue's own concurrency limit. Meaningful on V1 queues; always null on V2 queues.",
             "com.distilled.openapi#nullable": {}
           }
         },
         "concurrency": {
           "target": "com.trigger.dev.api#QueueObjectConcurrency",
           "traits": {
-            "smithy.api#documentation": "Detailed concurrency information"
+            "smithy.api#documentation": "Detailed concurrency information. V1 queues only."
           }
         }
       },
@@ -7229,6 +7290,26 @@
       },
       "traits": {
         "smithy.api#documentation": "The type of queue:\n- `task`: Created automatically for each task\n- `custom`: Created explicitly in your code using `queue()`\n"
+      }
+    },
+    "com.trigger.dev.api#QueueObjectVersion": {
+      "type": "enum",
+      "members": {
+        "V1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "V1"
+          }
+        },
+        "V2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "V2"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Discriminates the shape:\n- `V1`: the queue carries its own `concurrencyLimit` (applied per key when runs pass a `concurrencyKey`, to the whole queue when they don't) and its `concurrency` override state\n- `V2`: the queue is only the line runs wait in; concurrency is declared with the task `concurrency` option and managed through the concurrency-limits endpoints. `concurrencyLimit` is always null and `concurrency` is absent.\n"
       }
     },
     "com.trigger.dev.api#QueueObjectConcurrency": {
@@ -7271,7 +7352,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Detailed concurrency information"
+        "smithy.api#documentation": "Detailed concurrency information. V1 queues only."
       }
     },
     "com.trigger.dev.api#ListQueuesResultDataList": {
@@ -7644,6 +7725,414 @@
           "code": 200
         },
         "smithy.api#documentation": "Reset queue concurrency limit\n\nReset the concurrency limit of a queue back to its base value defined in code."
+      }
+    },
+    "com.trigger.dev.api#ListConcurrencyLimitsV1Request": {
+      "type": "structure",
+      "members": {
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "perPage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "perPage"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.trigger.dev.api#ConcurrencyLimitObject": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The limit's id, starting with `climit_`",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The limit's name, as declared with `concurrencyLimit()`",
+            "smithy.api#required": {}
+          }
+        },
+        "perKey": {
+          "target": "com.trigger.dev.api#ConcurrencyLimitObjectPerKey",
+          "traits": {
+            "smithy.api#documentation": "Caps each concurrencyKey pool; runs without a key share one pool",
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "com.trigger.dev.api#ConcurrencyLimitObjectTotal",
+          "traits": {
+            "smithy.api#documentation": "Caps every run holding this limit, keys or not",
+            "smithy.api#required": {}
+          }
+        },
+        "running": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Runs executing that hold this limit",
+            "smithy.api#required": {}
+          }
+        },
+        "queued": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Runs that are queued and must clear this limit to execute",
+            "smithy.api#required": {}
+          }
+        },
+        "paused": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the limit is paused. A paused limit admits no runs until resumed; its configured bounds are kept."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.trigger.dev.api#ConcurrencyLimitObjectPerKey": {
+      "type": "structure",
+      "members": {
+        "current": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Enforced right now (null = no per-key bound). Enforcement clamps it to the environment concurrency limit at admit time.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "base": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The declared value an override reverts to on reset",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "override": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The overridden value, when an override is active",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "overriddenAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the override was applied",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Caps each concurrencyKey pool; runs without a key share one pool"
+      }
+    },
+    "com.trigger.dev.api#ConcurrencyLimitObjectTotal": {
+      "type": "structure",
+      "members": {
+        "current": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Enforced right now (null = no total bound). Enforcement clamps it to the environment concurrency limit at admit time.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "base": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The declared value an override reverts to on reset",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "override": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The overridden value, when an override is active",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "overriddenAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the override was applied",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Caps every run holding this limit, keys or not"
+      }
+    },
+    "com.trigger.dev.api#ListConcurrencyLimitsV1ResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.trigger.dev.api#ConcurrencyLimitObject"
+      },
+      "traits": {}
+    },
+    "com.trigger.dev.api#ListConcurrencyLimitsV1ResponsePagination": {
+      "type": "structure",
+      "members": {
+        "currentPage": {
+          "target": "smithy.api#Integer"
+        },
+        "totalPages": {
+          "target": "smithy.api#Integer"
+        },
+        "count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.trigger.dev.api#ListConcurrencyLimitsV1Response": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.trigger.dev.api#ListConcurrencyLimitsV1ResponseDataList"
+        },
+        "pagination": {
+          "target": "com.trigger.dev.api#ListConcurrencyLimitsV1ResponsePagination"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.trigger.dev.api#ListConcurrencyLimitsV1": {
+      "type": "operation",
+      "input": {
+        "target": "com.trigger.dev.api#ListConcurrencyLimitsV1Request"
+      },
+      "output": {
+        "target": "com.trigger.dev.api#ListConcurrencyLimitsV1Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/v1/concurrency-limits",
+          "code": 200
+        },
+        "smithy.api#documentation": "List concurrency limits\n\nList the environment's declared concurrency limits (anonymous inline limits\nappear under their derived `task/<task-id>` names), with each limit's bounds\nand its live running and queued counts. Results are ordered by the underlying\nrow name, so named limits sort before `task/`-derived inline limits."
+      }
+    },
+    "com.trigger.dev.api#GetConcurrencyLimitV1Request": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The limit's name, as declared with `concurrencyLimit()`"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.trigger.dev.api#GetConcurrencyLimitV1": {
+      "type": "operation",
+      "input": {
+        "target": "com.trigger.dev.api#GetConcurrencyLimitV1Request"
+      },
+      "output": {
+        "target": "com.trigger.dev.api#ConcurrencyLimitObject"
+      },
+      "errors": [
+        {
+          "target": "com.trigger.dev.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/v1/concurrency-limits/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve concurrency limit\n\nRetrieve a concurrency limit by name, with its bounds and live running and queued counts."
+      }
+    },
+    "com.trigger.dev.api#OverrideConcurrencyLimitV1Request": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The limit's name"
+          }
+        },
+        "perKey": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Caps each concurrencyKey pool; runs without a key share one pool. May not exceed the environment concurrency limit."
+          }
+        },
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Caps every run holding this limit, keys or not. May not exceed the environment concurrency limit."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.trigger.dev.api#OverrideConcurrencyLimitV1": {
+      "type": "operation",
+      "input": {
+        "target": "com.trigger.dev.api#OverrideConcurrencyLimitV1Request"
+      },
+      "output": {
+        "target": "com.trigger.dev.api#ConcurrencyLimitObject"
+      },
+      "errors": [
+        {
+          "target": "com.trigger.dev.api#BadRequest"
+        },
+        {
+          "target": "com.trigger.dev.api#NotFound"
+        },
+        {
+          "target": "com.trigger.dev.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/v1/concurrency-limits/{name}/override",
+          "code": 200
+        },
+        "smithy.api#documentation": "Override concurrency limit\n\nOverride a concurrency limit's bounds. Only the given fields change; the declared\nvalues are kept and restored by reset. To stop runs holding a limit, prefer the\npause endpoint (it keeps the configured bounds); overriding `total` to `0` also\nblocks every run holding the limit."
+      }
+    },
+    "com.trigger.dev.api#PauseConcurrencyLimitV1RequestAction": {
+      "type": "enum",
+      "members": {
+        "PAUSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pause"
+          }
+        },
+        "RESUME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resume"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether to pause or resume the limit"
+      }
+    },
+    "com.trigger.dev.api#PauseConcurrencyLimitV1Request": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The limit's name"
+          }
+        },
+        "action": {
+          "target": "com.trigger.dev.api#PauseConcurrencyLimitV1RequestAction",
+          "traits": {
+            "smithy.api#documentation": "Whether to pause or resume the limit",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.trigger.dev.api#PauseConcurrencyLimitV1": {
+      "type": "operation",
+      "input": {
+        "target": "com.trigger.dev.api#PauseConcurrencyLimitV1Request"
+      },
+      "output": {
+        "target": "com.trigger.dev.api#ConcurrencyLimitObject"
+      },
+      "errors": [
+        {
+          "target": "com.trigger.dev.api#BadRequest"
+        },
+        {
+          "target": "com.trigger.dev.api#NotFound"
+        },
+        {
+          "target": "com.trigger.dev.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/v1/concurrency-limits/{name}/pause",
+          "code": 200
+        },
+        "smithy.api#documentation": "Pause or resume a concurrency limit\n\nPause a concurrency limit to prevent runs holding it from starting, or resume a\npaused limit. Runs that are currently executing will continue to completion, and\nthe limit's configured bounds are kept."
+      }
+    },
+    "com.trigger.dev.api#ResetConcurrencyLimitV1Request": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The limit's name"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.trigger.dev.api#ResetConcurrencyLimitV1": {
+      "type": "operation",
+      "input": {
+        "target": "com.trigger.dev.api#ResetConcurrencyLimitV1Request"
+      },
+      "output": {
+        "target": "com.trigger.dev.api#ConcurrencyLimitObject"
+      },
+      "errors": [
+        {
+          "target": "com.trigger.dev.api#BadRequest"
+        },
+        {
+          "target": "com.trigger.dev.api#NotFound"
+        },
+        {
+          "target": "com.trigger.dev.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/v1/concurrency-limits/{name}/reset",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reset concurrency limit\n\nReset a concurrency limit back to the values declared in your code, clearing any override."
       }
     },
     "com.trigger.dev.api#ListWaitpointTokensV1Request": {
@@ -9683,7 +10172,7 @@
     },
     "com.trigger.dev.api#TriggerDev": {
       "type": "service",
-      "version": "1.0",
+      "version": "2024-04",
       "operations": [
         {
           "target": "com.trigger.dev.api#ListSchedulesV1"
@@ -9822,6 +10311,21 @@
         },
         {
           "target": "com.trigger.dev.api#ResetQueueConcurrencyV1"
+        },
+        {
+          "target": "com.trigger.dev.api#ListConcurrencyLimitsV1"
+        },
+        {
+          "target": "com.trigger.dev.api#GetConcurrencyLimitV1"
+        },
+        {
+          "target": "com.trigger.dev.api#OverrideConcurrencyLimitV1"
+        },
+        {
+          "target": "com.trigger.dev.api#PauseConcurrencyLimitV1"
+        },
+        {
+          "target": "com.trigger.dev.api#ResetConcurrencyLimitV1"
         },
         {
           "target": "com.trigger.dev.api#ListWaitpointTokensV1"

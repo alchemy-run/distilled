@@ -56,13 +56,7 @@ export interface ActivateScheduleV1Request {
 export const ActivateScheduleV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     schedule_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/schedules/{schedule_id}/activate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/schedules/{schedule_id}/activate", code: 200 })),
 ).annotate({
   identifier: "ActivateScheduleV1Request",
 }) as any as S.Schema<ActivateScheduleV1Request>;
@@ -83,9 +77,27 @@ export const ScheduleObjectGenerator = /*@__PURE__*/ S.suspend(() =>
     expression: S.optional(S.String),
     description: S.optional(S.String),
   }),
+).annotate({ identifier: "ScheduleObjectGenerator" }) as any as S.Schema<ScheduleObjectGenerator>;
+
+/** Why the minimum window is applied. */
+export type ScheduleObjectAppliedSchedulePolicyReason = "free_schedule";
+export const ScheduleObjectAppliedSchedulePolicyReason = S.String;
+
+/** Present only when a non-overridable plan policy applies a minimum window to this schedule (for example, a free-plan schedule's minimum run interval). The configured `window` is returned separately and unchanged. */
+export interface ScheduleObjectAppliedSchedulePolicy {
+  /** The minimum window, in seconds, applied on top of the configured window. */
+  minimumWindowSeconds?: number;
+  /** Why the minimum window is applied. */
+  reason?: ScheduleObjectAppliedSchedulePolicyReason;
+}
+export const ScheduleObjectAppliedSchedulePolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minimumWindowSeconds: S.optional(S.Number),
+    reason: S.optional(ScheduleObjectAppliedSchedulePolicyReason),
+  }),
 ).annotate({
-  identifier: "ScheduleObjectGenerator",
-}) as any as S.Schema<ScheduleObjectGenerator>;
+  identifier: "ScheduleObjectAppliedSchedulePolicy",
+}) as any as S.Schema<ScheduleObjectAppliedSchedulePolicy>;
 
 export interface ScheduleEnvironment {
   id?: string;
@@ -98,9 +110,7 @@ export const ScheduleEnvironment = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     userName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScheduleEnvironment",
-}) as any as S.Schema<ScheduleEnvironment>;
+).annotate({ identifier: "ScheduleEnvironment" }) as any as S.Schema<ScheduleEnvironment>;
 
 export type ScheduleObjectEnvironmentsList = Array<ScheduleEnvironment>;
 export const ScheduleObjectEnvironmentsList = /*@__PURE__*/ S.Array(
@@ -125,6 +135,8 @@ export interface ScheduleObject {
   timezone?: string;
   /** The next time the schedule will run */
   nextRun?: string;
+  /** Present only when a non-overridable plan policy applies a minimum window to this schedule (for example, a free-plan schedule's minimum run interval). The configured `window` is returned separately and unchanged. */
+  appliedSchedulePolicy?: ScheduleObjectAppliedSchedulePolicy;
   environments?: ScheduleObjectEnvironmentsList;
 }
 export const ScheduleObject = /*@__PURE__*/ S.suspend(() =>
@@ -138,6 +150,7 @@ export const ScheduleObject = /*@__PURE__*/ S.suspend(() =>
     generator: S.optional(ScheduleObjectGenerator),
     timezone: S.optional(S.String),
     nextRun: S.optional(S.String),
+    appliedSchedulePolicy: S.optional(ScheduleObjectAppliedSchedulePolicy),
     environments: S.optional(ScheduleObjectEnvironmentsList),
   }),
 ).annotate({ identifier: "ScheduleObject" }) as any as S.Schema<ScheduleObject>;
@@ -161,9 +174,7 @@ export const AddRunTagsV1Request = /*@__PURE__*/ S.suspend(() =>
     runId: S.String.pipe(T.Label()),
     tags: RunTags,
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/runs/{runId}/tags", code: 200 })),
-).annotate({
-  identifier: "AddRunTagsV1Request",
-}) as any as S.Schema<AddRunTagsV1Request>;
+).annotate({ identifier: "AddRunTagsV1Request" }) as any as S.Schema<AddRunTagsV1Request>;
 
 export interface AddRunTagsV1Response {
   message?: string;
@@ -172,9 +183,7 @@ export const AddRunTagsV1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AddRunTagsV1Response",
-}) as any as S.Schema<AddRunTagsV1Response>;
+).annotate({ identifier: "AddRunTagsV1Response" }) as any as S.Schema<AddRunTagsV1Response>;
 
 export interface BulkAbortActionV1Request {
   /** The ID of a bulk action, starts with `bulk_`. */
@@ -183,16 +192,8 @@ export interface BulkAbortActionV1Request {
 export const BulkAbortActionV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bulkActionId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/bulk-actions/{bulkActionId}/abort",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "BulkAbortActionV1Request",
-}) as any as S.Schema<BulkAbortActionV1Request>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/bulk-actions/{bulkActionId}/abort", code: 200 })),
+).annotate({ identifier: "BulkAbortActionV1Request" }) as any as S.Schema<BulkAbortActionV1Request>;
 
 export interface AbortBulkActionResponse {
   id: string;
@@ -201,9 +202,7 @@ export const AbortBulkActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "AbortBulkActionResponse",
-}) as any as S.Schema<AbortBulkActionResponse>;
+).annotate({ identifier: "AbortBulkActionResponse" }) as any as S.Schema<AbortBulkActionResponse>;
 
 export interface CancelRunV1Request {
   /** The ID of an run, starts with `run_`. The run ID will be returned when you trigger a run on a task. */
@@ -213,9 +212,7 @@ export const CancelRunV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     runId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/api/v2/runs/{runId}/cancel", code: 200 })),
-).annotate({
-  identifier: "CancelRunV1Request",
-}) as any as S.Schema<CancelRunV1Request>;
+).annotate({ identifier: "CancelRunV1Request" }) as any as S.Schema<CancelRunV1Request>;
 
 export interface CancelRunV1Response {
   /** The ID of the run that was canceled. */
@@ -225,9 +222,7 @@ export const CancelRunV1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CancelRunV1Response",
-}) as any as S.Schema<CancelRunV1Response>;
+).annotate({ identifier: "CancelRunV1Response" }) as any as S.Schema<CancelRunV1Response>;
 
 export interface CloseSessionV1Request {
   /** The session's friendly ID (`session_…`) or your `externalId`. The server disambiguates by the `session_` prefix. */
@@ -239,21 +234,11 @@ export const CloseSessionV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     session: S.String.pipe(T.Label()),
     reason: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/sessions/{session}/close",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CloseSessionV1Request",
-}) as any as S.Schema<CloseSessionV1Request>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/sessions/{session}/close", code: 200 })),
+).annotate({ identifier: "CloseSessionV1Request" }) as any as S.Schema<CloseSessionV1Request>;
 
 /** Base payload passed to every run this session triggers. For `chat.agent` this carries `{ chatId, ...clientData }`. */
-export type SessionTriggerConfigBasePayloadMap = {
-  [key: string]: unknown | undefined;
-};
+export type SessionTriggerConfigBasePayloadMap = { [key: string]: unknown | undefined };
 export const SessionTriggerConfigBasePayloadMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -298,9 +283,7 @@ export const SessionTriggerConfig = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     idleTimeoutInSeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SessionTriggerConfig",
-}) as any as S.Schema<SessionTriggerConfig>;
+).annotate({ identifier: "SessionTriggerConfig" }) as any as S.Schema<SessionTriggerConfig>;
 
 /** Tags on the session row. */
 export type SessionObjectTagsList = Array<string>;
@@ -403,11 +386,7 @@ export const CompleteWaitpointTokenV1Request = /*@__PURE__*/ S.suspend(() =>
     waitpointId: S.String.pipe(T.Label()),
     data: S.optional(S.Unknown),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/waitpoints/tokens/{waitpointId}/complete",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/waitpoints/tokens/{waitpointId}/complete", code: 200 }),
   ),
 ).annotate({
   identifier: "CompleteWaitpointTokenV1Request",
@@ -576,9 +555,7 @@ export const BulkActionFilter = /*@__PURE__*/ S.suspend(() =>
     machine: S.optional(BulkActionFilterMachine),
     region: S.optional(BulkActionFilterRegion),
   }),
-).annotate({
-  identifier: "BulkActionFilter",
-}) as any as S.Schema<BulkActionFilter>;
+).annotate({ identifier: "BulkActionFilter" }) as any as S.Schema<BulkActionFilter>;
 
 export interface CreateBulkActionRequestBodyCase0 {
   action: CreateBulkActionRequestBodyCase0Action;
@@ -707,11 +684,7 @@ export const CreateProjectEnvvarV1Request = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/projects/{projectRef}/envvars/{env}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/projects/{projectRef}/envvars/{env}", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateProjectEnvvarV1Request",
@@ -724,9 +697,7 @@ export const SucceedResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     success: S.Boolean,
   }),
-).annotate({
-  identifier: "SucceedResponse",
-}) as any as S.Schema<SucceedResponse>;
+).annotate({ identifier: "SucceedResponse" }) as any as S.Schema<SucceedResponse>;
 
 export interface CreateScheduleV1Request {
   task: string;
@@ -744,9 +715,7 @@ export const CreateScheduleV1Request = /*@__PURE__*/ S.suspend(() =>
     externalId: S.optional(S.String),
     timezone: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/schedules", code: 200 })),
-).annotate({
-  identifier: "CreateScheduleV1Request",
-}) as any as S.Schema<CreateScheduleV1Request>;
+).annotate({ identifier: "CreateScheduleV1Request" }) as any as S.Schema<CreateScheduleV1Request>;
 
 /** Up to 10 tags on the session row, for dashboard filtering. */
 export type CreateSessionV1RequestTagsList = Array<string>;
@@ -755,9 +724,7 @@ export const CreateSessionV1RequestTagsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateSessionV1RequestTagsList>;
 
 /** Arbitrary JSON metadata. */
-export type CreateSessionV1RequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateSessionV1RequestMetadataMap = { [key: string]: unknown | undefined };
 export const CreateSessionV1RequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -788,9 +755,7 @@ export const CreateSessionV1Request = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(CreateSessionV1RequestMetadataMap),
     expiresAt: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/sessions", code: 200 })),
-).annotate({
-  identifier: "CreateSessionV1Request",
-}) as any as S.Schema<CreateSessionV1Request>;
+).annotate({ identifier: "CreateSessionV1Request" }) as any as S.Schema<CreateSessionV1Request>;
 
 /** Tags on the session row. */
 export type CreateSessionV1ResponseTagsList = Array<string>;
@@ -799,9 +764,7 @@ export const CreateSessionV1ResponseTagsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateSessionV1ResponseTagsList>;
 
 /** Arbitrary JSON metadata, or `null` if unset. */
-export type CreateSessionV1ResponseMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateSessionV1ResponseMetadataMap = { [key: string]: unknown | undefined };
 export const CreateSessionV1ResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -857,9 +820,7 @@ export const CreateSessionV1Response = /*@__PURE__*/ S.suspend(() =>
     publicAccessToken: S.String,
     isCached: S.Boolean,
   }),
-).annotate({
-  identifier: "CreateSessionV1Response",
-}) as any as S.Schema<CreateSessionV1Response>;
+).annotate({ identifier: "CreateSessionV1Response" }) as any as S.Schema<CreateSessionV1Response>;
 
 export type CreateWaitpointTokenV1RequestTagsCase1List = Array<string>;
 export const CreateWaitpointTokenV1RequestTagsCase1List = /*@__PURE__*/ S.Array(
@@ -917,13 +878,7 @@ export interface DeactivateScheduleV1Request {
 export const DeactivateScheduleV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     schedule_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/schedules/{schedule_id}/deactivate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/schedules/{schedule_id}/deactivate", code: 200 })),
 ).annotate({
   identifier: "DeactivateScheduleV1Request",
 }) as any as S.Schema<DeactivateScheduleV1Request>;
@@ -962,16 +917,8 @@ export interface DeleteScheduleV1Request {
 export const DeleteScheduleV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     schedule_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/schedules/{schedule_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteScheduleV1Request",
-}) as any as S.Schema<DeleteScheduleV1Request>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/schedules/{schedule_id}", code: 200 })),
+).annotate({ identifier: "DeleteScheduleV1Request" }) as any as S.Schema<DeleteScheduleV1Request>;
 
 export interface DeleteScheduleV1Response {}
 export const DeleteScheduleV1Response = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1009,9 +956,7 @@ export const ExecuteQueryV1Request = /*@__PURE__*/ S.suspend(() =>
     to: S.optional(S.NullOr(S.String)),
     format: S.optional(ExecuteQueryV1RequestFormat),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/query", code: 200 })),
-).annotate({
-  identifier: "ExecuteQueryV1Request",
-}) as any as S.Schema<ExecuteQueryV1Request>;
+).annotate({ identifier: "ExecuteQueryV1Request" }) as any as S.Schema<ExecuteQueryV1Request>;
 
 export type ExecuteQueryResponseCase0Format = "json";
 export const ExecuteQueryResponseCase0Format = S.String;
@@ -1061,9 +1006,7 @@ export const ExecuteQueryResponse = S.Unknown as any as S.Schema<ExecuteQueryRes
 export type ExecuteQueryV1Response = ExecuteQueryResponse;
 export const ExecuteQueryV1Response = /*@__PURE__*/ S.suspend(() =>
   ExecuteQueryResponse.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ExecuteQueryV1Response",
-}) as any as S.Schema<ExecuteQueryV1Response>;
+).annotate({ identifier: "ExecuteQueryV1Response" }) as any as S.Schema<ExecuteQueryV1Response>;
 
 export interface GetBatchResultsV1Request {
   /** The ID of the batch, starts with `batch_`. */
@@ -1072,16 +1015,8 @@ export interface GetBatchResultsV1Request {
 export const GetBatchResultsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     batchId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/batches/{batchId}/results",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetBatchResultsV1Request",
-}) as any as S.Schema<GetBatchResultsV1Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/batches/{batchId}/results", code: 200 })),
+).annotate({ identifier: "GetBatchResultsV1Request" }) as any as S.Schema<GetBatchResultsV1Request>;
 
 export interface GetBatchResultsV1ResponseItemsItemUsage {
   /** Duration of the run in milliseconds. */
@@ -1153,9 +1088,7 @@ export const GetBatchV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     batchId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/batches/{batchId}", code: 200 })),
-).annotate({
-  identifier: "GetBatchV1Request",
-}) as any as S.Schema<GetBatchV1Request>;
+).annotate({ identifier: "GetBatchV1Request" }) as any as S.Schema<GetBatchV1Request>;
 
 /** The current status of the batch. */
 export type GetBatchV1ResponseStatus =
@@ -1232,9 +1165,7 @@ export const GetBatchV1Response = /*@__PURE__*/ S.suspend(() =>
     failedRunCount: S.optional(S.NullOr(S.Number)),
     errors: S.optional(S.NullOr(GetBatchV1ResponseErrorsList)),
   }),
-).annotate({
-  identifier: "GetBatchV1Response",
-}) as any as S.Schema<GetBatchV1Response>;
+).annotate({ identifier: "GetBatchV1Response" }) as any as S.Schema<GetBatchV1Response>;
 
 export interface GetBulkActionV1Request {
   /** The ID of a bulk action, starts with `bulk_`. */
@@ -1243,16 +1174,8 @@ export interface GetBulkActionV1Request {
 export const GetBulkActionV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bulkActionId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/bulk-actions/{bulkActionId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetBulkActionV1Request",
-}) as any as S.Schema<GetBulkActionV1Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/bulk-actions/{bulkActionId}", code: 200 })),
+).annotate({ identifier: "GetBulkActionV1Request" }) as any as S.Schema<GetBulkActionV1Request>;
 
 export type BulkActionObjectType = "CANCEL" | "REPLAY";
 export const BulkActionObjectType = S.String;
@@ -1274,9 +1197,7 @@ export const BulkActionObjectCounts = /*@__PURE__*/ S.suspend(() =>
     success: S.Number,
     failure: S.Number,
   }),
-).annotate({
-  identifier: "BulkActionObjectCounts",
-}) as any as S.Schema<BulkActionObjectCounts>;
+).annotate({ identifier: "BulkActionObjectCounts" }) as any as S.Schema<BulkActionObjectCounts>;
 
 export interface BulkActionObject {
   /** The bulk action ID, prefixed with `bulk_`. */
@@ -1299,9 +1220,91 @@ export const BulkActionObject = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.String,
     completedAt: S.optional(S.String),
   }),
+).annotate({ identifier: "BulkActionObject" }) as any as S.Schema<BulkActionObject>;
+
+export interface GetConcurrencyLimitV1Request {
+  /** The limit's name, as declared with `concurrencyLimit()` */
+  name: string;
+}
+export const GetConcurrencyLimitV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/concurrency-limits/{name}", code: 200 })),
 ).annotate({
-  identifier: "BulkActionObject",
-}) as any as S.Schema<BulkActionObject>;
+  identifier: "GetConcurrencyLimitV1Request",
+}) as any as S.Schema<GetConcurrencyLimitV1Request>;
+
+/** Caps each concurrencyKey pool; runs without a key share one pool */
+export interface ConcurrencyLimitObjectPerKey {
+  /** Enforced right now (null = no per-key bound). Enforcement clamps it to the environment concurrency limit at admit time. */
+  current?: number | null;
+  /** The declared value an override reverts to on reset */
+  base?: number | null;
+  /** The overridden value, when an override is active */
+  override?: number | null;
+  /** When the override was applied */
+  overriddenAt?: string | null;
+}
+export const ConcurrencyLimitObjectPerKey = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    current: S.optional(S.NullOr(S.Number)),
+    base: S.optional(S.NullOr(S.Number)),
+    override: S.optional(S.NullOr(S.Number)),
+    overriddenAt: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "ConcurrencyLimitObjectPerKey",
+}) as any as S.Schema<ConcurrencyLimitObjectPerKey>;
+
+/** Caps every run holding this limit, keys or not */
+export interface ConcurrencyLimitObjectTotal {
+  /** Enforced right now (null = no total bound). Enforcement clamps it to the environment concurrency limit at admit time. */
+  current?: number | null;
+  /** The declared value an override reverts to on reset */
+  base?: number | null;
+  /** The overridden value, when an override is active */
+  override?: number | null;
+  /** When the override was applied */
+  overriddenAt?: string | null;
+}
+export const ConcurrencyLimitObjectTotal = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    current: S.optional(S.NullOr(S.Number)),
+    base: S.optional(S.NullOr(S.Number)),
+    override: S.optional(S.NullOr(S.Number)),
+    overriddenAt: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "ConcurrencyLimitObjectTotal",
+}) as any as S.Schema<ConcurrencyLimitObjectTotal>;
+
+export interface ConcurrencyLimitObject {
+  /** The limit's id, starting with `climit_` */
+  id: string;
+  /** The limit's name, as declared with `concurrencyLimit()` */
+  name: string;
+  /** Caps each concurrencyKey pool; runs without a key share one pool */
+  perKey: ConcurrencyLimitObjectPerKey;
+  /** Caps every run holding this limit, keys or not */
+  total: ConcurrencyLimitObjectTotal;
+  /** Runs executing that hold this limit */
+  running: number;
+  /** Runs that are queued and must clear this limit to execute */
+  queued: number;
+  /** Whether the limit is paused. A paused limit admits no runs until resumed; its configured bounds are kept. */
+  paused?: boolean;
+}
+export const ConcurrencyLimitObject = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    perKey: ConcurrencyLimitObjectPerKey,
+    total: ConcurrencyLimitObjectTotal,
+    running: S.Number,
+    queued: S.Number,
+    paused: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "ConcurrencyLimitObject" }) as any as S.Schema<ConcurrencyLimitObject>;
 
 export interface GetDeploymentV1Request {
   /** The deployment ID. */
@@ -1310,16 +1313,8 @@ export interface GetDeploymentV1Request {
 export const GetDeploymentV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deploymentId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/deployments/{deploymentId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDeploymentV1Request",
-}) as any as S.Schema<GetDeploymentV1Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/deployments/{deploymentId}", code: 200 })),
+).annotate({ identifier: "GetDeploymentV1Request" }) as any as S.Schema<GetDeploymentV1Request>;
 
 /** The current status of the deployment */
 export type GetDeploymentV1ResponseStatus =
@@ -1386,6 +1381,8 @@ export interface GetDeploymentV1Response {
   imageReference?: string | null;
   /** Platform of the deployment image */
   imagePlatform?: string;
+  /** The external deployment id this deployment was deployed under (`--external-id`), used by version skew protection to pin runs. Absent if the deployment was deployed without one */
+  externalId?: string;
   /** External build data if applicable */
   externalBuildData?: unknown | null;
   /** Error data if the deployment failed */
@@ -1402,13 +1399,12 @@ export const GetDeploymentV1Response = /*@__PURE__*/ S.suspend(() =>
     version: S.optional(S.String),
     imageReference: S.optional(S.NullOr(S.String)),
     imagePlatform: S.optional(S.String),
+    externalId: S.optional(S.String),
     externalBuildData: S.optional(S.NullOr(S.Unknown)),
     errorData: S.optional(S.NullOr(S.Unknown)),
     worker: S.optional(S.NullOr(GetDeploymentV1ResponseWorker)),
   }),
-).annotate({
-  identifier: "GetDeploymentV1Response",
-}) as any as S.Schema<GetDeploymentV1Response>;
+).annotate({ identifier: "GetDeploymentV1Response" }) as any as S.Schema<GetDeploymentV1Response>;
 
 export interface GetErrorV1Request {
   /** The ID of an error group, starts with `error_`. */
@@ -1418,9 +1414,7 @@ export const GetErrorV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     errorId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/errors/{errorId}", code: 200 })),
-).annotate({
-  identifier: "GetErrorV1Request",
-}) as any as S.Schema<GetErrorV1Request>;
+).annotate({ identifier: "GetErrorV1Request" }) as any as S.Schema<GetErrorV1Request>;
 
 /** The most recent worker versions the error has occurred in (up to five) */
 export type ErrorObjectAffectedVersionsList = Array<string>;
@@ -1550,17 +1544,14 @@ export const GetProjectEnvvarV1Request = /*@__PURE__*/ S.suspend(() =>
     env: GetProjectEnvvarV1RequestEnv.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/projects/{projectRef}/envvars/{env}/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/projects/{projectRef}/envvars/{env}/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetProjectEnvvarV1Request",
 }) as any as S.Schema<GetProjectEnvvarV1Request>;
 
 export interface EnvVarValue {
+  /** The value to store. An empty string is valid and is stored as-is, not treated as a deletion. */
   value: string;
 }
 export const EnvVarValue = /*@__PURE__*/ S.suspend(() =>
@@ -1572,9 +1563,7 @@ export const EnvVarValue = /*@__PURE__*/ S.suspend(() =>
 export interface GetQuerySchemaV1Request {}
 export const GetQuerySchemaV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/query/schema", code: 200 })),
-).annotate({
-  identifier: "GetQuerySchemaV1Request",
-}) as any as S.Schema<GetQuerySchemaV1Request>;
+).annotate({ identifier: "GetQuerySchemaV1Request" }) as any as S.Schema<GetQuerySchemaV1Request>;
 
 /** Allowed values for enum-like columns */
 export type GetQuerySchemaV1ResponseTablesItemColumnsItemAllowedValuesList = Array<string>;
@@ -1647,9 +1636,7 @@ export const GetQuerySchemaV1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tables: S.optional(GetQuerySchemaV1ResponseTablesList),
   }),
-).annotate({
-  identifier: "GetQuerySchemaV1Response",
-}) as any as S.Schema<GetQuerySchemaV1Response>;
+).annotate({ identifier: "GetQuerySchemaV1Response" }) as any as S.Schema<GetQuerySchemaV1Response>;
 
 export type GetQueueV1RequestType = "id" | "task" | "custom";
 export const GetQueueV1RequestType = S.String;
@@ -1665,15 +1652,17 @@ export const GetQueueV1Request = /*@__PURE__*/ S.suspend(() =>
     queueParam: S.String.pipe(T.Label()),
     type: S.optional(GetQueueV1RequestType.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/queues/{queueParam}", code: 200 })),
-).annotate({
-  identifier: "GetQueueV1Request",
-}) as any as S.Schema<GetQueueV1Request>;
+).annotate({ identifier: "GetQueueV1Request" }) as any as S.Schema<GetQueueV1Request>;
 
 /** The type of queue: - `task`: Created automatically for each task - `custom`: Created explicitly in your code using `queue()` */
 export type QueueObjectType = "task" | "custom";
 export const QueueObjectType = S.String;
 
-/** Detailed concurrency information */
+/** Discriminates the shape: - `V1`: the queue carries its own `concurrencyLimit` (applied per key when runs pass a `concurrencyKey`, to the whole queue when they don't) and its `concurrency` override state - `V2`: the queue is only the line runs wait in; concurrency is declared with the task `concurrency` option and managed through the concurrency-limits endpoints. `concurrencyLimit` is always null and `concurrency` is absent. */
+export type QueueObjectVersion = "V1" | "V2";
+export const QueueObjectVersion = S.String;
+
+/** Detailed concurrency information. V1 queues only. */
 export interface QueueObjectConcurrency {
   /** The effective/current concurrency limit */
   current?: number | null;
@@ -1694,9 +1683,7 @@ export const QueueObjectConcurrency = /*@__PURE__*/ S.suspend(() =>
     overriddenAt: S.optional(S.NullOr(S.String)),
     overriddenBy: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "QueueObjectConcurrency",
-}) as any as S.Schema<QueueObjectConcurrency>;
+).annotate({ identifier: "QueueObjectConcurrency" }) as any as S.Schema<QueueObjectConcurrency>;
 
 export interface QueueObject {
   /** The queue ID, e.g., `queue_1234` */
@@ -1705,15 +1692,17 @@ export interface QueueObject {
   name: string;
   /** The type of queue: - `task`: Created automatically for each task - `custom`: Created explicitly in your code using `queue()` */
   type: QueueObjectType;
+  /** Discriminates the shape: - `V1`: the queue carries its own `concurrencyLimit` (applied per key when runs pass a `concurrencyKey`, to the whole queue when they don't) and its `concurrency` override state - `V2`: the queue is only the line runs wait in; concurrency is declared with the task `concurrency` option and managed through the concurrency-limits endpoints. `concurrencyLimit` is always null and `concurrency` is absent. */
+  version: QueueObjectVersion;
   /** The number of runs currently executing */
   running: number;
   /** The number of runs currently queued */
   queued: number;
   /** Whether the queue is paused. When paused, no new runs will start. */
   paused: boolean;
-  /** The current concurrency limit of the queue */
+  /** The queue's own concurrency limit. Meaningful on V1 queues; always null on V2 queues. */
   concurrencyLimit?: number | null;
-  /** Detailed concurrency information */
+  /** Detailed concurrency information. V1 queues only. */
   concurrency?: QueueObjectConcurrency;
 }
 export const QueueObject = /*@__PURE__*/ S.suspend(() =>
@@ -1721,6 +1710,7 @@ export const QueueObject = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
     type: QueueObjectType,
+    version: QueueObjectVersion,
     running: S.Number,
     queued: S.Number,
     paused: S.Boolean,
@@ -1737,9 +1727,7 @@ export const GetRunEventsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     runId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/runs/{runId}/events", code: 200 })),
-).annotate({
-  identifier: "GetRunEventsV1Request",
-}) as any as S.Schema<GetRunEventsV1Request>;
+).annotate({ identifier: "GetRunEventsV1Request" }) as any as S.Schema<GetRunEventsV1Request>;
 
 /** The log level of the event. */
 export type GetRunEventsV1ResponseEventsItemLevel =
@@ -1890,9 +1878,7 @@ export const GetRunEventsV1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     events: S.optional(GetRunEventsV1ResponseEventsList),
   }),
-).annotate({
-  identifier: "GetRunEventsV1Response",
-}) as any as S.Schema<GetRunEventsV1Response>;
+).annotate({ identifier: "GetRunEventsV1Response" }) as any as S.Schema<GetRunEventsV1Response>;
 
 export interface GetRunResultV1Request {
   /** The ID of an run, starts with `run_`. The run ID will be returned when you trigger a run on a task. */
@@ -1902,9 +1888,7 @@ export const GetRunResultV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     runId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/runs/{runId}/result", code: 200 })),
-).annotate({
-  identifier: "GetRunResultV1Request",
-}) as any as S.Schema<GetRunResultV1Request>;
+).annotate({ identifier: "GetRunResultV1Request" }) as any as S.Schema<GetRunResultV1Request>;
 
 /** Execution usage stats. */
 export type GetRunResultV1ResponseUsage = GetBatchResultsV1ResponseItemsItemUsage;
@@ -1936,9 +1920,7 @@ export const GetRunResultV1Response = /*@__PURE__*/ S.suspend(() =>
     usage: S.optional(GetBatchResultsV1ResponseItemsItemUsage),
     taskIdentifier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetRunResultV1Response",
-}) as any as S.Schema<GetRunResultV1Response>;
+).annotate({ identifier: "GetRunResultV1Response" }) as any as S.Schema<GetRunResultV1Response>;
 
 export interface GetRunTraceV1Request {
   /** The ID of an run, starts with `run_`. The run ID will be returned when you trigger a run on a task. */
@@ -1948,9 +1930,7 @@ export const GetRunTraceV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     runId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/runs/{runId}/trace", code: 200 })),
-).annotate({
-  identifier: "GetRunTraceV1Request",
-}) as any as S.Schema<GetRunTraceV1Request>;
+).annotate({ identifier: "GetRunTraceV1Request" }) as any as S.Schema<GetRunTraceV1Request>;
 
 export type SpanDetailedSummaryDataLevel = "TRACE" | "DEBUG" | "LOG" | "INFO" | "WARN" | "ERROR";
 export const SpanDetailedSummaryDataLevel = S.String;
@@ -1997,9 +1977,7 @@ export const SpanDetailedSummaryData = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(S.Unknown),
     events: S.optional(SpanDetailedSummaryDataEventsList),
   }),
-).annotate({
-  identifier: "SpanDetailedSummaryData",
-}) as any as S.Schema<SpanDetailedSummaryData>;
+).annotate({ identifier: "SpanDetailedSummaryData" }) as any as S.Schema<SpanDetailedSummaryData>;
 
 /** Nested child spans. Each child has the same structure as the parent span. */
 export type SpanDetailedSummaryChildrenList = Array<SpanDetailedSummary>;
@@ -2026,9 +2004,7 @@ export const SpanDetailedSummary = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(SpanDetailedSummaryData),
     children: S.optional(SpanDetailedSummaryChildrenList),
   }),
-).annotate({
-  identifier: "SpanDetailedSummary",
-}) as any as S.Schema<SpanDetailedSummary>;
+).annotate({ identifier: "SpanDetailedSummary" }) as any as S.Schema<SpanDetailedSummary>;
 
 export interface GetRunTraceV1ResponseTrace {
   /** The OTel trace ID. */
@@ -2052,9 +2028,7 @@ export const GetRunTraceV1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     trace: S.optional(GetRunTraceV1ResponseTrace),
   }),
-).annotate({
-  identifier: "GetRunTraceV1Response",
-}) as any as S.Schema<GetRunTraceV1Response>;
+).annotate({ identifier: "GetRunTraceV1Response" }) as any as S.Schema<GetRunTraceV1Response>;
 
 export interface GetRunV1Request {
   /** The ID of an run, starts with `run_`. The run ID will be returned when you trigger a run on a task. */
@@ -2064,9 +2038,7 @@ export const GetRunV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     runId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v3/runs/{runId}", code: 200 })),
-).annotate({
-  identifier: "GetRunV1Request",
-}) as any as S.Schema<GetRunV1Request>;
+).annotate({ identifier: "GetRunV1Request" }) as any as S.Schema<GetRunV1Request>;
 
 /** The status of the run */
 export type GetRunV1ResponseStatus =
@@ -2193,9 +2165,7 @@ export const CommonRunObject = /*@__PURE__*/ S.suspend(() =>
     batchId: S.optional(S.String),
     triggerFunction: S.optional(CommonRunObjectTriggerFunction),
   }),
-).annotate({
-  identifier: "CommonRunObject",
-}) as any as S.Schema<CommonRunObject>;
+).annotate({ identifier: "CommonRunObject" }) as any as S.Schema<CommonRunObject>;
 
 /** The immediate children of the run. Will be omitted if the run has no children */
 export type GetRunV1ResponseRelatedRunsChildrenList = Array<CommonRunObject>;
@@ -2258,9 +2228,7 @@ export const GetRunV1ResponseSchedule = /*@__PURE__*/ S.suspend(() =>
     deduplicationKey: S.optional(S.String),
     generator: GetRunV1ResponseScheduleGenerator,
   }),
-).annotate({
-  identifier: "GetRunV1ResponseSchedule",
-}) as any as S.Schema<GetRunV1ResponseSchedule>;
+).annotate({ identifier: "GetRunV1ResponseSchedule" }) as any as S.Schema<GetRunV1ResponseSchedule>;
 
 export type GetRunV1ResponseAttemptsItemStatus =
   | "PENDING"
@@ -2282,9 +2250,7 @@ export const SerializedError = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     stackTrace: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SerializedError",
-}) as any as S.Schema<SerializedError>;
+).annotate({ identifier: "SerializedError" }) as any as S.Schema<SerializedError>;
 
 export interface GetRunV1ResponseAttemptsItem {
   /** The unique ID of the attempt, prefixed with `attempt_` */
@@ -2399,9 +2365,7 @@ export const GetRunV1Response = /*@__PURE__*/ S.suspend(() =>
     schedule: S.optional(GetRunV1ResponseSchedule),
     attempts: GetRunV1ResponseAttemptsList,
   }),
-).annotate({
-  identifier: "GetRunV1Response",
-}) as any as S.Schema<GetRunV1Response>;
+).annotate({ identifier: "GetRunV1Response" }) as any as S.Schema<GetRunV1Response>;
 
 export interface GetScheduleV1Request {
   /** The ID of the schedule. */
@@ -2410,16 +2374,8 @@ export interface GetScheduleV1Request {
 export const GetScheduleV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     schedule_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/schedules/{schedule_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetScheduleV1Request",
-}) as any as S.Schema<GetScheduleV1Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/schedules/{schedule_id}", code: 200 })),
+).annotate({ identifier: "GetScheduleV1Request" }) as any as S.Schema<GetScheduleV1Request>;
 
 export interface GetSessionV1Request {
   /** The session's friendly ID (`session_…`) or your `externalId`. The server disambiguates by the `session_` prefix. */
@@ -2429,9 +2385,7 @@ export const GetSessionV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     session: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/sessions/{session}", code: 200 })),
-).annotate({
-  identifier: "GetSessionV1Request",
-}) as any as S.Schema<GetSessionV1Request>;
+).annotate({ identifier: "GetSessionV1Request" }) as any as S.Schema<GetSessionV1Request>;
 
 export interface GetTimezonesV1Request {
   /** Defaults to false. Whether to include UTC in the results or not. */
@@ -2441,9 +2395,7 @@ export const GetTimezonesV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     excludeUtc: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/timezones", code: 200 })),
-).annotate({
-  identifier: "GetTimezonesV1Request",
-}) as any as S.Schema<GetTimezonesV1Request>;
+).annotate({ identifier: "GetTimezonesV1Request" }) as any as S.Schema<GetTimezonesV1Request>;
 
 export type GetTimezonesResultTimezonesList = Array<string>;
 export const GetTimezonesResultTimezonesList = /*@__PURE__*/ S.Array(
@@ -2457,9 +2409,7 @@ export const GetTimezonesResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     timezones: S.optional(GetTimezonesResultTimezonesList),
   }),
-).annotate({
-  identifier: "GetTimezonesResult",
-}) as any as S.Schema<GetTimezonesResult>;
+).annotate({ identifier: "GetTimezonesResult" }) as any as S.Schema<GetTimezonesResult>;
 
 export interface GetWaitpointTokenV1Request {
   /** The ID of the waitpoint token. */
@@ -2468,13 +2418,7 @@ export interface GetWaitpointTokenV1Request {
 export const GetWaitpointTokenV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     waitpointId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/waitpoints/tokens/{waitpointId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/waitpoints/tokens/{waitpointId}", code: 200 })),
 ).annotate({
   identifier: "GetWaitpointTokenV1Request",
 }) as any as S.Schema<GetWaitpointTokenV1Request>;
@@ -2530,9 +2474,7 @@ export const WaitpointTokenObject = /*@__PURE__*/ S.suspend(() =>
     tags: WaitpointTokenObjectTagsList,
     createdAt: S.String,
   }),
-).annotate({
-  identifier: "WaitpointTokenObject",
-}) as any as S.Schema<WaitpointTokenObject>;
+).annotate({ identifier: "WaitpointTokenObject" }) as any as S.Schema<WaitpointTokenObject>;
 
 export interface IgnoreErrorV1Request {
   /** The ID of an error group, starts with `error_`. */
@@ -2553,16 +2495,8 @@ export const IgnoreErrorV1Request = /*@__PURE__*/ S.suspend(() =>
     occurrenceRate: S.optional(S.Number),
     totalOccurrences: S.optional(S.Number),
     reason: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/errors/{errorId}/ignore",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "IgnoreErrorV1Request",
-}) as any as S.Schema<IgnoreErrorV1Request>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/errors/{errorId}/ignore", code: 200 })),
+).annotate({ identifier: "IgnoreErrorV1Request" }) as any as S.Schema<IgnoreErrorV1Request>;
 
 export interface ListBulkActionsV1RequestPage {
   /** Number of bulk actions per page. Maximum is 100. */
@@ -2590,9 +2524,7 @@ export const ListBulkActionsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     page: S.optional(ListBulkActionsV1RequestPage.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/bulk-actions", code: 200 })),
-).annotate({
-  identifier: "ListBulkActionsV1Request",
-}) as any as S.Schema<ListBulkActionsV1Request>;
+).annotate({ identifier: "ListBulkActionsV1Request" }) as any as S.Schema<ListBulkActionsV1Request>;
 
 export type ListBulkActionsResultDataList = Array<BulkActionObject>;
 export const ListBulkActionsResultDataList = /*@__PURE__*/ S.Array(
@@ -2623,16 +2555,58 @@ export const ListBulkActionsResult = /*@__PURE__*/ S.suspend(() =>
     data: ListBulkActionsResultDataList,
     pagination: ListBulkActionsResultPagination,
   }),
+).annotate({ identifier: "ListBulkActionsResult" }) as any as S.Schema<ListBulkActionsResult>;
+
+export interface ListConcurrencyLimitsV1Request {
+  page?: number;
+  perPage?: number;
+}
+export const ListConcurrencyLimitsV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    page: S.optional(S.Number.pipe(T.Query())),
+    perPage: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/concurrency-limits", code: 200 })),
 ).annotate({
-  identifier: "ListBulkActionsResult",
-}) as any as S.Schema<ListBulkActionsResult>;
+  identifier: "ListConcurrencyLimitsV1Request",
+}) as any as S.Schema<ListConcurrencyLimitsV1Request>;
+
+export type ListConcurrencyLimitsV1ResponseDataList = Array<ConcurrencyLimitObject>;
+export const ListConcurrencyLimitsV1ResponseDataList = /*@__PURE__*/ S.Array(
+  ConcurrencyLimitObject,
+) as any as S.Schema<ListConcurrencyLimitsV1ResponseDataList>;
+
+export interface ListConcurrencyLimitsV1ResponsePagination {
+  currentPage?: number;
+  totalPages?: number;
+  count?: number;
+}
+export const ListConcurrencyLimitsV1ResponsePagination = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    currentPage: S.optional(S.Number),
+    totalPages: S.optional(S.Number),
+    count: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ListConcurrencyLimitsV1ResponsePagination",
+}) as any as S.Schema<ListConcurrencyLimitsV1ResponsePagination>;
+
+export interface ListConcurrencyLimitsV1Response {
+  data?: ListConcurrencyLimitsV1ResponseDataList;
+  pagination?: ListConcurrencyLimitsV1ResponsePagination;
+}
+export const ListConcurrencyLimitsV1Response = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(ListConcurrencyLimitsV1ResponseDataList),
+    pagination: S.optional(ListConcurrencyLimitsV1ResponsePagination),
+  }),
+).annotate({
+  identifier: "ListConcurrencyLimitsV1Response",
+}) as any as S.Schema<ListConcurrencyLimitsV1Response>;
 
 export interface ListDashboardsV1Request {}
 export const ListDashboardsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/query/dashboards", code: 200 })),
-).annotate({
-  identifier: "ListDashboardsV1Request",
-}) as any as S.Schema<ListDashboardsV1Request>;
+).annotate({ identifier: "ListDashboardsV1Request" }) as any as S.Schema<ListDashboardsV1Request>;
 
 /** Widget display type */
 export type ListDashboardsV1ResponseDashboardsItemWidgetsItemType = "bignumber" | "chart" | "table";
@@ -2694,9 +2668,7 @@ export const ListDashboardsV1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dashboards: S.optional(ListDashboardsV1ResponseDashboardsList),
   }),
-).annotate({
-  identifier: "ListDashboardsV1Response",
-}) as any as S.Schema<ListDashboardsV1Response>;
+).annotate({ identifier: "ListDashboardsV1Response" }) as any as S.Schema<ListDashboardsV1Response>;
 
 export type ListDeploymentsV1RequestStatus =
   | "PENDING"
@@ -2731,9 +2703,7 @@ export const ListDeploymentsV1Request = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.String.pipe(T.Query())),
     to: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/deployments", code: 200 })),
-).annotate({
-  identifier: "ListDeploymentsV1Request",
-}) as any as S.Schema<ListDeploymentsV1Request>;
+).annotate({ identifier: "ListDeploymentsV1Request" }) as any as S.Schema<ListDeploymentsV1Request>;
 
 /** The current status of the deployment */
 export type ListDeploymentsV1ResponseDataItemStatus =
@@ -2767,6 +2737,8 @@ export interface ListDeploymentsV1ResponseDataItem {
   git?: unknown | null;
   /** Error data if the deployment failed */
   error?: unknown | null;
+  /** The external deployment id this deployment was deployed under (`--external-id`), used by version skew protection to pin runs. Absent if the deployment was deployed without one */
+  externalId?: string;
 }
 export const ListDeploymentsV1ResponseDataItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2780,6 +2752,7 @@ export const ListDeploymentsV1ResponseDataItem = /*@__PURE__*/ S.suspend(() =>
     deployedAt: S.optional(S.NullOr(S.String)),
     git: S.optional(S.NullOr(S.Unknown)),
     error: S.optional(S.NullOr(S.Unknown)),
+    externalId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListDeploymentsV1ResponseDataItem",
@@ -2829,9 +2802,7 @@ export const ListErrorsV1RequestPage = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String),
     before: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListErrorsV1RequestPage",
-}) as any as S.Schema<ListErrorsV1RequestPage>;
+).annotate({ identifier: "ListErrorsV1RequestPage" }) as any as S.Schema<ListErrorsV1RequestPage>;
 
 /** The identifier of the task the error belongs to */
 export type ErrorsFilterTaskIdentifierList = Array<string>;
@@ -2893,9 +2864,7 @@ export const ListErrorsV1Request = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(ListErrorsV1RequestPage.pipe(T.Query())),
     filter: S.optional(ErrorsFilter.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/errors", code: 200 })),
-).annotate({
-  identifier: "ListErrorsV1Request",
-}) as any as S.Schema<ListErrorsV1Request>;
+).annotate({ identifier: "ListErrorsV1Request" }) as any as S.Schema<ListErrorsV1Request>;
 
 export type ErrorListItemStatus = "unresolved" | "resolved" | "ignored";
 export const ErrorListItemStatus = S.String;
@@ -2966,9 +2935,7 @@ export const ListErrorsResult = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(ListErrorsResultDataList),
     pagination: S.optional(ListErrorsResultPagination),
   }),
-).annotate({
-  identifier: "ListErrorsResult",
-}) as any as S.Schema<ListErrorsResult>;
+).annotate({ identifier: "ListErrorsResult" }) as any as S.Schema<ListErrorsResult>;
 
 export type ListProjectEnvvarsV1RequestEnv = "dev" | "staging" | "prod";
 export const ListProjectEnvvarsV1RequestEnv = S.String;
@@ -2983,13 +2950,7 @@ export const ListProjectEnvvarsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectRef: S.String.pipe(T.Label()),
     env: ListProjectEnvvarsV1RequestEnv.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/projects/{projectRef}/envvars/{env}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/projects/{projectRef}/envvars/{env}", code: 200 })),
 ).annotate({
   identifier: "ListProjectEnvvarsV1Request",
 }) as any as S.Schema<ListProjectEnvvarsV1Request>;
@@ -3153,16 +3114,8 @@ export const ListProjectRunsV1Request = /*@__PURE__*/ S.suspend(() =>
     projectRef: S.String.pipe(T.Label()),
     page: S.optional(ListProjectRunsV1RequestPage.pipe(T.Query())),
     filter: S.optional(ListProjectRunsV1RequestFilter.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/projects/{projectRef}/runs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListProjectRunsV1Request",
-}) as any as S.Schema<ListProjectRunsV1Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/projects/{projectRef}/runs", code: 200 })),
+).annotate({ identifier: "ListProjectRunsV1Request" }) as any as S.Schema<ListProjectRunsV1Request>;
 
 /** The status of the run */
 export type ListRunItemStatus =
@@ -3276,9 +3229,7 @@ export const ListRunsResultPagination = /*@__PURE__*/ S.suspend(() =>
     next: S.optional(S.String),
     previous: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListRunsResultPagination",
-}) as any as S.Schema<ListRunsResultPagination>;
+).annotate({ identifier: "ListRunsResultPagination" }) as any as S.Schema<ListRunsResultPagination>;
 
 export interface ListRunsResult {
   data?: ListRunsResultDataList;
@@ -3302,9 +3253,7 @@ export const ListQueuesV1Request = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/queues", code: 200 })),
-).annotate({
-  identifier: "ListQueuesV1Request",
-}) as any as S.Schema<ListQueuesV1Request>;
+).annotate({ identifier: "ListQueuesV1Request" }) as any as S.Schema<ListQueuesV1Request>;
 
 /** An array of queue objects */
 export type ListQueuesResultDataList = Array<QueueObject>;
@@ -3340,9 +3289,7 @@ export const ListQueuesResult = /*@__PURE__*/ S.suspend(() =>
     data: ListQueuesResultDataList,
     pagination: ListQueuesResultPagination,
   }),
-).annotate({
-  identifier: "ListQueuesResult",
-}) as any as S.Schema<ListQueuesResult>;
+).annotate({ identifier: "ListQueuesResult" }) as any as S.Schema<ListQueuesResult>;
 
 export type ListRunsV1RequestPage = ListProjectRunsV1RequestPage;
 export const ListRunsV1RequestPage = ListProjectRunsV1RequestPage;
@@ -3418,9 +3365,7 @@ export const CommonRunsFilter = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(CommonRunsFilterTagList),
     error: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommonRunsFilter",
-}) as any as S.Schema<CommonRunsFilter>;
+).annotate({ identifier: "CommonRunsFilter" }) as any as S.Schema<CommonRunsFilter>;
 
 export interface ListRunsV1Request {
   /** Use this parameter to paginate the results. You can specify the number of runs per page, and the ID of the run to start the page after or before. For object fields like `page`, you should use the "form" encoding style. For example, to get the next page of runs, you can use `page[after]=run_1234`. */
@@ -3433,9 +3378,7 @@ export const ListRunsV1Request = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(ListProjectRunsV1RequestPage.pipe(T.Query())),
     filter: S.optional(CommonRunsFilter.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/runs", code: 200 })),
-).annotate({
-  identifier: "ListRunsV1Request",
-}) as any as S.Schema<ListRunsV1Request>;
+).annotate({ identifier: "ListRunsV1Request" }) as any as S.Schema<ListRunsV1Request>;
 
 export interface ListSchedulesV1Request {
   /** Page number of the schedule listing */
@@ -3448,42 +3391,26 @@ export const ListSchedulesV1Request = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/schedules", code: 200 })),
-).annotate({
-  identifier: "ListSchedulesV1Request",
-}) as any as S.Schema<ListSchedulesV1Request>;
+).annotate({ identifier: "ListSchedulesV1Request" }) as any as S.Schema<ListSchedulesV1Request>;
 
 export type ListSchedulesResultDataList = Array<ScheduleObject>;
 export const ListSchedulesResultDataList = /*@__PURE__*/ S.Array(
   ScheduleObject,
 ) as any as S.Schema<ListSchedulesResultDataList>;
 
-export interface ListSchedulesResultPagination {
-  currentPage?: number;
-  totalPages?: number;
-  count?: number;
-}
-export const ListSchedulesResultPagination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    currentPage: S.optional(S.Number),
-    totalPages: S.optional(S.Number),
-    count: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ListSchedulesResultPagination",
-}) as any as S.Schema<ListSchedulesResultPagination>;
+export type ListSchedulesResultPagination = ListConcurrencyLimitsV1ResponsePagination;
+export const ListSchedulesResultPagination = ListConcurrencyLimitsV1ResponsePagination;
 
 export interface ListSchedulesResult {
   data?: ListSchedulesResultDataList;
-  pagination?: ListSchedulesResultPagination;
+  pagination?: ListConcurrencyLimitsV1ResponsePagination;
 }
 export const ListSchedulesResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListSchedulesResultDataList),
-    pagination: S.optional(ListSchedulesResultPagination),
+    pagination: S.optional(ListConcurrencyLimitsV1ResponsePagination),
   }),
-).annotate({
-  identifier: "ListSchedulesResult",
-}) as any as S.Schema<ListSchedulesResult>;
+).annotate({ identifier: "ListSchedulesResult" }) as any as S.Schema<ListSchedulesResult>;
 
 export interface ListSessionsV1RequestPage {
   /** Number of sessions per page. Maximum is 100. */
@@ -3544,9 +3471,7 @@ export const SessionsFilterCreatedAt = /*@__PURE__*/ S.suspend(() =>
     to: S.optional(S.String),
     period: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SessionsFilterCreatedAt",
-}) as any as S.Schema<SessionsFilterCreatedAt>;
+).annotate({ identifier: "SessionsFilterCreatedAt" }) as any as S.Schema<SessionsFilterCreatedAt>;
 
 export interface SessionsFilter {
   /** The session type(s) to filter by. */
@@ -3583,9 +3508,7 @@ export const ListSessionsV1Request = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(ListSessionsV1RequestPage.pipe(T.Query())),
     filter: S.optional(SessionsFilter.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/sessions", code: 200 })),
-).annotate({
-  identifier: "ListSessionsV1Request",
-}) as any as S.Schema<ListSessionsV1Request>;
+).annotate({ identifier: "ListSessionsV1Request" }) as any as S.Schema<ListSessionsV1Request>;
 
 export type ListSessionsResultDataList = Array<SessionObject>;
 export const ListSessionsResultDataList = /*@__PURE__*/ S.Array(
@@ -3616,9 +3539,7 @@ export const ListSessionsResult = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(ListSessionsResultDataList),
     pagination: S.optional(ListSessionsResultPagination),
   }),
-).annotate({
-  identifier: "ListSessionsResult",
-}) as any as S.Schema<ListSessionsResult>;
+).annotate({ identifier: "ListSessionsResult" }) as any as S.Schema<ListSessionsResult>;
 
 export interface ListWaitpointTokensV1Request {
   /** Number of tokens to return per page (1–100). */
@@ -3691,6 +3612,24 @@ export const ListWaitpointTokensResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListWaitpointTokensResult",
 }) as any as S.Schema<ListWaitpointTokensResult>;
 
+export interface OverrideConcurrencyLimitV1Request {
+  /** The limit's name */
+  name: string;
+  /** Caps each concurrencyKey pool; runs without a key share one pool. May not exceed the environment concurrency limit. */
+  perKey?: number;
+  /** Caps every run holding this limit, keys or not. May not exceed the environment concurrency limit. */
+  total?: number;
+}
+export const OverrideConcurrencyLimitV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    perKey: S.optional(S.Number),
+    total: S.optional(S.Number),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/concurrency-limits/{name}/override", code: 200 })),
+).annotate({
+  identifier: "OverrideConcurrencyLimitV1Request",
+}) as any as S.Schema<OverrideConcurrencyLimitV1Request>;
+
 /** How to interpret the `queueParam` path parameter: - `id`: Treat as a queue ID (default) - `task`: Treat as a task ID to get the task's default queue - `custom`: Treat as a custom queue name */
 export type OverrideQueueConcurrencyV1RequestType = "id" | "task" | "custom";
 export const OverrideQueueConcurrencyV1RequestType = S.String;
@@ -3709,15 +3648,30 @@ export const OverrideQueueConcurrencyV1Request = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(OverrideQueueConcurrencyV1RequestType),
     concurrencyLimit: S.Number,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/queues/{queueParam}/concurrency/override",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/queues/{queueParam}/concurrency/override", code: 200 }),
   ),
 ).annotate({
   identifier: "OverrideQueueConcurrencyV1Request",
 }) as any as S.Schema<OverrideQueueConcurrencyV1Request>;
+
+/** Whether to pause or resume the limit */
+export type PauseConcurrencyLimitV1RequestAction = "pause" | "resume";
+export const PauseConcurrencyLimitV1RequestAction = S.String;
+
+export interface PauseConcurrencyLimitV1Request {
+  /** The limit's name */
+  name: string;
+  /** Whether to pause or resume the limit */
+  action: PauseConcurrencyLimitV1RequestAction | (string & {});
+}
+export const PauseConcurrencyLimitV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    action: PauseConcurrencyLimitV1RequestAction,
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/concurrency-limits/{name}/pause", code: 200 })),
+).annotate({
+  identifier: "PauseConcurrencyLimitV1Request",
+}) as any as S.Schema<PauseConcurrencyLimitV1Request>;
 
 /** How to interpret the `queueParam` path parameter: - `id`: Treat as a queue ID (default) - `task`: Treat as a task ID to get the task's default queue - `custom`: Treat as a custom queue name */
 export type PauseQueueV1RequestType = "id" | "task" | "custom";
@@ -3740,16 +3694,8 @@ export const PauseQueueV1Request = /*@__PURE__*/ S.suspend(() =>
     queueParam: S.String.pipe(T.Label()),
     type: S.optional(PauseQueueV1RequestType),
     action: PauseQueueV1RequestAction,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/queues/{queueParam}/pause",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PauseQueueV1Request",
-}) as any as S.Schema<PauseQueueV1Request>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/queues/{queueParam}/pause", code: 200 })),
+).annotate({ identifier: "PauseQueueV1Request" }) as any as S.Schema<PauseQueueV1Request>;
 
 export interface PromoteDeploymentV1Request {
   /** The deployment version to promote (e.g., "20250228.1"). */
@@ -3758,13 +3704,7 @@ export interface PromoteDeploymentV1Request {
 export const PromoteDeploymentV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     version: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/deployments/{version}/promote",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/deployments/{version}/promote", code: 200 })),
 ).annotate({
   identifier: "PromoteDeploymentV1Request",
 }) as any as S.Schema<PromoteDeploymentV1Request>;
@@ -3787,6 +3727,18 @@ export const PromoteDeploymentV1Response = /*@__PURE__*/ S.suspend(() =>
   identifier: "PromoteDeploymentV1Response",
 }) as any as S.Schema<PromoteDeploymentV1Response>;
 
+export interface ResetConcurrencyLimitV1Request {
+  /** The limit's name */
+  name: string;
+}
+export const ResetConcurrencyLimitV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/concurrency-limits/{name}/reset", code: 200 })),
+).annotate({
+  identifier: "ResetConcurrencyLimitV1Request",
+}) as any as S.Schema<ResetConcurrencyLimitV1Request>;
+
 /** How to interpret the `queueParam` path parameter: - `id`: Treat as a queue ID (default) - `task`: Treat as a task ID to get the task's default queue - `custom`: Treat as a custom queue name */
 export type ResetQueueConcurrencyV1RequestType = "id" | "task" | "custom";
 export const ResetQueueConcurrencyV1RequestType = S.String;
@@ -3802,11 +3754,7 @@ export const ResetQueueConcurrencyV1Request = /*@__PURE__*/ S.suspend(() =>
     queueParam: S.String.pipe(T.Label()),
     type: S.optional(ResetQueueConcurrencyV1RequestType),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/queues/{queueParam}/concurrency/reset",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/queues/{queueParam}/concurrency/reset", code: 200 }),
   ),
 ).annotate({
   identifier: "ResetQueueConcurrencyV1Request",
@@ -3822,16 +3770,8 @@ export const ResolveErrorV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     errorId: S.String.pipe(T.Label()),
     resolvedInVersion: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/errors/{errorId}/resolve",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ResolveErrorV1Request",
-}) as any as S.Schema<ResolveErrorV1Request>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/errors/{errorId}/resolve", code: 200 })),
+).annotate({ identifier: "ResolveErrorV1Request" }) as any as S.Schema<ResolveErrorV1Request>;
 
 export interface RunReplayV1Request {
   /** The ID of an run, starts with `run_`. The run ID will be returned when you trigger a run on a task. */
@@ -3841,9 +3781,7 @@ export const RunReplayV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     runId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/runs/{runId}/replay", code: 200 })),
-).annotate({
-  identifier: "RunReplayV1Request",
-}) as any as S.Schema<RunReplayV1Request>;
+).annotate({ identifier: "RunReplayV1Request" }) as any as S.Schema<RunReplayV1Request>;
 
 export interface RunReplayV1Response {
   /** The ID of the new run. */
@@ -3853,9 +3791,7 @@ export const RunReplayV1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RunReplayV1Response",
-}) as any as S.Schema<RunReplayV1Response>;
+).annotate({ identifier: "RunReplayV1Response" }) as any as S.Schema<RunReplayV1Response>;
 
 export interface RunRescheduleV1Request {
   /** The ID of an run, starts with `run_`. The run ID will be returned when you trigger a run on a task. */
@@ -3866,16 +3802,8 @@ export const RunRescheduleV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     runId: S.String.pipe(T.Label()),
     delay: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/runs/{runId}/reschedule",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RunRescheduleV1Request",
-}) as any as S.Schema<RunRescheduleV1Request>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/runs/{runId}/reschedule", code: 200 })),
+).annotate({ identifier: "RunRescheduleV1Request" }) as any as S.Schema<RunRescheduleV1Request>;
 
 /** The status of the run */
 export type RunRescheduleV1ResponseStatus =
@@ -4094,9 +4022,7 @@ export const RunRescheduleV1Response = /*@__PURE__*/ S.suspend(() =>
     schedule: S.optional(RunRescheduleV1ResponseSchedule),
     attempts: RunRescheduleV1ResponseAttemptsList,
   }),
-).annotate({
-  identifier: "RunRescheduleV1Response",
-}) as any as S.Schema<RunRescheduleV1Response>;
+).annotate({ identifier: "RunRescheduleV1Response" }) as any as S.Schema<RunRescheduleV1Response>;
 
 export interface QueueOptions {
   /** You can define a shared queue and then pass the name in to your task. */
@@ -4162,9 +4088,7 @@ export const TriggerTaskRequestBody = /*@__PURE__*/ S.suspend(() =>
     context: S.optional(S.Unknown),
     options: S.optional(TriggerTaskRequestBodyOptions),
   }),
-).annotate({
-  identifier: "TriggerTaskRequestBody",
-}) as any as S.Schema<TriggerTaskRequestBody>;
+).annotate({ identifier: "TriggerTaskRequestBody" }) as any as S.Schema<TriggerTaskRequestBody>;
 
 /** An array of payloads to trigger the task with (max 1,000 items). */
 export type TriggerBatchTaskByIdV1RequestItemsList = Array<TriggerTaskRequestBody>;
@@ -4173,7 +4097,7 @@ export const TriggerBatchTaskByIdV1RequestItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<TriggerBatchTaskByIdV1RequestItemsList>;
 
 export interface TriggerBatchTaskByIdV1Request {
-  /** The id of a task */
+  /** The id of a task. If the id contains characters that are reserved in a URL path, such as a slash (`/`), percent-encode it when building the request path (e.g. `types/zod` becomes `types%2Fzod`). */
   taskIdentifier: string;
   /** An array of payloads to trigger the task with (max 1,000 items). */
   items: TriggerBatchTaskByIdV1RequestItemsList;
@@ -4182,13 +4106,7 @@ export const TriggerBatchTaskByIdV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     taskIdentifier: S.String.pipe(T.Label()),
     items: TriggerBatchTaskByIdV1RequestItemsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/tasks/{taskIdentifier}/batch",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/tasks/{taskIdentifier}/batch", code: 200 })),
 ).annotate({
   identifier: "TriggerBatchTaskByIdV1Request",
 }) as any as S.Schema<TriggerBatchTaskByIdV1Request>;
@@ -4210,9 +4128,7 @@ export const BatchTriggerTaskResponse = /*@__PURE__*/ S.suspend(() =>
     batchId: S.String,
     runs: BatchTriggerTaskResponseRunsList,
   }),
-).annotate({
-  identifier: "BatchTriggerTaskResponse",
-}) as any as S.Schema<BatchTriggerTaskResponse>;
+).annotate({ identifier: "BatchTriggerTaskResponse" }) as any as S.Schema<BatchTriggerTaskResponse>;
 
 /** The machine preset to use for this run. This will override the task's machine preset and any defaults. */
 export type BatchTriggerTaskRequestBodyItemOptionsMachine =
@@ -4329,7 +4245,7 @@ export const TriggerTaskV1RequestOptions = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TriggerTaskV1RequestOptions>;
 
 export interface TriggerTaskV1Request {
-  /** The id of a task */
+  /** The id of a task. If the id contains characters that are reserved in a URL path, such as a slash (`/`), percent-encode it when building the request path (e.g. `types/zod` becomes `types%2Fzod`). */
   taskIdentifier: string;
   /** The payload can include any valid JSON */
   payload?: unknown;
@@ -4343,16 +4259,8 @@ export const TriggerTaskV1Request = /*@__PURE__*/ S.suspend(() =>
     payload: S.optional(S.Unknown),
     context: S.optional(S.Unknown),
     options: S.optional(TriggerTaskV1RequestOptions),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/tasks/{taskIdentifier}/trigger",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "TriggerTaskV1Request",
-}) as any as S.Schema<TriggerTaskV1Request>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/tasks/{taskIdentifier}/trigger", code: 200 })),
+).annotate({ identifier: "TriggerTaskV1Request" }) as any as S.Schema<TriggerTaskV1Request>;
 
 export interface TriggerTaskResponse {
   /** The ID of the run that was triggered. */
@@ -4362,9 +4270,7 @@ export const TriggerTaskResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TriggerTaskResponse",
-}) as any as S.Schema<TriggerTaskResponse>;
+).annotate({ identifier: "TriggerTaskResponse" }) as any as S.Schema<TriggerTaskResponse>;
 
 export interface UnresolveErrorV1Request {
   /** The ID of an error group, starts with `error_`. */
@@ -4373,16 +4279,8 @@ export interface UnresolveErrorV1Request {
 export const UnresolveErrorV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     errorId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/errors/{errorId}/unresolve",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UnresolveErrorV1Request",
-}) as any as S.Schema<UnresolveErrorV1Request>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/errors/{errorId}/unresolve", code: 200 })),
+).annotate({ identifier: "UnresolveErrorV1Request" }) as any as S.Schema<UnresolveErrorV1Request>;
 
 export type UpdateProjectEnvvarV1RequestEnv = "dev" | "staging" | "prod";
 export const UpdateProjectEnvvarV1RequestEnv = S.String;
@@ -4394,6 +4292,7 @@ export interface UpdateProjectEnvvarV1Request {
   env: UpdateProjectEnvvarV1RequestEnv | (string & {});
   /** The name of the environment variable. */
   name: string;
+  /** The value to store. An empty string is valid and is stored as-is, not treated as a deletion. */
   value: string;
 }
 export const UpdateProjectEnvvarV1Request = /*@__PURE__*/ S.suspend(() =>
@@ -4403,11 +4302,7 @@ export const UpdateProjectEnvvarV1Request = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     value: S.String,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/projects/{projectRef}/envvars/{env}/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/v1/projects/{projectRef}/envvars/{env}/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateProjectEnvvarV1Request",
@@ -4456,16 +4351,8 @@ export const UpdateScheduleV1Request = /*@__PURE__*/ S.suspend(() =>
     cron: S.String,
     externalId: S.optional(S.String),
     timezone: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/schedules/{schedule_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateScheduleV1Request",
-}) as any as S.Schema<UpdateScheduleV1Request>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/schedules/{schedule_id}", code: 200 })),
+).annotate({ identifier: "UpdateScheduleV1Request" }) as any as S.Schema<UpdateScheduleV1Request>;
 
 /** Replaces the tags on the session row. */
 export type UpdateSessionV1RequestTagsList = Array<string>;
@@ -4474,9 +4361,7 @@ export const UpdateSessionV1RequestTagsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<UpdateSessionV1RequestTagsList>;
 
 /** Replaces the metadata. Pass `null` to clear it. */
-export type UpdateSessionV1RequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateSessionV1RequestMetadataMap = { [key: string]: unknown | undefined };
 export const UpdateSessionV1RequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -4499,9 +4384,7 @@ export const UpdateSessionV1Request = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(S.NullOr(UpdateSessionV1RequestMetadataMap)),
     externalId: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/sessions/{session}", code: 200 })),
-).annotate({
-  identifier: "UpdateSessionV1Request",
-}) as any as S.Schema<UpdateSessionV1Request>;
+).annotate({ identifier: "UpdateSessionV1Request" }) as any as S.Schema<UpdateSessionV1Request>;
 
 export type UploadProjectEnvvarsV1RequestEnv = "dev" | "staging" | "prod";
 export const UploadProjectEnvvarsV1RequestEnv = S.String;
@@ -4822,6 +4705,21 @@ export const getBulkActionV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetConcurrencyLimitV1Error = NotFound | TriggerDevOpError;
+/** Retrieve concurrency limit Retrieve a concurrency limit by name, with its bounds and live running and queued counts. */
+export const getConcurrencyLimitV1: API.OperationMethod<
+  GetConcurrencyLimitV1Request,
+  ConcurrencyLimitObject,
+  GetConcurrencyLimitV1Error,
+  TriggerDevOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetConcurrencyLimitV1Request,
+  output: ConcurrencyLimitObject,
+  errors: [NotFound, UnknownTriggerDevError],
+  protocol: TriggerDevProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetDeploymentV1Error = NotFound | TriggerDevOpError;
 /** Get deployment Retrieve information about a specific deployment by its ID. */
 export const getDeploymentV1: API.OperationMethod<
@@ -5062,6 +4960,21 @@ export const listBulkActionsV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListConcurrencyLimitsV1Error = TriggerDevOpError;
+/** List concurrency limits List the environment's declared concurrency limits (anonymous inline limits appear under their derived `task/<task-id>` names), with each limit's bounds and its live running and queued counts. Results are ordered by the underlying row name, so named limits sort before `task/`-derived inline limits. */
+export const listConcurrencyLimitsV1: API.OperationMethod<
+  ListConcurrencyLimitsV1Request,
+  ListConcurrencyLimitsV1Response,
+  ListConcurrencyLimitsV1Error,
+  TriggerDevOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListConcurrencyLimitsV1Request,
+  output: ListConcurrencyLimitsV1Response,
+  errors: [UnknownTriggerDevError],
+  protocol: TriggerDevProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListDashboardsV1Error = TriggerDevOpError;
 /** List built-in dashboards List available built-in dashboards with their widgets. Each dashboard contains pre-built TRQL queries for common metrics like run success rates, costs, and LLM usage. */
 export const listDashboardsV1: API.OperationMethod<
@@ -5212,6 +5125,21 @@ export const listWaitpointTokensV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type OverrideConcurrencyLimitV1Error = BadRequest | NotFound | Conflict | TriggerDevOpError;
+/** Override concurrency limit Override a concurrency limit's bounds. Only the given fields change; the declared values are kept and restored by reset. To stop runs holding a limit, prefer the pause endpoint (it keeps the configured bounds); overriding `total` to `0` also blocks every run holding the limit. */
+export const overrideConcurrencyLimitV1: API.OperationMethod<
+  OverrideConcurrencyLimitV1Request,
+  ConcurrencyLimitObject,
+  OverrideConcurrencyLimitV1Error,
+  TriggerDevOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: OverrideConcurrencyLimitV1Request,
+  output: ConcurrencyLimitObject,
+  errors: [BadRequest, NotFound, Conflict, UnknownTriggerDevError],
+  protocol: TriggerDevProtocol,
+  retry: Retry.Retry,
+}));
+
 export type OverrideQueueConcurrencyV1Error = BadRequest | NotFound | TriggerDevOpError;
 /** Override queue concurrency limit Override the concurrency limit of a queue. This is useful for temporarily scaling up or down based on demand. */
 export const overrideQueueConcurrencyV1: API.OperationMethod<
@@ -5223,6 +5151,21 @@ export const overrideQueueConcurrencyV1: API.OperationMethod<
   input: OverrideQueueConcurrencyV1Request,
   output: QueueObject,
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  protocol: TriggerDevProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PauseConcurrencyLimitV1Error = BadRequest | NotFound | Conflict | TriggerDevOpError;
+/** Pause or resume a concurrency limit Pause a concurrency limit to prevent runs holding it from starting, or resume a paused limit. Runs that are currently executing will continue to completion, and the limit's configured bounds are kept. */
+export const pauseConcurrencyLimitV1: API.OperationMethod<
+  PauseConcurrencyLimitV1Request,
+  ConcurrencyLimitObject,
+  PauseConcurrencyLimitV1Error,
+  TriggerDevOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PauseConcurrencyLimitV1Request,
+  output: ConcurrencyLimitObject,
+  errors: [BadRequest, NotFound, Conflict, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
 }));
@@ -5253,6 +5196,21 @@ export const promoteDeploymentV1: API.OperationMethod<
   input: PromoteDeploymentV1Request,
   output: PromoteDeploymentV1Response,
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  protocol: TriggerDevProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ResetConcurrencyLimitV1Error = BadRequest | NotFound | Conflict | TriggerDevOpError;
+/** Reset concurrency limit Reset a concurrency limit back to the values declared in your code, clearing any override. */
+export const resetConcurrencyLimitV1: API.OperationMethod<
+  ResetConcurrencyLimitV1Request,
+  ConcurrencyLimitObject,
+  ResetConcurrencyLimitV1Error,
+  TriggerDevOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ResetConcurrencyLimitV1Request,
+  output: ConcurrencyLimitObject,
+  errors: [BadRequest, NotFound, Conflict, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
 }));
