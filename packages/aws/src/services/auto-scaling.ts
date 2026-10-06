@@ -122,6 +122,15 @@ export class InstanceRefreshInProgressFault
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
+export class InvalidIamInstanceProfile
+  extends /*@__PURE__*/ S.TaggedError<InvalidIamInstanceProfile>()(
+    "InvalidIamInstanceProfile",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.SyntheticError({
+      from: "ValidationError",
+      message: { includes: "Invalid IAM Instance Profile" },
+    }),
+  ) {}
 export class InvalidNextToken
   extends /*@__PURE__*/ S.TaggedError<InvalidNextToken>()(
     "InvalidNextToken",
@@ -4011,6 +4020,7 @@ export type CreateAutoScalingGroupError =
   | LimitExceededFault
   | ResourceContentionFault
   | ServiceLinkedRoleFailure
+  | InvalidIamInstanceProfile
   | CommonErrors;
 /**
  * **We strongly recommend using a launch template when calling this operation to ensure full functionality for Amazon EC2 Auto Scaling and Amazon EC2.**
@@ -4044,6 +4054,7 @@ export const createAutoScalingGroup: API.OperationMethod<
     LimitExceededFault,
     ResourceContentionFault,
     ServiceLinkedRoleFailure,
+    InvalidIamInstanceProfile,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5782,6 +5793,7 @@ export type UpdateAutoScalingGroupError =
   | ResourceContentionFault
   | ScalingActivityInProgressFault
   | ServiceLinkedRoleFailure
+  | InvalidIamInstanceProfile
   | CommonErrors;
 /**
  * **We strongly recommend that all Auto Scaling groups use launch templates to ensure full functionality for Amazon EC2 Auto Scaling and Amazon EC2.**
@@ -5834,7 +5846,12 @@ export const updateAutoScalingGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAutoScalingGroupType,
   output: UpdateAutoScalingGroupResponse,
-  errors: [ResourceContentionFault, ScalingActivityInProgressFault, ServiceLinkedRoleFailure],
+  errors: [
+    ResourceContentionFault,
+    ScalingActivityInProgressFault,
+    ServiceLinkedRoleFailure,
+    InvalidIamInstanceProfile,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutoScalingGroup",
