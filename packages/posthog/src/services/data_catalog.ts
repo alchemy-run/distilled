@@ -145,9 +145,7 @@ export const DataCatalogCertification = /*@__PURE__*/ S.suspend(() =>
     created_by: S.NullOr(S.Number),
     created_at: S.String,
   }),
-).annotate({
-  identifier: "DataCatalogCertification",
-}) as any as S.Schema<DataCatalogCertification>;
+).annotate({ identifier: "DataCatalogCertification" }) as any as S.Schema<DataCatalogCertification>;
 
 export interface CreateDataCatalogCertificationsCertifyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -192,9 +190,7 @@ export const CreateDataCatalogCertificationsDeprecateRequest = /*@__PURE__*/ S.s
 }) as any as S.Schema<CreateDataCatalogCertificationsDeprecateRequest>;
 
 /** Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical. */
-export type CreateDataCatalogMetricsRequestDefinitionMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateDataCatalogMetricsRequestDefinitionMap = { [key: string]: unknown | undefined };
 export const CreateDataCatalogMetricsRequestDefinitionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -242,20 +238,14 @@ export const CreateDataCatalogMetricsRequest = /*@__PURE__*/ S.suspend(() =>
     confidence: S.optional(S.NullOr(S.Number)),
     reasoning: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/data_catalog/metrics/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/data_catalog/metrics/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDataCatalogMetricsRequest",
 }) as any as S.Schema<CreateDataCatalogMetricsRequest>;
 
 /** Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical. */
-export type DataCatalogMetricDefinitionMap = {
-  [key: string]: unknown | undefined;
-};
+export type DataCatalogMetricDefinitionMap = { [key: string]: unknown | undefined };
 export const DataCatalogMetricDefinitionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -328,9 +318,7 @@ export const DataCatalogMetric = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "DataCatalogMetric",
-}) as any as S.Schema<DataCatalogMetric>;
+).annotate({ identifier: "DataCatalogMetric" }) as any as S.Schema<DataCatalogMetric>;
 
 export type CreateDataCatalogMetricsRunRequestRefresh =
   | "blocking"
@@ -388,6 +376,12 @@ export const CreateDataCatalogMetricsRunRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateDataCatalogMetricsRunRequest",
 }) as any as S.Schema<CreateDataCatalogMetricsRunRequest>;
 
+/** Names of the result columns, in the order of the values in each positional result row. Null when the results are already labeled, or the query kind returns no column names. */
+export type DataCatalogMetricRunColumnsList = Array<string>;
+export const DataCatalogMetricRunColumnsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DataCatalogMetricRunColumnsList>;
+
 /** Normalized envelope returned by the metric-run endpoint. */
 export interface DataCatalogMetricRun {
   /** Lifecycle state of the metric that produced these results. */
@@ -400,10 +394,16 @@ export interface DataCatalogMetricRun {
   kind: string | null;
   /** The query results, for an executable metric. Null for a markdown metric. */
   results: unknown;
+  /** Names of the result columns, in the order of the values in each positional result row. Null when the results are already labeled, or the query kind returns no column names. */
+  columns: DataCatalogMetricRunColumnsList | null;
   /** The compiled HogQL, when available. */
   compiled_query: string | null;
   /** Async query status, when the run is not blocking. */
   query_status: unknown;
+  /** True when the query hit its row limit and more rows exist. Narrow the window or the interval and run the metric again. A HogQLQuery metric fixes its window in SQL and rejects those overrides, so report the window the definition itself covers, or ask for a parameterized metric. Either way, do not re-derive the series by hand. False whenever row_limit is null, because no row cap was reported for that run. */
+  has_more: boolean;
+  /** Row limit applied to this run. Null when no row cap was reported: a markdown metric, an insight or trends query, or a HogQL metric that sets its own LIMIT or uses a UNION. This field cannot verify the completeness of those runs. */
+  row_limit: number | null;
   /** Deep link to open the query in the app (SQL editor or insight). */
   posthog_url: string | null;
   /** For a markdown (agent-calculated) metric, the steps to follow to compute it. Null for an executable metric. */
@@ -416,14 +416,15 @@ export const DataCatalogMetricRun = /*@__PURE__*/ S.suspend(() =>
     unit: S.NullOr(S.String),
     kind: S.NullOr(S.String),
     results: S.Unknown,
+    columns: S.NullOr(DataCatalogMetricRunColumnsList),
     compiled_query: S.NullOr(S.String),
     query_status: S.Unknown,
+    has_more: S.Boolean,
+    row_limit: S.NullOr(S.Number),
     posthog_url: S.NullOr(S.String),
     instructions: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "DataCatalogMetricRun",
-}) as any as S.Schema<DataCatalogMetricRun>;
+).annotate({ identifier: "DataCatalogMetricRun" }) as any as S.Schema<DataCatalogMetricRun>;
 
 export interface CreateDataCatalogRelationshipProposalRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -914,11 +915,7 @@ export const ListDataCatalogMetricsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/data_catalog/metrics/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/data_catalog/metrics/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDataCatalogMetricsRequest",
@@ -997,9 +994,7 @@ export const PaginatedDataCatalogRelationshipProposalList = /*@__PURE__*/ S.susp
 }) as any as S.Schema<PaginatedDataCatalogRelationshipProposalList>;
 
 /** Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical. */
-export type UpdateDataCatalogMetricsRequestDefinitionMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateDataCatalogMetricsRequestDefinitionMap = { [key: string]: unknown | undefined };
 export const UpdateDataCatalogMetricsRequestDefinitionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,

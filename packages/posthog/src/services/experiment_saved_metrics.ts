@@ -125,6 +125,31 @@ export const ExperimentSavedMetricTagsList = /*@__PURE__*/ S.Array(
   S.Unknown,
 ) as any as S.Schema<ExperimentSavedMetricTagsList>;
 
+export interface ExperimentSavedMetricLinkedExperiment {
+  /** Experiment ID. */
+  id: number;
+  /** Experiment name. */
+  name: string;
+  /** True when the experiment is launched and not yet stopped. */
+  is_running: boolean;
+}
+export const ExperimentSavedMetricLinkedExperiment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    name: S.String,
+    is_running: S.Boolean,
+  }),
+).annotate({
+  identifier: "ExperimentSavedMetricLinkedExperiment",
+}) as any as S.Schema<ExperimentSavedMetricLinkedExperiment>;
+
+/** Experiments using this shared metric (soft-deleted experiments excluded). Populated only on single-metric retrieve; always an empty list in list responses. */
+export type ExperimentSavedMetricLinkedExperimentsList =
+  Array<ExperimentSavedMetricLinkedExperiment>;
+export const ExperimentSavedMetricLinkedExperimentsList = /*@__PURE__*/ S.Array(
+  ExperimentSavedMetricLinkedExperiment,
+) as any as S.Schema<ExperimentSavedMetricLinkedExperimentsList>;
+
 /** Mixin for serializers to add user access control fields */
 export interface ExperimentSavedMetric {
   id?: number;
@@ -140,6 +165,8 @@ export interface ExperimentSavedMetric {
   tags?: ExperimentSavedMetricTagsList;
   /** The effective access level the user has for this object */
   user_access_level?: string | null;
+  /** Experiments using this shared metric (soft-deleted experiments excluded). Populated only on single-metric retrieve; always an empty list in list responses. */
+  linked_experiments?: ExperimentSavedMetricLinkedExperimentsList;
 }
 export const ExperimentSavedMetric = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -152,10 +179,9 @@ export const ExperimentSavedMetric = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     tags: S.optional(ExperimentSavedMetricTagsList),
     user_access_level: S.optional(S.NullOr(S.String)),
+    linked_experiments: S.optional(ExperimentSavedMetricLinkedExperimentsList),
   }),
-).annotate({
-  identifier: "ExperimentSavedMetric",
-}) as any as S.Schema<ExperimentSavedMetric>;
+).annotate({ identifier: "ExperimentSavedMetric" }) as any as S.Schema<ExperimentSavedMetric>;
 
 export interface ExperimentSavedMetricsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

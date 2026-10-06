@@ -158,7 +158,8 @@
         "active": {
           "target": "com.posthog.feature_flags#ListFeatureFlagsRequestActive",
           "traits": {
-            "smithy.api#httpQuery": "active"
+            "smithy.api#httpQuery": "active",
+            "smithy.api#documentation": "'true' and 'false' filter on serving state, the flag's `active` column. 'STALE' returns enabled flags only, so a disabled flag is never STALE. An enabled flag matches when its last recorded `$feature_flag_called` event is more than 30 days old. With no recorded event, it matches when it is at least 30 days old and either stores `filters` as `{}` or serves one result to everyone through a release condition at 100% with no property filters. A flag with no recorded event and an empty `groups` list does not match, even when its `status` reads STALE. An SDK that sends no `$feature_flag_called` event leaves no record, so a STALE flag can still be in use."
           }
         },
         "archived": {
@@ -361,7 +362,7 @@
         "usage_dashboard": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Dashboard of saved usage insights for this flag, or null if it has none. Flags do not get one on creation; create it with POST /api/projects/{project_id}/feature_flags/{id}/dashboard/.",
+            "smithy.api#documentation": "Legacy dashboard of saved usage insights for this flag, or null if it has none. New flags show usage charts inline instead. The dashboard creation endpoint is deprecated and will be removed after September 25, 2026.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -394,7 +395,10 @@
           }
         },
         "status": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Staleness classification: ACTIVE, STALE, ARCHIVED, DELETED or UNKNOWN. This is not the serving state. Read the `active` field for that. A disabled flag that is not archived or deleted reports ACTIVE, because disabled flags are not evaluated for staleness."
+          }
         },
         "evaluation_runtime": {
           "target": "com.posthog.feature_flags#FeatureFlagOutputEvaluationRuntime",
@@ -420,7 +424,7 @@
         "is_used_in_replay_settings": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Check if this feature flag is used in any team's session recording linked flag setting."
+            "smithy.api#documentation": "Check if any team gates session recording on this flag, by linked flag or trigger group."
           }
         },
         "is_eligible_for_experiment": {
@@ -1900,9 +1904,6 @@
             "smithy.api#documentation": "Whether the flag is archived. Archived flags are hidden from the flag list by default and must be disabled (`active: false`)."
           }
         },
-        "created_at": {
-          "target": "smithy.api#String"
-        },
         "version": {
           "target": "smithy.api#Integer"
         },
@@ -1956,13 +1957,6 @@
           "target": "com.posthog.feature_flags#UpdateFeatureFlagRequestBucketingIdentifier",
           "traits": {
             "smithy.api#documentation": "Identifier used for bucketing users into rollout and variants\n\n* `distinct_id` - User ID (default)\n* `device_id` - Device ID",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "last_called_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Last time this feature flag was called (from $feature_flag_called events)",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -2297,7 +2291,7 @@
         "client": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "API client that triggered the activity, from the x-posthog-client request header (e.g. 'mcp'). Null for requests that did not send the header.",
+            "smithy.api#documentation": "API client that triggered the activity. Self-reported through the x-posthog-client request header (e.g. 'mcp'), or 'scout:<skill_name>' when a scout run made the change, which the server derives from the run's own token. Null for requests that did neither.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -2575,9 +2569,6 @@
             "smithy.api#documentation": "Whether the flag is archived. Archived flags are hidden from the flag list by default and must be disabled (`active: false`)."
           }
         },
-        "created_at": {
-          "target": "smithy.api#String"
-        },
         "version": {
           "target": "smithy.api#Integer"
         },
@@ -2634,13 +2625,6 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "last_called_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Last time this feature flag was called (from $feature_flag_called events)",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
         "_create_in_folder": {
           "target": "smithy.api#String"
         }
@@ -2672,58 +2656,6 @@
         "smithy.api#http": {
           "method": "POST",
           "uri": "/api/projects/{project_id}/feature_flags/{id}/create_static_cohort_for_flag/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
-      }
-    },
-    "com.posthog.feature_flags#CreateFeatureFlagsDashboardRequest": {
-      "type": "structure",
-      "members": {
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
-          }
-        },
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "A unique integer value identifying this feature flag."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.posthog.feature_flags#CreateFeatureFlagsDashboard": {
-      "type": "operation",
-      "input": {
-        "target": "com.posthog.feature_flags#CreateFeatureFlagsDashboardRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.posthog.feature_flags#BadRequest"
-        },
-        {
-          "target": "com.posthog.feature_flags#Forbidden"
-        },
-        {
-          "target": "com.posthog.feature_flags#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/feature_flags/{id}/dashboard/",
           "code": 200
         },
         "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
@@ -2919,59 +2851,7 @@
           "uri": "/api/projects/{project_id}/feature_flags/{id}/enable/",
           "code": 200
         },
-        "smithy.api#documentation": "Enable a feature flag.\n\nSets `active` to true and changes nothing else. Targeting, variants, payloads, tags and\narchived state are left as they are. An archived flag is refused: unarchive it first. A\nflag whose own flag dependencies are disabled is also refused. An already-enabled flag\nis returned unchanged."
-      }
-    },
-    "com.posthog.feature_flags#CreateFeatureFlagsEnrichUsageDashboardRequest": {
-      "type": "structure",
-      "members": {
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
-          }
-        },
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "A unique integer value identifying this feature flag."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.posthog.feature_flags#CreateFeatureFlagsEnrichUsageDashboard": {
-      "type": "operation",
-      "input": {
-        "target": "com.posthog.feature_flags#CreateFeatureFlagsEnrichUsageDashboardRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.posthog.feature_flags#BadRequest"
-        },
-        {
-          "target": "com.posthog.feature_flags#Forbidden"
-        },
-        {
-          "target": "com.posthog.feature_flags#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/feature_flags/{id}/enrich_usage_dashboard/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
+        "smithy.api#documentation": "Enable a feature flag.\n\nSets `active` to true and changes nothing else. Targeting, variants, payloads, tags and\narchived state are left as they are. An archived flag is refused: unarchive it first. A\nflag whose own flag dependencies are disabled or use an unsupported configuration\nformat is also refused. An already-enabled flag is returned unchanged."
       }
     },
     "com.posthog.feature_flags#GetFeatureFlagsRemoteConfigRequest": {
@@ -3023,6 +2903,141 @@
         "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
       }
     },
+    "com.posthog.feature_flags#CreateFeatureFlagsRollOutToEveryoneRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A unique integer value identifying this feature flag."
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The `version` from your most recent read of this flag. The change is refused with 409 if anyone else changed the flag after that version. A flag written before versioning reads as `null`; send that back unchanged and it is read as 0, so the value a read returns is always one this accepts.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "variant_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The variant every user gets. Required for a multivariate flag and rejected for any other flag, because a release condition decides who the flag serves and not which variant they get.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.feature_flags#CreateFeatureFlagsRollOutToEveryone": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.feature_flags#CreateFeatureFlagsRollOutToEveryoneRequest"
+      },
+      "output": {
+        "target": "com.posthog.feature_flags#FeatureFlagOutput"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/feature_flags/{id}/roll_out_to_everyone/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Serve a feature flag to every user.\n\nAdds a release condition with no property filters at 100% and keeps the existing\nconditions below it. Payloads, holdout and every other field are left as they are. On a\nboolean flag, removing the new condition restores the previous targeting. On a\nmultivariate flag the variant distribution is rewritten as well, so removing the\ncondition restores the audience but not the old split. A flag that already leads with\nsuch a condition gains no second one.\n\nThis changes targeting only. A disabled flag still serves nobody, and a holdout is\nevaluated before release conditions, so users in one keep getting the holdout variant\ninstead of the rollout. A flag gated on early access enrollment is refused, because that\ngate is evaluated before release conditions too and no targeting change gets past it.\n\nA multivariate flag needs `variant_key`, and every other flag rejects it. A release\ncondition decides who the flag serves, not which variant they get, so rolling a\nmultivariate flag out to everyone also gives the named variant 100% of the variant\ndistribution and every other variant 0%. To serve everyone and keep the current split\nbetween variants, update the flag instead.\n\nSend the `version` your last read returned. A change to the flag after that version is\nrefused with 409. Read the flag again and decide the rollout against its current\ndefinition."
+      }
+    },
+    "com.posthog.feature_flags#CreateFeatureFlagsSetReleaseConditionRolloutRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A unique integer value identifying this feature flag."
+          }
+        },
+        "condition_index": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Zero-based position of the release condition in `filters.groups`, counted from the read that produced `version`.",
+            "smithy.api#required": {}
+          }
+        },
+        "rollout_percentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Percentage of the users matching that condition who are served the flag, 0 through 100. On a multivariate flag this is how many matching users get a variant at all, not how the variants are split between them. Fractional percentages such as 0.5 are accepted, the same as a write that sends `filters`.",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The `version` from your most recent read of this flag. The change is refused with 409 if anyone else changed the flag after that version. A flag written before versioning reads as `null`; send that back unchanged and it is read as 0, so the value a read returns is always one this accepts.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.feature_flags#CreateFeatureFlagsSetReleaseConditionRollout": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.feature_flags#CreateFeatureFlagsSetReleaseConditionRolloutRequest"
+      },
+      "output": {
+        "target": "com.posthog.feature_flags#FeatureFlagOutput"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/feature_flags/{id}/set_release_condition_rollout/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set what percentage of one release condition's audience a feature flag is served to.\n\nChanges `rollout_percentage` on the release condition at `condition_index` and nothing\nelse. The condition's property filters, every other condition, the variants, payloads,\nholdout and every remaining field are left as they are.\n\nSend the `version` your last read returned. A change to the flag after that version is\nrefused with 409, because a condition index only names the condition you read. Read the\nflag again and decide the percentage against its current definition.\n\nOn a multivariate flag this sets how many of the matching users get a variant at all. It\ndoes not change how the variants are split between them."
+      }
+    },
     "com.posthog.feature_flags#GetFeatureFlagsStatusRequest": {
       "type": "structure",
       "members": {
@@ -3053,7 +3068,7 @@
         "status": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Flag staleness/evaluation status: active, stale, archived, deleted, or unknown. 'active' means the flag was recently evaluated (or has no usage data yet) — it does NOT mean the flag is fully rolled out. Use the `rollout` object to determine rollout completeness."
+            "smithy.api#documentation": "Staleness classification: active, stale, archived, deleted, or unknown. This is not the serving state, and this response carries no serving-state field: read the `active` field of the flag itself from the list or retrieve endpoint. A disabled flag that is not archived or deleted reports 'active', because disabled flags are not evaluated for staleness. 'active' also does NOT mean the flag is fully rolled out. Use the `rollout` object to determine rollout completeness."
           }
         },
         "reason": {
@@ -3316,7 +3331,7 @@
         "variant": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variant associated with this condition",
+            "smithy.api#documentation": "Variant associated with this condition. Empty or null when the condition has no variant override.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -3461,6 +3476,11 @@
       "output": {
         "target": "com.posthog.feature_flags#FeatureFlagOutput"
       },
+      "errors": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -3740,7 +3760,7 @@
         "active": {
           "target": "com.posthog.feature_flags#ActiveEnum",
           "traits": {
-            "smithy.api#documentation": "Filter by active state.\n\n* `true` - true\n* `false` - false\n* `STALE` - STALE"
+            "smithy.api#documentation": "'true' and 'false' filter on serving state, the flag's `active` column. 'STALE' returns enabled flags only, so a disabled flag is never STALE. An enabled flag matches when its last recorded `$feature_flag_called` event is more than 30 days old. With no recorded event, it matches when it is at least 30 days old and either stores `filters` as `{}` or serves one result to everyone through a release condition at 100% with no property filters. A flag with no recorded event and an empty `groups` list does not match, even when its `status` reads STALE. An SDK that sends no `$feature_flag_called` event leaves no record, so a STALE flag can still be in use.\n\n* `true` - true\n* `false` - false\n* `STALE` - STALE"
           }
         },
         "created_by_id": {
@@ -4067,7 +4087,7 @@
           "uri": "/api/projects/{project_id}/feature_flags/bulk_delete/",
           "code": 200
         },
-        "smithy.api#documentation": "Bulk delete feature flags by filter criteria or explicit IDs.\n\nAccepts either:\n- {\"filters\": {...}} - Same filter params as list endpoint (search, active, type, etc.)\n- {\"ids\": [...]} - Explicit list of flag IDs (no limit)\n\nReturns same format as bulk_delete for UI compatibility.\n\nUses bulk operations for efficiency: database updates are batched and cache\ninvalidation happens once at the end rather than per-flag."
+        "smithy.api#documentation": "Bulk delete feature flags by filter criteria or explicit IDs.\n\nAccepts either:\n- {\"filters\": {...}} - Same filter params as list endpoint (search, active, type, etc.)\n- {\"ids\": [...]} - Explicit list of flag IDs (no limit)\n\nReturns same format as bulk_delete for UI compatibility.\n\nConfig version 1 flags are deleted with batched updates, and cache invalidation\nruns once at the end. Config version 2 flags are deleted one at a time through\n``update_flag``. Each one bumps its ``version`` and commits on its own."
       }
     },
     "com.posthog.feature_flags#FeatureFlagsBulkKeysRetrieveRequestIdsList": {
@@ -4201,7 +4221,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Tag names to add, remove, or set."
+        "smithy.api#documentation": "Tag names to add, remove, or set (up to 100 per request, 255 characters each)."
       }
     },
     "com.posthog.feature_flags#FeatureFlagsBulkUpdateTagsCreateRequest": {
@@ -4230,7 +4250,7 @@
         "tags": {
           "target": "com.posthog.feature_flags#FeatureFlagsBulkUpdateTagsCreateRequestTagsList",
           "traits": {
-            "smithy.api#documentation": "Tag names to add, remove, or set."
+            "smithy.api#documentation": "Tag names to add, remove, or set (up to 100 per request, 255 characters each)."
           }
         }
       },
@@ -4821,9 +4841,6 @@
           "target": "com.posthog.feature_flags#FeatureFlagsCreateStaticCohortForFlagCreate"
         },
         {
-          "target": "com.posthog.feature_flags#CreateFeatureFlagsDashboard"
-        },
-        {
           "target": "com.posthog.feature_flags#ListFeatureFlagsDependentFlags"
         },
         {
@@ -4833,10 +4850,13 @@
           "target": "com.posthog.feature_flags#FeatureFlagsEnableCreate"
         },
         {
-          "target": "com.posthog.feature_flags#CreateFeatureFlagsEnrichUsageDashboard"
+          "target": "com.posthog.feature_flags#GetFeatureFlagsRemoteConfig"
         },
         {
-          "target": "com.posthog.feature_flags#GetFeatureFlagsRemoteConfig"
+          "target": "com.posthog.feature_flags#CreateFeatureFlagsRollOutToEveryone"
+        },
+        {
+          "target": "com.posthog.feature_flags#CreateFeatureFlagsSetReleaseConditionRollout"
         },
         {
           "target": "com.posthog.feature_flags#GetFeatureFlagsStatus"

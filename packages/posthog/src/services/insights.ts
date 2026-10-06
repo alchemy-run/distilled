@@ -125,9 +125,7 @@ export const BreakdownFilter = /*@__PURE__*/ S.suspend(() =>
     breakdown_type: S.optional(S.NullOr(BreakdownType)),
     breakdowns: S.optional(S.NullOr(BreakdownFilterBreakdownsList)),
   }),
-).annotate({
-  identifier: "BreakdownFilter",
-}) as any as S.Schema<BreakdownFilter>;
+).annotate({ identifier: "BreakdownFilter" }) as any as S.Schema<BreakdownFilter>;
 
 export interface CalendarHeatmapFilter {
   /** When true and the series math is `dau`/`unique_users`, each user contributes to the (day-of-week, hour) bucket of their session's first event only — matching the web overview session-start attribution. When false (default), the user contributes to every bucket they have any event in. No effect on `total` math (event counts are unchanged either way). */
@@ -137,9 +135,7 @@ export const CalendarHeatmapFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bucketBySessionStart: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "CalendarHeatmapFilter",
-}) as any as S.Schema<CalendarHeatmapFilter>;
+).annotate({ identifier: "CalendarHeatmapFilter" }) as any as S.Schema<CalendarHeatmapFilter>;
 
 export interface CompareFilter {
   /** Whether to compare the current date range to a previous date range. */
@@ -154,23 +150,213 @@ export const CompareFilter = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "CompareFilter" }) as any as S.Schema<CompareFilter>;
 
+export type PropertyOperator =
+  | "exact"
+  | "is_not"
+  | "icontains"
+  | "not_icontains"
+  | "starts_with"
+  | "not_starts_with"
+  | "ends_with"
+  | "not_ends_with"
+  | "regex"
+  | "not_regex"
+  | "gt"
+  | "gte"
+  | "lt"
+  | "lte"
+  | "is_set"
+  | "is_not_set"
+  | "is_date_exact"
+  | "is_date_before"
+  | "is_date_after"
+  | "between"
+  | "not_between"
+  | "min"
+  | "max"
+  | "in"
+  | "not_in"
+  | "is_cleaned_path_exact"
+  | "flag_evaluates_to"
+  | "semver_eq"
+  | "semver_neq"
+  | "semver_gt"
+  | "semver_gte"
+  | "semver_lt"
+  | "semver_lte"
+  | "semver_tilde"
+  | "semver_caret"
+  | "semver_wildcard"
+  | "icontains_multi"
+  | "not_icontains_multi";
+export const PropertyOperator = S.String;
+
+export type EventPropertyFilterValueCase0Item = string | number | boolean;
+export const EventPropertyFilterValueCase0Item =
+  S.Unknown as any as S.Schema<EventPropertyFilterValueCase0Item>;
+
+export type EventPropertyFilterValueCase0List = Array<EventPropertyFilterValueCase0Item>;
+export const EventPropertyFilterValueCase0List = /*@__PURE__*/ S.Array(
+  EventPropertyFilterValueCase0Item,
+) as any as S.Schema<EventPropertyFilterValueCase0List>;
+
+export type EventPropertyFilterValue =
+  | EventPropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export const EventPropertyFilterValue = S.Unknown as any as S.Schema<EventPropertyFilterValue>;
+
+export interface EventPropertyFilter {
+  key?: string;
+  label?: string | null;
+  operator?: PropertyOperator | (string & {}) | null;
+  /** Event properties */
+  type?: string;
+  value?: EventPropertyFilterValue | null;
+}
+export const EventPropertyFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    label: S.optional(S.NullOr(S.String)),
+    operator: S.optional(S.NullOr(PropertyOperator)),
+    type: S.optional(S.String),
+    value: S.optional(S.NullOr(EventPropertyFilterValue)),
+  }),
+).annotate({ identifier: "EventPropertyFilter" }) as any as S.Schema<EventPropertyFilter>;
+
+export type PersonPropertyFilterValueCase0Item = string | number | boolean;
+export const PersonPropertyFilterValueCase0Item =
+  S.Unknown as any as S.Schema<PersonPropertyFilterValueCase0Item>;
+
+export type PersonPropertyFilterValueCase0List = Array<PersonPropertyFilterValueCase0Item>;
+export const PersonPropertyFilterValueCase0List = /*@__PURE__*/ S.Array(
+  PersonPropertyFilterValueCase0Item,
+) as any as S.Schema<PersonPropertyFilterValueCase0List>;
+
+export type PersonPropertyFilterValue =
+  | PersonPropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export const PersonPropertyFilterValue = S.Unknown as any as S.Schema<PersonPropertyFilterValue>;
+
+export interface PersonPropertyFilter {
+  key?: string;
+  label?: string | null;
+  operator?: PropertyOperator | (string & {});
+  /** Person properties */
+  type?: string;
+  value?: PersonPropertyFilterValue | null;
+}
+export const PersonPropertyFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    label: S.optional(S.NullOr(S.String)),
+    operator: S.optional(PropertyOperator),
+    type: S.optional(S.String),
+    value: S.optional(S.NullOr(PersonPropertyFilterValue)),
+  }),
+).annotate({ identifier: "PersonPropertyFilter" }) as any as S.Schema<PersonPropertyFilter>;
+
+export type SessionPropertyFilterValueCase0Item = string | number | boolean;
+export const SessionPropertyFilterValueCase0Item =
+  S.Unknown as any as S.Schema<SessionPropertyFilterValueCase0Item>;
+
+export type SessionPropertyFilterValueCase0List = Array<SessionPropertyFilterValueCase0Item>;
+export const SessionPropertyFilterValueCase0List = /*@__PURE__*/ S.Array(
+  SessionPropertyFilterValueCase0Item,
+) as any as S.Schema<SessionPropertyFilterValueCase0List>;
+
+export type SessionPropertyFilterValue =
+  | SessionPropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export const SessionPropertyFilterValue = S.Unknown as any as S.Schema<SessionPropertyFilterValue>;
+
+export interface SessionPropertyFilter {
+  key?: string;
+  label?: string | null;
+  operator?: PropertyOperator | (string & {});
+  type?: string;
+  value?: SessionPropertyFilterValue | null;
+}
+export const SessionPropertyFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    label: S.optional(S.NullOr(S.String)),
+    operator: S.optional(PropertyOperator),
+    type: S.optional(S.String),
+    value: S.optional(S.NullOr(SessionPropertyFilterValue)),
+  }),
+).annotate({ identifier: "SessionPropertyFilter" }) as any as S.Schema<SessionPropertyFilter>;
+
+export interface CohortPropertyFilter {
+  cohort_name?: string | null;
+  key?: string;
+  label?: string | null;
+  operator?: PropertyOperator | (string & {}) | null;
+  type?: string;
+  value?: number;
+}
+export const CohortPropertyFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cohort_name: S.optional(S.NullOr(S.String)),
+    key: S.optional(S.String),
+    label: S.optional(S.NullOr(S.String)),
+    operator: S.optional(S.NullOr(PropertyOperator)),
+    type: S.optional(S.String),
+    value: S.optional(S.Number),
+  }),
+).annotate({ identifier: "CohortPropertyFilter" }) as any as S.Schema<CohortPropertyFilter>;
+
+export type ActionConversionGoalPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter;
+export const ActionConversionGoalPropertiesItem =
+  S.Unknown as any as S.Schema<ActionConversionGoalPropertiesItem>;
+
+export type ActionConversionGoalPropertiesList = Array<ActionConversionGoalPropertiesItem>;
+export const ActionConversionGoalPropertiesList = /*@__PURE__*/ S.Array(
+  ActionConversionGoalPropertiesItem,
+) as any as S.Schema<ActionConversionGoalPropertiesList>;
+
 export interface ActionConversionGoal {
   actionId?: number;
+  properties?: ActionConversionGoalPropertiesList | null;
 }
 export const ActionConversionGoal = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     actionId: S.optional(S.Number),
+    properties: S.optional(S.NullOr(ActionConversionGoalPropertiesList)),
   }),
-).annotate({
-  identifier: "ActionConversionGoal",
-}) as any as S.Schema<ActionConversionGoal>;
+).annotate({ identifier: "ActionConversionGoal" }) as any as S.Schema<ActionConversionGoal>;
+
+export type CustomEventConversionGoalPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter;
+export const CustomEventConversionGoalPropertiesItem =
+  S.Unknown as any as S.Schema<CustomEventConversionGoalPropertiesItem>;
+
+export type CustomEventConversionGoalPropertiesList =
+  Array<CustomEventConversionGoalPropertiesItem>;
+export const CustomEventConversionGoalPropertiesList = /*@__PURE__*/ S.Array(
+  CustomEventConversionGoalPropertiesItem,
+) as any as S.Schema<CustomEventConversionGoalPropertiesList>;
 
 export interface CustomEventConversionGoal {
   customEventName?: string;
+  properties?: CustomEventConversionGoalPropertiesList | null;
 }
 export const CustomEventConversionGoal = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     customEventName: S.optional(S.String),
+    properties: S.optional(S.NullOr(CustomEventConversionGoalPropertiesList)),
   }),
 ).annotate({
   identifier: "CustomEventConversionGoal",
@@ -191,7 +377,7 @@ export const DateRangeDaysOfWeekList = /*@__PURE__*/ S.Array(
 export interface DateRange {
   /** Start of the date range. Accepts ISO 8601 timestamps (e.g., 2024-01-15T00:00:00Z) or relative formats: -7d (7 days ago), -2w (2 weeks ago), -1m (1 month ago), -1h (1 hour ago), -1mStart (start of last month), -1yStart (start of last year). */
   date_from?: string | null;
-  /** End of the date range. Same format as date_from. Omit or null for "now". */
+  /** End of the date range. Same format as date_from. Omit or null for "now". A calendar day without a time (2024-01-15) is inclusive: it rounds to the last moment of that day in the project timezone, unless explicitDate is set. */
   date_to?: string | null;
   /** Restrict the query to events occurring on these ISO days of week (1=Monday to 7=Sunday), evaluated in the project timezone. Omit or empty for all days. Only applied by insight queries. */
   daysOfWeek?: DateRangeDaysOfWeekList | null;
@@ -227,50 +413,75 @@ export type BounceRatePageViewMode =
   | "uniq_page_screen_autocaptures";
 export const BounceRatePageViewMode = S.String;
 
+export type FilterLogicalOperator = "AND" | "OR";
+export const FilterLogicalOperator = S.String;
+
 export type CustomBotField =
   | "$raw_user_agent"
   | "$ip"
   | "$lib"
   | "$host"
   | "$pathname"
-  | "$current_url";
+  | "$current_url"
+  | "$browser"
+  | "$os"
+  | "$browser_language"
+  | "$screen_width"
+  | "$screen_height"
+  | "$geoip_country_code"
+  | "$referrer"
+  | "$referring_domain";
 export const CustomBotField = S.String;
 
-export type CustomBotMatcher = "contains" | "regex" | "cidr";
+export type CustomBotMatcher = "contains" | "regex" | "exact" | "cidr";
 export const CustomBotMatcher = S.String;
 
-export interface CustomBotDefinition {
-  /** Reported by `$virt_traffic_category`. Defaults to `custom`. */
-  category?: string | null;
+export interface CustomBotCondition {
   id: string;
-  /** The event property this rule reads. */
+  /** The event property this condition reads. */
   key: CustomBotField | (string & {});
   matcher: CustomBotMatcher | (string & {});
-  /** Reported by `$virt_bot_name` and `$virt_bot_operator` when the rule matches. */
-  name: string;
   /** Matched against the property named by `key`. */
   pattern: string;
 }
-export const CustomBotDefinition = /*@__PURE__*/ S.suspend(() =>
+export const CustomBotCondition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    category: S.optional(S.NullOr(S.String)),
     id: S.String,
     key: CustomBotField,
     matcher: CustomBotMatcher,
-    name: S.String,
     pattern: S.String,
   }),
-).annotate({
-  identifier: "CustomBotDefinition",
-}) as any as S.Schema<CustomBotDefinition>;
+).annotate({ identifier: "CustomBotCondition" }) as any as S.Schema<CustomBotCondition>;
 
-export type HogQLQueryModifiersCustomBotDefinitionsList = Array<CustomBotDefinition>;
+export type CustomBotRuleItemsList = Array<CustomBotCondition>;
+export const CustomBotRuleItemsList = /*@__PURE__*/ S.Array(
+  CustomBotCondition,
+) as any as S.Schema<CustomBotRuleItemsList>;
+
+export interface CustomBotRule {
+  /** Reported by `$virt_traffic_category`. Defaults to `custom`. */
+  category?: string | null;
+  /** Whether every condition must match (AND) or any one of them (OR). */
+  combiner: FilterLogicalOperator | (string & {});
+  id: string;
+  items: CustomBotRuleItemsList;
+  /** Reported by `$virt_bot_name` and `$virt_bot_operator` when the rule matches. */
+  name: string;
+}
+export const CustomBotRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.optional(S.NullOr(S.String)),
+    combiner: FilterLogicalOperator,
+    id: S.String,
+    items: CustomBotRuleItemsList,
+    name: S.String,
+  }),
+).annotate({ identifier: "CustomBotRule" }) as any as S.Schema<CustomBotRule>;
+
+export type HogQLQueryModifiersCustomBotDefinitionsList = Array<CustomBotRule>;
 export const HogQLQueryModifiersCustomBotDefinitionsList = /*@__PURE__*/ S.Array(
-  CustomBotDefinition,
+  CustomBotRule,
 ) as any as S.Schema<HogQLQueryModifiersCustomBotDefinitionsList>;
-
-export type FilterLogicalOperator = "AND" | "OR";
-export const FilterLogicalOperator = S.String;
 
 export type CustomChannelField =
   | "utm_source"
@@ -315,9 +526,7 @@ export const CustomChannelCondition = /*@__PURE__*/ S.suspend(() =>
     op: S.optional(CustomChannelOperator),
     value: S.optional(S.NullOr(CustomChannelConditionValue)),
   }),
-).annotate({
-  identifier: "CustomChannelCondition",
-}) as any as S.Schema<CustomChannelCondition>;
+).annotate({ identifier: "CustomChannelCondition" }) as any as S.Schema<CustomChannelCondition>;
 
 export type CustomChannelRuleItemsList = Array<CustomChannelCondition>;
 export const CustomChannelRuleItemsList = /*@__PURE__*/ S.Array(
@@ -337,9 +546,7 @@ export const CustomChannelRule = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     items: S.optional(CustomChannelRuleItemsList),
   }),
-).annotate({
-  identifier: "CustomChannelRule",
-}) as any as S.Schema<CustomChannelRule>;
+).annotate({ identifier: "CustomChannelRule" }) as any as S.Schema<CustomChannelRule>;
 
 export type HogQLQueryModifiersCustomChannelTypeRulesList = Array<CustomChannelRule>;
 export const HogQLQueryModifiersCustomChannelTypeRulesList = /*@__PURE__*/ S.Array(
@@ -426,6 +633,8 @@ export interface HogQLQueryModifiers {
   bounceRateDurationSeconds?: number | null;
   bounceRatePageViewMode?: BounceRatePageViewMode | (string & {}) | null;
   convertToProjectTimezone?: boolean | null;
+  /** Do not treat a missing user agent as automation on cookieless events. Positive bot signals and custom project rules still apply. Resolved server-side; not intended to be set by clients. */
+  cookielessTrafficIsRegular?: boolean | null;
   customBotDefinitions?: HogQLQueryModifiersCustomBotDefinitionsList | null;
   customChannelTypeRules?: HogQLQueryModifiersCustomChannelTypeRulesList | null;
   dataWarehouseEventsModifiers?: HogQLQueryModifiersDataWarehouseEventsModifiersList | null;
@@ -443,6 +652,8 @@ export interface HogQLQueryModifiers {
   optimizeProjections?: boolean | null;
   /** HogQL parser backend; absent → `rust_py_with_cpp_shadow` (rust-py is primary, cpp runs as a sampled shadow). `*_shadow` modes return the primary result and sample-compare against the other parser, reporting divergences without failing the request. The `rust_py_*` modes drive the same hand-rolled Rust parser as `rust_*` but build `posthog.hogql.ast` dataclass instances directly via PyO3, skipping the JSON round-trip. */
   parserMode?: ParserMode | (string & {}) | null;
+  /** Push an `id IN (SELECT person_id FROM <left table> WHERE …)` predicate into the joined persons subquery, so the latest-version lookup only reads persons that the outer query's left-table filters can reach. Applies only to a persons join from the query's own FROM table. */
+  personIdPushdown?: boolean | null;
   personsArgMaxVersion?: PersonsArgMaxVersion | (string & {}) | null;
   personsJoinMode?: PersonsJoinMode | (string & {}) | null;
   personsOnEventsMode?: PersonsOnEventsMode | (string & {}) | null;
@@ -459,6 +670,8 @@ export interface HogQLQueryModifiers {
   /** Remove provably redundant casts and nullability wrappers (e.g. `toString(String)`, `assumeNotNull(non_nullable)`, dead `ifNull` fallbacks) using inferred expression types */
   typeAwareCastSimplification?: boolean | null;
   useMaterializedViews?: boolean | null;
+  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, the project's stored value applies, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance settings. This is an internal rollout switch. PostHog staff set the project value in Django admin and the project settings API ignores it. */
+  useNewEventsSchema?: boolean | null;
   usePreaggregatedIntermediateResults?: boolean | null;
   /** Try to automatically convert HogQL queries to use preaggregated tables at the AST level * */
   usePreaggregatedTableTransforms?: boolean | null;
@@ -471,6 +684,7 @@ export const HogQLQueryModifiers = /*@__PURE__*/ S.suspend(() =>
     bounceRateDurationSeconds: S.optional(S.NullOr(S.Number)),
     bounceRatePageViewMode: S.optional(S.NullOr(BounceRatePageViewMode)),
     convertToProjectTimezone: S.optional(S.NullOr(S.Boolean)),
+    cookielessTrafficIsRegular: S.optional(S.NullOr(S.Boolean)),
     customBotDefinitions: S.optional(S.NullOr(HogQLQueryModifiersCustomBotDefinitionsList)),
     customChannelTypeRules: S.optional(S.NullOr(HogQLQueryModifiersCustomChannelTypeRulesList)),
     dataWarehouseEventsModifiers: S.optional(
@@ -489,6 +703,7 @@ export const HogQLQueryModifiers = /*@__PURE__*/ S.suspend(() =>
     optimizeJoinedFilters: S.optional(S.NullOr(S.Boolean)),
     optimizeProjections: S.optional(S.NullOr(S.Boolean)),
     parserMode: S.optional(S.NullOr(ParserMode)),
+    personIdPushdown: S.optional(S.NullOr(S.Boolean)),
     personsArgMaxVersion: S.optional(S.NullOr(PersonsArgMaxVersion)),
     personsJoinMode: S.optional(S.NullOr(PersonsJoinMode)),
     personsOnEventsMode: S.optional(S.NullOr(PersonsOnEventsMode)),
@@ -502,127 +717,13 @@ export const HogQLQueryModifiers = /*@__PURE__*/ S.suspend(() =>
     timings: S.optional(S.NullOr(S.Boolean)),
     typeAwareCastSimplification: S.optional(S.NullOr(S.Boolean)),
     useMaterializedViews: S.optional(S.NullOr(S.Boolean)),
+    useNewEventsSchema: S.optional(S.NullOr(S.Boolean)),
     usePreaggregatedIntermediateResults: S.optional(S.NullOr(S.Boolean)),
     usePreaggregatedTableTransforms: S.optional(S.NullOr(S.Boolean)),
     useWebAnalyticsPreAggregatedTables: S.optional(S.NullOr(S.Boolean)),
     webAnalyticsFirstPageviewFilters: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "HogQLQueryModifiers",
-}) as any as S.Schema<HogQLQueryModifiers>;
-
-export type PropertyOperator =
-  | "exact"
-  | "is_not"
-  | "icontains"
-  | "not_icontains"
-  | "starts_with"
-  | "not_starts_with"
-  | "ends_with"
-  | "not_ends_with"
-  | "regex"
-  | "not_regex"
-  | "gt"
-  | "gte"
-  | "lt"
-  | "lte"
-  | "is_set"
-  | "is_not_set"
-  | "is_date_exact"
-  | "is_date_before"
-  | "is_date_after"
-  | "between"
-  | "not_between"
-  | "min"
-  | "max"
-  | "in"
-  | "not_in"
-  | "is_cleaned_path_exact"
-  | "flag_evaluates_to"
-  | "semver_eq"
-  | "semver_neq"
-  | "semver_gt"
-  | "semver_gte"
-  | "semver_lt"
-  | "semver_lte"
-  | "semver_tilde"
-  | "semver_caret"
-  | "semver_wildcard"
-  | "icontains_multi"
-  | "not_icontains_multi";
-export const PropertyOperator = S.String;
-
-export type EventPropertyFilterValueCase0Item = string | number | boolean;
-export const EventPropertyFilterValueCase0Item =
-  S.Unknown as any as S.Schema<EventPropertyFilterValueCase0Item>;
-
-export type EventPropertyFilterValueCase0List = Array<EventPropertyFilterValueCase0Item>;
-export const EventPropertyFilterValueCase0List = /*@__PURE__*/ S.Array(
-  EventPropertyFilterValueCase0Item,
-) as any as S.Schema<EventPropertyFilterValueCase0List>;
-
-export type EventPropertyFilterValue =
-  | EventPropertyFilterValueCase0List
-  | string
-  | number
-  | boolean;
-export const EventPropertyFilterValue = S.Unknown as any as S.Schema<EventPropertyFilterValue>;
-
-export interface EventPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
-  /** Event properties */
-  type?: string;
-  value?: EventPropertyFilterValue | null;
-}
-export const EventPropertyFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    key: S.optional(S.String),
-    label: S.optional(S.NullOr(S.String)),
-    operator: S.optional(S.NullOr(PropertyOperator)),
-    type: S.optional(S.String),
-    value: S.optional(S.NullOr(EventPropertyFilterValue)),
-  }),
-).annotate({
-  identifier: "EventPropertyFilter",
-}) as any as S.Schema<EventPropertyFilter>;
-
-export type PersonPropertyFilterValueCase0Item = string | number | boolean;
-export const PersonPropertyFilterValueCase0Item =
-  S.Unknown as any as S.Schema<PersonPropertyFilterValueCase0Item>;
-
-export type PersonPropertyFilterValueCase0List = Array<PersonPropertyFilterValueCase0Item>;
-export const PersonPropertyFilterValueCase0List = /*@__PURE__*/ S.Array(
-  PersonPropertyFilterValueCase0Item,
-) as any as S.Schema<PersonPropertyFilterValueCase0List>;
-
-export type PersonPropertyFilterValue =
-  | PersonPropertyFilterValueCase0List
-  | string
-  | number
-  | boolean;
-export const PersonPropertyFilterValue = S.Unknown as any as S.Schema<PersonPropertyFilterValue>;
-
-export interface PersonPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  /** Person properties */
-  type?: string;
-  value?: PersonPropertyFilterValue | null;
-}
-export const PersonPropertyFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    key: S.optional(S.String),
-    label: S.optional(S.NullOr(S.String)),
-    operator: S.optional(PropertyOperator),
-    type: S.optional(S.String),
-    value: S.optional(S.NullOr(PersonPropertyFilterValue)),
-  }),
-).annotate({
-  identifier: "PersonPropertyFilter",
-}) as any as S.Schema<PersonPropertyFilter>;
+).annotate({ identifier: "HogQLQueryModifiers" }) as any as S.Schema<HogQLQueryModifiers>;
 
 export type PersonMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export const PersonMetadataPropertyFilterValueCase0Item =
@@ -696,9 +797,7 @@ export const ElementPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(ElementPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "ElementPropertyFilter",
-}) as any as S.Schema<ElementPropertyFilter>;
+).annotate({ identifier: "ElementPropertyFilter" }) as any as S.Schema<ElementPropertyFilter>;
 
 export type EventMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export const EventMetadataPropertyFilterValueCase0Item =
@@ -736,62 +835,6 @@ export const EventMetadataPropertyFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "EventMetadataPropertyFilter",
 }) as any as S.Schema<EventMetadataPropertyFilter>;
-
-export type SessionPropertyFilterValueCase0Item = string | number | boolean;
-export const SessionPropertyFilterValueCase0Item =
-  S.Unknown as any as S.Schema<SessionPropertyFilterValueCase0Item>;
-
-export type SessionPropertyFilterValueCase0List = Array<SessionPropertyFilterValueCase0Item>;
-export const SessionPropertyFilterValueCase0List = /*@__PURE__*/ S.Array(
-  SessionPropertyFilterValueCase0Item,
-) as any as S.Schema<SessionPropertyFilterValueCase0List>;
-
-export type SessionPropertyFilterValue =
-  | SessionPropertyFilterValueCase0List
-  | string
-  | number
-  | boolean;
-export const SessionPropertyFilterValue = S.Unknown as any as S.Schema<SessionPropertyFilterValue>;
-
-export interface SessionPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: SessionPropertyFilterValue | null;
-}
-export const SessionPropertyFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    key: S.optional(S.String),
-    label: S.optional(S.NullOr(S.String)),
-    operator: S.optional(PropertyOperator),
-    type: S.optional(S.String),
-    value: S.optional(S.NullOr(SessionPropertyFilterValue)),
-  }),
-).annotate({
-  identifier: "SessionPropertyFilter",
-}) as any as S.Schema<SessionPropertyFilter>;
-
-export interface CohortPropertyFilter {
-  cohort_name?: string | null;
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
-  type?: string;
-  value?: number;
-}
-export const CohortPropertyFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cohort_name: S.optional(S.NullOr(S.String)),
-    key: S.optional(S.String),
-    label: S.optional(S.NullOr(S.String)),
-    operator: S.optional(S.NullOr(PropertyOperator)),
-    type: S.optional(S.String),
-    value: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CohortPropertyFilter",
-}) as any as S.Schema<CohortPropertyFilter>;
 
 export type DurationType = "duration" | "active_seconds" | "inactive_seconds";
 export const DurationType = S.String;
@@ -831,9 +874,7 @@ export const RecordingPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(RecordingPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "RecordingPropertyFilter",
-}) as any as S.Schema<RecordingPropertyFilter>;
+).annotate({ identifier: "RecordingPropertyFilter" }) as any as S.Schema<RecordingPropertyFilter>;
 
 export type LogEntryPropertyFilterValueCase0Item = string | number | boolean;
 export const LogEntryPropertyFilterValueCase0Item =
@@ -867,13 +908,9 @@ export const LogEntryPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(LogEntryPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "LogEntryPropertyFilter",
-}) as any as S.Schema<LogEntryPropertyFilter>;
+).annotate({ identifier: "LogEntryPropertyFilter" }) as any as S.Schema<LogEntryPropertyFilter>;
 
-export type GroupPropertyFilterGroupKeyNamesMap = {
-  [key: string]: string | undefined;
-};
+export type GroupPropertyFilterGroupKeyNamesMap = { [key: string]: string | undefined };
 export const GroupPropertyFilterGroupKeyNamesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -914,9 +951,7 @@ export const GroupPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(GroupPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "GroupPropertyFilter",
-}) as any as S.Schema<GroupPropertyFilter>;
+).annotate({ identifier: "GroupPropertyFilter" }) as any as S.Schema<GroupPropertyFilter>;
 
 export type FeaturePropertyFilterValueCase0Item = string | number | boolean;
 export const FeaturePropertyFilterValueCase0Item =
@@ -950,9 +985,7 @@ export const FeaturePropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(FeaturePropertyFilterValue)),
   }),
-).annotate({
-  identifier: "FeaturePropertyFilter",
-}) as any as S.Schema<FeaturePropertyFilter>;
+).annotate({ identifier: "FeaturePropertyFilter" }) as any as S.Schema<FeaturePropertyFilter>;
 
 /** The value can be true, false, or a variant name */
 export type FlagPropertyFilterValue = boolean | string;
@@ -977,9 +1010,7 @@ export const FlagPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(FlagPropertyFilterValue),
   }),
-).annotate({
-  identifier: "FlagPropertyFilter",
-}) as any as S.Schema<FlagPropertyFilter>;
+).annotate({ identifier: "FlagPropertyFilter" }) as any as S.Schema<FlagPropertyFilter>;
 
 export type HogQLPropertyFilterValueCase0Item = string | number | boolean;
 export const HogQLPropertyFilterValueCase0Item =
@@ -1010,9 +1041,7 @@ export const HogQLPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(HogQLPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "HogQLPropertyFilter",
-}) as any as S.Schema<HogQLPropertyFilter>;
+).annotate({ identifier: "HogQLPropertyFilter" }) as any as S.Schema<HogQLPropertyFilter>;
 
 export interface EmptyPropertyFilter {
   type?: string;
@@ -1021,9 +1050,7 @@ export const EmptyPropertyFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmptyPropertyFilter",
-}) as any as S.Schema<EmptyPropertyFilter>;
+).annotate({ identifier: "EmptyPropertyFilter" }) as any as S.Schema<EmptyPropertyFilter>;
 
 export type DataWarehousePropertyFilterValueCase0Item = string | number | boolean;
 export const DataWarehousePropertyFilterValueCase0Item =
@@ -1131,9 +1158,7 @@ export const ErrorTrackingIssueFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(ErrorTrackingIssueFilterValue)),
   }),
-).annotate({
-  identifier: "ErrorTrackingIssueFilter",
-}) as any as S.Schema<ErrorTrackingIssueFilter>;
+).annotate({ identifier: "ErrorTrackingIssueFilter" }) as any as S.Schema<ErrorTrackingIssueFilter>;
 
 export type LogPropertyFilterType = "log" | "log_attribute" | "log_resource_attribute";
 export const LogPropertyFilterType = S.String;
@@ -1165,9 +1190,7 @@ export const LogPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(LogPropertyFilterType),
     value: S.optional(S.NullOr(LogPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "LogPropertyFilter",
-}) as any as S.Schema<LogPropertyFilter>;
+).annotate({ identifier: "LogPropertyFilter" }) as any as S.Schema<LogPropertyFilter>;
 
 export type MetricPropertyFilterValueCase0Item = string | number | boolean;
 export const MetricPropertyFilterValueCase0Item =
@@ -1200,9 +1223,7 @@ export const MetricPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(MetricPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "MetricPropertyFilter",
-}) as any as S.Schema<MetricPropertyFilter>;
+).annotate({ identifier: "MetricPropertyFilter" }) as any as S.Schema<MetricPropertyFilter>;
 
 export type SpanPropertyFilterType = "span" | "span_attribute" | "span_resource_attribute";
 export const SpanPropertyFilterType = S.String;
@@ -1234,9 +1255,7 @@ export const SpanPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(SpanPropertyFilterType),
     value: S.optional(S.NullOr(SpanPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "SpanPropertyFilter",
-}) as any as S.Schema<SpanPropertyFilter>;
+).annotate({ identifier: "SpanPropertyFilter" }) as any as S.Schema<SpanPropertyFilter>;
 
 export type RevenueAnalyticsPropertyFilterValueCase0Item = string | number | boolean;
 export const RevenueAnalyticsPropertyFilterValueCase0Item =
@@ -1413,9 +1432,7 @@ export const BehavioralPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: InlineBehavioralType,
   }),
-).annotate({
-  identifier: "BehavioralPropertyFilter",
-}) as any as S.Schema<BehavioralPropertyFilter>;
+).annotate({ identifier: "BehavioralPropertyFilter" }) as any as S.Schema<BehavioralPropertyFilter>;
 
 export type TrendsQueryPropertiesCase0Item =
   | EventPropertyFilter
@@ -1493,9 +1510,7 @@ export const PropertyGroupFilterValue = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(FilterLogicalOperator),
     values: S.optional(PropertyGroupFilterValueValuesList),
   }),
-).annotate({
-  identifier: "PropertyGroupFilterValue",
-}) as any as S.Schema<PropertyGroupFilterValue>;
+).annotate({ identifier: "PropertyGroupFilterValue" }) as any as S.Schema<PropertyGroupFilterValue>;
 
 export type PropertyGroupFilterValuesList = Array<PropertyGroupFilterValue>;
 export const PropertyGroupFilterValuesList = /*@__PURE__*/ S.Array(
@@ -1511,9 +1526,7 @@ export const PropertyGroupFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(FilterLogicalOperator),
     values: S.optional(PropertyGroupFilterValuesList),
   }),
-).annotate({
-  identifier: "PropertyGroupFilter",
-}) as any as S.Schema<PropertyGroupFilter>;
+).annotate({ identifier: "PropertyGroupFilter" }) as any as S.Schema<PropertyGroupFilter>;
 
 /** Property filters for all series */
 export type TrendsQueryProperties = TrendsQueryPropertiesCase0List | PropertyGroupFilter;
@@ -1571,11 +1584,101 @@ export const ClickhouseQueryProgress = /*@__PURE__*/ S.suspend(() =>
     rows_read: S.optional(S.Number),
     time_elapsed: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ClickhouseQueryProgress",
-}) as any as S.Schema<ClickhouseQueryProgress>;
+).annotate({ identifier: "ClickhouseQueryProgress" }) as any as S.Schema<ClickhouseQueryProgress>;
+
+export type QueryScanFixLocation =
+  | "query"
+  | "subquery"
+  | "view"
+  | "insight_date_range"
+  | "dashboard_date_filter";
+export const QueryScanFixLocation = S.String;
+
+export type QueryScanFindingKind = "no_event_filter" | "no_start_date" | "persons_join";
+export const QueryScanFindingKind = S.String;
+
+export interface QueryScanWarning {
+  /** Whether the person can change the query so it reads less and still answers the same question. Surfaces show the full advice and "Fix with AI" only when a finding is actionable. */
+  actionable: boolean;
+  /** True when the query reads this much on purpose, so reading less would change the answer. Absent means no. */
+  by_design?: boolean | null;
+  /** A label for what in the query text kept the read wide, such as `in_or`. Only analytics and the assistant read it, and the labels can change. */
+  cause?: string | null;
+  /** The one fact the finding rests on. */
+  evidence?: string | null;
+  /** What "Fix with AI" and the assistant are told to do. */
+  fix: string;
+  /** Where the change goes. Absent means the query itself. */
+  fix_location?: QueryScanFixLocation | (string & {}) | null;
+  kind: QueryScanFindingKind | (string & {});
+  /** Shown to the person: what happened and what to do. */
+  message: string;
+}
+export const QueryScanWarning = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    actionable: S.Boolean,
+    by_design: S.optional(S.NullOr(S.Boolean)),
+    cause: S.optional(S.NullOr(S.String)),
+    evidence: S.optional(S.NullOr(S.String)),
+    fix: S.String,
+    fix_location: S.optional(S.NullOr(QueryScanFixLocation)),
+    kind: QueryScanFindingKind,
+    message: S.String,
+  }),
+).annotate({ identifier: "QueryScanWarning" }) as any as S.Schema<QueryScanWarning>;
+
+/** Every finding, fixable or not. Empty when the analysis found none. */
+export type QueryScanAnalysisFindingsList = Array<QueryScanWarning>;
+export const QueryScanAnalysisFindingsList = /*@__PURE__*/ S.Array(
+  QueryScanWarning,
+) as any as S.Schema<QueryScanAnalysisFindingsList>;
+
+export interface QueryScanAnalysis {
+  /** The message the Fix with AI button sends to the assistant. Absent when no finding can be fixed in the query. */
+  assistant_prompt?: string | null;
+  /** Every finding, fixable or not. Empty when the analysis found none. */
+  findings: QueryScanAnalysisFindingsList;
+  /** How much of all the project's events the query read, 0 to 1. */
+  project_share?: number | null;
+  /** How much of the project's events in the query's date range the query read, 0 to 1. */
+  range_share?: number | null;
+}
+export const QueryScanAnalysis = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assistant_prompt: S.optional(S.NullOr(S.String)),
+    findings: QueryScanAnalysisFindingsList,
+    project_share: S.optional(S.NullOr(S.Number)),
+    range_share: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "QueryScanAnalysis" }) as any as S.Schema<QueryScanAnalysis>;
+
+export interface QueryScanSummary {
+  /** The stored analysis, put on the response when it is served. Absent while the analysis runs, and when none was requested. */
+  analysis?: QueryScanAnalysis | null;
+  /** True when the run asked for an analysis, or found one stored. While `analysis` is absent, poll `GET /query/scan/{cache_key}` for it. */
+  analysis_requested?: boolean | null;
+  /** ClickHouse time for the last fresh run, summed over its ClickHouse queries. */
+  duration_ms: number;
+  /** True when ClickHouse stopped the run instead of finishing it. */
+  killed?: boolean | null;
+  /** Rows ClickHouse read for the last fresh run, all tables included. */
+  rows_read: number;
+}
+export const QueryScanSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    analysis: S.optional(S.NullOr(QueryScanAnalysis)),
+    analysis_requested: S.optional(S.NullOr(S.Boolean)),
+    duration_ms: S.Number,
+    killed: S.optional(S.NullOr(S.Boolean)),
+    rows_read: S.Number,
+  }),
+).annotate({ identifier: "QueryScanSummary" }) as any as S.Schema<QueryScanSummary>;
 
 export interface QueryStatus {
+  budget_remaining_bytes?: number | null;
+  bytes_read?: number | null;
+  /** Cache key of the run that failed, so clients can ask for its query scan. */
+  cache_key?: string | null;
   /** Whether the query is still running. Will be true if the query is complete, even if it errored. Either result or error will be set. */
   complete?: boolean | null;
   dashboard_id?: number | null;
@@ -1595,6 +1698,7 @@ export interface QueryStatus {
   /** ONLY async queries use QueryStatus. */
   query_async?: boolean;
   query_progress?: ClickhouseQueryProgress | null;
+  query_scan?: QueryScanSummary | null;
   results?: unknown;
   /** When was query execution task enqueued. */
   start_time?: string | null;
@@ -1603,6 +1707,9 @@ export interface QueryStatus {
 }
 export const QueryStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    budget_remaining_bytes: S.optional(S.NullOr(S.Number)),
+    bytes_read: S.optional(S.NullOr(S.Number)),
+    cache_key: S.optional(S.NullOr(S.String)),
     complete: S.optional(S.NullOr(S.Boolean)),
     dashboard_id: S.optional(S.NullOr(S.Number)),
     end_time: S.optional(S.NullOr(S.String)),
@@ -1616,6 +1723,7 @@ export const QueryStatus = /*@__PURE__*/ S.suspend(() =>
     pickup_time: S.optional(S.NullOr(S.String)),
     query_async: S.optional(S.Boolean),
     query_progress: S.optional(S.NullOr(ClickhouseQueryProgress)),
+    query_scan: S.optional(S.NullOr(QueryScanSummary)),
     results: S.optional(S.Unknown),
     start_time: S.optional(S.NullOr(S.String)),
     task_id: S.optional(S.NullOr(S.String)),
@@ -1636,9 +1744,7 @@ export const ResolvedDateRangeResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResolvedDateRangeResponse",
 }) as any as S.Schema<ResolvedDateRangeResponse>;
 
-export type TrendsQueryResponseResultsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type TrendsQueryResponseResultsItemMap = { [key: string]: unknown | undefined };
 export const TrendsQueryResponseResultsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1681,9 +1787,7 @@ export const DataWarehouseSourceUsage = /*@__PURE__*/ S.suspend(() =>
     source_type: S.optional(S.NullOr(S.String)),
     table_name: S.String,
   }),
-).annotate({
-  identifier: "DataWarehouseSourceUsage",
-}) as any as S.Schema<DataWarehouseSourceUsage>;
+).annotate({ identifier: "DataWarehouseSourceUsage" }) as any as S.Schema<DataWarehouseSourceUsage>;
 
 export type TrendsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export const TrendsQueryResponseUsedDataWarehouseSourcesList = /*@__PURE__*/ S.Array(
@@ -1716,9 +1820,7 @@ export const DataWarehouseSyncWarning = /*@__PURE__*/ S.suspend(() =>
     table_name: S.String,
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataWarehouseSyncWarning",
-}) as any as S.Schema<DataWarehouseSyncWarning>;
+).annotate({ identifier: "DataWarehouseSyncWarning" }) as any as S.Schema<DataWarehouseSyncWarning>;
 
 /** Resource types the user has access restrictions on, referenced by the query, e.g. ["insight", "dashboard"] */
 export type AccessControlFilterWarningResourcesList = Array<string>;
@@ -1794,9 +1896,7 @@ export const TrendsQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(TrendsQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "TrendsQueryResponse",
-}) as any as S.Schema<TrendsQueryResponse>;
+).annotate({ identifier: "TrendsQueryResponse" }) as any as S.Schema<TrendsQueryResponse>;
 
 export type EventsNodeFixedPropertiesItem =
   | EventPropertyFilter
@@ -2362,9 +2462,7 @@ export const DataWarehouseNodePropertiesList = /*@__PURE__*/ S.Array(
   DataWarehouseNodePropertiesItem,
 ) as any as S.Schema<DataWarehouseNodePropertiesList>;
 
-export type DataWarehouseNodeResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type DataWarehouseNodeResponseMap = { [key: string]: unknown | undefined };
 export const DataWarehouseNodeResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2420,9 +2518,7 @@ export const DataWarehouseNode = /*@__PURE__*/ S.suspend(() =>
     timestamp_field: S.optional(S.String),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "DataWarehouseNode",
-}) as any as S.Schema<DataWarehouseNode>;
+).annotate({ identifier: "DataWarehouseNode" }) as any as S.Schema<DataWarehouseNode>;
 
 export type GroupNodeFixedPropertiesItem =
   | EventPropertyFilter
@@ -2583,6 +2679,8 @@ export const TrendsQuerySeriesList = /*@__PURE__*/ S.Array(
 export interface QueryLogTags {
   /** Name of the query, preferably unique. For example web_analytics_vitals */
   name?: string | null;
+  /** Short id of the saved Web analytics filter preset this query was run under, if any. */
+  presetId?: string | null;
   /** Product responsible for this query. Use string, there's no need to churn the Schema when we add a new product * */
   productKey?: string | null;
   /** Scene where this query is shown in the UI. Use string, there's no need to churn the Schema when we add a new Scene * */
@@ -2591,6 +2689,7 @@ export interface QueryLogTags {
 export const QueryLogTags = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.NullOr(S.String)),
+    presetId: S.optional(S.NullOr(S.String)),
     productKey: S.optional(S.NullOr(S.String)),
     scene: S.optional(S.NullOr(S.String)),
   }),
@@ -2607,16 +2706,25 @@ export type AggregationAxisFormat =
   | "short";
 export const AggregationAxisFormat = S.String;
 
+export type AnnotationScope = "dashboard_item" | "dashboard" | "project" | "organization";
+export const AnnotationScope = S.String;
+
 export type Curve = "linear" | "smooth";
 export const Curve = S.String;
+
+export type SeriesColorMode = "palette" | "opacity";
+export const SeriesColorMode = S.String;
 
 export interface ChartStyle {
   /** Line interpolation: straight segments or a smoothed curve through the points. */
   curve?: Curve | (string & {}) | null;
+  /** How series are told apart: one color per series, or one color at stepped opacities. */
+  seriesColorMode?: SeriesColorMode | (string & {}) | null;
 }
 export const ChartStyle = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     curve: S.optional(S.NullOr(Curve)),
+    seriesColorMode: S.optional(S.NullOr(SeriesColorMode)),
   }),
 ).annotate({ identifier: "ChartStyle" }) as any as S.Schema<ChartStyle>;
 
@@ -2655,9 +2763,7 @@ export const TrendsFormulaNode = /*@__PURE__*/ S.suspend(() =>
     custom_name: S.optional(S.NullOr(S.String)),
     formula: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TrendsFormulaNode",
-}) as any as S.Schema<TrendsFormulaNode>;
+).annotate({ identifier: "TrendsFormulaNode" }) as any as S.Schema<TrendsFormulaNode>;
 
 export type TrendsFilterFormulaNodesList = Array<TrendsFormulaNode>;
 export const TrendsFilterFormulaNodesList = /*@__PURE__*/ S.Array(
@@ -2779,6 +2885,8 @@ export interface TrendsFilter {
   aggregationAxisPostfix?: string | null;
   /** Literal prefix applied to every value (e.g. `$`). Use to pin a unit or currency symbol that does not depend on `aggregationAxisFormat` — for example, when values are denominated in a fixed currency regardless of the project's base currency. Include any trailing space yourself. */
   aggregationAxisPrefix?: string | null;
+  /** Render only annotations with this scope. Unset renders every scope. */
+  annotationsScope?: AnnotationScope | (string & {}) | null;
   breakdown_histogram_bin_count?: number | null;
   /** Chart rendering style overrides (line shape). */
   chartStyle?: ChartStyle | null;
@@ -2850,6 +2958,7 @@ export const TrendsFilter = /*@__PURE__*/ S.suspend(() =>
     aggregationAxisFormat: S.optional(S.NullOr(AggregationAxisFormat)),
     aggregationAxisPostfix: S.optional(S.NullOr(S.String)),
     aggregationAxisPrefix: S.optional(S.NullOr(S.String)),
+    annotationsScope: S.optional(S.NullOr(AnnotationScope)),
     breakdown_histogram_bin_count: S.optional(S.NullOr(S.Number)),
     chartStyle: S.optional(S.NullOr(ChartStyle)),
     confidenceLevel: S.optional(S.NullOr(S.Number)),
@@ -3043,9 +3152,7 @@ export const FunnelExclusionEventsNodePropertiesList = /*@__PURE__*/ S.Array(
   FunnelExclusionEventsNodePropertiesItem,
 ) as any as S.Schema<FunnelExclusionEventsNodePropertiesList>;
 
-export type FunnelExclusionEventsNodeResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type FunnelExclusionEventsNodeResponseMap = { [key: string]: unknown | undefined };
 export const FunnelExclusionEventsNodeResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3185,9 +3292,7 @@ export const FunnelExclusionActionsNodePropertiesList = /*@__PURE__*/ S.Array(
   FunnelExclusionActionsNodePropertiesItem,
 ) as any as S.Schema<FunnelExclusionActionsNodePropertiesList>;
 
-export type FunnelExclusionActionsNodeResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type FunnelExclusionActionsNodeResponseMap = { [key: string]: unknown | undefined };
 export const FunnelExclusionActionsNodeResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3290,6 +3395,8 @@ export const FunnelsFilterResultCustomizationsMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<FunnelsFilterResultCustomizationsMap>;
 
 export interface FunnelsFilter {
+  /** Render only annotations with this scope. Only applies to historical-trends funnels. */
+  annotationsScope?: AnnotationScope | (string & {}) | null;
   binCount?: number | null;
   breakdownAttributionType?: BreakdownAttributionType | (string & {}) | null;
   breakdownAttributionValue?: number | null;
@@ -3330,6 +3437,7 @@ export interface FunnelsFilter {
 }
 export const FunnelsFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    annotationsScope: S.optional(S.NullOr(AnnotationScope)),
     binCount: S.optional(S.NullOr(S.Number)),
     breakdownAttributionType: S.optional(S.NullOr(BreakdownAttributionType)),
     breakdownAttributionValue: S.optional(S.NullOr(S.Number)),
@@ -3456,9 +3564,7 @@ export const FunnelsQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(FunnelsQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "FunnelsQueryResponse",
-}) as any as S.Schema<FunnelsQueryResponse>;
+).annotate({ identifier: "FunnelsQueryResponse" }) as any as S.Schema<FunnelsQueryResponse>;
 
 export type FunnelsDataWarehouseNodeFixedPropertiesItem =
   | EventPropertyFilter
@@ -3539,9 +3645,7 @@ export const FunnelsDataWarehouseNodePropertiesList = /*@__PURE__*/ S.Array(
   FunnelsDataWarehouseNodePropertiesItem,
 ) as any as S.Schema<FunnelsDataWarehouseNodePropertiesList>;
 
-export type FunnelsDataWarehouseNodeResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type FunnelsDataWarehouseNodeResponseMap = { [key: string]: unknown | undefined };
 export const FunnelsDataWarehouseNodeResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3597,9 +3701,7 @@ export const FunnelsDataWarehouseNode = /*@__PURE__*/ S.suspend(() =>
     timestamp_field: S.optional(S.String),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "FunnelsDataWarehouseNode",
-}) as any as S.Schema<FunnelsDataWarehouseNode>;
+).annotate({ identifier: "FunnelsDataWarehouseNode" }) as any as S.Schema<FunnelsDataWarehouseNode>;
 
 export type FunnelsQuerySeriesItem =
   | EventsNode
@@ -3741,9 +3843,7 @@ export const RetentionResult = /*@__PURE__*/ S.suspend(() =>
     label: S.optional(S.String),
     values: S.optional(RetentionResultValuesList),
   }),
-).annotate({
-  identifier: "RetentionResult",
-}) as any as S.Schema<RetentionResult>;
+).annotate({ identifier: "RetentionResult" }) as any as S.Schema<RetentionResult>;
 
 export type RetentionQueryResponseResultsList = Array<RetentionResult>;
 export const RetentionQueryResponseResultsList = /*@__PURE__*/ S.Array(
@@ -3807,9 +3907,7 @@ export const RetentionQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(RetentionQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "RetentionQueryResponse",
-}) as any as S.Schema<RetentionQueryResponse>;
+).annotate({ identifier: "RetentionQueryResponse" }) as any as S.Schema<RetentionQueryResponse>;
 
 export type AggregationPropertyType = "event" | "person" | "data_warehouse";
 export const AggregationPropertyType = S.String;
@@ -3918,9 +4016,7 @@ export const RetentionEntity = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.NullOr(EntityType)),
     uuid: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "RetentionEntity",
-}) as any as S.Schema<RetentionEntity>;
+).annotate({ identifier: "RetentionEntity" }) as any as S.Schema<RetentionEntity>;
 
 export type TimeWindowMode = "strict_calendar_dates" | "24_hour_windows";
 export const TimeWindowMode = S.String;
@@ -3954,6 +4050,8 @@ export interface RetentionFilter {
   returningEntity?: RetentionEntity | null;
   /** The selected interval to display across all cohorts (null = show all intervals for each cohort) */
   selectedInterval?: number | null;
+  /** Draw the mean across cohorts as one line on the retention graph. */
+  showMeanLine?: boolean | null;
   showTrendLines?: boolean | null;
   targetEntity?: RetentionEntity | null;
   /** The time window mode to use for retention calculations */
@@ -3980,14 +4078,13 @@ export const RetentionFilter = /*@__PURE__*/ S.suspend(() =>
     retentionType: S.optional(S.NullOr(RetentionType)),
     returningEntity: S.optional(S.NullOr(RetentionEntity)),
     selectedInterval: S.optional(S.NullOr(S.Number)),
+    showMeanLine: S.optional(S.NullOr(S.Boolean)),
     showTrendLines: S.optional(S.NullOr(S.Boolean)),
     targetEntity: S.optional(S.NullOr(RetentionEntity)),
     timeWindowMode: S.optional(S.NullOr(TimeWindowMode)),
     totalIntervals: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "RetentionFilter",
-}) as any as S.Schema<RetentionFilter>;
+).annotate({ identifier: "RetentionFilter" }) as any as S.Schema<RetentionFilter>;
 
 export interface RetentionQuery {
   /** Groups aggregation */
@@ -4050,9 +4147,7 @@ export const FunnelPathsFilter = /*@__PURE__*/ S.suspend(() =>
     funnelSource: S.optional(FunnelsQuery),
     funnelStep: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "FunnelPathsFilter",
-}) as any as S.Schema<FunnelPathsFilter>;
+).annotate({ identifier: "FunnelPathsFilter" }) as any as S.Schema<FunnelPathsFilter>;
 
 export type PathsFilterExcludeEventsList = Array<string>;
 export const PathsFilterExcludeEventsList = /*@__PURE__*/ S.Array(
@@ -4079,9 +4174,7 @@ export const PathCleaningFilter = /*@__PURE__*/ S.suspend(() =>
     order: S.optional(S.NullOr(S.Number)),
     regex: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "PathCleaningFilter",
-}) as any as S.Schema<PathCleaningFilter>;
+).annotate({ identifier: "PathCleaningFilter" }) as any as S.Schema<PathCleaningFilter>;
 
 export type PathsFilterLocalPathCleaningFiltersList = Array<PathCleaningFilter>;
 export const PathsFilterLocalPathCleaningFiltersList = /*@__PURE__*/ S.Array(
@@ -4113,6 +4206,8 @@ export interface PathsFilter {
   showFullUrls?: boolean | null;
   startPoint?: string | null;
   stepLimit?: number | null;
+  /** Remove the query string from page view URLs, so pages that differ only in query parameters become one path item */
+  stripQueryString?: boolean | null;
 }
 export const PathsFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4132,6 +4227,7 @@ export const PathsFilter = /*@__PURE__*/ S.suspend(() =>
     showFullUrls: S.optional(S.NullOr(S.Boolean)),
     startPoint: S.optional(S.NullOr(S.String)),
     stepLimit: S.optional(S.NullOr(S.Number)),
+    stripQueryString: S.optional(S.NullOr(S.Boolean)),
   }),
 ).annotate({ identifier: "PathsFilter" }) as any as S.Schema<PathsFilter>;
 
@@ -4247,9 +4343,7 @@ export const PathsQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(PathsQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "PathsQueryResponse",
-}) as any as S.Schema<PathsQueryResponse>;
+).annotate({ identifier: "PathsQueryResponse" }) as any as S.Schema<PathsQueryResponse>;
 
 export interface PathsQuery {
   /** Groups aggregation */
@@ -4345,9 +4439,7 @@ export const PathsV2StepSource = /*@__PURE__*/ S.suspend(() =>
     event: S.String,
     namingProperty: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "PathsV2StepSource",
-}) as any as S.Schema<PathsV2StepSource>;
+).annotate({ identifier: "PathsV2StepSource" }) as any as S.Schema<PathsV2StepSource>;
 
 export type PathsV2FilterStepSourcesList = Array<PathsV2StepSource>;
 export const PathsV2FilterStepSourcesList = /*@__PURE__*/ S.Array(
@@ -4597,9 +4689,7 @@ export const PathsV2QueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(PathsV2QueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "PathsV2QueryResponse",
-}) as any as S.Schema<PathsV2QueryResponse>;
+).annotate({ identifier: "PathsV2QueryResponse" }) as any as S.Schema<PathsV2QueryResponse>;
 
 export interface PathsV2Query {
   /** Colors used in the insight's visualization */
@@ -4673,9 +4763,7 @@ export const StickinessQueryPropertiesCase0List = /*@__PURE__*/ S.Array(
 export type StickinessQueryProperties = StickinessQueryPropertiesCase0List | PropertyGroupFilter;
 export const StickinessQueryProperties = S.Unknown as any as S.Schema<StickinessQueryProperties>;
 
-export type StickinessQueryResponseResultsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type StickinessQueryResponseResultsItemMap = { [key: string]: unknown | undefined };
 export const StickinessQueryResponseResultsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -4743,9 +4831,7 @@ export const StickinessQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(StickinessQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "StickinessQueryResponse",
-}) as any as S.Schema<StickinessQueryResponse>;
+).annotate({ identifier: "StickinessQueryResponse" }) as any as S.Schema<StickinessQueryResponse>;
 
 export type StickinessQuerySeriesItem = EventsNode | ActionsNode | DataWarehouseNode;
 export const StickinessQuerySeriesItem = S.Unknown as any as S.Schema<StickinessQuerySeriesItem>;
@@ -4799,9 +4885,7 @@ export const StickinessCriteria = /*@__PURE__*/ S.suspend(() =>
     operator: S.optional(StickinessOperator),
     value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "StickinessCriteria",
-}) as any as S.Schema<StickinessCriteria>;
+).annotate({ identifier: "StickinessCriteria" }) as any as S.Schema<StickinessCriteria>;
 
 export interface StickinessFilter {
   /** Chart rendering style overrides (line shape). */
@@ -4834,9 +4918,7 @@ export const StickinessFilter = /*@__PURE__*/ S.suspend(() =>
     showValuesOnSeries: S.optional(S.NullOr(S.Boolean)),
     stickinessCriteria: S.optional(S.NullOr(StickinessCriteria)),
   }),
-).annotate({
-  identifier: "StickinessFilter",
-}) as any as S.Schema<StickinessFilter>;
+).annotate({ identifier: "StickinessFilter" }) as any as S.Schema<StickinessFilter>;
 
 export interface StickinessQuery {
   /** Compare to date range */
@@ -4886,9 +4968,7 @@ export const StickinessQuery = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(QueryLogTags)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "StickinessQuery",
-}) as any as S.Schema<StickinessQuery>;
+).annotate({ identifier: "StickinessQuery" }) as any as S.Schema<StickinessQuery>;
 
 export type LifecycleToggle = "new" | "resurrecting" | "returning" | "dormant";
 export const LifecycleToggle = S.String;
@@ -4917,9 +4997,7 @@ export const LifecycleFilter = /*@__PURE__*/ S.suspend(() =>
     stacked: S.optional(S.NullOr(S.Boolean)),
     toggledLifecycles: S.optional(S.NullOr(LifecycleFilterToggledLifecyclesList)),
   }),
-).annotate({
-  identifier: "LifecycleFilter",
-}) as any as S.Schema<LifecycleFilter>;
+).annotate({ identifier: "LifecycleFilter" }) as any as S.Schema<LifecycleFilter>;
 
 export type LifecycleQueryPropertiesCase0Item =
   | EventPropertyFilter
@@ -4958,9 +5036,7 @@ export const LifecycleQueryPropertiesCase0List = /*@__PURE__*/ S.Array(
 export type LifecycleQueryProperties = LifecycleQueryPropertiesCase0List | PropertyGroupFilter;
 export const LifecycleQueryProperties = S.Unknown as any as S.Schema<LifecycleQueryProperties>;
 
-export type LifecycleQueryResponseResultsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type LifecycleQueryResponseResultsItemMap = { [key: string]: unknown | undefined };
 export const LifecycleQueryResponseResultsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5028,9 +5104,7 @@ export const LifecycleQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(LifecycleQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "LifecycleQueryResponse",
-}) as any as S.Schema<LifecycleQueryResponse>;
+).annotate({ identifier: "LifecycleQueryResponse" }) as any as S.Schema<LifecycleQueryResponse>;
 
 export type LifecycleDataWarehouseNodeFixedPropertiesItem =
   | EventPropertyFilter
@@ -5112,9 +5186,7 @@ export const LifecycleDataWarehouseNodePropertiesList = /*@__PURE__*/ S.Array(
   LifecycleDataWarehouseNodePropertiesItem,
 ) as any as S.Schema<LifecycleDataWarehouseNodePropertiesList>;
 
-export type LifecycleDataWarehouseNodeResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type LifecycleDataWarehouseNodeResponseMap = { [key: string]: unknown | undefined };
 export const LifecycleDataWarehouseNodeResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5256,6 +5328,7 @@ export type WebStatsBreakdown =
   | "FirstPageviewUTMContent"
   | "FirstPageviewUTMSourceMediumCampaign"
   | "Browser"
+  | "InAppBrowser"
   | "OS"
   | "Viewport"
   | "DeviceType"
@@ -5435,9 +5508,7 @@ export const WebAnalyticsSampling = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.NullOr(S.Boolean)),
     forceSamplingRate: S.optional(S.NullOr(SamplingRate)),
   }),
-).annotate({
-  identifier: "WebAnalyticsSampling",
-}) as any as S.Schema<WebAnalyticsSampling>;
+).annotate({ identifier: "WebAnalyticsSampling" }) as any as S.Schema<WebAnalyticsSampling>;
 
 export interface WebStatsTableQuery {
   /** Groups aggregation - not used in Web Analytics but required for type compatibility */
@@ -5455,6 +5526,7 @@ export interface WebStatsTableQuery {
   includeHost?: boolean | null;
   includeRevenue?: boolean | null;
   includeScrollDepth?: boolean | null;
+  includeTrafficMetrics?: boolean | null;
   /** Interval for date range calculation (affects date_to rounding for hour vs day ranges) */
   interval?: IntervalType | (string & {}) | null;
   kind?: string;
@@ -5490,6 +5562,7 @@ export const WebStatsTableQuery = /*@__PURE__*/ S.suspend(() =>
     includeHost: S.optional(S.NullOr(S.Boolean)),
     includeRevenue: S.optional(S.NullOr(S.Boolean)),
     includeScrollDepth: S.optional(S.NullOr(S.Boolean)),
+    includeTrafficMetrics: S.optional(S.NullOr(S.Boolean)),
     interval: S.optional(S.NullOr(IntervalType)),
     kind: S.optional(S.String),
     limit: S.optional(S.NullOr(S.Number)),
@@ -5505,9 +5578,7 @@ export const WebStatsTableQuery = /*@__PURE__*/ S.suspend(() =>
     useWebAnalyticsPrecompute: S.optional(S.NullOr(S.Boolean)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "WebStatsTableQuery",
-}) as any as S.Schema<WebStatsTableQuery>;
+).annotate({ identifier: "WebStatsTableQuery" }) as any as S.Schema<WebStatsTableQuery>;
 
 export type WebOverviewQueryConversionGoal = ActionConversionGoal | CustomEventConversionGoal;
 export const WebOverviewQueryConversionGoal =
@@ -5555,9 +5626,7 @@ export const WebOverviewItem = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.Number)),
     value: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "WebOverviewItem",
-}) as any as S.Schema<WebOverviewItem>;
+).annotate({ identifier: "WebOverviewItem" }) as any as S.Schema<WebOverviewItem>;
 
 export type WebOverviewQueryResponseResultsList = Array<WebOverviewItem>;
 export const WebOverviewQueryResponseResultsList = /*@__PURE__*/ S.Array(
@@ -5632,9 +5701,7 @@ export const WebOverviewQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(WebOverviewQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "WebOverviewQueryResponse",
-}) as any as S.Schema<WebOverviewQueryResponse>;
+).annotate({ identifier: "WebOverviewQueryResponse" }) as any as S.Schema<WebOverviewQueryResponse>;
 
 export interface WebOverviewQuery {
   /** Groups aggregation - not used in Web Analytics but required for type compatibility */
@@ -5688,9 +5755,7 @@ export const WebOverviewQuery = /*@__PURE__*/ S.suspend(() =>
     useWebAnalyticsPrecompute: S.optional(S.NullOr(S.Boolean)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "WebOverviewQuery",
-}) as any as S.Schema<WebOverviewQuery>;
+).annotate({ identifier: "WebOverviewQuery" }) as any as S.Schema<WebOverviewQuery>;
 
 export type InsightVizNodeSource =
   | TrendsQuery
@@ -5737,9 +5802,7 @@ export const VizSpecificOptions = /*@__PURE__*/ S.suspend(() =>
     ActionsPie: S.optional(S.NullOr(ActionsPie)),
     RETENTION: S.optional(S.NullOr(RETENTION)),
   }),
-).annotate({
-  identifier: "VizSpecificOptions",
-}) as any as S.Schema<VizSpecificOptions>;
+).annotate({ identifier: "VizSpecificOptions" }) as any as S.Schema<VizSpecificOptions>;
 
 export interface InsightVizNode {
   /** Query is embedded inside another bordered component */
@@ -5819,9 +5882,7 @@ export const DataTableNodePinnedColumnsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<DataTableNodePinnedColumnsList>;
 
-export type DataTableNodeResponseCase0Map = {
-  [key: string]: unknown | undefined;
-};
+export type DataTableNodeResponseCase0Map = { [key: string]: unknown | undefined };
 export const DataTableNodeResponseCase0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -6121,6 +6182,25 @@ export const HogQLMetadataResponseErrorsList = /*@__PURE__*/ S.Array(
   HogQLNotice,
 ) as any as S.Schema<HogQLMetadataResponseErrorsList>;
 
+export type PredicateFixAction = "edit_query" | "edit_property_type" | "materialize";
+export const PredicateFixAction = S.String;
+
+export interface PredicateQuickfix {
+  /** Character offset in the query where the replaced range ends. */
+  end: number;
+  /** Character offset in the query where the replaced range starts. */
+  start: number;
+  /** Replacement text, substituted for the range verbatim. */
+  text: string;
+}
+export const PredicateQuickfix = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    end: S.Number,
+    start: S.Number,
+    text: S.String,
+  }),
+).annotate({ identifier: "PredicateQuickfix" }) as any as S.Schema<PredicateQuickfix>;
+
 export type PredicateScope = "event" | "person" | "group" | "unknown";
 export const PredicateScope = S.String;
 
@@ -6139,15 +6219,21 @@ export type PredicateIndexVerdict =
 export const PredicateIndexVerdict = S.String;
 
 export interface PredicateIndexUsage {
+  /** Instruction for an AI rewrite of the query, set when a query edit would help. */
+  ai_fix_prompt?: string | null;
   column_name?: string | null;
   end?: number | null;
+  /** Prose advice for a reader. */
   fix?: string | null;
+  fix_action?: PredicateFixAction | (string & {}) | null;
   message: string;
   /** HogQL comparison operator, e.g. `==`, `in`, `ilike`. */
   operator: string;
   /** Type the value is physically stored as. */
   physical_type: string;
   property_name: string;
+  /** A deterministic query edit that unblocks the index. */
+  quickfix?: PredicateQuickfix | null;
   scope: PredicateScope | (string & {});
   /** Type the property definition declares. */
   semantic_type: string;
@@ -6160,13 +6246,16 @@ export interface PredicateIndexUsage {
 }
 export const PredicateIndexUsage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    ai_fix_prompt: S.optional(S.NullOr(S.String)),
     column_name: S.optional(S.NullOr(S.String)),
     end: S.optional(S.NullOr(S.Number)),
     fix: S.optional(S.NullOr(S.String)),
+    fix_action: S.optional(S.NullOr(PredicateFixAction)),
     message: S.String,
     operator: S.String,
     physical_type: S.String,
     property_name: S.String,
+    quickfix: S.optional(S.NullOr(PredicateQuickfix)),
     scope: PredicateScope,
     semantic_type: S.String,
     source_label: S.String,
@@ -6174,9 +6263,7 @@ export const PredicateIndexUsage = /*@__PURE__*/ S.suspend(() =>
     usable_indexes: PredicateIndexUsageUsableIndexesList,
     verdict: PredicateIndexVerdict,
   }),
-).annotate({
-  identifier: "PredicateIndexUsage",
-}) as any as S.Schema<PredicateIndexUsage>;
+).annotate({ identifier: "PredicateIndexUsage" }) as any as S.Schema<PredicateIndexUsage>;
 
 export type HogQLMetadataResponseIndexUsageList = Array<PredicateIndexUsage>;
 export const HogQLMetadataResponseIndexUsageList = /*@__PURE__*/ S.Array(
@@ -6190,6 +6277,24 @@ export type HogQLMetadataResponseNoticesList = Array<HogQLNotice>;
 export const HogQLMetadataResponseNoticesList = /*@__PURE__*/ S.Array(
   HogQLNotice,
 ) as any as S.Schema<HogQLMetadataResponseNoticesList>;
+
+export interface HogQLMetadataColumn {
+  /** Output column name, in the same order as the SELECT list. */
+  name: string;
+  /** Inferred runtime type, including nullability. Unknown means inference could not determine the type; execution remains authoritative. */
+  type: string;
+}
+export const HogQLMetadataColumn = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    type: S.String,
+  }),
+).annotate({ identifier: "HogQLMetadataColumn" }) as any as S.Schema<HogQLMetadataColumn>;
+
+export type HogQLMetadataResponseOutputColumnsList = Array<HogQLMetadataColumn>;
+export const HogQLMetadataResponseOutputColumnsList = /*@__PURE__*/ S.Array(
+  HogQLMetadataColumn,
+) as any as S.Schema<HogQLMetadataResponseOutputColumnsList>;
 
 export type HogQLMetadataResponseTableNamesList = Array<string>;
 export const HogQLMetadataResponseTableNamesList = /*@__PURE__*/ S.Array(
@@ -6209,6 +6314,8 @@ export interface HogQLMetadataResponse {
   isUsingIndices?: QueryIndexUsage | (string & {}) | null;
   isValid?: boolean | null;
   notices?: HogQLMetadataResponseNoticesList;
+  /** Best-effort output schema, without executing the query. Only included when includeOutputTypes is requested and inference succeeds. */
+  output_columns?: HogQLMetadataResponseOutputColumnsList | null;
   query?: string | null;
   table_names?: HogQLMetadataResponseTableNamesList | null;
   warnings?: HogQLMetadataResponseWarningsList;
@@ -6221,13 +6328,12 @@ export const HogQLMetadataResponse = /*@__PURE__*/ S.suspend(() =>
     isUsingIndices: S.optional(S.NullOr(QueryIndexUsage)),
     isValid: S.optional(S.NullOr(S.Boolean)),
     notices: S.optional(HogQLMetadataResponseNoticesList),
+    output_columns: S.optional(S.NullOr(HogQLMetadataResponseOutputColumnsList)),
     query: S.optional(S.NullOr(S.String)),
     table_names: S.optional(S.NullOr(HogQLMetadataResponseTableNamesList)),
     warnings: S.optional(HogQLMetadataResponseWarningsList),
   }),
-).annotate({
-  identifier: "HogQLMetadataResponse",
-}) as any as S.Schema<HogQLMetadataResponse>;
+).annotate({ identifier: "HogQLMetadataResponse" }) as any as S.Schema<HogQLMetadataResponse>;
 
 export type Response3ResultsList = Array<unknown>;
 export const Response3ResultsList = /*@__PURE__*/ S.Array(
@@ -7020,9 +7126,7 @@ export const MarketingAnalyticsItem = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(MarketingAnalyticsItemPrevious)),
     value: S.optional(S.NullOr(MarketingAnalyticsItemValue)),
   }),
-).annotate({
-  identifier: "MarketingAnalyticsItem",
-}) as any as S.Schema<MarketingAnalyticsItem>;
+).annotate({ identifier: "MarketingAnalyticsItem" }) as any as S.Schema<MarketingAnalyticsItem>;
 
 export type Response12ResultsItemList = Array<MarketingAnalyticsItem>;
 export const Response12ResultsItemList = /*@__PURE__*/ S.Array(
@@ -7059,6 +7163,8 @@ export const Response12WarningsList = /*@__PURE__*/ S.Array(
 
 export interface Response12 {
   columns?: Response12ColumnsList | null;
+  /** ISO timestamp of the oldest precompute window backing this result — surfaced as "data as of X". */
+  dataComputedAt?: string | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
@@ -7068,6 +7174,8 @@ export interface Response12 {
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
   offset?: number | null;
+  /** True when a conversion goal's precompute has not been warmed for this window yet — the UI shows a "computing" state rather than empty results. Marketing analytics serves exclusively from precompute. */
+  precomputeNotReady?: boolean | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -7087,12 +7195,14 @@ export interface Response12 {
 export const Response12 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     columns: S.optional(S.NullOr(Response12ColumnsList)),
+    dataComputedAt: S.optional(S.NullOr(S.String)),
     error: S.optional(S.NullOr(S.String)),
     hasMore: S.optional(S.NullOr(S.Boolean)),
     hogql: S.optional(S.NullOr(S.String)),
     limit: S.optional(S.NullOr(S.Number)),
     modifiers: S.optional(S.NullOr(HogQLQueryModifiers)),
     offset: S.optional(S.NullOr(S.Number)),
+    precomputeNotReady: S.optional(S.NullOr(S.Boolean)),
     query_status: S.optional(S.NullOr(QueryStatus)),
     resolved_compare_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
     resolved_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
@@ -7105,9 +7215,7 @@ export const Response12 = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Response12" }) as any as S.Schema<Response12>;
 
-export type Response13ResultsMap = {
-  [key: string]: MarketingAnalyticsItem | undefined;
-};
+export type Response13ResultsMap = { [key: string]: MarketingAnalyticsItem | undefined };
 export const Response13ResultsMap = /*@__PURE__*/ S.Record(
   S.String,
   MarketingAnalyticsItem,
@@ -7132,12 +7240,16 @@ export const Response13WarningsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<Response13WarningsList>;
 
 export interface Response13 {
+  /** ISO timestamp of the oldest precompute window backing this result — surfaced as "data as of X". */
+  dataComputedAt?: string | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
   hogql?: string | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
+  /** True when a conversion goal's precompute has not been warmed for this window yet — the UI shows a "computing" state rather than empty results. Marketing analytics serves exclusively from precompute. */
+  precomputeNotReady?: boolean | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -7155,9 +7267,11 @@ export interface Response13 {
 }
 export const Response13 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    dataComputedAt: S.optional(S.NullOr(S.String)),
     error: S.optional(S.NullOr(S.String)),
     hogql: S.optional(S.NullOr(S.String)),
     modifiers: S.optional(S.NullOr(HogQLQueryModifiers)),
+    precomputeNotReady: S.optional(S.NullOr(S.Boolean)),
     query_status: S.optional(S.NullOr(QueryStatus)),
     resolved_compare_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
     resolved_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
@@ -7169,96 +7283,10 @@ export const Response13 = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Response13" }) as any as S.Schema<Response13>;
 
-export type Response14ColumnsList = Array<unknown>;
+export type Response14ColumnsList = Array<string>;
 export const Response14ColumnsList = /*@__PURE__*/ S.Array(
-  S.Unknown,
-) as any as S.Schema<Response14ColumnsList>;
-
-export type Response14ResultsItemList = Array<MarketingAnalyticsItem>;
-export const Response14ResultsItemList = /*@__PURE__*/ S.Array(
-  MarketingAnalyticsItem,
-) as any as S.Schema<Response14ResultsItemList>;
-
-export type Response14ResultsList = Array<Response14ResultsItemList>;
-export const Response14ResultsList = /*@__PURE__*/ S.Array(
-  Response14ResultsItemList,
-) as any as S.Schema<Response14ResultsList>;
-
-export type Response14TimingsList = Array<QueryTiming>;
-export const Response14TimingsList = /*@__PURE__*/ S.Array(
-  QueryTiming,
-) as any as S.Schema<Response14TimingsList>;
-
-export type Response14TypesList = Array<unknown>;
-export const Response14TypesList = /*@__PURE__*/ S.Array(
-  S.Unknown,
-) as any as S.Schema<Response14TypesList>;
-
-export type Response14UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export const Response14UsedDataWarehouseSourcesList = /*@__PURE__*/ S.Array(
-  DataWarehouseSourceUsage,
-) as any as S.Schema<Response14UsedDataWarehouseSourcesList>;
-
-export type Response14WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
-export const Response14WarningsItem = S.Unknown as any as S.Schema<Response14WarningsItem>;
-
-export type Response14WarningsList = Array<Response14WarningsItem>;
-export const Response14WarningsList = /*@__PURE__*/ S.Array(
-  Response14WarningsItem,
-) as any as S.Schema<Response14WarningsList>;
-
-export interface Response14 {
-  columns?: Response14ColumnsList | null;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  limit?: number | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: Response14ResultsList;
-  samplingRate?: SamplingRate | null;
-  /** Measured timings for different parts of the query generation process */
-  timings?: Response14TimingsList | null;
-  types?: Response14TypesList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: Response14UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response — so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: Response14WarningsList | null;
-}
-export const Response14 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    columns: S.optional(S.NullOr(Response14ColumnsList)),
-    error: S.optional(S.NullOr(S.String)),
-    hasMore: S.optional(S.NullOr(S.Boolean)),
-    hogql: S.optional(S.NullOr(S.String)),
-    limit: S.optional(S.NullOr(S.Number)),
-    modifiers: S.optional(S.NullOr(HogQLQueryModifiers)),
-    offset: S.optional(S.NullOr(S.Number)),
-    query_status: S.optional(S.NullOr(QueryStatus)),
-    resolved_compare_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
-    resolved_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
-    results: S.optional(Response14ResultsList),
-    samplingRate: S.optional(S.NullOr(SamplingRate)),
-    timings: S.optional(S.NullOr(Response14TimingsList)),
-    types: S.optional(S.NullOr(Response14TypesList)),
-    used_data_warehouse_sources: S.optional(S.NullOr(Response14UsedDataWarehouseSourcesList)),
-    warnings: S.optional(S.NullOr(Response14WarningsList)),
-  }),
-).annotate({ identifier: "Response14" }) as any as S.Schema<Response14>;
-
-export type Response15ColumnsList = Array<string>;
-export const Response15ColumnsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<Response15ColumnsList>;
+) as any as S.Schema<Response14ColumnsList>;
 
 export type ErrorTrackingIssueAggregationsVolumeRangeList = Array<number>;
 export const ErrorTrackingIssueAggregationsVolumeRangeList = /*@__PURE__*/ S.Array(
@@ -7329,9 +7357,7 @@ export const ErrorTrackingIssueCohort = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ErrorTrackingIssueCohort",
-}) as any as S.Schema<ErrorTrackingIssueCohort>;
+).annotate({ identifier: "ErrorTrackingIssueCohort" }) as any as S.Schema<ErrorTrackingIssueCohort>;
 
 export type IntegrationKind =
   | "slack"
@@ -7354,6 +7380,7 @@ export type IntegrationKind =
   | "linear"
   | "github"
   | "gitlab"
+  | "helpscout"
   | "meta-ads"
   | "instagram"
   | "clickup"
@@ -7376,7 +7403,8 @@ export type IntegrationKind =
   | "aws-redshift"
   | "s3-compatible"
   | "snowflake"
-  | "youtube-analytics";
+  | "youtube-analytics"
+  | "twitter-ads";
 export const IntegrationKind = S.String;
 
 export interface ErrorTrackingExternalReferenceIntegration {
@@ -7395,15 +7423,19 @@ export const ErrorTrackingExternalReferenceIntegration = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<ErrorTrackingExternalReferenceIntegration>;
 
 export interface ErrorTrackingExternalReference {
+  external_id?: string;
   external_url?: string;
   id?: string;
   integration?: ErrorTrackingExternalReferenceIntegration;
+  title?: string;
 }
 export const ErrorTrackingExternalReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    external_id: S.optional(S.String),
     external_url: S.optional(S.String),
     id: S.optional(S.String),
     integration: S.optional(ErrorTrackingExternalReferenceIntegration),
+    title: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ErrorTrackingExternalReference",
@@ -7480,13 +7512,140 @@ export const ErrorTrackingIssue = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(S.NullOr(S.String)),
     status: S.optional(ErrorTrackingIssueStatus),
   }),
-).annotate({
-  identifier: "ErrorTrackingIssue",
-}) as any as S.Schema<ErrorTrackingIssue>;
+).annotate({ identifier: "ErrorTrackingIssue" }) as any as S.Schema<ErrorTrackingIssue>;
 
-export type Response15ResultsList = Array<ErrorTrackingIssue>;
-export const Response15ResultsList = /*@__PURE__*/ S.Array(
+export type Response14ResultsList = Array<ErrorTrackingIssue>;
+export const Response14ResultsList = /*@__PURE__*/ S.Array(
   ErrorTrackingIssue,
+) as any as S.Schema<Response14ResultsList>;
+
+export type Response14TimingsList = Array<QueryTiming>;
+export const Response14TimingsList = /*@__PURE__*/ S.Array(
+  QueryTiming,
+) as any as S.Schema<Response14TimingsList>;
+
+export type Response14UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export const Response14UsedDataWarehouseSourcesList = /*@__PURE__*/ S.Array(
+  DataWarehouseSourceUsage,
+) as any as S.Schema<Response14UsedDataWarehouseSourcesList>;
+
+export type Response14WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export const Response14WarningsItem = S.Unknown as any as S.Schema<Response14WarningsItem>;
+
+export type Response14WarningsList = Array<Response14WarningsItem>;
+export const Response14WarningsList = /*@__PURE__*/ S.Array(
+  Response14WarningsItem,
+) as any as S.Schema<Response14WarningsList>;
+
+export interface Response14 {
+  columns?: Response14ColumnsList | null;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore?: boolean | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  limit?: number | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  offset?: number | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results?: Response14ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: Response14TimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: Response14UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response — so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  warnings?: Response14WarningsList | null;
+}
+export const Response14 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    columns: S.optional(S.NullOr(Response14ColumnsList)),
+    error: S.optional(S.NullOr(S.String)),
+    hasMore: S.optional(S.NullOr(S.Boolean)),
+    hogql: S.optional(S.NullOr(S.String)),
+    limit: S.optional(S.NullOr(S.Number)),
+    modifiers: S.optional(S.NullOr(HogQLQueryModifiers)),
+    offset: S.optional(S.NullOr(S.Number)),
+    query_status: S.optional(S.NullOr(QueryStatus)),
+    resolved_compare_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
+    resolved_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
+    results: S.optional(Response14ResultsList),
+    timings: S.optional(S.NullOr(Response14TimingsList)),
+    used_data_warehouse_sources: S.optional(S.NullOr(Response14UsedDataWarehouseSourcesList)),
+    warnings: S.optional(S.NullOr(Response14WarningsList)),
+  }),
+).annotate({ identifier: "Response14" }) as any as S.Schema<Response14>;
+
+export type Response15ColumnsList = Array<string>;
+export const Response15ColumnsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<Response15ColumnsList>;
+
+export type ErrorTrackingCorrelatedIssueExternalIssuesList = Array<ErrorTrackingExternalReference>;
+export const ErrorTrackingCorrelatedIssueExternalIssuesList = /*@__PURE__*/ S.Array(
+  ErrorTrackingExternalReference,
+) as any as S.Schema<ErrorTrackingCorrelatedIssueExternalIssuesList>;
+
+export interface Population {
+  both?: number;
+  exception_only?: number;
+  neither?: number;
+  success_only?: number;
+}
+export const Population = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    both: S.optional(S.Number),
+    exception_only: S.optional(S.Number),
+    neither: S.optional(S.Number),
+    success_only: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Population" }) as any as S.Schema<Population>;
+
+export interface ErrorTrackingCorrelatedIssue {
+  assignee?: ErrorTrackingIssueAssignee | null;
+  cohort?: ErrorTrackingIssueCohort | null;
+  description?: string | null;
+  event?: string;
+  external_issues?: ErrorTrackingCorrelatedIssueExternalIssuesList | null;
+  first_seen?: string;
+  id?: string;
+  last_seen?: string;
+  library?: string | null;
+  name?: string | null;
+  odds_ratio?: number;
+  population?: Population;
+  severity?: ErrorTrackingQueryIssueSeverity | (string & {}) | null;
+  status?: ErrorTrackingIssueStatus | (string & {});
+}
+export const ErrorTrackingCorrelatedIssue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assignee: S.optional(S.NullOr(ErrorTrackingIssueAssignee)),
+    cohort: S.optional(S.NullOr(ErrorTrackingIssueCohort)),
+    description: S.optional(S.NullOr(S.String)),
+    event: S.optional(S.String),
+    external_issues: S.optional(S.NullOr(ErrorTrackingCorrelatedIssueExternalIssuesList)),
+    first_seen: S.optional(S.String),
+    id: S.optional(S.String),
+    last_seen: S.optional(S.String),
+    library: S.optional(S.NullOr(S.String)),
+    name: S.optional(S.NullOr(S.String)),
+    odds_ratio: S.optional(S.Number),
+    population: S.optional(Population),
+    severity: S.optional(S.NullOr(ErrorTrackingQueryIssueSeverity)),
+    status: S.optional(ErrorTrackingIssueStatus),
+  }),
+).annotate({
+  identifier: "ErrorTrackingCorrelatedIssue",
+}) as any as S.Schema<ErrorTrackingCorrelatedIssue>;
+
+export type Response15ResultsList = Array<ErrorTrackingCorrelatedIssue>;
+export const Response15ResultsList = /*@__PURE__*/ S.Array(
+  ErrorTrackingCorrelatedIssue,
 ) as any as S.Schema<Response15ResultsList>;
 
 export type Response15TimingsList = Array<QueryTiming>;
@@ -7551,171 +7710,40 @@ export const Response15 = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Response15" }) as any as S.Schema<Response15>;
 
-export type Response16ColumnsList = Array<string>;
-export const Response16ColumnsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<Response16ColumnsList>;
-
-export type ErrorTrackingCorrelatedIssueExternalIssuesList = Array<ErrorTrackingExternalReference>;
-export const ErrorTrackingCorrelatedIssueExternalIssuesList = /*@__PURE__*/ S.Array(
-  ErrorTrackingExternalReference,
-) as any as S.Schema<ErrorTrackingCorrelatedIssueExternalIssuesList>;
-
-export interface Population {
-  both?: number;
-  exception_only?: number;
-  neither?: number;
-  success_only?: number;
-}
-export const Population = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    both: S.optional(S.Number),
-    exception_only: S.optional(S.Number),
-    neither: S.optional(S.Number),
-    success_only: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Population" }) as any as S.Schema<Population>;
-
-export interface ErrorTrackingCorrelatedIssue {
-  assignee?: ErrorTrackingIssueAssignee | null;
-  cohort?: ErrorTrackingIssueCohort | null;
-  description?: string | null;
-  event?: string;
-  external_issues?: ErrorTrackingCorrelatedIssueExternalIssuesList | null;
-  first_seen?: string;
-  id?: string;
-  last_seen?: string;
-  library?: string | null;
-  name?: string | null;
-  odds_ratio?: number;
-  population?: Population;
-  severity?: ErrorTrackingQueryIssueSeverity | (string & {}) | null;
-  status?: ErrorTrackingIssueStatus | (string & {});
-}
-export const ErrorTrackingCorrelatedIssue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    assignee: S.optional(S.NullOr(ErrorTrackingIssueAssignee)),
-    cohort: S.optional(S.NullOr(ErrorTrackingIssueCohort)),
-    description: S.optional(S.NullOr(S.String)),
-    event: S.optional(S.String),
-    external_issues: S.optional(S.NullOr(ErrorTrackingCorrelatedIssueExternalIssuesList)),
-    first_seen: S.optional(S.String),
-    id: S.optional(S.String),
-    last_seen: S.optional(S.String),
-    library: S.optional(S.NullOr(S.String)),
-    name: S.optional(S.NullOr(S.String)),
-    odds_ratio: S.optional(S.Number),
-    population: S.optional(Population),
-    severity: S.optional(S.NullOr(ErrorTrackingQueryIssueSeverity)),
-    status: S.optional(ErrorTrackingIssueStatus),
-  }),
-).annotate({
-  identifier: "ErrorTrackingCorrelatedIssue",
-}) as any as S.Schema<ErrorTrackingCorrelatedIssue>;
-
-export type Response16ResultsList = Array<ErrorTrackingCorrelatedIssue>;
-export const Response16ResultsList = /*@__PURE__*/ S.Array(
-  ErrorTrackingCorrelatedIssue,
-) as any as S.Schema<Response16ResultsList>;
-
-export type Response16TimingsList = Array<QueryTiming>;
-export const Response16TimingsList = /*@__PURE__*/ S.Array(
-  QueryTiming,
-) as any as S.Schema<Response16TimingsList>;
-
-export type Response16UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export const Response16UsedDataWarehouseSourcesList = /*@__PURE__*/ S.Array(
-  DataWarehouseSourceUsage,
-) as any as S.Schema<Response16UsedDataWarehouseSourcesList>;
-
-export type Response16WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
-export const Response16WarningsItem = S.Unknown as any as S.Schema<Response16WarningsItem>;
-
-export type Response16WarningsList = Array<Response16WarningsItem>;
-export const Response16WarningsList = /*@__PURE__*/ S.Array(
-  Response16WarningsItem,
-) as any as S.Schema<Response16WarningsList>;
-
-export interface Response16 {
-  columns?: Response16ColumnsList | null;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  limit?: number | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: Response16ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: Response16TimingsList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: Response16UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response — so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: Response16WarningsList | null;
-}
-export const Response16 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    columns: S.optional(S.NullOr(Response16ColumnsList)),
-    error: S.optional(S.NullOr(S.String)),
-    hasMore: S.optional(S.NullOr(S.Boolean)),
-    hogql: S.optional(S.NullOr(S.String)),
-    limit: S.optional(S.NullOr(S.Number)),
-    modifiers: S.optional(S.NullOr(HogQLQueryModifiers)),
-    offset: S.optional(S.NullOr(S.Number)),
-    query_status: S.optional(S.NullOr(QueryStatus)),
-    resolved_compare_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
-    resolved_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
-    results: S.optional(Response16ResultsList),
-    timings: S.optional(S.NullOr(Response16TimingsList)),
-    used_data_warehouse_sources: S.optional(S.NullOr(Response16UsedDataWarehouseSourcesList)),
-    warnings: S.optional(S.NullOr(Response16WarningsList)),
-  }),
-).annotate({ identifier: "Response16" }) as any as S.Schema<Response16>;
-
-export type Response17CredibleIntervalsValueList = Array<number>;
-export const Response17CredibleIntervalsValueList = /*@__PURE__*/ S.Array(
+export type Response16CredibleIntervalsValueList = Array<number>;
+export const Response16CredibleIntervalsValueList = /*@__PURE__*/ S.Array(
   S.Number,
-) as any as S.Schema<Response17CredibleIntervalsValueList>;
+) as any as S.Schema<Response16CredibleIntervalsValueList>;
 
-export type Response17CredibleIntervalsMap = {
-  [key: string]: Response17CredibleIntervalsValueList | undefined;
+export type Response16CredibleIntervalsMap = {
+  [key: string]: Response16CredibleIntervalsValueList | undefined;
 };
-export const Response17CredibleIntervalsMap = /*@__PURE__*/ S.Record(
+export const Response16CredibleIntervalsMap = /*@__PURE__*/ S.Record(
   S.String,
-  Response17CredibleIntervalsValueList,
-) as any as S.Schema<Response17CredibleIntervalsMap>;
+  Response16CredibleIntervalsValueList,
+) as any as S.Schema<Response16CredibleIntervalsMap>;
 
-export type Response17InsightItemItemMap = {
-  [key: string]: unknown | undefined;
-};
-export const Response17InsightItemItemMap = /*@__PURE__*/ S.Record(
+export type Response16InsightItemItemMap = { [key: string]: unknown | undefined };
+export const Response16InsightItemItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
-) as any as S.Schema<Response17InsightItemItemMap>;
+) as any as S.Schema<Response16InsightItemItemMap>;
 
-export type Response17InsightItemList = Array<Response17InsightItemItemMap>;
-export const Response17InsightItemList = /*@__PURE__*/ S.Array(
-  Response17InsightItemItemMap,
-) as any as S.Schema<Response17InsightItemList>;
+export type Response16InsightItemList = Array<Response16InsightItemItemMap>;
+export const Response16InsightItemList = /*@__PURE__*/ S.Array(
+  Response16InsightItemItemMap,
+) as any as S.Schema<Response16InsightItemList>;
 
-export type Response17InsightList = Array<Response17InsightItemList>;
-export const Response17InsightList = /*@__PURE__*/ S.Array(
-  Response17InsightItemList,
-) as any as S.Schema<Response17InsightList>;
+export type Response16InsightList = Array<Response16InsightItemList>;
+export const Response16InsightList = /*@__PURE__*/ S.Array(
+  Response16InsightItemList,
+) as any as S.Schema<Response16InsightList>;
 
-export type Response17ProbabilityMap = { [key: string]: number | undefined };
-export const Response17ProbabilityMap = /*@__PURE__*/ S.Record(
+export type Response16ProbabilityMap = { [key: string]: number | undefined };
+export const Response16ProbabilityMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
-) as any as S.Schema<Response17ProbabilityMap>;
+) as any as S.Schema<Response16ProbabilityMap>;
 
 export type ExperimentSignificanceCode =
   | "significant"
@@ -7740,75 +7768,75 @@ export const ExperimentVariantFunnelsBaseStats = /*@__PURE__*/ S.suspend(() =>
   identifier: "ExperimentVariantFunnelsBaseStats",
 }) as any as S.Schema<ExperimentVariantFunnelsBaseStats>;
 
-export type Response17VariantsList = Array<ExperimentVariantFunnelsBaseStats>;
-export const Response17VariantsList = /*@__PURE__*/ S.Array(
+export type Response16VariantsList = Array<ExperimentVariantFunnelsBaseStats>;
+export const Response16VariantsList = /*@__PURE__*/ S.Array(
   ExperimentVariantFunnelsBaseStats,
-) as any as S.Schema<Response17VariantsList>;
+) as any as S.Schema<Response16VariantsList>;
 
-export type Response17WarningsList = Array<DataWarehouseSyncWarning>;
-export const Response17WarningsList = /*@__PURE__*/ S.Array(
+export type Response16WarningsList = Array<DataWarehouseSyncWarning>;
+export const Response16WarningsList = /*@__PURE__*/ S.Array(
   DataWarehouseSyncWarning,
-) as any as S.Schema<Response17WarningsList>;
+) as any as S.Schema<Response16WarningsList>;
 
-export interface Response17 {
-  credible_intervals: Response17CredibleIntervalsMap;
-  expected_loss: number;
+export interface Response16 {
+  credible_intervals?: Response16CredibleIntervalsMap;
+  expected_loss?: number;
   funnels_query?: FunnelsQuery | null;
-  insight: Response17InsightList;
+  insight?: Response16InsightList;
   kind?: string;
-  probability: Response17ProbabilityMap;
-  significance_code: ExperimentSignificanceCode | (string & {});
-  significant: boolean;
+  probability?: Response16ProbabilityMap;
+  significance_code?: ExperimentSignificanceCode | (string & {});
+  significant?: boolean;
   stats_version?: number | null;
-  variants: Response17VariantsList;
+  variants?: Response16VariantsList;
   /** Data warehouse sync warnings — see AnalyticsQueryResponseBase.warnings for semantics. */
-  warnings?: Response17WarningsList | null;
+  warnings?: Response16WarningsList | null;
 }
-export const Response17 = /*@__PURE__*/ S.suspend(() =>
+export const Response16 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    credible_intervals: Response17CredibleIntervalsMap,
-    expected_loss: S.Number,
+    credible_intervals: S.optional(Response16CredibleIntervalsMap),
+    expected_loss: S.optional(S.Number),
     funnels_query: S.optional(S.NullOr(FunnelsQuery)),
-    insight: Response17InsightList,
+    insight: S.optional(Response16InsightList),
     kind: S.optional(S.String),
-    probability: Response17ProbabilityMap,
-    significance_code: ExperimentSignificanceCode,
-    significant: S.Boolean,
+    probability: S.optional(Response16ProbabilityMap),
+    significance_code: S.optional(ExperimentSignificanceCode),
+    significant: S.optional(S.Boolean),
     stats_version: S.optional(S.NullOr(S.Number)),
-    variants: Response17VariantsList,
-    warnings: S.optional(S.NullOr(Response17WarningsList)),
+    variants: S.optional(Response16VariantsList),
+    warnings: S.optional(S.NullOr(Response16WarningsList)),
   }),
-).annotate({ identifier: "Response17" }) as any as S.Schema<Response17>;
+).annotate({ identifier: "Response16" }) as any as S.Schema<Response16>;
 
-export type Response18CredibleIntervalsValueList = Array<number>;
-export const Response18CredibleIntervalsValueList = /*@__PURE__*/ S.Array(
+export type Response17CredibleIntervalsValueList = Array<number>;
+export const Response17CredibleIntervalsValueList = /*@__PURE__*/ S.Array(
   S.Number,
-) as any as S.Schema<Response18CredibleIntervalsValueList>;
+) as any as S.Schema<Response17CredibleIntervalsValueList>;
 
-export type Response18CredibleIntervalsMap = {
-  [key: string]: Response18CredibleIntervalsValueList | undefined;
+export type Response17CredibleIntervalsMap = {
+  [key: string]: Response17CredibleIntervalsValueList | undefined;
 };
-export const Response18CredibleIntervalsMap = /*@__PURE__*/ S.Record(
+export const Response17CredibleIntervalsMap = /*@__PURE__*/ S.Record(
   S.String,
-  Response18CredibleIntervalsValueList,
-) as any as S.Schema<Response18CredibleIntervalsMap>;
+  Response17CredibleIntervalsValueList,
+) as any as S.Schema<Response17CredibleIntervalsMap>;
 
-export type Response18InsightItemMap = { [key: string]: unknown | undefined };
-export const Response18InsightItemMap = /*@__PURE__*/ S.Record(
+export type Response17InsightItemMap = { [key: string]: unknown | undefined };
+export const Response17InsightItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
-) as any as S.Schema<Response18InsightItemMap>;
+) as any as S.Schema<Response17InsightItemMap>;
 
-export type Response18InsightList = Array<Response18InsightItemMap>;
-export const Response18InsightList = /*@__PURE__*/ S.Array(
-  Response18InsightItemMap,
-) as any as S.Schema<Response18InsightList>;
+export type Response17InsightList = Array<Response17InsightItemMap>;
+export const Response17InsightList = /*@__PURE__*/ S.Array(
+  Response17InsightItemMap,
+) as any as S.Schema<Response17InsightList>;
 
-export type Response18ProbabilityMap = { [key: string]: number | undefined };
-export const Response18ProbabilityMap = /*@__PURE__*/ S.Record(
+export type Response17ProbabilityMap = { [key: string]: number | undefined };
+export const Response17ProbabilityMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
-) as any as S.Schema<Response18ProbabilityMap>;
+) as any as S.Schema<Response17ProbabilityMap>;
 
 export interface ExperimentVariantTrendsBaseStats {
   absolute_exposure?: number;
@@ -7827,52 +7855,52 @@ export const ExperimentVariantTrendsBaseStats = /*@__PURE__*/ S.suspend(() =>
   identifier: "ExperimentVariantTrendsBaseStats",
 }) as any as S.Schema<ExperimentVariantTrendsBaseStats>;
 
-export type Response18VariantsList = Array<ExperimentVariantTrendsBaseStats>;
-export const Response18VariantsList = /*@__PURE__*/ S.Array(
+export type Response17VariantsList = Array<ExperimentVariantTrendsBaseStats>;
+export const Response17VariantsList = /*@__PURE__*/ S.Array(
   ExperimentVariantTrendsBaseStats,
-) as any as S.Schema<Response18VariantsList>;
+) as any as S.Schema<Response17VariantsList>;
 
-export type Response18WarningsList = Array<DataWarehouseSyncWarning>;
-export const Response18WarningsList = /*@__PURE__*/ S.Array(
+export type Response17WarningsList = Array<DataWarehouseSyncWarning>;
+export const Response17WarningsList = /*@__PURE__*/ S.Array(
   DataWarehouseSyncWarning,
-) as any as S.Schema<Response18WarningsList>;
+) as any as S.Schema<Response17WarningsList>;
 
-export interface Response18 {
+export interface Response17 {
   count_query?: TrendsQuery | null;
-  credible_intervals?: Response18CredibleIntervalsMap;
+  credible_intervals: Response17CredibleIntervalsMap;
   exposure_query?: TrendsQuery | null;
-  insight?: Response18InsightList;
+  insight: Response17InsightList;
   kind?: string;
-  p_value?: number;
-  probability?: Response18ProbabilityMap;
-  significance_code?: ExperimentSignificanceCode | (string & {});
-  significant?: boolean;
+  p_value: number;
+  probability: Response17ProbabilityMap;
+  significance_code: ExperimentSignificanceCode | (string & {});
+  significant: boolean;
   stats_version?: number | null;
-  variants?: Response18VariantsList;
+  variants: Response17VariantsList;
   /** Data warehouse sync warnings — see AnalyticsQueryResponseBase.warnings for semantics. */
-  warnings?: Response18WarningsList | null;
+  warnings?: Response17WarningsList | null;
 }
-export const Response18 = /*@__PURE__*/ S.suspend(() =>
+export const Response17 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     count_query: S.optional(S.NullOr(TrendsQuery)),
-    credible_intervals: S.optional(Response18CredibleIntervalsMap),
+    credible_intervals: Response17CredibleIntervalsMap,
     exposure_query: S.optional(S.NullOr(TrendsQuery)),
-    insight: S.optional(Response18InsightList),
+    insight: Response17InsightList,
     kind: S.optional(S.String),
-    p_value: S.optional(S.Number),
-    probability: S.optional(Response18ProbabilityMap),
-    significance_code: S.optional(ExperimentSignificanceCode),
-    significant: S.optional(S.Boolean),
+    p_value: S.Number,
+    probability: Response17ProbabilityMap,
+    significance_code: ExperimentSignificanceCode,
+    significant: S.Boolean,
     stats_version: S.optional(S.NullOr(S.Number)),
-    variants: S.optional(Response18VariantsList),
-    warnings: S.optional(S.NullOr(Response18WarningsList)),
+    variants: Response17VariantsList,
+    warnings: S.optional(S.NullOr(Response17WarningsList)),
   }),
-).annotate({ identifier: "Response18" }) as any as S.Schema<Response18>;
+).annotate({ identifier: "Response17" }) as any as S.Schema<Response17>;
 
-export type Response19ColumnsList = Array<string>;
-export const Response19ColumnsList = /*@__PURE__*/ S.Array(
+export type Response18ColumnsList = Array<string>;
+export const Response18ColumnsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<Response19ColumnsList>;
+) as any as S.Schema<Response18ColumnsList>;
 
 export type AIEventType =
   | "$ai_generation"
@@ -7898,9 +7926,7 @@ export const LLMTraceEventPropertiesMap = /*@__PURE__*/ S.Record(
   S.Unknown,
 ) as any as S.Schema<LLMTraceEventPropertiesMap>;
 
-export type LLMSentimentMessageScoresMap = {
-  [key: string]: number | undefined;
-};
+export type LLMSentimentMessageScoresMap = { [key: string]: number | undefined };
 export const LLMSentimentMessageScoresMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -7917,13 +7943,9 @@ export const LLMSentimentMessage = /*@__PURE__*/ S.suspend(() =>
     score: S.Number,
     scores: S.optional(S.NullOr(LLMSentimentMessageScoresMap)),
   }),
-).annotate({
-  identifier: "LLMSentimentMessage",
-}) as any as S.Schema<LLMSentimentMessage>;
+).annotate({ identifier: "LLMSentimentMessage" }) as any as S.Schema<LLMSentimentMessage>;
 
-export type LLMSentimentResultMessagesMap = {
-  [key: string]: LLMSentimentMessage | undefined;
-};
+export type LLMSentimentResultMessagesMap = { [key: string]: LLMSentimentMessage | undefined };
 export const LLMSentimentResultMessagesMap = /*@__PURE__*/ S.Record(
   S.String,
   LLMSentimentMessage,
@@ -7950,9 +7972,7 @@ export const LLMSentimentResult = /*@__PURE__*/ S.suspend(() =>
     score: S.Number,
     scores: S.optional(S.NullOr(LLMSentimentResultScoresMap)),
   }),
-).annotate({
-  identifier: "LLMSentimentResult",
-}) as any as S.Schema<LLMSentimentResult>;
+).annotate({ identifier: "LLMSentimentResult" }) as any as S.Schema<LLMSentimentResult>;
 
 export interface LLMTraceEvent {
   createdAt?: string;
@@ -7976,9 +7996,7 @@ export const LLMTraceEventsList = /*@__PURE__*/ S.Array(
   LLMTraceEvent,
 ) as any as S.Schema<LLMTraceEventsList>;
 
-export type LLMTracePersonPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type LLMTracePersonPropertiesMap = { [key: string]: unknown | undefined };
 export const LLMTracePersonPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -8053,31 +8071,31 @@ export const LLMTrace = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "LLMTrace" }) as any as S.Schema<LLMTrace>;
 
-export type Response19ResultsList = Array<LLMTrace>;
-export const Response19ResultsList = /*@__PURE__*/ S.Array(
+export type Response18ResultsList = Array<LLMTrace>;
+export const Response18ResultsList = /*@__PURE__*/ S.Array(
   LLMTrace,
-) as any as S.Schema<Response19ResultsList>;
+) as any as S.Schema<Response18ResultsList>;
 
-export type Response19TimingsList = Array<QueryTiming>;
-export const Response19TimingsList = /*@__PURE__*/ S.Array(
+export type Response18TimingsList = Array<QueryTiming>;
+export const Response18TimingsList = /*@__PURE__*/ S.Array(
   QueryTiming,
-) as any as S.Schema<Response19TimingsList>;
+) as any as S.Schema<Response18TimingsList>;
 
-export type Response19UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export const Response19UsedDataWarehouseSourcesList = /*@__PURE__*/ S.Array(
+export type Response18UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export const Response18UsedDataWarehouseSourcesList = /*@__PURE__*/ S.Array(
   DataWarehouseSourceUsage,
-) as any as S.Schema<Response19UsedDataWarehouseSourcesList>;
+) as any as S.Schema<Response18UsedDataWarehouseSourcesList>;
 
-export type Response19WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
-export const Response19WarningsItem = S.Unknown as any as S.Schema<Response19WarningsItem>;
+export type Response18WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export const Response18WarningsItem = S.Unknown as any as S.Schema<Response18WarningsItem>;
 
-export type Response19WarningsList = Array<Response19WarningsItem>;
-export const Response19WarningsList = /*@__PURE__*/ S.Array(
-  Response19WarningsItem,
-) as any as S.Schema<Response19WarningsList>;
+export type Response18WarningsList = Array<Response18WarningsItem>;
+export const Response18WarningsList = /*@__PURE__*/ S.Array(
+  Response18WarningsItem,
+) as any as S.Schema<Response18WarningsList>;
 
-export interface Response19 {
-  columns?: Response19ColumnsList | null;
+export interface Response18 {
+  columns?: Response18ColumnsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
@@ -8093,17 +8111,17 @@ export interface Response19 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: Response19ResultsList;
+  results?: Response18ResultsList;
   /** Measured timings for different parts of the query generation process */
-  timings?: Response19TimingsList | null;
+  timings?: Response18TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: Response19UsedDataWarehouseSourcesList | null;
+  used_data_warehouse_sources?: Response18UsedDataWarehouseSourcesList | null;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response — so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: Response19WarningsList | null;
+  warnings?: Response18WarningsList | null;
 }
-export const Response19 = /*@__PURE__*/ S.suspend(() =>
+export const Response18 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    columns: S.optional(S.NullOr(Response19ColumnsList)),
+    columns: S.optional(S.NullOr(Response18ColumnsList)),
     error: S.optional(S.NullOr(S.String)),
     hasMore: S.optional(S.NullOr(S.Boolean)),
     hogql: S.optional(S.NullOr(S.String)),
@@ -8113,21 +8131,110 @@ export const Response19 = /*@__PURE__*/ S.suspend(() =>
     query_status: S.optional(S.NullOr(QueryStatus)),
     resolved_compare_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
     resolved_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
-    results: S.optional(Response19ResultsList),
-    timings: S.optional(S.NullOr(Response19TimingsList)),
-    used_data_warehouse_sources: S.optional(S.NullOr(Response19UsedDataWarehouseSourcesList)),
-    warnings: S.optional(S.NullOr(Response19WarningsList)),
+    results: S.optional(Response18ResultsList),
+    timings: S.optional(S.NullOr(Response18TimingsList)),
+    used_data_warehouse_sources: S.optional(S.NullOr(Response18UsedDataWarehouseSourcesList)),
+    warnings: S.optional(S.NullOr(Response18WarningsList)),
   }),
-).annotate({ identifier: "Response19" }) as any as S.Schema<Response19>;
+).annotate({ identifier: "Response18" }) as any as S.Schema<Response18>;
+
+export type Response20ColumnsList = Array<unknown>;
+export const Response20ColumnsList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<Response20ColumnsList>;
+
+export type Response20ResultsList = Array<unknown>;
+export const Response20ResultsList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<Response20ResultsList>;
+
+export type Response20TimingsList = Array<QueryTiming>;
+export const Response20TimingsList = /*@__PURE__*/ S.Array(
+  QueryTiming,
+) as any as S.Schema<Response20TimingsList>;
+
+export type Response20TypesList = Array<unknown>;
+export const Response20TypesList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<Response20TypesList>;
+
+export type Response20UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export const Response20UsedDataWarehouseSourcesList = /*@__PURE__*/ S.Array(
+  DataWarehouseSourceUsage,
+) as any as S.Schema<Response20UsedDataWarehouseSourcesList>;
+
+export type Response20WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export const Response20WarningsItem = S.Unknown as any as S.Schema<Response20WarningsItem>;
+
+export type Response20WarningsList = Array<Response20WarningsItem>;
+export const Response20WarningsList = /*@__PURE__*/ S.Array(
+  Response20WarningsItem,
+) as any as S.Schema<Response20WarningsList>;
+
+export interface Response20 {
+  columns?: Response20ColumnsList | null;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore?: boolean | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  limit?: number | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  offset?: number | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results?: Response20ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: Response20TimingsList | null;
+  types?: Response20TypesList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: Response20UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response — so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  warnings?: Response20WarningsList | null;
+}
+export const Response20 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    columns: S.optional(S.NullOr(Response20ColumnsList)),
+    error: S.optional(S.NullOr(S.String)),
+    hasMore: S.optional(S.NullOr(S.Boolean)),
+    hogql: S.optional(S.NullOr(S.String)),
+    limit: S.optional(S.NullOr(S.Number)),
+    modifiers: S.optional(S.NullOr(HogQLQueryModifiers)),
+    offset: S.optional(S.NullOr(S.Number)),
+    query_status: S.optional(S.NullOr(QueryStatus)),
+    resolved_compare_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
+    resolved_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
+    results: S.optional(Response20ResultsList),
+    timings: S.optional(S.NullOr(Response20TimingsList)),
+    types: S.optional(S.NullOr(Response20TypesList)),
+    used_data_warehouse_sources: S.optional(S.NullOr(Response20UsedDataWarehouseSourcesList)),
+    warnings: S.optional(S.NullOr(Response20WarningsList)),
+  }),
+).annotate({ identifier: "Response20" }) as any as S.Schema<Response20>;
 
 export type Response21ColumnsList = Array<unknown>;
 export const Response21ColumnsList = /*@__PURE__*/ S.Array(
   S.Unknown,
 ) as any as S.Schema<Response21ColumnsList>;
 
-export type Response21ResultsList = Array<unknown>;
-export const Response21ResultsList = /*@__PURE__*/ S.Array(
+export type Response21MetricsResultsList = Array<number | null>;
+export const Response21MetricsResultsList = /*@__PURE__*/ S.Array(
+  S.NullOr(S.Number),
+) as any as S.Schema<Response21MetricsResultsList>;
+
+export type Response21ResultsItemList = Array<unknown>;
+export const Response21ResultsItemList = /*@__PURE__*/ S.Array(
   S.Unknown,
+) as any as S.Schema<Response21ResultsItemList>;
+
+export type Response21ResultsList = Array<Response21ResultsItemList>;
+export const Response21ResultsList = /*@__PURE__*/ S.Array(
+  Response21ResultsItemList,
 ) as any as S.Schema<Response21ResultsList>;
 
 export type Response21TimingsList = Array<QueryTiming>;
@@ -8135,9 +8242,9 @@ export const Response21TimingsList = /*@__PURE__*/ S.Array(
   QueryTiming,
 ) as any as S.Schema<Response21TimingsList>;
 
-export type Response21TypesList = Array<unknown>;
+export type Response21TypesList = Array<string>;
 export const Response21TypesList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  S.String,
 ) as any as S.Schema<Response21TypesList>;
 
 export type Response21UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
@@ -8154,96 +8261,7 @@ export const Response21WarningsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<Response21WarningsList>;
 
 export interface Response21 {
-  columns?: Response21ColumnsList | null;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  limit?: number | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: Response21ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: Response21TimingsList | null;
-  types?: Response21TypesList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: Response21UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response — so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: Response21WarningsList | null;
-}
-export const Response21 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    columns: S.optional(S.NullOr(Response21ColumnsList)),
-    error: S.optional(S.NullOr(S.String)),
-    hasMore: S.optional(S.NullOr(S.Boolean)),
-    hogql: S.optional(S.NullOr(S.String)),
-    limit: S.optional(S.NullOr(S.Number)),
-    modifiers: S.optional(S.NullOr(HogQLQueryModifiers)),
-    offset: S.optional(S.NullOr(S.Number)),
-    query_status: S.optional(S.NullOr(QueryStatus)),
-    resolved_compare_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
-    resolved_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
-    results: S.optional(Response21ResultsList),
-    timings: S.optional(S.NullOr(Response21TimingsList)),
-    types: S.optional(S.NullOr(Response21TypesList)),
-    used_data_warehouse_sources: S.optional(S.NullOr(Response21UsedDataWarehouseSourcesList)),
-    warnings: S.optional(S.NullOr(Response21WarningsList)),
-  }),
-).annotate({ identifier: "Response21" }) as any as S.Schema<Response21>;
-
-export type Response22ColumnsList = Array<unknown>;
-export const Response22ColumnsList = /*@__PURE__*/ S.Array(
-  S.Unknown,
-) as any as S.Schema<Response22ColumnsList>;
-
-export type Response22MetricsResultsList = Array<number | null>;
-export const Response22MetricsResultsList = /*@__PURE__*/ S.Array(
-  S.NullOr(S.Number),
-) as any as S.Schema<Response22MetricsResultsList>;
-
-export type Response22ResultsItemList = Array<unknown>;
-export const Response22ResultsItemList = /*@__PURE__*/ S.Array(
-  S.Unknown,
-) as any as S.Schema<Response22ResultsItemList>;
-
-export type Response22ResultsList = Array<Response22ResultsItemList>;
-export const Response22ResultsList = /*@__PURE__*/ S.Array(
-  Response22ResultsItemList,
-) as any as S.Schema<Response22ResultsList>;
-
-export type Response22TimingsList = Array<QueryTiming>;
-export const Response22TimingsList = /*@__PURE__*/ S.Array(
-  QueryTiming,
-) as any as S.Schema<Response22TimingsList>;
-
-export type Response22TypesList = Array<string>;
-export const Response22TypesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<Response22TypesList>;
-
-export type Response22UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export const Response22UsedDataWarehouseSourcesList = /*@__PURE__*/ S.Array(
-  DataWarehouseSourceUsage,
-) as any as S.Schema<Response22UsedDataWarehouseSourcesList>;
-
-export type Response22WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
-export const Response22WarningsItem = S.Unknown as any as S.Schema<Response22WarningsItem>;
-
-export type Response22WarningsList = Array<Response22WarningsItem>;
-export const Response22WarningsList = /*@__PURE__*/ S.Array(
-  Response22WarningsItem,
-) as any as S.Schema<Response22WarningsList>;
-
-export interface Response22 {
-  columns?: Response22ColumnsList;
+  columns?: Response21ColumnsList;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
@@ -8252,7 +8270,7 @@ export interface Response22 {
   kind?: string;
   limit?: number;
   /** When `metrics` is set on the query, the aggregated values in the same order. */
-  metricsResults?: Response22MetricsResultsList | null;
+  metricsResults?: Response21MetricsResultsList | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
   offset?: number;
@@ -8262,46 +8280,44 @@ export interface Response22 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: Response22ResultsList;
+  results?: Response21ResultsList;
   /** Measured timings for different parts of the query generation process */
-  timings?: Response22TimingsList | null;
-  types?: Response22TypesList;
+  timings?: Response21TimingsList | null;
+  types?: Response21TypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: Response22UsedDataWarehouseSourcesList | null;
+  used_data_warehouse_sources?: Response21UsedDataWarehouseSourcesList | null;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response — so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: Response22WarningsList | null;
+  warnings?: Response21WarningsList | null;
 }
-export const Response22 = /*@__PURE__*/ S.suspend(() =>
+export const Response21 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    columns: S.optional(Response22ColumnsList),
+    columns: S.optional(Response21ColumnsList),
     error: S.optional(S.NullOr(S.String)),
     hasMore: S.optional(S.NullOr(S.Boolean)),
     hogql: S.optional(S.String),
     kind: S.optional(S.String),
     limit: S.optional(S.Number),
-    metricsResults: S.optional(S.NullOr(Response22MetricsResultsList)),
+    metricsResults: S.optional(S.NullOr(Response21MetricsResultsList)),
     modifiers: S.optional(S.NullOr(HogQLQueryModifiers)),
     offset: S.optional(S.Number),
     query_status: S.optional(S.NullOr(QueryStatus)),
     resolved_compare_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
     resolved_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
-    results: S.optional(Response22ResultsList),
-    timings: S.optional(S.NullOr(Response22TimingsList)),
-    types: S.optional(Response22TypesList),
-    used_data_warehouse_sources: S.optional(S.NullOr(Response22UsedDataWarehouseSourcesList)),
-    warnings: S.optional(S.NullOr(Response22WarningsList)),
+    results: S.optional(Response21ResultsList),
+    timings: S.optional(S.NullOr(Response21TimingsList)),
+    types: S.optional(Response21TypesList),
+    used_data_warehouse_sources: S.optional(S.NullOr(Response21UsedDataWarehouseSourcesList)),
+    warnings: S.optional(S.NullOr(Response21WarningsList)),
   }),
-).annotate({ identifier: "Response22" }) as any as S.Schema<Response22>;
+).annotate({ identifier: "Response21" }) as any as S.Schema<Response21>;
 
-export type Response23MetricsResultsList = Array<number | null>;
-export const Response23MetricsResultsList = /*@__PURE__*/ S.Array(
+export type Response22MetricsResultsList = Array<number | null>;
+export const Response22MetricsResultsList = /*@__PURE__*/ S.Array(
   S.NullOr(S.Number),
-) as any as S.Schema<Response23MetricsResultsList>;
+) as any as S.Schema<Response22MetricsResultsList>;
 
 /** Requested direct Account fields, keyed by their typed field reference. */
-export type AccountsTableRowAccountFieldsMap = {
-  [key: string]: string | null | undefined;
-};
+export type AccountsTableRowAccountFieldsMap = { [key: string]: string | null | undefined };
 export const AccountsTableRowAccountFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(S.String),
@@ -8399,34 +8415,32 @@ export const AccountsTableRow = /*@__PURE__*/ S.suspend(() =>
     relationships: AccountsTableRowRelationshipsMap,
     tags: S.optional(S.NullOr(AccountsTableRowTagsList)),
   }),
-).annotate({
-  identifier: "AccountsTableRow",
-}) as any as S.Schema<AccountsTableRow>;
+).annotate({ identifier: "AccountsTableRow" }) as any as S.Schema<AccountsTableRow>;
 
-export type Response23ResultsList = Array<AccountsTableRow>;
-export const Response23ResultsList = /*@__PURE__*/ S.Array(
+export type Response22ResultsList = Array<AccountsTableRow>;
+export const Response22ResultsList = /*@__PURE__*/ S.Array(
   AccountsTableRow,
-) as any as S.Schema<Response23ResultsList>;
+) as any as S.Schema<Response22ResultsList>;
 
-export type Response23TimingsList = Array<QueryTiming>;
-export const Response23TimingsList = /*@__PURE__*/ S.Array(
+export type Response22TimingsList = Array<QueryTiming>;
+export const Response22TimingsList = /*@__PURE__*/ S.Array(
   QueryTiming,
-) as any as S.Schema<Response23TimingsList>;
+) as any as S.Schema<Response22TimingsList>;
 
-export type Response23UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export const Response23UsedDataWarehouseSourcesList = /*@__PURE__*/ S.Array(
+export type Response22UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export const Response22UsedDataWarehouseSourcesList = /*@__PURE__*/ S.Array(
   DataWarehouseSourceUsage,
-) as any as S.Schema<Response23UsedDataWarehouseSourcesList>;
+) as any as S.Schema<Response22UsedDataWarehouseSourcesList>;
 
-export type Response23WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
-export const Response23WarningsItem = S.Unknown as any as S.Schema<Response23WarningsItem>;
+export type Response22WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export const Response22WarningsItem = S.Unknown as any as S.Schema<Response22WarningsItem>;
 
-export type Response23WarningsList = Array<Response23WarningsItem>;
-export const Response23WarningsList = /*@__PURE__*/ S.Array(
-  Response23WarningsItem,
-) as any as S.Schema<Response23WarningsList>;
+export type Response22WarningsList = Array<Response22WarningsItem>;
+export const Response22WarningsList = /*@__PURE__*/ S.Array(
+  Response22WarningsItem,
+) as any as S.Schema<Response22WarningsList>;
 
-export interface Response23 {
+export interface Response22 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean;
@@ -8435,7 +8449,7 @@ export interface Response23 {
   kind?: string;
   limit?: number;
   /** Aggregated values in the same order as the requested metrics. */
-  metricsResults?: Response23MetricsResultsList | null;
+  metricsResults?: Response22MetricsResultsList | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
   offset?: number;
@@ -8445,33 +8459,33 @@ export interface Response23 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: Response23ResultsList;
+  results?: Response22ResultsList;
   /** Measured timings for different parts of the query generation process */
-  timings?: Response23TimingsList | null;
+  timings?: Response22TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: Response23UsedDataWarehouseSourcesList | null;
+  used_data_warehouse_sources?: Response22UsedDataWarehouseSourcesList | null;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response — so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: Response23WarningsList | null;
+  warnings?: Response22WarningsList | null;
 }
-export const Response23 = /*@__PURE__*/ S.suspend(() =>
+export const Response22 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     error: S.optional(S.NullOr(S.String)),
     hasMore: S.optional(S.Boolean),
     hogql: S.optional(S.NullOr(S.String)),
     kind: S.optional(S.String),
     limit: S.optional(S.Number),
-    metricsResults: S.optional(S.NullOr(Response23MetricsResultsList)),
+    metricsResults: S.optional(S.NullOr(Response22MetricsResultsList)),
     modifiers: S.optional(S.NullOr(HogQLQueryModifiers)),
     offset: S.optional(S.Number),
     query_status: S.optional(S.NullOr(QueryStatus)),
     resolved_compare_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
     resolved_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
-    results: S.optional(Response23ResultsList),
-    timings: S.optional(S.NullOr(Response23TimingsList)),
-    used_data_warehouse_sources: S.optional(S.NullOr(Response23UsedDataWarehouseSourcesList)),
-    warnings: S.optional(S.NullOr(Response23WarningsList)),
+    results: S.optional(Response22ResultsList),
+    timings: S.optional(S.NullOr(Response22TimingsList)),
+    used_data_warehouse_sources: S.optional(S.NullOr(Response22UsedDataWarehouseSourcesList)),
+    warnings: S.optional(S.NullOr(Response22WarningsList)),
   }),
-).annotate({ identifier: "Response23" }) as any as S.Schema<Response23>;
+).annotate({ identifier: "Response22" }) as any as S.Schema<Response22>;
 
 export type DataTableNodeResponse =
   | DataTableNodeResponseCase0Map
@@ -8494,10 +8508,9 @@ export type DataTableNodeResponse =
   | Response16
   | Response17
   | Response18
-  | Response19
+  | Response20
   | Response21
-  | Response22
-  | Response23;
+  | Response22;
 export const DataTableNodeResponse = S.Unknown as any as S.Schema<DataTableNodeResponse>;
 
 export type TaxonomicFilterGroupType =
@@ -8645,9 +8658,7 @@ export const EventsQueryActionStep = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     url_matching: S.optional(S.NullOr(UrlMatching)),
   }),
-).annotate({
-  identifier: "EventsQueryActionStep",
-}) as any as S.Schema<EventsQueryActionStep>;
+).annotate({ identifier: "EventsQueryActionStep" }) as any as S.Schema<EventsQueryActionStep>;
 
 export type EventsQueryActionStepsList = Array<EventsQueryActionStep>;
 export const EventsQueryActionStepsList = /*@__PURE__*/ S.Array(
@@ -8824,9 +8835,7 @@ export const EventsQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(EventsQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "EventsQueryResponse",
-}) as any as S.Schema<EventsQueryResponse>;
+).annotate({ identifier: "EventsQueryResponse" }) as any as S.Schema<EventsQueryResponse>;
 
 /** Return a limited set of data. Required. */
 export type EventsQuerySelectList = Array<string>;
@@ -8936,9 +8945,7 @@ export const ActorsQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(ActorsQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "ActorsQueryResponse",
-}) as any as S.Schema<ActorsQueryResponse>;
+).annotate({ identifier: "ActorsQueryResponse" }) as any as S.Schema<ActorsQueryResponse>;
 
 export type InsightActorsQuerySource =
   | TrendsQuery
@@ -8986,9 +8993,7 @@ export const InsightActorsQuery = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(QueryLogTags)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "InsightActorsQuery",
-}) as any as S.Schema<InsightActorsQuery>;
+).annotate({ identifier: "InsightActorsQuery" }) as any as S.Schema<InsightActorsQuery>;
 
 export type EventsQueryWhereList = Array<string>;
 export const EventsQueryWhereList = /*@__PURE__*/ S.Array(
@@ -9264,9 +9269,7 @@ export const FunnelsActorsQuery = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(QueryLogTags)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "FunnelsActorsQuery",
-}) as any as S.Schema<FunnelsActorsQuery>;
+).annotate({ identifier: "FunnelsActorsQuery" }) as any as S.Schema<FunnelsActorsQuery>;
 
 export type FunnelCorrelationActorsQueryFunnelCorrelationPersonEntity =
   | EventsNode
@@ -9352,9 +9355,7 @@ export const EventDefinitionElementsList = /*@__PURE__*/ S.Array(
   S.Unknown,
 ) as any as S.Schema<EventDefinitionElementsList>;
 
-export type EventDefinitionPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type EventDefinitionPropertiesMap = { [key: string]: unknown | undefined };
 export const EventDefinitionPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9371,9 +9372,7 @@ export const EventDefinition = /*@__PURE__*/ S.suspend(() =>
     event: S.optional(S.String),
     properties: S.optional(EventDefinitionPropertiesMap),
   }),
-).annotate({
-  identifier: "EventDefinition",
-}) as any as S.Schema<EventDefinition>;
+).annotate({ identifier: "EventDefinition" }) as any as S.Schema<EventDefinition>;
 
 export interface EventOddsRatioSerialized {
   correlation_type?: CorrelationType | (string & {});
@@ -9390,9 +9389,7 @@ export const EventOddsRatioSerialized = /*@__PURE__*/ S.suspend(() =>
     odds_ratio: S.optional(S.Number),
     success_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EventOddsRatioSerialized",
-}) as any as S.Schema<EventOddsRatioSerialized>;
+).annotate({ identifier: "EventOddsRatioSerialized" }) as any as S.Schema<EventOddsRatioSerialized>;
 
 export type FunnelCorrelationResultEventsList = Array<EventOddsRatioSerialized>;
 export const FunnelCorrelationResultEventsList = /*@__PURE__*/ S.Array(
@@ -9408,9 +9405,7 @@ export const FunnelCorrelationResult = /*@__PURE__*/ S.suspend(() =>
     events: S.optional(FunnelCorrelationResultEventsList),
     skewed: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "FunnelCorrelationResult",
-}) as any as S.Schema<FunnelCorrelationResult>;
+).annotate({ identifier: "FunnelCorrelationResult" }) as any as S.Schema<FunnelCorrelationResult>;
 
 export type FunnelCorrelationResponseTimingsList = Array<QueryTiming>;
 export const FunnelCorrelationResponseTimingsList = /*@__PURE__*/ S.Array(
@@ -9522,9 +9517,7 @@ export const FunnelCorrelationQuery = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(FunnelsActorsQuery),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "FunnelCorrelationQuery",
-}) as any as S.Schema<FunnelCorrelationQuery>;
+).annotate({ identifier: "FunnelCorrelationQuery" }) as any as S.Schema<FunnelCorrelationQuery>;
 
 export interface FunnelCorrelationActorsQuery {
   funnelCorrelationPersonConverted?: boolean | null;
@@ -9595,9 +9588,7 @@ export const ExperimentEventExposureConfigPropertiesList = /*@__PURE__*/ S.Array
   ExperimentEventExposureConfigPropertiesItem,
 ) as any as S.Schema<ExperimentEventExposureConfigPropertiesList>;
 
-export type ExperimentEventExposureConfigResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type ExperimentEventExposureConfigResponseMap = { [key: string]: unknown | undefined };
 export const ExperimentEventExposureConfigResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9653,9 +9644,7 @@ export const MultipleVariantHandling = S.String;
 export type ExperimentMetricGoal = "increase" | "decrease";
 export const ExperimentMetricGoal = S.String;
 
-export type ExperimentMeanMetricResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type ExperimentMeanMetricResponseMap = { [key: string]: unknown | undefined };
 export const ExperimentMeanMetricResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9741,9 +9730,7 @@ export const ExperimentDataWarehouseNodePropertiesList = /*@__PURE__*/ S.Array(
   ExperimentDataWarehouseNodePropertiesItem,
 ) as any as S.Schema<ExperimentDataWarehouseNodePropertiesList>;
 
-export type ExperimentDataWarehouseNodeResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type ExperimentDataWarehouseNodeResponseMap = { [key: string]: unknown | undefined };
 export const ExperimentDataWarehouseNodeResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9847,13 +9834,9 @@ export const ExperimentMeanMetric = /*@__PURE__*/ S.suspend(() =>
     uuid: S.optional(S.NullOr(S.String)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ExperimentMeanMetric",
-}) as any as S.Schema<ExperimentMeanMetric>;
+).annotate({ identifier: "ExperimentMeanMetric" }) as any as S.Schema<ExperimentMeanMetric>;
 
-export type ExperimentFunnelMetricResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type ExperimentFunnelMetricResponseMap = { [key: string]: unknown | undefined };
 export const ExperimentFunnelMetricResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9913,9 +9896,7 @@ export const ExperimentFunnelMetric = /*@__PURE__*/ S.suspend(() =>
     uuid: S.optional(S.NullOr(S.String)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ExperimentFunnelMetric",
-}) as any as S.Schema<ExperimentFunnelMetric>;
+).annotate({ identifier: "ExperimentFunnelMetric" }) as any as S.Schema<ExperimentFunnelMetric>;
 
 export type ExperimentRatioMetricDenominator =
   | EventsNode
@@ -9945,9 +9926,7 @@ export type ExperimentRatioMetricNumerator = EventsNode | ActionsNode | Experime
 export const ExperimentRatioMetricNumerator =
   S.Unknown as any as S.Schema<ExperimentRatioMetricNumerator>;
 
-export type ExperimentRatioMetricResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type ExperimentRatioMetricResponseMap = { [key: string]: unknown | undefined };
 export const ExperimentRatioMetricResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9993,9 +9972,7 @@ export const ExperimentRatioMetric = /*@__PURE__*/ S.suspend(() =>
     uuid: S.optional(S.NullOr(S.String)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ExperimentRatioMetric",
-}) as any as S.Schema<ExperimentRatioMetric>;
+).annotate({ identifier: "ExperimentRatioMetric" }) as any as S.Schema<ExperimentRatioMetric>;
 
 export type ExperimentRetentionMetricCompletionEvent =
   | EventsNode
@@ -10004,18 +9981,37 @@ export type ExperimentRetentionMetricCompletionEvent =
 export const ExperimentRetentionMetricCompletionEvent =
   S.Unknown as any as S.Schema<ExperimentRetentionMetricCompletionEvent>;
 
-export type ExperimentRetentionMetricResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type ExperimentRetentionMetricResponseMap = { [key: string]: unknown | undefined };
 export const ExperimentRetentionMetricResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<ExperimentRetentionMetricResponseMap>;
 
+export type ExperimentExposureNodeResponseMap = { [key: string]: unknown | undefined };
+export const ExperimentExposureNodeResponseMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ExperimentExposureNodeResponseMap>;
+
+export interface ExperimentExposureNode {
+  kind?: string;
+  response?: ExperimentExposureNodeResponseMap | null;
+  /** version of the node, used for schema migrations */
+  version?: number | null;
+}
+export const ExperimentExposureNode = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: S.optional(S.String),
+    response: S.optional(S.NullOr(ExperimentExposureNodeResponseMap)),
+    version: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "ExperimentExposureNode" }) as any as S.Schema<ExperimentExposureNode>;
+
 export type ExperimentRetentionMetricStartEvent =
   | EventsNode
   | ActionsNode
-  | ExperimentDataWarehouseNode;
+  | ExperimentDataWarehouseNode
+  | ExperimentExposureNode;
 export const ExperimentRetentionMetricStartEvent =
   S.Unknown as any as S.Schema<ExperimentRetentionMetricStartEvent>;
 
@@ -10371,9 +10367,7 @@ export const ExperimentQueryResponseCredibleIntervalsMap = /*@__PURE__*/ S.Recor
   ExperimentQueryResponseCredibleIntervalsValueList,
 ) as any as S.Schema<ExperimentQueryResponseCredibleIntervalsMap>;
 
-export type ExperimentQueryResponseInsightItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type ExperimentQueryResponseInsightItemMap = { [key: string]: unknown | undefined };
 export const ExperimentQueryResponseInsightItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -10392,9 +10386,7 @@ export type ExperimentQueryResponseMetric =
 export const ExperimentQueryResponseMetric =
   S.Unknown as any as S.Schema<ExperimentQueryResponseMetric>;
 
-export type ExperimentQueryResponseProbabilityMap = {
-  [key: string]: number | undefined;
-};
+export type ExperimentQueryResponseProbabilityMap = { [key: string]: number | undefined };
 export const ExperimentQueryResponseProbabilityMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -10480,9 +10472,7 @@ export const ExperimentQueryResponse = /*@__PURE__*/ S.suspend(() =>
     variants: S.optional(S.NullOr(ExperimentQueryResponseVariants)),
     warnings: S.optional(S.NullOr(ExperimentQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "ExperimentQueryResponse",
-}) as any as S.Schema<ExperimentQueryResponse>;
+).annotate({ identifier: "ExperimentQueryResponse" }) as any as S.Schema<ExperimentQueryResponse>;
 
 export interface ExperimentQuery {
   experiment_id?: number | null;
@@ -10509,9 +10499,7 @@ export const ExperimentQuery = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(QueryLogTags)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ExperimentQuery",
-}) as any as S.Schema<ExperimentQuery>;
+).annotate({ identifier: "ExperimentQuery" }) as any as S.Schema<ExperimentQuery>;
 
 export interface ExperimentActorsQuery {
   /** Exposure configuration for filtering events. Defines when users were first exposed to the experiment. */
@@ -10549,9 +10537,7 @@ export const ExperimentActorsQuery = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(QueryLogTags)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ExperimentActorsQuery",
-}) as any as S.Schema<ExperimentActorsQuery>;
+).annotate({ identifier: "ExperimentActorsQuery" }) as any as S.Schema<ExperimentActorsQuery>;
 
 export type StickinessActorsQueryDay = string | number;
 export const StickinessActorsQueryDay = S.Unknown as any as S.Schema<StickinessActorsQueryDay>;
@@ -10585,9 +10571,7 @@ export const StickinessActorsQuery = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(QueryLogTags)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "StickinessActorsQuery",
-}) as any as S.Schema<StickinessActorsQuery>;
+).annotate({ identifier: "StickinessActorsQuery" }) as any as S.Schema<StickinessActorsQuery>;
 
 export type PathsV2ElementSelectorChainList = Array<PathsV2Item>;
 export const PathsV2ElementSelectorChainList = /*@__PURE__*/ S.Array(
@@ -10622,9 +10606,7 @@ export const PathsV2ElementSelector = /*@__PURE__*/ S.suspend(() =>
     stepIndex: S.optional(S.NullOr(S.Number)),
     target: S.optional(S.NullOr(PathsV2Item)),
   }),
-).annotate({
-  identifier: "PathsV2ElementSelector",
-}) as any as S.Schema<PathsV2ElementSelector>;
+).annotate({ identifier: "PathsV2ElementSelector" }) as any as S.Schema<PathsV2ElementSelector>;
 
 export interface PathsV2ActorsQuery {
   element: PathsV2ElementSelector;
@@ -10649,9 +10631,7 @@ export const PathsV2ActorsQuery = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(QueryLogTags)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "PathsV2ActorsQuery",
-}) as any as S.Schema<PathsV2ActorsQuery>;
+).annotate({ identifier: "PathsV2ActorsQuery" }) as any as S.Schema<PathsV2ActorsQuery>;
 
 export type HogQLFiltersPropertiesItem =
   | EventPropertyFilter
@@ -10803,9 +10783,7 @@ export const HogQLQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(HogQLQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "HogQLQueryResponse",
-}) as any as S.Schema<HogQLQueryResponse>;
+).annotate({ identifier: "HogQLQueryResponse" }) as any as S.Schema<HogQLQueryResponse>;
 
 export type HogQLQueryValuesMap = { [key: string]: unknown | undefined };
 export const HogQLQueryValuesMap = /*@__PURE__*/ S.Record(
@@ -10828,9 +10806,7 @@ export const HogQLVariable = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "HogQLVariable" }) as any as S.Schema<HogQLVariable>;
 
-export type HogQLQueryVariablesMap = {
-  [key: string]: HogQLVariable | undefined;
-};
+export type HogQLQueryVariablesMap = { [key: string]: HogQLVariable | undefined };
 export const HogQLQueryVariablesMap = /*@__PURE__*/ S.Record(
   S.String,
   HogQLVariable,
@@ -11027,9 +11003,7 @@ export const GroupsQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(GroupsQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "GroupsQueryResponse",
-}) as any as S.Schema<GroupsQueryResponse>;
+).annotate({ identifier: "GroupsQueryResponse" }) as any as S.Schema<GroupsQueryResponse>;
 
 export type GroupsQuerySelectList = Array<string>;
 export const GroupsQuerySelectList = /*@__PURE__*/ S.Array(
@@ -11416,9 +11390,7 @@ export const WebBotsTableQuery = /*@__PURE__*/ S.suspend(() =>
     useSessionsTable: S.optional(S.NullOr(S.Boolean)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "WebBotsTableQuery",
-}) as any as S.Schema<WebBotsTableQuery>;
+).annotate({ identifier: "WebBotsTableQuery" }) as any as S.Schema<WebBotsTableQuery>;
 
 export type WebGoalsQueryConversionGoal = ActionConversionGoal | CustomEventConversionGoal;
 export const WebGoalsQueryConversionGoal =
@@ -11534,9 +11506,7 @@ export const WebGoalsQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(WebGoalsQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "WebGoalsQueryResponse",
-}) as any as S.Schema<WebGoalsQueryResponse>;
+).annotate({ identifier: "WebGoalsQueryResponse" }) as any as S.Schema<WebGoalsQueryResponse>;
 
 export interface WebGoalsQuery {
   /** Groups aggregation - not used in Web Analytics but required for type compatibility */
@@ -12206,9 +12176,7 @@ export const SessionsQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(SessionsQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "SessionsQueryResponse",
-}) as any as S.Schema<SessionsQueryResponse>;
+).annotate({ identifier: "SessionsQueryResponse" }) as any as S.Schema<SessionsQueryResponse>;
 
 /** Return a limited set of data. Required. */
 export type SessionsQuerySelectList = Array<string>;
@@ -12371,9 +12339,7 @@ export const ConversionGoalFilter1PropertiesList = /*@__PURE__*/ S.Array(
   ConversionGoalFilter1PropertiesItem,
 ) as any as S.Schema<ConversionGoalFilter1PropertiesList>;
 
-export type ConversionGoalFilter1ResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConversionGoalFilter1ResponseMap = { [key: string]: unknown | undefined };
 export const ConversionGoalFilter1ResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -12449,9 +12415,7 @@ export const ConversionGoalFilter1 = /*@__PURE__*/ S.suspend(() =>
     schema_map: S.optional(ConversionGoalFilter1SchemaMapMap),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ConversionGoalFilter1",
-}) as any as S.Schema<ConversionGoalFilter1>;
+).annotate({ identifier: "ConversionGoalFilter1" }) as any as S.Schema<ConversionGoalFilter1>;
 
 export type ConversionGoalFilter2FixedPropertiesItem =
   | EventPropertyFilter
@@ -12531,9 +12495,7 @@ export const ConversionGoalFilter2PropertiesList = /*@__PURE__*/ S.Array(
   ConversionGoalFilter2PropertiesItem,
 ) as any as S.Schema<ConversionGoalFilter2PropertiesList>;
 
-export type ConversionGoalFilter2ResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConversionGoalFilter2ResponseMap = { [key: string]: unknown | undefined };
 export const ConversionGoalFilter2ResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -12603,9 +12565,7 @@ export const ConversionGoalFilter2 = /*@__PURE__*/ S.suspend(() =>
     schema_map: S.optional(ConversionGoalFilter2SchemaMapMap),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ConversionGoalFilter2",
-}) as any as S.Schema<ConversionGoalFilter2>;
+).annotate({ identifier: "ConversionGoalFilter2" }) as any as S.Schema<ConversionGoalFilter2>;
 
 export type ConversionGoalFilter3FixedPropertiesItem =
   | EventPropertyFilter
@@ -12685,9 +12645,7 @@ export const ConversionGoalFilter3PropertiesList = /*@__PURE__*/ S.Array(
   ConversionGoalFilter3PropertiesItem,
 ) as any as S.Schema<ConversionGoalFilter3PropertiesList>;
 
-export type ConversionGoalFilter3ResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConversionGoalFilter3ResponseMap = { [key: string]: unknown | undefined };
 export const ConversionGoalFilter3ResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -12767,9 +12725,7 @@ export const ConversionGoalFilter3 = /*@__PURE__*/ S.suspend(() =>
     timestamp_field: S.optional(S.String),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ConversionGoalFilter3",
-}) as any as S.Schema<ConversionGoalFilter3>;
+).annotate({ identifier: "ConversionGoalFilter3" }) as any as S.Schema<ConversionGoalFilter3>;
 
 /** Draft conversion goal that can be set in the UI without saving */
 export type MarketingAnalyticsTableQueryDraftConversionGoal =
@@ -12797,16 +12753,17 @@ export const IntegrationFilterIntegrationSourceIdsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<IntegrationFilterIntegrationSourceIdsList>;
 
 export interface IntegrationFilter {
+  /** Keep rows that no integration reports cost for, such as organic, email or an unmapped source. Defaults to true. */
+  includeNonIntegrated?: boolean | null;
   /** Selected integration source IDs to filter by (e.g., table IDs or source map IDs) */
   integrationSourceIds?: IntegrationFilterIntegrationSourceIdsList | null;
 }
 export const IntegrationFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    includeNonIntegrated: S.optional(S.NullOr(S.Boolean)),
     integrationSourceIds: S.optional(S.NullOr(IntegrationFilterIntegrationSourceIdsList)),
   }),
-).annotate({
-  identifier: "IntegrationFilter",
-}) as any as S.Schema<IntegrationFilter>;
+).annotate({ identifier: "IntegrationFilter" }) as any as S.Schema<IntegrationFilter>;
 
 export type MarketingAnalyticsOrderByEnum = "ASC" | "DESC";
 export const MarketingAnalyticsOrderByEnum = S.String;
@@ -12888,6 +12845,8 @@ export const MarketingAnalyticsTableQueryResponseWarningsList = /*@__PURE__*/ S.
 
 export interface MarketingAnalyticsTableQueryResponse {
   columns?: MarketingAnalyticsTableQueryResponseColumnsList | null;
+  /** ISO timestamp of the oldest precompute window backing this result — surfaced as "data as of X". */
+  dataComputedAt?: string | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
@@ -12897,6 +12856,8 @@ export interface MarketingAnalyticsTableQueryResponse {
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
   offset?: number | null;
+  /** True when a conversion goal's precompute has not been warmed for this window yet — the UI shows a "computing" state rather than empty results. Marketing analytics serves exclusively from precompute. */
+  precomputeNotReady?: boolean | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -12916,12 +12877,14 @@ export interface MarketingAnalyticsTableQueryResponse {
 export const MarketingAnalyticsTableQueryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     columns: S.optional(S.NullOr(MarketingAnalyticsTableQueryResponseColumnsList)),
+    dataComputedAt: S.optional(S.NullOr(S.String)),
     error: S.optional(S.NullOr(S.String)),
     hasMore: S.optional(S.NullOr(S.Boolean)),
     hogql: S.optional(S.NullOr(S.String)),
     limit: S.optional(S.NullOr(S.Number)),
     modifiers: S.optional(S.NullOr(HogQLQueryModifiers)),
     offset: S.optional(S.NullOr(S.Number)),
+    precomputeNotReady: S.optional(S.NullOr(S.Boolean)),
     query_status: S.optional(S.NullOr(QueryStatus)),
     resolved_compare_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
     resolved_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
@@ -13078,12 +13041,16 @@ export const MarketingAnalyticsAggregatedQueryResponseWarningsList = /*@__PURE__
 ) as any as S.Schema<MarketingAnalyticsAggregatedQueryResponseWarningsList>;
 
 export interface MarketingAnalyticsAggregatedQueryResponse {
+  /** ISO timestamp of the oldest precompute window backing this result — surfaced as "data as of X". */
+  dataComputedAt?: string | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
   hogql?: string | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
+  /** True when a conversion goal's precompute has not been warmed for this window yet — the UI shows a "computing" state rather than empty results. Marketing analytics serves exclusively from precompute. */
+  precomputeNotReady?: boolean | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -13101,9 +13068,11 @@ export interface MarketingAnalyticsAggregatedQueryResponse {
 }
 export const MarketingAnalyticsAggregatedQueryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    dataComputedAt: S.optional(S.NullOr(S.String)),
     error: S.optional(S.NullOr(S.String)),
     hogql: S.optional(S.NullOr(S.String)),
     modifiers: S.optional(S.NullOr(HogQLQueryModifiers)),
+    precomputeNotReady: S.optional(S.NullOr(S.Boolean)),
     query_status: S.optional(S.NullOr(QueryStatus)),
     resolved_compare_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
     resolved_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
@@ -13186,225 +13155,6 @@ export const MarketingAnalyticsAggregatedQuery = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "MarketingAnalyticsAggregatedQuery",
 }) as any as S.Schema<MarketingAnalyticsAggregatedQuery>;
-
-export type NonIntegratedConversionsTableQueryConversionGoal =
-  | ActionConversionGoal
-  | CustomEventConversionGoal;
-export const NonIntegratedConversionsTableQueryConversionGoal =
-  S.Unknown as any as S.Schema<NonIntegratedConversionsTableQueryConversionGoal>;
-
-/** Draft conversion goal that can be set in the UI without saving */
-export type NonIntegratedConversionsTableQueryDraftConversionGoal =
-  | ConversionGoalFilter1
-  | ConversionGoalFilter2
-  | ConversionGoalFilter3;
-export const NonIntegratedConversionsTableQueryDraftConversionGoal =
-  S.Unknown as any as S.Schema<NonIntegratedConversionsTableQueryDraftConversionGoal>;
-
-export type NonIntegratedConversionsTableQueryOrderByItemItem =
-  | string
-  | MarketingAnalyticsOrderByEnum;
-export const NonIntegratedConversionsTableQueryOrderByItemItem =
-  S.Unknown as any as S.Schema<NonIntegratedConversionsTableQueryOrderByItemItem>;
-
-export type NonIntegratedConversionsTableQueryOrderByItemList =
-  Array<NonIntegratedConversionsTableQueryOrderByItemItem>;
-export const NonIntegratedConversionsTableQueryOrderByItemList = /*@__PURE__*/ S.Array(
-  NonIntegratedConversionsTableQueryOrderByItemItem,
-) as any as S.Schema<NonIntegratedConversionsTableQueryOrderByItemList>;
-
-export type NonIntegratedConversionsTableQueryOrderByList =
-  Array<NonIntegratedConversionsTableQueryOrderByItemList>;
-export const NonIntegratedConversionsTableQueryOrderByList = /*@__PURE__*/ S.Array(
-  NonIntegratedConversionsTableQueryOrderByItemList,
-) as any as S.Schema<NonIntegratedConversionsTableQueryOrderByList>;
-
-export type NonIntegratedConversionsTableQueryPropertiesItem =
-  | EventPropertyFilter
-  | PersonPropertyFilter
-  | SessionPropertyFilter
-  | CohortPropertyFilter;
-export const NonIntegratedConversionsTableQueryPropertiesItem =
-  S.Unknown as any as S.Schema<NonIntegratedConversionsTableQueryPropertiesItem>;
-
-export type NonIntegratedConversionsTableQueryPropertiesList =
-  Array<NonIntegratedConversionsTableQueryPropertiesItem>;
-export const NonIntegratedConversionsTableQueryPropertiesList = /*@__PURE__*/ S.Array(
-  NonIntegratedConversionsTableQueryPropertiesItem,
-) as any as S.Schema<NonIntegratedConversionsTableQueryPropertiesList>;
-
-export type NonIntegratedConversionsTableQueryResponseColumnsList = Array<unknown>;
-export const NonIntegratedConversionsTableQueryResponseColumnsList = /*@__PURE__*/ S.Array(
-  S.Unknown,
-) as any as S.Schema<NonIntegratedConversionsTableQueryResponseColumnsList>;
-
-export type NonIntegratedConversionsTableQueryResponseResultsItemList =
-  Array<MarketingAnalyticsItem>;
-export const NonIntegratedConversionsTableQueryResponseResultsItemList = /*@__PURE__*/ S.Array(
-  MarketingAnalyticsItem,
-) as any as S.Schema<NonIntegratedConversionsTableQueryResponseResultsItemList>;
-
-export type NonIntegratedConversionsTableQueryResponseResultsList =
-  Array<NonIntegratedConversionsTableQueryResponseResultsItemList>;
-export const NonIntegratedConversionsTableQueryResponseResultsList = /*@__PURE__*/ S.Array(
-  NonIntegratedConversionsTableQueryResponseResultsItemList,
-) as any as S.Schema<NonIntegratedConversionsTableQueryResponseResultsList>;
-
-export type NonIntegratedConversionsTableQueryResponseTimingsList = Array<QueryTiming>;
-export const NonIntegratedConversionsTableQueryResponseTimingsList = /*@__PURE__*/ S.Array(
-  QueryTiming,
-) as any as S.Schema<NonIntegratedConversionsTableQueryResponseTimingsList>;
-
-export type NonIntegratedConversionsTableQueryResponseTypesList = Array<unknown>;
-export const NonIntegratedConversionsTableQueryResponseTypesList = /*@__PURE__*/ S.Array(
-  S.Unknown,
-) as any as S.Schema<NonIntegratedConversionsTableQueryResponseTypesList>;
-
-export type NonIntegratedConversionsTableQueryResponseUsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export const NonIntegratedConversionsTableQueryResponseUsedDataWarehouseSourcesList =
-  /*@__PURE__*/ S.Array(
-    DataWarehouseSourceUsage,
-  ) as any as S.Schema<NonIntegratedConversionsTableQueryResponseUsedDataWarehouseSourcesList>;
-
-export type NonIntegratedConversionsTableQueryResponseWarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export const NonIntegratedConversionsTableQueryResponseWarningsItem =
-  S.Unknown as any as S.Schema<NonIntegratedConversionsTableQueryResponseWarningsItem>;
-
-export type NonIntegratedConversionsTableQueryResponseWarningsList =
-  Array<NonIntegratedConversionsTableQueryResponseWarningsItem>;
-export const NonIntegratedConversionsTableQueryResponseWarningsList = /*@__PURE__*/ S.Array(
-  NonIntegratedConversionsTableQueryResponseWarningsItem,
-) as any as S.Schema<NonIntegratedConversionsTableQueryResponseWarningsList>;
-
-export interface NonIntegratedConversionsTableQueryResponse {
-  columns?: NonIntegratedConversionsTableQueryResponseColumnsList | null;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  limit?: number | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: NonIntegratedConversionsTableQueryResponseResultsList;
-  samplingRate?: SamplingRate | null;
-  /** Measured timings for different parts of the query generation process */
-  timings?: NonIntegratedConversionsTableQueryResponseTimingsList | null;
-  types?: NonIntegratedConversionsTableQueryResponseTypesList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: NonIntegratedConversionsTableQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response — so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: NonIntegratedConversionsTableQueryResponseWarningsList | null;
-}
-export const NonIntegratedConversionsTableQueryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    columns: S.optional(S.NullOr(NonIntegratedConversionsTableQueryResponseColumnsList)),
-    error: S.optional(S.NullOr(S.String)),
-    hasMore: S.optional(S.NullOr(S.Boolean)),
-    hogql: S.optional(S.NullOr(S.String)),
-    limit: S.optional(S.NullOr(S.Number)),
-    modifiers: S.optional(S.NullOr(HogQLQueryModifiers)),
-    offset: S.optional(S.NullOr(S.Number)),
-    query_status: S.optional(S.NullOr(QueryStatus)),
-    resolved_compare_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
-    resolved_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
-    results: S.optional(NonIntegratedConversionsTableQueryResponseResultsList),
-    samplingRate: S.optional(S.NullOr(SamplingRate)),
-    timings: S.optional(S.NullOr(NonIntegratedConversionsTableQueryResponseTimingsList)),
-    types: S.optional(S.NullOr(NonIntegratedConversionsTableQueryResponseTypesList)),
-    used_data_warehouse_sources: S.optional(
-      S.NullOr(NonIntegratedConversionsTableQueryResponseUsedDataWarehouseSourcesList),
-    ),
-    warnings: S.optional(S.NullOr(NonIntegratedConversionsTableQueryResponseWarningsList)),
-  }),
-).annotate({
-  identifier: "NonIntegratedConversionsTableQueryResponse",
-}) as any as S.Schema<NonIntegratedConversionsTableQueryResponse>;
-
-export type NonIntegratedConversionsTableQuerySelectList = Array<string>;
-export const NonIntegratedConversionsTableQuerySelectList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<NonIntegratedConversionsTableQuerySelectList>;
-
-export interface NonIntegratedConversionsTableQuery {
-  /** Groups aggregation - not used in Web Analytics but required for type compatibility */
-  aggregation_group_type_index?: number | null;
-  /** Compare to date range */
-  compareFilter?: CompareFilter | null;
-  conversionGoal?: NonIntegratedConversionsTableQueryConversionGoal | null;
-  /** Colors used in the insight's visualization - not used in Web Analytics but required for type compatibility */
-  dataColorTheme?: number | null;
-  dateRange?: DateRange | null;
-  doPathCleaning?: boolean | null;
-  /** Draft conversion goal that can be set in the UI without saving */
-  draftConversionGoal?: NonIntegratedConversionsTableQueryDraftConversionGoal | null;
-  /** Filter test accounts */
-  filterTestAccounts?: boolean | null;
-  includeRevenue?: boolean | null;
-  /** Interval for date range calculation (affects date_to rounding for hour vs day ranges) */
-  interval?: IntervalType | (string & {}) | null;
-  kind?: string;
-  /** Number of rows to return */
-  limit?: number | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  /** Number of rows to skip before returning rows */
-  offset?: number | null;
-  /** Columns to order by */
-  orderBy?: NonIntegratedConversionsTableQueryOrderByList | null;
-  properties?: NonIntegratedConversionsTableQueryPropertiesList;
-  response?: NonIntegratedConversionsTableQueryResponse | null;
-  sampling?: WebAnalyticsSampling | null;
-  /** Sampling rate */
-  samplingFactor?: number | null;
-  /** Return a limited set of data. Will use default columns if empty. */
-  select?: NonIntegratedConversionsTableQuerySelectList | null;
-  tags?: QueryLogTags | null;
-  useSessionsTable?: boolean | null;
-  /** version of the node, used for schema migrations */
-  version?: number | null;
-}
-export const NonIntegratedConversionsTableQuery = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    aggregation_group_type_index: S.optional(S.NullOr(S.Number)),
-    compareFilter: S.optional(S.NullOr(CompareFilter)),
-    conversionGoal: S.optional(S.NullOr(NonIntegratedConversionsTableQueryConversionGoal)),
-    dataColorTheme: S.optional(S.NullOr(S.Number)),
-    dateRange: S.optional(S.NullOr(DateRange)),
-    doPathCleaning: S.optional(S.NullOr(S.Boolean)),
-    draftConversionGoal: S.optional(
-      S.NullOr(NonIntegratedConversionsTableQueryDraftConversionGoal),
-    ),
-    filterTestAccounts: S.optional(S.NullOr(S.Boolean)),
-    includeRevenue: S.optional(S.NullOr(S.Boolean)),
-    interval: S.optional(S.NullOr(IntervalType)),
-    kind: S.optional(S.String),
-    limit: S.optional(S.NullOr(S.Number)),
-    modifiers: S.optional(S.NullOr(HogQLQueryModifiers)),
-    offset: S.optional(S.NullOr(S.Number)),
-    orderBy: S.optional(S.NullOr(NonIntegratedConversionsTableQueryOrderByList)),
-    properties: S.optional(NonIntegratedConversionsTableQueryPropertiesList),
-    response: S.optional(S.NullOr(NonIntegratedConversionsTableQueryResponse)),
-    sampling: S.optional(S.NullOr(WebAnalyticsSampling)),
-    samplingFactor: S.optional(S.NullOr(S.Number)),
-    select: S.optional(S.NullOr(NonIntegratedConversionsTableQuerySelectList)),
-    tags: S.optional(S.NullOr(QueryLogTags)),
-    useSessionsTable: S.optional(S.NullOr(S.Boolean)),
-    version: S.optional(S.NullOr(S.Number)),
-  }),
-).annotate({
-  identifier: "NonIntegratedConversionsTableQuery",
-}) as any as S.Schema<NonIntegratedConversionsTableQuery>;
 
 export type ErrorTrackingOrderBy =
   | "last_seen"
@@ -13609,9 +13359,7 @@ export const ErrorTrackingQuery = /*@__PURE__*/ S.suspend(() =>
     withFirstEvent: S.optional(S.NullOr(S.Boolean)),
     withLastEvent: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "ErrorTrackingQuery",
-}) as any as S.Schema<ErrorTrackingQuery>;
+).annotate({ identifier: "ErrorTrackingQuery" }) as any as S.Schema<ErrorTrackingQuery>;
 
 export type ErrorTrackingIssueCorrelationQueryEventsList = Array<string>;
 export const ErrorTrackingIssueCorrelationQueryEventsList = /*@__PURE__*/ S.Array(
@@ -13757,9 +13505,7 @@ export const ExperimentFunnelsQueryResponseInsightList = /*@__PURE__*/ S.Array(
   ExperimentFunnelsQueryResponseInsightItemList,
 ) as any as S.Schema<ExperimentFunnelsQueryResponseInsightList>;
 
-export type ExperimentFunnelsQueryResponseProbabilityMap = {
-  [key: string]: number | undefined;
-};
+export type ExperimentFunnelsQueryResponseProbabilityMap = { [key: string]: number | undefined };
 export const ExperimentFunnelsQueryResponseProbabilityMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -13834,9 +13580,7 @@ export const ExperimentFunnelsQuery = /*@__PURE__*/ S.suspend(() =>
     uuid: S.optional(S.NullOr(S.String)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ExperimentFunnelsQuery",
-}) as any as S.Schema<ExperimentFunnelsQuery>;
+).annotate({ identifier: "ExperimentFunnelsQuery" }) as any as S.Schema<ExperimentFunnelsQuery>;
 
 export type ExperimentTrendsQueryResponseCredibleIntervalsValueList = Array<number>;
 export const ExperimentTrendsQueryResponseCredibleIntervalsValueList = /*@__PURE__*/ S.Array(
@@ -13851,9 +13595,7 @@ export const ExperimentTrendsQueryResponseCredibleIntervalsMap = /*@__PURE__*/ S
   ExperimentTrendsQueryResponseCredibleIntervalsValueList,
 ) as any as S.Schema<ExperimentTrendsQueryResponseCredibleIntervalsMap>;
 
-export type ExperimentTrendsQueryResponseInsightItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type ExperimentTrendsQueryResponseInsightItemMap = { [key: string]: unknown | undefined };
 export const ExperimentTrendsQueryResponseInsightItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -13865,9 +13607,7 @@ export const ExperimentTrendsQueryResponseInsightList = /*@__PURE__*/ S.Array(
   ExperimentTrendsQueryResponseInsightItemMap,
 ) as any as S.Schema<ExperimentTrendsQueryResponseInsightList>;
 
-export type ExperimentTrendsQueryResponseProbabilityMap = {
-  [key: string]: number | undefined;
-};
+export type ExperimentTrendsQueryResponseProbabilityMap = { [key: string]: number | undefined };
 export const ExperimentTrendsQueryResponseProbabilityMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -13946,9 +13686,7 @@ export const ExperimentTrendsQuery = /*@__PURE__*/ S.suspend(() =>
     uuid: S.optional(S.NullOr(S.String)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ExperimentTrendsQuery",
-}) as any as S.Schema<ExperimentTrendsQuery>;
+).annotate({ identifier: "ExperimentTrendsQuery" }) as any as S.Schema<ExperimentTrendsQuery>;
 
 export type TracesQueryPropertiesItem =
   | EventPropertyFilter
@@ -14055,9 +13793,7 @@ export const TracesQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(TracesQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "TracesQueryResponse",
-}) as any as S.Schema<TracesQueryResponse>;
+).annotate({ identifier: "TracesQueryResponse" }) as any as S.Schema<TracesQueryResponse>;
 
 export interface TracesQuery {
   dateRange?: DateRange | null;
@@ -14213,9 +13949,7 @@ export const TraceQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(TraceQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "TraceQueryResponse",
-}) as any as S.Schema<TraceQueryResponse>;
+).annotate({ identifier: "TraceQueryResponse" }) as any as S.Schema<TraceQueryResponse>;
 
 export interface TraceQuery {
   dateRange?: DateRange | null;
@@ -14321,9 +14055,7 @@ export const SessionQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(SessionQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "SessionQueryResponse",
-}) as any as S.Schema<SessionQueryResponse>;
+).annotate({ identifier: "SessionQueryResponse" }) as any as S.Schema<SessionQueryResponse>;
 
 export interface SessionQuery {
   dateRange?: DateRange | null;
@@ -14509,9 +14241,7 @@ export const EndpointsUsageTableQuery = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(QueryLogTags)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "EndpointsUsageTableQuery",
-}) as any as S.Schema<EndpointsUsageTableQuery>;
+).annotate({ identifier: "EndpointsUsageTableQuery" }) as any as S.Schema<EndpointsUsageTableQuery>;
 
 export type AccountsQueryAssignedToUserIdsList = Array<number>;
 export const AccountsQueryAssignedToUserIdsList = /*@__PURE__*/ S.Array(
@@ -14625,9 +14355,7 @@ export const AccountsQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     warnings: S.optional(S.NullOr(AccountsQueryResponseWarningsList)),
   }),
-).annotate({
-  identifier: "AccountsQueryResponse",
-}) as any as S.Schema<AccountsQueryResponse>;
+).annotate({ identifier: "AccountsQueryResponse" }) as any as S.Schema<AccountsQueryResponse>;
 
 export type AccountsQuerySelectList = Array<string>;
 export const AccountsQuerySelectList = /*@__PURE__*/ S.Array(
@@ -14642,6 +14370,8 @@ export const AccountsQueryTagNamesList = /*@__PURE__*/ S.Array(
 export interface AccountsQuery {
   /** Match accounts with no active relationship of any definition. */
   allRolesUnassigned?: boolean | null;
+  /** Match accounts with at least one active relationship of any definition. */
+  assignedOnly?: boolean | null;
   /** Match accounts where any of these user ids actively holds any relationship (CSM, Account executive, or a custom definition). Drives the "My accounts" shortcut (the current user's id) and the shareable "Assigned to" filter — the ids are explicit so a shared URL resolves identically for every viewer. */
   assignedToUserIds?: AccountsQueryAssignedToUserIdsList | null;
   /** Optional HogQL boolean expression AND-ed into the WHERE clause. Used by the overview tile click-to-filter affordance. */
@@ -14667,6 +14397,7 @@ export interface AccountsQuery {
 export const AccountsQuery = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     allRolesUnassigned: S.optional(S.NullOr(S.Boolean)),
+    assignedOnly: S.optional(S.NullOr(S.Boolean)),
     assignedToUserIds: S.optional(S.NullOr(AccountsQueryAssignedToUserIdsList)),
     filterExpression: S.optional(S.NullOr(S.String)),
     includeIgnored: S.optional(S.NullOr(S.Boolean)),
@@ -14719,9 +14450,7 @@ export const AccountsTableTagsColumn = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccountsTableTagsColumn",
-}) as any as S.Schema<AccountsTableTagsColumn>;
+).annotate({ identifier: "AccountsTableTagsColumn" }) as any as S.Schema<AccountsTableTagsColumn>;
 
 export type AccountsTableNoteCountColumn = AccountsTableTagsColumn;
 export const AccountsTableNoteCountColumn = AccountsTableTagsColumn;
@@ -14790,103 +14519,6 @@ export const AccountsTableQueryColumnsList = /*@__PURE__*/ S.Array(
   AccountsTableQueryColumnsItem,
 ) as any as S.Schema<AccountsTableQueryColumnsList>;
 
-export interface AccountsTableSearchFilter {
-  kind?: string;
-  query: string;
-}
-export const AccountsTableSearchFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: S.optional(S.String),
-    query: S.String,
-  }),
-).annotate({
-  identifier: "AccountsTableSearchFilter",
-}) as any as S.Schema<AccountsTableSearchFilter>;
-
-/** Match accounts carrying any of these tag names. */
-export type AccountsTableTagsFilterTagNamesList = Array<string>;
-export const AccountsTableTagsFilterTagNamesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<AccountsTableTagsFilterTagNamesList>;
-
-export interface AccountsTableTagsFilter {
-  kind?: string;
-  /** Match accounts carrying any of these tag names. */
-  tagNames: AccountsTableTagsFilterTagNamesList;
-}
-export const AccountsTableTagsFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: S.optional(S.String),
-    tagNames: AccountsTableTagsFilterTagNamesList,
-  }),
-).annotate({
-  identifier: "AccountsTableTagsFilter",
-}) as any as S.Schema<AccountsTableTagsFilter>;
-
-/** Match accounts where any listed user actively holds any relationship. */
-export type AccountsTableAssignedToFilterUserIdsList = Array<number>;
-export const AccountsTableAssignedToFilterUserIdsList = /*@__PURE__*/ S.Array(
-  S.Number,
-) as any as S.Schema<AccountsTableAssignedToFilterUserIdsList>;
-
-export interface AccountsTableAssignedToFilter {
-  kind?: string;
-  /** Match accounts where any listed user actively holds any relationship. */
-  userIds: AccountsTableAssignedToFilterUserIdsList;
-}
-export const AccountsTableAssignedToFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: S.optional(S.String),
-    userIds: AccountsTableAssignedToFilterUserIdsList,
-  }),
-).annotate({
-  identifier: "AccountsTableAssignedToFilter",
-}) as any as S.Schema<AccountsTableAssignedToFilter>;
-
-export type AccountsTableAssignedFilter = AccountsTableTagsColumn;
-export const AccountsTableAssignedFilter = AccountsTableTagsColumn;
-
-export type AccountsTableUnassignedFilter = AccountsTableTagsColumn;
-export const AccountsTableUnassignedFilter = AccountsTableTagsColumn;
-
-export type AccountsTableRelationshipOperator = "exact" | "is_not" | "is_set" | "is_not_set";
-export const AccountsTableRelationshipOperator = S.String;
-
-export type AccountsTableRelationshipFilterUserIdsList = Array<number>;
-export const AccountsTableRelationshipFilterUserIdsList = /*@__PURE__*/ S.Array(
-  S.Number,
-) as any as S.Schema<AccountsTableRelationshipFilterUserIdsList>;
-
-export interface AccountsTableRelationshipFilter {
-  definitionId: string;
-  kind?: string;
-  operator: AccountsTableRelationshipOperator | (string & {});
-  userIds?: AccountsTableRelationshipFilterUserIdsList | null;
-}
-export const AccountsTableRelationshipFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    definitionId: S.String,
-    kind: S.optional(S.String),
-    operator: AccountsTableRelationshipOperator,
-    userIds: S.optional(S.NullOr(AccountsTableRelationshipFilterUserIdsList)),
-  }),
-).annotate({
-  identifier: "AccountsTableRelationshipFilter",
-}) as any as S.Schema<AccountsTableRelationshipFilter>;
-
-export interface AccountsTableAccountIdFilter {
-  accountId: string;
-  kind?: string;
-}
-export const AccountsTableAccountIdFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String,
-    kind: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AccountsTableAccountIdFilter",
-}) as any as S.Schema<AccountsTableAccountIdFilter>;
-
 export type AccountsTableAccountFieldOperator =
   | "exact"
   | "is_not"
@@ -14920,6 +14552,31 @@ export const AccountsTableAccountFieldFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AccountsTableAccountFieldFilter",
 }) as any as S.Schema<AccountsTableAccountFieldFilter>;
+
+export type AccountsTableRelationshipOperator = "exact" | "is_not" | "is_set" | "is_not_set";
+export const AccountsTableRelationshipOperator = S.String;
+
+export type AccountsTableRelationshipFilterUserIdsList = Array<number>;
+export const AccountsTableRelationshipFilterUserIdsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<AccountsTableRelationshipFilterUserIdsList>;
+
+export interface AccountsTableRelationshipFilter {
+  definitionId: string;
+  kind?: string;
+  operator: AccountsTableRelationshipOperator | (string & {});
+  userIds?: AccountsTableRelationshipFilterUserIdsList | null;
+}
+export const AccountsTableRelationshipFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    definitionId: S.String,
+    kind: S.optional(S.String),
+    operator: AccountsTableRelationshipOperator,
+    userIds: S.optional(S.NullOr(AccountsTableRelationshipFilterUserIdsList)),
+  }),
+).annotate({
+  identifier: "AccountsTableRelationshipFilter",
+}) as any as S.Schema<AccountsTableRelationshipFilter>;
 
 export type AccountsTableCustomPropertyOperator =
   | "exact"
@@ -14966,6 +14623,93 @@ export const AccountsTableCustomPropertyFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AccountsTableCustomPropertyFilter",
 }) as any as S.Schema<AccountsTableCustomPropertyFilter>;
+
+export type AccountsTableQueryFilterGroupsItemItem =
+  | AccountsTableAccountFieldFilter
+  | AccountsTableRelationshipFilter
+  | AccountsTableCustomPropertyFilter;
+export const AccountsTableQueryFilterGroupsItemItem =
+  S.Unknown as any as S.Schema<AccountsTableQueryFilterGroupsItemItem>;
+
+export type AccountsTableQueryFilterGroupsItemList = Array<AccountsTableQueryFilterGroupsItemItem>;
+export const AccountsTableQueryFilterGroupsItemList = /*@__PURE__*/ S.Array(
+  AccountsTableQueryFilterGroupsItemItem,
+) as any as S.Schema<AccountsTableQueryFilterGroupsItemList>;
+
+export type AccountsTableQueryFilterGroupsList = Array<AccountsTableQueryFilterGroupsItemList>;
+export const AccountsTableQueryFilterGroupsList = /*@__PURE__*/ S.Array(
+  AccountsTableQueryFilterGroupsItemList,
+) as any as S.Schema<AccountsTableQueryFilterGroupsList>;
+
+export interface AccountsTableSearchFilter {
+  kind?: string;
+  query: string;
+}
+export const AccountsTableSearchFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: S.optional(S.String),
+    query: S.String,
+  }),
+).annotate({
+  identifier: "AccountsTableSearchFilter",
+}) as any as S.Schema<AccountsTableSearchFilter>;
+
+/** Match accounts carrying any of these tag names. */
+export type AccountsTableTagsFilterTagNamesList = Array<string>;
+export const AccountsTableTagsFilterTagNamesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AccountsTableTagsFilterTagNamesList>;
+
+export interface AccountsTableTagsFilter {
+  kind?: string;
+  /** Match accounts carrying any of these tag names. */
+  tagNames: AccountsTableTagsFilterTagNamesList;
+}
+export const AccountsTableTagsFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: S.optional(S.String),
+    tagNames: AccountsTableTagsFilterTagNamesList,
+  }),
+).annotate({ identifier: "AccountsTableTagsFilter" }) as any as S.Schema<AccountsTableTagsFilter>;
+
+/** Match accounts where any listed user actively holds any relationship. */
+export type AccountsTableAssignedToFilterUserIdsList = Array<number>;
+export const AccountsTableAssignedToFilterUserIdsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<AccountsTableAssignedToFilterUserIdsList>;
+
+export interface AccountsTableAssignedToFilter {
+  kind?: string;
+  /** Match accounts where any listed user actively holds any relationship. */
+  userIds: AccountsTableAssignedToFilterUserIdsList;
+}
+export const AccountsTableAssignedToFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: S.optional(S.String),
+    userIds: AccountsTableAssignedToFilterUserIdsList,
+  }),
+).annotate({
+  identifier: "AccountsTableAssignedToFilter",
+}) as any as S.Schema<AccountsTableAssignedToFilter>;
+
+export type AccountsTableAssignedFilter = AccountsTableTagsColumn;
+export const AccountsTableAssignedFilter = AccountsTableTagsColumn;
+
+export type AccountsTableUnassignedFilter = AccountsTableTagsColumn;
+export const AccountsTableUnassignedFilter = AccountsTableTagsColumn;
+
+export interface AccountsTableAccountIdFilter {
+  accountId: string;
+  kind?: string;
+}
+export const AccountsTableAccountIdFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String,
+    kind: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AccountsTableAccountIdFilter",
+}) as any as S.Schema<AccountsTableAccountIdFilter>;
 
 export type AccountsTableQueryFiltersItem =
   | AccountsTableSearchFilter
@@ -15145,13 +14889,13 @@ export const AccountsTableSort = /*@__PURE__*/ S.suspend(() =>
     column: AccountsTableSortColumn,
     direction: AccountsTableSortDirection,
   }),
-).annotate({
-  identifier: "AccountsTableSort",
-}) as any as S.Schema<AccountsTableSort>;
+).annotate({ identifier: "AccountsTableSort" }) as any as S.Schema<AccountsTableSort>;
 
 export interface AccountsTableQuery {
   /** Columns to load for each account. Account identity fields are always returned. */
   columns: AccountsTableQueryColumnsList;
+  /** Nonempty property-filter groups are ORed together; filters within each group use AND. Global filters still apply. */
+  filterGroups?: AccountsTableQueryFilterGroupsList | null;
   /** Filters are combined with AND. Values within tag and assignment filters use OR. */
   filters?: AccountsTableQueryFiltersList | null;
   /** Include churned accounts. Churned accounts are hidden by default. */
@@ -15174,6 +14918,7 @@ export interface AccountsTableQuery {
 export const AccountsTableQuery = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     columns: AccountsTableQueryColumnsList,
+    filterGroups: S.optional(S.NullOr(AccountsTableQueryFilterGroupsList)),
     filters: S.optional(S.NullOr(AccountsTableQueryFiltersList)),
     includeChurned: S.optional(S.NullOr(S.Boolean)),
     includeIgnored: S.optional(S.NullOr(S.Boolean)),
@@ -15187,9 +14932,7 @@ export const AccountsTableQuery = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(QueryLogTags)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "AccountsTableQuery",
-}) as any as S.Schema<AccountsTableQuery>;
+).annotate({ identifier: "AccountsTableQuery" }) as any as S.Schema<AccountsTableQuery>;
 
 /** Source of the events */
 export type DataTableNodeSource =
@@ -15210,7 +14953,6 @@ export type DataTableNodeSource =
   | SessionsQuery
   | MarketingAnalyticsTableQuery
   | MarketingAnalyticsAggregatedQuery
-  | NonIntegratedConversionsTableQuery
   | ErrorTrackingQuery
   | ErrorTrackingIssueCorrelationQuery
   | ExperimentFunnelsQuery
@@ -15367,9 +15109,7 @@ export const BoxPlotSettings = /*@__PURE__*/ S.suspend(() =>
     seriesColumn: S.optional(S.NullOr(S.String)),
     xAxisColumn: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "BoxPlotSettings",
-}) as any as S.Schema<BoxPlotSettings>;
+).annotate({ identifier: "BoxPlotSettings" }) as any as S.Schema<BoxPlotSettings>;
 
 export type ChartSettingsGoalLinesList = Array<GoalLine>;
 export const ChartSettingsGoalLinesList = /*@__PURE__*/ S.Array(
@@ -15385,9 +15125,7 @@ export const HeatmapGradientStop = /*@__PURE__*/ S.suspend(() =>
     color: S.optional(S.String),
     value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "HeatmapGradientStop",
-}) as any as S.Schema<HeatmapGradientStop>;
+).annotate({ identifier: "HeatmapGradientStop" }) as any as S.Schema<HeatmapGradientStop>;
 
 export type HeatmapSettingsGradientList = Array<HeatmapGradientStop>;
 export const HeatmapSettingsGradientList = /*@__PURE__*/ S.Array(
@@ -15429,9 +15167,7 @@ export const HeatmapSettings = /*@__PURE__*/ S.suspend(() =>
     yAxisColumn: S.optional(S.NullOr(S.String)),
     yAxisLabel: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "HeatmapSettings",
-}) as any as S.Schema<HeatmapSettings>;
+).annotate({ identifier: "HeatmapSettings" }) as any as S.Schema<HeatmapSettings>;
 
 export type Scale = "linear" | "logarithmic";
 export const Scale = S.String;
@@ -15454,6 +15190,37 @@ export const YAxisSettings = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "YAxisSettings" }) as any as S.Schema<YAxisSettings>;
 
+export type Summary = "total" | "average" | "latest";
+export const Summary = S.String;
+
+export interface MetricChartSettings {
+  /** Change pill color when the series went down. Defaults to red. */
+  changeDecreaseColor?: string | null;
+  /** Change pill color when the series went up. Defaults to green. */
+  changeIncreaseColor?: string | null;
+  /** Color the sparkline by whether the series went up or down. */
+  colorByDirection?: boolean | null;
+  /** Sparkline color when the series went down. Defaults to red. */
+  lineDecreaseColor?: string | null;
+  /** Sparkline color when the series went up. Defaults to green. */
+  lineIncreaseColor?: string | null;
+  /** Show the change pill comparing the first point to the latest point. */
+  showChange?: boolean | null;
+  /** Which value the resting headline shows: the latest point, the total, or the average of the returned points. */
+  summary?: Summary | (string & {}) | null;
+}
+export const MetricChartSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    changeDecreaseColor: S.optional(S.NullOr(S.String)),
+    changeIncreaseColor: S.optional(S.NullOr(S.String)),
+    colorByDirection: S.optional(S.NullOr(S.Boolean)),
+    lineDecreaseColor: S.optional(S.NullOr(S.String)),
+    lineIncreaseColor: S.optional(S.NullOr(S.String)),
+    showChange: S.optional(S.NullOr(S.Boolean)),
+    summary: S.optional(S.NullOr(Summary)),
+  }),
+).annotate({ identifier: "MetricChartSettings" }) as any as S.Schema<MetricChartSettings>;
+
 export type SliceContent = "labels" | "values" | "none";
 export const SliceContent = S.String;
 
@@ -15474,9 +15241,7 @@ export const PieChartSettings = /*@__PURE__*/ S.suspend(() =>
     sliceContent: S.optional(S.NullOr(SliceContent)),
     valueDisplay: S.optional(S.NullOr(ValueDisplay)),
   }),
-).annotate({
-  identifier: "PieChartSettings",
-}) as any as S.Schema<PieChartSettings>;
+).annotate({ identifier: "PieChartSettings" }) as any as S.Schema<PieChartSettings>;
 
 export type ChartSettingsResultCustomizationsMap = {
   [key: string]: ResultCustomizationByValue | undefined;
@@ -15503,9 +15268,7 @@ export const ScatterChartSettings = /*@__PURE__*/ S.suspend(() =>
     xScale: S.optional(S.NullOr(XScale)),
     xStartAtZero: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "ScatterChartSettings",
-}) as any as S.Schema<ScatterChartSettings>;
+).annotate({ identifier: "ScatterChartSettings" }) as any as S.Schema<ScatterChartSettings>;
 
 export type DisplayType = "auto" | "line" | "bar" | "area";
 export const DisplayType = S.String;
@@ -15528,9 +15291,7 @@ export const ChartSettingsDisplay = /*@__PURE__*/ S.suspend(() =>
     trendLine: S.optional(S.NullOr(S.Boolean)),
     yAxisPosition: S.optional(S.NullOr(YAxisPosition)),
   }),
-).annotate({
-  identifier: "ChartSettingsDisplay",
-}) as any as S.Schema<ChartSettingsDisplay>;
+).annotate({ identifier: "ChartSettingsDisplay" }) as any as S.Schema<ChartSettingsDisplay>;
 
 export type Style = "none" | "number" | "short" | "percent";
 export const Style = S.String;
@@ -15548,9 +15309,7 @@ export const ChartSettingsFormatting = /*@__PURE__*/ S.suspend(() =>
     style: S.optional(S.NullOr(Style)),
     suffix: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ChartSettingsFormatting",
-}) as any as S.Schema<ChartSettingsFormatting>;
+).annotate({ identifier: "ChartSettingsFormatting" }) as any as S.Schema<ChartSettingsFormatting>;
 
 export interface Settings {
   display?: ChartSettingsDisplay | null;
@@ -15588,6 +15347,7 @@ export interface ChartSettings {
   leftYAxisSettings?: YAxisSettings | null;
   /** Where the legend sits relative to the chart. Unset falls back per chart type: right for pie, top for the rest. */
   legendPosition?: LegendPosition | (string & {}) | null;
+  metric?: MetricChartSettings | null;
   pie?: PieChartSettings | null;
   /** Per-breakdown-value color customizations. Keyed by the raw breakdown column value. */
   resultCustomizations?: ChartSettingsResultCustomizationsMap | null;
@@ -15619,6 +15379,7 @@ export const ChartSettings = /*@__PURE__*/ S.suspend(() =>
     heatmap: S.optional(S.NullOr(HeatmapSettings)),
     leftYAxisSettings: S.optional(S.NullOr(YAxisSettings)),
     legendPosition: S.optional(S.NullOr(LegendPosition)),
+    metric: S.optional(S.NullOr(MetricChartSettings)),
     pie: S.optional(S.NullOr(PieChartSettings)),
     resultCustomizations: S.optional(S.NullOr(ChartSettingsResultCustomizationsMap)),
     rightYAxisSettings: S.optional(S.NullOr(YAxisSettings)),
@@ -15720,9 +15481,7 @@ export const DataVisualizationNode = /*@__PURE__*/ S.suspend(() =>
     tableSettings: S.optional(S.NullOr(TableSettings)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "DataVisualizationNode",
-}) as any as S.Schema<DataVisualizationNode>;
+).annotate({ identifier: "DataVisualizationNode" }) as any as S.Schema<DataVisualizationNode>;
 
 export type HogQueryResponseBytecodeList = Array<unknown>;
 export const HogQueryResponseBytecodeList = /*@__PURE__*/ S.Array(
@@ -15747,9 +15506,7 @@ export const HogQueryResponse = /*@__PURE__*/ S.suspend(() =>
     results: S.optional(S.Unknown),
     stdout: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "HogQueryResponse",
-}) as any as S.Schema<HogQueryResponse>;
+).annotate({ identifier: "HogQueryResponse" }) as any as S.Schema<HogQueryResponse>;
 
 export interface HogQuery {
   code?: string | null;
@@ -15820,16 +15577,8 @@ export const CreateInsightRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateInsightRequestTagsList),
     favorited: S.optional(S.Boolean),
     _create_in_folder: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/insights/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateInsightRequest",
-}) as any as S.Schema<CreateInsightRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/insights/", code: 200 })),
+).annotate({ identifier: "CreateInsightRequest" }) as any as S.Schema<CreateInsightRequest>;
 
 /** DEPRECATED. Will be removed in a future release. Use dashboard_tiles instead. A dashboard ID for each of the dashboards that this insight is displayed on. This field is omitted from session-authenticated responses unless `include_dashboards=true` is passed. Once opt-in enforcement is enabled, API-token callers (personal API keys, OAuth) must opt in the same way. Do not rely on it being present. */
 export type InsightOutputDashboardsList = Array<number>;
@@ -15848,9 +15597,7 @@ export const DashboardTileBasic = /*@__PURE__*/ S.suspend(() =>
     dashboard_id: S.optional(S.Number),
     deleted: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "DashboardTileBasic",
-}) as any as S.Schema<DashboardTileBasic>;
+).annotate({ identifier: "DashboardTileBasic" }) as any as S.Schema<DashboardTileBasic>;
 
 /** A dashboard tile ID and dashboard_id for each of the dashboards that this insight is displayed on. */
 export type InsightOutputDashboardTilesList = Array<DashboardTileBasic>;
@@ -15935,6 +15682,15 @@ export const InsightOutputTypesList = /*@__PURE__*/ S.Array(
 export type InsightOutputResolvedDateRange = ResolvedDateRangeResponse;
 export const InsightOutputResolvedDateRange = ResolvedDateRangeResponse;
 
+export type InsightResultWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export const InsightResultWarningsItem = S.Unknown as any as S.Schema<InsightResultWarningsItem>;
+
+/** Warnings attached to the query response that produced an insight's results. */
+export type InsightResultWarnings = Array<InsightResultWarningsItem>;
+export const InsightResultWarnings = /*@__PURE__*/ S.Array(
+  InsightResultWarningsItem,
+) as any as S.Schema<InsightResultWarnings>;
+
 export type InsightOutputAlertsList = Array<unknown>;
 export const InsightOutputAlertsList = /*@__PURE__*/ S.Array(
   S.Unknown,
@@ -15994,9 +15750,7 @@ export const DashboardFilter = /*@__PURE__*/ S.suspend(() =>
     interval: S.optional(S.NullOr(IntervalType)),
     properties: S.optional(S.NullOr(DashboardFilterPropertiesList)),
   }),
-).annotate({
-  identifier: "DashboardFilter",
-}) as any as S.Schema<DashboardFilter>;
+).annotate({ identifier: "DashboardFilter" }) as any as S.Schema<DashboardFilter>;
 
 export type TileFiltersPropertiesItem =
   | EventPropertyFilter
@@ -16117,6 +15871,10 @@ export interface InsightOutput {
   hogql?: string | null;
   types?: InsightOutputTypesList | null;
   resolved_date_range?: ResolvedDateRangeResponse | null;
+  /** What ClickHouse read for this insight's last slow run, with the findings of its query scan. */
+  query_scan?: unknown;
+  /** Warnings from the run that produced these results. A `warehouse_sync` warning means the query read a data warehouse table whose sync failed, is paused, or is overdue, so the results can be out of date. Reflects the sync state when the results were computed. Null for shared insights. */
+  warnings?: InsightResultWarnings | null;
   alerts?: InsightOutputAlertsList;
   /** Resolved dashboard and tile filter layers used to explain filter precedence in the UI. */
   filter_override_context?: InsightFilterOverrideContext | null;
@@ -16159,6 +15917,8 @@ export const InsightOutput = /*@__PURE__*/ S.suspend(() =>
     hogql: S.optional(S.NullOr(S.String)),
     types: S.optional(S.NullOr(InsightOutputTypesList)),
     resolved_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
+    query_scan: S.optional(S.Unknown),
+    warnings: S.optional(S.NullOr(InsightResultWarnings)),
     alerts: S.optional(InsightOutputAlertsList),
     filter_override_context: S.optional(S.NullOr(InsightFilterOverrideContext)),
     last_viewed_at: S.optional(S.NullOr(S.String)),
@@ -16235,74 +15995,7 @@ export const SharingConfiguration = /*@__PURE__*/ S.suspend(() =>
     share_passwords: S.optional(SharingConfigurationSharePasswordsList),
     user_access_level: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "SharingConfiguration",
-}) as any as S.Schema<SharingConfiguration>;
-
-export type CreateInsightsSuggestionRequestFormat = "csv" | "json";
-export const CreateInsightsSuggestionRequestFormat = S.String;
-
-/** DEPRECATED. Will be removed in a future release. Use dashboard_tiles instead. A dashboard ID for each of the dashboards that this insight is displayed on. This field is omitted from session-authenticated responses unless `include_dashboards=true` is passed. Once opt-in enforcement is enabled, API-token callers (personal API keys, OAuth) must opt in the same way. Do not rely on it being present. */
-export type CreateInsightsSuggestionRequestDashboardsList = Array<number>;
-export const CreateInsightsSuggestionRequestDashboardsList = /*@__PURE__*/ S.Array(
-  S.Number,
-) as any as S.Schema<CreateInsightsSuggestionRequestDashboardsList>;
-
-export type CreateInsightsSuggestionRequestTagsList = Array<unknown>;
-export const CreateInsightsSuggestionRequestTagsList = /*@__PURE__*/ S.Array(
-  S.Unknown,
-) as any as S.Schema<CreateInsightsSuggestionRequestTagsList>;
-
-export interface CreateInsightsSuggestionRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A unique integer value identifying this insight. */
-  id: number;
-  format?: CreateInsightsSuggestionRequestFormat | (string & {});
-  name?: string | null;
-  derived_name?: string | null;
-  query?: InsightQuerySchema | null;
-  order?: number | null;
-  deleted?: boolean;
-  /** DEPRECATED. Will be removed in a future release. Use dashboard_tiles instead. A dashboard ID for each of the dashboards that this insight is displayed on. This field is omitted from session-authenticated responses unless `include_dashboards=true` is passed. Once opt-in enforcement is enabled, API-token callers (personal API keys, OAuth) must opt in the same way. Do not rely on it being present. */
-  dashboards?: CreateInsightsSuggestionRequestDashboardsList;
-  description?: string | null;
-  tags?: CreateInsightsSuggestionRequestTagsList;
-  favorited?: boolean;
-  _create_in_folder?: string;
-}
-export const CreateInsightsSuggestionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    id: S.Number.pipe(T.Label()),
-    format: S.optional(CreateInsightsSuggestionRequestFormat.pipe(T.Query())),
-    name: S.optional(S.NullOr(S.String)),
-    derived_name: S.optional(S.NullOr(S.String)),
-    query: S.optional(S.NullOr(InsightQuerySchema)),
-    order: S.optional(S.NullOr(S.Number)),
-    deleted: S.optional(S.Boolean),
-    dashboards: S.optional(CreateInsightsSuggestionRequestDashboardsList),
-    description: S.optional(S.NullOr(S.String)),
-    tags: S.optional(CreateInsightsSuggestionRequestTagsList),
-    favorited: S.optional(S.Boolean),
-    _create_in_folder: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/insights/{id}/suggestions/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateInsightsSuggestionRequest",
-}) as any as S.Schema<CreateInsightsSuggestionRequest>;
-
-export interface CreateInsightsSuggestionResponse {}
-export const CreateInsightsSuggestionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CreateInsightsSuggestionResponse",
-}) as any as S.Schema<CreateInsightsSuggestionResponse>;
+).annotate({ identifier: "SharingConfiguration" }) as any as S.Schema<SharingConfiguration>;
 
 export type CreateInsightsViewedRequestFormat = "csv" | "json";
 export const CreateInsightsViewedRequestFormat = S.String;
@@ -16326,11 +16019,7 @@ export const CreateInsightsViewedRequest = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(CreateInsightsViewedRequestFormat.pipe(T.Query())),
     insight_ids: CreateInsightsViewedRequestInsightIdsList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/insights/viewed/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/insights/viewed/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateInsightsViewedRequest",
@@ -16381,16 +16070,8 @@ export const GetInsightRequest = /*@__PURE__*/ S.suspend(() =>
     include_dashboards: S.optional(S.Boolean.pipe(T.Query())),
     refresh: S.optional(GetInsightRequestRefresh.pipe(T.Query())),
     variables_override: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/insights/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetInsightRequest",
-}) as any as S.Schema<GetInsightRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/insights/{id}/", code: 200 })),
+).annotate({ identifier: "GetInsightRequest" }) as any as S.Schema<GetInsightRequest>;
 
 export type GetInsightsActivityRequestFormat = "csv" | "json";
 export const GetInsightsActivityRequestFormat = S.String;
@@ -16414,11 +16095,7 @@ export const GetInsightsActivityRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/insights/{id}/activity/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/insights/{id}/activity/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetInsightsActivityRequest",
@@ -16505,7 +16182,7 @@ export interface ActivityLogEntry {
   is_system?: boolean;
   /** Whether the acting user was being impersonated by PostHog staff. */
   was_impersonated?: boolean;
-  /** API client that triggered the activity, from the x-posthog-client request header (e.g. 'mcp'). Null for requests that did not send the header. */
+  /** API client that triggered the activity. Self-reported through the x-posthog-client request header (e.g. 'mcp'), or 'scout:<skill_name>' when a scout run made the change, which the server derives from the run's own token. Null for requests that did neither. */
   client?: string | null;
 }
 export const ActivityLogEntry = /*@__PURE__*/ S.suspend(() =>
@@ -16521,9 +16198,7 @@ export const ActivityLogEntry = /*@__PURE__*/ S.suspend(() =>
     was_impersonated: S.optional(S.Boolean),
     client: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ActivityLogEntry",
-}) as any as S.Schema<ActivityLogEntry>;
+).annotate({ identifier: "ActivityLogEntry" }) as any as S.Schema<ActivityLogEntry>;
 
 export type ActivityLogPaginatedResponseResultsList = Array<ActivityLogEntry>;
 export const ActivityLogPaginatedResponseResultsList = /*@__PURE__*/ S.Array(
@@ -16567,46 +16242,11 @@ export const GetInsightsAllActivityRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/insights/activity/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/insights/activity/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetInsightsAllActivityRequest",
 }) as any as S.Schema<GetInsightsAllActivityRequest>;
-
-export type GetInsightsAnalyzeRequestFormat = "csv" | "json";
-export const GetInsightsAnalyzeRequestFormat = S.String;
-
-export interface GetInsightsAnalyzeRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A unique integer value identifying this insight. */
-  id: number;
-  format?: GetInsightsAnalyzeRequestFormat | (string & {});
-}
-export const GetInsightsAnalyzeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    id: S.Number.pipe(T.Label()),
-    format: S.optional(GetInsightsAnalyzeRequestFormat.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/insights/{id}/analyze/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetInsightsAnalyzeRequest",
-}) as any as S.Schema<GetInsightsAnalyzeRequest>;
-
-export interface GetInsightsAnalyzeResponse {}
-export const GetInsightsAnalyzeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "GetInsightsAnalyzeResponse",
-}) as any as S.Schema<GetInsightsAnalyzeResponse>;
 
 export type GetInsightsMyLastViewedRequestFormat = "csv" | "json";
 export const GetInsightsMyLastViewedRequestFormat = S.String;
@@ -16633,41 +16273,8 @@ export const GetInsightsMyLastViewedRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetInsightsMyLastViewedResponse {}
 export const GetInsightsMyLastViewedResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "GetInsightsMyLastViewedResponse",
-  },
+  { identifier: "GetInsightsMyLastViewedResponse" },
 ) as any as S.Schema<GetInsightsMyLastViewedResponse>;
-
-export type GetInsightsSuggestionRequestFormat = "csv" | "json";
-export const GetInsightsSuggestionRequestFormat = S.String;
-
-export interface GetInsightsSuggestionRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A unique integer value identifying this insight. */
-  id: number;
-  format?: GetInsightsSuggestionRequestFormat | (string & {});
-}
-export const GetInsightsSuggestionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    id: S.Number.pipe(T.Label()),
-    format: S.optional(GetInsightsSuggestionRequestFormat.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/insights/{id}/suggestions/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetInsightsSuggestionRequest",
-}) as any as S.Schema<GetInsightsSuggestionRequest>;
-
-export interface GetInsightsSuggestionResponse {}
-export const GetInsightsSuggestionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "GetInsightsSuggestionResponse",
-}) as any as S.Schema<GetInsightsSuggestionResponse>;
 
 export interface GetInsightsThresholdRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -16703,9 +16310,7 @@ export const InsightsThresholdBounds = /*@__PURE__*/ S.suspend(() =>
     lower: S.optional(S.NullOr(S.Number)),
     upper: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "InsightsThresholdBounds",
-}) as any as S.Schema<InsightsThresholdBounds>;
+).annotate({ identifier: "InsightsThresholdBounds" }) as any as S.Schema<InsightsThresholdBounds>;
 
 export type InsightThresholdType = "absolute" | "percentage";
 export const InsightThresholdType = S.String;
@@ -16720,9 +16325,7 @@ export const InsightThreshold = /*@__PURE__*/ S.suspend(() =>
     bounds: S.optional(S.NullOr(InsightsThresholdBounds)),
     type: S.optional(InsightThresholdType),
   }),
-).annotate({
-  identifier: "InsightThreshold",
-}) as any as S.Schema<InsightThreshold>;
+).annotate({ identifier: "InsightThreshold" }) as any as S.Schema<InsightThreshold>;
 
 /** User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object. */
 export type AlertSubscribedUsersList = Array<number>;
@@ -16875,9 +16478,7 @@ export const TrendsAlertConfig = /*@__PURE__*/ S.suspend(() =>
     series_index: S.optional(S.Number),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TrendsAlertConfig",
-}) as any as S.Schema<TrendsAlertConfig>;
+).annotate({ identifier: "TrendsAlertConfig" }) as any as S.Schema<TrendsAlertConfig>;
 
 export type HogQLAlertEvaluation = "last_row" | "first_row" | "any_row";
 export const HogQLAlertEvaluation = S.String;
@@ -16898,9 +16499,7 @@ export const HogQLAlertConfig = /*@__PURE__*/ S.suspend(() =>
     label_column: S.optional(S.NullOr(S.String)),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HogQLAlertConfig",
-}) as any as S.Schema<HogQLAlertConfig>;
+).annotate({ identifier: "HogQLAlertConfig" }) as any as S.Schema<HogQLAlertConfig>;
 
 export type FunnelConversionMetric = "conversion_from_start" | "conversion_from_previous";
 export const FunnelConversionMetric = S.String;
@@ -16920,9 +16519,7 @@ export const FunnelsAlertConfig = /*@__PURE__*/ S.suspend(() =>
     metric: FunnelConversionMetric,
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FunnelsAlertConfig",
-}) as any as S.Schema<FunnelsAlertConfig>;
+).annotate({ identifier: "FunnelsAlertConfig" }) as any as S.Schema<FunnelsAlertConfig>;
 
 export interface MetricsAlertConfig {
   /** When true, anchor on the trailing (possibly still accumulating) bucket instead of the last complete one. */
@@ -16934,9 +16531,7 @@ export const MetricsAlertConfig = /*@__PURE__*/ S.suspend(() =>
     check_ongoing_interval: S.optional(S.NullOr(S.Boolean)),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricsAlertConfig",
-}) as any as S.Schema<MetricsAlertConfig>;
+).annotate({ identifier: "MetricsAlertConfig" }) as any as S.Schema<MetricsAlertConfig>;
 
 /** Per-insight-kind alert config, discriminated by ``type`` — keeps the OpenAPI (and the generated frontend types and MCP tool schemas) in sync with every kind alerts support. */
 export type AlertConfigUnion =
@@ -16960,9 +16555,7 @@ export const PreprocessingConfig = /*@__PURE__*/ S.suspend(() =>
     lags_n: S.optional(S.NullOr(S.Number)),
     smooth_n: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "PreprocessingConfig",
-}) as any as S.Schema<PreprocessingConfig>;
+).annotate({ identifier: "PreprocessingConfig" }) as any as S.Schema<PreprocessingConfig>;
 
 export interface ZScoreDetectorConfig {
   /** Preprocessing transforms applied before detection */
@@ -16980,9 +16573,7 @@ export const ZScoreDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     window: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ZScoreDetectorConfig",
-}) as any as S.Schema<ZScoreDetectorConfig>;
+).annotate({ identifier: "ZScoreDetectorConfig" }) as any as S.Schema<ZScoreDetectorConfig>;
 
 export interface MADDetectorConfig {
   /** Preprocessing transforms applied before detection */
@@ -17000,9 +16591,7 @@ export const MADDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     window: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "MADDetectorConfig",
-}) as any as S.Schema<MADDetectorConfig>;
+).annotate({ identifier: "MADDetectorConfig" }) as any as S.Schema<MADDetectorConfig>;
 
 export interface IQRDetectorConfig {
   /** IQR multiplier for fence calculation (default: 1.5, use 3.0 for far outliers) */
@@ -17020,9 +16609,7 @@ export const IQRDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     window: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "IQRDetectorConfig",
-}) as any as S.Schema<IQRDetectorConfig>;
+).annotate({ identifier: "IQRDetectorConfig" }) as any as S.Schema<IQRDetectorConfig>;
 
 export interface ThresholdDetectorConfig {
   /** Lower bound - values below this are anomalies */
@@ -17040,9 +16627,7 @@ export const ThresholdDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     upper_bound: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ThresholdDetectorConfig",
-}) as any as S.Schema<ThresholdDetectorConfig>;
+).annotate({ identifier: "ThresholdDetectorConfig" }) as any as S.Schema<ThresholdDetectorConfig>;
 
 export interface ECODDetectorConfig {
   /** Preprocessing transforms applied before detection */
@@ -17060,9 +16645,7 @@ export const ECODDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     window: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ECODDetectorConfig",
-}) as any as S.Schema<ECODDetectorConfig>;
+).annotate({ identifier: "ECODDetectorConfig" }) as any as S.Schema<ECODDetectorConfig>;
 
 export type COPODDetectorConfig = ECODDetectorConfig;
 export const COPODDetectorConfig = ECODDetectorConfig;
@@ -17115,9 +16698,7 @@ export const KNNDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     window: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "KNNDetectorConfig",
-}) as any as S.Schema<KNNDetectorConfig>;
+).annotate({ identifier: "KNNDetectorConfig" }) as any as S.Schema<KNNDetectorConfig>;
 
 export interface HBOSDetectorConfig {
   /** Number of histogram bins (default: 10) */
@@ -17138,9 +16719,7 @@ export const HBOSDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     window: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "HBOSDetectorConfig",
-}) as any as S.Schema<HBOSDetectorConfig>;
+).annotate({ identifier: "HBOSDetectorConfig" }) as any as S.Schema<HBOSDetectorConfig>;
 
 export interface LOFDetectorConfig {
   /** Number of neighbors for LOF (default: 20) */
@@ -17161,9 +16740,7 @@ export const LOFDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     window: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "LOFDetectorConfig",
-}) as any as S.Schema<LOFDetectorConfig>;
+).annotate({ identifier: "LOFDetectorConfig" }) as any as S.Schema<LOFDetectorConfig>;
 
 export interface OCSVMDetectorConfig {
   /** SVM kernel type (default: "rbf") */
@@ -17187,9 +16764,7 @@ export const OCSVMDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     window: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "OCSVMDetectorConfig",
-}) as any as S.Schema<OCSVMDetectorConfig>;
+).annotate({ identifier: "OCSVMDetectorConfig" }) as any as S.Schema<OCSVMDetectorConfig>;
 
 export type PCADetectorConfig = ECODDetectorConfig;
 export const PCADetectorConfig = ECODDetectorConfig;
@@ -17232,9 +16807,25 @@ export const EnsembleDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     operator: S.optional(EnsembleOperator),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnsembleDetectorConfig",
-}) as any as S.Schema<EnsembleDetectorConfig>;
+).annotate({ identifier: "EnsembleDetectorConfig" }) as any as S.Schema<EnsembleDetectorConfig>;
+
+export interface LLMDetectorConfig {
+  /** What counts as unusual or interesting for this metric, in your own words. Optional. */
+  instructions?: string | null;
+  /** Minimum confidence [0-1] the model must report before the alert fires (default: 0.7) */
+  threshold?: number | null;
+  type?: string;
+  /** How many recent points the model is shown (default: 90) */
+  window?: number | null;
+}
+export const LLMDetectorConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    instructions: S.optional(S.NullOr(S.String)),
+    threshold: S.optional(S.NullOr(S.Number)),
+    type: S.optional(S.String),
+    window: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "LLMDetectorConfig" }) as any as S.Schema<LLMDetectorConfig>;
 
 /** Detector configuration types */
 export type DetectorConfig =
@@ -17250,7 +16841,8 @@ export type DetectorConfig =
   | HBOSDetectorConfig
   | LOFDetectorConfig
   | OCSVMDetectorConfig
-  | ECODDetectorConfig;
+  | ECODDetectorConfig
+  | LLMDetectorConfig;
 export const DetectorConfig = S.Unknown as any as S.Schema<DetectorConfig>;
 
 /** * `real_time` - real_time * `every_15_minutes` - every_15_minutes * `hourly` - hourly * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
@@ -17292,9 +16884,7 @@ export const AlertScheduleRestriction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     blocked_windows: S.optional(AlertScheduleRestrictionBlockedWindowsList),
   }),
-).annotate({
-  identifier: "AlertScheduleRestriction",
-}) as any as S.Schema<AlertScheduleRestriction>;
+).annotate({ identifier: "AlertScheduleRestriction" }) as any as S.Schema<AlertScheduleRestriction>;
 
 /** * `notify` - Notify * `suppress` - Suppress */
 export type InvestigationInconclusiveActionEnum = "notify" | "suppress";
@@ -17310,6 +16900,8 @@ export interface Alert {
   insight_short_id?: string;
   /** Display name of the insight monitored by this alert. */
   insight_display_name?: string;
+  /** Whether this alert can use the AI detector, judged for the person who created it, since scheduled checks run as the creator. Only computed when retrieving a single alert; null elsewhere. */
+  llm_detector_available?: boolean | null;
   /** Human-readable name for the alert. */
   name?: string;
   /** User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object. */
@@ -17324,6 +16916,8 @@ export interface Alert {
   enabled?: boolean;
   last_notified_at?: string | null;
   last_checked_at?: string | null;
+  /** Local time that starts alert checks in HH:MM format. Updating this value recalculates the next check. Set null to remove the custom start time. */
+  schedule_start_time?: string | null;
   next_check_at?: string | null;
   /** Alert check results. By default returns the last 5. Use checks_date_from and checks_date_to (e.g. '-24h', '-7d') to get checks within a time window, checks_limit to cap how many are returned (default 5, max 500), and checks_offset to skip the newest N checks for pagination (0-based). Newest checks first. Only populated on retrieve. */
   checks?: AlertChecksList;
@@ -17332,6 +16926,8 @@ export interface Alert {
   /** Per-insight-kind alert configuration, discriminated by `type`. TrendsAlertConfig: series_index (which series to monitor) and check_ongoing_interval (whether to check the current incomplete interval). HogQLAlertConfig (SQL insights): column (which result column to evaluate, defaults to the single numeric column), evaluation ('last_row' checks the latest value of an oldest->newest query, 'first_row' checks the first value of a newest->oldest query, 'any_row' fires if any row breaches), and label_column (names the evaluated row(s) in breach messages, in every evaluation mode). FunnelsAlertConfig (funnel insights): funnel_step (the step to monitor, null for the overall last step), metric ('conversion_from_start' or 'conversion_from_previous'), and check_ongoing_interval (historical-trend funnels: also evaluate the current in-progress period). Steps funnels support only absolute_value conditions; historical-trend funnels also support relative_increase/relative_decrease (compared against the prior period). */
   config?: AlertConfigUnion | null;
   detector_config?: DetectorConfig | null;
+  /** Skip this many completed insight intervals after excluding the ongoing interval (0-100, default 0). Time-series Trends only. A positive delay requires check_ongoing_interval=false. Uses the insight interval, not the check frequency. Allows late data to arrive, but also delays detection of real problems. */
+  evaluation_delay_intervals?: number;
   /** How often the alert is checked: real time (Scale+), every 15 minutes (Boost+), hourly, daily, weekly, or monthly. * `real_time` - real_time * `every_15_minutes` - every_15_minutes * `hourly` - hourly * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
   calculation_interval?: CalculationIntervalEnum;
   /** Snooze the alert until this time. Pass a relative date string (e.g. '2h', '1d') or null to unsnooze. */
@@ -17359,6 +16955,7 @@ export const Alert = /*@__PURE__*/ S.suspend(() =>
     insight: S.optional(S.Number),
     insight_short_id: S.optional(S.String),
     insight_display_name: S.optional(S.String),
+    llm_detector_available: S.optional(S.NullOr(S.Boolean)),
     name: S.optional(S.String),
     subscribed_users: S.optional(AlertSubscribedUsersList),
     threshold: S.optional(Threshold),
@@ -17367,11 +16964,13 @@ export const Alert = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     last_notified_at: S.optional(S.NullOr(S.String)),
     last_checked_at: S.optional(S.NullOr(S.String)),
+    schedule_start_time: S.optional(S.NullOr(S.String)),
     next_check_at: S.optional(S.NullOr(S.String)),
     checks: S.optional(AlertChecksList),
     checks_total: S.optional(S.NullOr(S.Number)),
     config: S.optional(S.NullOr(AlertConfigUnion)),
     detector_config: S.optional(S.NullOr(DetectorConfig)),
+    evaluation_delay_intervals: S.optional(S.Number),
     calculation_interval: S.optional(CalculationIntervalEnum),
     snoozed_until: S.optional(S.NullOr(S.String)),
     skip_weekend: S.optional(S.NullOr(S.Boolean)),
@@ -17406,9 +17005,7 @@ export const ThresholdWithAlert = /*@__PURE__*/ S.suspend(() =>
     configuration: S.optional(InsightThreshold),
     alerts: S.optional(ThresholdWithAlertAlertsList),
   }),
-).annotate({
-  identifier: "ThresholdWithAlert",
-}) as any as S.Schema<ThresholdWithAlert>;
+).annotate({ identifier: "ThresholdWithAlert" }) as any as S.Schema<ThresholdWithAlert>;
 
 export type GetInsightsTrendingRequestFormat = "csv" | "json";
 export const GetInsightsTrendingRequestFormat = S.String;
@@ -17435,11 +17032,7 @@ export const GetInsightsTrendingRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/insights/trending/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/insights/trending/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetInsightsTrendingRequest",
@@ -17521,9 +17114,7 @@ export const TrendingInsight = /*@__PURE__*/ S.suspend(() =>
     viewers: TrendingInsightViewersList,
     last_modified_by: UserBasic,
   }),
-).annotate({
-  identifier: "TrendingInsight",
-}) as any as S.Schema<TrendingInsight>;
+).annotate({ identifier: "TrendingInsight" }) as any as S.Schema<TrendingInsight>;
 
 export type PaginatedTrendingInsightListResultsList = Array<TrendingInsight>;
 export const PaginatedTrendingInsightListResultsList = /*@__PURE__*/ S.Array(
@@ -17569,11 +17160,7 @@ export const InsightsBulkDeleteCreateRequest = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(InsightsBulkDeleteCreateRequestFormat.pipe(T.Query())),
     ids: InsightsBulkDeleteCreateRequestIdsList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/insights/bulk_delete/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/insights/bulk_delete/", code: 200 }),
   ),
 ).annotate({
   identifier: "InsightsBulkDeleteCreateRequest",
@@ -17658,11 +17245,7 @@ export const InsightsBulkRestoreCreateRequest = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(InsightsBulkRestoreCreateRequestFormat.pipe(T.Query())),
     ids: InsightsBulkRestoreCreateRequestIdsList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/insights/bulk_restore/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/insights/bulk_restore/", code: 200 }),
   ),
 ).annotate({
   identifier: "InsightsBulkRestoreCreateRequest",
@@ -17758,7 +17341,7 @@ export const InsightsBulkUpdateTagsCreateRequestIdsList = /*@__PURE__*/ S.Array(
 export type BulkUpdateTagsActionEnum = "add" | "remove" | "set";
 export const BulkUpdateTagsActionEnum = S.String;
 
-/** Tag names to add, remove, or set. */
+/** Tag names to add, remove, or set (up to 100 per request, 255 characters each). */
 export type InsightsBulkUpdateTagsCreateRequestTagsList = Array<string>;
 export const InsightsBulkUpdateTagsCreateRequestTagsList = /*@__PURE__*/ S.Array(
   S.String,
@@ -17772,7 +17355,7 @@ export interface InsightsBulkUpdateTagsCreateRequest {
   ids?: InsightsBulkUpdateTagsCreateRequestIdsList;
   /** 'add' merges with existing tags, 'remove' deletes specific tags, 'set' replaces all tags. * `add` - add * `remove` - remove * `set` - set */
   action?: BulkUpdateTagsActionEnum | (string & {});
-  /** Tag names to add, remove, or set. */
+  /** Tag names to add, remove, or set (up to 100 per request, 255 characters each). */
   tags?: InsightsBulkUpdateTagsCreateRequestTagsList;
 }
 export const InsightsBulkUpdateTagsCreateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -17807,9 +17390,7 @@ export const BulkUpdateTagsItem = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     tags: S.optional(BulkUpdateTagsItemTagsList),
   }),
-).annotate({
-  identifier: "BulkUpdateTagsItem",
-}) as any as S.Schema<BulkUpdateTagsItem>;
+).annotate({ identifier: "BulkUpdateTagsItem" }) as any as S.Schema<BulkUpdateTagsItem>;
 
 export type BulkUpdateTagsResponseUpdatedList = Array<BulkUpdateTagsItem>;
 export const BulkUpdateTagsResponseUpdatedList = /*@__PURE__*/ S.Array(
@@ -17825,9 +17406,7 @@ export const BulkUpdateTagsError = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     reason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BulkUpdateTagsError",
-}) as any as S.Schema<BulkUpdateTagsError>;
+).annotate({ identifier: "BulkUpdateTagsError" }) as any as S.Schema<BulkUpdateTagsError>;
 
 export type BulkUpdateTagsResponseSkippedList = Array<BulkUpdateTagsError>;
 export const BulkUpdateTagsResponseSkippedList = /*@__PURE__*/ S.Array(
@@ -17843,9 +17422,7 @@ export const BulkUpdateTagsResponse = /*@__PURE__*/ S.suspend(() =>
     updated: S.optional(BulkUpdateTagsResponseUpdatedList),
     skipped: S.optional(BulkUpdateTagsResponseSkippedList),
   }),
-).annotate({
-  identifier: "BulkUpdateTagsResponse",
-}) as any as S.Schema<BulkUpdateTagsResponse>;
+).annotate({ identifier: "BulkUpdateTagsResponse" }) as any as S.Schema<BulkUpdateTagsResponse>;
 
 export type InsightsCancelCreateRequestFormat = "csv" | "json";
 export const InsightsCancelCreateRequestFormat = S.String;
@@ -17892,11 +17469,7 @@ export const InsightsCancelCreateRequest = /*@__PURE__*/ S.suspend(() =>
     favorited: S.optional(S.Boolean),
     _create_in_folder: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/insights/cancel/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/insights/cancel/", code: 200 }),
   ),
 ).annotate({
   identifier: "InsightsCancelCreateRequest",
@@ -17923,15 +17496,9 @@ export const InsightsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     format: S.optional(InsightsDestroyRequestFormat.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/insights/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/insights/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "InsightsDestroyRequest",
-}) as any as S.Schema<InsightsDestroyRequest>;
+).annotate({ identifier: "InsightsDestroyRequest" }) as any as S.Schema<InsightsDestroyRequest>;
 
 export interface InsightsDestroyResponse {}
 export const InsightsDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -18148,16 +17715,8 @@ export const ListInsightsRequest = /*@__PURE__*/ S.suspend(() =>
     short_id: S.optional(S.String.pipe(T.Query())),
     tags: S.optional(S.String.pipe(T.Query())),
     user: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/insights/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListInsightsRequest",
-}) as any as S.Schema<ListInsightsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/insights/", code: 200 })),
+).annotate({ identifier: "ListInsightsRequest" }) as any as S.Schema<ListInsightsRequest>;
 
 export type PaginatedInsightListOutputResultsList = Array<InsightOutput>;
 export const PaginatedInsightListOutputResultsList = /*@__PURE__*/ S.Array(
@@ -18311,16 +17870,8 @@ export const UpdateInsightRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateInsightRequestTagsList),
     favorited: S.optional(S.Boolean),
     _create_in_folder: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/insights/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateInsightRequest",
-}) as any as S.Schema<UpdateInsightRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/projects/{project_id}/insights/{id}/", code: 200 })),
+).annotate({ identifier: "UpdateInsightRequest" }) as any as S.Schema<UpdateInsightRequest>;
 
 export type UpdateInsightsPartialRequestFormat = "csv" | "json";
 export const UpdateInsightsPartialRequestFormat = S.String;
@@ -18372,19 +17923,12 @@ export const UpdateInsightsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateInsightsPartialRequestTagsList),
     favorited: S.optional(S.Boolean),
     _create_in_folder: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/insights/{id}/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/insights/{id}/", code: 200 })),
 ).annotate({
   identifier: "UpdateInsightsPartialRequest",
 }) as any as S.Schema<UpdateInsightsPartialRequest>;
 
 export type CreateInsightError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** DRF ViewSet mixin that gates coalesced responses behind permission checks. The QueryCoalescingMiddleware attaches cached response data to request.META["_coalesced_response"] for followers. This mixin runs DRF's initial() (auth + permissions + throttling) before returning the cached response, ensuring the request is authorized. */
 export const createInsight: API.OperationMethod<
   CreateInsightRequest,
   InsightOutput,
@@ -18413,21 +17957,6 @@ export const createInsightsSharingPassword: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateInsightsSuggestionError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** DRF ViewSet mixin that gates coalesced responses behind permission checks. The QueryCoalescingMiddleware attaches cached response data to request.META["_coalesced_response"] for followers. This mixin runs DRF's initial() (auth + permissions + throttling) before returning the cached response, ensuring the request is authorized. */
-export const createInsightsSuggestion: API.OperationMethod<
-  CreateInsightsSuggestionRequest,
-  CreateInsightsSuggestionResponse,
-  CreateInsightsSuggestionError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: CreateInsightsSuggestionRequest,
-  output: CreateInsightsSuggestionResponse,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
 export type CreateInsightsViewedError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Record that the current user has just viewed one or more insights. Submitted ids that do not belong to the current project or that point at deleted insights are silently dropped, as are views from impersonated staff-support sessions. Returns 201 on success regardless of how many ids were retained. */
 export const createInsightsViewed: API.OperationMethod<
@@ -18444,7 +17973,6 @@ export const createInsightsViewed: API.OperationMethod<
 }));
 
 export type GetInsightError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** DRF ViewSet mixin that gates coalesced responses behind permission checks. The QueryCoalescingMiddleware attaches cached response data to request.META["_coalesced_response"] for followers. This mixin runs DRF's initial() (auth + permissions + throttling) before returning the cached response, ensuring the request is authorized. */
 export const getInsight: API.OperationMethod<
   GetInsightRequest,
   InsightOutput,
@@ -18488,21 +18016,6 @@ export const getInsightsAllActivity: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetInsightsAnalyzeError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** DRF ViewSet mixin that gates coalesced responses behind permission checks. The QueryCoalescingMiddleware attaches cached response data to request.META["_coalesced_response"] for followers. This mixin runs DRF's initial() (auth + permissions + throttling) before returning the cached response, ensuring the request is authorized. */
-export const getInsightsAnalyze: API.OperationMethod<
-  GetInsightsAnalyzeRequest,
-  GetInsightsAnalyzeResponse,
-  GetInsightsAnalyzeError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetInsightsAnalyzeRequest,
-  output: GetInsightsAnalyzeResponse,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
 export type GetInsightsMyLastViewedError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Returns basic details about the last 5 insights viewed by this user. Most recently viewed first. */
 export const getInsightsMyLastViewed: API.OperationMethod<
@@ -18513,21 +18026,6 @@ export const getInsightsMyLastViewed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetInsightsMyLastViewedRequest,
   output: GetInsightsMyLastViewedResponse,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GetInsightsSuggestionError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** DRF ViewSet mixin that gates coalesced responses behind permission checks. The QueryCoalescingMiddleware attaches cached response data to request.META["_coalesced_response"] for followers. This mixin runs DRF's initial() (auth + permissions + throttling) before returning the cached response, ensuring the request is authorized. */
-export const getInsightsSuggestion: API.OperationMethod<
-  GetInsightsSuggestionRequest,
-  GetInsightsSuggestionResponse,
-  GetInsightsSuggestionError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetInsightsSuggestionRequest,
-  output: GetInsightsSuggestionResponse,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -18623,7 +18121,6 @@ export const insightsBulkUpdateTagsCreate: API.OperationMethod<
 }));
 
 export type InsightsCancelCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** DRF ViewSet mixin that gates coalesced responses behind permission checks. The QueryCoalescingMiddleware attaches cached response data to request.META["_coalesced_response"] for followers. This mixin runs DRF's initial() (auth + permissions + throttling) before returning the cached response, ensuring the request is authorized. */
 export const insightsCancelCreate: API.OperationMethod<
   InsightsCancelCreateRequest,
   InsightsCancelCreateResponse,
@@ -18701,7 +18198,6 @@ export const insightsSharingRefreshCreate: API.OperationMethod<
 }));
 
 export type ListInsightsError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** DRF ViewSet mixin that gates coalesced responses behind permission checks. The QueryCoalescingMiddleware attaches cached response data to request.META["_coalesced_response"] for followers. This mixin runs DRF's initial() (auth + permissions + throttling) before returning the cached response, ensuring the request is authorized. */
 export const listInsights: API.OperationMethod<
   ListInsightsRequest,
   PaginatedInsightListOutput,
@@ -18744,7 +18240,6 @@ export const listInsightsThresholds: API.OperationMethod<
 }));
 
 export type UpdateInsightError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** DRF ViewSet mixin that gates coalesced responses behind permission checks. The QueryCoalescingMiddleware attaches cached response data to request.META["_coalesced_response"] for followers. This mixin runs DRF's initial() (auth + permissions + throttling) before returning the cached response, ensuring the request is authorized. */
 export const updateInsight: API.OperationMethod<
   UpdateInsightRequest,
   InsightOutput,
@@ -18759,7 +18254,6 @@ export const updateInsight: API.OperationMethod<
 }));
 
 export type UpdateInsightsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** DRF ViewSet mixin that gates coalesced responses behind permission checks. The QueryCoalescingMiddleware attaches cached response data to request.META["_coalesced_response"] for followers. This mixin runs DRF's initial() (auth + permissions + throttling) before returning the cached response, ensuring the request is authorized. */
 export const updateInsightsPartial: API.OperationMethod<
   UpdateInsightsPartialRequest,
   InsightOutput,

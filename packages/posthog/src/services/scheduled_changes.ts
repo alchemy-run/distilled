@@ -46,11 +46,7 @@ export const CreateScheduledChangeRequest = /*@__PURE__*/ S.suspend(() =>
     cron_expression: S.optional(S.NullOr(S.String)),
     end_date: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/scheduled_changes/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/scheduled_changes/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateScheduledChangeRequest",
@@ -129,9 +125,7 @@ export const ChangeRequestSummary = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     state: ChangeRequestStateEnum,
   }),
-).annotate({
-  identifier: "ChangeRequestSummary",
-}) as any as S.Schema<ChangeRequestSummary>;
+).annotate({ identifier: "ChangeRequestSummary" }) as any as S.Schema<ChangeRequestSummary>;
 
 export interface ScheduledChange {
   id: number;
@@ -183,9 +177,7 @@ export const ScheduledChange = /*@__PURE__*/ S.suspend(() =>
     timezone: S.NullOr(S.String),
     change_request: S.NullOr(ChangeRequestSummary),
   }),
-).annotate({
-  identifier: "ScheduledChange",
-}) as any as S.Schema<ScheduledChange>;
+).annotate({ identifier: "ScheduledChange" }) as any as S.Schema<ScheduledChange>;
 
 export interface GetScheduledChangeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -198,11 +190,7 @@ export const GetScheduledChangeRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/scheduled_changes/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/scheduled_changes/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetScheduledChangeRequest",
@@ -228,11 +216,7 @@ export const ListScheduledChangesRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     record_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/scheduled_changes/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/scheduled_changes/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListScheduledChangesRequest",
@@ -283,9 +267,7 @@ export const ScheduledChangesDestroyRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface ScheduledChangesDestroyResponse {}
 export const ScheduledChangesDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "ScheduledChangesDestroyResponse",
-  },
+  { identifier: "ScheduledChangesDestroyResponse" },
 ) as any as S.Schema<ScheduledChangesDestroyResponse>;
 
 export interface UpdateScheduledChangeRequest {
@@ -322,11 +304,7 @@ export const UpdateScheduledChangeRequest = /*@__PURE__*/ S.suspend(() =>
     cron_expression: S.optional(S.NullOr(S.String)),
     end_date: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/scheduled_changes/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/scheduled_changes/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateScheduledChangeRequest",

@@ -132,6 +132,12 @@
             "smithy.api#documentation": "The effective access level the user has for this object",
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "linked_experiments": {
+          "target": "com.posthog.experiment_saved_metrics#ExperimentSavedMetricLinkedExperimentsList",
+          "traits": {
+            "smithy.api#documentation": "Experiments using this shared metric (soft-deleted experiments excluded). Populated only on single-metric retrieve; always an empty list in list responses."
+          }
         }
       },
       "traits": {
@@ -285,6 +291,42 @@
         "target": "smithy.api#Document"
       },
       "traits": {}
+    },
+    "com.posthog.experiment_saved_metrics#ExperimentSavedMetricLinkedExperiment": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Experiment ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Experiment name.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_running": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the experiment is launched and not yet stopped.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiment_saved_metrics#ExperimentSavedMetricLinkedExperimentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.experiment_saved_metrics#ExperimentSavedMetricLinkedExperiment"
+      },
+      "traits": {
+        "smithy.api#documentation": "Experiments using this shared metric (soft-deleted experiments excluded). Populated only on single-metric retrieve; always an empty list in list responses."
+      }
     },
     "com.posthog.experiment_saved_metrics#PaginatedExperimentSavedMetricListResultsList": {
       "type": "list",

@@ -64,9 +64,7 @@ export const CreateUploadedMediaRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateUploadedMediaRequest",
 }) as any as S.Schema<CreateUploadedMediaRequest>;
 
-export type CreateUploadedMediaResponseBodyMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateUploadedMediaResponseBodyMap = { [key: string]: unknown | undefined };
 export const CreateUploadedMediaResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -98,16 +96,8 @@ export const ListUploadedMediaRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     purpose: ListUploadedMediaRequestPurpose.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/uploaded_media/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListUploadedMediaRequest",
-}) as any as S.Schema<ListUploadedMediaRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/uploaded_media/", code: 200 })),
+).annotate({ identifier: "ListUploadedMediaRequest" }) as any as S.Schema<ListUploadedMediaRequest>;
 
 export interface UploadedMedia2 {
   id: string;
@@ -200,9 +190,7 @@ export const UploadedMediaStartUploadCreateRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<UploadedMediaStartUploadCreateRequest>;
 
 /** Extra form fields to send alongside the file in the same POST. */
-export type UploadedMediaUploadStartedFormFieldsMap = {
-  [key: string]: string | undefined;
-};
+export type UploadedMediaUploadStartedFormFieldsMap = { [key: string]: string | undefined };
 export const UploadedMediaUploadStartedFormFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

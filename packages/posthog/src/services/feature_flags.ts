@@ -394,9 +394,7 @@ export const FeatureFlagMultivariateSchema = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<FeatureFlagMultivariateSchema>;
 
 /** Optional payload values keyed by variant key. */
-export type FeatureFlagFiltersSchemaPayloadsMap = {
-  [key: string]: string | undefined;
-};
+export type FeatureFlagFiltersSchemaPayloadsMap = { [key: string]: string | undefined };
 export const FeatureFlagFiltersSchemaPayloadsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -425,9 +423,7 @@ export const FeatureFlagFiltersSchema = /*@__PURE__*/ S.suspend(() =>
     feature_enrollment: S.optional(S.NullOr(S.Boolean)),
     early_exit: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "FeatureFlagFiltersSchema",
-}) as any as S.Schema<FeatureFlagFiltersSchema>;
+).annotate({ identifier: "FeatureFlagFiltersSchema" }) as any as S.Schema<FeatureFlagFiltersSchema>;
 
 /** Organizational tags for this feature flag. */
 export type CreateFeatureFlagRequestTagsList = Array<string>;
@@ -489,20 +485,10 @@ export const CreateFeatureFlagRequest = /*@__PURE__*/ S.suspend(() =>
     ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
     evaluation_runtime: S.optional(S.NullOr(EvaluationRuntimeEnum)),
     bucketing_identifier: S.optional(S.NullOr(BucketingIdentifierEnum)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/feature_flags/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateFeatureFlagRequest",
-}) as any as S.Schema<CreateFeatureFlagRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/feature_flags/", code: 200 })),
+).annotate({ identifier: "CreateFeatureFlagRequest" }) as any as S.Schema<CreateFeatureFlagRequest>;
 
-export type FeatureFlagOutputFiltersMap = {
-  [key: string]: unknown | undefined;
-};
+export type FeatureFlagOutputFiltersMap = { [key: string]: unknown | undefined };
 export const FeatureFlagOutputFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -587,17 +573,13 @@ export const FeatureFlagOutputExperimentSetMetadataList = /*@__PURE__*/ S.Array(
   FeatureFlagExperimentSetMetadata,
 ) as any as S.Schema<FeatureFlagOutputExperimentSetMetadataList>;
 
-export type FeatureFlagOutputSurveysMap = {
-  [key: string]: unknown | undefined;
-};
+export type FeatureFlagOutputSurveysMap = { [key: string]: unknown | undefined };
 export const FeatureFlagOutputSurveysMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<FeatureFlagOutputSurveysMap>;
 
-export type FeatureFlagOutputFeaturesMap = {
-  [key: string]: unknown | undefined;
-};
+export type FeatureFlagOutputFeaturesMap = { [key: string]: unknown | undefined };
 export const FeatureFlagOutputFeaturesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -646,7 +628,7 @@ export interface FeatureFlagOutput {
   features?: FeatureFlagOutputFeaturesMap;
   can_edit?: boolean;
   tags?: FeatureFlagOutputTagsList;
-  /** Dashboard of saved usage insights for this flag, or null if it has none. Flags do not get one on creation; create it with POST /api/projects/{project_id}/feature_flags/{id}/dashboard/. */
+  /** Legacy dashboard of saved usage insights for this flag, or null if it has none. New flags show usage charts inline instead. The dashboard creation endpoint is deprecated and will be removed after September 25, 2026. */
   usage_dashboard?: number | null;
   analytics_dashboards?: FeatureFlagOutputAnalyticsDashboardsList;
   has_enriched_analytics?: boolean | null;
@@ -654,6 +636,7 @@ export interface FeatureFlagOutput {
   user_access_level?: string | null;
   is_remote_configuration?: boolean | null;
   has_encrypted_payloads?: boolean | null;
+  /** Staleness classification: ACTIVE, STALE, ARCHIVED, DELETED or UNKNOWN. This is not the serving state. Read the `active` field for that. A disabled flag that is not archived or deleted reports ACTIVE, because disabled flags are not evaluated for staleness. */
   status?: string;
   /** Specifies where this feature flag should be evaluated * `server` - Server * `client` - Client * `all` - All */
   evaluation_runtime?: FeatureFlagOutputEvaluationRuntime | null;
@@ -661,7 +644,7 @@ export interface FeatureFlagOutput {
   bucketing_identifier?: FeatureFlagOutputBucketingIdentifier | null;
   /** Last time this feature flag was called (from $feature_flag_called events) */
   last_called_at?: string | null;
-  /** Check if this feature flag is used in any team's session recording linked flag setting. */
+  /** Check if any team gates session recording on this flag, by linked flag or trigger group. */
   is_used_in_replay_settings?: boolean;
   /** Whether this flag can back an experiment: multivariate with 2 to 20 variants. */
   is_eligible_for_experiment?: boolean;
@@ -700,65 +683,64 @@ export const FeatureFlagOutput = /*@__PURE__*/ S.suspend(() =>
     is_used_in_replay_settings: S.optional(S.Boolean),
     is_eligible_for_experiment: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "FeatureFlagOutput",
-}) as any as S.Schema<FeatureFlagOutput>;
+).annotate({ identifier: "FeatureFlagOutput" }) as any as S.Schema<FeatureFlagOutput>;
 
-export interface CreateFeatureFlagsDashboardRequest {
+export interface CreateFeatureFlagsRollOutToEveryoneRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique integer value identifying this feature flag. */
   id: number;
+  /** The `version` from your most recent read of this flag. The change is refused with 409 if anyone else changed the flag after that version. A flag written before versioning reads as `null`; send that back unchanged and it is read as 0, so the value a read returns is always one this accepts. */
+  version: number | null;
+  /** The variant every user gets. Required for a multivariate flag and rejected for any other flag, because a release condition decides who the flag serves and not which variant they get. */
+  variant_key?: string | null;
 }
-export const CreateFeatureFlagsDashboardRequest = /*@__PURE__*/ S.suspend(() =>
+export const CreateFeatureFlagsRollOutToEveryoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
+    version: S.NullOr(S.Number),
+    variant_key: S.optional(S.NullOr(S.String)),
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/api/projects/{project_id}/feature_flags/{id}/dashboard/",
+      uri: "/api/projects/{project_id}/feature_flags/{id}/roll_out_to_everyone/",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "CreateFeatureFlagsDashboardRequest",
-}) as any as S.Schema<CreateFeatureFlagsDashboardRequest>;
+  identifier: "CreateFeatureFlagsRollOutToEveryoneRequest",
+}) as any as S.Schema<CreateFeatureFlagsRollOutToEveryoneRequest>;
 
-export interface CreateFeatureFlagsDashboardResponse {}
-export const CreateFeatureFlagsDashboardResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CreateFeatureFlagsDashboardResponse",
-}) as any as S.Schema<CreateFeatureFlagsDashboardResponse>;
-
-export interface CreateFeatureFlagsEnrichUsageDashboardRequest {
+export interface CreateFeatureFlagsSetReleaseConditionRolloutRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique integer value identifying this feature flag. */
   id: number;
+  /** Zero-based position of the release condition in `filters.groups`, counted from the read that produced `version`. */
+  condition_index: number;
+  /** Percentage of the users matching that condition who are served the flag, 0 through 100. On a multivariate flag this is how many matching users get a variant at all, not how the variants are split between them. Fractional percentages such as 0.5 are accepted, the same as a write that sends `filters`. */
+  rollout_percentage: number;
+  /** The `version` from your most recent read of this flag. The change is refused with 409 if anyone else changed the flag after that version. A flag written before versioning reads as `null`; send that back unchanged and it is read as 0, so the value a read returns is always one this accepts. */
+  version: number | null;
 }
-export const CreateFeatureFlagsEnrichUsageDashboardRequest = /*@__PURE__*/ S.suspend(() =>
+export const CreateFeatureFlagsSetReleaseConditionRolloutRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
+    condition_index: S.Number,
+    rollout_percentage: S.Number,
+    version: S.NullOr(S.Number),
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/api/projects/{project_id}/feature_flags/{id}/enrich_usage_dashboard/",
+      uri: "/api/projects/{project_id}/feature_flags/{id}/set_release_condition_rollout/",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "CreateFeatureFlagsEnrichUsageDashboardRequest",
-}) as any as S.Schema<CreateFeatureFlagsEnrichUsageDashboardRequest>;
-
-export interface CreateFeatureFlagsEnrichUsageDashboardResponse {}
-export const CreateFeatureFlagsEnrichUsageDashboardResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CreateFeatureFlagsEnrichUsageDashboardResponse",
-}) as any as S.Schema<CreateFeatureFlagsEnrichUsageDashboardResponse>;
+  identifier: "CreateFeatureFlagsSetReleaseConditionRolloutRequest",
+}) as any as S.Schema<CreateFeatureFlagsSetReleaseConditionRolloutRequest>;
 
 export interface CreateFeatureFlagsTestEvaluationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -852,7 +834,7 @@ export interface FeatureFlagConditionAnalysis {
   rollout_percentage: number;
   /** Whether this condition matched properties but was excluded due to rollout */
   rollout_excluded: boolean;
-  /** Variant associated with this condition */
+  /** Variant associated with this condition. Empty or null when the condition has no variant override. */
   variant: string | null;
   /** Analysis of each property in this condition */
   properties: FeatureFlagConditionAnalysisPropertiesList;
@@ -958,9 +940,7 @@ export const UserBlastRadiusResponse = /*@__PURE__*/ S.suspend(() =>
     affected: S.optional(S.Number),
     total: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "UserBlastRadiusResponse",
-}) as any as S.Schema<UserBlastRadiusResponse>;
+).annotate({ identifier: "UserBlastRadiusResponse" }) as any as S.Schema<UserBlastRadiusResponse>;
 
 export interface FeatureFlagsArchiveCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1005,7 +985,7 @@ export const BulkDeleteFiltersExcludedTagsList = /*@__PURE__*/ S.Array(
 
 /** Allowed filter keys for bulk_delete — same shape as the list endpoint's query params. */
 export interface BulkDeleteFilters {
-  /** Filter by active state. * `true` - true * `false` - false * `STALE` - STALE */
+  /** 'true' and 'false' filter on serving state, the flag's `active` column. 'STALE' returns enabled flags only, so a disabled flag is never STALE. An enabled flag matches when its last recorded `$feature_flag_called` event is more than 30 days old. With no recorded event, it matches when it is at least 30 days old and either stores `filters` as `{}` or serves one result to everyone through a release condition at 100% with no property filters. A flag with no recorded event and an empty `groups` list does not match, even when its `status` reads STALE. An SDK that sends no `$feature_flag_called` event leaves no record, so a STALE flag can still be in use. * `true` - true * `false` - false * `STALE` - STALE */
   active?: ActiveEnum | (string & {});
   /** Filter to flags created by a specific user ID. */
   created_by_id?: number;
@@ -1039,9 +1019,7 @@ export const BulkDeleteFilters = /*@__PURE__*/ S.suspend(() =>
     has_evaluation_contexts: S.optional(S.Boolean),
     archived: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "BulkDeleteFilters",
-}) as any as S.Schema<BulkDeleteFilters>;
+).annotate({ identifier: "BulkDeleteFilters" }) as any as S.Schema<BulkDeleteFilters>;
 
 /** Explicit feature flag IDs to soft-delete. Mutually exclusive with `filters`. */
 export type FeatureFlagsBulkDeleteCreateRequestIdsList = Array<number>;
@@ -1094,9 +1072,7 @@ export const BulkDeleteDeletedItem = /*@__PURE__*/ S.suspend(() =>
     rollout_state: RolloutStateEnum,
     active_variant: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "BulkDeleteDeletedItem",
-}) as any as S.Schema<BulkDeleteDeletedItem>;
+).annotate({ identifier: "BulkDeleteDeletedItem" }) as any as S.Schema<BulkDeleteDeletedItem>;
 
 /** Flags successfully soft-deleted. */
 export type BulkDeleteResponseDeletedList = Array<BulkDeleteDeletedItem>;
@@ -1118,9 +1094,7 @@ export const BulkDeleteErrorItem = /*@__PURE__*/ S.suspend(() =>
     key: S.optional(S.String),
     reason: S.String,
   }),
-).annotate({
-  identifier: "BulkDeleteErrorItem",
-}) as any as S.Schema<BulkDeleteErrorItem>;
+).annotate({ identifier: "BulkDeleteErrorItem" }) as any as S.Schema<BulkDeleteErrorItem>;
 
 /** Flags that could not be deleted, with reasons. */
 export type BulkDeleteResponseErrorsList = Array<BulkDeleteErrorItem>;
@@ -1140,9 +1114,7 @@ export const BulkDeleteResponse = /*@__PURE__*/ S.suspend(() =>
     deleted: BulkDeleteResponseDeletedList,
     errors: BulkDeleteResponseErrorsList,
   }),
-).annotate({
-  identifier: "BulkDeleteResponse",
-}) as any as S.Schema<BulkDeleteResponse>;
+).annotate({ identifier: "BulkDeleteResponse" }) as any as S.Schema<BulkDeleteResponse>;
 
 /** Feature flag IDs to look up keys for. Strings of digits are also accepted; any other value is reported in the response `warning` field and otherwise ignored. */
 export type FeatureFlagsBulkKeysRetrieveRequestIdsList = Array<unknown>;
@@ -1189,9 +1161,7 @@ export const BulkKeysResponse = /*@__PURE__*/ S.suspend(() =>
     keys: BulkKeysResponseKeysMap,
     warning: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BulkKeysResponse",
-}) as any as S.Schema<BulkKeysResponse>;
+).annotate({ identifier: "BulkKeysResponse" }) as any as S.Schema<BulkKeysResponse>;
 
 /** List of object IDs to update tags on. */
 export type FeatureFlagsBulkUpdateTagsCreateRequestIdsList = Array<number>;
@@ -1203,7 +1173,7 @@ export const FeatureFlagsBulkUpdateTagsCreateRequestIdsList = /*@__PURE__*/ S.Ar
 export type BulkUpdateTagsActionEnum = "add" | "remove" | "set";
 export const BulkUpdateTagsActionEnum = S.String;
 
-/** Tag names to add, remove, or set. */
+/** Tag names to add, remove, or set (up to 100 per request, 255 characters each). */
 export type FeatureFlagsBulkUpdateTagsCreateRequestTagsList = Array<string>;
 export const FeatureFlagsBulkUpdateTagsCreateRequestTagsList = /*@__PURE__*/ S.Array(
   S.String,
@@ -1216,7 +1186,7 @@ export interface FeatureFlagsBulkUpdateTagsCreateRequest {
   ids?: FeatureFlagsBulkUpdateTagsCreateRequestIdsList;
   /** 'add' merges with existing tags, 'remove' deletes specific tags, 'set' replaces all tags. * `add` - add * `remove` - remove * `set` - set */
   action?: BulkUpdateTagsActionEnum | (string & {});
-  /** Tag names to add, remove, or set. */
+  /** Tag names to add, remove, or set (up to 100 per request, 255 characters each). */
   tags?: FeatureFlagsBulkUpdateTagsCreateRequestTagsList;
 }
 export const FeatureFlagsBulkUpdateTagsCreateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1250,9 +1220,7 @@ export const BulkUpdateTagsItem = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     tags: S.optional(BulkUpdateTagsItemTagsList),
   }),
-).annotate({
-  identifier: "BulkUpdateTagsItem",
-}) as any as S.Schema<BulkUpdateTagsItem>;
+).annotate({ identifier: "BulkUpdateTagsItem" }) as any as S.Schema<BulkUpdateTagsItem>;
 
 export type BulkUpdateTagsResponseUpdatedList = Array<BulkUpdateTagsItem>;
 export const BulkUpdateTagsResponseUpdatedList = /*@__PURE__*/ S.Array(
@@ -1268,9 +1236,7 @@ export const BulkUpdateTagsError = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     reason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BulkUpdateTagsError",
-}) as any as S.Schema<BulkUpdateTagsError>;
+).annotate({ identifier: "BulkUpdateTagsError" }) as any as S.Schema<BulkUpdateTagsError>;
 
 export type BulkUpdateTagsResponseSkippedList = Array<BulkUpdateTagsError>;
 export const BulkUpdateTagsResponseSkippedList = /*@__PURE__*/ S.Array(
@@ -1286,9 +1252,7 @@ export const BulkUpdateTagsResponse = /*@__PURE__*/ S.suspend(() =>
     updated: S.optional(BulkUpdateTagsResponseUpdatedList),
     skipped: S.optional(BulkUpdateTagsResponseSkippedList),
   }),
-).annotate({
-  identifier: "BulkUpdateTagsResponse",
-}) as any as S.Schema<BulkUpdateTagsResponse>;
+).annotate({ identifier: "BulkUpdateTagsResponse" }) as any as S.Schema<BulkUpdateTagsResponse>;
 
 export type FeatureFlagsCreateStaticCohortForFlagCreateRequestFiltersMap = {
   [key: string]: unknown | undefined;
@@ -1354,7 +1318,6 @@ export interface FeatureFlagsCreateStaticCohortForFlagCreateRequest {
   active?: boolean;
   /** Whether the flag is archived. Archived flags are hidden from the flag list by default and must be disabled (`active: false`). */
   archived?: boolean;
-  created_at?: string;
   version?: number;
   ensure_experience_continuity?: boolean | null;
   tags?: FeatureFlagsCreateStaticCohortForFlagCreateRequestTagsList;
@@ -1369,8 +1332,6 @@ export interface FeatureFlagsCreateStaticCohortForFlagCreateRequest {
   evaluation_runtime?: FeatureFlagsCreateStaticCohortForFlagCreateRequestEvaluationRuntime | null;
   /** Identifier used for bucketing users into rollout and variants * `distinct_id` - User ID (default) * `device_id` - Device ID */
   bucketing_identifier?: FeatureFlagsCreateStaticCohortForFlagCreateRequestBucketingIdentifier | null;
-  /** Last time this feature flag was called (from $feature_flag_called events) */
-  last_called_at?: string | null;
   _create_in_folder?: string;
 }
 export const FeatureFlagsCreateStaticCohortForFlagCreateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1383,7 +1344,6 @@ export const FeatureFlagsCreateStaticCohortForFlagCreateRequest = /*@__PURE__*/ 
     deleted: S.optional(S.Boolean),
     active: S.optional(S.Boolean),
     archived: S.optional(S.Boolean),
-    created_at: S.optional(S.String),
     version: S.optional(S.Number),
     ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
     tags: S.optional(FeatureFlagsCreateStaticCohortForFlagCreateRequestTagsList),
@@ -1403,7 +1363,6 @@ export const FeatureFlagsCreateStaticCohortForFlagCreateRequest = /*@__PURE__*/ 
     bucketing_identifier: S.optional(
       S.NullOr(FeatureFlagsCreateStaticCohortForFlagCreateRequestBucketingIdentifier),
     ),
-    last_called_at: S.optional(S.NullOr(S.String)),
     _create_in_folder: S.optional(S.String),
   }).pipe(
     T.Http({
@@ -1434,11 +1393,7 @@ export const FeatureFlagsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/feature_flags/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/feature_flags/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "FeatureFlagsDestroyRequest",
@@ -1523,15 +1478,9 @@ export const GetFeatureFlagRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/feature_flags/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/feature_flags/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetFeatureFlagRequest",
-}) as any as S.Schema<GetFeatureFlagRequest>;
+).annotate({ identifier: "GetFeatureFlagRequest" }) as any as S.Schema<GetFeatureFlagRequest>;
 
 export interface GetFeatureFlagsActivityRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1641,7 +1590,7 @@ export interface ActivityLogEntry {
   is_system?: boolean;
   /** Whether the acting user was being impersonated by PostHog staff. */
   was_impersonated?: boolean;
-  /** API client that triggered the activity, from the x-posthog-client request header (e.g. 'mcp'). Null for requests that did not send the header. */
+  /** API client that triggered the activity. Self-reported through the x-posthog-client request header (e.g. 'mcp'), or 'scout:<skill_name>' when a scout run made the change, which the server derives from the run's own token. Null for requests that did neither. */
   client?: string | null;
 }
 export const ActivityLogEntry = /*@__PURE__*/ S.suspend(() =>
@@ -1657,9 +1606,7 @@ export const ActivityLogEntry = /*@__PURE__*/ S.suspend(() =>
     was_impersonated: S.optional(S.Boolean),
     client: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ActivityLogEntry",
-}) as any as S.Schema<ActivityLogEntry>;
+).annotate({ identifier: "ActivityLogEntry" }) as any as S.Schema<ActivityLogEntry>;
 
 export type ActivityLogPaginatedResponseResultsList = Array<ActivityLogEntry>;
 export const ActivityLogPaginatedResponseResultsList = /*@__PURE__*/ S.Array(
@@ -1698,11 +1645,7 @@ export const GetFeatureFlagsAllActivityRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/feature_flags/activity/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/feature_flags/activity/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetFeatureFlagsAllActivityRequest",
@@ -1791,19 +1734,13 @@ export const GetFeatureFlagsMyFlagRequest = /*@__PURE__*/ S.suspend(() =>
     flag_keys: S.optional(GetFeatureFlagsMyFlagRequestFlagKeysList.pipe(T.Query())),
     groups: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/feature_flags/my_flags/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/feature_flags/my_flags/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetFeatureFlagsMyFlagRequest",
 }) as any as S.Schema<GetFeatureFlagsMyFlagRequest>;
 
-export type MinimalFeatureFlagFiltersMap = {
-  [key: string]: unknown | undefined;
-};
+export type MinimalFeatureFlagFiltersMap = { [key: string]: unknown | undefined };
 export const MinimalFeatureFlagFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1855,9 +1792,7 @@ export const MinimalFeatureFlag = /*@__PURE__*/ S.suspend(() =>
     bucketing_identifier: S.optional(S.NullOr(MinimalFeatureFlagBucketingIdentifier)),
     evaluation_contexts: S.optional(MinimalFeatureFlagEvaluationContextsList),
   }),
-).annotate({
-  identifier: "MinimalFeatureFlag",
-}) as any as S.Schema<MinimalFeatureFlag>;
+).annotate({ identifier: "MinimalFeatureFlag" }) as any as S.Schema<MinimalFeatureFlag>;
 
 export interface MyFlagsResponse {
   feature_flag?: MinimalFeatureFlag;
@@ -1868,9 +1803,7 @@ export const MyFlagsResponse = /*@__PURE__*/ S.suspend(() =>
     feature_flag: S.optional(MinimalFeatureFlag),
     value: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "MyFlagsResponse",
-}) as any as S.Schema<MyFlagsResponse>;
+).annotate({ identifier: "MyFlagsResponse" }) as any as S.Schema<MyFlagsResponse>;
 
 export type GetFeatureFlagsMyFlagResponseBodyList = Array<MyFlagsResponse>;
 export const GetFeatureFlagsMyFlagResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1955,7 +1888,7 @@ export const FeatureFlagRolloutSummary = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<FeatureFlagRolloutSummary>;
 
 export interface FeatureFlagStatusResponse {
-  /** Flag staleness/evaluation status: active, stale, archived, deleted, or unknown. 'active' means the flag was recently evaluated (or has no usage data yet) — it does NOT mean the flag is fully rolled out. Use the `rollout` object to determine rollout completeness. */
+  /** Staleness classification: active, stale, archived, deleted, or unknown. This is not the serving state, and this response carries no serving-state field: read the `active` field of the flag itself from the list or retrieve endpoint. A disabled flag that is not archived or deleted reports 'active', because disabled flags are not evaluated for staleness. 'active' also does NOT mean the flag is fully rolled out. Use the `rollout` object to determine rollout completeness. */
   status?: string;
   /** Human-readable explanation of the status */
   reason?: string;
@@ -1999,9 +1932,7 @@ export const GetFeatureFlagsVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetFeatureFlagsVersionRequest",
 }) as any as S.Schema<GetFeatureFlagsVersionRequest>;
 
-export type FeatureFlagVersionResponseFiltersMap = {
-  [key: string]: unknown | undefined;
-};
+export type FeatureFlagVersionResponseFiltersMap = { [key: string]: unknown | undefined };
 export const FeatureFlagVersionResponseFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2089,6 +2020,7 @@ export const ListFeatureFlagsRequestType = S.String;
 export interface ListFeatureFlagsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** 'true' and 'false' filter on serving state, the flag's `active` column. 'STALE' returns enabled flags only, so a disabled flag is never STALE. An enabled flag matches when its last recorded `$feature_flag_called` event is more than 30 days old. With no recorded event, it matches when it is at least 30 days old and either stores `filters` as `{}` or serves one result to everyone through a release condition at 100% with no property filters. A flag with no recorded event and an empty `groups` list does not match, even when its `status` reads STALE. An SDK that sends no `$feature_flag_called` event leaves no record, so a STALE flag can still be in use. */
   active?: ListFeatureFlagsRequestActive | (string & {});
   /** Filter by archived state. When omitted, archived flags are excluded. */
   archived?: boolean;
@@ -2135,16 +2067,8 @@ export const ListFeatureFlagsRequest = /*@__PURE__*/ S.suspend(() =>
     search: S.optional(S.String.pipe(T.Query())),
     tags: S.optional(S.String.pipe(T.Query())),
     type: S.optional(ListFeatureFlagsRequestType.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/feature_flags/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListFeatureFlagsRequest",
-}) as any as S.Schema<ListFeatureFlagsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/feature_flags/", code: 200 })),
+).annotate({ identifier: "ListFeatureFlagsRequest" }) as any as S.Schema<ListFeatureFlagsRequest>;
 
 export type PaginatedFeatureFlagListOutputResultsList = Array<FeatureFlagOutput>;
 export const PaginatedFeatureFlagListOutputResultsList = /*@__PURE__*/ S.Array(
@@ -2217,9 +2141,7 @@ export const ListFeatureFlagsDependentFlagsResponse = /*@__PURE__*/ S.suspend(()
   identifier: "ListFeatureFlagsDependentFlagsResponse",
 }) as any as S.Schema<ListFeatureFlagsDependentFlagsResponse>;
 
-export type UpdateFeatureFlagRequestFiltersMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateFeatureFlagRequestFiltersMap = { [key: string]: unknown | undefined };
 export const UpdateFeatureFlagRequestFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2263,7 +2185,6 @@ export interface UpdateFeatureFlagRequest {
   active?: boolean;
   /** Whether the flag is archived. Archived flags are hidden from the flag list by default and must be disabled (`active: false`). */
   archived?: boolean;
-  created_at?: string;
   version?: number;
   ensure_experience_continuity?: boolean | null;
   tags?: UpdateFeatureFlagRequestTagsList;
@@ -2278,8 +2199,6 @@ export interface UpdateFeatureFlagRequest {
   evaluation_runtime?: UpdateFeatureFlagRequestEvaluationRuntime | null;
   /** Identifier used for bucketing users into rollout and variants * `distinct_id` - User ID (default) * `device_id` - Device ID */
   bucketing_identifier?: UpdateFeatureFlagRequestBucketingIdentifier | null;
-  /** Last time this feature flag was called (from $feature_flag_called events) */
-  last_called_at?: string | null;
   _create_in_folder?: string;
 }
 export const UpdateFeatureFlagRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2292,7 +2211,6 @@ export const UpdateFeatureFlagRequest = /*@__PURE__*/ S.suspend(() =>
     deleted: S.optional(S.Boolean),
     active: S.optional(S.Boolean),
     archived: S.optional(S.Boolean),
-    created_at: S.optional(S.String),
     version: S.optional(S.Number),
     ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
     tags: S.optional(UpdateFeatureFlagRequestTagsList),
@@ -2304,18 +2222,11 @@ export const UpdateFeatureFlagRequest = /*@__PURE__*/ S.suspend(() =>
     has_encrypted_payloads: S.optional(S.NullOr(S.Boolean)),
     evaluation_runtime: S.optional(S.NullOr(UpdateFeatureFlagRequestEvaluationRuntime)),
     bucketing_identifier: S.optional(S.NullOr(UpdateFeatureFlagRequestBucketingIdentifier)),
-    last_called_at: S.optional(S.NullOr(S.String)),
     _create_in_folder: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/feature_flags/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/feature_flags/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateFeatureFlagRequest",
-}) as any as S.Schema<UpdateFeatureFlagRequest>;
+).annotate({ identifier: "UpdateFeatureFlagRequest" }) as any as S.Schema<UpdateFeatureFlagRequest>;
 
 /** Organizational tags for this feature flag. */
 export type UpdateFeatureFlagsPartialRequestTagsList = Array<string>;
@@ -2373,11 +2284,7 @@ export const UpdateFeatureFlagsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     evaluation_runtime: S.optional(S.NullOr(EvaluationRuntimeEnum)),
     bucketing_identifier: S.optional(S.NullOr(BucketingIdentifierEnum)),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/feature_flags/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/feature_flags/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateFeatureFlagsPartialRequest",
@@ -2398,36 +2305,35 @@ export const createFeatureFlag: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateFeatureFlagsDashboardError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags. If you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user. */
-export const createFeatureFlagsDashboard: API.OperationMethod<
-  CreateFeatureFlagsDashboardRequest,
-  CreateFeatureFlagsDashboardResponse,
-  CreateFeatureFlagsDashboardError,
+export type CreateFeatureFlagsRollOutToEveryoneError = BadRequest | Conflict | PosthogOpError;
+/** Serve a feature flag to every user. Adds a release condition with no property filters at 100% and keeps the existing conditions below it. Payloads, holdout and every other field are left as they are. On a boolean flag, removing the new condition restores the previous targeting. On a multivariate flag the variant distribution is rewritten as well, so removing the condition restores the audience but not the old split. A flag that already leads with such a condition gains no second one. This changes targeting only. A disabled flag still serves nobody, and a holdout is evaluated before release conditions, so users in one keep getting the holdout variant instead of the rollout. A flag gated on early access enrollment is refused, because that gate is evaluated before release conditions too and no targeting change gets past it. A multivariate flag needs `variant_key`, and every other flag rejects it. A release condition decides who the flag serves, not which variant they get, so rolling a multivariate flag out to everyone also gives the named variant 100% of the variant distribution and every other variant 0%. To serve everyone and keep the current split between variants, update the flag instead. Send the `version` your last read returned. A change to the flag after that version is refused with 409. Read the flag again and decide the rollout against its current definition. */
+export const createFeatureFlagsRollOutToEveryone: API.OperationMethod<
+  CreateFeatureFlagsRollOutToEveryoneRequest,
+  FeatureFlagOutput,
+  CreateFeatureFlagsRollOutToEveryoneError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFeatureFlagsDashboardRequest,
-  output: CreateFeatureFlagsDashboardResponse,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: CreateFeatureFlagsRollOutToEveryoneRequest,
+  output: FeatureFlagOutput,
+  errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type CreateFeatureFlagsEnrichUsageDashboardError =
+export type CreateFeatureFlagsSetReleaseConditionRolloutError =
   | BadRequest
-  | Forbidden
-  | NotFound
+  | Conflict
   | PosthogOpError;
-/** Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags. If you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user. */
-export const createFeatureFlagsEnrichUsageDashboard: API.OperationMethod<
-  CreateFeatureFlagsEnrichUsageDashboardRequest,
-  CreateFeatureFlagsEnrichUsageDashboardResponse,
-  CreateFeatureFlagsEnrichUsageDashboardError,
+/** Set what percentage of one release condition's audience a feature flag is served to. Changes `rollout_percentage` on the release condition at `condition_index` and nothing else. The condition's property filters, every other condition, the variants, payloads, holdout and every remaining field are left as they are. Send the `version` your last read returned. A change to the flag after that version is refused with 409, because a condition index only names the condition you read. Read the flag again and decide the percentage against its current definition. On a multivariate flag this sets how many of the matching users get a variant at all. It does not change how the variants are split between them. */
+export const createFeatureFlagsSetReleaseConditionRollout: API.OperationMethod<
+  CreateFeatureFlagsSetReleaseConditionRolloutRequest,
+  FeatureFlagOutput,
+  CreateFeatureFlagsSetReleaseConditionRolloutError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFeatureFlagsEnrichUsageDashboardRequest,
-  output: CreateFeatureFlagsEnrichUsageDashboardResponse,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: CreateFeatureFlagsSetReleaseConditionRolloutRequest,
+  output: FeatureFlagOutput,
+  errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -2482,7 +2388,7 @@ export const featureFlagsArchiveCreate: API.OperationMethod<
 }));
 
 export type FeatureFlagsBulkDeleteCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** Bulk delete feature flags by filter criteria or explicit IDs. Accepts either: - {"filters": {...}} - Same filter params as list endpoint (search, active, type, etc.) - {"ids": [...]} - Explicit list of flag IDs (no limit) Returns same format as bulk_delete for UI compatibility. Uses bulk operations for efficiency: database updates are batched and cache invalidation happens once at the end rather than per-flag. */
+/** Bulk delete feature flags by filter criteria or explicit IDs. Accepts either: - {"filters": {...}} - Same filter params as list endpoint (search, active, type, etc.) - {"ids": [...]} - Explicit list of flag IDs (no limit) Returns same format as bulk_delete for UI compatibility. Config version 1 flags are deleted with batched updates, and cache invalidation runs once at the end. Config version 2 flags are deleted one at a time through ``update_flag``. Each one bumps its ``version`` and commits on its own. */
 export const featureFlagsBulkDeleteCreate: API.OperationMethod<
   FeatureFlagsBulkDeleteCreateRequest,
   BulkDeleteResponse,
@@ -2580,7 +2486,7 @@ export const featureFlagsDisableCreate: API.OperationMethod<
 }));
 
 export type FeatureFlagsEnableCreateError = BadRequest | Conflict | PosthogOpError;
-/** Enable a feature flag. Sets `active` to true and changes nothing else. Targeting, variants, payloads, tags and archived state are left as they are. An archived flag is refused: unarchive it first. A flag whose own flag dependencies are disabled is also refused. An already-enabled flag is returned unchanged. */
+/** Enable a feature flag. Sets `active` to true and changes nothing else. Targeting, variants, payloads, tags and archived state are left as they are. An archived flag is refused: unarchive it first. A flag whose own flag dependencies are disabled or use an unsupported configuration format is also refused. An already-enabled flag is returned unchanged. */
 export const featureFlagsEnableCreate: API.OperationMethod<
   FeatureFlagsEnableCreateRequest,
   FeatureFlagOutput,
@@ -2594,7 +2500,7 @@ export const featureFlagsEnableCreate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type FeatureFlagsUnarchiveCreateError = PosthogOpError;
+export type FeatureFlagsUnarchiveCreateError = BadRequest | PosthogOpError;
 /** Restore an archived feature flag to the default flag list. Sets `archived` to false and changes nothing else. The flag stays disabled; enable it with a separate call. An already-unarchived flag is returned unchanged. */
 export const featureFlagsUnarchiveCreate: API.OperationMethod<
   FeatureFlagsUnarchiveCreateRequest,
@@ -2604,7 +2510,7 @@ export const featureFlagsUnarchiveCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: FeatureFlagsUnarchiveCreateRequest,
   output: FeatureFlagOutput,
-  errors: [],
+  errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));

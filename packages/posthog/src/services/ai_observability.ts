@@ -79,9 +79,7 @@ export type InstrumentationCheckStatusEnum = "ok" | "warning" | "pending" | "dis
 export const InstrumentationCheckStatusEnum = S.String;
 
 /** Counts this check was graded from, over the same window. Which counts appear depends on the check. */
-export type InstrumentationCheckStatsMap = {
-  [key: string]: number | undefined;
-};
+export type InstrumentationCheckStatsMap = { [key: string]: number | undefined };
 export const InstrumentationCheckStatsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -110,9 +108,7 @@ export const InstrumentationCheck = /*@__PURE__*/ S.suspend(() =>
     docs_url: S.String,
     stats: InstrumentationCheckStatsMap,
   }),
-).annotate({
-  identifier: "InstrumentationCheck",
-}) as any as S.Schema<InstrumentationCheck>;
+).annotate({ identifier: "InstrumentationCheck" }) as any as S.Schema<InstrumentationCheck>;
 
 /** Every check, graded. Checks are always all returned, including the ones that pass. */
 export type InstrumentationChecklistChecksList = Array<InstrumentationCheck>;
@@ -131,9 +127,294 @@ export const InstrumentationChecklist = /*@__PURE__*/ S.suspend(() =>
     window_days: S.Number,
     checks: InstrumentationChecklistChecksList,
   }),
+).annotate({ identifier: "InstrumentationChecklist" }) as any as S.Schema<InstrumentationChecklist>;
+
+export type OfflineExperimentItemPayloadInputInputCase0Map = { [key: string]: unknown | undefined };
+export const OfflineExperimentItemPayloadInputInputCase0Map = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<OfflineExperimentItemPayloadInputInputCase0Map>;
+
+export type OfflineExperimentItemPayloadInputInputCase1List = Array<unknown>;
+export const OfflineExperimentItemPayloadInputInputCase1List = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<OfflineExperimentItemPayloadInputInputCase1List>;
+
+export type OfflineExperimentItemPayloadInputInput =
+  | OfflineExperimentItemPayloadInputInputCase0Map
+  | OfflineExperimentItemPayloadInputInputCase1List
+  | string
+  | number
+  | boolean;
+export const OfflineExperimentItemPayloadInputInput =
+  S.Unknown as any as S.Schema<OfflineExperimentItemPayloadInputInput>;
+
+export type OfflineExperimentItemPayloadInputOutputCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export const OfflineExperimentItemPayloadInputOutputCase0Map = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<OfflineExperimentItemPayloadInputOutputCase0Map>;
+
+export type OfflineExperimentItemPayloadInputOutputCase1List = Array<unknown>;
+export const OfflineExperimentItemPayloadInputOutputCase1List = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<OfflineExperimentItemPayloadInputOutputCase1List>;
+
+export type OfflineExperimentItemPayloadInputOutput =
+  | OfflineExperimentItemPayloadInputOutputCase0Map
+  | OfflineExperimentItemPayloadInputOutputCase1List
+  | string
+  | number
+  | boolean;
+export const OfflineExperimentItemPayloadInputOutput =
+  S.Unknown as any as S.Schema<OfflineExperimentItemPayloadInputOutput>;
+
+export type OfflineExperimentItemPayloadInputExpectedOutputCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export const OfflineExperimentItemPayloadInputExpectedOutputCase0Map = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<OfflineExperimentItemPayloadInputExpectedOutputCase0Map>;
+
+export type OfflineExperimentItemPayloadInputExpectedOutputCase1List = Array<unknown>;
+export const OfflineExperimentItemPayloadInputExpectedOutputCase1List = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<OfflineExperimentItemPayloadInputExpectedOutputCase1List>;
+
+export type OfflineExperimentItemPayloadInputExpectedOutput =
+  | OfflineExperimentItemPayloadInputExpectedOutputCase0Map
+  | OfflineExperimentItemPayloadInputExpectedOutputCase1List
+  | string
+  | number
+  | boolean;
+export const OfflineExperimentItemPayloadInputExpectedOutput =
+  S.Unknown as any as S.Schema<OfflineExperimentItemPayloadInputExpectedOutput>;
+
+export type OfflineExperimentItemPayloadInputMetadataMap = { [key: string]: unknown | undefined };
+export const OfflineExperimentItemPayloadInputMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<OfflineExperimentItemPayloadInputMetadataMap>;
+
+export interface OfflineExperimentItemPayloadInput {
+  input?: OfflineExperimentItemPayloadInputInput | null;
+  output?: OfflineExperimentItemPayloadInputOutput | null;
+  expected_output?: OfflineExperimentItemPayloadInputExpectedOutput | null;
+  metadata?: OfflineExperimentItemPayloadInputMetadataMap | null;
+}
+export const OfflineExperimentItemPayloadInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    input: S.optional(S.NullOr(OfflineExperimentItemPayloadInputInput)),
+    output: S.optional(S.NullOr(OfflineExperimentItemPayloadInputOutput)),
+    expected_output: S.optional(S.NullOr(OfflineExperimentItemPayloadInputExpectedOutput)),
+    metadata: S.optional(S.NullOr(OfflineExperimentItemPayloadInputMetadataMap)),
+  }),
 ).annotate({
-  identifier: "InstrumentationChecklist",
-}) as any as S.Schema<InstrumentationChecklist>;
+  identifier: "OfflineExperimentItemPayloadInput",
+}) as any as S.Schema<OfflineExperimentItemPayloadInput>;
+
+export interface ItemSubmission {
+  /** Caller-generated UUID for one input/output execution. Reuse for exact retries. */
+  id: string;
+  /** Stable case identifier for matching inputs across experiments. */
+  case_key?: string | null;
+  /** Identifier for a repeated execution of the same case. */
+  trial?: string | null;
+  /** Stable item identifier in an external dataset. */
+  dataset_item_identifier?: string | null;
+  /** Pinned item-version identifier in an external dataset. */
+  dataset_item_version_identifier?: string | null;
+  /** UUID of the hosted item version in the experiment's dataset revision. */
+  dataset_item_version_id?: string | null;
+  /** Trace identifier for the application execution that produced this output. */
+  application_trace_id?: string | null;
+  /** Optional input/output payload, up to 1 MiB and 32 JSON levels. Omission, {} and null properties differ. */
+  payload?: OfflineExperimentItemPayloadInput;
+}
+export const ItemSubmission = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    case_key: S.optional(S.NullOr(S.String)),
+    trial: S.optional(S.NullOr(S.String)),
+    dataset_item_identifier: S.optional(S.NullOr(S.String)),
+    dataset_item_version_identifier: S.optional(S.NullOr(S.String)),
+    dataset_item_version_id: S.optional(S.NullOr(S.String)),
+    application_trace_id: S.optional(S.NullOr(S.String)),
+    payload: S.optional(OfflineExperimentItemPayloadInput),
+  }),
+).annotate({ identifier: "ItemSubmission" }) as any as S.Schema<ItemSubmission>;
+
+/** Complete immutable declarations for referenced items. Omit existing items to reuse them without a payload. */
+export type AiObservabilityOfflineExperimentsUploadCreateRequestItemsList = Array<ItemSubmission>;
+export const AiObservabilityOfflineExperimentsUploadCreateRequestItemsList = /*@__PURE__*/ S.Array(
+  ItemSubmission,
+) as any as S.Schema<AiObservabilityOfflineExperimentsUploadCreateRequestItemsList>;
+
+/** * `ok` - OK * `error` - Error * `skipped` - Skipped * `not_applicable` - Not applicable */
+export type OfflineEvaluationResultStatusEnum = "ok" | "error" | "skipped" | "not_applicable";
+export const OfflineEvaluationResultStatusEnum = S.String;
+
+export type ResultSubmissionValueCase2List = Array<string>;
+export const ResultSubmissionValueCase2List = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ResultSubmissionValueCase2List>;
+
+/** Required for ok: finite number, boolean, or distinct category keys matching the scorer version. */
+export type ResultSubmissionValue = number | boolean | ResultSubmissionValueCase2List;
+export const ResultSubmissionValue = S.Unknown as any as S.Schema<ResultSubmissionValue>;
+
+export type OfflineEvaluationResultPayloadInputMetadataMap = { [key: string]: unknown | undefined };
+export const OfflineEvaluationResultPayloadInputMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<OfflineEvaluationResultPayloadInputMetadataMap>;
+
+export interface OfflineEvaluationResultPayloadInput {
+  reasoning?: string | null;
+  error_message?: string | null;
+  metadata?: OfflineEvaluationResultPayloadInputMetadataMap | null;
+}
+export const OfflineEvaluationResultPayloadInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reasoning: S.optional(S.NullOr(S.String)),
+    error_message: S.optional(S.NullOr(S.String)),
+    metadata: S.optional(S.NullOr(OfflineEvaluationResultPayloadInputMetadataMap)),
+  }),
+).annotate({
+  identifier: "OfflineEvaluationResultPayloadInput",
+}) as any as S.Schema<OfflineEvaluationResultPayloadInput>;
+
+export interface ResultSubmission {
+  /** UUID of an item declared in this request or already accepted in this experiment. */
+  item_id: string;
+  /** Exact UUID of an existing scorer version in this project. */
+  scorer_version_id: string;
+  /** Outcome of this scorer execution. * `ok` - OK * `error` - Error * `skipped` - Skipped * `not_applicable` - Not applicable */
+  status: OfflineEvaluationResultStatusEnum | (string & {});
+  /** Required for ok: finite number, boolean, or distinct category keys matching the scorer version. */
+  value?: ResultSubmissionValue | null;
+  /** Optional stable error code, permitted only for error outcomes. */
+  error_code?: string | null;
+  /** Trace identifier of the evaluator that produced this result. */
+  evaluator_trace_id?: string | null;
+  /** Caller-supplied evaluation time in ISO 8601 format. */
+  evaluated_at?: string | null;
+  /** Optional reasoning, error message, and metadata, up to 256 KiB and 32 JSON levels. */
+  payload?: OfflineEvaluationResultPayloadInput;
+}
+export const ResultSubmission = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    item_id: S.String,
+    scorer_version_id: S.String,
+    status: OfflineEvaluationResultStatusEnum,
+    value: S.optional(S.NullOr(ResultSubmissionValue)),
+    error_code: S.optional(S.NullOr(S.String)),
+    evaluator_trace_id: S.optional(S.NullOr(S.String)),
+    evaluated_at: S.optional(S.NullOr(S.String)),
+    payload: S.optional(OfflineEvaluationResultPayloadInput),
+  }),
+).annotate({ identifier: "ResultSubmission" }) as any as S.Schema<ResultSubmission>;
+
+/** One to 1,000 unique item/scorer-version results. The entire request commits atomically. */
+export type AiObservabilityOfflineExperimentsUploadCreateRequestResultsList =
+  Array<ResultSubmission>;
+export const AiObservabilityOfflineExperimentsUploadCreateRequestResultsList =
+  /*@__PURE__*/ S.Array(
+    ResultSubmission,
+  ) as any as S.Schema<AiObservabilityOfflineExperimentsUploadCreateRequestResultsList>;
+
+export interface AiObservabilityOfflineExperimentsUploadCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Experiment UUID. */
+  id: string;
+  /** Complete immutable declarations for referenced items. Omit existing items to reuse them without a payload. */
+  items?: AiObservabilityOfflineExperimentsUploadCreateRequestItemsList;
+  /** One to 1,000 unique item/scorer-version results. The entire request commits atomically. */
+  results: AiObservabilityOfflineExperimentsUploadCreateRequestResultsList;
+}
+export const AiObservabilityOfflineExperimentsUploadCreateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    items: S.optional(AiObservabilityOfflineExperimentsUploadCreateRequestItemsList),
+    results: AiObservabilityOfflineExperimentsUploadCreateRequestResultsList,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/ai_observability/offline_experiments/{id}/upload/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "AiObservabilityOfflineExperimentsUploadCreateRequest",
+}) as any as S.Schema<AiObservabilityOfflineExperimentsUploadCreateRequest>;
+
+export interface ItemReceipt {
+  /** Accepted item UUID. */
+  id: string;
+  /** Whether this upload created the item. */
+  created: boolean;
+  /** Original server acceptance time, unchanged on retry. */
+  accepted_at: string;
+}
+export const ItemReceipt = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    created: S.Boolean,
+    accepted_at: S.String,
+  }),
+).annotate({ identifier: "ItemReceipt" }) as any as S.Schema<ItemReceipt>;
+
+/** One acknowledgment per referenced item. */
+export type UploadReceiptItemsList = Array<ItemReceipt>;
+export const UploadReceiptItemsList = /*@__PURE__*/ S.Array(
+  ItemReceipt,
+) as any as S.Schema<UploadReceiptItemsList>;
+
+export interface ResultReceipt {
+  /** Accepted item UUID. */
+  id: string;
+  /** Whether this upload created the item. */
+  created: boolean;
+  /** Original server acceptance time, unchanged on retry. */
+  accepted_at: string;
+  /** Item this result evaluates. */
+  item_id: string;
+  /** Pinned scorer version used by this result. */
+  scorer_version_id: string;
+}
+export const ResultReceipt = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    created: S.Boolean,
+    accepted_at: S.String,
+    item_id: S.String,
+    scorer_version_id: S.String,
+  }),
+).annotate({ identifier: "ResultReceipt" }) as any as S.Schema<ResultReceipt>;
+
+/** Acknowledgments in the submitted result order. */
+export type UploadReceiptResultsList = Array<ResultReceipt>;
+export const UploadReceiptResultsList = /*@__PURE__*/ S.Array(
+  ResultReceipt,
+) as any as S.Schema<UploadReceiptResultsList>;
+
+export interface UploadReceipt {
+  /** One acknowledgment per referenced item. */
+  items: UploadReceiptItemsList;
+  /** Acknowledgments in the submitted result order. */
+  results: UploadReceiptResultsList;
+}
+export const UploadReceipt = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: UploadReceiptItemsList,
+    results: UploadReceiptResultsList,
+  }),
+).annotate({ identifier: "UploadReceipt" }) as any as S.Schema<UploadReceipt>;
 
 export interface ArchiveDatasetRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -146,15 +427,9 @@ export const ArchiveDatasetRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/datasets/{id}/archive/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/datasets/{id}/archive/", code: 200 }),
   ),
-).annotate({
-  identifier: "ArchiveDatasetRequest",
-}) as any as S.Schema<ArchiveDatasetRequest>;
+).annotate({ identifier: "ArchiveDatasetRequest" }) as any as S.Schema<ArchiveDatasetRequest>;
 
 /** JSON object with descriptive dataset metadata. */
 export type DatasetReadMetadataMap = { [key: string]: unknown | undefined };
@@ -361,9 +636,7 @@ export const DatasetItemRead = /*@__PURE__*/ S.suspend(() =>
     version_created_by: S.NullOr(UserBasic),
     team_id: S.Number,
   }),
-).annotate({
-  identifier: "DatasetItemRead",
-}) as any as S.Schema<DatasetItemRead>;
+).annotate({ identifier: "DatasetItemRead" }) as any as S.Schema<DatasetItemRead>;
 
 export interface CreateAiObservabilityInstrumentationChecklistDismissRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -387,10 +660,155 @@ export const CreateAiObservabilityInstrumentationChecklistDismissRequest = /*@__
   identifier: "CreateAiObservabilityInstrumentationChecklistDismissRequest",
 }) as any as S.Schema<CreateAiObservabilityInstrumentationChecklistDismissRequest>;
 
+/** * `ci` - CI * `local` - Local * `scheduled` - Scheduled */
+export type OfflineExperimentRunSourceEnum = "ci" | "local" | "scheduled";
+export const OfflineExperimentRunSourceEnum = S.String;
+
+export interface CreateAiObservabilityOfflineExperimentRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Caller-generated experiment UUID. Reuse it for exact retries. */
+  id: string;
+  /** Display name for this experiment execution. */
+  name: string;
+  /** Execution start time in ISO 8601 format, supplied by the caller. */
+  started_at: string;
+  /** Where the execution started: ci, local, or scheduled. Omit or use null when unknown. * `ci` - CI * `local` - Local * `scheduled` - Scheduled */
+  run_source?: OfflineExperimentRunSourceEnum | (string & {}) | null;
+  /** Expected number of distinct items. Completion must match this count when supplied. */
+  expected_item_count?: number | null;
+  /** Expected number of distinct item/scorer-version results, including non-success statuses. */
+  expected_result_count?: number | null;
+  /** Stable identifier for comparing executions of the same evaluation suite. */
+  suite_key?: string | null;
+  /** Source of an external dataset. Hosted dataset provenance is derived from its revision. */
+  dataset_source?: string | null;
+  /** Stable identifier for the external dataset. */
+  dataset_identifier?: string | null;
+  /** Pinned revision identifier of the external dataset. */
+  dataset_revision_identifier?: string | null;
+  /** UUID of a hosted dataset revision in this project. */
+  dataset_revision_id?: string | null;
+  /** Version of the application under evaluation. */
+  application_version?: string | null;
+  /** Version of the model under evaluation. */
+  model_version?: string | null;
+  /** Version of the prompt under evaluation. */
+  prompt_version?: string | null;
+}
+export const CreateAiObservabilityOfflineExperimentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String,
+    name: S.String,
+    started_at: S.String,
+    run_source: S.optional(S.NullOr(OfflineExperimentRunSourceEnum)),
+    expected_item_count: S.optional(S.NullOr(S.Number)),
+    expected_result_count: S.optional(S.NullOr(S.Number)),
+    suite_key: S.optional(S.NullOr(S.String)),
+    dataset_source: S.optional(S.NullOr(S.String)),
+    dataset_identifier: S.optional(S.NullOr(S.String)),
+    dataset_revision_identifier: S.optional(S.NullOr(S.String)),
+    dataset_revision_id: S.optional(S.NullOr(S.String)),
+    application_version: S.optional(S.NullOr(S.String)),
+    model_version: S.optional(S.NullOr(S.String)),
+    prompt_version: S.optional(S.NullOr(S.String)),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/ai_observability/offline_experiments/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateAiObservabilityOfflineExperimentRequest",
+}) as any as S.Schema<CreateAiObservabilityOfflineExperimentRequest>;
+
+/** * `uploading` - Uploading * `completed` - Completed * `failed` - Failed */
+export type OfflineExperimentStatusEnum = "uploading" | "completed" | "failed";
+export const OfflineExperimentStatusEnum = S.String;
+
+export interface ExperimentReceipt {
+  /** Stable experiment UUID supplied at creation. */
+  id: string;
+  /** Current upload lifecycle state. * `uploading` - Uploading * `completed` - Completed * `failed` - Failed */
+  status: OfflineExperimentStatusEnum;
+  /** Whether this request created the experiment. */
+  created: boolean;
+  /** Caller-supplied execution start time. */
+  started_at: string;
+  /** Time the experiment was first accepted. */
+  created_at: string;
+  /** Server closure time; null while uploading. */
+  finished_at: string | null;
+  /** Declared item count, when supplied. */
+  expected_item_count: number | null;
+  /** Declared result count, when supplied. */
+  expected_result_count: number | null;
+  /** Number of unique accepted items. */
+  accepted_item_count: number;
+  /** Number of unique accepted results across all statuses. */
+  accepted_result_count: number;
+}
+export const ExperimentReceipt = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    status: OfflineExperimentStatusEnum,
+    created: S.Boolean,
+    started_at: S.String,
+    created_at: S.String,
+    finished_at: S.NullOr(S.String),
+    expected_item_count: S.NullOr(S.Number),
+    expected_result_count: S.NullOr(S.Number),
+    accepted_item_count: S.Number,
+    accepted_result_count: S.Number,
+  }),
+).annotate({ identifier: "ExperimentReceipt" }) as any as S.Schema<ExperimentReceipt>;
+
+export interface CreateAiObservabilityOfflineExperimentsCompleteRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Experiment UUID. */
+  id: string;
+}
+export const CreateAiObservabilityOfflineExperimentsCompleteRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/ai_observability/offline_experiments/{id}/complete/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateAiObservabilityOfflineExperimentsCompleteRequest",
+}) as any as S.Schema<CreateAiObservabilityOfflineExperimentsCompleteRequest>;
+
+export interface CreateAiObservabilityOfflineExperimentsFailRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Experiment UUID. */
+  id: string;
+}
+export const CreateAiObservabilityOfflineExperimentsFailRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/ai_observability/offline_experiments/{id}/fail/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateAiObservabilityOfflineExperimentsFailRequest",
+}) as any as S.Schema<CreateAiObservabilityOfflineExperimentsFailRequest>;
+
 /** Optional JSON object with descriptive dataset metadata. */
-export type CreateDatasetRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateDatasetRequestMetadataMap = { [key: string]: unknown | undefined };
 export const CreateDatasetRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -412,21 +830,11 @@ export const CreateDatasetRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     description: S.optional(S.String),
     metadata: S.optional(CreateDatasetRequestMetadataMap),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/datasets/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateDatasetRequest",
-}) as any as S.Schema<CreateDatasetRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/datasets/", code: 200 })),
+).annotate({ identifier: "CreateDatasetRequest" }) as any as S.Schema<CreateDatasetRequest>;
 
 /** Optional JSON object with item metadata. */
-export type CreateDatasetItemRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateDatasetItemRequestMetadataMap = { [key: string]: unknown | undefined };
 export const CreateDatasetItemRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -466,16 +874,8 @@ export const CreateDatasetItemRequest = /*@__PURE__*/ S.suspend(() =>
     source_trace_id: S.optional(S.NullOr(S.String)),
     source_event_id: S.optional(S.NullOr(S.String)),
     source_timestamp: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/dataset_items/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateDatasetItemRequest",
-}) as any as S.Schema<CreateDatasetItemRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/dataset_items/", code: 200 })),
+).annotate({ identifier: "CreateDatasetItemRequest" }) as any as S.Schema<CreateDatasetItemRequest>;
 
 export interface CreateDatasetsExportRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -491,11 +891,7 @@ export const CreateDatasetsExportRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     revision: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/datasets/{id}/exports/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/datasets/{id}/exports/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDatasetsExportRequest",
@@ -530,9 +926,7 @@ export const DatasetExportRead = /*@__PURE__*/ S.suspend(() =>
     expires_after: S.String,
     exception: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "DatasetExportRead",
-}) as any as S.Schema<DatasetExportRead>;
+).annotate({ identifier: "DatasetExportRead" }) as any as S.Schema<DatasetExportRead>;
 
 export interface CreateLlmAnalyticsOfflineEvaluationsExperimentItemRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -605,6 +999,8 @@ export interface CreateLlmAnalyticsSummarizationRequest {
   data?: unknown;
   /** Force regenerate summary, bypassing cache */
   force_refresh?: boolean;
+  /** Bound the input to a cost-conscious size instead of the full model context window. Use it when you summarize many traces at once and need only a short result such as the title. */
+  compact_context?: boolean;
   /** LLM model to use (defaults based on provider) */
   model?: string | null;
   /** Trace ID to summarize. The backend fetches the trace data automatically. Requires date_from for efficient lookup. */
@@ -623,6 +1019,7 @@ export const CreateLlmAnalyticsSummarizationRequest = /*@__PURE__*/ S.suspend(()
     mode: S.optional(DetailModeValueEnum),
     data: S.optional(S.Unknown),
     force_refresh: S.optional(S.Boolean),
+    compact_context: S.optional(S.Boolean),
     model: S.optional(S.NullOr(S.String)),
     trace_id: S.optional(S.String),
     generation_id: S.optional(S.String),
@@ -682,9 +1079,7 @@ export const StructuredSummary = /*@__PURE__*/ S.suspend(() =>
     summary_bullets: S.optional(StructuredSummarySummaryBulletsList),
     interesting_notes: S.optional(StructuredSummaryInterestingNotesList),
   }),
-).annotate({
-  identifier: "StructuredSummary",
-}) as any as S.Schema<StructuredSummary>;
+).annotate({ identifier: "StructuredSummary" }) as any as S.Schema<StructuredSummary>;
 
 export interface SummarizeResponse {
   /** Structured AI-generated summary with flow, bullets, and optional notes */
@@ -700,9 +1095,7 @@ export const SummarizeResponse = /*@__PURE__*/ S.suspend(() =>
     text_repr: S.optional(S.String),
     metadata: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "SummarizeResponse",
-}) as any as S.Schema<SummarizeResponse>;
+).annotate({ identifier: "SummarizeResponse" }) as any as S.Schema<SummarizeResponse>;
 
 /** List of trace IDs to check for cached summaries */
 export type CreateLlmAnalyticsSummarizationBatchCheckRequestTraceIdsList = Array<string>;
@@ -762,9 +1155,7 @@ export const BatchCheckResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     summaries: S.optional(BatchCheckResponseSummariesList),
   }),
-).annotate({
-  identifier: "BatchCheckResponse",
-}) as any as S.Schema<BatchCheckResponse>;
+).annotate({ identifier: "BatchCheckResponse" }) as any as S.Schema<BatchCheckResponse>;
 
 /** * `$ai_generation` - $ai_generation * `$ai_span` - $ai_span * `$ai_embedding` - $ai_embedding * `$ai_trace` - $ai_trace */
 export type EventTypeEnum = "$ai_generation" | "$ai_span" | "$ai_embedding" | "$ai_trace";
@@ -805,9 +1196,7 @@ export const TextReprOptions = /*@__PURE__*/ S.suspend(() =>
     tools_collapse_threshold: S.optional(S.Number),
     include_line_numbers: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TextReprOptions",
-}) as any as S.Schema<TextReprOptions>;
+).annotate({ identifier: "TextReprOptions" }) as any as S.Schema<TextReprOptions>;
 
 export interface CreateLlmAnalyticsTextReprRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -855,9 +1244,7 @@ export const TextReprMetadata = /*@__PURE__*/ S.suspend(() =>
     truncated: S.optional(S.Boolean),
     error: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TextReprMetadata",
-}) as any as S.Schema<TextReprMetadata>;
+).annotate({ identifier: "TextReprMetadata" }) as any as S.Schema<TextReprMetadata>;
 
 export interface TextReprResponse {
   /** Generated text representation of the event */
@@ -870,9 +1257,7 @@ export const TextReprResponse = /*@__PURE__*/ S.suspend(() =>
     text: S.optional(S.String),
     metadata: S.optional(TextReprMetadata),
   }),
-).annotate({
-  identifier: "TextReprResponse",
-}) as any as S.Schema<TextReprResponse>;
+).annotate({ identifier: "TextReprResponse" }) as any as S.Schema<TextReprResponse>;
 
 export interface GetAiObservabilityInstrumentationChecklistRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -895,6 +1280,681 @@ export const GetAiObservabilityInstrumentationChecklistRequest = /*@__PURE__*/ S
   identifier: "GetAiObservabilityInstrumentationChecklistRequest",
 }) as any as S.Schema<GetAiObservabilityInstrumentationChecklistRequest>;
 
+export interface GetAiObservabilityOfflineExperimentRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Experiment UUID. */
+  id: string;
+}
+export const GetAiObservabilityOfflineExperimentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/ai_observability/offline_experiments/{id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetAiObservabilityOfflineExperimentRequest",
+}) as any as S.Schema<GetAiObservabilityOfflineExperimentRequest>;
+
+export interface OfflineExperimentRead {
+  /** Stable experiment UUID. */
+  id: string;
+  /** Experiment name. */
+  name: string;
+  /** Execution source. * `ci` - CI * `local` - Local * `scheduled` - Scheduled */
+  run_source: OfflineExperimentRunSourceEnum | null;
+  /** Upload lifecycle state. * `uploading` - Uploading * `completed` - Completed * `failed` - Failed */
+  status: OfflineExperimentStatusEnum;
+  /** Caller-supplied execution time. */
+  started_at: string;
+  /** First server acceptance time. */
+  created_at: string;
+  /** Server closure time, or null while uploading. */
+  finished_at: string | null;
+  /** Declared expected items, when supplied. */
+  expected_item_count: number | null;
+  /** Declared expected results across all scorers. */
+  expected_result_count: number | null;
+  /** Observed items, including items without a selected scorer result. */
+  accepted_item_count: number;
+  /** Results visible to this caller; unavailable without scorer-read scope. */
+  visible_result_count: number | null;
+  /** Distinct visible scorer definitions. */
+  visible_scorer_definition_count: number | null;
+  /** Distinct visible scorer versions. */
+  visible_scorer_version_count: number | null;
+  /** authorized for visible-result counts, or unavailable without scorer-read scope. */
+  result_count_scope: string;
+  /** Durable suite identifier. */
+  suite_key: string | null;
+  /** Dataset provider or source. */
+  dataset_source: string | null;
+  /** Durable dataset identifier. */
+  dataset_identifier: string | null;
+  /** Durable dataset revision identifier. */
+  dataset_revision_identifier: string | null;
+  /** Optional hosted revision navigation reference. */
+  dataset_revision_id: string | null;
+  /** Application revision under evaluation. */
+  application_version: string | null;
+  /** Model revision under evaluation. */
+  model_version: string | null;
+  /** Prompt revision under evaluation. */
+  prompt_version: string | null;
+}
+export const OfflineExperimentRead = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    run_source: S.NullOr(OfflineExperimentRunSourceEnum),
+    status: OfflineExperimentStatusEnum,
+    started_at: S.String,
+    created_at: S.String,
+    finished_at: S.NullOr(S.String),
+    expected_item_count: S.NullOr(S.Number),
+    expected_result_count: S.NullOr(S.Number),
+    accepted_item_count: S.Number,
+    visible_result_count: S.NullOr(S.Number),
+    visible_scorer_definition_count: S.NullOr(S.Number),
+    visible_scorer_version_count: S.NullOr(S.Number),
+    result_count_scope: S.String,
+    suite_key: S.NullOr(S.String),
+    dataset_source: S.NullOr(S.String),
+    dataset_identifier: S.NullOr(S.String),
+    dataset_revision_identifier: S.NullOr(S.String),
+    dataset_revision_id: S.NullOr(S.String),
+    application_version: S.NullOr(S.String),
+    model_version: S.NullOr(S.String),
+    prompt_version: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "OfflineExperimentRead" }) as any as S.Schema<OfflineExperimentRead>;
+
+export interface GetAiObservabilityOfflineExperimentsItemRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Experiment UUID. */
+  id: string;
+  /** Item UUID within the experiment. */
+  item_id: string;
+}
+export const GetAiObservabilityOfflineExperimentsItemRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    item_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/ai_observability/offline_experiments/{id}/items/{item_id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetAiObservabilityOfflineExperimentsItemRequest",
+}) as any as S.Schema<GetAiObservabilityOfflineExperimentsItemRequest>;
+
+/** * `not_provided` - Not provided * `available` - Available * `expired` - Expired */
+export type PayloadStateEnum = "not_provided" | "available" | "expired";
+export const PayloadStateEnum = S.String;
+
+export type OfflineResultCellValueCase2List = Array<string>;
+export const OfflineResultCellValueCase2List = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<OfflineResultCellValueCase2List>;
+
+/** Typed score for ok outcomes; null for other outcomes. */
+export type OfflineResultCellValue = number | boolean | OfflineResultCellValueCase2List;
+export const OfflineResultCellValue = S.Unknown as any as S.Schema<OfflineResultCellValue>;
+
+export interface OfflineResultCell {
+  /** Stable result UUID. */
+  id: string;
+  /** Item evaluated by this result. */
+  item_id: string;
+  /** Evaluation outcome. * `ok` - OK * `error` - Error * `skipped` - Skipped * `not_applicable` - Not applicable */
+  status: OfflineEvaluationResultStatusEnum;
+  /** Typed score for ok outcomes; null for other outcomes. */
+  value: OfflineResultCellValue | null;
+  /** Optional evaluator error code. */
+  error_code: string | null;
+  /** Optional evaluator trace navigation reference. */
+  evaluator_trace_id: string | null;
+  /** Caller-supplied evaluation time. */
+  evaluated_at: string | null;
+  /** Original server acceptance time. */
+  accepted_at: string;
+  /** Result payload storage state. * `not_provided` - Not provided * `available` - Available * `expired` - Expired */
+  payload_state: PayloadStateEnum;
+  /** Payload retention deadline; cleanup is not yet enabled. */
+  payload_expires_at: string | null;
+  /** Exact scorer-version UUID in the item page's scorer_versions list. */
+  scorer_version_id: string;
+}
+export const OfflineResultCell = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    item_id: S.String,
+    status: OfflineEvaluationResultStatusEnum,
+    value: S.NullOr(OfflineResultCellValue),
+    error_code: S.NullOr(S.String),
+    evaluator_trace_id: S.NullOr(S.String),
+    evaluated_at: S.NullOr(S.String),
+    accepted_at: S.String,
+    payload_state: PayloadStateEnum,
+    payload_expires_at: S.NullOr(S.String),
+    scorer_version_id: S.String,
+  }),
+).annotate({ identifier: "OfflineResultCell" }) as any as S.Schema<OfflineResultCell>;
+
+/** Cells for explicitly selected scorer versions; empty when none selected. */
+export type OfflineItemReadResultsList = Array<OfflineResultCell>;
+export const OfflineItemReadResultsList = /*@__PURE__*/ S.Array(
+  OfflineResultCell,
+) as any as S.Schema<OfflineItemReadResultsList>;
+
+export interface OfflineItemRead {
+  /** Stable item UUID. */
+  id: string;
+  /** Owning experiment UUID. */
+  experiment_id: string;
+  /** Optional stable case identifier. */
+  case_key: string | null;
+  /** Optional trial identifier within a case. */
+  trial: string | null;
+  /** Durable dataset item identifier. */
+  dataset_item_identifier: string | null;
+  /** Durable dataset item-version identifier. */
+  dataset_item_version_identifier: string | null;
+  /** Optional hosted item-version navigation reference. */
+  dataset_item_version_id: string | null;
+  /** Optional application trace navigation reference. */
+  application_trace_id: string | null;
+  /** Original server acceptance time. */
+  accepted_at: string;
+  /** Item payload storage state. * `not_provided` - Not provided * `available` - Available * `expired` - Expired */
+  payload_state: PayloadStateEnum;
+  /** Payload retention deadline; cleanup is not yet enabled. */
+  payload_expires_at: string | null;
+  /** Cells for explicitly selected scorer versions; empty when none selected. */
+  results: OfflineItemReadResultsList;
+}
+export const OfflineItemRead = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    experiment_id: S.String,
+    case_key: S.NullOr(S.String),
+    trial: S.NullOr(S.String),
+    dataset_item_identifier: S.NullOr(S.String),
+    dataset_item_version_identifier: S.NullOr(S.String),
+    dataset_item_version_id: S.NullOr(S.String),
+    application_trace_id: S.NullOr(S.String),
+    accepted_at: S.String,
+    payload_state: PayloadStateEnum,
+    payload_expires_at: S.NullOr(S.String),
+    results: OfflineItemReadResultsList,
+  }),
+).annotate({ identifier: "OfflineItemRead" }) as any as S.Schema<OfflineItemRead>;
+
+export interface GetAiObservabilityOfflineExperimentsItemsPayloadRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Experiment UUID. */
+  id: string;
+  /** Item UUID within the experiment. */
+  item_id: string;
+}
+export const GetAiObservabilityOfflineExperimentsItemsPayloadRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    item_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/ai_observability/offline_experiments/{id}/items/{item_id}/payload/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetAiObservabilityOfflineExperimentsItemsPayloadRequest",
+}) as any as S.Schema<GetAiObservabilityOfflineExperimentsItemsPayloadRequest>;
+
+export interface OfflineItemPayloadRead {
+  /** Owning item UUID. */
+  id: string;
+  /** Durable payload storage state. * `not_provided` - Not provided * `available` - Available * `expired` - Expired */
+  payload_state: PayloadStateEnum;
+  /** Payload retention deadline. */
+  payload_expires_at: string | null;
+  /** Whether the stored payload is currently available. */
+  available: boolean;
+  /** Stored item payload, preserving omitted properties and JSON null; null if unavailable. */
+  data: OfflineExperimentItemPayloadInput | null;
+}
+export const OfflineItemPayloadRead = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    payload_state: PayloadStateEnum,
+    payload_expires_at: S.NullOr(S.String),
+    available: S.Boolean,
+    data: S.NullOr(OfflineExperimentItemPayloadInput),
+  }),
+).annotate({ identifier: "OfflineItemPayloadRead" }) as any as S.Schema<OfflineItemPayloadRead>;
+
+export interface GetAiObservabilityOfflineExperimentsResultCellRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Experiment UUID. */
+  id: string;
+  /** Comma-separated list of 1 to 50 distinct item UUIDs belonging to this experiment. */
+  item_ids: string;
+  /** Comma-separated list of 1 to 20 distinct authorized scorer-version UUIDs. */
+  scorer_version_ids: string;
+}
+export const GetAiObservabilityOfflineExperimentsResultCellRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    item_ids: S.String.pipe(T.Query()),
+    scorer_version_ids: S.String.pipe(T.Query()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/ai_observability/offline_experiments/{id}/result_cells/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetAiObservabilityOfflineExperimentsResultCellRequest",
+}) as any as S.Schema<GetAiObservabilityOfflineExperimentsResultCellRequest>;
+
+/** * `categorical` - categorical * `numeric` - numeric * `boolean` - boolean */
+export type ScoreDefinitionKindEnum = "categorical" | "numeric" | "boolean";
+export const ScoreDefinitionKindEnum = S.String;
+
+export interface CategoricalScoreOption {
+  /** Stable option key. Use lowercase letters, numbers, underscores, or hyphens. */
+  key?: string;
+  /** Human-readable option label. */
+  label?: string;
+}
+export const CategoricalScoreOption = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    label: S.optional(S.String),
+  }),
+).annotate({ identifier: "CategoricalScoreOption" }) as any as S.Schema<CategoricalScoreOption>;
+
+/** Ordered categorical options available to the scorer. */
+export type CategoricalScoreDefinitionConfigOptionsList = Array<CategoricalScoreOption>;
+export const CategoricalScoreDefinitionConfigOptionsList = /*@__PURE__*/ S.Array(
+  CategoricalScoreOption,
+) as any as S.Schema<CategoricalScoreDefinitionConfigOptionsList>;
+
+/** * `single` - single * `multiple` - multiple */
+export type SelectionModeEnum = "single" | "multiple";
+export const SelectionModeEnum = S.String;
+
+/** Passing category keys. Every returned category must be included. An empty list makes all accepted offline results fail. */
+export type CategoricalScorePassingRuleCategoriesList = Array<string>;
+export const CategoricalScorePassingRuleCategoriesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CategoricalScorePassingRuleCategoriesList>;
+
+export interface CategoricalScorePassingRule {
+  /** Passing category keys. Every returned category must be included. An empty list makes all accepted offline results fail. */
+  categories: CategoricalScorePassingRuleCategoriesList;
+}
+export const CategoricalScorePassingRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    categories: CategoricalScorePassingRuleCategoriesList,
+  }),
+).annotate({
+  identifier: "CategoricalScorePassingRule",
+}) as any as S.Schema<CategoricalScorePassingRule>;
+
+export interface CategoricalScoreDefinitionConfig {
+  /** Ordered categorical options available to the scorer. */
+  options?: CategoricalScoreDefinitionConfigOptionsList;
+  /** Whether reviewers can select one option or multiple options. Defaults to `single`. * `single` - single * `multiple` - multiple */
+  selection_mode?: SelectionModeEnum;
+  /** Optional minimum number of options that can be selected when `selection_mode` is `multiple`. */
+  min_selections?: number | null;
+  /** Optional maximum number of options that can be selected when `selection_mode` is `multiple`. */
+  max_selections?: number | null;
+  /** Optional passing categories. Omit or set null for neutral scores. Each scorer version keeps its own rule. */
+  passing_rule?: CategoricalScorePassingRule | null;
+}
+export const CategoricalScoreDefinitionConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    options: S.optional(CategoricalScoreDefinitionConfigOptionsList),
+    selection_mode: S.optional(SelectionModeEnum),
+    min_selections: S.optional(S.NullOr(S.Number)),
+    max_selections: S.optional(S.NullOr(S.Number)),
+    passing_rule: S.optional(S.NullOr(CategoricalScorePassingRule)),
+  }),
+).annotate({
+  identifier: "CategoricalScoreDefinitionConfig",
+}) as any as S.Schema<CategoricalScoreDefinitionConfig>;
+
+/** * `gte` - At or above * `lte` - At or below */
+export type NumericScorePassingRuleSerializerOperatorEnum = "gte" | "lte";
+export const NumericScorePassingRuleSerializerOperatorEnum = S.String;
+
+export interface NumericScorePassingRule {
+  /** Pass at or above (gte), or at or below (lte), the threshold. * `gte` - At or above * `lte` - At or below */
+  operator: NumericScorePassingRuleSerializerOperatorEnum;
+  /** Finite passing threshold within any configured score bounds. */
+  threshold: number;
+}
+export const NumericScorePassingRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    operator: NumericScorePassingRuleSerializerOperatorEnum,
+    threshold: S.Number,
+  }),
+).annotate({ identifier: "NumericScorePassingRule" }) as any as S.Schema<NumericScorePassingRule>;
+
+export interface NumericScoreDefinitionConfig {
+  /** Optional inclusive minimum score. */
+  min?: number | null;
+  /** Optional inclusive maximum score. */
+  max?: number | null;
+  /** Optional increment step for numeric input, for example 1 or 0.5. */
+  step?: number | null;
+  /** Optional passing rule. Omit or set null for neutral scores. Each scorer version keeps its own rule. */
+  passing_rule?: NumericScorePassingRule | null;
+}
+export const NumericScoreDefinitionConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    min: S.optional(S.NullOr(S.Number)),
+    max: S.optional(S.NullOr(S.Number)),
+    step: S.optional(S.NullOr(S.Number)),
+    passing_rule: S.optional(S.NullOr(NumericScorePassingRule)),
+  }),
+).annotate({
+  identifier: "NumericScoreDefinitionConfig",
+}) as any as S.Schema<NumericScoreDefinitionConfig>;
+
+export interface BooleanScoreDefinitionConfig {
+  /** Whether true means failure. False, omitted, or null means true passes in offline evaluations. */
+  true_is_failure?: boolean | null;
+  /** Optional label for a true value. */
+  true_label?: string;
+  /** Optional label for a false value. */
+  false_label?: string;
+}
+export const BooleanScoreDefinitionConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    true_is_failure: S.optional(S.NullOr(S.Boolean)),
+    true_label: S.optional(S.String),
+    false_label: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BooleanScoreDefinitionConfig",
+}) as any as S.Schema<BooleanScoreDefinitionConfig>;
+
+export type ScoreDefinitionConfig =
+  | CategoricalScoreDefinitionConfig
+  | NumericScoreDefinitionConfig
+  | BooleanScoreDefinitionConfig;
+export const ScoreDefinitionConfig = S.Unknown as any as S.Schema<ScoreDefinitionConfig>;
+
+export interface OfflineScorerVersionRead {
+  /** Exact immutable scorer-version UUID. */
+  id: string;
+  /** Stable scorer definition UUID. */
+  definition_id: string;
+  /** Version number within the definition. */
+  version: number;
+  /** Scorer value kind. * `categorical` - categorical * `numeric` - numeric * `boolean` - boolean */
+  kind: ScoreDefinitionKindEnum;
+  /** Current scorer display name. */
+  name: string;
+  /** Current scorer description. */
+  description: string;
+  /** Whether the scorer is archived. */
+  archived: boolean;
+  /** Pinned immutable configuration used to interpret these results. */
+  config: ScoreDefinitionConfig;
+}
+export const OfflineScorerVersionRead = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    definition_id: S.String,
+    version: S.Number,
+    kind: ScoreDefinitionKindEnum,
+    name: S.String,
+    description: S.String,
+    archived: S.Boolean,
+    config: ScoreDefinitionConfig,
+  }),
+).annotate({ identifier: "OfflineScorerVersionRead" }) as any as S.Schema<OfflineScorerVersionRead>;
+
+/** Selected authorized versions, including versions with no results for these items. */
+export type OfflineResultCellsScorerVersionsList = Array<OfflineScorerVersionRead>;
+export const OfflineResultCellsScorerVersionsList = /*@__PURE__*/ S.Array(
+  OfflineScorerVersionRead,
+) as any as S.Schema<OfflineResultCellsScorerVersionsList>;
+
+/** Submitted results for the exact selected items and versions; at most 1,000 cells. */
+export type OfflineResultCellsResultsList = Array<OfflineResultCell>;
+export const OfflineResultCellsResultsList = /*@__PURE__*/ S.Array(
+  OfflineResultCell,
+) as any as S.Schema<OfflineResultCellsResultsList>;
+
+export interface OfflineResultCells {
+  /** Selected authorized versions, including versions with no results for these items. */
+  scorer_versions: OfflineResultCellsScorerVersionsList;
+  /** Submitted results for the exact selected items and versions; at most 1,000 cells. */
+  results: OfflineResultCellsResultsList;
+}
+export const OfflineResultCells = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scorer_versions: OfflineResultCellsScorerVersionsList,
+    results: OfflineResultCellsResultsList,
+  }),
+).annotate({ identifier: "OfflineResultCells" }) as any as S.Schema<OfflineResultCells>;
+
+export interface GetAiObservabilityOfflineExperimentsResultsPayloadRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Experiment UUID. */
+  id: string;
+  /** Result UUID within the experiment. */
+  result_id: string;
+}
+export const GetAiObservabilityOfflineExperimentsResultsPayloadRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      project_id: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+      result_id: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/api/projects/{project_id}/ai_observability/offline_experiments/{id}/results/{result_id}/payload/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetAiObservabilityOfflineExperimentsResultsPayloadRequest",
+}) as any as S.Schema<GetAiObservabilityOfflineExperimentsResultsPayloadRequest>;
+
+export interface OfflineResultPayloadRead {
+  /** Owning result UUID. */
+  id: string;
+  /** Durable payload storage state. * `not_provided` - Not provided * `available` - Available * `expired` - Expired */
+  payload_state: PayloadStateEnum;
+  /** Payload retention deadline. */
+  payload_expires_at: string | null;
+  /** Whether the stored payload is currently available. */
+  available: boolean;
+  /** Stored reasoning/error payload; null if unavailable. */
+  data: OfflineEvaluationResultPayloadInput | null;
+}
+export const OfflineResultPayloadRead = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    payload_state: PayloadStateEnum,
+    payload_expires_at: S.NullOr(S.String),
+    available: S.Boolean,
+    data: S.NullOr(OfflineEvaluationResultPayloadInput),
+  }),
+).annotate({ identifier: "OfflineResultPayloadRead" }) as any as S.Schema<OfflineResultPayloadRead>;
+
+export interface GetAiObservabilityTraceRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
+  id: string;
+  /** When the trace happened, as carried by links into it. Lets a trace older than the AI events retention load from the shared events table. */
+  timestamp_hint?: string;
+}
+export const GetAiObservabilityTraceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    timestamp_hint: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/ai_observability/traces/{id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetAiObservabilityTraceRequest",
+}) as any as S.Schema<GetAiObservabilityTraceRequest>;
+
+export interface TracePerson {
+  distinctId: string;
+  label: string;
+}
+export const TracePerson = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    distinctId: S.String,
+    label: S.String,
+  }),
+).annotate({ identifier: "TracePerson" }) as any as S.Schema<TracePerson>;
+
+export interface TraceNodeStats {
+  costUsd: number | null;
+  inputTokens: number | null;
+  outputTokens: number | null;
+  cacheReadTokens: number | null;
+  cacheWriteTokens: number | null;
+  latencyMs: number | null;
+}
+export const TraceNodeStats = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    costUsd: S.NullOr(S.Number),
+    inputTokens: S.NullOr(S.Number),
+    outputTokens: S.NullOr(S.Number),
+    cacheReadTokens: S.NullOr(S.Number),
+    cacheWriteTokens: S.NullOr(S.Number),
+    latencyMs: S.NullOr(S.Number),
+  }),
+).annotate({ identifier: "TraceNodeStats" }) as any as S.Schema<TraceNodeStats>;
+
+export type TraceNodeKindEnum = "trace" | "span" | "generation" | "embedding";
+export const TraceNodeKindEnum = S.String;
+
+export type TraceNodeChildrenList = Array<TraceNode>;
+export const TraceNodeChildrenList = /*@__PURE__*/ S.Array(
+  S.suspend(() => TraceNode),
+) as any as S.Schema<TraceNodeChildrenList>;
+
+export interface TraceNode {
+  id: string;
+  kind: TraceNodeKindEnum;
+  name: string;
+  model: string | null;
+  stats: TraceNodeStats;
+  hasError: boolean;
+  children: TraceNodeChildrenList;
+}
+export const TraceNode = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    kind: TraceNodeKindEnum,
+    name: S.String,
+    model: S.NullOr(S.String),
+    stats: TraceNodeStats,
+    hasError: S.Boolean,
+    children: TraceNodeChildrenList,
+  }),
+).annotate({ identifier: "TraceNode" }) as any as S.Schema<TraceNode>;
+
+export type TraceTreeList = Array<TraceNode>;
+export const TraceTreeList = /*@__PURE__*/ S.Array(TraceNode) as any as S.Schema<TraceTreeList>;
+
+export interface TraceTimelineRow {
+  id: string;
+  kind: TraceNodeKindEnum;
+  name: string;
+  depth: number;
+  startMs: number;
+  durationMs: number | null;
+  hasError: boolean;
+}
+export const TraceTimelineRow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    kind: TraceNodeKindEnum,
+    name: S.String,
+    depth: S.Number,
+    startMs: S.Number,
+    durationMs: S.NullOr(S.Number),
+    hasError: S.Boolean,
+  }),
+).annotate({ identifier: "TraceTimelineRow" }) as any as S.Schema<TraceTimelineRow>;
+
+export type TraceTimelineList = Array<TraceTimelineRow>;
+export const TraceTimelineList = /*@__PURE__*/ S.Array(
+  TraceTimelineRow,
+) as any as S.Schema<TraceTimelineList>;
+
+export type TraceThreadNodeIdsList = Array<string>;
+export const TraceThreadNodeIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<TraceThreadNodeIdsList>;
+
+export interface Trace {
+  id: string;
+  name: string | null;
+  createdAt: string;
+  sessionId: string | null;
+  person: TracePerson | null;
+  totals: TraceNodeStats;
+  hasError: boolean;
+  errorCount: number;
+  tree: TraceTreeList;
+  timeline: TraceTimelineList;
+  totalMs: number;
+  threadNodeIds: TraceThreadNodeIdsList;
+}
+export const Trace = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.NullOr(S.String),
+    createdAt: S.String,
+    sessionId: S.NullOr(S.String),
+    person: S.NullOr(TracePerson),
+    totals: TraceNodeStats,
+    hasError: S.Boolean,
+    errorCount: S.Number,
+    tree: TraceTreeList,
+    timeline: TraceTimelineList,
+    totalMs: S.Number,
+    threadNodeIds: TraceThreadNodeIdsList,
+  }),
+).annotate({ identifier: "Trace" }) as any as S.Schema<Trace>;
+
 export interface GetDatasetRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -905,16 +1965,8 @@ export const GetDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/datasets/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDatasetRequest",
-}) as any as S.Schema<GetDatasetRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/datasets/{id}/", code: 200 })),
+).annotate({ identifier: "GetDatasetRequest" }) as any as S.Schema<GetDatasetRequest>;
 
 export interface GetDatasetItemRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -935,9 +1987,7 @@ export const GetDatasetItemRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDatasetItemRequest",
-}) as any as S.Schema<GetDatasetItemRequest>;
+).annotate({ identifier: "GetDatasetItemRequest" }) as any as S.Schema<GetDatasetItemRequest>;
 
 export interface GetDatasetsExportRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -958,9 +2008,7 @@ export const GetDatasetsExportRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDatasetsExportRequest",
-}) as any as S.Schema<GetDatasetsExportRequest>;
+).annotate({ identifier: "GetDatasetsExportRequest" }) as any as S.Schema<GetDatasetsExportRequest>;
 
 export interface GetDatasetsExportsContentRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -992,6 +2040,525 @@ export const GetDatasetsExportsContentResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDatasetsExportsContentResponse",
 }) as any as S.Schema<GetDatasetsExportsContentResponse>;
 
+export interface ListAiObservabilityOfflineExperimentsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Exact application revision. */
+  application_version?: string;
+  /** Continuation cursor returned by the previous page. */
+  cursor?: string;
+  /** Exact durable dataset identifier. */
+  dataset_identifier?: string;
+  /** Exact durable dataset revision identifier. */
+  dataset_revision_identifier?: string;
+  /** Exact dataset source. */
+  dataset_source?: string;
+  /** Inclusive execution start time, in ISO 8601 format. */
+  date_from?: string;
+  /** Exclusive execution end time, in ISO 8601 format. */
+  date_to?: string;
+  /** Page size, from 1 to 100. Defaults to 50. */
+  limit?: number;
+  /** Exact model revision. */
+  model_version?: string;
+  /** Exact prompt revision. */
+  prompt_version?: string;
+  /** Filter ci, local, scheduled, or not_specified for omitted run source. */
+  run_source?: string;
+  /** Restrict results to this scorer definition. */
+  scorer_definition_id?: string;
+  /** Comma-separated list of at most 20 distinct scorer-version UUIDs. */
+  scorer_version_ids?: string;
+  /** Search experiment names. */
+  search?: string;
+  /** Comma-separated uploading, completed, or failed states. History defaults to completed; lists include all. */
+  statuses?: string;
+  /** Exact evaluation suite identifier. */
+  suite_key?: string;
+}
+export const ListAiObservabilityOfflineExperimentsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    application_version: S.optional(S.String.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    dataset_identifier: S.optional(S.String.pipe(T.Query())),
+    dataset_revision_identifier: S.optional(S.String.pipe(T.Query())),
+    dataset_source: S.optional(S.String.pipe(T.Query())),
+    date_from: S.optional(S.String.pipe(T.Query())),
+    date_to: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    model_version: S.optional(S.String.pipe(T.Query())),
+    prompt_version: S.optional(S.String.pipe(T.Query())),
+    run_source: S.optional(S.String.pipe(T.Query())),
+    scorer_definition_id: S.optional(S.String.pipe(T.Query())),
+    scorer_version_ids: S.optional(S.String.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+    statuses: S.optional(S.String.pipe(T.Query())),
+    suite_key: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/ai_observability/offline_experiments/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListAiObservabilityOfflineExperimentsRequest",
+}) as any as S.Schema<ListAiObservabilityOfflineExperimentsRequest>;
+
+/** Experiment page. */
+export type OfflineExperimentPageResultsList = Array<OfflineExperimentRead>;
+export const OfflineExperimentPageResultsList = /*@__PURE__*/ S.Array(
+  OfflineExperimentRead,
+) as any as S.Schema<OfflineExperimentPageResultsList>;
+
+export interface OfflineExperimentPage {
+  /** Total authorized rows matching the filters, independent of this page. */
+  count: number;
+  /** Continuation cursor, or null after the final page. */
+  next_cursor: string | null;
+  /** Experiment page. */
+  results: OfflineExperimentPageResultsList;
+}
+export const OfflineExperimentPage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    next_cursor: S.NullOr(S.String),
+    results: OfflineExperimentPageResultsList,
+  }),
+).annotate({ identifier: "OfflineExperimentPage" }) as any as S.Schema<OfflineExperimentPage>;
+
+export interface ListAiObservabilityOfflineExperimentsItemsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Experiment UUID. */
+  id: string;
+  /** Continuation cursor returned by the previous page. */
+  cursor?: string;
+  /** Page size, from 1 to 100. Defaults to 50. */
+  limit?: number;
+  /** Comma-separated list of at most 20 distinct scorer-version UUIDs. */
+  scorer_version_ids?: string;
+}
+export const ListAiObservabilityOfflineExperimentsItemsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    scorer_version_ids: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/ai_observability/offline_experiments/{id}/items/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListAiObservabilityOfflineExperimentsItemsRequest",
+}) as any as S.Schema<ListAiObservabilityOfflineExperimentsItemsRequest>;
+
+/** Item page. */
+export type OfflineItemPageResultsList = Array<OfflineItemRead>;
+export const OfflineItemPageResultsList = /*@__PURE__*/ S.Array(
+  OfflineItemRead,
+) as any as S.Schema<OfflineItemPageResultsList>;
+
+/** Selected scorer versions, each returned once, including versions with no results. */
+export type OfflineItemPageScorerVersionsList = Array<OfflineScorerVersionRead>;
+export const OfflineItemPageScorerVersionsList = /*@__PURE__*/ S.Array(
+  OfflineScorerVersionRead,
+) as any as S.Schema<OfflineItemPageScorerVersionsList>;
+
+export interface OfflineItemPage {
+  /** Total authorized rows matching the filters, independent of this page. */
+  count: number;
+  /** Continuation cursor, or null after the final page. */
+  next_cursor: string | null;
+  /** Item page. */
+  results: OfflineItemPageResultsList;
+  /** Selected scorer versions, each returned once, including versions with no results. */
+  scorer_versions: OfflineItemPageScorerVersionsList;
+}
+export const OfflineItemPage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    next_cursor: S.NullOr(S.String),
+    results: OfflineItemPageResultsList,
+    scorer_versions: OfflineItemPageScorerVersionsList,
+  }),
+).annotate({ identifier: "OfflineItemPage" }) as any as S.Schema<OfflineItemPage>;
+
+export interface ListAiObservabilityOfflineExperimentsItemsResultsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Experiment UUID. */
+  id: string;
+  /** Item UUID within the experiment. */
+  item_id: string;
+  /** Continuation cursor returned by the previous page. */
+  cursor?: string;
+  /** Page size, from 1 to 100. Defaults to 50. */
+  limit?: number;
+  /** Restrict results to this scorer definition. */
+  scorer_definition_id?: string;
+  /** Comma-separated list of at most 20 distinct scorer-version UUIDs. */
+  scorer_version_ids?: string;
+}
+export const ListAiObservabilityOfflineExperimentsItemsResultsRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      project_id: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+      item_id: S.String.pipe(T.Label()),
+      cursor: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      scorer_definition_id: S.optional(S.String.pipe(T.Query())),
+      scorer_version_ids: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/api/projects/{project_id}/ai_observability/offline_experiments/{id}/items/{item_id}/results/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "ListAiObservabilityOfflineExperimentsItemsResultsRequest",
+}) as any as S.Schema<ListAiObservabilityOfflineExperimentsItemsResultsRequest>;
+
+export type OfflineResultReadValueCase2List = Array<string>;
+export const OfflineResultReadValueCase2List = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<OfflineResultReadValueCase2List>;
+
+/** Typed score for ok outcomes; null for other outcomes. */
+export type OfflineResultReadValue = number | boolean | OfflineResultReadValueCase2List;
+export const OfflineResultReadValue = S.Unknown as any as S.Schema<OfflineResultReadValue>;
+
+export interface OfflineResultRead {
+  /** Stable result UUID. */
+  id: string;
+  /** Item evaluated by this result. */
+  item_id: string;
+  /** Evaluation outcome. * `ok` - OK * `error` - Error * `skipped` - Skipped * `not_applicable` - Not applicable */
+  status: OfflineEvaluationResultStatusEnum;
+  /** Typed score for ok outcomes; null for other outcomes. */
+  value: OfflineResultReadValue | null;
+  /** Optional evaluator error code. */
+  error_code: string | null;
+  /** Optional evaluator trace navigation reference. */
+  evaluator_trace_id: string | null;
+  /** Caller-supplied evaluation time. */
+  evaluated_at: string | null;
+  /** Original server acceptance time. */
+  accepted_at: string;
+  /** Result payload storage state. * `not_provided` - Not provided * `available` - Available * `expired` - Expired */
+  payload_state: PayloadStateEnum;
+  /** Payload retention deadline; cleanup is not yet enabled. */
+  payload_expires_at: string | null;
+  /** Pinned scorer version. */
+  scorer: OfflineScorerVersionRead;
+}
+export const OfflineResultRead = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    item_id: S.String,
+    status: OfflineEvaluationResultStatusEnum,
+    value: S.NullOr(OfflineResultReadValue),
+    error_code: S.NullOr(S.String),
+    evaluator_trace_id: S.NullOr(S.String),
+    evaluated_at: S.NullOr(S.String),
+    accepted_at: S.String,
+    payload_state: PayloadStateEnum,
+    payload_expires_at: S.NullOr(S.String),
+    scorer: OfflineScorerVersionRead,
+  }),
+).annotate({ identifier: "OfflineResultRead" }) as any as S.Schema<OfflineResultRead>;
+
+/** Result page. */
+export type OfflineResultPageResultsList = Array<OfflineResultRead>;
+export const OfflineResultPageResultsList = /*@__PURE__*/ S.Array(
+  OfflineResultRead,
+) as any as S.Schema<OfflineResultPageResultsList>;
+
+export interface OfflineResultPage {
+  /** Total authorized rows matching the filters, independent of this page. */
+  count: number;
+  /** Continuation cursor, or null after the final page. */
+  next_cursor: string | null;
+  /** Result page. */
+  results: OfflineResultPageResultsList;
+}
+export const OfflineResultPage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    next_cursor: S.NullOr(S.String),
+    results: OfflineResultPageResultsList,
+  }),
+).annotate({ identifier: "OfflineResultPage" }) as any as S.Schema<OfflineResultPage>;
+
+export interface ListAiObservabilityOfflineExperimentsScorerSummariesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Experiment UUID. */
+  id: string;
+  /** Continuation cursor returned by the previous page. */
+  cursor?: string;
+  /** Page size, from 1 to 100. Defaults to 50. */
+  limit?: number;
+  /** Restrict results to this scorer definition. */
+  scorer_definition_id?: string;
+  /** Comma-separated list of at most 20 distinct scorer-version UUIDs. */
+  scorer_version_ids?: string;
+}
+export const ListAiObservabilityOfflineExperimentsScorerSummariesRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      project_id: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+      cursor: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      scorer_definition_id: S.optional(S.String.pipe(T.Query())),
+      scorer_version_ids: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/api/projects/{project_id}/ai_observability/offline_experiments/{id}/scorer_summaries/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "ListAiObservabilityOfflineExperimentsScorerSummariesRequest",
+}) as any as S.Schema<ListAiObservabilityOfflineExperimentsScorerSummariesRequest>;
+
+export interface OfflineStatusCounts {
+  /** Successful results. */
+  ok: number;
+  /** Evaluator errors. */
+  error: number;
+  /** Skipped evaluations. */
+  skipped: number;
+  /** Not-applicable evaluations. */
+  not_applicable: number;
+}
+export const OfflineStatusCounts = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Number,
+    error: S.Number,
+    skipped: S.Number,
+    not_applicable: S.Number,
+  }),
+).annotate({ identifier: "OfflineStatusCounts" }) as any as S.Schema<OfflineStatusCounts>;
+
+export interface OfflineCategorySummary {
+  /** Category key from the pinned configuration. */
+  key: string;
+  /** Successful results selecting this category. */
+  count: number;
+  /** Selection count divided by successful result count; null with no successes. */
+  rate: number | null;
+  /** Category label from the pinned configuration. */
+  label: string;
+}
+export const OfflineCategorySummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    count: S.Number,
+    rate: S.NullOr(S.Number),
+    label: S.String,
+  }),
+).annotate({ identifier: "OfflineCategorySummary" }) as any as S.Schema<OfflineCategorySummary>;
+
+/** Pinned categorical distribution; multiselect rates may sum above one. */
+export type OfflineScorerSummaryCategoriesList = Array<OfflineCategorySummary>;
+export const OfflineScorerSummaryCategoriesList = /*@__PURE__*/ S.Array(
+  OfflineCategorySummary,
+) as any as S.Schema<OfflineScorerSummaryCategoriesList>;
+
+export interface OfflineScorerSummary {
+  /** Exact scorer version summarized. */
+  scorer: OfflineScorerVersionRead;
+  /** All observed experiment items, independent of scorer selection or item pagination. */
+  observed_item_count: number;
+  /** Submitted results for this scorer version, across all statuses. */
+  result_count: number;
+  /** Counts for each submitted outcome. */
+  status_counts: OfflineStatusCounts;
+  /** Observed items without a result for this version; not the number of all intended missing items. */
+  missing_result_count: number;
+  /** Distinct non-null case keys in observed items. */
+  distinct_case_count: number;
+  /** Observed items with case keys. */
+  items_with_case_key_count: number;
+  /** Observed items without case keys. */
+  items_without_case_key_count: number;
+  /** Observed items with trial identifiers. */
+  trial_item_count: number;
+  /** Distinct case/trial identities; trial-only items remain independent. */
+  distinct_trial_count: number;
+  /** Numeric mean of successful scores only; null for other kinds or no successes. */
+  mean: number | null;
+  /** Successful boolean true results; null for other kinds. */
+  true_count: number | null;
+  /** Successful boolean false results; null for other kinds. */
+  false_count: number | null;
+  /** Boolean true fraction among successes; null with no successes or for other kinds. */
+  true_rate: number | null;
+  /** Successful results passing the pinned rule. Boolean scores default to true passing; null for unconfigured numeric or categorical scorers. */
+  pass_count: number | null;
+  /** Successful results failing the pinned rule; null for unconfigured numeric or categorical scorers. */
+  fail_count: number | null;
+  /** Passing fraction among successful results; null without successful results or an applicable rule. Boolean scores default to true passing. Excludes errors, skipped, not-applicable, and missing results. */
+  pass_rate: number | null;
+  /** Pinned categorical distribution; multiselect rates may sum above one. */
+  categories: OfflineScorerSummaryCategoriesList;
+}
+export const OfflineScorerSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scorer: OfflineScorerVersionRead,
+    observed_item_count: S.Number,
+    result_count: S.Number,
+    status_counts: OfflineStatusCounts,
+    missing_result_count: S.Number,
+    distinct_case_count: S.Number,
+    items_with_case_key_count: S.Number,
+    items_without_case_key_count: S.Number,
+    trial_item_count: S.Number,
+    distinct_trial_count: S.Number,
+    mean: S.NullOr(S.Number),
+    true_count: S.NullOr(S.Number),
+    false_count: S.NullOr(S.Number),
+    true_rate: S.NullOr(S.Number),
+    pass_count: S.NullOr(S.Number),
+    fail_count: S.NullOr(S.Number),
+    pass_rate: S.NullOr(S.Number),
+    categories: OfflineScorerSummaryCategoriesList,
+  }),
+).annotate({ identifier: "OfflineScorerSummary" }) as any as S.Schema<OfflineScorerSummary>;
+
+/** Scorer-version summary page; each group includes all matching results. */
+export type OfflineSummaryPageResultsList = Array<OfflineScorerSummary>;
+export const OfflineSummaryPageResultsList = /*@__PURE__*/ S.Array(
+  OfflineScorerSummary,
+) as any as S.Schema<OfflineSummaryPageResultsList>;
+
+export interface OfflineSummaryPage {
+  /** Total authorized rows matching the filters, independent of this page. */
+  count: number;
+  /** Continuation cursor, or null after the final page. */
+  next_cursor: string | null;
+  /** Scorer-version summary page; each group includes all matching results. */
+  results: OfflineSummaryPageResultsList;
+}
+export const OfflineSummaryPage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    next_cursor: S.NullOr(S.String),
+    results: OfflineSummaryPageResultsList,
+  }),
+).annotate({ identifier: "OfflineSummaryPage" }) as any as S.Schema<OfflineSummaryPage>;
+
+export interface ListAiObservabilityOfflineScorersHistoryRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Scorer definition UUID. */
+  id: string;
+  /** Exact application revision. */
+  application_version?: string;
+  /** Continuation cursor returned by the previous page. */
+  cursor?: string;
+  /** Exact durable dataset identifier. */
+  dataset_identifier?: string;
+  /** Exact durable dataset revision identifier. */
+  dataset_revision_identifier?: string;
+  /** Exact dataset source. */
+  dataset_source?: string;
+  /** Inclusive execution start time, in ISO 8601 format. */
+  date_from?: string;
+  /** Exclusive execution end time, in ISO 8601 format. */
+  date_to?: string;
+  /** Page size, from 1 to 100. Defaults to 50. */
+  limit?: number;
+  /** Exact model revision. */
+  model_version?: string;
+  /** Exact prompt revision. */
+  prompt_version?: string;
+  /** Filter ci, local, scheduled, or not_specified for omitted run source. */
+  run_source?: string;
+  /** Comma-separated list of at most 20 distinct scorer-version UUIDs. */
+  scorer_version_ids?: string;
+  /** Search experiment names. */
+  search?: string;
+  /** Comma-separated uploading, completed, or failed states. History defaults to completed; lists include all. */
+  statuses?: string;
+  /** Exact evaluation suite identifier. */
+  suite_key?: string;
+}
+export const ListAiObservabilityOfflineScorersHistoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    application_version: S.optional(S.String.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    dataset_identifier: S.optional(S.String.pipe(T.Query())),
+    dataset_revision_identifier: S.optional(S.String.pipe(T.Query())),
+    dataset_source: S.optional(S.String.pipe(T.Query())),
+    date_from: S.optional(S.String.pipe(T.Query())),
+    date_to: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    model_version: S.optional(S.String.pipe(T.Query())),
+    prompt_version: S.optional(S.String.pipe(T.Query())),
+    run_source: S.optional(S.String.pipe(T.Query())),
+    scorer_version_ids: S.optional(S.String.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+    statuses: S.optional(S.String.pipe(T.Query())),
+    suite_key: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/ai_observability/offline_scorers/{id}/history/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListAiObservabilityOfflineScorersHistoryRequest",
+}) as any as S.Schema<ListAiObservabilityOfflineScorersHistoryRequest>;
+
+export interface OfflineHistoryPoint {
+  /** Experiment execution and cohort context. */
+  experiment: OfflineExperimentRead;
+  /** Complete summary for one experiment and scorer version. */
+  summary: OfflineScorerSummary;
+}
+export const OfflineHistoryPoint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    experiment: OfflineExperimentRead,
+    summary: OfflineScorerSummary,
+  }),
+).annotate({ identifier: "OfflineHistoryPoint" }) as any as S.Schema<OfflineHistoryPoint>;
+
+/** Experiment/scorer-version history page. */
+export type OfflineHistoryPageResultsList = Array<OfflineHistoryPoint>;
+export const OfflineHistoryPageResultsList = /*@__PURE__*/ S.Array(
+  OfflineHistoryPoint,
+) as any as S.Schema<OfflineHistoryPageResultsList>;
+
+export interface OfflineHistoryPage {
+  /** Total authorized rows matching the filters, independent of this page. */
+  count: number;
+  /** Continuation cursor, or null after the final page. */
+  next_cursor: string | null;
+  /** Experiment/scorer-version history page. */
+  results: OfflineHistoryPageResultsList;
+}
+export const OfflineHistoryPage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    next_cursor: S.NullOr(S.String),
+    results: OfflineHistoryPageResultsList,
+  }),
+).annotate({ identifier: "OfflineHistoryPage" }) as any as S.Schema<OfflineHistoryPage>;
+
 export interface ListDatasetItemsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -1014,16 +2581,8 @@ export const ListDatasetItemsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     revision: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/dataset_items/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListDatasetItemsRequest",
-}) as any as S.Schema<ListDatasetItemsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/dataset_items/", code: 200 })),
+).annotate({ identifier: "ListDatasetItemsRequest" }) as any as S.Schema<ListDatasetItemsRequest>;
 
 export type PaginatedDatasetItemReadListResultsList = Array<DatasetItemRead>;
 export const PaginatedDatasetItemReadListResultsList = /*@__PURE__*/ S.Array(
@@ -1110,16 +2669,8 @@ export const ListDatasetsRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     order_by: S.optional(ListDatasetsRequestOrderBy.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/datasets/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListDatasetsRequest",
-}) as any as S.Schema<ListDatasetsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/datasets/", code: 200 })),
+).annotate({ identifier: "ListDatasetsRequest" }) as any as S.Schema<ListDatasetsRequest>;
 
 export type PaginatedDatasetReadListResultsList = Array<DatasetRead>;
 export const PaginatedDatasetReadListResultsList = /*@__PURE__*/ S.Array(
@@ -1139,9 +2690,7 @@ export const PaginatedDatasetReadList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: PaginatedDatasetReadListResultsList,
   }),
-).annotate({
-  identifier: "PaginatedDatasetReadList",
-}) as any as S.Schema<PaginatedDatasetReadList>;
+).annotate({ identifier: "PaginatedDatasetReadList" }) as any as S.Schema<PaginatedDatasetReadList>;
 
 export interface ListDatasetsRevisionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1189,9 +2738,7 @@ export const DatasetRevisionRead = /*@__PURE__*/ S.suspend(() =>
     created_by: S.NullOr(UserBasic),
     team_id: S.Number,
   }),
-).annotate({
-  identifier: "DatasetRevisionRead",
-}) as any as S.Schema<DatasetRevisionRead>;
+).annotate({ identifier: "DatasetRevisionRead" }) as any as S.Schema<DatasetRevisionRead>;
 
 export type PaginatedDatasetRevisionReadListResultsList = Array<DatasetRevisionRead>;
 export const PaginatedDatasetRevisionReadListResultsList = /*@__PURE__*/ S.Array(
@@ -1240,13 +2787,7 @@ export const ListLlmAnalyticsPersonalSpendRequest = /*@__PURE__*/ S.suspend(() =
     limit: S.optional(S.Number.pipe(T.Query())),
     product: S.String.pipe(T.Query()),
     refresh: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/llm_analytics/@me/spend/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/llm_analytics/@me/spend/", code: 200 })),
 ).annotate({
   identifier: "ListLlmAnalyticsPersonalSpendRequest",
 }) as any as S.Schema<ListLlmAnalyticsPersonalSpendRequest>;
@@ -1293,9 +2834,7 @@ export const ProductBreakdownRow = /*@__PURE__*/ S.suspend(() =>
     event_count: S.Number,
     cost_usd: S.Number,
   }),
-).annotate({
-  identifier: "ProductBreakdownRow",
-}) as any as S.Schema<ProductBreakdownRow>;
+).annotate({ identifier: "ProductBreakdownRow" }) as any as S.Schema<ProductBreakdownRow>;
 
 /** Rows of spend by product, ordered by cost descending. */
 export type ProductBreakdownItemsList = Array<ProductBreakdownRow>;
@@ -1314,9 +2853,7 @@ export const ProductBreakdown = /*@__PURE__*/ S.suspend(() =>
     items: ProductBreakdownItemsList,
     truncated: S.Boolean,
   }),
-).annotate({
-  identifier: "ProductBreakdown",
-}) as any as S.Schema<ProductBreakdown>;
+).annotate({ identifier: "ProductBreakdown" }) as any as S.Schema<ProductBreakdown>;
 
 export interface ToolBreakdownRow {
   /** Individual tool name from `$ai_tools_called` (split on `,` since multi-tool generations store a comma-separated list). Null = pure text response with no tool call. */
@@ -1338,9 +2875,7 @@ export const ToolBreakdownRow = /*@__PURE__*/ S.suspend(() =>
     share_of_scoped: S.Number,
     avg_input_tokens: S.Number,
   }),
-).annotate({
-  identifier: "ToolBreakdownRow",
-}) as any as S.Schema<ToolBreakdownRow>;
+).annotate({ identifier: "ToolBreakdownRow" }) as any as S.Schema<ToolBreakdownRow>;
 
 /** Rows of spend by tool, ordered by cost descending. */
 export type ToolBreakdownItemsList = Array<ToolBreakdownRow>;
@@ -1381,9 +2916,7 @@ export const ModelBreakdownRow = /*@__PURE__*/ S.suspend(() =>
     input_tokens: S.Number,
     output_tokens: S.Number,
   }),
-).annotate({
-  identifier: "ModelBreakdownRow",
-}) as any as S.Schema<ModelBreakdownRow>;
+).annotate({ identifier: "ModelBreakdownRow" }) as any as S.Schema<ModelBreakdownRow>;
 
 /** Rows of spend by model, ordered by cost descending. */
 export type ModelBreakdownItemsList = Array<ModelBreakdownRow>;
@@ -1424,9 +2957,7 @@ export const DayBreakdownRow = /*@__PURE__*/ S.suspend(() =>
     input_tokens: S.Number,
     output_tokens: S.Number,
   }),
-).annotate({
-  identifier: "DayBreakdownRow",
-}) as any as S.Schema<DayBreakdownRow>;
+).annotate({ identifier: "DayBreakdownRow" }) as any as S.Schema<DayBreakdownRow>;
 
 /** One row per UTC day that has events, ordered by day ascending. Days with no events are omitted — zero-fill client-side when rendering a continuous series. */
 export type DayBreakdownItemsList = Array<DayBreakdownRow>;
@@ -1470,9 +3001,7 @@ export const DayModelBreakdownRow = /*@__PURE__*/ S.suspend(() =>
     output_tokens: S.Number,
     generation_count: S.Number,
   }),
-).annotate({
-  identifier: "DayModelBreakdownRow",
-}) as any as S.Schema<DayModelBreakdownRow>;
+).annotate({ identifier: "DayModelBreakdownRow" }) as any as S.Schema<DayModelBreakdownRow>;
 
 /** Daily model spend for the scoped product, ordered by day and cost. Includes the six highest-cost models in the selected window plus a null-model row for the remaining models. */
 export type PersonalSpendAnalysisResponseByDayModelList = Array<DayModelBreakdownRow>;
@@ -1518,9 +3047,7 @@ export const BucketBreakdownRow = /*@__PURE__*/ S.suspend(() =>
     cache_read_input_tokens: S.Number,
     cache_creation_input_tokens: S.Number,
   }),
-).annotate({
-  identifier: "BucketBreakdownRow",
-}) as any as S.Schema<BucketBreakdownRow>;
+).annotate({ identifier: "BucketBreakdownRow" }) as any as S.Schema<BucketBreakdownRow>;
 
 /** One row per UTC time bucket that has events, ordered by bucket start ascending. Buckets with no events are omitted; zero-fill client-side when rendering a continuous series. */
 export type BucketBreakdownItemsList = Array<BucketBreakdownRow>;
@@ -1542,9 +3069,7 @@ export const BucketBreakdown = /*@__PURE__*/ S.suspend(() =>
     bucket_minutes: S.Number,
     truncated: S.Boolean,
   }),
-).annotate({
-  identifier: "BucketBreakdown",
-}) as any as S.Schema<BucketBreakdown>;
+).annotate({ identifier: "BucketBreakdown" }) as any as S.Schema<BucketBreakdown>;
 
 export interface TopTraceRow {
   /** `$ai_trace_id` of the session — opaque string scoped to the originating product. Format is not stable: most are UUIDs but some SDK wrappers emit JSON-shaped strings like `{"device_id":"...","session_id":"..."}`. Callers should treat this as an opaque identifier (URL-encode before linking to a trace view). */
@@ -1641,15 +3166,9 @@ export const RestoreDatasetRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/datasets/{id}/restore/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/datasets/{id}/restore/", code: 200 }),
   ),
-).annotate({
-  identifier: "RestoreDatasetRequest",
-}) as any as S.Schema<RestoreDatasetRequest>;
+).annotate({ identifier: "RestoreDatasetRequest" }) as any as S.Schema<RestoreDatasetRequest>;
 
 export interface RestoreDatasetItemRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1677,9 +3196,7 @@ export const RestoreDatasetItemRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestoreDatasetItemRequest",
 }) as any as S.Schema<RestoreDatasetItemRequest>;
 
-export type UpdateDatasetItemsPartialRequestInputCase0Map = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateDatasetItemsPartialRequestInputCase0Map = { [key: string]: unknown | undefined };
 export const UpdateDatasetItemsPartialRequestInputCase0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1724,9 +3241,7 @@ export const UpdateDatasetItemsPartialRequestExpectedOutput =
   S.Unknown as any as S.Schema<UpdateDatasetItemsPartialRequestExpectedOutput>;
 
 /** Replacement metadata object. Send an empty object to clear it. */
-export type UpdateDatasetItemsPartialRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateDatasetItemsPartialRequestMetadataMap = { [key: string]: unknown | undefined };
 export const UpdateDatasetItemsPartialRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1765,9 +3280,7 @@ export const UpdateDatasetItemsPartialRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDatasetItemsPartialRequest>;
 
 /** Replacement JSON object for descriptive dataset metadata. */
-export type UpdateDatasetsPartialRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateDatasetsPartialRequestMetadataMap = { [key: string]: unknown | undefined };
 export const UpdateDatasetsPartialRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1792,13 +3305,7 @@ export const UpdateDatasetsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     metadata: S.optional(UpdateDatasetsPartialRequestMetadataMap),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/datasets/{id}/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/datasets/{id}/", code: 200 })),
 ).annotate({
   identifier: "UpdateDatasetsPartialRequest",
 }) as any as S.Schema<UpdateDatasetsPartialRequest>;
@@ -1814,6 +3321,25 @@ export const aiObservabilityInstrumentationChecklistRestoreCreate: API.Operation
   input: AiObservabilityInstrumentationChecklistRestoreCreateRequest,
   output: InstrumentationChecklist,
   errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type AiObservabilityOfflineExperimentsUploadCreateError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | PosthogOpError;
+export const aiObservabilityOfflineExperimentsUploadCreate: API.OperationMethod<
+  AiObservabilityOfflineExperimentsUploadCreateRequest,
+  UploadReceipt,
+  AiObservabilityOfflineExperimentsUploadCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AiObservabilityOfflineExperimentsUploadCreateRequest,
+  output: UploadReceipt,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -1859,6 +3385,63 @@ export const createAiObservabilityInstrumentationChecklistDismiss: API.Operation
   input: CreateAiObservabilityInstrumentationChecklistDismissRequest,
   output: InstrumentationChecklist,
   errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateAiObservabilityOfflineExperimentError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | PosthogOpError;
+export const createAiObservabilityOfflineExperiment: API.OperationMethod<
+  CreateAiObservabilityOfflineExperimentRequest,
+  ExperimentReceipt,
+  CreateAiObservabilityOfflineExperimentError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateAiObservabilityOfflineExperimentRequest,
+  output: ExperimentReceipt,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateAiObservabilityOfflineExperimentsCompleteError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | PosthogOpError;
+export const createAiObservabilityOfflineExperimentsComplete: API.OperationMethod<
+  CreateAiObservabilityOfflineExperimentsCompleteRequest,
+  ExperimentReceipt,
+  CreateAiObservabilityOfflineExperimentsCompleteError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateAiObservabilityOfflineExperimentsCompleteRequest,
+  output: ExperimentReceipt,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateAiObservabilityOfflineExperimentsFailError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | PosthogOpError;
+export const createAiObservabilityOfflineExperimentsFail: API.OperationMethod<
+  CreateAiObservabilityOfflineExperimentsFailRequest,
+  ExperimentReceipt,
+  CreateAiObservabilityOfflineExperimentsFailError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateAiObservabilityOfflineExperimentsFailRequest,
+  output: ExperimentReceipt,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -1985,6 +3568,111 @@ export const getAiObservabilityInstrumentationChecklist: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetAiObservabilityOfflineExperimentError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const getAiObservabilityOfflineExperiment: API.OperationMethod<
+  GetAiObservabilityOfflineExperimentRequest,
+  OfflineExperimentRead,
+  GetAiObservabilityOfflineExperimentError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAiObservabilityOfflineExperimentRequest,
+  output: OfflineExperimentRead,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAiObservabilityOfflineExperimentsItemError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const getAiObservabilityOfflineExperimentsItem: API.OperationMethod<
+  GetAiObservabilityOfflineExperimentsItemRequest,
+  OfflineItemRead,
+  GetAiObservabilityOfflineExperimentsItemError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAiObservabilityOfflineExperimentsItemRequest,
+  output: OfflineItemRead,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAiObservabilityOfflineExperimentsItemsPayloadError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const getAiObservabilityOfflineExperimentsItemsPayload: API.OperationMethod<
+  GetAiObservabilityOfflineExperimentsItemsPayloadRequest,
+  OfflineItemPayloadRead,
+  GetAiObservabilityOfflineExperimentsItemsPayloadError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAiObservabilityOfflineExperimentsItemsPayloadRequest,
+  output: OfflineItemPayloadRead,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAiObservabilityOfflineExperimentsResultCellError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const getAiObservabilityOfflineExperimentsResultCell: API.OperationMethod<
+  GetAiObservabilityOfflineExperimentsResultCellRequest,
+  OfflineResultCells,
+  GetAiObservabilityOfflineExperimentsResultCellError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAiObservabilityOfflineExperimentsResultCellRequest,
+  output: OfflineResultCells,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAiObservabilityOfflineExperimentsResultsPayloadError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const getAiObservabilityOfflineExperimentsResultsPayload: API.OperationMethod<
+  GetAiObservabilityOfflineExperimentsResultsPayloadRequest,
+  OfflineResultPayloadRead,
+  GetAiObservabilityOfflineExperimentsResultsPayloadError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAiObservabilityOfflineExperimentsResultsPayloadRequest,
+  output: OfflineResultPayloadRead,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAiObservabilityTraceError = BadRequest | NotFound | PosthogOpError;
+/** A trace ready to render: its tree with roll-ups, timeline, totals and person, without inputs or outputs. */
+export const getAiObservabilityTrace: API.OperationMethod<
+  GetAiObservabilityTraceRequest,
+  Trace,
+  GetAiObservabilityTraceError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAiObservabilityTraceRequest,
+  output: Trace,
+  errors: [BadRequest, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetDatasetError = Forbidden | NotFound | PosthogOpError;
 /** Retrieve an active or archived dataset. */
 export const getDataset: API.OperationMethod<
@@ -2041,6 +3729,96 @@ export const getDatasetsExportsContent: API.OperationMethod<
   input: GetDatasetsExportsContentRequest,
   output: GetDatasetsExportsContentResponse,
   errors: [Conflict],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListAiObservabilityOfflineExperimentsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const listAiObservabilityOfflineExperiments: API.OperationMethod<
+  ListAiObservabilityOfflineExperimentsRequest,
+  OfflineExperimentPage,
+  ListAiObservabilityOfflineExperimentsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListAiObservabilityOfflineExperimentsRequest,
+  output: OfflineExperimentPage,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListAiObservabilityOfflineExperimentsItemsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const listAiObservabilityOfflineExperimentsItems: API.OperationMethod<
+  ListAiObservabilityOfflineExperimentsItemsRequest,
+  OfflineItemPage,
+  ListAiObservabilityOfflineExperimentsItemsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListAiObservabilityOfflineExperimentsItemsRequest,
+  output: OfflineItemPage,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListAiObservabilityOfflineExperimentsItemsResultsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const listAiObservabilityOfflineExperimentsItemsResults: API.OperationMethod<
+  ListAiObservabilityOfflineExperimentsItemsResultsRequest,
+  OfflineResultPage,
+  ListAiObservabilityOfflineExperimentsItemsResultsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListAiObservabilityOfflineExperimentsItemsResultsRequest,
+  output: OfflineResultPage,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListAiObservabilityOfflineExperimentsScorerSummariesError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const listAiObservabilityOfflineExperimentsScorerSummaries: API.OperationMethod<
+  ListAiObservabilityOfflineExperimentsScorerSummariesRequest,
+  OfflineSummaryPage,
+  ListAiObservabilityOfflineExperimentsScorerSummariesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListAiObservabilityOfflineExperimentsScorerSummariesRequest,
+  output: OfflineSummaryPage,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListAiObservabilityOfflineScorersHistoryError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const listAiObservabilityOfflineScorersHistory: API.OperationMethod<
+  ListAiObservabilityOfflineScorersHistoryRequest,
+  OfflineHistoryPage,
+  ListAiObservabilityOfflineScorersHistoryError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListAiObservabilityOfflineScorersHistoryRequest,
+  output: OfflineHistoryPage,
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));

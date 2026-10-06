@@ -112,9 +112,7 @@ export const AchievementStage = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     threshold: S.Number,
   }),
-).annotate({
-  identifier: "AchievementStage",
-}) as any as S.Schema<AchievementStage>;
+).annotate({ identifier: "AchievementStage" }) as any as S.Schema<AchievementStage>;
 
 /** The five stages of this track, in ascending threshold order. */
 export type AchievementDefinitionStagesList = Array<AchievementStage>;
@@ -145,9 +143,7 @@ export const AchievementDefinition = /*@__PURE__*/ S.suspend(() =>
     is_experiment_track: S.Boolean,
     stages: AchievementDefinitionStagesList,
   }),
-).annotate({
-  identifier: "AchievementDefinition",
-}) as any as S.Schema<AchievementDefinition>;
+).annotate({ identifier: "AchievementDefinition" }) as any as S.Schema<AchievementDefinition>;
 
 /** All Wave-1 track definitions, thresholds resolved for the user's streak arm. */
 export type AchievementsListResponseDefinitionsList = Array<AchievementDefinition>;
@@ -156,9 +152,7 @@ export const AchievementsListResponseDefinitionsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AchievementsListResponseDefinitionsList>;
 
 /** Map of unlocked stage number (as a string, '1'-'5') to the ISO timestamp it was unlocked. */
-export type AchievementProgressUnlockedAtMap = {
-  [key: string]: string | undefined;
-};
+export type AchievementProgressUnlockedAtMap = { [key: string]: string | undefined };
 export const AchievementProgressUnlockedAtMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -184,9 +178,7 @@ export const AchievementProgress = /*@__PURE__*/ S.suspend(() =>
     last_computed_at: S.NullOr(S.String),
     unlocked_at: AchievementProgressUnlockedAtMap,
   }),
-).annotate({
-  identifier: "AchievementProgress",
-}) as any as S.Schema<AchievementProgress>;
+).annotate({ identifier: "AchievementProgress" }) as any as S.Schema<AchievementProgress>;
 
 /** The requesting user's progress on per-user tracks. */
 export type AchievementsListResponseUserProgressList = Array<AchievementProgress>;
@@ -214,9 +206,7 @@ export const PendingCelebration = /*@__PURE__*/ S.suspend(() =>
     stage: S.Number,
     stage_name: S.String,
   }),
-).annotate({
-  identifier: "PendingCelebration",
-}) as any as S.Schema<PendingCelebration>;
+).annotate({ identifier: "PendingCelebration" }) as any as S.Schema<PendingCelebration>;
 
 /** Newly unlocked stages awaiting an in-session celebration; acknowledge each to clear it. */
 export type AchievementsListResponsePendingCelebrationsList = Array<PendingCelebration>;
@@ -241,9 +231,7 @@ export const AchievementsListResponse = /*@__PURE__*/ S.suspend(() =>
     team_progress: AchievementsListResponseTeamProgressList,
     pending_celebrations: AchievementsListResponsePendingCelebrationsList,
   }),
-).annotate({
-  identifier: "AchievementsListResponse",
-}) as any as S.Schema<AchievementsListResponse>;
+).annotate({ identifier: "AchievementsListResponse" }) as any as S.Schema<AchievementsListResponse>;
 
 export interface WebAnalyticsAchievementsPreferencesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -326,9 +314,7 @@ export const RecordVisitResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recorded: S.Boolean,
   }),
-).annotate({
-  identifier: "RecordVisitResponse",
-}) as any as S.Schema<RecordVisitResponse>;
+).annotate({ identifier: "RecordVisitResponse" }) as any as S.Schema<RecordVisitResponse>;
 
 export type AcknowledgeWebAnalyticsAchievementCelebrationError = PosthogOpError;
 /** Acknowledge an achievement celebration Clears a pending celebration for the given track and stage once the client has shown it, so it isn't celebrated again. Idempotent. */
@@ -406,7 +392,7 @@ export const webAnalyticsAchievementsRecordInteraction: API.OperationMethod<
 }));
 
 export type WebAnalyticsAchievementsRecordVisitError = PosthogOpError;
-/** Record a Web analytics visit Idempotently records that the requesting user opened Web analytics today (team-local date) and schedules a debounced achievement recompute. Intended to be called once per session. */
+/** Record a Web analytics visit Idempotently records that the requesting user opened Web analytics today (team-local date) and refreshes the user's per-user achievement tracks. Intended to be called once per session. */
 export const webAnalyticsAchievementsRecordVisit: API.OperationMethod<
   WebAnalyticsAchievementsRecordVisitRequest,
   RecordVisitResponse,

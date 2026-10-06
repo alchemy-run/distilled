@@ -29,6 +29,13 @@
             "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
           }
         },
+        "include_content_type": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_content_type",
+            "smithy.api#documentation": "Include meta.content_type for notebooks and insights on this page, without their contents."
+          }
+        },
         "limit": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -610,6 +617,13 @@
             "smithy.api#required": {},
             "smithy.api#documentation": "A UUID string identifying this file system."
           }
+        },
+        "recursive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "recursive",
+            "smithy.api#documentation": "Delete folder contents too (default: true). Set false to delete only empty folders. Nonempty folders return HTTP 409 with code directory_not_empty."
+          }
         }
       },
       "traits": {
@@ -636,6 +650,60 @@
         "smithy.api#http": {
           "method": "DELETE",
           "uri": "/api/projects/{project_id}/file_system/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.file_system#CreateFileSystemHomeFolderRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.file_system#FileSystemHomeFolder": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's home folder ID, or null if deleted.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The current path of the user's home folder.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.file_system#CreateFileSystemHomeFolder": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.file_system#CreateFileSystemHomeFolderRequest"
+      },
+      "output": {
+        "target": "com.posthog.file_system#FileSystemHomeFolder"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/file_system/home_folder/",
           "code": 200
         }
       }
@@ -770,6 +838,9 @@
         },
         {
           "target": "com.posthog.file_system#FileSystemDestroy"
+        },
+        {
+          "target": "com.posthog.file_system#CreateFileSystemHomeFolder"
         },
         {
           "target": "com.posthog.file_system#FileSystemUndoDeleteCreate"

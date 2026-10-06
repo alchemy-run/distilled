@@ -46,11 +46,7 @@ export const CreateWarehouseViewLinkRequest = /*@__PURE__*/ S.suspend(() =>
     field_name: S.String,
     configuration: S.optional(S.Unknown),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/warehouse_view_link/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/warehouse_view_link/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateWarehouseViewLinkRequest",
@@ -179,11 +175,7 @@ export const ListWarehouseViewLinkRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/warehouse_view_link/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/warehouse_view_link/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListWarehouseViewLinkRequest",
@@ -207,9 +199,7 @@ export const PaginatedViewLinkList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: PaginatedViewLinkListResultsList,
   }),
-).annotate({
-  identifier: "PaginatedViewLinkList",
-}) as any as S.Schema<PaginatedViewLinkList>;
+).annotate({ identifier: "PaginatedViewLinkList" }) as any as S.Schema<PaginatedViewLinkList>;
 
 export interface UpdateWarehouseViewLinkRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

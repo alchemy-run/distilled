@@ -37,11 +37,7 @@ export const CreateStamphogRepoConfigRequest = /*@__PURE__*/ S.suspend(() =>
     review_mode: S.optional(ReviewModeEnum),
     trigger_label: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/stamphog/repo_configs/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/stamphog/repo_configs/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateStamphogRepoConfigRequest",
@@ -63,7 +59,7 @@ export interface StamphogRepoConfig {
   review_mode: ReviewModeEnum;
   /** Pull request label that triggers a review when review_mode is 'label'. Defaults to 'stamphog'. */
   trigger_label?: string;
-  /** The caller's access level on the stamphog resource, resolved for the team that owns this row. 'manager' is required to change enabled, review_mode, or trigger_label. */
+  /** The caller's access level on the stamphog resource, resolved for the team that owns this row. 'editor' can turn reviews on. 'manager' is required to turn them off or to change review_mode or trigger_label. */
   user_access_level: string | null;
   created_at: string;
   updated_at: string;
@@ -82,9 +78,7 @@ export const StamphogRepoConfig = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "StamphogRepoConfig",
-}) as any as S.Schema<StamphogRepoConfig>;
+).annotate({ identifier: "StamphogRepoConfig" }) as any as S.Schema<StamphogRepoConfig>;
 
 export interface CreateStamphogRepoConfigsSyncInstallationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -113,7 +107,7 @@ export const CreateStamphogRepoConfigsSyncInstallationRequest = /*@__PURE__*/ S.
   identifier: "CreateStamphogRepoConfigsSyncInstallationRequest",
 }) as any as S.Schema<CreateStamphogRepoConfigsSyncInstallationRequest>;
 
-/** Repo configs now bound to this team for the installation (created this call or already present). */
+/** Repo configs this team already had for the installation's repositories, now bound to it. A sync creates no repo config: use add_repository to turn reviews on for a repository. */
 export type StamphogSyncInstallationResponseSyncedList = Array<StamphogRepoConfig>;
 export const StamphogSyncInstallationResponseSyncedList = /*@__PURE__*/ S.Array(
   StamphogRepoConfig,
@@ -148,12 +142,14 @@ export const StamphogSyncInstallationResponseInstallationsList = /*@__PURE__*/ S
   StamphogDiscoveredInstallation,
 ) as any as S.Schema<StamphogSyncInstallationResponseInstallationsList>;
 
-/** Result of syncing an installation: rows created/kept for this team, plus conflicting repos skipped. */
+/** Result of syncing an installation: the team's rows bound to it, and what the team can add now. */
 export interface StamphogSyncInstallationResponse {
-  /** Repo configs now bound to this team for the installation (created this call or already present). */
+  /** Repo configs this team already had for the installation's repositories, now bound to it. A sync creates no repo config: use add_repository to turn reviews on for a repository. */
   synced: StamphogSyncInstallationResponseSyncedList;
   /** Repository full names skipped because another team already owns them under this installation. */
   skipped: StamphogSyncInstallationResponseSkippedList;
+  /** How many repositories this team can add after the sync, across all its connected installations. List them with available_repositories. */
+  available_count: number;
   /** True only on the discovery path (no installation_id) when the caller can reach no installation of this App — it isn't installed anywhere they can see. The frontend should route the user to the GitHub install page (install_url). Always false on the explicit installation_id path. */
   app_not_installed: boolean;
   /** Populated only on the discovery path when the caller can reach MORE than one installation of this App: nothing was bound, and the user must pick which installation to connect. The frontend re-runs the authorize flow and calls back with the chosen installation_id, which the explicit path verifies. Empty whenever a bind happened (or nothing was found). */
@@ -163,12 +159,194 @@ export const StamphogSyncInstallationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     synced: StamphogSyncInstallationResponseSyncedList,
     skipped: StamphogSyncInstallationResponseSkippedList,
+    available_count: S.Number,
     app_not_installed: S.Boolean,
     installations: StamphogSyncInstallationResponseInstallationsList,
   }),
 ).annotate({
   identifier: "StamphogSyncInstallationResponse",
 }) as any as S.Schema<StamphogSyncInstallationResponse>;
+
+export interface CreateStamphogReviewRunRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Full name of the GitHub repository, e.g. 'PostHog/posthog'. It must be connected and enabled in Stamphog. */
+  repository: string;
+  /** Pull request number on GitHub. */
+  pr_number: number;
+}
+export const CreateStamphogReviewRunRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    repository: S.String,
+    pr_number: S.Number,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/stamphog/review_runs/", code: 200 }),
+  ),
+).annotate({
+  identifier: "CreateStamphogReviewRunRequest",
+}) as any as S.Schema<CreateStamphogReviewRunRequest>;
+
+/** * `self_driving` - SELF_DRIVING * `manual` - MANUAL * `label` - LABEL * `all` - ALL */
+export type ReviewRunTriggerEnum = "self_driving" | "manual" | "label" | "all";
+export const ReviewRunTriggerEnum = S.String;
+
+/** * `queued` - QUEUED * `gated` - GATED * `reviewing` - REVIEWING * `completed` - COMPLETED * `failed` - FAILED * `superseded` - SUPERSEDED */
+export type ReviewRunStatusEnum =
+  | "queued"
+  | "gated"
+  | "reviewing"
+  | "completed"
+  | "failed"
+  | "superseded";
+export const ReviewRunStatusEnum = S.String;
+
+/** * `none` - NONE * `approved` - APPROVED * `refused` - REFUSED * `escalate` - ESCALATE * `wait` - WAIT * `error` - ERROR */
+export type ReviewRunVerdictEnum = "none" | "approved" | "refused" | "escalate" | "wait" | "error";
+export const ReviewRunVerdictEnum = S.String;
+
+/** Allowlisted, content-free slice of ``ReviewRun.gate_result``. The raw gate blob nests ``gates``, ``classification``, and ``policy`` sub-objects that carry repository content — changed-file paths (``safe_migration_files``, ``invalid_folder_files``), manifest gate messages, and declared ``policy.scopes`` — which a project member without repo access must not read. Only the terminal decision is exposed. */
+export interface GateResultSummary {
+  /** Whether the deterministic gates blocked auto-review before the reviewer ran. */
+  gate_blocked: boolean;
+  /** The engine's raw final-verdict token, if the run reached a verdict. */
+  final_verdict: string;
+}
+export const GateResultSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    gate_blocked: S.Boolean,
+    final_verdict: S.String,
+  }),
+).annotate({ identifier: "GateResultSummary" }) as any as S.Schema<GateResultSummary>;
+
+/** Allowlisted, non-sensitive slice of ``ReviewRun.output``. The raw ``output`` blob also holds the reviewer's stdout, the full PR payload, changed-file patches, and default-branch policy file contents, none of which the API returns. The reviewer's reasoning, the text stamphog posts on GitHub, is parsed out of the stdout and returned as ``reasoning``. */
+export interface ReviewOutputSummary {
+  /** Version of the stamphog engine that produced this review, if it reported one. */
+  stamphog_version: string;
+  /** Exit code of the reviewer process in the sandbox, if the run reached the sandbox stage. */
+  reviewer_exit_code: number;
+}
+export const ReviewOutputSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    stamphog_version: S.String,
+    reviewer_exit_code: S.Number,
+  }),
+).annotate({ identifier: "ReviewOutputSummary" }) as any as S.Schema<ReviewOutputSummary>;
+
+/** Issues the reviewer found that block approval. */
+export type ReviewReasoningShowstoppersList = Array<string>;
+export const ReviewReasoningShowstoppersList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ReviewReasoningShowstoppersList>;
+
+/** The reviewer's reasoning for one run, the same text stamphog posts as its GitHub review. */
+export interface ReviewReasoning {
+  /** The reviewer's explanation of its verdict. */
+  reasoning: string | null;
+  /** Issues the reviewer found that block approval. */
+  showstoppers: ReviewReasoningShowstoppersList | null;
+  /** The review text stamphog posts on GitHub: the reasoning, the judgment points, and the gate outcome. */
+  review_body: string | null;
+  /** A plain-language summary of what the change does. */
+  change_summary: string | null;
+}
+export const ReviewReasoning = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reasoning: S.NullOr(S.String),
+    showstoppers: S.NullOr(ReviewReasoningShowstoppersList),
+    review_body: S.NullOr(S.String),
+    change_summary: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "ReviewReasoning" }) as any as S.Schema<ReviewReasoning>;
+
+export interface ReviewRun {
+  id: string;
+  /** ID of the pull request this review run belongs to. */
+  pull_request: string;
+  /** Full name of the repository this review run belongs to. */
+  repository: string;
+  /** Pull request number on GitHub. */
+  pr_number: number;
+  /** Full URL to the pull request on GitHub. */
+  pr_url: string;
+  /** Pull request title as of the last webhook delivery applied. */
+  title: string;
+  /** GitHub login of the pull request author. */
+  author_login: string;
+  /** Commit SHA of the PR head at the time this run started. */
+  head_sha: string;
+  /** Branch name of the PR head. */
+  head_branch: string;
+  /** GitHub webhook delivery ID that triggered this run, used for deduplication. */
+  delivery_id: string | null;
+  /** What caused this run to exist: self-driving inbox provenance, a manual request through the API, the repo's trigger label, or the repo reviewing every PR event. * `self_driving` - SELF_DRIVING * `manual` - MANUAL * `label` - LABEL * `all` - ALL */
+  trigger: ReviewRunTriggerEnum;
+  /** Current stage of the review run's lifecycle. * `queued` - QUEUED * `gated` - GATED * `reviewing` - REVIEWING * `completed` - COMPLETED * `failed` - FAILED * `superseded` - SUPERSEDED */
+  status: ReviewRunStatusEnum;
+  /** Final verdict reached by the reviewer, if any. * `none` - NONE * `approved` - APPROVED * `refused` - REFUSED * `escalate` - ESCALATE * `wait` - WAIT * `error` - ERROR */
+  verdict: ReviewRunVerdictEnum;
+  /** Allowlisted deterministic gate outcome (gate_blocked, final_verdict). The nested gate, classification, and policy sub-objects are excluded — they carry changed-file paths and policy scopes, repository content a project member without repo access must not read. */
+  gate_result: GateResultSummary;
+  /** Allowlisted subset of the reviewer output blob (stamphog version, reviewer exit code). The raw reviewer stdout, PR payload, changed-file patches, and policy file contents are excluded. The reviewer's reasoning, the text stamphog posts on GitHub, is in `reasoning` instead. */
+  output: ReviewOutputSummary;
+  /** The reviewer's reasoning, the same text stamphog posts as its GitHub review. Returned only when retrieving a single run, and null in list results. Its fields are null until the reviewer has run. */
+  reasoning: ReviewReasoning | null;
+  /** Error message if the run failed, blank otherwise. */
+  error: string;
+  /** ID of the GitHub review this run posted, null if it never posted one. */
+  posted_review_id: number | null;
+  /** When this run's verdict reached GitHub, null if it never did. */
+  verdict_posted_at: string | null;
+  /** When this run's GitHub approval was retracted because the head moved, null if it wasn't. */
+  approval_dismissed_at: string | null;
+  /** When the review run was created. */
+  created_at: string;
+  /** When the review run was last updated. */
+  updated_at: string;
+  /** When the review run reached a terminal state, if it has. */
+  completed_at: string | null;
+}
+export const ReviewRun = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    pull_request: S.String,
+    repository: S.String,
+    pr_number: S.Number,
+    pr_url: S.String,
+    title: S.String,
+    author_login: S.String,
+    head_sha: S.String,
+    head_branch: S.String,
+    delivery_id: S.NullOr(S.String),
+    trigger: ReviewRunTriggerEnum,
+    status: ReviewRunStatusEnum,
+    verdict: ReviewRunVerdictEnum,
+    gate_result: GateResultSummary,
+    output: ReviewOutputSummary,
+    reasoning: S.NullOr(ReviewReasoning),
+    error: S.String,
+    posted_review_id: S.NullOr(S.Number),
+    verdict_posted_at: S.NullOr(S.String),
+    approval_dismissed_at: S.NullOr(S.String),
+    created_at: S.String,
+    updated_at: S.String,
+    completed_at: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "ReviewRun" }) as any as S.Schema<ReviewRun>;
+
+/** The review run a request points at. */
+export interface ReviewRequestResponse {
+  /** The review run for the pull request's current head. Poll it by id until status is terminal (completed, gated, failed, or superseded). */
+  run: ReviewRun;
+  /** True when this request queued a new run. False when a queued, running, or finished run already covered the current head, which is returned instead. */
+  created: boolean;
+}
+export const ReviewRequestResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    run: ReviewRun,
+    created: S.Boolean,
+  }),
+).annotate({ identifier: "ReviewRequestResponse" }) as any as S.Schema<ReviewRequestResponse>;
 
 export interface GetStamphogDigestRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -202,6 +380,52 @@ export const ResolutionSourceEnum = S.String;
 export type DigestRunStatusEnum = "pending" | "completed" | "failed";
 export const DigestRunStatusEnum = S.String;
 
+/** One merged pull request as the digest listed it. */
+export interface DigestSummaryPR {
+  /** Pull request number on GitHub. */
+  pr_number: number;
+  /** Pull request title. */
+  title: string;
+  /** Full URL to the pull request on GitHub. */
+  url: string;
+  /** GitHub login of the pull request author. */
+  author_login: string;
+  /** The one-line summary of the change that the digest posted. */
+  summary: string;
+  /** Repository full name, e.g. 'PostHog/posthog'. Blank on older runs. */
+  repository: string;
+}
+export const DigestSummaryPR = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pr_number: S.Number,
+    title: S.String,
+    url: S.String,
+    author_login: S.String,
+    summary: S.String,
+    repository: S.String,
+  }),
+).annotate({ identifier: "DigestSummaryPR" }) as any as S.Schema<DigestSummaryPR>;
+
+/** The merged pull requests the digest listed, in the order it listed them. */
+export type DigestSummaryPrsList = Array<DigestSummaryPR>;
+export const DigestSummaryPrsList = /*@__PURE__*/ S.Array(
+  DigestSummaryPR,
+) as any as S.Schema<DigestSummaryPrsList>;
+
+/** What the digest posted to Slack: the headline and the pull requests it listed. */
+export interface DigestSummary {
+  /** Prose about the merges with real consequence. Blank when the digest led with its first line. */
+  headline: string;
+  /** The merged pull requests the digest listed, in the order it listed them. */
+  prs: DigestSummaryPrsList;
+}
+export const DigestSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    headline: S.String,
+    prs: DigestSummaryPrsList,
+  }),
+).annotate({ identifier: "DigestSummary" }) as any as S.Schema<DigestSummary>;
+
 export interface DigestRun {
   id: string;
   /** Digest bucket this run drained, e.g. a team slug or 'repo:PostHog/posthog'. */
@@ -216,6 +440,8 @@ export interface DigestRun {
   status: DigestRunStatusEnum;
   /** Number of merged PRs included in the posted digest. */
   pr_count: number;
+  /** What the digest posted: its headline and the merged pull requests it listed. Both are empty on a run with nothing to post, and on runs stored before this format. */
+  summary: DigestSummary;
   /** Slack message timestamp of the posted digest, if posted. */
   slack_message_ts: string;
   /** Error message if the run failed, blank otherwise. */
@@ -234,6 +460,7 @@ export const DigestRun = /*@__PURE__*/ S.suspend(() =>
     resolution_source: ResolutionSourceEnum,
     status: DigestRunStatusEnum,
     pr_count: S.Number,
+    summary: DigestSummary,
     slack_message_ts: S.String,
     error: S.String,
     created_at: S.String,
@@ -310,9 +537,7 @@ export const StamphogPullRequest = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "StamphogPullRequest",
-}) as any as S.Schema<StamphogPullRequest>;
+).annotate({ identifier: "StamphogPullRequest" }) as any as S.Schema<StamphogPullRequest>;
 
 export interface GetStamphogRepoConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -334,6 +559,55 @@ export const GetStamphogRepoConfigRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetStamphogRepoConfigRequest",
 }) as any as S.Schema<GetStamphogRepoConfigRequest>;
 
+export interface GetStamphogRepoConfigsAvailableRepositoryRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Maximum number of repositories to return. Defaults to 50, at most 200. */
+  limit?: number;
+  /** Case-insensitive substring to match against the repository full name, e.g. 'posthog'. */
+  search?: string;
+}
+export const GetStamphogRepoConfigsAvailableRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/stamphog/repo_configs/available_repositories/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetStamphogRepoConfigsAvailableRepositoryRequest",
+}) as any as S.Schema<GetStamphogRepoConfigsAvailableRepositoryRequest>;
+
+/** Repository full names the team can add, sorted by name and capped by limit. Only repositories a project member proved access to on GitHub are listed, and never one another project already holds under the same installation. */
+export type StamphogAvailableRepositoriesRepositoriesList = Array<string>;
+export const StamphogAvailableRepositoriesRepositoriesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StamphogAvailableRepositoriesRepositoriesList>;
+
+/** Repositories from the team's connected GitHub installations that are not added to stamphog yet. */
+export interface StamphogAvailableRepositories {
+  /** Repository full names the team can add, sorted by name and capped by limit. Only repositories a project member proved access to on GitHub are listed, and never one another project already holds under the same installation. */
+  repositories: StamphogAvailableRepositoriesRepositoriesList;
+  /** How many repositories match the search in total, before limit applies. */
+  total_count: number;
+  /** Whether a project member connected a GitHub installation yet. False means GitHub must be connected before any repository can be added. True with a total_count of 0 and no search means no repository is left to add. */
+  has_installation: boolean;
+}
+export const StamphogAvailableRepositories = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repositories: StamphogAvailableRepositoriesRepositoriesList,
+    total_count: S.Number,
+    has_installation: S.Boolean,
+  }),
+).annotate({
+  identifier: "StamphogAvailableRepositories",
+}) as any as S.Schema<StamphogAvailableRepositories>;
+
 export interface GetStamphogReviewRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -354,128 +628,6 @@ export const GetStamphogReviewRunRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetStamphogReviewRunRequest",
 }) as any as S.Schema<GetStamphogReviewRunRequest>;
 
-/** * `self_driving` - SELF_DRIVING * `label` - LABEL * `all` - ALL */
-export type ReviewRunTriggerEnum = "self_driving" | "label" | "all";
-export const ReviewRunTriggerEnum = S.String;
-
-/** * `queued` - QUEUED * `gated` - GATED * `reviewing` - REVIEWING * `completed` - COMPLETED * `failed` - FAILED * `superseded` - SUPERSEDED */
-export type ReviewRunStatusEnum =
-  | "queued"
-  | "gated"
-  | "reviewing"
-  | "completed"
-  | "failed"
-  | "superseded";
-export const ReviewRunStatusEnum = S.String;
-
-/** * `none` - NONE * `approved` - APPROVED * `refused` - REFUSED * `escalate` - ESCALATE * `wait` - WAIT * `error` - ERROR */
-export type ReviewRunVerdictEnum = "none" | "approved" | "refused" | "escalate" | "wait" | "error";
-export const ReviewRunVerdictEnum = S.String;
-
-/** Allowlisted, content-free slice of ``ReviewRun.gate_result``. The raw gate blob nests ``gates``, ``classification``, and ``policy`` sub-objects that carry repository content — changed-file paths (``safe_migration_files``, ``invalid_folder_files``), manifest gate messages, and declared ``policy.scopes`` — which a project member without repo access must not read. Only the terminal decision is exposed. */
-export interface GateResultSummary {
-  /** Whether the deterministic gates blocked auto-review before the reviewer ran. */
-  gate_blocked: boolean;
-  /** The engine's raw final-verdict token, if the run reached a verdict. */
-  final_verdict: string;
-}
-export const GateResultSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gate_blocked: S.Boolean,
-    final_verdict: S.String,
-  }),
-).annotate({
-  identifier: "GateResultSummary",
-}) as any as S.Schema<GateResultSummary>;
-
-/** Allowlisted, non-sensitive slice of ``ReviewRun.output``. The raw ``output`` blob also holds the reviewer's stdout, the full PR payload, changed-file patches, and default-branch policy file contents — repository content a project member without repo access must never read. Only these derived, content-free fields are exposed. */
-export interface ReviewOutputSummary {
-  /** Version of the stamphog engine that produced this review, if it reported one. */
-  stamphog_version: string;
-  /** Exit code of the reviewer process in the sandbox, if the run reached the sandbox stage. */
-  reviewer_exit_code: number;
-}
-export const ReviewOutputSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stamphog_version: S.String,
-    reviewer_exit_code: S.Number,
-  }),
-).annotate({
-  identifier: "ReviewOutputSummary",
-}) as any as S.Schema<ReviewOutputSummary>;
-
-export interface ReviewRun {
-  id: string;
-  /** ID of the pull request this review run belongs to. */
-  pull_request: string;
-  /** Full name of the repository this review run belongs to. */
-  repository: string;
-  /** Pull request number on GitHub. */
-  pr_number: number;
-  /** Full URL to the pull request on GitHub. */
-  pr_url: string;
-  /** Pull request title as of the last webhook delivery applied. */
-  title: string;
-  /** GitHub login of the pull request author. */
-  author_login: string;
-  /** Commit SHA of the PR head at the time this run started. */
-  head_sha: string;
-  /** Branch name of the PR head. */
-  head_branch: string;
-  /** GitHub webhook delivery ID that triggered this run, used for deduplication. */
-  delivery_id: string | null;
-  /** What caused this run to exist: self-driving inbox provenance, the repo's trigger label, or the repo reviewing every PR event. * `self_driving` - SELF_DRIVING * `label` - LABEL * `all` - ALL */
-  trigger: ReviewRunTriggerEnum;
-  /** Current stage of the review run's lifecycle. * `queued` - QUEUED * `gated` - GATED * `reviewing` - REVIEWING * `completed` - COMPLETED * `failed` - FAILED * `superseded` - SUPERSEDED */
-  status: ReviewRunStatusEnum;
-  /** Final verdict reached by the reviewer, if any. * `none` - NONE * `approved` - APPROVED * `refused` - REFUSED * `escalate` - ESCALATE * `wait` - WAIT * `error` - ERROR */
-  verdict: ReviewRunVerdictEnum;
-  /** Allowlisted deterministic gate outcome (gate_blocked, final_verdict). The nested gate, classification, and policy sub-objects are excluded — they carry changed-file paths and policy scopes, repository content a project member without repo access must not read. */
-  gate_result: GateResultSummary;
-  /** Allowlisted, non-sensitive subset of the reviewer output blob (stamphog version, reviewer exit code). The raw reviewer stdout, PR payload, changed-file patches, and policy file contents are deliberately excluded — they carry repository content a project member without repo access must not read. */
-  output: ReviewOutputSummary;
-  /** Error message if the run failed, blank otherwise. */
-  error: string;
-  /** ID of the GitHub review this run posted, null if it never posted one. */
-  posted_review_id: number | null;
-  /** When this run's verdict reached GitHub, null if it never did. */
-  verdict_posted_at: string | null;
-  /** When this run's GitHub approval was retracted because the head moved, null if it wasn't. */
-  approval_dismissed_at: string | null;
-  /** When the review run was created. */
-  created_at: string;
-  /** When the review run was last updated. */
-  updated_at: string;
-  /** When the review run reached a terminal state, if it has. */
-  completed_at: string | null;
-}
-export const ReviewRun = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    pull_request: S.String,
-    repository: S.String,
-    pr_number: S.Number,
-    pr_url: S.String,
-    title: S.String,
-    author_login: S.String,
-    head_sha: S.String,
-    head_branch: S.String,
-    delivery_id: S.NullOr(S.String),
-    trigger: ReviewRunTriggerEnum,
-    status: ReviewRunStatusEnum,
-    verdict: ReviewRunVerdictEnum,
-    gate_result: GateResultSummary,
-    output: ReviewOutputSummary,
-    error: S.String,
-    posted_review_id: S.NullOr(S.Number),
-    verdict_posted_at: S.NullOr(S.String),
-    approval_dismissed_at: S.NullOr(S.String),
-    created_at: S.String,
-    updated_at: S.String,
-    completed_at: S.NullOr(S.String),
-  }),
-).annotate({ identifier: "ReviewRun" }) as any as S.Schema<ReviewRun>;
-
 export interface ListStamphogDigestRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -493,11 +645,7 @@ export const ListStamphogDigestRunsRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     slack_channel_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/stamphog/digest_runs/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/stamphog/digest_runs/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListStamphogDigestRunsRequest",
@@ -521,9 +669,7 @@ export const PaginatedDigestRunList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: PaginatedDigestRunListResultsList,
   }),
-).annotate({
-  identifier: "PaginatedDigestRunList",
-}) as any as S.Schema<PaginatedDigestRunList>;
+).annotate({ identifier: "PaginatedDigestRunList" }) as any as S.Schema<PaginatedDigestRunList>;
 
 export interface ListStamphogPullRequestsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -545,11 +691,7 @@ export const ListStamphogPullRequestsRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     pr_number: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/stamphog/pull_requests/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/stamphog/pull_requests/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListStamphogPullRequestsRequest",
@@ -591,11 +733,7 @@ export const ListStamphogRepoConfigsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/stamphog/repo_configs/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/stamphog/repo_configs/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListStamphogRepoConfigsRequest",
@@ -623,7 +761,7 @@ export const PaginatedStamphogRepoConfigList = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedStamphogRepoConfigList",
 }) as any as S.Schema<PaginatedStamphogRepoConfigList>;
 
-export type ListStamphogReviewRunsRequestTrigger = "all" | "label" | "self_driving";
+export type ListStamphogReviewRunsRequestTrigger = "all" | "label" | "manual" | "self_driving";
 export const ListStamphogReviewRunsRequestTrigger = S.String;
 
 export interface ListStamphogReviewRunsRequest {
@@ -639,7 +777,7 @@ export interface ListStamphogReviewRunsRequest {
   repository?: string;
   /** Filter by review run status. */
   status?: string;
-  /** Filter by what caused the run: self_driving, label, or all. */
+  /** Filter by what caused the run. Leave it unset to include runs from every trigger. 'all' is not a wildcard: it matches only runs in repos that review every pull request event. The other values: 'label' (the repo's trigger label opted the PR in), 'manual' (someone requested the review through the API or MCP), and 'self_driving' (stamphog reviewed a bot-authored PR from the inbox). */
   trigger?: ListStamphogReviewRunsRequestTrigger | (string & {});
 }
 export const ListStamphogReviewRunsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -652,11 +790,7 @@ export const ListStamphogReviewRunsRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String.pipe(T.Query())),
     trigger: S.optional(ListStamphogReviewRunsRequestTrigger.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/stamphog/review_runs/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/stamphog/review_runs/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListStamphogReviewRunsRequest",
@@ -680,9 +814,28 @@ export const PaginatedReviewRunList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: PaginatedReviewRunListResultsList,
   }),
+).annotate({ identifier: "PaginatedReviewRunList" }) as any as S.Schema<PaginatedReviewRunList>;
+
+export interface StamphogRepoConfigsAddRepositoryCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Repository full name, e.g. 'PostHog/posthog'. It must be in one of the project's connected GitHub installations, as available_repositories lists them. A repository the project already has is turned back on. */
+  repository: string;
+}
+export const StamphogRepoConfigsAddRepositoryCreateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    repository: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/stamphog/repo_configs/add_repository/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "PaginatedReviewRunList",
-}) as any as S.Schema<PaginatedReviewRunList>;
+  identifier: "StamphogRepoConfigsAddRepositoryCreateRequest",
+}) as any as S.Schema<StamphogRepoConfigsAddRepositoryCreateRequest>;
 
 export interface StamphogRepoConfigsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -733,9 +886,9 @@ export const StamphogRepoConfigsInstallInfoRetrieveRequest = /*@__PURE__*/ S.sus
 export interface StamphogInstallInfo {
   /** URL-friendly slug of the dedicated Stamphog GitHub App, or blank if unconfigured. */
   app_slug: string;
-  /** GitHub install URL (github.com/apps/<slug>/installations/new) the user opens to install the App, or blank if the App slug is unconfigured. Used for the genuinely-not-installed case; the primary 'Connect' button uses authorize_url instead. */
+  /** GitHub install URL (github.com/apps/<slug>/installations/new) the 'Connect' button opens. The user picks a GitHub account there and chooses which repositories the App can reach, including an account where the App is already installed. Blank if the App slug is unconfigured. */
   install_url: string;
-  /** GitHub authorize URL (github.com/login/oauth/authorize) the 'Connect' button opens. Authorize-first: an already-installed user is redirected straight back with an OAuth code (no installation_id), and sync_installation then discovers their installations server-side. Blank if the App client id is unconfigured. */
+  /** GitHub authorize URL (github.com/login/oauth/authorize). GitHub's redirect after configuring an existing installation carries no OAuth code, so the client passes through this URL once: an installed App redirects straight back with a code, which sync_installation uses to prove ownership. Blank if the App client id is unconfigured. */
   authorize_url: string;
 }
 export const StamphogInstallInfo = /*@__PURE__*/ S.suspend(() =>
@@ -744,9 +897,7 @@ export const StamphogInstallInfo = /*@__PURE__*/ S.suspend(() =>
     install_url: S.String,
     authorize_url: S.String,
   }),
-).annotate({
-  identifier: "StamphogInstallInfo",
-}) as any as S.Schema<StamphogInstallInfo>;
+).annotate({ identifier: "StamphogInstallInfo" }) as any as S.Schema<StamphogInstallInfo>;
 
 export interface UpdateStamphogRepoConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -854,6 +1005,21 @@ export const createStamphogRepoConfigsSyncInstallation: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateStamphogReviewRunError = PosthogOpError;
+/** History of stamphog review runs, filterable by repository, PR number, and status, plus manual review requests. */
+export const createStamphogReviewRun: API.OperationMethod<
+  CreateStamphogReviewRunRequest,
+  ReviewRequestResponse,
+  CreateStamphogReviewRunError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateStamphogReviewRunRequest,
+  output: ReviewRequestResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetStamphogDigestRunError = PosthogOpError;
 /** Read-only history of posted (or attempted) digests, filterable by Slack channel. */
 export const getStamphogDigestRun: API.OperationMethod<
@@ -899,8 +1065,23 @@ export const getStamphogRepoConfig: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetStamphogRepoConfigsAvailableRepositoryError = PosthogOpError;
+/** List repositories from the project's connected GitHub installations that are not added to stamphog yet, so they can be added with add_repository. */
+export const getStamphogRepoConfigsAvailableRepository: API.OperationMethod<
+  GetStamphogRepoConfigsAvailableRepositoryRequest,
+  StamphogAvailableRepositories,
+  GetStamphogRepoConfigsAvailableRepositoryError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetStamphogRepoConfigsAvailableRepositoryRequest,
+  output: StamphogAvailableRepositories,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetStamphogReviewRunError = PosthogOpError;
-/** Read-only history of stamphog review runs, filterable by repository, PR number, and status. */
+/** History of stamphog review runs, filterable by repository, PR number, and status, plus manual review requests. */
 export const getStamphogReviewRun: API.OperationMethod<
   GetStamphogReviewRunRequest,
   ReviewRun,
@@ -960,7 +1141,7 @@ export const listStamphogRepoConfigs: API.OperationMethod<
 }));
 
 export type ListStamphogReviewRunsError = PosthogOpError;
-/** Read-only history of stamphog review runs, filterable by repository, PR number, and status. */
+/** History of stamphog review runs, filterable by repository, PR number, and status, plus manual review requests. */
 export const listStamphogReviewRuns: API.OperationMethod<
   ListStamphogReviewRunsRequest,
   PaginatedReviewRunList,
@@ -969,6 +1150,21 @@ export const listStamphogReviewRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListStamphogReviewRunsRequest,
   output: PaginatedReviewRunList,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type StamphogRepoConfigsAddRepositoryCreateError = PosthogOpError;
+/** Turn reviews on for a repository from the project's connected GitHub installations. Creates the repo config, or turns an existing one back on. Needs the editor level on stamphog. */
+export const stamphogRepoConfigsAddRepositoryCreate: API.OperationMethod<
+  StamphogRepoConfigsAddRepositoryCreateRequest,
+  StamphogRepoConfig,
+  StamphogRepoConfigsAddRepositoryCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: StamphogRepoConfigsAddRepositoryCreateRequest,
+  output: StamphogRepoConfig,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,

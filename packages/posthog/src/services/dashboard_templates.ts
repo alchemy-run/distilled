@@ -89,11 +89,7 @@ export const CreateDashboardTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     is_featured: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/dashboard_templates/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/dashboard_templates/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDashboardTemplateRequest",
@@ -180,9 +176,7 @@ export const NonPortableReferences = /*@__PURE__*/ S.suspend(() =>
     cohorts: S.Number,
     warehouse_tables: NonPortableReferencesWarehouseTablesList,
   }),
-).annotate({
-  identifier: "NonPortableReferences",
-}) as any as S.Schema<NonPortableReferences>;
+).annotate({ identifier: "NonPortableReferences" }) as any as S.Schema<NonPortableReferences>;
 
 export interface DashboardTemplate {
   id?: string;
@@ -223,9 +217,7 @@ export const DashboardTemplate = /*@__PURE__*/ S.suspend(() =>
     is_featured: S.optional(S.Boolean),
     non_portable_references: S.optional(NonPortableReferences),
   }),
-).annotate({
-  identifier: "DashboardTemplate",
-}) as any as S.Schema<DashboardTemplate>;
+).annotate({ identifier: "DashboardTemplate" }) as any as S.Schema<DashboardTemplate>;
 
 export interface DashboardTemplatesCopyBetweenProjectsCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -337,11 +329,7 @@ export const ListDashboardTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
     scope: S.optional(ListDashboardTemplatesRequestScope.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/dashboard_templates/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/dashboard_templates/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDashboardTemplatesRequest",

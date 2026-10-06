@@ -18,11 +18,7 @@ export const GetSdkHealthReportRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     force_refresh: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/sdk_health/report/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/sdk_health/report/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetSdkHealthReportRequest",
@@ -36,7 +32,7 @@ export const OverallHealthEnum = S.String;
 export type SdkHealthReportHealthEnum = "success" | "warning" | "danger";
 export const SdkHealthReportHealthEnum = S.String;
 
-/** * `web` - web * `posthog-ios` - posthog-ios * `posthog-android` - posthog-android * `posthog-java` - posthog-java * `posthog-server` - posthog-server * `posthog-node` - posthog-node * `posthog-python` - posthog-python * `posthog-php` - posthog-php * `posthog-ruby` - posthog-ruby * `posthog-go` - posthog-go * `posthog-flutter` - posthog-flutter * `posthog-react-native` - posthog-react-native * `posthog-kmp` - posthog-kmp * `posthog-dotnet` - posthog-dotnet * `posthog-elixir` - posthog-elixir */
+/** * `web` - web * `posthog-ios` - posthog-ios * `posthog-android` - posthog-android * `posthog-java` - posthog-java * `posthog-server` - posthog-server * `posthog-node` - posthog-node * `posthog-python` - posthog-python * `posthog-php` - posthog-php * `posthog-ruby` - posthog-ruby * `posthog-go` - posthog-go * `posthog-flutter` - posthog-flutter * `posthog-react-native` - posthog-react-native * `posthog-kmp` - posthog-kmp * `posthog-dotnet` - posthog-dotnet * `posthog-elixir` - posthog-elixir * `posthog-unity` - posthog-unity * `posthog-node-mcp` - posthog-node-mcp * `posthog-python-mcp` - posthog-python-mcp * `posthog-edge` - posthog-edge * `posthog-convex` - posthog-convex * `posthog-rails` - posthog-rails * `posthog-aspnetcore` - posthog-aspnetcore */
 export type LibEnum =
   | "web"
   | "posthog-ios"
@@ -52,7 +48,14 @@ export type LibEnum =
   | "posthog-react-native"
   | "posthog-kmp"
   | "posthog-dotnet"
-  | "posthog-elixir";
+  | "posthog-elixir"
+  | "posthog-unity"
+  | "posthog-node-mcp"
+  | "posthog-python-mcp"
+  | "posthog-edge"
+  | "posthog-convex"
+  | "posthog-rails"
+  | "posthog-aspnetcore";
 export const LibEnum = S.String;
 
 /** * `none` - none * `warning` - warning * `danger` - danger */
@@ -109,9 +112,7 @@ export const SdkReleaseAssessment = /*@__PURE__*/ S.suspend(() =>
     sql_query: S.optional(S.String),
     activity_page_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SdkReleaseAssessment",
-}) as any as S.Schema<SdkReleaseAssessment>;
+).annotate({ identifier: "SdkReleaseAssessment" }) as any as S.Schema<SdkReleaseAssessment>;
 
 /** Per-version assessment for all versions seen in the last 7 days. */
 export type SdkAssessmentReleasesList = Array<SdkReleaseAssessment>;
@@ -130,9 +131,7 @@ export const OutdatedTrafficAlert = /*@__PURE__*/ S.suspend(() =>
     version: S.optional(S.String),
     threshold_percent: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "OutdatedTrafficAlert",
-}) as any as S.Schema<OutdatedTrafficAlert>;
+).annotate({ identifier: "OutdatedTrafficAlert" }) as any as S.Schema<OutdatedTrafficAlert>;
 
 /** Outdated versions that handle a significant share of traffic (above the threshold). Not populated for mobile SDKs. */
 export type SdkAssessmentOutdatedTrafficAlertsList = Array<OutdatedTrafficAlert>;
@@ -141,7 +140,7 @@ export const SdkAssessmentOutdatedTrafficAlertsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<SdkAssessmentOutdatedTrafficAlertsList>;
 
 export interface SdkAssessment {
-  /** SDK identifier, e.g. 'web', 'posthog-python', 'posthog-node', 'posthog-ios'. * `web` - web * `posthog-ios` - posthog-ios * `posthog-android` - posthog-android * `posthog-java` - posthog-java * `posthog-server` - posthog-server * `posthog-node` - posthog-node * `posthog-python` - posthog-python * `posthog-php` - posthog-php * `posthog-ruby` - posthog-ruby * `posthog-go` - posthog-go * `posthog-flutter` - posthog-flutter * `posthog-react-native` - posthog-react-native * `posthog-kmp` - posthog-kmp * `posthog-dotnet` - posthog-dotnet * `posthog-elixir` - posthog-elixir */
+  /** SDK identifier, e.g. 'web', 'posthog-python', 'posthog-node', 'posthog-ios'. * `web` - web * `posthog-ios` - posthog-ios * `posthog-android` - posthog-android * `posthog-java` - posthog-java * `posthog-server` - posthog-server * `posthog-node` - posthog-node * `posthog-python` - posthog-python * `posthog-php` - posthog-php * `posthog-ruby` - posthog-ruby * `posthog-go` - posthog-go * `posthog-flutter` - posthog-flutter * `posthog-react-native` - posthog-react-native * `posthog-kmp` - posthog-kmp * `posthog-dotnet` - posthog-dotnet * `posthog-elixir` - posthog-elixir * `posthog-unity` - posthog-unity * `posthog-node-mcp` - posthog-node-mcp * `posthog-python-mcp` - posthog-python-mcp * `posthog-edge` - posthog-edge * `posthog-convex` - posthog-convex * `posthog-rails` - posthog-rails * `posthog-aspnetcore` - posthog-aspnetcore */
   lib?: LibEnum;
   /** Human-readable SDK name matching the SDK Health UI (e.g. 'Python', 'Node.js', 'Web', 'iOS'). */
   readable_name?: string;
@@ -209,9 +208,7 @@ export const SdkHealthReport = /*@__PURE__*/ S.suspend(() =>
     team_sdk_count: S.optional(S.Number),
     sdks: S.optional(SdkHealthReportSdksList),
   }),
-).annotate({
-  identifier: "SdkHealthReport",
-}) as any as S.Schema<SdkHealthReport>;
+).annotate({ identifier: "SdkHealthReport" }) as any as S.Schema<SdkHealthReport>;
 
 export type GetSdkHealthReportError = PosthogOpError;
 /** Get SDK health report for a project Returns a pre-digested health assessment of the PostHog SDKs the project is using. Covers which SDKs are current vs outdated (smart-semver rules with grace periods and traffic-percentage thresholds), per-version breakdown, and a human-readable reason for each assessment. Use this to diagnose SDK version issues, surface upgrade recommendations, or check overall SDK health. */

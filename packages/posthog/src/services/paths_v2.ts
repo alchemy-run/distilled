@@ -28,9 +28,7 @@ export const PathsV2SegmentItem = /*@__PURE__*/ S.suspend(() =>
     event: S.String,
     label: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "PathsV2SegmentItem",
-}) as any as S.Schema<PathsV2SegmentItem>;
+).annotate({ identifier: "PathsV2SegmentItem" }) as any as S.Schema<PathsV2SegmentItem>;
 
 /** The segment's path items in displayed order. In open mode exactly two items - a single edge, source then target. In anchored mode the concrete chain as shown, starting at the anchor. */
 export type CreatePathsV2SegmentToFunnelRequestItemsList = Array<PathsV2SegmentItem>;

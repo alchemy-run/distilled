@@ -35,6 +35,43 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** Destination IDs to delete, as returned when the destination was created. */
+export type AlertsDestinationsDeleteCreateRequestHogFunctionIdsList = Array<string>;
+export const AlertsDestinationsDeleteCreateRequestHogFunctionIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AlertsDestinationsDeleteCreateRequestHogFunctionIdsList>;
+
+export interface AlertsDestinationsDeleteCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this alert configuration. */
+  id: string;
+  /** Destination IDs to delete, as returned when the destination was created. */
+  hog_function_ids: AlertsDestinationsDeleteCreateRequestHogFunctionIdsList;
+}
+export const AlertsDestinationsDeleteCreateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    hog_function_ids: AlertsDestinationsDeleteCreateRequestHogFunctionIdsList,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/alerts/{id}/destinations/delete/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "AlertsDestinationsDeleteCreateRequest",
+}) as any as S.Schema<AlertsDestinationsDeleteCreateRequest>;
+
+export interface AlertsDestinationsDeleteCreateResponse {}
+export const AlertsDestinationsDeleteCreateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "AlertsDestinationsDeleteCreateResponse",
+}) as any as S.Schema<AlertsDestinationsDeleteCreateResponse>;
+
 export interface AlertsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -45,16 +82,8 @@ export const AlertsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/alerts/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AlertsDestroyRequest",
-}) as any as S.Schema<AlertsDestroyRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 })),
+).annotate({ identifier: "AlertsDestroyRequest" }) as any as S.Schema<AlertsDestroyRequest>;
 
 export interface AlertsDestroyResponse {}
 export const AlertsDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -78,9 +107,7 @@ export const InsightsThresholdBounds = /*@__PURE__*/ S.suspend(() =>
     lower: S.optional(S.NullOr(S.Number)),
     upper: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "InsightsThresholdBounds",
-}) as any as S.Schema<InsightsThresholdBounds>;
+).annotate({ identifier: "InsightsThresholdBounds" }) as any as S.Schema<InsightsThresholdBounds>;
 
 export type InsightThresholdType = "absolute" | "percentage";
 export const InsightThresholdType = S.String;
@@ -95,9 +122,7 @@ export const InsightThreshold = /*@__PURE__*/ S.suspend(() =>
     bounds: S.optional(S.NullOr(InsightsThresholdBounds)),
     type: S.optional(InsightThresholdType),
   }),
-).annotate({
-  identifier: "InsightThreshold",
-}) as any as S.Schema<InsightThreshold>;
+).annotate({ identifier: "InsightThreshold" }) as any as S.Schema<InsightThreshold>;
 
 export interface ThresholdInput {
   /** Optional name for the threshold. */
@@ -137,9 +162,7 @@ export const TrendsAlertConfig = /*@__PURE__*/ S.suspend(() =>
     series_index: S.optional(S.Number),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TrendsAlertConfig",
-}) as any as S.Schema<TrendsAlertConfig>;
+).annotate({ identifier: "TrendsAlertConfig" }) as any as S.Schema<TrendsAlertConfig>;
 
 export type HogQLAlertEvaluation = "last_row" | "first_row" | "any_row";
 export const HogQLAlertEvaluation = S.String;
@@ -160,9 +183,7 @@ export const HogQLAlertConfig = /*@__PURE__*/ S.suspend(() =>
     label_column: S.optional(S.NullOr(S.String)),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HogQLAlertConfig",
-}) as any as S.Schema<HogQLAlertConfig>;
+).annotate({ identifier: "HogQLAlertConfig" }) as any as S.Schema<HogQLAlertConfig>;
 
 export type FunnelConversionMetric = "conversion_from_start" | "conversion_from_previous";
 export const FunnelConversionMetric = S.String;
@@ -182,9 +203,7 @@ export const FunnelsAlertConfig = /*@__PURE__*/ S.suspend(() =>
     metric: FunnelConversionMetric,
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FunnelsAlertConfig",
-}) as any as S.Schema<FunnelsAlertConfig>;
+).annotate({ identifier: "FunnelsAlertConfig" }) as any as S.Schema<FunnelsAlertConfig>;
 
 export interface MetricsAlertConfig {
   /** When true, anchor on the trailing (possibly still accumulating) bucket instead of the last complete one. */
@@ -196,9 +215,7 @@ export const MetricsAlertConfig = /*@__PURE__*/ S.suspend(() =>
     check_ongoing_interval: S.optional(S.NullOr(S.Boolean)),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricsAlertConfig",
-}) as any as S.Schema<MetricsAlertConfig>;
+).annotate({ identifier: "MetricsAlertConfig" }) as any as S.Schema<MetricsAlertConfig>;
 
 /** Per-insight-kind alert config, discriminated by ``type`` — keeps the OpenAPI (and the generated frontend types and MCP tool schemas) in sync with every kind alerts support. */
 export type AlertConfigUnion =
@@ -222,9 +239,7 @@ export const PreprocessingConfig = /*@__PURE__*/ S.suspend(() =>
     lags_n: S.optional(S.NullOr(S.Number)),
     smooth_n: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "PreprocessingConfig",
-}) as any as S.Schema<PreprocessingConfig>;
+).annotate({ identifier: "PreprocessingConfig" }) as any as S.Schema<PreprocessingConfig>;
 
 export interface ZScoreDetectorConfig {
   /** Preprocessing transforms applied before detection */
@@ -242,9 +257,7 @@ export const ZScoreDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     window: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ZScoreDetectorConfig",
-}) as any as S.Schema<ZScoreDetectorConfig>;
+).annotate({ identifier: "ZScoreDetectorConfig" }) as any as S.Schema<ZScoreDetectorConfig>;
 
 export interface MADDetectorConfig {
   /** Preprocessing transforms applied before detection */
@@ -262,9 +275,7 @@ export const MADDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     window: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "MADDetectorConfig",
-}) as any as S.Schema<MADDetectorConfig>;
+).annotate({ identifier: "MADDetectorConfig" }) as any as S.Schema<MADDetectorConfig>;
 
 export interface IQRDetectorConfig {
   /** IQR multiplier for fence calculation (default: 1.5, use 3.0 for far outliers) */
@@ -282,9 +293,7 @@ export const IQRDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     window: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "IQRDetectorConfig",
-}) as any as S.Schema<IQRDetectorConfig>;
+).annotate({ identifier: "IQRDetectorConfig" }) as any as S.Schema<IQRDetectorConfig>;
 
 export interface ThresholdDetectorConfig {
   /** Lower bound - values below this are anomalies */
@@ -302,9 +311,7 @@ export const ThresholdDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     upper_bound: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ThresholdDetectorConfig",
-}) as any as S.Schema<ThresholdDetectorConfig>;
+).annotate({ identifier: "ThresholdDetectorConfig" }) as any as S.Schema<ThresholdDetectorConfig>;
 
 export interface ECODDetectorConfig {
   /** Preprocessing transforms applied before detection */
@@ -322,9 +329,7 @@ export const ECODDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     window: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ECODDetectorConfig",
-}) as any as S.Schema<ECODDetectorConfig>;
+).annotate({ identifier: "ECODDetectorConfig" }) as any as S.Schema<ECODDetectorConfig>;
 
 export type COPODDetectorConfig = ECODDetectorConfig;
 export const COPODDetectorConfig = ECODDetectorConfig;
@@ -377,9 +382,7 @@ export const KNNDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     window: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "KNNDetectorConfig",
-}) as any as S.Schema<KNNDetectorConfig>;
+).annotate({ identifier: "KNNDetectorConfig" }) as any as S.Schema<KNNDetectorConfig>;
 
 export interface HBOSDetectorConfig {
   /** Number of histogram bins (default: 10) */
@@ -400,9 +403,7 @@ export const HBOSDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     window: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "HBOSDetectorConfig",
-}) as any as S.Schema<HBOSDetectorConfig>;
+).annotate({ identifier: "HBOSDetectorConfig" }) as any as S.Schema<HBOSDetectorConfig>;
 
 export interface LOFDetectorConfig {
   /** Number of neighbors for LOF (default: 20) */
@@ -423,9 +424,7 @@ export const LOFDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     window: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "LOFDetectorConfig",
-}) as any as S.Schema<LOFDetectorConfig>;
+).annotate({ identifier: "LOFDetectorConfig" }) as any as S.Schema<LOFDetectorConfig>;
 
 export interface OCSVMDetectorConfig {
   /** SVM kernel type (default: "rbf") */
@@ -449,9 +448,7 @@ export const OCSVMDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     window: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "OCSVMDetectorConfig",
-}) as any as S.Schema<OCSVMDetectorConfig>;
+).annotate({ identifier: "OCSVMDetectorConfig" }) as any as S.Schema<OCSVMDetectorConfig>;
 
 export type PCADetectorConfig = ECODDetectorConfig;
 export const PCADetectorConfig = ECODDetectorConfig;
@@ -494,9 +491,25 @@ export const EnsembleDetectorConfig = /*@__PURE__*/ S.suspend(() =>
     operator: S.optional(EnsembleOperator),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnsembleDetectorConfig",
-}) as any as S.Schema<EnsembleDetectorConfig>;
+).annotate({ identifier: "EnsembleDetectorConfig" }) as any as S.Schema<EnsembleDetectorConfig>;
+
+export interface LLMDetectorConfig {
+  /** What counts as unusual or interesting for this metric, in your own words. Optional. */
+  instructions?: string | null;
+  /** Minimum confidence [0-1] the model must report before the alert fires (default: 0.7) */
+  threshold?: number | null;
+  type?: string;
+  /** How many recent points the model is shown (default: 90) */
+  window?: number | null;
+}
+export const LLMDetectorConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    instructions: S.optional(S.NullOr(S.String)),
+    threshold: S.optional(S.NullOr(S.Number)),
+    type: S.optional(S.String),
+    window: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "LLMDetectorConfig" }) as any as S.Schema<LLMDetectorConfig>;
 
 /** Detector configuration types */
 export type DetectorConfig =
@@ -512,7 +525,8 @@ export type DetectorConfig =
   | HBOSDetectorConfig
   | LOFDetectorConfig
   | OCSVMDetectorConfig
-  | ECODDetectorConfig;
+  | ECODDetectorConfig
+  | LLMDetectorConfig;
 export const DetectorConfig = S.Unknown as any as S.Schema<DetectorConfig>;
 
 /** * `real_time` - real_time * `every_15_minutes` - every_15_minutes * `hourly` - hourly * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
@@ -554,9 +568,7 @@ export const AlertScheduleRestriction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     blocked_windows: S.optional(AlertScheduleRestrictionBlockedWindowsList),
   }),
-).annotate({
-  identifier: "AlertScheduleRestriction",
-}) as any as S.Schema<AlertScheduleRestriction>;
+).annotate({ identifier: "AlertScheduleRestriction" }) as any as S.Schema<AlertScheduleRestriction>;
 
 /** * `notify` - Notify * `suppress` - Suppress */
 export type InvestigationInconclusiveActionEnum = "notify" | "suppress";
@@ -577,9 +589,13 @@ export interface CreateAlertRequest {
   condition?: AlertCondition | null;
   /** Whether the alert is actively being evaluated. */
   enabled?: boolean;
+  /** Local time that starts alert checks in HH:MM format. Updating this value recalculates the next check. Set null to remove the custom start time. */
+  schedule_start_time?: string | null;
   /** Per-insight-kind alert configuration, discriminated by `type`. TrendsAlertConfig: series_index (which series to monitor) and check_ongoing_interval (whether to check the current incomplete interval). HogQLAlertConfig (SQL insights): column (which result column to evaluate, defaults to the single numeric column), evaluation ('last_row' checks the latest value of an oldest->newest query, 'first_row' checks the first value of a newest->oldest query, 'any_row' fires if any row breaches), and label_column (names the evaluated row(s) in breach messages, in every evaluation mode). FunnelsAlertConfig (funnel insights): funnel_step (the step to monitor, null for the overall last step), metric ('conversion_from_start' or 'conversion_from_previous'), and check_ongoing_interval (historical-trend funnels: also evaluate the current in-progress period). Steps funnels support only absolute_value conditions; historical-trend funnels also support relative_increase/relative_decrease (compared against the prior period). */
   config?: AlertConfigUnion | null;
   detector_config?: DetectorConfig | null;
+  /** Skip this many completed insight intervals after excluding the ongoing interval (0-100, default 0). Time-series Trends only. A positive delay requires check_ongoing_interval=false. Uses the insight interval, not the check frequency. Allows late data to arrive, but also delays detection of real problems. */
+  evaluation_delay_intervals?: number;
   /** How often the alert is checked: real time (Scale+), every 15 minutes (Boost+), hourly, daily, weekly, or monthly. * `real_time` - real_time * `every_15_minutes` - every_15_minutes * `hourly` - hourly * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
   calculation_interval?: CalculationIntervalEnum | (string & {});
   /** Snooze the alert until this time. Pass a relative date string (e.g. '2h', '1d') or null to unsnooze. */
@@ -604,8 +620,10 @@ export const CreateAlertRequest = /*@__PURE__*/ S.suspend(() =>
     threshold: S.optional(ThresholdInput),
     condition: S.optional(S.NullOr(AlertCondition)),
     enabled: S.optional(S.Boolean),
+    schedule_start_time: S.optional(S.NullOr(S.String)),
     config: S.optional(S.NullOr(AlertConfigUnion)),
     detector_config: S.optional(S.NullOr(DetectorConfig)),
+    evaluation_delay_intervals: S.optional(S.Number),
     calculation_interval: S.optional(CalculationIntervalEnum),
     snoozed_until: S.optional(S.NullOr(S.String)),
     skip_weekend: S.optional(S.NullOr(S.Boolean)),
@@ -613,16 +631,8 @@ export const CreateAlertRequest = /*@__PURE__*/ S.suspend(() =>
     investigation_agent_enabled: S.optional(S.Boolean),
     investigation_gates_notifications: S.optional(S.Boolean),
     investigation_inconclusive_action: S.optional(InvestigationInconclusiveActionEnum),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/alerts/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateAlertRequest",
-}) as any as S.Schema<CreateAlertRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/alerts/", code: 200 })),
+).annotate({ identifier: "CreateAlertRequest" }) as any as S.Schema<CreateAlertRequest>;
 
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
@@ -814,6 +824,8 @@ export interface Alert {
   insight_short_id?: string;
   /** Display name of the insight monitored by this alert. */
   insight_display_name?: string;
+  /** Whether this alert can use the AI detector, judged for the person who created it, since scheduled checks run as the creator. Only computed when retrieving a single alert; null elsewhere. */
+  llm_detector_available?: boolean | null;
   /** Human-readable name for the alert. */
   name?: string;
   /** User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object. */
@@ -828,6 +840,8 @@ export interface Alert {
   enabled?: boolean;
   last_notified_at?: string | null;
   last_checked_at?: string | null;
+  /** Local time that starts alert checks in HH:MM format. Updating this value recalculates the next check. Set null to remove the custom start time. */
+  schedule_start_time?: string | null;
   next_check_at?: string | null;
   /** Alert check results. By default returns the last 5. Use checks_date_from and checks_date_to (e.g. '-24h', '-7d') to get checks within a time window, checks_limit to cap how many are returned (default 5, max 500), and checks_offset to skip the newest N checks for pagination (0-based). Newest checks first. Only populated on retrieve. */
   checks?: AlertChecksList;
@@ -836,6 +850,8 @@ export interface Alert {
   /** Per-insight-kind alert configuration, discriminated by `type`. TrendsAlertConfig: series_index (which series to monitor) and check_ongoing_interval (whether to check the current incomplete interval). HogQLAlertConfig (SQL insights): column (which result column to evaluate, defaults to the single numeric column), evaluation ('last_row' checks the latest value of an oldest->newest query, 'first_row' checks the first value of a newest->oldest query, 'any_row' fires if any row breaches), and label_column (names the evaluated row(s) in breach messages, in every evaluation mode). FunnelsAlertConfig (funnel insights): funnel_step (the step to monitor, null for the overall last step), metric ('conversion_from_start' or 'conversion_from_previous'), and check_ongoing_interval (historical-trend funnels: also evaluate the current in-progress period). Steps funnels support only absolute_value conditions; historical-trend funnels also support relative_increase/relative_decrease (compared against the prior period). */
   config?: AlertConfigUnion | null;
   detector_config?: DetectorConfig | null;
+  /** Skip this many completed insight intervals after excluding the ongoing interval (0-100, default 0). Time-series Trends only. A positive delay requires check_ongoing_interval=false. Uses the insight interval, not the check frequency. Allows late data to arrive, but also delays detection of real problems. */
+  evaluation_delay_intervals?: number;
   /** How often the alert is checked: real time (Scale+), every 15 minutes (Boost+), hourly, daily, weekly, or monthly. * `real_time` - real_time * `every_15_minutes` - every_15_minutes * `hourly` - hourly * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
   calculation_interval?: CalculationIntervalEnum;
   /** Snooze the alert until this time. Pass a relative date string (e.g. '2h', '1d') or null to unsnooze. */
@@ -863,6 +879,7 @@ export const Alert = /*@__PURE__*/ S.suspend(() =>
     insight: S.optional(S.Number),
     insight_short_id: S.optional(S.String),
     insight_display_name: S.optional(S.String),
+    llm_detector_available: S.optional(S.NullOr(S.Boolean)),
     name: S.optional(S.String),
     subscribed_users: S.optional(AlertSubscribedUsersList),
     threshold: S.optional(Threshold),
@@ -871,11 +888,13 @@ export const Alert = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     last_notified_at: S.optional(S.NullOr(S.String)),
     last_checked_at: S.optional(S.NullOr(S.String)),
+    schedule_start_time: S.optional(S.NullOr(S.String)),
     next_check_at: S.optional(S.NullOr(S.String)),
     checks: S.optional(AlertChecksList),
     checks_total: S.optional(S.NullOr(S.Number)),
     config: S.optional(S.NullOr(AlertConfigUnion)),
     detector_config: S.optional(S.NullOr(DetectorConfig)),
+    evaluation_delay_intervals: S.optional(S.Number),
     calculation_interval: S.optional(CalculationIntervalEnum),
     snoozed_until: S.optional(S.NullOr(S.String)),
     skip_weekend: S.optional(S.NullOr(S.Boolean)),
@@ -888,6 +907,59 @@ export const Alert = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Alert" }) as any as S.Schema<Alert>;
 
+/** * `slack` - slack */
+export type ChannelTypeEnum = "slack";
+export const ChannelTypeEnum = S.String;
+
+export interface CreateAlertsDestinationRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this alert configuration. */
+  id: string;
+  /** Destination type. Slack is the only type this endpoint creates. * `slack` - slack */
+  type?: ChannelTypeEnum | (string & {});
+  /** Integration ID of the Slack workspace to post in. List them with the integrations endpoint. */
+  slack_workspace_id: number;
+  /** Slack channel ID to post in, for example C0123456789. */
+  slack_channel_id: string;
+  /** Channel name shown on the destination, for example product-alerts. */
+  slack_channel_name?: string;
+}
+export const CreateAlertsDestinationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    type: S.optional(ChannelTypeEnum),
+    slack_workspace_id: S.Number,
+    slack_channel_id: S.String,
+    slack_channel_name: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/alerts/{id}/destinations/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateAlertsDestinationRequest",
+}) as any as S.Schema<CreateAlertsDestinationRequest>;
+
+/** IDs of the created destination. Pass them to destinations/delete to remove it. */
+export type AlertDestinationResponseHogFunctionIdsList = Array<string>;
+export const AlertDestinationResponseHogFunctionIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AlertDestinationResponseHogFunctionIdsList>;
+
+export interface AlertDestinationResponse {
+  /** IDs of the created destination. Pass them to destinations/delete to remove it. */
+  hog_function_ids: AlertDestinationResponseHogFunctionIdsList;
+}
+export const AlertDestinationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hog_function_ids: AlertDestinationResponseHogFunctionIdsList,
+  }),
+).annotate({ identifier: "AlertDestinationResponse" }) as any as S.Schema<AlertDestinationResponse>;
+
 /** Numeric insight ID or saved insight short ID to simulate the detector on. */
 export type CreateAlertsSimulateRequestInsight = number | string;
 export const CreateAlertsSimulateRequestInsight =
@@ -896,6 +968,8 @@ export const CreateAlertsSimulateRequestInsight =
 export interface CreateAlertsSimulateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Skip this many completed insight intervals before simulation, matching live evaluation. Time-series Trends only; a positive delay requires check_ongoing_interval=false. */
+  evaluation_delay_intervals?: number;
   /** Numeric insight ID or saved insight short ID to simulate the detector on. */
   insight?: CreateAlertsSimulateRequestInsight;
   /** Detector configuration to simulate. Omit it to use the default daily z-score detector (threshold 0.95, window 90, first-difference preprocessing). */
@@ -910,17 +984,14 @@ export interface CreateAlertsSimulateRequest {
 export const CreateAlertsSimulateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    evaluation_delay_intervals: S.optional(S.Number),
     insight: S.optional(CreateAlertsSimulateRequestInsight),
     detector_config: S.optional(DetectorConfig),
     series_index: S.optional(S.Number),
     date_from: S.optional(S.NullOr(S.String)),
     config: S.optional(S.NullOr(AlertConfigUnion)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/alerts/simulate/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/alerts/simulate/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateAlertsSimulateRequest",
@@ -938,7 +1009,7 @@ export const AlertSimulateResponseDatesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<AlertSimulateResponseDatesList>;
 
-/** Anomaly score for each point (null if insufficient data). */
+/** Score for each point. Null can mean insufficient data or a valid unscored point. AI previews report model confidence only for points flagged by an anomaly verdict; all other points are null, including every point in a normal verdict. */
 export type AlertSimulateResponseScoresList = Array<number | null>;
 export const AlertSimulateResponseScoresList = /*@__PURE__*/ S.Array(
   S.NullOr(S.Number),
@@ -956,9 +1027,7 @@ export const AlertSimulateResponseTriggeredDatesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<AlertSimulateResponseTriggeredDatesList>;
 
-export type AlertSimulateResponseSubDetectorScoresItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type AlertSimulateResponseSubDetectorScoresItemMap = { [key: string]: unknown | undefined };
 export const AlertSimulateResponseSubDetectorScoresItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1059,11 +1128,19 @@ export const AlertSimulateResponseBreakdownResultsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AlertSimulateResponseBreakdownResultsList>;
 
 export interface AlertSimulateResponse {
+  /** Completed intervals skipped. */
+  evaluation_delay_intervals?: number;
+  /** Start of the latest eligible interval. */
+  evaluated_interval_start?: string;
+  /** Exclusive end of the latest eligible interval. */
+  evaluated_interval_end?: string;
+  /** Project timezone of the interval. */
+  evaluated_interval_timezone?: string;
   /** Data values for each point. */
   data?: AlertSimulateResponseDataList;
   /** Date labels for each point. */
   dates?: AlertSimulateResponseDatesList;
-  /** Anomaly score for each point (null if insufficient data). */
+  /** Score for each point. Null can mean insufficient data or a valid unscored point. AI previews report model confidence only for points flagged by an anomaly verdict; all other points are null, including every point in a normal verdict. */
   scores?: AlertSimulateResponseScoresList;
   /** Indices of points flagged as anomalies. */
   triggered_indices?: AlertSimulateResponseTriggeredIndicesList;
@@ -1082,6 +1159,10 @@ export interface AlertSimulateResponse {
 }
 export const AlertSimulateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    evaluation_delay_intervals: S.optional(S.Number),
+    evaluated_interval_start: S.optional(S.String),
+    evaluated_interval_end: S.optional(S.String),
+    evaluated_interval_timezone: S.optional(S.String),
     data: S.optional(AlertSimulateResponseDataList),
     dates: S.optional(AlertSimulateResponseDatesList),
     scores: S.optional(AlertSimulateResponseScoresList),
@@ -1093,9 +1174,7 @@ export const AlertSimulateResponse = /*@__PURE__*/ S.suspend(() =>
     sub_detector_scores: S.optional(AlertSimulateResponseSubDetectorScoresList),
     breakdown_results: S.optional(AlertSimulateResponseBreakdownResultsList),
   }),
-).annotate({
-  identifier: "AlertSimulateResponse",
-}) as any as S.Schema<AlertSimulateResponse>;
+).annotate({ identifier: "AlertSimulateResponse" }) as any as S.Schema<AlertSimulateResponse>;
 
 export interface CreateAlertsTestDeliveryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1147,16 +1226,8 @@ export const GetAlertRequest = /*@__PURE__*/ S.suspend(() =>
     checks_date_to: S.optional(S.String.pipe(T.Query())),
     checks_limit: S.optional(S.Number.pipe(T.Query())),
     checks_offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/alerts/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetAlertRequest",
-}) as any as S.Schema<GetAlertRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 })),
+).annotate({ identifier: "GetAlertRequest" }) as any as S.Schema<GetAlertRequest>;
 
 export interface ListAlertsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1186,16 +1257,8 @@ export const ListAlertsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/alerts/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListAlertsRequest",
-}) as any as S.Schema<ListAlertsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/alerts/", code: 200 })),
+).annotate({ identifier: "ListAlertsRequest" }) as any as S.Schema<ListAlertsRequest>;
 
 export type PaginatedAlertListResultsList = Array<Alert>;
 export const PaginatedAlertListResultsList = /*@__PURE__*/ S.Array(
@@ -1215,9 +1278,7 @@ export const PaginatedAlertList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: S.optional(PaginatedAlertListResultsList),
   }),
-).annotate({
-  identifier: "PaginatedAlertList",
-}) as any as S.Schema<PaginatedAlertList>;
+).annotate({ identifier: "PaginatedAlertList" }) as any as S.Schema<PaginatedAlertList>;
 
 /** User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object. */
 export type UpdateAlertRequestSubscribedUsersList = Array<number>;
@@ -1242,9 +1303,13 @@ export interface UpdateAlertRequest {
   condition?: AlertCondition | null;
   /** Whether the alert is actively being evaluated. */
   enabled?: boolean;
+  /** Local time that starts alert checks in HH:MM format. Updating this value recalculates the next check. Set null to remove the custom start time. */
+  schedule_start_time?: string | null;
   /** Per-insight-kind alert configuration, discriminated by `type`. TrendsAlertConfig: series_index (which series to monitor) and check_ongoing_interval (whether to check the current incomplete interval). HogQLAlertConfig (SQL insights): column (which result column to evaluate, defaults to the single numeric column), evaluation ('last_row' checks the latest value of an oldest->newest query, 'first_row' checks the first value of a newest->oldest query, 'any_row' fires if any row breaches), and label_column (names the evaluated row(s) in breach messages, in every evaluation mode). FunnelsAlertConfig (funnel insights): funnel_step (the step to monitor, null for the overall last step), metric ('conversion_from_start' or 'conversion_from_previous'), and check_ongoing_interval (historical-trend funnels: also evaluate the current in-progress period). Steps funnels support only absolute_value conditions; historical-trend funnels also support relative_increase/relative_decrease (compared against the prior period). */
   config?: AlertConfigUnion | null;
   detector_config?: DetectorConfig | null;
+  /** Skip this many completed insight intervals after excluding the ongoing interval (0-100, default 0). Time-series Trends only. A positive delay requires check_ongoing_interval=false. Uses the insight interval, not the check frequency. Allows late data to arrive, but also delays detection of real problems. */
+  evaluation_delay_intervals?: number;
   /** How often the alert is checked: real time (Scale+), every 15 minutes (Boost+), hourly, daily, weekly, or monthly. * `real_time` - real_time * `every_15_minutes` - every_15_minutes * `hourly` - hourly * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
   calculation_interval?: CalculationIntervalEnum | (string & {});
   /** Snooze the alert until this time. Pass a relative date string (e.g. '2h', '1d') or null to unsnooze. */
@@ -1270,8 +1335,10 @@ export const UpdateAlertRequest = /*@__PURE__*/ S.suspend(() =>
     threshold: S.optional(ThresholdInput),
     condition: S.optional(S.NullOr(AlertCondition)),
     enabled: S.optional(S.Boolean),
+    schedule_start_time: S.optional(S.NullOr(S.String)),
     config: S.optional(S.NullOr(AlertConfigUnion)),
     detector_config: S.optional(S.NullOr(DetectorConfig)),
+    evaluation_delay_intervals: S.optional(S.Number),
     calculation_interval: S.optional(CalculationIntervalEnum),
     snoozed_until: S.optional(S.NullOr(S.String)),
     skip_weekend: S.optional(S.NullOr(S.Boolean)),
@@ -1279,16 +1346,8 @@ export const UpdateAlertRequest = /*@__PURE__*/ S.suspend(() =>
     investigation_agent_enabled: S.optional(S.Boolean),
     investigation_gates_notifications: S.optional(S.Boolean),
     investigation_inconclusive_action: S.optional(InvestigationInconclusiveActionEnum),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/alerts/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateAlertRequest",
-}) as any as S.Schema<UpdateAlertRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 })),
+).annotate({ identifier: "UpdateAlertRequest" }) as any as S.Schema<UpdateAlertRequest>;
 
 /** User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object. */
 export type UpdateAlertsPartialRequestSubscribedUsersList = Array<number>;
@@ -1313,9 +1372,13 @@ export interface UpdateAlertsPartialRequest {
   condition?: AlertCondition | null;
   /** Whether the alert is actively being evaluated. */
   enabled?: boolean;
+  /** Local time that starts alert checks in HH:MM format. Updating this value recalculates the next check. Set null to remove the custom start time. */
+  schedule_start_time?: string | null;
   /** Per-insight-kind alert configuration, discriminated by `type`. TrendsAlertConfig: series_index (which series to monitor) and check_ongoing_interval (whether to check the current incomplete interval). HogQLAlertConfig (SQL insights): column (which result column to evaluate, defaults to the single numeric column), evaluation ('last_row' checks the latest value of an oldest->newest query, 'first_row' checks the first value of a newest->oldest query, 'any_row' fires if any row breaches), and label_column (names the evaluated row(s) in breach messages, in every evaluation mode). FunnelsAlertConfig (funnel insights): funnel_step (the step to monitor, null for the overall last step), metric ('conversion_from_start' or 'conversion_from_previous'), and check_ongoing_interval (historical-trend funnels: also evaluate the current in-progress period). Steps funnels support only absolute_value conditions; historical-trend funnels also support relative_increase/relative_decrease (compared against the prior period). */
   config?: AlertConfigUnion | null;
   detector_config?: DetectorConfig | null;
+  /** Skip this many completed insight intervals after excluding the ongoing interval (0-100, default 0). Time-series Trends only. A positive delay requires check_ongoing_interval=false. Uses the insight interval, not the check frequency. Allows late data to arrive, but also delays detection of real problems. */
+  evaluation_delay_intervals?: number;
   /** How often the alert is checked: real time (Scale+), every 15 minutes (Boost+), hourly, daily, weekly, or monthly. * `real_time` - real_time * `every_15_minutes` - every_15_minutes * `hourly` - hourly * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
   calculation_interval?: CalculationIntervalEnum | (string & {});
   /** Snooze the alert until this time. Pass a relative date string (e.g. '2h', '1d') or null to unsnooze. */
@@ -1341,8 +1404,10 @@ export const UpdateAlertsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     threshold: S.optional(ThresholdInput),
     condition: S.optional(S.NullOr(AlertCondition)),
     enabled: S.optional(S.Boolean),
+    schedule_start_time: S.optional(S.NullOr(S.String)),
     config: S.optional(S.NullOr(AlertConfigUnion)),
     detector_config: S.optional(S.NullOr(DetectorConfig)),
+    evaluation_delay_intervals: S.optional(S.Number),
     calculation_interval: S.optional(CalculationIntervalEnum),
     snoozed_until: S.optional(S.NullOr(S.String)),
     skip_weekend: S.optional(S.NullOr(S.Boolean)),
@@ -1350,16 +1415,25 @@ export const UpdateAlertsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     investigation_agent_enabled: S.optional(S.Boolean),
     investigation_gates_notifications: S.optional(S.Boolean),
     investigation_inconclusive_action: S.optional(InvestigationInconclusiveActionEnum),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/alerts/{id}/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 })),
 ).annotate({
   identifier: "UpdateAlertsPartialRequest",
 }) as any as S.Schema<UpdateAlertsPartialRequest>;
+
+export type AlertsDestinationsDeleteCreateError = PosthogOpError;
+/** Stop sending this alert to a destination. The alert keeps its email recipients. */
+export const alertsDestinationsDeleteCreate: API.OperationMethod<
+  AlertsDestinationsDeleteCreateRequest,
+  AlertsDestinationsDeleteCreateResponse,
+  AlertsDestinationsDeleteCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AlertsDestinationsDeleteCreateRequest,
+  output: AlertsDestinationsDeleteCreateResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
 
 export type AlertsDestroyError = Forbidden | NotFound | PosthogOpError;
 export const alertsDestroy: API.OperationMethod<
@@ -1389,8 +1463,23 @@ export const createAlert: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateAlertsDestinationError = PosthogOpError;
+/** Send this alert to a Slack channel as well as by email. The workspace must already be connected to the project. The returned IDs identify the destination. */
+export const createAlertsDestination: API.OperationMethod<
+  CreateAlertsDestinationRequest,
+  AlertDestinationResponse,
+  CreateAlertsDestinationError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateAlertsDestinationRequest,
+  output: AlertDestinationResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateAlertsSimulateError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** Simulate a detector on an insight's historical data. Read-only — no AlertCheck records are created. */
+/** Simulate a detector on an insight's historical data. No AlertCheck records are created. The AI detector makes a real model call, so that mode needs the 'alert:write' scope. */
 export const createAlertsSimulate: API.OperationMethod<
   CreateAlertsSimulateRequest,
   AlertSimulateResponse,

@@ -356,11 +356,7 @@ export const CreateExperimentHoldoutRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     filters: S.optional(CreateExperimentHoldoutRequestFiltersList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/experiment_holdouts/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/experiment_holdouts/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateExperimentHoldoutRequest",
@@ -449,9 +445,7 @@ export const ExperimentHoldout = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     user_access_level: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ExperimentHoldout",
-}) as any as S.Schema<ExperimentHoldout>;
+).annotate({ identifier: "ExperimentHoldout" }) as any as S.Schema<ExperimentHoldout>;
 
 export interface ExperimentHoldoutsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -516,11 +510,7 @@ export const ListExperimentHoldoutsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/experiment_holdouts/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/experiment_holdouts/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListExperimentHoldoutsRequest",
@@ -622,6 +612,7 @@ export const UpdateExperimentHoldoutsPartialRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<UpdateExperimentHoldoutsPartialRequest>;
 
 export type CreateExperimentHoldoutError = BadRequest | Forbidden | NotFound | PosthogOpError;
+/** Create, read, update and delete experiment holdouts. */
 export const createExperimentHoldout: API.OperationMethod<
   CreateExperimentHoldoutRequest,
   ExperimentHoldout,
@@ -636,6 +627,7 @@ export const createExperimentHoldout: API.OperationMethod<
 }));
 
 export type ExperimentHoldoutsDestroyError = Forbidden | NotFound | PosthogOpError;
+/** Create, read, update and delete experiment holdouts. */
 export const experimentHoldoutsDestroy: API.OperationMethod<
   ExperimentHoldoutsDestroyRequest,
   ExperimentHoldoutsDestroyResponse,
@@ -650,6 +642,7 @@ export const experimentHoldoutsDestroy: API.OperationMethod<
 }));
 
 export type GetExperimentHoldoutError = Forbidden | NotFound | PosthogOpError;
+/** Create, read, update and delete experiment holdouts. */
 export const getExperimentHoldout: API.OperationMethod<
   GetExperimentHoldoutRequest,
   ExperimentHoldout,
@@ -664,6 +657,7 @@ export const getExperimentHoldout: API.OperationMethod<
 }));
 
 export type ListExperimentHoldoutsError = BadRequest | Forbidden | NotFound | PosthogOpError;
+/** Create, read, update and delete experiment holdouts. */
 export const listExperimentHoldouts: API.OperationMethod<
   ListExperimentHoldoutsRequest,
   PaginatedExperimentHoldoutList,
@@ -678,6 +672,7 @@ export const listExperimentHoldouts: API.OperationMethod<
 }));
 
 export type UpdateExperimentHoldoutError = BadRequest | Forbidden | NotFound | PosthogOpError;
+/** Create, read, update and delete experiment holdouts. */
 export const updateExperimentHoldout: API.OperationMethod<
   UpdateExperimentHoldoutRequest,
   ExperimentHoldout,
@@ -696,6 +691,7 @@ export type UpdateExperimentHoldoutsPartialError =
   | Forbidden
   | NotFound
   | PosthogOpError;
+/** Create, read, update and delete experiment holdouts. */
 export const updateExperimentHoldoutsPartial: API.OperationMethod<
   UpdateExperimentHoldoutsPartialRequest,
   ExperimentHoldout,

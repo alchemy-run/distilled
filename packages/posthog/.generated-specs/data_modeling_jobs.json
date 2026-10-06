@@ -18,6 +18,42 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.posthog.data_modeling_jobs#ListDataModelingJobsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Cancelled"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Failed"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Running"
+          }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Skipped"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.posthog.data_modeling_jobs#ListDataModelingJobsRequest": {
       "type": "structure",
       "members": {
@@ -47,6 +83,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "saved_query_id"
+          }
+        },
+        "status": {
+          "target": "com.posthog.data_modeling_jobs#ListDataModelingJobsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "* `Cancelled` - Cancelled\n* `Completed` - Completed\n* `Failed` - Failed\n* `Running` - Running\n* `Skipped` - Skipped"
           }
         }
       },
@@ -110,6 +153,14 @@
           "target": "com.posthog.data_modeling_jobs#DataModelingJobRunModeEnum",
           "traits": {
             "smithy.api#documentation": "What this run wrote: full_refresh rebuilt the whole table, so rows_materialized is the table's size; incremental wrote only its window, so rows_materialized counts just the rows synced. Null for runs from before modes were recorded, or that failed before the plan resolved.\n\n* `full_refresh` - Full refresh\n* `incremental` - Incremental",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "full_refresh_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why this run rebuilt the whole table instead of updating only new rows, for example first run, definition changed, or table missing. Null when the run was incremental.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }

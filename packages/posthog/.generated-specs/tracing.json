@@ -18,6 +18,555 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.posthog.tracing#ListTracingRetentionRulesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.tracing#PaginatedTracesRetentionRuleList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.tracing#PaginatedTracesRetentionRuleListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#TracesRetentionRule": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for this retention rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-visible label for this rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When false, the rule is ignored by ingestion and listing UIs that show active rules only."
+          }
+        },
+        "priority": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "config": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Retention rule JSON. Required keys: `retention_days` (integer — how long matching logs are kept; must be a tier the organization is entitled to, same as the team-wide Logs retention setting) and `filter_group` (PropertyGroupFilter shape — an AND/OR tree of property predicates evaluated per record to decide which logs this rule matches). Example: `{\"retention_days\":30,\"filter_group\":{\"type\":\"AND\",\"values\":[{\"type\":\"AND\",\"values\":[{\"key\":\"service.name\",\"operator\":\"exact\",\"value\":\"api\"}]}]}}`. Logs matching no enabled rule keep the environment's default retention.",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Incremented on each update for worker cache coherency.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#PaginatedTracesRetentionRuleListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.tracing#TracesRetentionRule"
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#ListTracingRetentionRules": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.tracing#ListTracingRetentionRulesRequest"
+      },
+      "output": {
+        "target": "com.posthog.tracing#PaginatedTracesRetentionRuleList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/tracing/retention_rules/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Span retention rules.\n\nShares the logs implementation over its own model. Only the model, the access-control scope and\nthe feature flag differ."
+      }
+    },
+    "com.posthog.tracing#CreateTracingRetentionRuleRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-visible label for this rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When false, the rule is ignored by ingestion and listing UIs that show active rules only."
+          }
+        },
+        "priority": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "config": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Retention rule JSON. Required keys: `retention_days` (integer — how long matching logs are kept; must be a tier the organization is entitled to, same as the team-wide Logs retention setting) and `filter_group` (PropertyGroupFilter shape — an AND/OR tree of property predicates evaluated per record to decide which logs this rule matches). Example: `{\"retention_days\":30,\"filter_group\":{\"type\":\"AND\",\"values\":[{\"type\":\"AND\",\"values\":[{\"key\":\"service.name\",\"operator\":\"exact\",\"value\":\"api\"}]}]}}`. Logs matching no enabled rule keep the environment's default retention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.tracing#CreateTracingRetentionRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.tracing#CreateTracingRetentionRuleRequest"
+      },
+      "output": {
+        "target": "com.posthog.tracing#TracesRetentionRule"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/tracing/retention_rules/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Span retention rules.\n\nShares the logs implementation over its own model. Only the model, the access-control scope and\nthe feature flag differ."
+      }
+    },
+    "com.posthog.tracing#GetTracingRetentionRuleRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this traces retention rule."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.tracing#GetTracingRetentionRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.tracing#GetTracingRetentionRuleRequest"
+      },
+      "output": {
+        "target": "com.posthog.tracing#TracesRetentionRule"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/tracing/retention_rules/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Span retention rules.\n\nShares the logs implementation over its own model. Only the model, the access-control scope and\nthe feature flag differ."
+      }
+    },
+    "com.posthog.tracing#UpdateTracingRetentionRuleRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this traces retention rule."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-visible label for this rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When false, the rule is ignored by ingestion and listing UIs that show active rules only."
+          }
+        },
+        "priority": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "config": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Retention rule JSON. Required keys: `retention_days` (integer — how long matching logs are kept; must be a tier the organization is entitled to, same as the team-wide Logs retention setting) and `filter_group` (PropertyGroupFilter shape — an AND/OR tree of property predicates evaluated per record to decide which logs this rule matches). Example: `{\"retention_days\":30,\"filter_group\":{\"type\":\"AND\",\"values\":[{\"type\":\"AND\",\"values\":[{\"key\":\"service.name\",\"operator\":\"exact\",\"value\":\"api\"}]}]}}`. Logs matching no enabled rule keep the environment's default retention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.tracing#UpdateTracingRetentionRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.tracing#UpdateTracingRetentionRuleRequest"
+      },
+      "output": {
+        "target": "com.posthog.tracing#TracesRetentionRule"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/tracing/retention_rules/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Span retention rules.\n\nShares the logs implementation over its own model. Only the model, the access-control scope and\nthe feature flag differ."
+      }
+    },
+    "com.posthog.tracing#UpdateTracingRetentionRulesPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this traces retention rule."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-visible label for this rule."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When false, the rule is ignored by ingestion and listing UIs that show active rules only."
+          }
+        },
+        "priority": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "config": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Retention rule JSON. Required keys: `retention_days` (integer — how long matching logs are kept; must be a tier the organization is entitled to, same as the team-wide Logs retention setting) and `filter_group` (PropertyGroupFilter shape — an AND/OR tree of property predicates evaluated per record to decide which logs this rule matches). Example: `{\"retention_days\":30,\"filter_group\":{\"type\":\"AND\",\"values\":[{\"type\":\"AND\",\"values\":[{\"key\":\"service.name\",\"operator\":\"exact\",\"value\":\"api\"}]}]}}`. Logs matching no enabled rule keep the environment's default retention."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.tracing#UpdateTracingRetentionRulesPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.tracing#UpdateTracingRetentionRulesPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.tracing#TracesRetentionRule"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/tracing/retention_rules/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Span retention rules.\n\nShares the logs implementation over its own model. Only the model, the access-control scope and\nthe feature flag differ."
+      }
+    },
+    "com.posthog.tracing#TracingRetentionRulesDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this traces retention rule."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.tracing#TracingRetentionRulesDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.tracing#TracingRetentionRulesDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/tracing/retention_rules/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Span retention rules.\n\nShares the logs implementation over its own model. Only the model, the access-control scope and\nthe feature flag differ."
+      }
+    },
+    "com.posthog.tracing#CreateTracingRetentionRulesReorderRequestOrderedIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Rule IDs in the desired evaluation order (first element is highest priority / lowest order index)."
+      }
+    },
+    "com.posthog.tracing#CreateTracingRetentionRulesReorderRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        },
+        "ordered_ids": {
+          "target": "com.posthog.tracing#CreateTracingRetentionRulesReorderRequestOrderedIdsList",
+          "traits": {
+            "smithy.api#documentation": "Rule IDs in the desired evaluation order (first element is highest priority / lowest order index).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.tracing#CreateTracingRetentionRulesReorder": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.tracing#CreateTracingRetentionRulesReorderRequest"
+      },
+      "output": {
+        "target": "com.posthog.tracing#PaginatedTracesRetentionRuleList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/tracing/retention_rules/reorder/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Atomically reassign priorities so the given ID order maps to ascending priorities (0..n-1)."
+      }
+    },
+    "com.posthog.tracing#CreateTracingRetentionRulesSuggestNameRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "retention_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Retention tier the rule would assign, in days.",
+            "smithy.api#required": {}
+          }
+        },
+        "filter_group": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "PropertyGroupFilter tree the rule would match on.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.tracing#LogsRetentionRuleNameSuggestion": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Suggested rule name. Empty when no suggestion could be generated — clients hide the hint.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#CreateTracingRetentionRulesSuggestName": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.tracing#CreateTracingRetentionRulesSuggestNameRequest"
+      },
+      "output": {
+        "target": "com.posthog.tracing#LogsRetentionRuleNameSuggestion"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/tracing/retention_rules/suggest_name/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Suggest a human-readable name for a retention rule from its retention tier and filter group. Used by the create form as an auto-suggest; nothing is persisted. Returns an empty name when a suggestion can't be generated."
+      }
+    },
     "com.posthog.tracing#TracingAggregationQueryBody": {
       "type": "structure",
       "members": {
@@ -55,6 +604,12 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Row offset for pagination. Combine with `limit` and the `next_offset` returned in the response to page through results beyond the first page."
+          }
+        },
+        "includeImpact": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Also return the sessions and people behind each operation. Off by default because it reads the span and resource attribute maps, which the rest of the aggregation never touches."
           }
         }
       },
@@ -398,6 +953,38 @@
           "traits": {
             "smithy.api#documentation": "Spans with OTel status code Error (status_code = 2).",
             "smithy.api#required": {}
+          }
+        },
+        "sessions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Estimated unique session IDs across this group's spans (HyperLogLog, about 1-2% error). Null unless the query set `includeImpact`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "users": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Estimated unique person distinct IDs across this group's spans (HyperLogLog, about 1-2% error). Null unless the query set `includeImpact`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "spans_with_session_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many of this group's spans carry a session ID under the team's configured or conventional attribute keys. Null unless the query set `includeImpact`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "spans_with_distinct_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many of this group's spans carry a person distinct ID under the team's configured or conventional attribute keys. Null unless the query set `includeImpact`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -846,9 +1433,9 @@
           }
         },
         "filterGroup": {
-          "target": "com.posthog.tracing#TracingCountBodyFilterGroupList",
+          "target": "com.posthog.tracing#TracingCountBodyFilterGroup",
           "traits": {
-            "smithy.api#documentation": "Property filters for the count."
+            "smithy.api#documentation": "Property filters for the count. Either a flat list of filters or a nested filter group."
           }
         }
       },
@@ -872,13 +1459,127 @@
         "smithy.api#documentation": "Filter by OTel span status codes (0 Unset, 1 OK, 2 Error) — not HTTP status codes. Use [2] to select error spans."
       }
     },
-    "com.posthog.tracing#TracingCountBodyFilterGroupList": {
+    "com.posthog.tracing#TracingCountBodyFilterGroupCase0List": {
       "type": "list",
       "member": {
         "target": "com.posthog.tracing#SpanPropertyFilter"
       },
       "traits": {
-        "smithy.api#documentation": "Property filters for the count."
+        "smithy.api#documentation": "A flat list of filters, combined with AND."
+      }
+    },
+    "com.posthog.tracing#TracingCountBodyFilterGroupCase1Type": {
+      "type": "enum",
+      "members": {
+        "AND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AND"
+          }
+        },
+        "OR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OR"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the inner groups combine."
+      }
+    },
+    "com.posthog.tracing#TracingCountBodyFilterGroupCase1ValuesItemType": {
+      "type": "enum",
+      "members": {
+        "AND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AND"
+          }
+        },
+        "OR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OR"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the filters in this group combine."
+      }
+    },
+    "com.posthog.tracing#TracingCountBodyFilterGroupCase1ValuesItemValuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.tracing#SpanPropertyFilter"
+      },
+      "traits": {
+        "smithy.api#documentation": "The property filters in this group."
+      }
+    },
+    "com.posthog.tracing#TracingCountBodyFilterGroupCase1ValuesItem": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.posthog.tracing#TracingCountBodyFilterGroupCase1ValuesItemType",
+          "traits": {
+            "smithy.api#documentation": "How the filters in this group combine.",
+            "smithy.api#required": {}
+          }
+        },
+        "values": {
+          "target": "com.posthog.tracing#TracingCountBodyFilterGroupCase1ValuesItemValuesList",
+          "traits": {
+            "smithy.api#documentation": "The property filters in this group.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#TracingCountBodyFilterGroupCase1ValuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.tracing#TracingCountBodyFilterGroupCase1ValuesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The inner filter groups."
+      }
+    },
+    "com.posthog.tracing#TracingCountBodyFilterGroupCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.posthog.tracing#TracingCountBodyFilterGroupCase1Type",
+          "traits": {
+            "smithy.api#documentation": "How the inner groups combine.",
+            "smithy.api#required": {}
+          }
+        },
+        "values": {
+          "target": "com.posthog.tracing#TracingCountBodyFilterGroupCase1ValuesList",
+          "traits": {
+            "smithy.api#documentation": "The inner filter groups.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A nested group of filter groups, as the UI filter editor builds it."
+      }
+    },
+    "com.posthog.tracing#TracingCountBodyFilterGroup": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.tracing#TracingCountBodyFilterGroupCase0List"
+        },
+        "Case1": {
+          "target": "com.posthog.tracing#TracingCountBodyFilterGroupCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Property filters for the count. Either a flat list of filters or a nested filter group."
       }
     },
     "com.posthog.tracing#CreateTracingSpansCountRequest": {
@@ -1026,13 +1727,62 @@
         "smithy.api#input": {}
       }
     },
+    "com.posthog.tracing#TracingDurationHistogramResponse": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.tracing#TracingDurationHistogramResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "One row per duration bucket and service.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#TracingDurationHistogramRow": {
+      "type": "structure",
+      "members": {
+        "bucket_ns": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Lower bound of the duration bucket in nanoseconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "service": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service the count belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Spans in this bucket for this service.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#TracingDurationHistogramResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.tracing#TracingDurationHistogramRow"
+      },
+      "traits": {
+        "smithy.api#documentation": "One row per duration bucket and service."
+      }
+    },
     "com.posthog.tracing#CreateTracingSpansDurationHistogram": {
       "type": "operation",
       "input": {
         "target": "com.posthog.tracing#CreateTracingSpansDurationHistogramRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.tracing#TracingDurationHistogramResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1040,6 +1790,212 @@
           "uri": "/api/projects/{project_id}/tracing/spans/duration-histogram/",
           "code": 200
         }
+      }
+    },
+    "com.posthog.tracing#CreateTracingSpansErrorCountRequestTraceIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Hex trace IDs to count exceptions for, matched against the exception's `$trace_id` property. Case insensitive. At most 200 per request."
+      }
+    },
+    "com.posthog.tracing#CreateTracingSpansErrorCountRequestSpanIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Hex span IDs to count exceptions for, matched against the exception's `$span_id` property. Only counted within the requested traces, so `traceIds` is required alongside. At most 200 per request."
+      }
+    },
+    "com.posthog.tracing#CreateTracingSpansErrorCountRequestSessionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Session IDs to count exceptions for. The fallback for exceptions that carry no trace ID. At most 200 per request."
+      }
+    },
+    "com.posthog.tracing#CreateTracingSpansErrorCountRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "traceIds": {
+          "target": "com.posthog.tracing#CreateTracingSpansErrorCountRequestTraceIdsList",
+          "traits": {
+            "smithy.api#documentation": "Hex trace IDs to count exceptions for, matched against the exception's `$trace_id` property. Case insensitive. At most 200 per request."
+          }
+        },
+        "spanIds": {
+          "target": "com.posthog.tracing#CreateTracingSpansErrorCountRequestSpanIdsList",
+          "traits": {
+            "smithy.api#documentation": "Hex span IDs to count exceptions for, matched against the exception's `$span_id` property. Only counted within the requested traces, so `traceIds` is required alongside. At most 200 per request."
+          }
+        },
+        "sessionIds": {
+          "target": "com.posthog.tracing#CreateTracingSpansErrorCountRequestSessionIdsList",
+          "traits": {
+            "smithy.api#documentation": "Session IDs to count exceptions for. The fallback for exceptions that carry no trace ID. At most 200 per request."
+          }
+        },
+        "dateFrom": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the window the exceptions must fall in. ISO 8601.",
+            "smithy.api#required": {}
+          }
+        },
+        "dateTo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End of the window the exceptions must fall in. ISO 8601.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.tracing#TracingErrorCountsResponse": {
+      "type": "structure",
+      "members": {
+        "traceResults": {
+          "target": "com.posthog.tracing#TracingErrorCountsResponseTraceResultsList",
+          "traits": {
+            "smithy.api#documentation": "One entry per requested trace that had exceptions. Traces with none are omitted.",
+            "smithy.api#required": {}
+          }
+        },
+        "spanResults": {
+          "target": "com.posthog.tracing#TracingErrorCountsResponseSpanResultsList",
+          "traits": {
+            "smithy.api#documentation": "One entry per requested span that had exceptions. Spans with none are omitted.",
+            "smithy.api#required": {}
+          }
+        },
+        "sessionResults": {
+          "target": "com.posthog.tracing#TracingErrorCountsResponseSessionResultsList",
+          "traits": {
+            "smithy.api#documentation": "One entry per requested session that had exceptions. Sessions with none are omitted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#TracingTraceErrorCount": {
+      "type": "structure",
+      "members": {
+        "exceptions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Exception events in the window that error tracking linked to an issue.",
+            "smithy.api#required": {}
+          }
+        },
+        "trace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The trace the exceptions belong to, lowercase hex.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#TracingErrorCountsResponseTraceResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.tracing#TracingTraceErrorCount"
+      },
+      "traits": {
+        "smithy.api#documentation": "One entry per requested trace that had exceptions. Traces with none are omitted."
+      }
+    },
+    "com.posthog.tracing#TracingSpanErrorCount": {
+      "type": "structure",
+      "members": {
+        "exceptions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Exception events in the window that error tracking linked to an issue.",
+            "smithy.api#required": {}
+          }
+        },
+        "span_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The span the exceptions belong to, lowercase hex.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#TracingErrorCountsResponseSpanResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.tracing#TracingSpanErrorCount"
+      },
+      "traits": {
+        "smithy.api#documentation": "One entry per requested span that had exceptions. Spans with none are omitted."
+      }
+    },
+    "com.posthog.tracing#TracingSessionErrorCount": {
+      "type": "structure",
+      "members": {
+        "exceptions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Exception events in the window that error tracking linked to an issue.",
+            "smithy.api#required": {}
+          }
+        },
+        "session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The session the exceptions belong to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#TracingErrorCountsResponseSessionResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.tracing#TracingSessionErrorCount"
+      },
+      "traits": {
+        "smithy.api#documentation": "One entry per requested session that had exceptions. Sessions with none are omitted."
+      }
+    },
+    "com.posthog.tracing#CreateTracingSpansErrorCount": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.tracing#CreateTracingSpansErrorCountRequest"
+      },
+      "output": {
+        "target": "com.posthog.tracing#TracingErrorCountsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/tracing/spans/error-counts/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Count the exceptions the spans in view hit, by trace, by span and by session, for the\nspan list's error badges.\n\nA caller asks about the id kinds it has, and each kind is a separate lookup."
       }
     },
     "com.posthog.tracing#GetTracingSpansHasSpanRequest": {
@@ -1083,6 +2039,138 @@
         "smithy.api#http": {
           "method": "GET",
           "uri": "/api/projects/{project_id}/tracing/spans/has_spans/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.tracing#CreateTracingSpansImpactRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "query": {
+          "target": "com.posthog.tracing#TracingCountBody",
+          "traits": {
+            "smithy.api#documentation": "The impact query to execute. Takes the same filters as the count query.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.tracing#TracingImpactResponse": {
+      "type": "structure",
+      "members": {
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of spans matching the filters.",
+            "smithy.api#required": {}
+          }
+        },
+        "spansWithSessionId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many of the matching spans carry a session ID under the team's configured or conventional attribute keys.",
+            "smithy.api#required": {}
+          }
+        },
+        "sessions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Estimated number of unique session IDs across the matching spans (HyperLogLog, about 1-2% error).",
+            "smithy.api#required": {}
+          }
+        },
+        "spansWithDistinctId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many of the matching spans carry a person distinct ID under the team's configured or conventional attribute keys.",
+            "smithy.api#required": {}
+          }
+        },
+        "users": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Estimated number of unique distinct IDs across the matching spans (HyperLogLog, about 1-2% error).",
+            "smithy.api#required": {}
+          }
+        },
+        "topSessions": {
+          "target": "com.posthog.tracing#TracingImpactResponseTopSessionsList",
+          "traits": {
+            "smithy.api#documentation": "Top session IDs on the matching spans, ordered by span count descending (topK, at most 5).",
+            "smithy.api#required": {}
+          }
+        },
+        "topUsers": {
+          "target": "com.posthog.tracing#TracingImpactResponseTopUsersList",
+          "traits": {
+            "smithy.api#documentation": "Top person distinct IDs on the matching spans, ordered by span count descending (topK, at most 5).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#TracingImpactTopValue": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The session ID or person distinct ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Approximate number of matching spans that carry this value (topK estimate).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#TracingImpactResponseTopSessionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.tracing#TracingImpactTopValue"
+      },
+      "traits": {
+        "smithy.api#documentation": "Top session IDs on the matching spans, ordered by span count descending (topK, at most 5)."
+      }
+    },
+    "com.posthog.tracing#TracingImpactResponseTopUsersList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.tracing#TracingImpactTopValue"
+      },
+      "traits": {
+        "smithy.api#documentation": "Top person distinct IDs on the matching spans, ordered by span count descending (topK, at most 5)."
+      }
+    },
+    "com.posthog.tracing#CreateTracingSpansImpact": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.tracing#CreateTracingSpansImpactRequest"
+      },
+      "output": {
+        "target": "com.posthog.tracing#TracingImpactResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/tracing/spans/impact/",
           "code": 200
         }
       }
@@ -1355,13 +2443,201 @@
         "smithy.api#input": {}
       }
     },
+    "com.posthog.tracing#TracingQueryResponse": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.tracing#TracingQueryResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "Matching spans, ordered by the requested column.",
+            "smithy.api#required": {}
+          }
+        },
+        "hasMore": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a further page exists.",
+            "smithy.api#required": {}
+          }
+        },
+        "nextCursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cursor for the next page, or null on the last page. Pass it back as the query's `after`. Always null when ordering by duration, which pages by offset instead.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#Span": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Span's own UUID.",
+            "smithy.api#required": {}
+          }
+        },
+        "trace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Trace this span belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "span_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Span's ID within the trace.",
+            "smithy.api#required": {}
+          }
+        },
+        "parent_span_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Parent span's ID. Empty for a root span.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Span name, which is the operation it represents.",
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "OpenTelemetry span kind.",
+            "smithy.api#required": {}
+          }
+        },
+        "service_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service that emitted the span.",
+            "smithy.api#required": {}
+          }
+        },
+        "status_code": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "OpenTelemetry status code: 0 unset, 1 ok, 2 error.",
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the span started.",
+            "smithy.api#required": {}
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the span ended.",
+            "smithy.api#required": {}
+          }
+        },
+        "duration_nano": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Span duration in nanoseconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_root_span": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the span has no parent in the trace.",
+            "smithy.api#required": {}
+          }
+        },
+        "matched_filter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "1 when this span matched the request's filters, 0 when it is included as context. The query selects it as an expression, so it arrives as a number rather than a boolean.",
+            "smithy.api#required": {}
+          }
+        },
+        "trace_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the whole trace, for ordering traces by recency.",
+            "smithy.api#required": {}
+          }
+        },
+        "trace_duration": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Duration of the whole trace in nanoseconds. Falls back to this span's duration.",
+            "smithy.api#required": {}
+          }
+        },
+        "attributes": {
+          "target": "com.posthog.tracing#SpanAttributesMap",
+          "traits": {
+            "smithy.api#documentation": "Span attributes. Keys are whatever the instrumentation set.",
+            "smithy.api#required": {}
+          }
+        },
+        "resource_attributes": {
+          "target": "com.posthog.tracing#SpanResourceAttributesMap",
+          "traits": {
+            "smithy.api#documentation": "Resource attributes of the emitting service. Keys are whatever the instrumentation set.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One span row as the query and trace actions return it.\n\nThe runner assembles these from HogQL result columns by position, so the key set is fixed even\nthough the values come from a query. `trace_start` and `trace_duration` are the sort keys the\ntrace list orders on, carried in the row rather than recomputed by the caller."
+      }
+    },
+    "com.posthog.tracing#SpanAttributesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Span attributes. Keys are whatever the instrumentation set."
+      }
+    },
+    "com.posthog.tracing#SpanResourceAttributesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource attributes of the emitting service. Keys are whatever the instrumentation set."
+      }
+    },
+    "com.posthog.tracing#TracingQueryResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.tracing#Span"
+      },
+      "traits": {
+        "smithy.api#documentation": "Matching spans, ordered by the requested column."
+      }
+    },
     "com.posthog.tracing#CreateTracingSpansQuery": {
       "type": "operation",
       "input": {
         "target": "com.posthog.tracing#CreateTracingSpansQueryRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.tracing#TracingQueryResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1401,13 +2677,48 @@
         "smithy.api#input": {}
       }
     },
+    "com.posthog.tracing#TracingServiceNamesResponse": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.tracing#TracingServiceNamesResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "Services that emitted spans in the window.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#TracingServiceName": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#TracingServiceNamesResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.tracing#TracingServiceName"
+      },
+      "traits": {
+        "smithy.api#documentation": "Services that emitted spans in the window."
+      }
+    },
     "com.posthog.tracing#GetTracingSpansServiceName": {
       "type": "operation",
       "input": {
         "target": "com.posthog.tracing#GetTracingSpansServiceNameRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.tracing#TracingServiceNamesResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1503,13 +2814,62 @@
         "smithy.api#input": {}
       }
     },
+    "com.posthog.tracing#TracingSparklineResponse": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.tracing#TracingSparklineResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "One row per time bucket and service, ordered by time.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#TracingSparklineRow": {
+      "type": "structure",
+      "members": {
+        "time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the time bucket.",
+            "smithy.api#required": {}
+          }
+        },
+        "service": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service the count belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Spans in this bucket for this service.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#TracingSparklineResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.tracing#TracingSparklineRow"
+      },
+      "traits": {
+        "smithy.api#documentation": "One row per time bucket and service, ordered by time."
+      }
+    },
     "com.posthog.tracing#CreateTracingSpansSparkline": {
       "type": "operation",
       "input": {
         "target": "com.posthog.tracing#CreateTracingSpansSparklineRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.tracing#TracingSparklineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1885,7 +3245,7 @@
         "dateRange": {
           "target": "com.posthog.tracing#TracingDateRange",
           "traits": {
-            "smithy.api#documentation": "Date range for the query. Defaults to last 24 hours."
+            "smithy.api#documentation": "Date range for the query. Omit it to search all retained spans for this trace."
           }
         },
         "excludeAttributes": {
@@ -1905,13 +3265,208 @@
         "smithy.api#input": {}
       }
     },
+    "com.posthog.tracing#TracingTraceResponse": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.tracing#TracingTraceResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "Spans in the trace, earliest first.",
+            "smithy.api#required": {}
+          }
+        },
+        "hasMore": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a further page of spans exists.",
+            "smithy.api#required": {}
+          }
+        },
+        "nextOffset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Offset for the next page, or null on the last page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#TraceSpan": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Span's own UUID.",
+            "smithy.api#required": {}
+          }
+        },
+        "trace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Trace this span belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "span_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Span's ID within the trace.",
+            "smithy.api#required": {}
+          }
+        },
+        "parent_span_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Parent span's ID. Empty for a root span.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Span name, which is the operation it represents.",
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "OpenTelemetry span kind.",
+            "smithy.api#required": {}
+          }
+        },
+        "service_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service that emitted the span.",
+            "smithy.api#required": {}
+          }
+        },
+        "status_code": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "OpenTelemetry status code: 0 unset, 1 ok, 2 error.",
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the span started.",
+            "smithy.api#required": {}
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the span ended.",
+            "smithy.api#required": {}
+          }
+        },
+        "duration_nano": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Span duration in nanoseconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_root_span": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the span has no parent in the trace.",
+            "smithy.api#required": {}
+          }
+        },
+        "matched_filter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "1 when this span matched the request's filters, 0 when it is included as context. The query selects it as an expression, so it arrives as a number rather than a boolean.",
+            "smithy.api#required": {}
+          }
+        },
+        "trace_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the whole trace, for ordering traces by recency.",
+            "smithy.api#required": {}
+          }
+        },
+        "trace_duration": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Duration of the whole trace in nanoseconds. Falls back to this span's duration.",
+            "smithy.api#required": {}
+          }
+        },
+        "attributes": {
+          "target": "com.posthog.tracing#TraceSpanAttributesMap",
+          "traits": {
+            "smithy.api#documentation": "Span attributes. Keys are whatever the instrumentation set.",
+            "smithy.api#required": {}
+          }
+        },
+        "resource_attributes": {
+          "target": "com.posthog.tracing#TraceSpanResourceAttributesMap",
+          "traits": {
+            "smithy.api#documentation": "Resource attributes of the emitting service. Keys are whatever the instrumentation set.",
+            "smithy.api#required": {}
+          }
+        },
+        "self_time_nano": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Span duration minus the time spent in its children, in nanoseconds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A span in a single trace. The trace action adds self time, which the list does not compute."
+      }
+    },
+    "com.posthog.tracing#TraceSpanAttributesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Span attributes. Keys are whatever the instrumentation set."
+      }
+    },
+    "com.posthog.tracing#TraceSpanResourceAttributesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource attributes of the emitting service. Keys are whatever the instrumentation set."
+      }
+    },
+    "com.posthog.tracing#TracingTraceResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.tracing#TraceSpan"
+      },
+      "traits": {
+        "smithy.api#documentation": "Spans in the trace, earliest first."
+      }
+    },
     "com.posthog.tracing#CreateTracingSpansTrace": {
       "type": "operation",
       "input": {
         "target": "com.posthog.tracing#CreateTracingSpansTraceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.tracing#TracingTraceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1919,6 +3474,195 @@
           "uri": "/api/projects/{project_id}/tracing/spans/trace/{trace_id}/",
           "code": 200
         }
+      }
+    },
+    "com.posthog.tracing#GetTracingSpansTraceAiEventRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "trace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.tracing#TracingTraceAiEventsResponse": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.tracing#TracingTraceAiEventsResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "AI events in the trace, earliest start first, up to `limit` of them.",
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The most AI events the lookup returns for one trace.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the trace has more AI events than `results` holds. The full list is in AI observability under the events' `ai_trace_id`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#TracingTraceAiEvent": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Event UUID.",
+            "smithy.api#required": {}
+          }
+        },
+        "event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The LLM analytics event kind: `$ai_generation`, `$ai_span` or `$ai_embedding`.",
+            "smithy.api#required": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the call started. Add `latency_seconds` for when it finished. Normalized across OpenTelemetry-sourced events, which are stamped at the start, and SDK-sourced events, which are stamped at the finish.",
+            "smithy.api#required": {}
+          }
+        },
+        "ai_trace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The `$ai_trace_id` of the event, which opens it in LLM analytics.",
+            "smithy.api#required": {}
+          }
+        },
+        "ai_span_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The `$ai_span_id` of the event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ai_parent_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The `$ai_parent_id` of the event. For OpenTelemetry-sourced events this is the parent span's id.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "span_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The `$ai_span_name`, set on `$ai_span` events.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "latency_seconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "How long the call took, in seconds.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The model the call used.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provider the call went to.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "input_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Prompt tokens.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "output_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Completion tokens.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_cost_usd": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total cost of the call, in USD.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_error": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the call failed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#TracingTraceAiEventsResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.tracing#TracingTraceAiEvent"
+      },
+      "traits": {
+        "smithy.api#documentation": "AI events in the trace, earliest start first, up to `limit` of them."
+      }
+    },
+    "com.posthog.tracing#GetTracingSpansTraceAiEvent": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.tracing#GetTracingSpansTraceAiEventRequest"
+      },
+      "output": {
+        "target": "com.posthog.tracing#TracingTraceAiEventsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/tracing/spans/trace/{trace_id}/ai_events/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List the LLM analytics events whose `$ai_trace_id` is this trace's id, so the waterfall\ncan show each model call inline with the spans.\n\nThe spans and the AI events live on different ClickHouse clusters, so one query cannot join\nthem; this returns the events half and the caller places them by time."
       }
     },
     "com.posthog.tracing#TracingTreeQueryBody": {
@@ -2006,13 +3750,159 @@
         "smithy.api#input": {}
       }
     },
+    "com.posthog.tracing#TracingTreeResponse": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.tracing#TracingTreeResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "Call tree nodes for the requested window.",
+            "smithy.api#required": {}
+          }
+        },
+        "compare": {
+          "target": "com.posthog.tracing#TracingTreeResponseCompareList",
+          "traits": {
+            "smithy.api#documentation": "Nodes for the comparison window when compareFilter.compare is true. Null when no comparison was requested, and an empty list when one was requested and matched no spans.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.tracing#SpanTreeNode": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Span name for this node.",
+            "smithy.api#required": {}
+          }
+        },
+        "service_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service that emitted the spans.",
+            "smithy.api#required": {}
+          }
+        },
+        "parent_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Parent node's span name. The literal `<ROOT>` for a root node, which is how a client finds the roots.",
+            "smithy.api#required": {}
+          }
+        },
+        "parent_service": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Parent node's service. Empty string at the root.",
+            "smithy.api#required": {}
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Spans aggregated into this node.",
+            "smithy.api#required": {}
+          }
+        },
+        "error_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many of them reported an error status.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_duration_nano": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sum of durations in nanoseconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "avg_duration_nano": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Mean duration in nanoseconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "p50_duration_nano": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Median duration in nanoseconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "p95_duration_nano": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "95th percentile duration in nanoseconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "p99_duration_nano": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "99th percentile duration in nanoseconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "p999_duration_nano": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "99.9th percentile duration in nanoseconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "avg_start_offset_nano": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Mean nanoseconds from the parent's start to this node's start. Zero at the root.",
+            "smithy.api#required": {}
+          }
+        },
+        "calls_per_parent_invocation": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Mean calls per parent invocation. Null at the root.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One node of the aggregated call tree. Mirrors `SpanTreeNode` in posthog.schema."
+      }
+    },
+    "com.posthog.tracing#TracingTreeResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.tracing#SpanTreeNode"
+      },
+      "traits": {
+        "smithy.api#documentation": "Call tree nodes for the requested window."
+      }
+    },
+    "com.posthog.tracing#TracingTreeResponseCompareList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.tracing#SpanTreeNode"
+      },
+      "traits": {
+        "smithy.api#documentation": "Nodes for the comparison window when compareFilter.compare is true. Null when no comparison was requested, and an empty list when one was requested and matched no spans."
+      }
+    },
     "com.posthog.tracing#CreateTracingSpansTree": {
       "type": "operation",
       "input": {
         "target": "com.posthog.tracing#CreateTracingSpansTreeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.tracing#TracingTreeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2693,6 +4583,30 @@
       "version": "1.0.0",
       "operations": [
         {
+          "target": "com.posthog.tracing#ListTracingRetentionRules"
+        },
+        {
+          "target": "com.posthog.tracing#CreateTracingRetentionRule"
+        },
+        {
+          "target": "com.posthog.tracing#GetTracingRetentionRule"
+        },
+        {
+          "target": "com.posthog.tracing#UpdateTracingRetentionRule"
+        },
+        {
+          "target": "com.posthog.tracing#UpdateTracingRetentionRulesPartial"
+        },
+        {
+          "target": "com.posthog.tracing#TracingRetentionRulesDestroy"
+        },
+        {
+          "target": "com.posthog.tracing#CreateTracingRetentionRulesReorder"
+        },
+        {
+          "target": "com.posthog.tracing#CreateTracingRetentionRulesSuggestName"
+        },
+        {
           "target": "com.posthog.tracing#CreateTracingSpansAggregate"
         },
         {
@@ -2708,7 +4622,13 @@
           "target": "com.posthog.tracing#CreateTracingSpansDurationHistogram"
         },
         {
+          "target": "com.posthog.tracing#CreateTracingSpansErrorCount"
+        },
+        {
           "target": "com.posthog.tracing#GetTracingSpansHasSpan"
+        },
+        {
+          "target": "com.posthog.tracing#CreateTracingSpansImpact"
         },
         {
           "target": "com.posthog.tracing#CreateTracingSpansLatencyHeatmap"
@@ -2727,6 +4647,9 @@
         },
         {
           "target": "com.posthog.tracing#CreateTracingSpansTrace"
+        },
+        {
+          "target": "com.posthog.tracing#GetTracingSpansTraceAiEvent"
         },
         {
           "target": "com.posthog.tracing#CreateTracingSpansTree"

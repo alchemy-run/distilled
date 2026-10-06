@@ -23,20 +23,10 @@ export const ListTaskMentionsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     since: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/task_mentions/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListTaskMentionsRequest",
-}) as any as S.Schema<ListTaskMentionsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/task_mentions/", code: 200 })),
+).annotate({ identifier: "ListTaskMentionsRequest" }) as any as S.Schema<ListTaskMentionsRequest>;
 
-export type TaskUserBasicInfoHedgehogConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type TaskUserBasicInfoHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const TaskUserBasicInfoHedgehogConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -66,9 +56,7 @@ export const TaskUserBasicInfo = /*@__PURE__*/ S.suspend(() =>
     hedgehog_config: S.optional(S.NullOr(TaskUserBasicInfoHedgehogConfigMap)),
     role_at_organization: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TaskUserBasicInfo",
-}) as any as S.Schema<TaskUserBasicInfo>;
+).annotate({ identifier: "TaskUserBasicInfo" }) as any as S.Schema<TaskUserBasicInfo>;
 
 /** Response shape for one @-mention of the requester in a task's thread. */
 export interface TaskMentionDTO {

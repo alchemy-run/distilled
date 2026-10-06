@@ -42,6 +42,7 @@ export interface CreateReminderRequest {
   timezone?: string;
   /** Optional: recurring reminders stop (status=completed) after this time. */
   end_date?: string | null;
+  deleted?: boolean;
 }
 export const CreateReminderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -56,10 +57,9 @@ export const CreateReminderRequest = /*@__PURE__*/ S.suspend(() =>
     cron_expression: S.optional(S.NullOr(S.String)),
     timezone: S.optional(S.String),
     end_date: S.optional(S.NullOr(S.String)),
+    deleted: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/api/reminders/", code: 200 })),
-).annotate({
-  identifier: "CreateReminderRequest",
-}) as any as S.Schema<CreateReminderRequest>;
+).annotate({ identifier: "CreateReminderRequest" }) as any as S.Schema<CreateReminderRequest>;
 
 /** For a recurring reminder: daily, weekly, monthly, or yearly. * `daily` - Daily * `weekly` - Weekly * `monthly` - Monthly * `yearly` - Yearly */
 export type ReminderRecurrenceInterval = RecurrenceIntervalEnum | BlankEnum;
@@ -144,6 +144,7 @@ export interface Reminder {
   next_fire_at: string | null;
   last_fired_at: string | null;
   status: ReminderStatusEnum;
+  deleted?: boolean;
   created_by: UserBasic;
   created_at: string;
   updated_at: string | null;
@@ -165,6 +166,7 @@ export const Reminder = /*@__PURE__*/ S.suspend(() =>
     next_fire_at: S.NullOr(S.String),
     last_fired_at: S.NullOr(S.String),
     status: ReminderStatusEnum,
+    deleted: S.optional(S.Boolean),
     created_by: UserBasic,
     created_at: S.String,
     updated_at: S.NullOr(S.String),
@@ -179,9 +181,7 @@ export const GetReminderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/reminders/{id}/", code: 200 })),
-).annotate({
-  identifier: "GetReminderRequest",
-}) as any as S.Schema<GetReminderRequest>;
+).annotate({ identifier: "GetReminderRequest" }) as any as S.Schema<GetReminderRequest>;
 
 export interface ListRemindersRequest {
   /** Number of results to return per page. */
@@ -194,9 +194,7 @@ export const ListRemindersRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/reminders/", code: 200 })),
-).annotate({
-  identifier: "ListRemindersRequest",
-}) as any as S.Schema<ListRemindersRequest>;
+).annotate({ identifier: "ListRemindersRequest" }) as any as S.Schema<ListRemindersRequest>;
 
 export type PaginatedReminderListResultsList = Array<Reminder>;
 export const PaginatedReminderListResultsList = /*@__PURE__*/ S.Array(
@@ -216,9 +214,7 @@ export const PaginatedReminderList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: PaginatedReminderListResultsList,
   }),
-).annotate({
-  identifier: "PaginatedReminderList",
-}) as any as S.Schema<PaginatedReminderList>;
+).annotate({ identifier: "PaginatedReminderList" }) as any as S.Schema<PaginatedReminderList>;
 
 export interface RemindersDestroyRequest {
   /** A UUID string identifying this reminder. */
@@ -228,9 +224,7 @@ export const RemindersDestroyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/reminders/{id}/", code: 200 })),
-).annotate({
-  identifier: "RemindersDestroyRequest",
-}) as any as S.Schema<RemindersDestroyRequest>;
+).annotate({ identifier: "RemindersDestroyRequest" }) as any as S.Schema<RemindersDestroyRequest>;
 
 export interface RemindersDestroyResponse {}
 export const RemindersDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -267,6 +261,7 @@ export interface UpdateReminderRequest {
   timezone?: string;
   /** Optional: recurring reminders stop (status=completed) after this time. */
   end_date?: string | null;
+  deleted?: boolean;
 }
 export const UpdateReminderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -282,10 +277,9 @@ export const UpdateReminderRequest = /*@__PURE__*/ S.suspend(() =>
     cron_expression: S.optional(S.NullOr(S.String)),
     timezone: S.optional(S.String),
     end_date: S.optional(S.NullOr(S.String)),
+    deleted: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/api/reminders/{id}/", code: 200 })),
-).annotate({
-  identifier: "UpdateReminderRequest",
-}) as any as S.Schema<UpdateReminderRequest>;
+).annotate({ identifier: "UpdateReminderRequest" }) as any as S.Schema<UpdateReminderRequest>;
 
 /** For a recurring reminder: daily, weekly, monthly, or yearly. * `daily` - Daily * `weekly` - Weekly * `monthly` - Monthly * `yearly` - Yearly */
 export type UpdateRemindersPartialRequestRecurrenceInterval = RecurrenceIntervalEnum | BlankEnum;
@@ -317,6 +311,7 @@ export interface UpdateRemindersPartialRequest {
   timezone?: string;
   /** Optional: recurring reminders stop (status=completed) after this time. */
   end_date?: string | null;
+  deleted?: boolean;
 }
 export const UpdateRemindersPartialRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -332,6 +327,7 @@ export const UpdateRemindersPartialRequest = /*@__PURE__*/ S.suspend(() =>
     cron_expression: S.optional(S.NullOr(S.String)),
     timezone: S.optional(S.String),
     end_date: S.optional(S.NullOr(S.String)),
+    deleted: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PATCH", uri: "/api/reminders/{id}/", code: 200 })),
 ).annotate({
   identifier: "UpdateRemindersPartialRequest",

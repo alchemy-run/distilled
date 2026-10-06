@@ -51,11 +51,7 @@ export const CreateObjectMediaPreviewRequest = /*@__PURE__*/ S.suspend(() =>
     exported_asset_id: S.optional(S.NullOr(S.String)),
     event_definition_id: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/object_media_previews/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/object_media_previews/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateObjectMediaPreviewRequest",
@@ -79,9 +75,7 @@ export const ObjectMediaPreviewOutput = /*@__PURE__*/ S.suspend(() =>
     media_type: S.optional(S.String),
     metadata: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ObjectMediaPreviewOutput",
-}) as any as S.Schema<ObjectMediaPreviewOutput>;
+).annotate({ identifier: "ObjectMediaPreviewOutput" }) as any as S.Schema<ObjectMediaPreviewOutput>;
 
 export interface GetObjectMediaPreviewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -136,11 +130,7 @@ export const ListObjectMediaPreviewsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/object_media_previews/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/object_media_previews/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListObjectMediaPreviewsRequest",

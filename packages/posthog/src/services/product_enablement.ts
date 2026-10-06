@@ -28,20 +28,14 @@ export const CreateProductEnablementRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     products: CreateProductEnablementRequestProductsList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/product_enablement/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/product_enablement/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateProductEnablementRequest",
 }) as any as S.Schema<CreateProductEnablementRequest>;
 
 /** Per requested product: "enabled" (just turned on) or "already_enabled". */
-export type ProductEnablementResultResultsMap = {
-  [key: string]: string | undefined;
-};
+export type ProductEnablementResultResultsMap = { [key: string]: string | undefined };
 export const ProductEnablementResultResultsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -55,9 +49,7 @@ export const ProductEnablementResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: ProductEnablementResultResultsMap,
   }),
-).annotate({
-  identifier: "ProductEnablementResult",
-}) as any as S.Schema<ProductEnablementResult>;
+).annotate({ identifier: "ProductEnablementResult" }) as any as S.Schema<ProductEnablementResult>;
 
 export type CreateProductEnablementError = PosthogOpError;
 export const createProductEnablement: API.OperationMethod<

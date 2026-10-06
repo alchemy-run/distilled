@@ -129,11 +129,7 @@ export const CreatePersonsSplitRequest = /*@__PURE__*/ S.suspend(() =>
     main_distinct_id: S.optional(S.NullOr(S.String)),
     distinct_ids_to_split: S.optional(S.NullOr(CreatePersonsSplitRequestDistinctIdsToSplitList)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/persons/{id}/split/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/persons/{id}/split/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreatePersonsSplitRequest",
@@ -147,9 +143,7 @@ export const PersonSplitResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     success: S.Boolean,
   }),
-).annotate({
-  identifier: "PersonSplitResponse",
-}) as any as S.Schema<PersonSplitResponse>;
+).annotate({ identifier: "PersonSplitResponse" }) as any as S.Schema<PersonSplitResponse>;
 
 export type GetPersonRequestFormat = "csv" | "json";
 export const GetPersonRequestFormat = S.String;
@@ -166,16 +160,8 @@ export const GetPersonRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
     format: S.optional(GetPersonRequestFormat.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/persons/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetPersonRequest",
-}) as any as S.Schema<GetPersonRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/persons/{id}/", code: 200 })),
+).annotate({ identifier: "GetPersonRequest" }) as any as S.Schema<GetPersonRequest>;
 
 export type PersonRecordDistinctIdsList = Array<string>;
 export const PersonRecordDistinctIdsList = /*@__PURE__*/ S.Array(
@@ -225,11 +211,7 @@ export const GetPersonsActivityRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     format: S.optional(GetPersonsActivityRequestFormat.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/persons/{id}/activity/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/persons/{id}/activity/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetPersonsActivityRequest",
@@ -253,11 +235,7 @@ export const GetPersonsAllActivityRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     format: S.optional(GetPersonsAllActivityRequestFormat.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/persons/activity/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/persons/activity/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetPersonsAllActivityRequest",
@@ -283,21 +261,38 @@ export const GetPersonsCohortRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     format: S.optional(GetPersonsCohortRequestFormat.pipe(T.Query())),
     person_id: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/persons/cohorts/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetPersonsCohortRequest",
-}) as any as S.Schema<GetPersonsCohortRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/persons/cohorts/", code: 200 })),
+).annotate({ identifier: "GetPersonsCohortRequest" }) as any as S.Schema<GetPersonsCohortRequest>;
 
-export interface GetPersonsCohortResponse {}
-export const GetPersonsCohortResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "GetPersonsCohortResponse",
-}) as any as S.Schema<GetPersonsCohortResponse>;
+/** Minimal serializer for cohort references, read by the person cohorts endpoint. */
+export interface CohortMinimal {
+  id: number;
+  name?: string | null;
+  count?: number | null;
+}
+export const CohortMinimal = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    name: S.optional(S.NullOr(S.String)),
+    count: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "CohortMinimal" }) as any as S.Schema<CohortMinimal>;
+
+/** Cohorts the person currently belongs to. */
+export type PersonCohortsResponseResultsList = Array<CohortMinimal>;
+export const PersonCohortsResponseResultsList = /*@__PURE__*/ S.Array(
+  CohortMinimal,
+) as any as S.Schema<PersonCohortsResponseResultsList>;
+
+export interface PersonCohortsResponse {
+  /** Cohorts the person currently belongs to. */
+  results: PersonCohortsResponseResultsList;
+}
+export const PersonCohortsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: PersonCohortsResponseResultsList,
+  }),
+).annotate({ identifier: "PersonCohortsResponse" }) as any as S.Schema<PersonCohortsResponse>;
 
 export type GetPersonsPropertiesAtTimeRequestFormat = "csv" | "json";
 export const GetPersonsPropertiesAtTimeRequestFormat = S.String;
@@ -471,16 +466,8 @@ export const GetPersonsValueRequest = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(GetPersonsValueRequestFormat.pipe(T.Query())),
     key: S.String.pipe(T.Query()),
     value: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/persons/values/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetPersonsValueRequest",
-}) as any as S.Schema<GetPersonsValueRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/persons/values/", code: 200 })),
+).annotate({ identifier: "GetPersonsValueRequest" }) as any as S.Schema<GetPersonsValueRequest>;
 
 export interface GetPersonsValueResponse {}
 export const GetPersonsValueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -622,6 +609,8 @@ export interface ListPersonsRequest {
   /** Filter persons by email (exact match) */
   email?: string;
   format?: ListPersonsRequestFormat | (string & {});
+  /** Tag each search result with `matched_fields`, the searched fields the term was found in. A complete email address that exactly matches a distinct ID then returns that person first, followed by every person whose email or name property contains the address. */
+  include_matched_fields?: boolean;
   /** Number of results to return per page. */
   limit?: number;
   /** The initial index from which to return the results. */
@@ -638,42 +627,80 @@ export const ListPersonsRequest = /*@__PURE__*/ S.suspend(() =>
     distinct_id: S.optional(S.String.pipe(T.Query())),
     email: S.optional(S.String.pipe(T.Query())),
     format: S.optional(ListPersonsRequestFormat.pipe(T.Query())),
+    include_matched_fields: S.optional(S.Boolean.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     properties: S.optional(ListPersonsRequestPropertiesList.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/persons/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListPersonsRequest",
-}) as any as S.Schema<ListPersonsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/persons/", code: 200 })),
+).annotate({ identifier: "ListPersonsRequest" }) as any as S.Schema<ListPersonsRequest>;
 
-export type PaginatedPersonRecordListResultsList = Array<PersonRecord>;
-export const PaginatedPersonRecordListResultsList = /*@__PURE__*/ S.Array(
-  PersonRecord,
-) as any as S.Schema<PaginatedPersonRecordListResultsList>;
+export type PersonListRecordDistinctIdsList = Array<string>;
+export const PersonListRecordDistinctIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PersonListRecordDistinctIdsList>;
 
-export interface PaginatedPersonRecordList {
+/** * `distinct_id` - Distinct ID * `email` - Email * `name` - Name * `id` - Person ID */
+export type PersonSearchMatchFieldEnum = "distinct_id" | "email" | "name" | "id";
+export const PersonSearchMatchFieldEnum = S.String;
+
+/** Only on a search result with `include_matched_fields`: the searched fields the term was found in. */
+export type PersonListRecordMatchedFieldsList = Array<PersonSearchMatchFieldEnum>;
+export const PersonListRecordMatchedFieldsList = /*@__PURE__*/ S.Array(
+  PersonSearchMatchFieldEnum,
+) as any as S.Schema<PersonListRecordMatchedFieldsList>;
+
+export interface PersonListRecord {
+  /** Numeric person ID. */
+  id: number;
+  /** Display name derived from person properties (email, name, or username). */
+  name: string;
+  distinct_ids: PersonListRecordDistinctIdsList;
+  /** Key-value map of person properties set via $set and $set_once operations. */
+  properties?: unknown;
+  /** When this person was first seen (ISO 8601). */
+  created_at: string;
+  /** Unique identifier (UUID) for this person. */
+  uuid: string;
+  /** Timestamp of the last event from this person, or null. */
+  last_seen_at: string | null;
+  /** Only on a search result with `include_matched_fields`: the searched fields the term was found in. */
+  matched_fields?: PersonListRecordMatchedFieldsList;
+}
+export const PersonListRecord = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    name: S.String,
+    distinct_ids: PersonListRecordDistinctIdsList,
+    properties: S.optional(S.Unknown),
+    created_at: S.String,
+    uuid: S.String,
+    last_seen_at: S.NullOr(S.String),
+    matched_fields: S.optional(PersonListRecordMatchedFieldsList),
+  }),
+).annotate({ identifier: "PersonListRecord" }) as any as S.Schema<PersonListRecord>;
+
+export type PaginatedPersonListRecordListResultsList = Array<PersonListRecord>;
+export const PaginatedPersonListRecordListResultsList = /*@__PURE__*/ S.Array(
+  PersonListRecord,
+) as any as S.Schema<PaginatedPersonListRecordListResultsList>;
+
+export interface PaginatedPersonListRecordList {
   next?: string | null;
   previous?: string | null;
   count?: number;
-  results?: PaginatedPersonRecordListResultsList;
+  results?: PaginatedPersonListRecordListResultsList;
 }
-export const PaginatedPersonRecordList = /*@__PURE__*/ S.suspend(() =>
+export const PaginatedPersonListRecordList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     next: S.optional(S.NullOr(S.String)),
     previous: S.optional(S.NullOr(S.String)),
     count: S.optional(S.Number),
-    results: S.optional(PaginatedPersonRecordListResultsList),
+    results: S.optional(PaginatedPersonListRecordListResultsList),
   }),
 ).annotate({
-  identifier: "PaginatedPersonRecordList",
-}) as any as S.Schema<PaginatedPersonRecordList>;
+  identifier: "PaginatedPersonListRecordList",
+}) as any as S.Schema<PaginatedPersonListRecordList>;
 
 export type ListPersonsDeletionStatusRequestFormat = "csv" | "json";
 export const ListPersonsDeletionStatusRequestFormat = S.String;
@@ -730,9 +757,7 @@ export const AsyncDeletionStatus = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     delete_verified_at: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "AsyncDeletionStatus",
-}) as any as S.Schema<AsyncDeletionStatus>;
+).annotate({ identifier: "AsyncDeletionStatus" }) as any as S.Schema<AsyncDeletionStatus>;
 
 export type PaginatedAsyncDeletionStatusListResultsList = Array<AsyncDeletionStatus>;
 export const PaginatedAsyncDeletionStatusListResultsList = /*@__PURE__*/ S.Array(
@@ -784,15 +809,9 @@ export const ListPersonsEmailsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/persons/{id}/emails/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/persons/{id}/emails/", code: 200 }),
   ),
-).annotate({
-  identifier: "ListPersonsEmailsRequest",
-}) as any as S.Schema<ListPersonsEmailsRequest>;
+).annotate({ identifier: "ListPersonsEmailsRequest" }) as any as S.Schema<ListPersonsEmailsRequest>;
 
 export interface MessageAsset {
   /** The workflow run this email was sent in. */
@@ -939,11 +958,7 @@ export const PersonsBulkDeleteCreateRequest = /*@__PURE__*/ S.suspend(() =>
     delete_recordings: S.optional(S.Boolean),
     keep_person: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/persons/bulk_delete/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/persons/bulk_delete/", code: 200 }),
   ),
 ).annotate({
   identifier: "PersonsBulkDeleteCreateRequest",
@@ -951,9 +966,7 @@ export const PersonsBulkDeleteCreateRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface PersonsBulkDeleteCreateResponse {}
 export const PersonsBulkDeleteCreateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "PersonsBulkDeleteCreateResponse",
-  },
+  { identifier: "PersonsBulkDeleteCreateResponse" },
 ) as any as S.Schema<PersonsBulkDeleteCreateResponse>;
 
 export type PersonsDeletePropertyCreateRequestFormat = "csv" | "json";
@@ -1094,16 +1107,8 @@ export const UpdatePersonRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     format: S.optional(UpdatePersonRequestFormat.pipe(T.Query())),
     properties: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/persons/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdatePersonRequest",
-}) as any as S.Schema<UpdatePersonRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/projects/{project_id}/persons/{id}/", code: 200 })),
+).annotate({ identifier: "UpdatePersonRequest" }) as any as S.Schema<UpdatePersonRequest>;
 
 export type UpdatePersonsPartialRequestFormat = "csv" | "json";
 export const UpdatePersonsPartialRequestFormat = S.String;
@@ -1123,13 +1128,7 @@ export const UpdatePersonsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     format: S.optional(UpdatePersonsPartialRequestFormat.pipe(T.Query())),
     properties: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/persons/{id}/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/persons/{id}/", code: 200 })),
 ).annotate({
   identifier: "UpdatePersonsPartialRequest",
 }) as any as S.Schema<UpdatePersonsPartialRequest>;
@@ -1232,12 +1231,12 @@ export type GetPersonsCohortError = BadRequest | Forbidden | NotFound | PosthogO
 /** This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs. */
 export const getPersonsCohort: API.OperationMethod<
   GetPersonsCohortRequest,
-  GetPersonsCohortResponse,
+  PersonCohortsResponse,
   GetPersonsCohortError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPersonsCohortRequest,
-  output: GetPersonsCohortResponse,
+  output: PersonCohortsResponse,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1292,12 +1291,12 @@ export type ListPersonsError = BadRequest | Forbidden | NotFound | PosthogOpErro
 /** This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs. */
 export const listPersons: API.OperationMethod<
   ListPersonsRequest,
-  PaginatedPersonRecordList,
+  PaginatedPersonListRecordList,
   ListPersonsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ListPersonsRequest,
-  output: PaginatedPersonRecordList,
+  output: PaginatedPersonListRecordList,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1349,7 +1348,7 @@ export const listPersonsPushNotifications: API.OperationMethod<
 }));
 
 export type PersonsBulkDeleteCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** This endpoint allows you to bulk delete persons, either by the PostHog person IDs or by distinct IDs. You can pass in a maximum of 1000 IDs per call. Only events captured before the request will be deleted. */
+/** This endpoint allows you to bulk delete persons, either by the PostHog person IDs or by distinct IDs. You can pass in a maximum of 1000 IDs per call. Only events captured before the request will be deleted. Person records are removed in the background shortly after the request returns, so a successful response reports them in `persons_queued_for_deletion` and `persons_deleted` is 0. */
 export const personsBulkDeleteCreate: API.OperationMethod<
   PersonsBulkDeleteCreateRequest,
   PersonsBulkDeleteCreateResponse,
@@ -1383,7 +1382,7 @@ export type PersonsResetPersonDistinctIdCreateError =
   | Forbidden
   | NotFound
   | PosthogOpError;
-/** Reset a distinct_id for a deleted person. This allows the distinct_id to be used again. */
+/** Fix a distinct_id that stays hidden after its person was deleted and created again. Does nothing if no live person uses this distinct_id. In that case, send a new event for it instead. */
 export const personsResetPersonDistinctIdCreate: API.OperationMethod<
   PersonsResetPersonDistinctIdCreateRequest,
   PersonsResetPersonDistinctIdCreateResponse,

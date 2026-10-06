@@ -428,7 +428,7 @@
         "column_descriptions": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Person and group sources only: {warehouse_column: description} giving each mapped column a human-facing description, seeded from the warehouse column's information_schema description. Optional per column. Create-only."
+            "smithy.api#documentation": "Person and group sources only: {warehouse_column: description} giving each mapped column a human-facing description, seeded from the warehouse column's information_schema description. Optional per column."
           }
         },
         "key_column": {

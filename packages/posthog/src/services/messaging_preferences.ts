@@ -62,9 +62,7 @@ export const MessagePreferences = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.String,
     preferences: S.Unknown,
   }),
-).annotate({
-  identifier: "MessagePreferences",
-}) as any as S.Schema<MessagePreferences>;
+).annotate({ identifier: "MessagePreferences" }) as any as S.Schema<MessagePreferences>;
 
 export type PaginatedOptOutsResultsList = Array<MessagePreferences>;
 export const PaginatedOptOutsResultsList = /*@__PURE__*/ S.Array(
@@ -88,9 +86,7 @@ export const PaginatedOptOuts = /*@__PURE__*/ S.suspend(() =>
     previous: S.NullOr(S.String),
     results: PaginatedOptOutsResultsList,
   }),
-).annotate({
-  identifier: "PaginatedOptOuts",
-}) as any as S.Schema<PaginatedOptOuts>;
+).annotate({ identifier: "PaginatedOptOuts" }) as any as S.Schema<PaginatedOptOuts>;
 
 export interface GetMessagingPreferencesWebhookUrlRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -155,9 +151,7 @@ export const BulkOptOutEntry = /*@__PURE__*/ S.suspend(() =>
     identifier: S.String,
     category_key: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BulkOptOutEntry",
-}) as any as S.Schema<BulkOptOutEntry>;
+).annotate({ identifier: "BulkOptOutEntry" }) as any as S.Schema<BulkOptOutEntry>;
 
 /** Recipients to opt out, at most 1000 per request. */
 export type MessagingPreferencesBulkAddOptOutsCreateRequestOptOutsList = Array<BulkOptOutEntry>;
@@ -212,9 +206,7 @@ export const BulkAddOptOutsResult = /*@__PURE__*/ S.suspend(() =>
     skipped: S.Number,
     errors: BulkAddOptOutsResultErrorsList,
   }),
-).annotate({
-  identifier: "BulkAddOptOutsResult",
-}) as any as S.Schema<BulkAddOptOutsResult>;
+).annotate({ identifier: "BulkAddOptOutsResult" }) as any as S.Schema<BulkAddOptOutsResult>;
 
 export interface MessagingPreferencesExportOptOutsCsvRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -273,9 +265,7 @@ export const PreferencesLink = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     preferences_url: S.String,
   }),
-).annotate({
-  identifier: "PreferencesLink",
-}) as any as S.Schema<PreferencesLink>;
+).annotate({ identifier: "PreferencesLink" }) as any as S.Schema<PreferencesLink>;
 
 export interface MessagingPreferencesRemoveOptOutCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

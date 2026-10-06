@@ -110,9 +110,7 @@ export const ConversationsQueueDestroyResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConversationsQueueDestroyResponse",
 }) as any as S.Schema<ConversationsQueueDestroyResponse>;
 
-export type CreateConversationRequestContextualToolsMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateConversationRequestContextualToolsMap = { [key: string]: unknown | undefined };
 export const CreateConversationRequestContextualToolsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -162,13 +160,7 @@ export const CreateConversationRequest = /*@__PURE__*/ S.suspend(() =>
     agent_mode: S.optional(AgentModeEnum),
     is_sandbox: S.optional(S.Boolean),
     resume_payload: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/conversations/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/conversations/", code: 200 })),
 ).annotate({
   identifier: "CreateConversationRequest",
 }) as any as S.Schema<CreateConversationRequest>;
@@ -240,7 +232,7 @@ export const MessageMinimal = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "MessageMinimal" }) as any as S.Schema<MessageMinimal>;
 
-/** * `action` - action * `dashboard` - dashboard * `error_tracking_issue` - error_tracking_issue * `evaluation` - evaluation * `event` - event * `insight` - insight * `notebook` - notebook * `text` - text */
+/** * `action` - action * `dashboard` - dashboard * `error_tracking_issue` - error_tracking_issue * `evaluation` - evaluation * `event` - event * `insight` - insight * `instructions` - instructions * `notebook` - notebook * `text` - text */
 export type SandboxAttachedContextItemTypeEnum =
   | "action"
   | "dashboard"
@@ -248,19 +240,20 @@ export type SandboxAttachedContextItemTypeEnum =
   | "evaluation"
   | "event"
   | "insight"
+  | "instructions"
   | "notebook"
   | "text";
 export const SandboxAttachedContextItemTypeEnum = S.String;
 
 /** One typed attachment carried by a sandbox message. DEPRECATED PATH — do not extend. This structured `attached_context` (and its server-side wrap in `context_wrapper.py`) exists only for the legacy Max conversations bridge and is removed with it; the live path wraps context client-side (`products/posthog_ai/frontend/utils/posthogContextBlock.ts`). */
 export interface SandboxAttachedContextItem {
-  /** Attachment kind. Entity types carry `id` (+ optional `name`); `text` carries `value`. * `action` - action * `dashboard` - dashboard * `error_tracking_issue` - error_tracking_issue * `evaluation` - evaluation * `event` - event * `insight` - insight * `notebook` - notebook * `text` - text */
+  /** Attachment kind. Entity types carry `id` (+ optional `name`); `text` and `instructions` carry `value`. `instructions` is the caller's own guidance and renders into the trusted context block; every other kind renders into the untrusted block, which tells the agent to read it as data. * `action` - action * `dashboard` - dashboard * `error_tracking_issue` - error_tracking_issue * `evaluation` - evaluation * `event` - event * `insight` - insight * `instructions` - instructions * `notebook` - notebook * `text` - text */
   type: SandboxAttachedContextItemTypeEnum | (string & {});
   /** Entity identifier — integer for `dashboard`/`action`, string short_id/UUID otherwise. Absent for `text`. */
   id?: unknown;
   /** Optional human-readable label rendered in the context block. */
   name?: string;
-  /** Free-text content. Only for `text` attachments. */
+  /** Free-text content. Only for `text` and `instructions` attachments. */
   value?: string;
 }
 export const SandboxAttachedContextItem = /*@__PURE__*/ S.suspend(() =>
@@ -346,9 +339,7 @@ export const SandboxMessageResponse = /*@__PURE__*/ S.suspend(() =>
     run_status: S.String,
     just_created_run: S.Boolean,
   }),
-).annotate({
-  identifier: "SandboxMessageResponse",
-}) as any as S.Schema<SandboxMessageResponse>;
+).annotate({ identifier: "SandboxMessageResponse" }) as any as S.Schema<SandboxMessageResponse>;
 
 export interface CreateConversationsQueueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -443,9 +434,7 @@ export const UserBasic = /*@__PURE__*/ S.suspend(() =>
 export type ConversationTypeEnum = "assistant" | "tool_call" | "deep_research" | "slack";
 export const ConversationTypeEnum = S.String;
 
-export type ConversationMessagesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConversationMessagesItemMap = { [key: string]: unknown | undefined };
 export const ConversationMessagesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -460,9 +449,7 @@ export const ConversationMessagesList = /*@__PURE__*/ S.Array(
 export type ConversationAgentRuntimeEnum = "langgraph" | "sandbox";
 export const ConversationAgentRuntimeEnum = S.String;
 
-export type ConversationPendingApprovalsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConversationPendingApprovalsItemMap = { [key: string]: unknown | undefined };
 export const ConversationPendingApprovalsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -478,17 +465,13 @@ export const ConversationPendingApprovalsList = /*@__PURE__*/ S.Array(
 export type TaskRuntimeEnum = "acp" | "pi";
 export const TaskRuntimeEnum = S.String;
 
-export type ConversationTaskJsonSchemaMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConversationTaskJsonSchemaMap = { [key: string]: unknown | undefined };
 export const ConversationTaskJsonSchemaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<ConversationTaskJsonSchemaMap>;
 
-export type TaskUserBasicInfoHedgehogConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type TaskUserBasicInfoHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const TaskUserBasicInfoHedgehogConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -518,9 +501,7 @@ export const TaskUserBasicInfo = /*@__PURE__*/ S.suspend(() =>
     hedgehog_config: S.optional(S.NullOr(TaskUserBasicInfoHedgehogConfigMap)),
     role_at_organization: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TaskUserBasicInfo",
-}) as any as S.Schema<TaskUserBasicInfo>;
+).annotate({ identifier: "TaskUserBasicInfo" }) as any as S.Schema<TaskUserBasicInfo>;
 
 /** Conversation envelope variant: ``latest_run`` is just the latest run's id, not the nested run detail. The frontend only needs the id to reconnect to sandbox logs, and emitting the id avoids presigning a log URL per conversation. Task data follows the task's space visibility. */
 export interface ConversationTask {
@@ -572,9 +553,7 @@ export const ConversationTask = /*@__PURE__*/ S.suspend(() =>
     created_by: S.optional(S.NullOr(TaskUserBasicInfo)),
     ci_prompt: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ConversationTask",
-}) as any as S.Schema<ConversationTask>;
+).annotate({ identifier: "ConversationTask" }) as any as S.Schema<ConversationTask>;
 
 export interface Conversation {
   id?: string;
@@ -596,7 +575,7 @@ export interface Conversation {
   messages?: ConversationMessagesList;
   has_unsupported_content?: boolean;
   agent_mode?: string | null;
-  /** Runtime that owns this conversation. 'langgraph' conversations return their messages in the `messages` field; born-'sandbox' conversations return an empty `messages` array and load history from the products/tasks logs endpoint. A converted conversation is 'sandbox' but still returns its legacy thread in `messages`. * `langgraph` - LangGraph * `sandbox` - Sandbox */
+  /** Runtime that owns this conversation. 'langgraph' conversations return their messages in the `messages` field. 'sandbox' conversations return an empty `messages` array and load history from the products/tasks logs endpoint; a conversation copied into a task carries its legacy thread in that task's import run. Only a conversion that predates the copy still returns its legacy thread in `messages`. * `langgraph` - LangGraph * `sandbox` - Sandbox */
   agent_runtime?: ConversationAgentRuntimeEnum;
   is_sandbox?: boolean;
   /** Return pending approval cards as structured data. Combines metadata from conversation.approval_decisions with payload from checkpoint interrupts (single source of truth for payload data). */
@@ -664,9 +643,7 @@ export const GetConversationRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetConversationRequest",
-}) as any as S.Schema<GetConversationRequest>;
+).annotate({ identifier: "GetConversationRequest" }) as any as S.Schema<GetConversationRequest>;
 
 export interface GetConversationsQueueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -702,16 +679,8 @@ export const ListConversationsRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/conversations/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListConversationsRequest",
-}) as any as S.Schema<ListConversationsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/conversations/", code: 200 })),
+).annotate({ identifier: "ListConversationsRequest" }) as any as S.Schema<ListConversationsRequest>;
 
 export interface ConversationMinimal {
   id?: string;
@@ -747,9 +716,7 @@ export const ConversationMinimal = /*@__PURE__*/ S.suspend(() =>
     slack_workspace_domain: S.optional(S.NullOr(S.String)),
     task: S.optional(S.NullOr(ConversationTask)),
   }),
-).annotate({
-  identifier: "ConversationMinimal",
-}) as any as S.Schema<ConversationMinimal>;
+).annotate({ identifier: "ConversationMinimal" }) as any as S.Schema<ConversationMinimal>;
 
 export type PaginatedConversationMinimalListResultsList = Array<ConversationMinimal>;
 export const PaginatedConversationMinimalListResultsList = /*@__PURE__*/ S.Array(

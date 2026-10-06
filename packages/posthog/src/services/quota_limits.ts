@@ -14,16 +14,8 @@ export interface ListQuotaLimitsRequest {
 export const ListQuotaLimitsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/quota_limits/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListQuotaLimitsRequest",
-}) as any as S.Schema<ListQuotaLimitsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/quota_limits/", code: 200 })),
+).annotate({ identifier: "ListQuotaLimitsRequest" }) as any as S.Schema<ListQuotaLimitsRequest>;
 
 export interface QuotaResourceLimit {
   /** True when the team is currently over its quota for this resource and limits are in effect. A deactivated organization additionally reads as limited on the two credit buckets `ai_credits` and `posthog_code_credits`, regardless of usage. */
@@ -39,14 +31,10 @@ export const QuotaResourceLimit = /*@__PURE__*/ S.suspend(() =>
     usage: S.NullOr(S.Number),
     limit: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "QuotaResourceLimit",
-}) as any as S.Schema<QuotaResourceLimit>;
+).annotate({ identifier: "QuotaResourceLimit" }) as any as S.Schema<QuotaResourceLimit>;
 
 /** Per-resource limit state for every `QuotaResource` value, e.g. `ai_credits`, `posthog_code_credits`. Also carries the informational Desktop component resources (`posthog_code_token_credits`, `sandbox_compute_credits`, `sandbox_compute_cpu_millicore_seconds`, `sandbox_compute_memory_mib_seconds`) with usage in their native units, a null limit, and `limited` always false — they are never quota-enforced; only the combined `posthog_code_credits` is. */
-export type QuotaLimitsResponseLimitedMap = {
-  [key: string]: QuotaResourceLimit | undefined;
-};
+export type QuotaLimitsResponseLimitedMap = { [key: string]: QuotaResourceLimit | undefined };
 export const QuotaLimitsResponseLimitedMap = /*@__PURE__*/ S.Record(
   S.String,
   QuotaResourceLimit,
@@ -63,9 +51,7 @@ export const QuotaLimitsResponse = /*@__PURE__*/ S.suspend(() =>
     limited: QuotaLimitsResponseLimitedMap,
     code_usage_billing_active: S.Boolean,
   }),
-).annotate({
-  identifier: "QuotaLimitsResponse",
-}) as any as S.Schema<QuotaLimitsResponse>;
+).annotate({ identifier: "QuotaLimitsResponse" }) as any as S.Schema<QuotaLimitsResponse>;
 
 export type ListQuotaLimitsResponseBodyList = Array<QuotaLimitsResponse>;
 export const ListQuotaLimitsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -75,9 +61,7 @@ export const ListQuotaLimitsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListQuotaLimitsResponse = ListQuotaLimitsResponseBodyList;
 export const ListQuotaLimitsResponse = /*@__PURE__*/ S.suspend(() =>
   ListQuotaLimitsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListQuotaLimitsResponse",
-}) as any as S.Schema<ListQuotaLimitsResponse>;
+).annotate({ identifier: "ListQuotaLimitsResponse" }) as any as S.Schema<ListQuotaLimitsResponse>;
 
 export type ListQuotaLimitsError = PosthogOpError;
 /** Get a team's quota-limit state Return the current quota-limit state for the team identified in the URL, keyed by `QuotaResource` value. Used by the LLM gateway to gate billable products on AI credits exhaustion. */

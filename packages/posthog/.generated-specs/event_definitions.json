@@ -18,10 +18,107 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.posthog.event_definitions#ListEventDefinitionsRequestEventType": {
+      "type": "enum",
+      "members": {
+        "EVENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "event"
+          }
+        },
+        "EVENT_CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "event_custom"
+          }
+        },
+        "EVENT_POSTHOG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "event_posthog"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.posthog.event_definitions#ListEventDefinitionsRequestNamesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.event_definitions#ListEventDefinitionsRequestOrderingItem": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-created_at"
+          }
+        },
+        "CREATED_AT_DATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-created_at::date"
+          }
+        },
+        "LAST_SEEN_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-last_seen_at"
+          }
+        },
+        "LAST_SEEN_AT_DATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-last_seen_at::date"
+          }
+        },
+        "NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-name"
+          }
+        },
+        "CREATED_AT_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "CREATED_AT_DATE_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at::date"
+          }
+        },
+        "LAST_SEEN_AT_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_seen_at"
+          }
+        },
+        "LAST_SEEN_AT_DATE_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_seen_at::date"
+          }
+        },
+        "NAME_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.event_definitions#ListEventDefinitionsRequestOrderingList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.event_definitions#ListEventDefinitionsRequestOrderingItem"
       },
       "traits": {}
     },
@@ -36,6 +133,13 @@
             "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
           }
         },
+        "event_type": {
+          "target": "com.posthog.event_definitions#ListEventDefinitionsRequestEventType",
+          "traits": {
+            "smithy.api#httpQuery": "event_type",
+            "smithy.api#documentation": "`event_custom` keeps only names without a `$` prefix and `event_posthog` only names with one. Default `event`."
+          }
+        },
         "exclude_hidden": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -48,6 +152,13 @@
           "traits": {
             "smithy.api#httpQuery": "exclude_stale",
             "smithy.api#documentation": "When true, omit events whose last ingested occurrence is older than 30 days. Events that have never been seen (`last_seen_at` is null) are kept so newly-defined events remain discoverable. Default false. If a search returns zero results with this filter on, retry with `exclude_stale=false` and tell the user the matches are stale."
+          }
+        },
+        "excluded_properties": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "excluded_properties",
+            "smithy.api#documentation": "JSON-encoded list of event names to omit. The name matches the property definitions endpoint that shares it."
           }
         },
         "limit": {
@@ -69,6 +180,34 @@
           "traits": {
             "smithy.api#httpQuery": "offset",
             "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        },
+        "ordering": {
+          "target": "com.posthog.event_definitions#ListEventDefinitionsRequestOrderingList",
+          "traits": {
+            "smithy.api#httpQuery": "ordering",
+            "smithy.api#documentation": "Sort keys, prefixed with `-` for descending. Default `-last_seen_at::date` then `name`. Projects with more than 100000 event definitions default to `name`, unless the request sets `search`, `exclude_stale`, `verified`, `names`, `tags` or `event_type=event_posthog`."
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Case-insensitive match on the event name. Every whitespace-separated term has to match."
+          }
+        },
+        "tags": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "JSON-encoded list of tag names. Keeps events that carry any of them."
+          }
+        },
+        "verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "verified",
+            "smithy.api#documentation": "When true, keep only verified events and core PostHog events. When false, keep the rest (Enterprise only)."
           }
         }
       },
@@ -96,6 +235,12 @@
         },
         "results": {
           "target": "com.posthog.event_definitions#PaginatedEnterpriseEventDefinitionListResultsList"
+        },
+        "count_is_capped": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when `count` stopped at a cap, so it is a lower bound and `next` keeps paging past it."
+          }
         }
       },
       "traits": {}
@@ -424,7 +569,8 @@
           "method": "GET",
           "uri": "/api/projects/{project_id}/event_definitions/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "List the event definitions of a project. On projects with more than 50000 event definitions, `count` stops at 10000 and `count_is_capped` is true, unless the request sets `search`, `exclude_stale`, `verified`, `names`, `tags` or `event_type=event_posthog`. Projects with more than 100000 event definitions also default to ordering by name under the same condition."
       }
     },
     "com.posthog.event_definitions#CreateEventDefinitionRequestTagsList": {
@@ -940,7 +1086,7 @@
         "reason": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Why the object was skipped, e.g. 'Not found'.",
+            "smithy.api#documentation": "Why the object was skipped, e.g. 'Not found or no edit access'.",
             "smithy.api#required": {}
           }
         }

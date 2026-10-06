@@ -37,9 +37,7 @@ export const AccountTrackRuleField = /*@__PURE__*/ S.suspend(() =>
     field: S.optional(S.NullOr(AccountTrackRuleFieldFieldEnum)),
     definition_id: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "AccountTrackRuleField",
-}) as any as S.Schema<AccountTrackRuleField>;
+).annotate({ identifier: "AccountTrackRuleField" }) as any as S.Schema<AccountTrackRuleField>;
 
 export type AccountTrackRuleConditionValuesList = Array<unknown>;
 export const AccountTrackRuleConditionValuesList = /*@__PURE__*/ S.Array(
@@ -73,9 +71,7 @@ export const AccountTrackRuleGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     conditions: AccountTrackRuleGroupConditionsList,
   }),
-).annotate({
-  identifier: "AccountTrackRuleGroup",
-}) as any as S.Schema<AccountTrackRuleGroup>;
+).annotate({ identifier: "AccountTrackRuleGroup" }) as any as S.Schema<AccountTrackRuleGroup>;
 
 export type CreateAccountTrackRulesPreviewRequestGroupsList = Array<AccountTrackRuleGroup>;
 export const CreateAccountTrackRulesPreviewRequestGroupsList = /*@__PURE__*/ S.Array(
@@ -108,9 +104,7 @@ export const CreateAccountTrackRulesPreviewRequest = /*@__PURE__*/ S.suspend(() 
   identifier: "CreateAccountTrackRulesPreviewRequest",
 }) as any as S.Schema<CreateAccountTrackRulesPreviewRequest>;
 
-export type AccountTrackRuleSampleRuleValuesMap = {
-  [key: string]: unknown | undefined;
-};
+export type AccountTrackRuleSampleRuleValuesMap = { [key: string]: unknown | undefined };
 export const AccountTrackRuleSampleRuleValuesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -129,9 +123,7 @@ export const AccountTrackRuleSample = /*@__PURE__*/ S.suspend(() =>
     external_id: S.NullOr(S.String),
     rule_values: AccountTrackRuleSampleRuleValuesMap,
   }),
-).annotate({
-  identifier: "AccountTrackRuleSample",
-}) as any as S.Schema<AccountTrackRuleSample>;
+).annotate({ identifier: "AccountTrackRuleSample" }) as any as S.Schema<AccountTrackRuleSample>;
 
 export type AccountTrackRulePreviewTrackedSamplesList = Array<AccountTrackRuleSample>;
 export const AccountTrackRulePreviewTrackedSamplesList = /*@__PURE__*/ S.Array(
@@ -173,9 +165,7 @@ export const AccountTrackRulePreview = /*@__PURE__*/ S.suspend(() =>
     ignored_samples: AccountTrackRulePreviewIgnoredSamplesList,
     validation_errors: S.optional(AccountTrackRulePreviewValidationErrorsList),
   }),
-).annotate({
-  identifier: "AccountTrackRulePreview",
-}) as any as S.Schema<AccountTrackRulePreview>;
+).annotate({ identifier: "AccountTrackRulePreview" }) as any as S.Schema<AccountTrackRulePreview>;
 
 export interface CreateAccountTrackRulesRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -214,11 +204,7 @@ export const ListAccountTrackRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/account_track_rules/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/account_track_rules/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListAccountTrackRulesRequest",
@@ -242,9 +228,7 @@ export const AccountTrackRulesConfig = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     groups: AccountTrackRulesConfigGroupsList,
   }),
-).annotate({
-  identifier: "AccountTrackRulesConfig",
-}) as any as S.Schema<AccountTrackRulesConfig>;
+).annotate({ identifier: "AccountTrackRulesConfig" }) as any as S.Schema<AccountTrackRulesConfig>;
 
 export interface ListAccountTrackRulesRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -305,9 +289,7 @@ export const AccountTrackRuleRunView = /*@__PURE__*/ S.suspend(() =>
     created_by: S.NullOr(S.Number),
     created_at: S.String,
   }),
-).annotate({
-  identifier: "AccountTrackRuleRunView",
-}) as any as S.Schema<AccountTrackRuleRunView>;
+).annotate({ identifier: "AccountTrackRuleRunView" }) as any as S.Schema<AccountTrackRuleRunView>;
 
 export type PaginatedAccountTrackRuleRunViewListResultsList = Array<AccountTrackRuleRunView>;
 export const PaginatedAccountTrackRuleRunViewListResultsList = /*@__PURE__*/ S.Array(
@@ -352,11 +334,7 @@ export const UpdateAccountTrackRuleRequest = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     groups: UpdateAccountTrackRuleRequestGroupsList,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/account_track_rules/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/account_track_rules/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateAccountTrackRuleRequest",

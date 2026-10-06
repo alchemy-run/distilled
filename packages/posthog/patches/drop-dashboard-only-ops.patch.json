@@ -1,5 +1,5 @@
 {
-  "description": "Remove 18 PostHog endpoints that PostHog's backend explicitly rejects with `Forbidden: This action does not support personal API key access`. PostHog publishes these in their OpenAPI spec but enforces a server-side allowlist that limits them to dashboard-session cookie auth only — there is no API credential (personal API key, project ingestion token, anything) that can call them. Dropping them from the spec means the SDK never generates an unusable typed surface for them.\n\nIf PostHog ever opens these to API auth, drop this patch and regenerate.\n\nObserved-Forbidden operations (path + method):\n  - POST   /api/projects/{project_id}/actions/bulk_update_tags/\n  - GET    /api/projects/{project_id}/conversations/tickets/unread_count/\n  - GET    /api/projects/{project_id}/dashboard_templates/json_schema/\n  - POST   /api/projects/{project_id}/dashboards/{id}/analyze_refresh_result/\n  - PATCH  /api/projects/{project_id}/dashboards/{id}/move_tile/\n  - POST   /api/projects/{project_id}/dashboards/{id}/snapshot/\n  - POST   /api/projects/{project_id}/dashboards/bulk_update_tags/\n  - POST   /api/projects/{project_id}/dashboards/create_from_template_json/\n  - POST   /api/projects/{project_id}/dashboards/create_unlisted_dashboard/\n  - GET    /api/projects/{project_id}/event_definitions/{id}/metrics/\n  - POST   /api/projects/{project_id}/event_definitions/bulk_update_tags/\n  - POST   /api/projects/{project_id}/file_system/{id}/count/\n  - POST   /api/projects/{project_id}/file_system/{id}/link/\n  - POST   /api/projects/{project_id}/file_system/{id}/move/\n  - POST   /api/projects/{project_id}/file_system/count_by_path/\n  - GET    /api/projects/{project_id}/file_system/log_view/\n  - POST   /api/projects/{project_id}/file_system/log_view/\n  - GET    /api/projects/{project_id}/file_system/unfiled/",
+  "description": "Remove 16 PostHog endpoints that PostHog's backend explicitly rejects with `Forbidden: This action does not support personal API key access`. PostHog publishes these in their OpenAPI spec but enforces a server-side allowlist that limits them to dashboard-session cookie auth only — there is no API credential (personal API key, project ingestion token, anything) that can call them. Dropping them from the spec means the SDK never generates an unusable typed surface for them.\n\nIf PostHog ever opens these to API auth, drop this patch and regenerate.\n\nObserved-Forbidden operations (path + method):\n  - POST   /api/projects/{project_id}/actions/bulk_update_tags/\n  - GET    /api/projects/{project_id}/conversations/tickets/unread_count/\n  - GET    /api/projects/{project_id}/dashboard_templates/json_schema/\n  - PATCH  /api/projects/{project_id}/dashboards/{id}/move_tile/\n  - POST   /api/projects/{project_id}/dashboards/bulk_update_tags/\n  - POST   /api/projects/{project_id}/dashboards/create_from_template_json/\n  - POST   /api/projects/{project_id}/dashboards/create_unlisted_dashboard/\n  - GET    /api/projects/{project_id}/event_definitions/{id}/metrics/\n  - POST   /api/projects/{project_id}/event_definitions/bulk_update_tags/\n  - POST   /api/projects/{project_id}/file_system/{id}/count/\n  - POST   /api/projects/{project_id}/file_system/{id}/link/\n  - POST   /api/projects/{project_id}/file_system/{id}/move/\n  - POST   /api/projects/{project_id}/file_system/count_by_path/\n  - GET    /api/projects/{project_id}/file_system/log_view/\n  - POST   /api/projects/{project_id}/file_system/log_view/\n  - GET    /api/projects/{project_id}/file_system/unfiled/",
   "patches": [
     {
       "op": "remove",
@@ -15,15 +15,7 @@
     },
     {
       "op": "remove",
-      "path": "/paths/~1api~1projects~1{project_id}~1dashboards~1{id}~1analyze_refresh_result~1/post"
-    },
-    {
-      "op": "remove",
       "path": "/paths/~1api~1projects~1{project_id}~1dashboards~1{id}~1move_tile~1/patch"
-    },
-    {
-      "op": "remove",
-      "path": "/paths/~1api~1projects~1{project_id}~1dashboards~1{id}~1snapshot~1/post"
     },
     {
       "op": "remove",

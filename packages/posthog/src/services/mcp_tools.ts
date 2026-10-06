@@ -7,51 +7,75 @@ import * as T from "../traits.ts";
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Arguments validated against the selected tool's schema. */
+export type CreateMcpToolRequestArgsMap = { [key: string]: unknown | undefined };
+export const CreateMcpToolRequestArgsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateMcpToolRequestArgsMap>;
+
 export interface CreateMcpToolRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   tool_name: string;
+  /** Arguments validated against the selected tool's schema. */
+  args?: CreateMcpToolRequestArgsMap;
 }
 export const CreateMcpToolRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     tool_name: S.String.pipe(T.Label()),
+    args: S.optional(CreateMcpToolRequestArgsMap),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/mcp_tools/{tool_name}/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/mcp_tools/{tool_name}/", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateMcpToolRequest",
-}) as any as S.Schema<CreateMcpToolRequest>;
+).annotate({ identifier: "CreateMcpToolRequest" }) as any as S.Schema<CreateMcpToolRequest>;
 
-export type CreateMcpToolResponseBodyMap = {
-  [key: string]: unknown | undefined;
-};
-export const CreateMcpToolResponseBodyMap = /*@__PURE__*/ S.Record(
+export type MCPToolResponseStructuredContentMap = { [key: string]: unknown | undefined };
+export const MCPToolResponseStructuredContentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
-) as any as S.Schema<CreateMcpToolResponseBodyMap>;
+) as any as S.Schema<MCPToolResponseStructuredContentMap>;
 
-export type CreateMcpToolResponse = CreateMcpToolResponseBodyMap;
-export const CreateMcpToolResponse = /*@__PURE__*/ S.suspend(() =>
-  CreateMcpToolResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CreateMcpToolResponse",
-}) as any as S.Schema<CreateMcpToolResponse>;
+export type MCPToolResponseErrorType =
+  | "validation"
+  | "permission"
+  | "timeout"
+  | "memory_limit"
+  | "rate_limited"
+  | "api_5xx"
+  | "internal";
+export const MCPToolResponseErrorType = S.String;
+
+export interface MCPToolResponse {
+  /** Formatted tool output for the model. */
+  content: string;
+  /** Structured tool output for native widgets. */
+  structured_content?: MCPToolResponseStructuredContentMap | null;
+  /** Whether the tool completed successfully. */
+  success: boolean;
+  /** Failure category for MCP analytics. */
+  error_type?: MCPToolResponseErrorType | null;
+}
+export const MCPToolResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    content: S.String,
+    structured_content: S.optional(S.NullOr(MCPToolResponseStructuredContentMap)),
+    success: S.Boolean,
+    error_type: S.optional(S.NullOr(MCPToolResponseErrorType)),
+  }),
+).annotate({ identifier: "MCPToolResponse" }) as any as S.Schema<MCPToolResponse>;
 
 export type CreateMcpToolError = PosthogOpError;
 /** Invoke an MCP tool by name. This endpoint allows MCP callers to invoke Max AI tools directly without going through the full LangChain conversation flow. Scopes are resolved dynamically per tool via dangerously_get_required_scopes. */
 export const createMcpTool: API.OperationMethod<
   CreateMcpToolRequest,
-  CreateMcpToolResponse,
+  MCPToolResponse,
   CreateMcpToolError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateMcpToolRequest,
-  output: CreateMcpToolResponse,
+  output: MCPToolResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,

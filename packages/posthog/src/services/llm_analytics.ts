@@ -46,9 +46,7 @@ export const CreateLlmAnalyticsClusteringConfigSetEventFilterRequest = /*@__PURE
   identifier: "CreateLlmAnalyticsClusteringConfigSetEventFilterRequest",
 }) as any as S.Schema<CreateLlmAnalyticsClusteringConfigSetEventFilterRequest>;
 
-export type ClusteringConfigEventFiltersItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type ClusteringConfigEventFiltersItemMap = { [key: string]: unknown | undefined };
 export const ClusteringConfigEventFiltersItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -72,9 +70,7 @@ export const ClusteringConfig = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "ClusteringConfig",
-}) as any as S.Schema<ClusteringConfig>;
+).annotate({ identifier: "ClusteringConfig" }) as any as S.Schema<ClusteringConfig>;
 
 /** * `trace` - trace * `generation` - generation * `evaluation` - evaluation */
 export type AnalysisLevelEnum = "trace" | "generation" | "evaluation";
@@ -122,9 +118,7 @@ export const CreateLlmAnalyticsClusteringJobRequest = /*@__PURE__*/ S.suspend(()
   identifier: "CreateLlmAnalyticsClusteringJobRequest",
 }) as any as S.Schema<CreateLlmAnalyticsClusteringJobRequest>;
 
-export type ClusteringJobEventFiltersItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type ClusteringJobEventFiltersItemMap = { [key: string]: unknown | undefined };
 export const ClusteringJobEventFiltersItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -249,9 +243,7 @@ export const CreateLlmAnalyticsClusteringRunRequest = /*@__PURE__*/ S.suspend(()
   identifier: "CreateLlmAnalyticsClusteringRunRequest",
 }) as any as S.Schema<CreateLlmAnalyticsClusteringRunRequest>;
 
-export type ClusteringRunRequestEventFiltersItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type ClusteringRunRequestEventFiltersItemMap = { [key: string]: unknown | undefined };
 export const ClusteringRunRequestEventFiltersItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -311,9 +303,7 @@ export const ClusteringRunRequest = /*@__PURE__*/ S.suspend(() =>
     event_filters: S.optional(ClusteringRunRequestEventFiltersList),
     clustering_job_id: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ClusteringRunRequest",
-}) as any as S.Schema<ClusteringRunRequest>;
+).annotate({ identifier: "ClusteringRunRequest" }) as any as S.Schema<ClusteringRunRequest>;
 
 export interface CreateLlmAnalyticsEvaluationConfigSetActiveKeyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -336,7 +326,7 @@ export const CreateLlmAnalyticsEvaluationConfigSetActiveKeyRequest = /*@__PURE__
   identifier: "CreateLlmAnalyticsEvaluationConfigSetActiveKeyRequest",
 }) as any as S.Schema<CreateLlmAnalyticsEvaluationConfigSetActiveKeyRequest>;
 
-/** * `openai` - Openai * `anthropic` - Anthropic * `gemini` - Gemini * `openrouter` - Openrouter * `fireworks` - Fireworks * `azure_openai` - Azure OpenAI * `together_ai` - Together AI * `minimax` - MiniMax * `zeabur` - Zeabur AI Hub */
+/** * `openai` - Openai * `anthropic` - Anthropic * `gemini` - Gemini * `openrouter` - Openrouter * `fireworks` - Fireworks * `azure_openai` - Azure OpenAI * `together_ai` - Together AI * `minimax` - MiniMax * `zeabur` - Zeabur AI Hub * `system_one` - System One * `openai_compatible` - OpenAI-compatible */
 export type LLMProviderEnum =
   | "openai"
   | "anthropic"
@@ -346,7 +336,9 @@ export type LLMProviderEnum =
   | "azure_openai"
   | "together_ai"
   | "minimax"
-  | "zeabur";
+  | "zeabur"
+  | "system_one"
+  | "openai_compatible";
 export const LLMProviderEnum = S.String;
 
 /** * `unknown` - Unknown * `ok` - Ok * `invalid` - Invalid * `error` - Error */
@@ -411,6 +403,10 @@ export interface LLMProviderKeyOutput {
   state?: LLMProviderKeyStateEnum;
   error_message?: string | null;
   api_key_masked?: string;
+  /** Configured provider base URL (read-only, for display) */
+  base_url_display?: string | null;
+  /** Configured System One model ID. */
+  system_one_model_display?: string | null;
   /** Azure endpoint (read-only, for display) */
   azure_endpoint_display?: string | null;
   /** Azure API version (read-only, for display) */
@@ -427,15 +423,15 @@ export const LLMProviderKeyOutput = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(LLMProviderKeyStateEnum),
     error_message: S.optional(S.NullOr(S.String)),
     api_key_masked: S.optional(S.String),
+    base_url_display: S.optional(S.NullOr(S.String)),
+    system_one_model_display: S.optional(S.NullOr(S.String)),
     azure_endpoint_display: S.optional(S.NullOr(S.String)),
     api_version_display: S.optional(S.NullOr(S.String)),
     created_at: S.optional(S.String),
     created_by: S.optional(S.NullOr(UserBasic)),
     last_used_at: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "LLMProviderKeyOutput",
-}) as any as S.Schema<LLMProviderKeyOutput>;
+).annotate({ identifier: "LLMProviderKeyOutput" }) as any as S.Schema<LLMProviderKeyOutput>;
 
 export interface EvaluationConfigOutput {
   /** Provider key used to run llm_judge evals; null if none configured yet. */
@@ -451,9 +447,7 @@ export const EvaluationConfigOutput = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "EvaluationConfigOutput",
-}) as any as S.Schema<EvaluationConfigOutput>;
+).annotate({ identifier: "EvaluationConfigOutput" }) as any as S.Schema<EvaluationConfigOutput>;
 
 /** * `scheduled` - Scheduled * `every_n` - Every N */
 export type EvaluationReportFrequencyEnum = "scheduled" | "every_n";
@@ -567,9 +561,7 @@ export const EvaluationReport = /*@__PURE__*/ S.suspend(() =>
     created_by: S.optional(S.NullOr(S.Number)),
     created_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EvaluationReport",
-}) as any as S.Schema<EvaluationReport>;
+).annotate({ identifier: "EvaluationReport" }) as any as S.Schema<EvaluationReport>;
 
 export interface CreateLlmAnalyticsParserRecipeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -623,6 +615,10 @@ export interface CreateLlmAnalyticsProviderKeyRequest {
   provider?: LLMProviderEnum | (string & {});
   name?: string;
   api_key?: string | Redacted.Redacted<string>;
+  /** Public HTTPS base URL of an OpenAI-compatible or System One API. For System One, end before /systemone. */
+  base_url?: string;
+  /** Model ID served by the System One endpoint. */
+  system_one_model?: string;
   /** Azure OpenAI endpoint URL */
   azure_endpoint?: string;
   /** Azure OpenAI API version */
@@ -635,6 +631,8 @@ export const CreateLlmAnalyticsProviderKeyRequest = /*@__PURE__*/ S.suspend(() =
     provider: S.optional(LLMProviderEnum),
     name: S.optional(S.String),
     api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    base_url: S.optional(S.String),
+    system_one_model: S.optional(S.String),
     azure_endpoint: S.optional(S.String),
     api_version: S.optional(S.String),
     set_as_active: S.optional(S.Boolean),
@@ -777,9 +775,7 @@ export const ReviewQueueItem = /*@__PURE__*/ S.suspend(() =>
     created_by: S.optional(S.NullOr(UserBasic)),
     team: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ReviewQueueItem",
-}) as any as S.Schema<ReviewQueueItem>;
+).annotate({ identifier: "ReviewQueueItem" }) as any as S.Schema<ReviewQueueItem>;
 
 /** * `categorical` - categorical * `numeric` - numeric * `boolean` - boolean */
 export type ScoreDefinitionKindEnum = "categorical" | "numeric" | "boolean";
@@ -796,9 +792,7 @@ export const CategoricalScoreOption = /*@__PURE__*/ S.suspend(() =>
     key: S.optional(S.String),
     label: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CategoricalScoreOption",
-}) as any as S.Schema<CategoricalScoreOption>;
+).annotate({ identifier: "CategoricalScoreOption" }) as any as S.Schema<CategoricalScoreOption>;
 
 /** Ordered categorical options available to the scorer. */
 export type CategoricalScoreDefinitionConfigOptionsList = Array<CategoricalScoreOption>;
@@ -810,6 +804,24 @@ export const CategoricalScoreDefinitionConfigOptionsList = /*@__PURE__*/ S.Array
 export type SelectionModeEnum = "single" | "multiple";
 export const SelectionModeEnum = S.String;
 
+/** Passing category keys. Every returned category must be included. An empty list makes all accepted offline results fail. */
+export type CategoricalScorePassingRuleCategoriesList = Array<string>;
+export const CategoricalScorePassingRuleCategoriesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CategoricalScorePassingRuleCategoriesList>;
+
+export interface CategoricalScorePassingRule {
+  /** Passing category keys. Every returned category must be included. An empty list makes all accepted offline results fail. */
+  categories: CategoricalScorePassingRuleCategoriesList;
+}
+export const CategoricalScorePassingRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    categories: CategoricalScorePassingRuleCategoriesList,
+  }),
+).annotate({
+  identifier: "CategoricalScorePassingRule",
+}) as any as S.Schema<CategoricalScorePassingRule>;
+
 export interface CategoricalScoreDefinitionConfig {
   /** Ordered categorical options available to the scorer. */
   options?: CategoricalScoreDefinitionConfigOptionsList;
@@ -819,6 +831,8 @@ export interface CategoricalScoreDefinitionConfig {
   min_selections?: number | null;
   /** Optional maximum number of options that can be selected when `selection_mode` is `multiple`. */
   max_selections?: number | null;
+  /** Optional passing categories. Omit or set null for neutral scores. Each scorer version keeps its own rule. */
+  passing_rule?: CategoricalScorePassingRule | null;
 }
 export const CategoricalScoreDefinitionConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -826,10 +840,28 @@ export const CategoricalScoreDefinitionConfig = /*@__PURE__*/ S.suspend(() =>
     selection_mode: S.optional(SelectionModeEnum),
     min_selections: S.optional(S.NullOr(S.Number)),
     max_selections: S.optional(S.NullOr(S.Number)),
+    passing_rule: S.optional(S.NullOr(CategoricalScorePassingRule)),
   }),
 ).annotate({
   identifier: "CategoricalScoreDefinitionConfig",
 }) as any as S.Schema<CategoricalScoreDefinitionConfig>;
+
+/** * `gte` - At or above * `lte` - At or below */
+export type NumericScorePassingRuleSerializerOperatorEnum = "gte" | "lte";
+export const NumericScorePassingRuleSerializerOperatorEnum = S.String;
+
+export interface NumericScorePassingRule {
+  /** Pass at or above (gte), or at or below (lte), the threshold. * `gte` - At or above * `lte` - At or below */
+  operator: NumericScorePassingRuleSerializerOperatorEnum | (string & {});
+  /** Finite passing threshold within any configured score bounds. */
+  threshold: number;
+}
+export const NumericScorePassingRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    operator: NumericScorePassingRuleSerializerOperatorEnum,
+    threshold: S.Number,
+  }),
+).annotate({ identifier: "NumericScorePassingRule" }) as any as S.Schema<NumericScorePassingRule>;
 
 export interface NumericScoreDefinitionConfig {
   /** Optional inclusive minimum score. */
@@ -838,18 +870,23 @@ export interface NumericScoreDefinitionConfig {
   max?: number | null;
   /** Optional increment step for numeric input, for example 1 or 0.5. */
   step?: number | null;
+  /** Optional passing rule. Omit or set null for neutral scores. Each scorer version keeps its own rule. */
+  passing_rule?: NumericScorePassingRule | null;
 }
 export const NumericScoreDefinitionConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     min: S.optional(S.NullOr(S.Number)),
     max: S.optional(S.NullOr(S.Number)),
     step: S.optional(S.NullOr(S.Number)),
+    passing_rule: S.optional(S.NullOr(NumericScorePassingRule)),
   }),
 ).annotate({
   identifier: "NumericScoreDefinitionConfig",
 }) as any as S.Schema<NumericScoreDefinitionConfig>;
 
 export interface BooleanScoreDefinitionConfig {
+  /** Whether true means failure. False, omitted, or null means true passes in offline evaluations. */
+  true_is_failure?: boolean | null;
   /** Optional label for a true value. */
   true_label?: string;
   /** Optional label for a false value. */
@@ -857,6 +894,7 @@ export interface BooleanScoreDefinitionConfig {
 }
 export const BooleanScoreDefinitionConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    true_is_failure: S.optional(S.NullOr(S.Boolean)),
     true_label: S.optional(S.String),
     false_label: S.optional(S.String),
   }),
@@ -936,15 +974,17 @@ export const ScoreDefinition = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.NullOr(S.String)),
     team: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ScoreDefinition",
-}) as any as S.Schema<ScoreDefinition>;
+).annotate({ identifier: "ScoreDefinition" }) as any as S.Schema<ScoreDefinition>;
 
 export interface CreateLlmAnalyticsScoreDefinitionsNewVersionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this score definition. */
   id: string;
+  /** Updated scorer name, saved with this version. */
+  name?: string;
+  /** Updated scorer description, saved with this version. */
+  description?: string | null;
   /** Next immutable scorer configuration. */
   config?: ScoreDefinitionConfig;
   /** Version number the caller observed before requesting this bump. If provided and it does not match the scorer's current version, the request fails with 409. Omit to skip the optimistic-concurrency check. */
@@ -954,6 +994,8 @@ export const CreateLlmAnalyticsScoreDefinitionsNewVersionRequest = /*@__PURE__*/
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
+    name: S.optional(S.String),
+    description: S.optional(S.NullOr(S.String)),
     config: S.optional(ScoreDefinitionConfig),
     base_version: S.optional(S.Number),
   }).pipe(
@@ -993,9 +1035,7 @@ export const TraceReviewScoreWrite = /*@__PURE__*/ S.suspend(() =>
     numeric_value: S.optional(S.NullOr(S.String)),
     boolean_value: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "TraceReviewScoreWrite",
-}) as any as S.Schema<TraceReviewScoreWrite>;
+).annotate({ identifier: "TraceReviewScoreWrite" }) as any as S.Schema<TraceReviewScoreWrite>;
 
 /** Full desired score set for this review. Omit scorers you want to leave blank. */
 export type CreateLlmAnalyticsTraceReviewRequestScoresList = Array<TraceReviewScoreWrite>;
@@ -1078,9 +1118,7 @@ export const TraceReviewScore = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     updated_at: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TraceReviewScore",
-}) as any as S.Schema<TraceReviewScore>;
+).annotate({ identifier: "TraceReviewScore" }) as any as S.Schema<TraceReviewScore>;
 
 /** Saved scorer values for this review. */
 export type TraceReviewScoresList = Array<TraceReviewScore>;
@@ -1144,9 +1182,7 @@ export const CreateLlmAnalyticsTranslateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateLlmAnalyticsTranslateRequest",
 }) as any as S.Schema<CreateLlmAnalyticsTranslateRequest>;
 
-export type CreateLlmAnalyticsTranslateResponseBodyMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateLlmAnalyticsTranslateResponseBodyMap = { [key: string]: unknown | undefined };
 export const CreateLlmAnalyticsTranslateResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1226,7 +1262,9 @@ export type GetLlmAnalyticsModelRequestProvider =
   | "gemini"
   | "minimax"
   | "openai"
+  | "openai_compatible"
   | "openrouter"
+  | "system_one"
   | "together_ai"
   | "zeabur";
 export const GetLlmAnalyticsModelRequestProvider = S.String;
@@ -1245,11 +1283,7 @@ export const GetLlmAnalyticsModelRequest = /*@__PURE__*/ S.suspend(() =>
     key_id: S.optional(S.String.pipe(T.Query())),
     provider: S.optional(GetLlmAnalyticsModelRequestProvider.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/llm_analytics/models/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/llm_analytics/models/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetLlmAnalyticsModelRequest",
@@ -1288,9 +1322,7 @@ export const LLMProviderModelsSummary = /*@__PURE__*/ S.suspend(() =>
     model_count: S.Number,
     requires_provider_key: S.Boolean,
   }),
-).annotate({
-  identifier: "LLMProviderModelsSummary",
-}) as any as S.Schema<LLMProviderModelsSummary>;
+).annotate({ identifier: "LLMProviderModelsSummary" }) as any as S.Schema<LLMProviderModelsSummary>;
 
 /** One entry per provider covered by this response. Read it to tell an unsupported provider apart from a provider whose models need a team key before they can be listed. */
 export type LLMModelsListResponseProvidersList = Array<LLMProviderModelsSummary>;
@@ -1309,9 +1341,7 @@ export const LLMModelsListResponse = /*@__PURE__*/ S.suspend(() =>
     models: LLMModelsListResponseModelsList,
     providers: LLMModelsListResponseProvidersList,
   }),
-).annotate({
-  identifier: "LLMModelsListResponse",
-}) as any as S.Schema<LLMModelsListResponse>;
+).annotate({ identifier: "LLMModelsListResponse" }) as any as S.Schema<LLMModelsListResponse>;
 
 export interface GetLlmAnalyticsParserRecipeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1438,6 +1468,58 @@ export const GetLlmAnalyticsScoreDefinitionRequest = /*@__PURE__*/ S.suspend(() 
 ).annotate({
   identifier: "GetLlmAnalyticsScoreDefinitionRequest",
 }) as any as S.Schema<GetLlmAnalyticsScoreDefinitionRequest>;
+
+export interface GetLlmAnalyticsScoreDefinitionsVersionRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this score definition. */
+  id: string;
+  /** Immutable version UUID. */
+  version_id: string;
+}
+export const GetLlmAnalyticsScoreDefinitionsVersionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    version_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/llm_analytics/score_definitions/{id}/versions/{version_id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetLlmAnalyticsScoreDefinitionsVersionRequest",
+}) as any as S.Schema<GetLlmAnalyticsScoreDefinitionsVersionRequest>;
+
+export interface ScoreDefinitionVersion {
+  /** UUID identifying this exact immutable version. */
+  id: string;
+  /** Scorer definition that owns this version. */
+  definition_id: string;
+  /** Immutable version number within this scorer. */
+  version: number;
+  /** Scorer value kind. * `categorical` - categorical * `numeric` - numeric * `boolean` - boolean */
+  kind: ScoreDefinitionKindEnum;
+  /** Immutable configuration for this exact version. */
+  config: ScoreDefinitionConfig;
+  /** Time this version was created. */
+  created_at: string;
+  /** User who created this version. */
+  created_by: UserBasic | null;
+}
+export const ScoreDefinitionVersion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    definition_id: S.String,
+    version: S.Number,
+    kind: ScoreDefinitionKindEnum,
+    config: ScoreDefinitionConfig,
+    created_at: S.String,
+    created_by: S.NullOr(UserBasic),
+  }),
+).annotate({ identifier: "ScoreDefinitionVersion" }) as any as S.Schema<ScoreDefinitionVersion>;
 
 export interface GetLlmAnalyticsTraceReviewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1615,9 +1697,7 @@ export const EvaluationReportSection = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     content: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EvaluationReportSection",
-}) as any as S.Schema<EvaluationReportSection>;
+).annotate({ identifier: "EvaluationReportSection" }) as any as S.Schema<EvaluationReportSection>;
 
 /** Ordered narrative sections in the report. */
 export type EvaluationReportRunContentSectionsList = Array<EvaluationReportSection>;
@@ -1642,9 +1722,7 @@ export const EvaluationReportCitation = /*@__PURE__*/ S.suspend(() =>
     session_id: S.optional(S.String),
     reason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EvaluationReportCitation",
-}) as any as S.Schema<EvaluationReportCitation>;
+).annotate({ identifier: "EvaluationReportCitation" }) as any as S.Schema<EvaluationReportCitation>;
 
 /** References grounding findings in the report. */
 export type EvaluationReportRunContentCitationsList = Array<EvaluationReportCitation>;
@@ -1656,48 +1734,147 @@ export const EvaluationReportRunContentCitationsList = /*@__PURE__*/ S.Array(
 export type GenerationStatusEnum = "completed" | "metrics_unavailable";
 export const GenerationStatusEnum = S.String;
 
-/** * `boolean` - Boolean (Pass/Fail) * `sentiment` - Sentiment */
-export type OutputTypeEnum = "boolean" | "sentiment";
+export interface EvaluationReportMetricsOutputConfigOptionsItem {
+  /** Stable category key. */
+  key: string;
+  /** Category display label. */
+  label: string;
+}
+export const EvaluationReportMetricsOutputConfigOptionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    label: S.String,
+  }),
+).annotate({
+  identifier: "EvaluationReportMetricsOutputConfigOptionsItem",
+}) as any as S.Schema<EvaluationReportMetricsOutputConfigOptionsItem>;
+
+/** Categorical output options. Keys identify stored results; labels are displayed to users. */
+export type EvaluationReportMetricsOutputConfigOptionsList =
+  Array<EvaluationReportMetricsOutputConfigOptionsItem>;
+export const EvaluationReportMetricsOutputConfigOptionsList = /*@__PURE__*/ S.Array(
+  EvaluationReportMetricsOutputConfigOptionsItem,
+) as any as S.Schema<EvaluationReportMetricsOutputConfigOptionsList>;
+
+/** Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single. */
+export type EvaluationReportMetricsOutputConfigSelectionMode = "single" | "multiple";
+export const EvaluationReportMetricsOutputConfigSelectionMode = S.String;
+
+/** Pass at or above (gte), or at or below (lte), the threshold. */
+export type EvaluationReportMetricsOutputConfigPassingRuleCase0Operator = "gte" | "lte";
+export const EvaluationReportMetricsOutputConfigPassingRuleCase0Operator = S.String;
+
+export interface EvaluationReportMetricsOutputConfigPassingRuleCase0 {
+  /** Pass at or above (gte), or at or below (lte), the threshold. */
+  operator: EvaluationReportMetricsOutputConfigPassingRuleCase0Operator;
+  /** Finite passing threshold within any configured score bounds. */
+  threshold: number;
+}
+export const EvaluationReportMetricsOutputConfigPassingRuleCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    operator: EvaluationReportMetricsOutputConfigPassingRuleCase0Operator,
+    threshold: S.Number,
+  }),
+).annotate({
+  identifier: "EvaluationReportMetricsOutputConfigPassingRuleCase0",
+}) as any as S.Schema<EvaluationReportMetricsOutputConfigPassingRuleCase0>;
+
+/** Passing category keys. With keys selected, results must be non-empty and contain only these keys. If no passing keys are selected, only an empty result passes. */
+export type EvaluationReportMetricsOutputConfigPassingRuleCase1CategoriesList = Array<string>;
+export const EvaluationReportMetricsOutputConfigPassingRuleCase1CategoriesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<EvaluationReportMetricsOutputConfigPassingRuleCase1CategoriesList>;
+
+export interface EvaluationReportMetricsOutputConfigPassingRuleCase1 {
+  /** Passing category keys. With keys selected, results must be non-empty and contain only these keys. If no passing keys are selected, only an empty result passes. */
+  categories: EvaluationReportMetricsOutputConfigPassingRuleCase1CategoriesList;
+}
+export const EvaluationReportMetricsOutputConfigPassingRuleCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    categories: EvaluationReportMetricsOutputConfigPassingRuleCase1CategoriesList,
+  }),
+).annotate({
+  identifier: "EvaluationReportMetricsOutputConfigPassingRuleCase1",
+}) as any as S.Schema<EvaluationReportMetricsOutputConfigPassingRuleCase1>;
+
+/** Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule. */
+export type EvaluationReportMetricsOutputConfigPassingRule =
+  | EvaluationReportMetricsOutputConfigPassingRuleCase0
+  | EvaluationReportMetricsOutputConfigPassingRuleCase1;
+export const EvaluationReportMetricsOutputConfigPassingRule =
+  S.Unknown as any as S.Schema<EvaluationReportMetricsOutputConfigPassingRule>;
+
+/** Output configuration and passing rule used for both report periods. */
+export interface EvaluationReportMetricsOutputConfig {
+  /** Whether the evaluation can return N/A for non-applicable generations. */
+  allows_na?: boolean;
+  /** Boolean output only. Omit for numeric, categorical, and sentiment output. Whether a true result means the evaluation found a problem. False (the default) suits pass/fail evaluations, where a true result satisfied the criteria. Set it to true for detector-style evaluations, so a true result is counted and labeled as a fail. */
+  true_is_failure?: boolean;
+  /** Inclusive minimum numeric score. Omit for no lower bound. Required for System One numeric judges. */
+  min?: number | null;
+  /** Inclusive maximum numeric score. Omit for no upper bound. Required for System One numeric judges and must exceed min. */
+  max?: number | null;
+  /** Optional positive input increment. Does not round evaluation results. */
+  step?: number | null;
+  /** Categorical output options. Keys identify stored results; labels are displayed to users. */
+  options?: EvaluationReportMetricsOutputConfigOptionsList;
+  /** Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single. */
+  selection_mode?: EvaluationReportMetricsOutputConfigSelectionMode;
+  /** Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule. */
+  passing_rule?: EvaluationReportMetricsOutputConfigPassingRule | null;
+}
+export const EvaluationReportMetricsOutputConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allows_na: S.optional(S.Boolean),
+    true_is_failure: S.optional(S.Boolean),
+    min: S.optional(S.NullOr(S.Number)),
+    max: S.optional(S.NullOr(S.Number)),
+    step: S.optional(S.NullOr(S.Number)),
+    options: S.optional(EvaluationReportMetricsOutputConfigOptionsList),
+    selection_mode: S.optional(EvaluationReportMetricsOutputConfigSelectionMode),
+    passing_rule: S.optional(S.NullOr(EvaluationReportMetricsOutputConfigPassingRule)),
+  }),
+).annotate({
+  identifier: "EvaluationReportMetricsOutputConfig",
+}) as any as S.Schema<EvaluationReportMetricsOutputConfig>;
+
+/** * `boolean` - Boolean (Pass/Fail) * `numeric` - Numeric * `categorical` - Categorical * `sentiment` - Sentiment */
+export type OutputTypeEnum = "boolean" | "numeric" | "categorical" | "sentiment";
 export const OutputTypeEnum = S.String;
 
 /** Count by output-specific result label, such as pass/fail/N/A or positive/neutral/negative. */
-export type EvaluationReportMetricsResultCountsMap = {
-  [key: string]: number | undefined;
-};
+export type EvaluationReportMetricsResultCountsMap = { [key: string]: number | undefined };
 export const EvaluationReportMetricsResultCountsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<EvaluationReportMetricsResultCountsMap>;
 
 /** Percentage by output-specific result label, from 0 to 100. */
-export type EvaluationReportMetricsResultRatesMap = {
-  [key: string]: number | undefined;
-};
+export type EvaluationReportMetricsResultRatesMap = { [key: string]: number | undefined };
 export const EvaluationReportMetricsResultRatesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<EvaluationReportMetricsResultRatesMap>;
 
 /** Count by result label for the previous period, or null when unavailable. */
-export type EvaluationReportMetricsPreviousResultCountsMap = {
-  [key: string]: number | undefined;
-};
+export type EvaluationReportMetricsPreviousResultCountsMap = { [key: string]: number | undefined };
 export const EvaluationReportMetricsPreviousResultCountsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<EvaluationReportMetricsPreviousResultCountsMap>;
 
 /** Percentage by result label for the previous period, or null when unavailable. */
-export type EvaluationReportMetricsPreviousResultRatesMap = {
-  [key: string]: number | undefined;
-};
+export type EvaluationReportMetricsPreviousResultRatesMap = { [key: string]: number | undefined };
 export const EvaluationReportMetricsPreviousResultRatesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<EvaluationReportMetricsPreviousResultRatesMap>;
 
 export interface EvaluationReportMetrics {
-  /** Evaluation result type. Stored metrics without this field represent boolean evaluations. * `boolean` - Boolean (Pass/Fail) * `sentiment` - Sentiment */
+  /** Output configuration and passing rule used for both report periods. */
+  output_config?: EvaluationReportMetricsOutputConfig;
+  /** Evaluation result type. Stored metrics without this field represent boolean evaluations. * `boolean` - Boolean (Pass/Fail) * `numeric` - Numeric * `categorical` - Categorical * `sentiment` - Sentiment */
   output_type?: OutputTypeEnum;
   /** Number of evaluation results in the report period. */
   total_runs?: number;
@@ -1715,13 +1892,14 @@ export interface EvaluationReportMetrics {
   previous_result_counts?: EvaluationReportMetricsPreviousResultCountsMap | null;
   /** Percentage by result label for the previous period, or null when unavailable. */
   previous_result_rates?: EvaluationReportMetricsPreviousResultRatesMap | null;
-  /** Boolean pass percentage, excluding results marked not applicable. */
-  pass_rate?: number;
-  /** Boolean pass percentage for the previous period, or null when unavailable. */
+  /** Pass percentage excluding N/A. With no applicable results, numeric and categorical reports return null; boolean reports return 0. */
+  pass_rate?: number | null;
+  /** Pass percentage for boolean, numeric, or categorical results in the previous period, or null when unavailable. */
   previous_pass_rate?: number | null;
 }
 export const EvaluationReportMetrics = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    output_config: S.optional(EvaluationReportMetricsOutputConfig),
     output_type: S.optional(OutputTypeEnum),
     total_runs: S.optional(S.Number),
     result_counts: S.optional(EvaluationReportMetricsResultCountsMap),
@@ -1731,12 +1909,10 @@ export const EvaluationReportMetrics = /*@__PURE__*/ S.suspend(() =>
     previous_total_runs: S.optional(S.NullOr(S.Number)),
     previous_result_counts: S.optional(S.NullOr(EvaluationReportMetricsPreviousResultCountsMap)),
     previous_result_rates: S.optional(S.NullOr(EvaluationReportMetricsPreviousResultRatesMap)),
-    pass_rate: S.optional(S.Number),
+    pass_rate: S.optional(S.NullOr(S.Number)),
     previous_pass_rate: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "EvaluationReportMetrics",
-}) as any as S.Schema<EvaluationReportMetrics>;
+).annotate({ identifier: "EvaluationReportMetrics" }) as any as S.Schema<EvaluationReportMetrics>;
 
 export interface EvaluationReportRunContent {
   /** Evaluation target analyzed by this report run. Legacy runs without this field targeted generations. * `generation` - Generation * `trace` - Trace * `session` - Session */
@@ -1812,9 +1988,7 @@ export const EvaluationReportRun = /*@__PURE__*/ S.suspend(() =>
     delivery_errors: S.optional(EvaluationReportRunDeliveryErrorsList),
     created_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EvaluationReportRun",
-}) as any as S.Schema<EvaluationReportRun>;
+).annotate({ identifier: "EvaluationReportRun" }) as any as S.Schema<EvaluationReportRun>;
 
 export type PaginatedEvaluationReportRunListResultsList = Array<EvaluationReportRun>;
 export const PaginatedEvaluationReportRunListResultsList = /*@__PURE__*/ S.Array(
@@ -2041,9 +2215,7 @@ export const PaginatedReviewQueueList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: S.optional(PaginatedReviewQueueListResultsList),
   }),
-).annotate({
-  identifier: "PaginatedReviewQueueList",
-}) as any as S.Schema<PaginatedReviewQueueList>;
+).annotate({ identifier: "PaginatedReviewQueueList" }) as any as S.Schema<PaginatedReviewQueueList>;
 
 export interface ListLlmAnalyticsScoreDefinitionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2102,6 +2274,57 @@ export const PaginatedScoreDefinitionList = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PaginatedScoreDefinitionList",
 }) as any as S.Schema<PaginatedScoreDefinitionList>;
+
+export interface ListLlmAnalyticsScoreDefinitionsVersionsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this score definition. */
+  id: string;
+  /** Continuation cursor from the prior page. */
+  cursor?: string;
+  /** Maximum versions to return. */
+  limit?: number;
+}
+export const ListLlmAnalyticsScoreDefinitionsVersionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/llm_analytics/score_definitions/{id}/versions/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListLlmAnalyticsScoreDefinitionsVersionsRequest",
+}) as any as S.Schema<ListLlmAnalyticsScoreDefinitionsVersionsRequest>;
+
+/** Versions on this page, newest first. */
+export type ScoreDefinitionVersionPageResultsList = Array<ScoreDefinitionVersion>;
+export const ScoreDefinitionVersionPageResultsList = /*@__PURE__*/ S.Array(
+  ScoreDefinitionVersion,
+) as any as S.Schema<ScoreDefinitionVersionPageResultsList>;
+
+export interface ScoreDefinitionVersionPage {
+  /** Total immutable versions for this scorer. */
+  count: number;
+  /** Continuation cursor, or null on the last page. */
+  next_cursor: string | null;
+  /** Versions on this page, newest first. */
+  results: ScoreDefinitionVersionPageResultsList;
+}
+export const ScoreDefinitionVersionPage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    next_cursor: S.NullOr(S.String),
+    results: ScoreDefinitionVersionPageResultsList,
+  }),
+).annotate({
+  identifier: "ScoreDefinitionVersionPage",
+}) as any as S.Schema<ScoreDefinitionVersionPage>;
 
 export interface ListLlmAnalyticsTraceReviewsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2163,9 +2386,7 @@ export const PaginatedTraceReviewList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: S.optional(PaginatedTraceReviewListResultsList),
   }),
-).annotate({
-  identifier: "PaginatedTraceReviewList",
-}) as any as S.Schema<PaginatedTraceReviewList>;
+).annotate({ identifier: "PaginatedTraceReviewList" }) as any as S.Schema<PaginatedTraceReviewList>;
 
 export interface LlmAnalyticsClusteringJobsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2315,6 +2536,10 @@ export interface LlmAnalyticsProviderKeysValidateCreateRequest {
   provider?: LLMProviderEnum | (string & {});
   name?: string;
   api_key?: string | Redacted.Redacted<string>;
+  /** Public HTTPS base URL of an OpenAI-compatible or System One API. For System One, end before /systemone. */
+  base_url?: string;
+  /** Model ID served by the System One endpoint. */
+  system_one_model?: string;
   /** Azure OpenAI endpoint URL */
   azure_endpoint?: string;
   /** Azure OpenAI API version */
@@ -2328,6 +2553,8 @@ export const LlmAnalyticsProviderKeysValidateCreateRequest = /*@__PURE__*/ S.sus
     provider: S.optional(LLMProviderEnum),
     name: S.optional(S.String),
     api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    base_url: S.optional(S.String),
+    system_one_model: S.optional(S.String),
     azure_endpoint: S.optional(S.String),
     api_version: S.optional(S.String),
     set_as_active: S.optional(S.Boolean),
@@ -2625,9 +2852,7 @@ export const EvaluationReportUpdate = /*@__PURE__*/ S.suspend(() =>
     created_by: S.NullOr(S.Number),
     created_at: S.String,
   }),
-).annotate({
-  identifier: "EvaluationReportUpdate",
-}) as any as S.Schema<EvaluationReportUpdate>;
+).annotate({ identifier: "EvaluationReportUpdate" }) as any as S.Schema<EvaluationReportUpdate>;
 
 export interface UpdateLlmAnalyticsEvaluationReportsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2712,6 +2937,10 @@ export interface UpdateLlmAnalyticsProviderKeyRequest {
   provider?: LLMProviderEnum | (string & {});
   name?: string;
   api_key?: string | Redacted.Redacted<string>;
+  /** Public HTTPS base URL of an OpenAI-compatible or System One API. For System One, end before /systemone. */
+  base_url?: string;
+  /** Model ID served by the System One endpoint. */
+  system_one_model?: string;
   /** Azure OpenAI endpoint URL */
   azure_endpoint?: string;
   /** Azure OpenAI API version */
@@ -2725,6 +2954,8 @@ export const UpdateLlmAnalyticsProviderKeyRequest = /*@__PURE__*/ S.suspend(() =
     provider: S.optional(LLMProviderEnum),
     name: S.optional(S.String),
     api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    base_url: S.optional(S.String),
+    system_one_model: S.optional(S.String),
     azure_endpoint: S.optional(S.String),
     api_version: S.optional(S.String),
     set_as_active: S.optional(S.Boolean),
@@ -2747,6 +2978,10 @@ export interface UpdateLlmAnalyticsProviderKeysPartialRequest {
   provider?: LLMProviderEnum | (string & {});
   name?: string;
   api_key?: string | Redacted.Redacted<string>;
+  /** Public HTTPS base URL of an OpenAI-compatible or System One API. For System One, end before /systemone. */
+  base_url?: string;
+  /** Model ID served by the System One endpoint. */
+  system_one_model?: string;
   /** Azure OpenAI endpoint URL */
   azure_endpoint?: string;
   /** Azure OpenAI API version */
@@ -2760,6 +2995,8 @@ export const UpdateLlmAnalyticsProviderKeysPartialRequest = /*@__PURE__*/ S.susp
     provider: S.optional(LLMProviderEnum),
     name: S.optional(S.String),
     api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    base_url: S.optional(S.String),
+    system_one_model: S.optional(S.String),
     azure_endpoint: S.optional(S.String),
     api_version: S.optional(S.String),
     set_as_active: S.optional(S.Boolean),
@@ -3239,6 +3476,20 @@ export const getLlmAnalyticsScoreDefinition: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetLlmAnalyticsScoreDefinitionsVersionError = PosthogOpError;
+export const getLlmAnalyticsScoreDefinitionsVersion: API.OperationMethod<
+  GetLlmAnalyticsScoreDefinitionsVersionRequest,
+  ScoreDefinitionVersion,
+  GetLlmAnalyticsScoreDefinitionsVersionError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetLlmAnalyticsScoreDefinitionsVersionRequest,
+  output: ScoreDefinitionVersion,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetLlmAnalyticsTraceReviewError = PosthogOpError;
 export const getLlmAnalyticsTraceReview: API.OperationMethod<
   GetLlmAnalyticsTraceReviewRequest,
@@ -3378,6 +3629,20 @@ export const listLlmAnalyticsScoreDefinitions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListLlmAnalyticsScoreDefinitionsRequest,
   output: PaginatedScoreDefinitionList,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListLlmAnalyticsScoreDefinitionsVersionsError = PosthogOpError;
+export const listLlmAnalyticsScoreDefinitionsVersions: API.OperationMethod<
+  ListLlmAnalyticsScoreDefinitionsVersionsRequest,
+  ScoreDefinitionVersionPage,
+  ListLlmAnalyticsScoreDefinitionsVersionsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListLlmAnalyticsScoreDefinitionsVersionsRequest,
+  output: ScoreDefinitionVersionPage,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,

@@ -17,16 +17,8 @@ export const GetWebVitalRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     pathname: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/web_vitals/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetWebVitalRequest",
-}) as any as S.Schema<GetWebVitalRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/web_vitals/", code: 200 })),
+).annotate({ identifier: "GetWebVitalRequest" }) as any as S.Schema<GetWebVitalRequest>;
 
 export type GetWebVitalResponseBodyMap = { [key: string]: unknown | undefined };
 export const GetWebVitalResponseBodyMap = /*@__PURE__*/ S.Record(
@@ -37,9 +29,7 @@ export const GetWebVitalResponseBodyMap = /*@__PURE__*/ S.Record(
 export type GetWebVitalResponse = GetWebVitalResponseBodyMap;
 export const GetWebVitalResponse = /*@__PURE__*/ S.suspend(() =>
   GetWebVitalResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetWebVitalResponse",
-}) as any as S.Schema<GetWebVitalResponse>;
+).annotate({ identifier: "GetWebVitalResponse" }) as any as S.Schema<GetWebVitalResponse>;
 
 export type GetWebVitalError = PosthogOpError;
 /** Get web vitals for a specific pathname. Toolbar accesses this via OAuth (handled by TeamAndOrgViewSetMixin.get_authenticators). */

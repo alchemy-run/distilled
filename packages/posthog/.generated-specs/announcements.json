@@ -108,6 +108,19 @@
             "smithy.api#required": {}
           }
         },
+        "send_as": {
+          "target": "com.posthog.announcements#AnnouncementSendAsEnum",
+          "traits": {
+            "smithy.api#documentation": "Slack identity the message is posted under: 'bot' posts as SupportHog, 'user' posts under the Slack name and avatar of the person sending it (matched by their PostHog email).\n\n* `bot` - SupportHog\n* `user` - The person who created it"
+          }
+        },
+        "sender_display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slack display name the message was posted under when send_as is 'user'; empty otherwise.",
+            "smithy.api#required": {}
+          }
+        },
         "total_channels": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -196,6 +209,26 @@
       },
       "traits": {
         "smithy.api#documentation": "* `pending` - Pending\n* `sending` - Sending\n* `sent` - Sent\n* `partially_failed` - Partially failed\n* `failed` - Failed"
+      }
+    },
+    "com.posthog.announcements#AnnouncementSendAsEnum": {
+      "type": "enum",
+      "members": {
+        "BOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bot"
+          }
+        },
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `bot` - SupportHog\n* `user` - The person who created it"
       }
     },
     "com.posthog.announcements#UserBasic": {
@@ -477,6 +510,12 @@
           "traits": {
             "smithy.api#documentation": "Message body to send, rendered as Slack mrkdwn.",
             "smithy.api#required": {}
+          }
+        },
+        "send_as": {
+          "target": "com.posthog.announcements#AnnouncementSendAsEnum",
+          "traits": {
+            "smithy.api#documentation": "Slack identity the message is posted under: 'bot' posts as SupportHog, 'user' posts under the Slack name and avatar of the person sending it (matched by their PostHog email).\n\n* `bot` - SupportHog\n* `user` - The person who created it"
           }
         },
         "channels": {

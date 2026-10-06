@@ -21,11 +21,7 @@ export const CreateCustomerJourneyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/customer_journeys/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/customer_journeys/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCustomerJourneyRequest",
@@ -50,9 +46,7 @@ export const CustomerJourney = /*@__PURE__*/ S.suspend(() =>
     created_by: S.optional(S.NullOr(S.Number)),
     updated_at: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CustomerJourney",
-}) as any as S.Schema<CustomerJourney>;
+).annotate({ identifier: "CustomerJourney" }) as any as S.Schema<CustomerJourney>;
 
 export interface CustomerJourneysDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -76,9 +70,7 @@ export const CustomerJourneysDestroyRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface CustomerJourneysDestroyResponse {}
 export const CustomerJourneysDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "CustomerJourneysDestroyResponse",
-  },
+  { identifier: "CustomerJourneysDestroyResponse" },
 ) as any as S.Schema<CustomerJourneysDestroyResponse>;
 
 export interface GetCustomerJourneyRequest {
@@ -91,11 +83,7 @@ export const GetCustomerJourneyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/customer_journeys/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/customer_journeys/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCustomerJourneyRequest",
@@ -115,11 +103,7 @@ export const ListCustomerJourneysRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/customer_journeys/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/customer_journeys/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCustomerJourneysRequest",
@@ -163,11 +147,7 @@ export const UpdateCustomerJourneyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/customer_journeys/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/customer_journeys/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateCustomerJourneyRequest",

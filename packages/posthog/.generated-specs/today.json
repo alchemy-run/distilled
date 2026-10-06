@@ -1,0 +1,1077 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.today#GetTodayBriefingRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "timezone",
+            "smithy.api#documentation": "IANA timezone of the person's browser, for example Europe/Prague. The briefing day starts at 8:00 in it. Defaults to the project timezone."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.today#Briefing": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Briefing id.",
+            "smithy.api#required": {}
+          }
+        },
+        "local_day": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The day this briefing is for, in the person's timezone.",
+            "smithy.api#required": {}
+          }
+        },
+        "headline": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "One sentence that counts what needs the person.",
+            "smithy.api#required": {}
+          }
+        },
+        "paragraphs": {
+          "target": "com.posthog.today#BriefingParagraphsList",
+          "traits": {
+            "smithy.api#documentation": "Up to 3 paragraphs, each a list of text runs; runs with an item_key are links.",
+            "smithy.api#required": {}
+          }
+        },
+        "items": {
+          "target": "com.posthog.today#BriefingItemsList",
+          "traits": {
+            "smithy.api#documentation": "The items the text names, in rank order: what the page and the left bar show.",
+            "smithy.api#required": {}
+          }
+        },
+        "more_reports_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Other open reports for the person, beyond the ones the briefing shows.",
+            "smithy.api#required": {}
+          }
+        },
+        "open_reports_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Open reports in the whole project beyond the ones the briefing shows, whoever they are for.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.today#BriefingStatusEnum",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "writer": {
+          "target": "com.posthog.today#WriterEnum",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ready_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.today#BriefingSegment": {
+      "type": "structure",
+      "members": {
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A run of text in a paragraph. Includes its own spaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "item_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key of the item this run links to, or null for plain text.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "highlight": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True only for the run that names the top item.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.today#BriefingParagraphsItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.today#BriefingSegment"
+      },
+      "traits": {}
+    },
+    "com.posthog.today#BriefingParagraphsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.today#BriefingParagraphsItemList"
+      },
+      "traits": {
+        "smithy.api#documentation": "Up to 3 paragraphs, each a list of text runs; runs with an item_key are links."
+      }
+    },
+    "com.posthog.today#BriefingItem": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable item key, for example report:<uuid>, dashboard:<id> or ticket:<uuid>.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The item's own title, as the source names it.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short left-bar label of at most 6 words.",
+            "smithy.api#required": {}
+          }
+        },
+        "signal": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short fact under the label, at most 40 characters, for example 'Spend down 37%'.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Where the item opens: an app path, or a GitHub URL for pull requests.",
+            "smithy.api#required": {}
+          }
+        },
+        "rank": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Position in the briefing, 1 is the top item.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_product": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For a report, the product its signals came from, for example error_tracking or session_replay. Null for every other item.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "report": {
+          "target": "com.posthog.today#BriefingItemReport",
+          "traits": {
+            "smithy.api#documentation": "For a report, its priority, summary, implementation pull request and the metric snapshots the viewer may read. Null for every other item and for a deleted report.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "group": {
+          "target": "com.posthog.today#TodayItemGroupEnum",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.posthog.today#TodayItemSourceEnum",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "com.posthog.today#TodayItemReasonEnum",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.posthog.today#BriefingItemStateEnum",
+          "traits": {
+            "smithy.api#documentation": "`done` when the item was resolved since the briefing was written, `dismissed` when it was dismissed or suppressed, else `open`. Pull requests always stay `open`.\n\n* `open` - OPEN\n* `done` - DONE\n* `dismissed` - DISMISSED",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.today#BriefingItemReport": {
+      "type": "structure",
+      "members": {
+        "priority": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The report's priority, P0 to P4, or null if unset.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The report's summary, shortened to a few sentences.",
+            "smithy.api#required": {}
+          }
+        },
+        "pull_request_state": {
+          "target": "com.posthog.today#PullRequestStateEnum",
+          "traits": {
+            "smithy.api#documentation": "State of the report's implementation pull request, or null when it has none.\n\n* `draft` - draft\n* `open` - open\n* `closed` - closed\n* `merged` - merged",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pull_request_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the report's implementation pull request, or null when it has none.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "signal_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many signals the report groups.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the report last changed.",
+            "smithy.api#required": {}
+          }
+        },
+        "metrics": {
+          "target": "com.posthog.today#BriefingItemReportMetricsList",
+          "traits": {
+            "smithy.api#documentation": "The report's metrics that have a saved snapshot, in the report's order.",
+            "smithy.api#required": {}
+          }
+        },
+        "charts": {
+          "target": "com.posthog.today#BriefingItemReportChartsList",
+          "traits": {
+            "smithy.api#documentation": "The charts in the report body, in the report's order.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.today#PullRequestStateEnum": {
+      "type": "enum",
+      "members": {
+        "DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "draft"
+          }
+        },
+        "OPEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "open"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        },
+        "MERGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "merged"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `draft` - draft\n* `open` - open\n* `closed` - closed\n* `merged` - merged"
+      }
+    },
+    "com.posthog.today#BriefingItemMetric": {
+      "type": "structure",
+      "members": {
+        "metric_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable slug of the metric within its report.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short label of what the metric measures.",
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.posthog.today#ReportMetricKindEnum",
+          "traits": {
+            "smithy.api#documentation": "What the value measures, for example affected_users.\n\n* `affected_users` - affected_users\n* `affected_sessions` - affected_sessions\n* `occurrences` - occurrences\n* `conversion_rate` - conversion_rate\n* `error_rate` - error_rate\n* `duration` - duration\n* `revenue` - revenue\n* `custom` - custom",
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "com.posthog.today#RoleEnum",
+          "traits": {
+            "smithy.api#documentation": "`primary` for the report's key observation, otherwise `supporting`.\n\n* `primary` - primary\n* `supporting` - supporting",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The latest saved snapshot of the metric.",
+            "smithy.api#required": {}
+          }
+        },
+        "series": {
+          "target": "com.posthog.today#BriefingItemMetricSeriesList",
+          "traits": {
+            "smithy.api#documentation": "Trailing per-bucket values saved with the snapshot, oldest first. Null when none were saved.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "value_format": {
+          "target": "com.posthog.today#ValueFormatEnum",
+          "traits": {
+            "smithy.api#documentation": "How to format the value, for example count.\n\n* `number` - number\n* `count` - count\n* `percentage` - percentage\n* `percentage_scaled` - percentage_scaled\n* `duration` - duration\n* `currency` - currency",
+            "smithy.api#required": {}
+          }
+        },
+        "unit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional short suffix or currency code, such as USD.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "query": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The metric's live InsightVizNode wrapping one TrendsQuery, as the report stores it.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.today#ReportMetricKindEnum": {
+      "type": "enum",
+      "members": {
+        "AFFECTED_USERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "affected_users"
+          }
+        },
+        "AFFECTED_SESSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "affected_sessions"
+          }
+        },
+        "OCCURRENCES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "occurrences"
+          }
+        },
+        "CONVERSION_RATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "conversion_rate"
+          }
+        },
+        "ERROR_RATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error_rate"
+          }
+        },
+        "DURATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "duration"
+          }
+        },
+        "REVENUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revenue"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `affected_users` - affected_users\n* `affected_sessions` - affected_sessions\n* `occurrences` - occurrences\n* `conversion_rate` - conversion_rate\n* `error_rate` - error_rate\n* `duration` - duration\n* `revenue` - revenue\n* `custom` - custom"
+      }
+    },
+    "com.posthog.today#RoleEnum": {
+      "type": "enum",
+      "members": {
+        "PRIMARY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "primary"
+          }
+        },
+        "SUPPORTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "supporting"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `primary` - primary\n* `supporting` - supporting"
+      }
+    },
+    "com.posthog.today#BriefingItemMetricSeriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {
+        "smithy.api#documentation": "Trailing per-bucket values saved with the snapshot, oldest first. Null when none were saved."
+      }
+    },
+    "com.posthog.today#ValueFormatEnum": {
+      "type": "enum",
+      "members": {
+        "NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "number"
+          }
+        },
+        "COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "count"
+          }
+        },
+        "PERCENTAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percentage"
+          }
+        },
+        "PERCENTAGE_SCALED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percentage_scaled"
+          }
+        },
+        "DURATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "duration"
+          }
+        },
+        "CURRENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "currency"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `number` - number\n* `count` - count\n* `percentage` - percentage\n* `percentage_scaled` - percentage_scaled\n* `duration` - duration\n* `currency` - currency"
+      }
+    },
+    "com.posthog.today#BriefingItemReportMetricsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.today#BriefingItemMetric"
+      },
+      "traits": {
+        "smithy.api#documentation": "The report's metrics that have a saved snapshot, in the report's order."
+      }
+    },
+    "com.posthog.today#BriefingItemChart": {
+      "type": "structure",
+      "members": {
+        "chart_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable slug of the chart within its report.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short heading of the chart.",
+            "smithy.api#required": {}
+          }
+        },
+        "query": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The query node the report body draws, as the report stores it.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.today#BriefingItemReportChartsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.today#BriefingItemChart"
+      },
+      "traits": {
+        "smithy.api#documentation": "The charts in the report body, in the report's order."
+      }
+    },
+    "com.posthog.today#TodayItemGroupEnum": {
+      "type": "enum",
+      "members": {
+        "REPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "report"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `report` - REPORT\n* `dashboard` - DASHBOARD\n* `other` - OTHER"
+      }
+    },
+    "com.posthog.today#TodayItemSourceEnum": {
+      "type": "enum",
+      "members": {
+        "SELF_DRIVING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "self_driving"
+          }
+        },
+        "PRODUCT_ANALYTICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_analytics"
+          }
+        },
+        "ALERTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alerts"
+          }
+        },
+        "SUPPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "support"
+          }
+        },
+        "ERROR_TRACKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error_tracking"
+          }
+        },
+        "GITHUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "github"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `self_driving` - SELF_DRIVING\n* `product_analytics` - PRODUCT_ANALYTICS\n* `alerts` - ALERTS\n* `support` - SUPPORT\n* `error_tracking` - ERROR_TRACKING\n* `github` - GITHUB"
+      }
+    },
+    "com.posthog.today#TodayItemReasonEnum": {
+      "type": "enum",
+      "members": {
+        "CLAIMED_BY_YOU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "claimed_by_you"
+          }
+        },
+        "WAITING_FOR_YOU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waiting_for_you"
+          }
+        },
+        "SUGGESTED_REVIEWER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "suggested_reviewer"
+          }
+        },
+        "URGENT_FOR_PROJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "urgent_for_project"
+          }
+        },
+        "DASHBOARD_YOU_VIEWED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard_you_viewed"
+          }
+        },
+        "DASHBOARD_YOU_STARRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard_you_starred"
+          }
+        },
+        "INSIGHT_YOU_VIEWED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "insight_you_viewed"
+          }
+        },
+        "INSIGHT_YOU_STARRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "insight_you_starred"
+          }
+        },
+        "ALERT_FIRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alert_firing"
+          }
+        },
+        "ASSIGNED_TICKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "assigned_ticket"
+          }
+        },
+        "ASSIGNED_ERROR_ISSUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "assigned_error_issue"
+          }
+        },
+        "REVIEW_REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "review_requested"
+          }
+        },
+        "YOUR_PULL_REQUEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "your_pull_request"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `claimed_by_you` - CLAIMED_BY_YOU\n* `waiting_for_you` - WAITING_FOR_YOU\n* `suggested_reviewer` - SUGGESTED_REVIEWER\n* `urgent_for_project` - URGENT_FOR_PROJECT\n* `dashboard_you_viewed` - DASHBOARD_YOU_VIEWED\n* `dashboard_you_starred` - DASHBOARD_YOU_STARRED\n* `insight_you_viewed` - INSIGHT_YOU_VIEWED\n* `insight_you_starred` - INSIGHT_YOU_STARRED\n* `alert_firing` - ALERT_FIRING\n* `assigned_ticket` - ASSIGNED_TICKET\n* `assigned_error_issue` - ASSIGNED_ERROR_ISSUE\n* `review_requested` - REVIEW_REQUESTED\n* `your_pull_request` - YOUR_PULL_REQUEST"
+      }
+    },
+    "com.posthog.today#BriefingItemStateEnum": {
+      "type": "enum",
+      "members": {
+        "OPEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "open"
+          }
+        },
+        "DONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "done"
+          }
+        },
+        "DISMISSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dismissed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `open` - OPEN\n* `done` - DONE\n* `dismissed` - DISMISSED"
+      }
+    },
+    "com.posthog.today#BriefingItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.today#BriefingItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The items the text names, in rank order: what the page and the left bar show."
+      }
+    },
+    "com.posthog.today#BriefingStatusEnum": {
+      "type": "enum",
+      "members": {
+        "COLLECTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "collecting"
+          }
+        },
+        "WRITING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "writing"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `collecting` - COLLECTING\n* `writing` - WRITING\n* `ready` - READY\n* `failed` - FAILED"
+      }
+    },
+    "com.posthog.today#WriterEnum": {
+      "type": "enum",
+      "members": {
+        "AGENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agent"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `agent` - AGENT"
+      }
+    },
+    "com.posthog.today#GetTodayBriefing": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.today#GetTodayBriefingRequest"
+      },
+      "output": {
+        "target": "com.posthog.today#Briefing"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/today/briefing/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get today's briefing\n\nToday's personal briefing: a short text about up to 5 items and the same items for the left bar. A new one is written every morning from 8:00 local time. Starts generating today's when there is none yet and returns it as 'collecting'. While a refresh is being written, the ready briefing is returned as 'writing', so it can stay on screen; poll again after a few seconds. 404 when the person gets no briefing: the flag is off, the organization has not approved AI data processing, or it is out of AI credits."
+      }
+    },
+    "com.posthog.today#TodayBriefingRefreshCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "timezone",
+            "smithy.api#documentation": "IANA timezone of the person's browser, for example Europe/Prague. The briefing day starts at 8:00 in it. Defaults to the project timezone."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.today#TodayBriefingRefreshCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.today#TodayBriefingRefreshCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.today#Briefing"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/today/briefing/refresh/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Refresh today's briefing\n\nRegenerate today's briefing. The ready briefing stays on screen until the new one is written."
+      }
+    },
+    "com.posthog.today#GetTodayCandidateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "timezone",
+            "smithy.api#documentation": "IANA timezone of the person's browser, for example Europe/Prague. The briefing day starts at 8:00 in it. Defaults to the project timezone."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.today#CandidateList": {
+      "type": "structure",
+      "members": {
+        "local_day": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The day the list is for, in the person's timezone.",
+            "smithy.api#required": {}
+          }
+        },
+        "candidates": {
+          "target": "com.posthog.today#CandidateListCandidatesList",
+          "traits": {
+            "smithy.api#documentation": "The briefing's items in rank order, up to 5.",
+            "smithy.api#required": {}
+          }
+        },
+        "more_reports_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Other open reports for the person not in the list.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.today#Candidate": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable item key, for example report:<uuid> or dashboard:<id>.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The item's own title.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Where the item opens.",
+            "smithy.api#required": {}
+          }
+        },
+        "rank": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Position in the briefing, 1 is the top item.",
+            "smithy.api#required": {}
+          }
+        },
+        "facts": {
+          "target": "com.posthog.today#CandidateFactsList",
+          "traits": {
+            "smithy.api#documentation": "The numbers and short facts the briefing text rests on.",
+            "smithy.api#required": {}
+          }
+        },
+        "group": {
+          "target": "com.posthog.today#TodayItemGroupEnum",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.posthog.today#TodayItemSourceEnum",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "com.posthog.today#TodayItemReasonEnum",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.today#CandidateFact": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fact name, for example pct_change or unread_messages.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fact value as text.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.today#CandidateFactsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.today#CandidateFact"
+      },
+      "traits": {
+        "smithy.api#documentation": "The numbers and short facts the briefing text rests on."
+      }
+    },
+    "com.posthog.today#CandidateListCandidatesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.today#Candidate"
+      },
+      "traits": {
+        "smithy.api#documentation": "The briefing's items in rank order, up to 5."
+      }
+    },
+    "com.posthog.today#GetTodayCandidate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.today#GetTodayCandidateRequest"
+      },
+      "output": {
+        "target": "com.posthog.today#CandidateList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/today/candidates/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List today's ranked items\n\nThe items behind today's briefing, with the facts and the reason for each, without the written text."
+      }
+    },
+    "com.posthog.today#Today": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.today#GetTodayBriefing"
+        },
+        {
+          "target": "com.posthog.today#TodayBriefingRefreshCreate"
+        },
+        {
+          "target": "com.posthog.today#GetTodayCandidate"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

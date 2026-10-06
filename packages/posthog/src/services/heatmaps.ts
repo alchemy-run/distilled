@@ -90,16 +90,8 @@ export const GetHeatmapsEventRequest = /*@__PURE__*/ S.suspend(() =>
     url_pattern: S.optional(S.String.pipe(T.Query())),
     viewport_width_max: S.optional(S.Number.pipe(T.Query())),
     viewport_width_min: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/heatmaps/events/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetHeatmapsEventRequest",
-}) as any as S.Schema<GetHeatmapsEventRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/heatmaps/events/", code: 200 })),
+).annotate({ identifier: "GetHeatmapsEventRequest" }) as any as S.Schema<GetHeatmapsEventRequest>;
 
 export interface HeatmapEventItem {
   session_id?: string | null;
@@ -120,9 +112,7 @@ export const HeatmapEventItem = /*@__PURE__*/ S.suspend(() =>
     current_url: S.String,
     type: S.String,
   }),
-).annotate({
-  identifier: "HeatmapEventItem",
-}) as any as S.Schema<HeatmapEventItem>;
+).annotate({ identifier: "HeatmapEventItem" }) as any as S.Schema<HeatmapEventItem>;
 
 export type HeatmapEventsResponseResultsList = Array<HeatmapEventItem>;
 export const HeatmapEventsResponseResultsList = /*@__PURE__*/ S.Array(
@@ -140,9 +130,7 @@ export const HeatmapEventsResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     has_more: S.Boolean,
   }),
-).annotate({
-  identifier: "HeatmapEventsResponse",
-}) as any as S.Schema<HeatmapEventsResponse>;
+).annotate({ identifier: "HeatmapEventsResponse" }) as any as S.Schema<HeatmapEventsResponse>;
 
 export type ListHeatmapsRequestAggregation = "unique_visitors" | "total_count";
 export const ListHeatmapsRequestAggregation = S.String;
@@ -196,16 +184,8 @@ export const ListHeatmapsRequest = /*@__PURE__*/ S.suspend(() =>
     url_pattern: S.optional(S.String.pipe(T.Query())),
     viewport_width_max: S.optional(S.Number.pipe(T.Query())),
     viewport_width_min: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/heatmaps/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListHeatmapsRequest",
-}) as any as S.Schema<ListHeatmapsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/heatmaps/", code: 200 })),
+).annotate({ identifier: "ListHeatmapsRequest" }) as any as S.Schema<ListHeatmapsRequest>;
 
 export interface HeatmapResponseItem {
   count?: number;
@@ -220,9 +200,7 @@ export const HeatmapResponseItem = /*@__PURE__*/ S.suspend(() =>
     pointer_relative_x: S.optional(S.Number),
     pointer_target_fixed: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "HeatmapResponseItem",
-}) as any as S.Schema<HeatmapResponseItem>;
+).annotate({ identifier: "HeatmapResponseItem" }) as any as S.Schema<HeatmapResponseItem>;
 
 export type HeatmapsResponseResultsList = Array<HeatmapResponseItem>;
 export const HeatmapsResponseResultsList = /*@__PURE__*/ S.Array(
@@ -246,9 +224,7 @@ export const HeatmapFoldSummary = /*@__PURE__*/ S.suspend(() =>
     pct_below_fold: S.Number,
     median_viewport_height: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "HeatmapFoldSummary",
-}) as any as S.Schema<HeatmapFoldSummary>;
+).annotate({ identifier: "HeatmapFoldSummary" }) as any as S.Schema<HeatmapFoldSummary>;
 
 export interface HeatmapsResponse {
   results?: HeatmapsResponseResultsList;
@@ -263,9 +239,7 @@ export const HeatmapsResponse = /*@__PURE__*/ S.suspend(() =>
     fold: S.optional(S.NullOr(HeatmapFoldSummary)),
     has_more: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "HeatmapsResponse",
-}) as any as S.Schema<HeatmapsResponse>;
+).annotate({ identifier: "HeatmapsResponse" }) as any as S.Schema<HeatmapsResponse>;
 
 export type ListHeatmapsResponseBodyList = Array<HeatmapsResponse>;
 export const ListHeatmapsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -275,9 +249,7 @@ export const ListHeatmapsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListHeatmapsResponse = ListHeatmapsResponseBodyList;
 export const ListHeatmapsResponse = /*@__PURE__*/ S.suspend(() =>
   ListHeatmapsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListHeatmapsResponse",
-}) as any as S.Schema<ListHeatmapsResponse>;
+).annotate({ identifier: "ListHeatmapsResponse" }) as any as S.Schema<ListHeatmapsResponse>;
 
 export type GetHeatmapsEventError = Forbidden | NotFound | PosthogOpError;
 /** Drill into the individual session interactions behind one or more heatmap coordinates. Pass the 'points' you want to inspect (from the heatmaps list response) to get the underlying per-session events, so you can jump to the session recordings that produced a hotspot. */

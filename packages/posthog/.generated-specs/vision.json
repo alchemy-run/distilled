@@ -246,7 +246,9 @@
         "created_by": {
           "target": "com.posthog.vision#UserBasic",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#documentation": "User who created the alert; null once that user is deleted.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "updated_at": {
@@ -766,13 +768,280 @@
         "smithy.api#input": {}
       }
     },
+    "com.posthog.vision#VisionAlertConfigurationDetail": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for this alert.",
+            "smithy.api#required": {}
+          }
+        },
+        "scanner_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scanner whose observations this alert watches. Immutable after creation.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name for this alert. Defaults to 'Untitled alert' on create when omitted."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the alert is active. Disabling a metric alert resets its state to not_firing."
+          }
+        },
+        "kind": {
+          "target": "com.posthog.vision#VisionAlertKindEnum",
+          "traits": {
+            "smithy.api#documentation": "'metric' fires when a metric crosses a threshold over a rolling window; 'match' fires on every observation that matches the selection. Immutable after creation.\n\n* `metric` - Metric\n* `match` - Match",
+            "smithy.api#required": {}
+          }
+        },
+        "selection": {
+          "target": "com.posthog.vision#VisionAlertSelection",
+          "traits": {
+            "smithy.api#documentation": "Which observations count. Empty matches every observation of the scanner."
+          }
+        },
+        "metric": {
+          "target": "com.posthog.vision#VisionAlertMetricEnum",
+          "traits": {
+            "smithy.api#documentation": "Metric alerts only: what to measure over the window. 'avg_score' requires a scorer scanner.\n\n* `count` - Count matching observations\n* `avg_score` - Average score"
+          }
+        },
+        "direction": {
+          "target": "com.posthog.vision#VisionAlertDirectionEnum",
+          "traits": {
+            "smithy.api#documentation": "Metric alerts only: whether the alert fires at or above, or at or below, the threshold.\n\n* `above` - At or above\n* `below` - At or below"
+          }
+        },
+        "threshold": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Metric alerts only: the threshold value. Required for metric alerts, must be omitted for match alerts.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "window_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Metric alerts only: rolling window in days. Allowed values: [1, 3, 7, 14, 30]."
+          }
+        },
+        "check_interval_minutes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Metric alerts only: evaluation cadence in minutes, at least 15."
+          }
+        },
+        "state": {
+          "target": "com.posthog.vision#LogsAlertConfigurationStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Current lifecycle state. Always not_firing for match alerts. Server-managed.\n\n* `not_firing` - Not firing\n* `firing` - Firing\n* `pending_resolve` - Pending resolve\n* `errored` - Errored\n* `snoozed` - Snoozed\n* `broken` - Broken",
+            "smithy.api#required": {}
+          }
+        },
+        "evaluation_periods": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Metric alerts only: total check periods in the sliding evaluation window (M in N-of-M)."
+          }
+        },
+        "datapoints_to_alarm": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Metric alerts only: how many periods must breach to fire (N in N-of-M)."
+          }
+        },
+        "cooldown_minutes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Metric alerts only: minimum minutes between repeated notifications. 0 means no cooldown."
+          }
+        },
+        "schedule_restriction": {
+          "target": "com.posthog.vision#AlertScheduleRestriction",
+          "traits": {
+            "smithy.api#documentation": "Blocked local time windows when the alert must not notify. Times use the project timezone. Null disables quiet hours.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "snooze_until": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp until which the alert is snoozed. Set to null to unsnooze.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "next_check_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the next evaluation is scheduled. Server-managed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_notified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the last notification was sent. Server-managed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_checked_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the alert was last evaluated. Server-managed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "consecutive_failures": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Consecutive evaluation failures. Resets on success. Server-managed.",
+            "smithy.api#required": {}
+          }
+        },
+        "first_enabled_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the alert was first enabled. Null means still a draft.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the alert was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.vision#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "User who created the alert; null once that user is deleted.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the alert was last modified.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "destinations": {
+          "target": "com.posthog.vision#VisionAlertConfigurationDetailDestinationsList",
+          "traits": {
+            "smithy.api#documentation": "This alert's notification destinations, one entry per destination, with credential-bearing URL parts removed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#VisionAlertDestinationConfig": {
+      "type": "structure",
+      "members": {
+        "hog_function_ids": {
+          "target": "com.posthog.vision#VisionAlertDestinationConfigHogFunctionIdsList",
+          "traits": {
+            "smithy.api#documentation": "HogFunctions backing the created destination, one per event kind.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.posthog.vision#VisionAlertDestinationTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Notification destination type.\n\n* `slack` - slack\n* `webhook` - webhook",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether every HogFunction in the group is enabled, so the destination notifies on every event kind.",
+            "smithy.api#required": {}
+          }
+        },
+        "slack_workspace_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Integration ID of the Slack workspace, for Slack destinations."
+          }
+        },
+        "slack_channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slack channel ID, for Slack destinations."
+          }
+        },
+        "webhook_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Webhook endpoint reduced to scheme and host, because the path, query and userinfo can carry a secret."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#VisionAlertDestinationConfigHogFunctionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "HogFunctions backing the created destination, one per event kind."
+      }
+    },
+    "com.posthog.vision#VisionAlertDestinationTypeEnum": {
+      "type": "enum",
+      "members": {
+        "SLACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "slack"
+          }
+        },
+        "WEBHOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `slack` - slack\n* `webhook` - webhook"
+      }
+    },
+    "com.posthog.vision#VisionAlertConfigurationDetailDestinationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.vision#VisionAlertDestinationConfig"
+      },
+      "traits": {
+        "smithy.api#documentation": "This alert's notification destinations, one entry per destination, with credential-bearing URL parts removed."
+      }
+    },
     "com.posthog.vision#GetVisionAlert": {
       "type": "operation",
       "input": {
         "target": "com.posthog.vision#GetVisionAlertRequest"
       },
       "output": {
-        "target": "com.posthog.vision#VisionAlertConfiguration"
+        "target": "com.posthog.vision#VisionAlertConfigurationDetail"
       },
       "traits": {
         "smithy.api#http": {
@@ -1090,26 +1359,6 @@
         }
       }
     },
-    "com.posthog.vision#VisionAlertCreateDestinationTypeEnum": {
-      "type": "enum",
-      "members": {
-        "SLACK": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "slack"
-          }
-        },
-        "WEBHOOK": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "webhook"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "* `slack` - slack\n* `webhook` - webhook"
-      }
-    },
     "com.posthog.vision#CreateVisionAlertsDestinationRequest": {
       "type": "structure",
       "members": {
@@ -1130,7 +1379,7 @@
           }
         },
         "type": {
-          "target": "com.posthog.vision#VisionAlertCreateDestinationTypeEnum",
+          "target": "com.posthog.vision#VisionAlertDestinationTypeEnum",
           "traits": {
             "smithy.api#documentation": "Notification destination type.\n\n* `slack` - slack\n* `webhook` - webhook",
             "smithy.api#required": {}
@@ -1796,7 +2045,7 @@
         "error_reason": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Populated on terminal non-success statuses; formatted as `kind:human-readable message`. For `ineligible`, kind is one of no_recording / too_short / too_inactive / too_long / no_events / no_snapshots / too_large. For `failed`, kind is one of provider_transient / provider_rejected / rasterization_failed / validation_failed / infra_transient / internal_error / orphaned.",
+            "smithy.api#documentation": "Populated on terminal non-success statuses; formatted as `kind:human-readable message`. For `ineligible`, kind is one of no_recording / too_short / too_inactive / too_long / no_events / no_snapshots / too_large / not_exposed / experiment_unresolved. For `failed`, kind is one of provider_transient / provider_rejected / rasterization_failed / validation_failed / infra_transient / internal_error / orphaned / pii_detected.",
             "smithy.api#required": {}
           }
         },
@@ -1819,6 +2068,14 @@
           "target": "com.posthog.vision#ScannerResult",
           "traits": {
             "smithy.api#documentation": "Result data persisted on success; null until the observation succeeds.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "prompt_question": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scanner's prompt condensed into the one question it answers about a session. Null when the prompt has changed since this observation was scanned, since the question then describes a different prompt; read `scanner_snapshot.scanner_config.prompt` instead.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -1884,6 +2141,27 @@
             "smithy.api#documentation": "The team's shared label on this observation (correct/incorrect + feedback), or null if unlabeled.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "viewed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the calling user has opened this observation.",
+            "smithy.api#required": {}
+          }
+        },
+        "media": {
+          "target": "com.posthog.vision#ReplayObservationMediaList",
+          "traits": {
+            "smithy.api#documentation": "Thumbnails and clips illustrating this observation, in order. Empty until the media render finishes.",
+            "smithy.api#required": {}
+          }
+        },
+        "summary_line": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "One line of plain text saying what the scanner found: its verdict, score, tags or title, then its own words, with markdown flattened and the text truncated. An observation that produced no result carries the reason instead, and one still in flight carries an empty string. Read this in place of `scanner_result` when you scan a list of observations.",
+            "smithy.api#required": {}
           }
         },
         "started_at": {
@@ -1978,7 +2256,7 @@
         "scanner_type": {
           "target": "com.posthog.vision#ScannerTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Scanner type (monitor, classifier, scorer, summarizer) at run time.\n\n* `monitor` - Monitor\n* `classifier` - Classifier\n* `scorer` - Scorer\n* `summarizer` - Summarizer",
+            "smithy.api#documentation": "Scanner type (monitor, classifier, scorer, summarizer, experiment) at run time.\n\n* `monitor` - Monitor\n* `classifier` - Classifier\n* `scorer` - Scorer\n* `summarizer` - Summarizer\n* `experiment` - Experiment",
             "smithy.api#required": {}
           }
         },
@@ -2016,6 +2294,13 @@
             "smithy.api#documentation": "Scanner-type-specific configuration at run time (prompt, tags, scale, etc.).",
             "smithy.api#required": {}
           }
+        },
+        "variant_sampling_rates": {
+          "target": "com.posthog.vision#ScannerSnapshotVariantSamplingRatesMap",
+          "traits": {
+            "smithy.api#documentation": "Experiment scanners with balanced sampling: the 0..1 rate each watched variant was sampled at by the tick that dispatched this scan. Null otherwise, so even per-variant counts can be read against the rates that produced them.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
@@ -2048,10 +2333,28 @@
           "traits": {
             "smithy.api#enumValue": "summarizer"
           }
+        },
+        "EXPERIMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experiment"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `monitor` - Monitor\n* `classifier` - Classifier\n* `scorer` - Scorer\n* `summarizer` - Summarizer"
+        "smithy.api#documentation": "* `monitor` - Monitor\n* `classifier` - Classifier\n* `scorer` - Scorer\n* `summarizer` - Summarizer\n* `experiment` - Experiment"
+      }
+    },
+    "com.posthog.vision#ScannerSnapshotVariantSamplingRatesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {
+        "smithy.api#documentation": "Experiment scanners with balanced sampling: the 0..1 rate each watched variant was sampled at by the tick that dispatched this scan. Null otherwise, so even per-variant counts can be read against the rates that produced them."
       }
     },
     "com.posthog.vision#ScannerResult": {
@@ -2069,6 +2372,20 @@
           "traits": {
             "smithy.api#documentation": "Number of PostHog Signals emitted from this observation.",
             "smithy.api#required": {}
+          }
+        },
+        "experiment_variant": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Experiment scanners only: the variant the exposure data attributes this session's person to. Null on the other types and on rows scanned before variant attribution shipped.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "session_duration_s": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Experiment scanners only: the scanned session's duration in seconds.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -2127,6 +2444,100 @@
       },
       "traits": {
         "smithy.api#documentation": "The team's shared judgement on whether the scanner scored this session correctly."
+      }
+    },
+    "com.posthog.vision#ReplayObservationMedia": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of this media entry.",
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.posthog.vision#ReplayObservationMediaKindEnum",
+          "traits": {
+            "smithy.api#documentation": "`thumbnail` for the single frame that illustrates the observation, `chapter` for the frame of one summary chapter, `clip` for a short video.\n\n* `thumbnail` - Thumbnail\n* `clip` - Clip\n* `chapter` - Chapter",
+            "smithy.api#required": {}
+          }
+        },
+        "position": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Order among media of the same kind. For a `chapter` frame, the index into `model_output.chapters`.",
+            "smithy.api#required": {}
+          }
+        },
+        "asset_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Export asset holding the bytes; fetch it from the export content endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "One sentence saying what the clip shows. Null for thumbnails.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "video_start_ms": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Where this media starts in the analysis video, in milliseconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "video_end_ms": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Where a clip ends in the analysis video, in milliseconds. Null for thumbnails.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One thumbnail or clip illustrating an observation."
+      }
+    },
+    "com.posthog.vision#ReplayObservationMediaKindEnum": {
+      "type": "enum",
+      "members": {
+        "THUMBNAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "thumbnail"
+          }
+        },
+        "CLIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clip"
+          }
+        },
+        "CHAPTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chapter"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `thumbnail` - Thumbnail\n* `clip` - Clip\n* `chapter` - Chapter"
+      }
+    },
+    "com.posthog.vision#ReplayObservationMediaList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.vision#ReplayObservationMedia"
+      },
+      "traits": {
+        "smithy.api#documentation": "Thumbnails and clips illustrating this observation, in order. Empty until the media render finishes."
       }
     },
     "com.posthog.vision#PaginatedReplayObservationListResultsList": {
@@ -2309,14 +2720,14 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "date_from",
-            "smithy.api#documentation": "Only observations created at or after this time. Accepts ISO 8601 or a relative date like `-7d`; values without an explicit offset are interpreted in the project's timezone."
+            "smithy.api#documentation": "Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone."
           }
         },
         "date_to": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "date_to",
-            "smithy.api#documentation": "Only observations created at or before this time. Accepts ISO 8601 or a relative date like `-1d`; date-only values include the whole day, interpreted in the project's timezone."
+            "smithy.api#documentation": "Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone."
           }
         },
         "labeled": {
@@ -2380,6 +2791,13 @@
           "traits": {
             "smithy.api#httpQuery": "triggered_by",
             "smithy.api#documentation": "Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list."
+          }
+        },
+        "variant": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "variant",
+            "smithy.api#documentation": "Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant."
           }
         },
         "verdict": {
@@ -2608,6 +3026,200 @@
         "smithy.api#documentation": "Delete a failed or ineligible observation and re-run its scanner on the same recording. Returns 202 with the workflow handle."
       }
     },
+    "com.posthog.vision#ListVisionObservationsSignalReportsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this replay observation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.vision#ObservationSignalReport": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the inbox report, for linking to its inbox page.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Report title, null while the report is still too new to have been summarized.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The report's status in the inbox: potential, candidate, in_progress, pending_input, ready, resolved, failed, or suppressed.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the report was created.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An inbox report that this observation's emitted signals were grouped into."
+      }
+    },
+    "com.posthog.vision#ListVisionObservationsSignalReportsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.vision#ObservationSignalReport"
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#ListVisionObservationsSignalReportsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.vision#ListVisionObservationsSignalReportsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.vision#ListVisionObservationsSignalReports": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.vision#ListVisionObservationsSignalReportsRequest"
+      },
+      "output": {
+        "target": "com.posthog.vision#ListVisionObservationsSignalReportsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/vision/observations/{id}/signal_reports/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The inbox reports this observation's emitted signals were grouped into, newest first."
+      }
+    },
+    "com.posthog.vision#GetVisionObservationsThumbnailRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this replay observation."
+          }
+        },
+        "chapter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "chapter",
+            "smithy.api#documentation": "Index into the summary's `model_output.chapters`. Serves that chapter's frame instead of the observation's thumbnail."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.vision#GetVisionObservationsThumbnail": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.vision#GetVisionObservationsThumbnailRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.vision#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/vision/observations/{id}/thumbnail/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Redirect to the frame that illustrates this observation, so a caller with only the observation id can show it."
+      }
+    },
+    "com.posthog.vision#CreateVisionObservationsViewedRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this replay observation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.vision#CreateVisionObservationsViewed": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.vision#CreateVisionObservationsViewedRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/vision/observations/{id}/viewed/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Record that the calling user opened this observation. Idempotent."
+      }
+    },
     "com.posthog.vision#VisionObservationsSearchRetrieveRequest": {
       "type": "structure",
       "members": {
@@ -2617,6 +3229,20 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
             "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "date_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "date_from",
+            "smithy.api#documentation": "Only observations analyzed at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone."
+          }
+        },
+        "date_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "date_to",
+            "smithy.api#documentation": "Only observations analyzed at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone."
           }
         },
         "limit": {
@@ -2690,6 +3316,13 @@
             "smithy.api#documentation": "True when more matches may exist beyond `results`, so the response is a top slice rather than everything that matched.",
             "smithy.api#required": {}
           }
+        },
+        "reranked": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when a relevance model reordered the top results after the embedding match. False when the results are in embedding distance order, for example because the model did not answer in time.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
@@ -2747,6 +3380,107 @@
         "smithy.api#documentation": "Rank observations by semantic similarity to the search text, optionally filtered by exact outcome\n(verdict, score, tags)."
       }
     },
+    "com.posthog.vision#VisionObservationsSearchSuggestionsRetrieveRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "scanner_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "scanner_id",
+            "smithy.api#documentation": "Scope to a single scanner's observations. Defaults to every scanner you can read."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.vision#SearchSuggestionsResponse": {
+      "type": "structure",
+      "members": {
+        "queries": {
+          "target": "com.posthog.vision#SearchSuggestionsResponseQueriesList",
+          "traits": {
+            "smithy.api#documentation": "Up to 4 example searches naming themes in recent observations. Empty until a scheduled refresh has run for a scanner someone viewed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#SearchSuggestionsResponseQueriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Up to 4 example searches naming themes in recent observations. Empty until a scheduled refresh has run for a scanner someone viewed."
+      }
+    },
+    "com.posthog.vision#VisionObservationsSearchSuggestionsRetrieve": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.vision#VisionObservationsSearchSuggestionsRetrieveRequest"
+      },
+      "output": {
+        "target": "com.posthog.vision#SearchSuggestionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/vision/observations/search_suggestions/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Example searches drawn from recent observations, for the Search tab's empty state. Reads what the\nscheduled refresher stored; `search_viewed` records the view separately so this GET has no side effect."
+      }
+    },
+    "com.posthog.vision#VisionObservationsSearchViewedCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "scanner_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scope to a single scanner's observations. Defaults to every scanner you can read."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.vision#VisionObservationsSearchViewedCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.vision#VisionObservationsSearchViewedCreateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/vision/observations/search_viewed/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Record that the Search tab showed suggestions for this scope. The scheduled refresher serves viewed\nscanners first, so the stamp lives on a CSRF-protected POST rather than the read."
+      }
+    },
     "com.posthog.vision#GetEnvironmentVisionQuotaRequest": {
       "type": "structure",
       "members": {
@@ -2791,7 +3525,7 @@
         "credits_reserved": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Credits held by in-flight observations and running prompt tests across every project in the organization. Released without charge when the work fails, settled into `credits_settled` when it succeeds.",
+            "smithy.api#documentation": "Credits held by in-flight observations across every project in the organization. Released without charge when the work fails, settled into `credits_settled` when it succeeds.",
             "smithy.api#required": {}
           }
         },
@@ -3090,7 +3824,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "enabled",
-            "smithy.api#documentation": "Filter by enabled state. Accepts a comma-separated list of `enabled`/`disabled`."
+            "smithy.api#documentation": "Filter by enabled state. Accepts `enabled`, `disabled`, a comma-separated list of both, or the boolean form `true`/`false`. Omit to list every scanner."
           }
         },
         "experiment_id": {
@@ -3147,7 +3881,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.vision#PaginatedReplayScannerList": {
+    "com.posthog.vision#PaginatedReplayScannerListOutput": {
       "type": "structure",
       "members": {
         "count": {
@@ -3169,7 +3903,7 @@
           }
         },
         "results": {
-          "target": "com.posthog.vision#PaginatedReplayScannerListResultsList",
+          "target": "com.posthog.vision#PaginatedReplayScannerListOutputResultsList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3177,7 +3911,7 @@
       },
       "traits": {}
     },
-    "com.posthog.vision#ReplayScanner": {
+    "com.posthog.vision#ReplayScannerOutput": {
       "type": "structure",
       "members": {
         "id": {
@@ -3200,7 +3934,7 @@
           }
         },
         "tags": {
-          "target": "com.posthog.vision#ReplayScannerTagsList",
+          "target": "com.posthog.vision#ReplayScannerOutputTagsList",
           "traits": {
             "smithy.api#documentation": "Organizational tags for this scanner. Distinct from a classifier's categories in scanner_config. Tags cannot contain commas."
           }
@@ -3208,14 +3942,28 @@
         "scanner_type": {
           "target": "com.posthog.vision#ScannerTypeEnum",
           "traits": {
-            "smithy.api#documentation": "What the scanner does: monitor, classifier, scorer, or summarizer.\n\n* `monitor` - Monitor\n* `classifier` - Classifier\n* `scorer` - Scorer\n* `summarizer` - Summarizer",
+            "smithy.api#documentation": "What the scanner does: monitor, classifier, scorer, or summarizer.\n\n* `monitor` - Monitor\n* `classifier` - Classifier\n* `scorer` - Scorer\n* `summarizer` - Summarizer\n* `experiment` - Experiment",
             "smithy.api#required": {}
+          }
+        },
+        "goal": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The goal an AI draft was built from, in the creator's own words, so the scanner keeps what it was meant to find. Set on create only and ignored on update.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "scanner_config": {
           "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "Type-specific configuration. All scanner types require `prompt`; monitors add optional `allow_inconclusive`, classifiers add `tags`, scorers add `scale`, summarizers add optional `length`.",
+            "smithy.api#required": {}
+          }
+        },
+        "prompt_question": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The current prompt condensed by AI into the one question the scanner answers about a session. Falls back to the prompt's first line when no question matches the current prompt.",
             "smithy.api#required": {}
           }
         },
@@ -3331,7 +4079,7 @@
         "credits_used_against_limit": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Credits counted against `credit_limit` for the current billing period: settled receipts plus in-flight observations and running prompt tests, priced from their frozen snapshot model. This is what the limit gate measures, so it includes work still in progress. It is not the same as `credits_this_month`, which counts only succeeded observations.",
+            "smithy.api#documentation": "Credits counted against `credit_limit` for the current billing period: settled receipts plus in-flight observations, priced from their frozen snapshot model. This is what the limit gate measures, so it includes work still in progress. It is not the same as `credits_this_month`, which counts only succeeded observations.",
             "smithy.api#required": {}
           }
         },
@@ -3339,6 +4087,13 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether this scanner has stopped because of its own credit limit. True when `credit_limit` is set and the budget left cannot cover one more observation, which is the same test the scanner's enforcement gates apply. Always false when no limit is set.",
+            "smithy.api#required": {}
+          }
+        },
+        "sweep_throttle_factor": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How much the scheduled sweep is slowed to keep this scanner inside its daily ClickHouse read budget. 1 means it checks for new recordings on the normal schedule; N means it checks once every N schedule intervals. Expensive filters raise it.",
             "smithy.api#required": {}
           }
         },
@@ -3369,14 +4124,6 @@
             "smithy.api#required": {}
           }
         },
-        "feedback_themes": {
-          "target": "com.posthog.vision#FeedbackThemes",
-          "traits": {
-            "smithy.api#documentation": "AI summary of the team's written thumbs-down feedback into recurring failure modes. Refreshed with prompt recommendations; null until enough feedback accumulates.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
         "user_access_level": {
           "target": "smithy.api#String",
           "traits": {
@@ -3390,7 +4137,7 @@
         "smithy.api#documentation": "A Replay Vision scanner: its type, targeting query, and AI configuration."
       }
     },
-    "com.posthog.vision#ReplayScannerTagsList": {
+    "com.posthog.vision#ReplayScannerOutputTagsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -3487,118 +4234,10 @@
         "smithy.api#documentation": "The experiment a scanner watches. Scans derive their person-scoped exposure filter from\nthis blob at query time, so it is the only place an experiment can enter a scanner's\ntargeting — which is what lets the write-side access check and read-side redaction cover it."
       }
     },
-    "com.posthog.vision#FeedbackThemes": {
-      "type": "structure",
-      "members": {
-        "themes": {
-          "target": "com.posthog.vision#FeedbackThemesThemesList",
-          "traits": {
-            "smithy.api#documentation": "Recurring failure modes, most frequent first.",
-            "smithy.api#required": {}
-          }
-        },
-        "feedback_count": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Number of thumbs-down feedback comments the summary was generated from.",
-            "smithy.api#required": {}
-          }
-        },
-        "generated_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "When the summary was generated.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.vision#FeedbackTheme": {
-      "type": "structure",
-      "members": {
-        "theme": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Short failure mode in sentence case, for example \"Review page mistaken for confirmation\".",
-            "smithy.api#required": {}
-          }
-        },
-        "count": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "How many feedback comments describe this failure mode.",
-            "smithy.api#required": {}
-          }
-        },
-        "examples": {
-          "target": "com.posthog.vision#FeedbackThemeExamplesList",
-          "traits": {
-            "smithy.api#documentation": "Up to two short representative quotes from the feedback comments.",
-            "smithy.api#required": {}
-          }
-        },
-        "sessions": {
-          "target": "com.posthog.vision#FeedbackThemeSessionsList",
-          "traits": {
-            "smithy.api#documentation": "The rated sessions whose feedback comments back this theme. Empty for summaries generated before session tracking.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.vision#FeedbackThemeExamplesList": {
+    "com.posthog.vision#PaginatedReplayScannerListOutputResultsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Up to two short representative quotes from the feedback comments."
-      }
-    },
-    "com.posthog.vision#FeedbackThemeSession": {
-      "type": "structure",
-      "members": {
-        "observation_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Observation whose feedback comment backs this theme.",
-            "smithy.api#required": {}
-          }
-        },
-        "session_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Session recording the feedback comment was about.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.vision#FeedbackThemeSessionsList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.vision#FeedbackThemeSession"
-      },
-      "traits": {
-        "smithy.api#documentation": "The rated sessions whose feedback comments back this theme. Empty for summaries generated before session tracking."
-      }
-    },
-    "com.posthog.vision#FeedbackThemesThemesList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.vision#FeedbackTheme"
-      },
-      "traits": {
-        "smithy.api#documentation": "Recurring failure modes, most frequent first."
-      }
-    },
-    "com.posthog.vision#PaginatedReplayScannerListResultsList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.vision#ReplayScanner"
+        "target": "com.posthog.vision#ReplayScannerOutput"
       },
       "traits": {}
     },
@@ -3608,7 +4247,7 @@
         "target": "com.posthog.vision#ListVisionScannersRequest"
       },
       "output": {
-        "target": "com.posthog.vision#PaginatedReplayScannerList"
+        "target": "com.posthog.vision#PaginatedReplayScannerListOutput"
       },
       "traits": {
         "smithy.api#http": {
@@ -3626,6 +4265,32 @@
       },
       "traits": {
         "smithy.api#documentation": "Organizational tags for this scanner. Distinct from a classifier's categories in scanner_config. Tags cannot contain commas."
+      }
+    },
+    "com.posthog.vision#ScannerCreationMethodEnum": {
+      "type": "enum",
+      "members": {
+        "AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai"
+          }
+        },
+        "TEMPLATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "template"
+          }
+        },
+        "SCRATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scratch"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `ai` - AI draft\n* `template` - Template\n* `scratch` - From scratch"
       }
     },
     "com.posthog.vision#CreateVisionScannerRequest": {
@@ -3661,8 +4326,22 @@
         "scanner_type": {
           "target": "com.posthog.vision#ScannerTypeEnum",
           "traits": {
-            "smithy.api#documentation": "What the scanner does: monitor, classifier, scorer, or summarizer.\n\n* `monitor` - Monitor\n* `classifier` - Classifier\n* `scorer` - Scorer\n* `summarizer` - Summarizer",
+            "smithy.api#documentation": "What the scanner does: monitor, classifier, scorer, or summarizer.\n\n* `monitor` - Monitor\n* `classifier` - Classifier\n* `scorer` - Scorer\n* `summarizer` - Summarizer\n* `experiment` - Experiment",
             "smithy.api#required": {}
+          }
+        },
+        "goal": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The goal an AI draft was built from, in the creator's own words, so the scanner keeps what it was meant to find. Set on create only and ignored on update.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "creation_method": {
+          "target": "com.posthog.vision#ScannerCreationMethodEnum",
+          "traits": {
+            "smithy.api#documentation": "How the creator built this scanner: from an AI draft, from a template, or from scratch. Reported to product analytics at creation and not stored on the scanner. Independent of any experiment the creator is in, since a person offered the AI flow can still fill the form by hand. Only the app can answer this, so a request from anywhere else reports the calling surface instead of whatever it sends here. Ignored on update.\n\n* `ai` - AI draft\n* `template` - Template\n* `scratch` - From scratch",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "scanner_config": {
@@ -3740,7 +4419,7 @@
         "target": "com.posthog.vision#CreateVisionScannerRequest"
       },
       "output": {
-        "target": "com.posthog.vision#ReplayScanner"
+        "target": "com.posthog.vision#ReplayScannerOutput"
       },
       "traits": {
         "smithy.api#http": {
@@ -3781,7 +4460,7 @@
         "target": "com.posthog.vision#GetVisionScannerRequest"
       },
       "output": {
-        "target": "com.posthog.vision#ReplayScanner"
+        "target": "com.posthog.vision#ReplayScannerOutput"
       },
       "traits": {
         "smithy.api#http": {
@@ -3841,7 +4520,21 @@
         "scanner_type": {
           "target": "com.posthog.vision#ScannerTypeEnum",
           "traits": {
-            "smithy.api#documentation": "What the scanner does: monitor, classifier, scorer, or summarizer.\n\n* `monitor` - Monitor\n* `classifier` - Classifier\n* `scorer` - Scorer\n* `summarizer` - Summarizer"
+            "smithy.api#documentation": "What the scanner does: monitor, classifier, scorer, or summarizer.\n\n* `monitor` - Monitor\n* `classifier` - Classifier\n* `scorer` - Scorer\n* `summarizer` - Summarizer\n* `experiment` - Experiment"
+          }
+        },
+        "goal": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The goal an AI draft was built from, in the creator's own words, so the scanner keeps what it was meant to find. Set on create only and ignored on update.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "creation_method": {
+          "target": "com.posthog.vision#ScannerCreationMethodEnum",
+          "traits": {
+            "smithy.api#documentation": "How the creator built this scanner: from an AI draft, from a template, or from scratch. Reported to product analytics at creation and not stored on the scanner. Independent of any experiment the creator is in, since a person offered the AI flow can still fill the form by hand. Only the app can answer this, so a request from anywhere else reports the calling surface instead of whatever it sends here. Ignored on update.\n\n* `ai` - AI draft\n* `template` - Template\n* `scratch` - From scratch",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "scanner_config": {
@@ -3917,7 +4610,7 @@
         "target": "com.posthog.vision#UpdateVisionScannersPartialRequest"
       },
       "output": {
-        "target": "com.posthog.vision#ReplayScanner"
+        "target": "com.posthog.vision#ReplayScannerOutput"
       },
       "traits": {
         "smithy.api#http": {
@@ -3969,6 +4662,32 @@
         "smithy.api#documentation": "CRUD for Replay Vision scanners."
       }
     },
+    "com.posthog.vision#ObservationVerdictEnum": {
+      "type": "enum",
+      "members": {
+        "YES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yes"
+          }
+        },
+        "NO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no"
+          }
+        },
+        "INCONCLUSIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inconclusive"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `yes` - Yes\n* `no` - No\n* `inconclusive` - Inconclusive"
+      }
+    },
     "com.posthog.vision#CreateVisionScannersAffectedCohortRequest": {
       "type": "structure",
       "members": {
@@ -3992,6 +4711,13 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Trailing window of observations to count. Defaults to 30 days."
+          }
+        },
+        "verdict": {
+          "target": "com.posthog.vision#ObservationVerdictEnum",
+          "traits": {
+            "smithy.api#documentation": "Monitor scanners only: count sessions with this verdict. Defaults to `yes`. Not applicable to other scanner types.\n\n* `yes` - Yes\n* `no` - No\n* `inconclusive` - Inconclusive",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "tag": {
@@ -4160,7 +4886,7 @@
         "target": "com.posthog.vision#VisionScannersDuplicateCreateRequest"
       },
       "output": {
-        "target": "com.posthog.vision#ReplayScanner"
+        "target": "com.posthog.vision#ReplayScannerOutput"
       },
       "traits": {
         "smithy.api#http": {
@@ -4170,6 +4896,30 @@
         },
         "smithy.api#documentation": "Copy a scanner into a new disabled scanner named \"<name> (copy)\".\n\nCopies the stored model row rather than the serializer's read representation, so a query\nthat no longer validates survives the copy; duplicating through the create endpoint would\nsilently drop it. Experiment targeting is the exception and follows the read path instead.\nUnlike create, no digest is provisioned: the copy starts disabled and unreviewed."
       }
+    },
+    "com.posthog.vision#GetVisionScannersImpactRequestVerdict": {
+      "type": "enum",
+      "members": {
+        "YES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yes"
+          }
+        },
+        "NO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no"
+          }
+        },
+        "INCONCLUSIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inconclusive"
+          }
+        }
+      },
+      "traits": {}
     },
     "com.posthog.vision#GetVisionScannersImpactRequest": {
       "type": "structure",
@@ -4211,6 +4961,13 @@
             "smithy.api#documentation": "Classifier scanners only, required for them: count sessions carrying this tag (fixed or freeform). Not applicable to other scanner types."
           }
         },
+        "verdict": {
+          "target": "com.posthog.vision#GetVisionScannersImpactRequestVerdict",
+          "traits": {
+            "smithy.api#httpQuery": "verdict",
+            "smithy.api#documentation": "Monitor scanners only: count sessions with this verdict. Defaults to `yes`. Not applicable to other scanner types.\n\n* `yes` - Yes\n* `no` - No\n* `inconclusive` - Inconclusive"
+          }
+        },
         "window_days": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -4229,7 +4986,7 @@
         "affected_sessions": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Distinct sessions with an affected observation in the window. For monitors only verdict-yes observations count; for other scanner types every succeeded observation counts.",
+            "smithy.api#documentation": "Distinct sessions with an affected observation in the window. For monitors only observations with the requested verdict count (yes by default); for other scanner types every succeeded observation counts.",
             "smithy.api#required": {}
           }
         },
@@ -4393,10 +5150,90 @@
             "smithy.api#documentation": "Of the opened PRs, how many have merged.",
             "smithy.api#required": {}
           }
+        },
+        "reports": {
+          "target": "com.posthog.vision#ScannerSelfDrivingStatsReportsList",
+          "traits": {
+            "smithy.api#documentation": "The newest reports counted in `reports_contributed`, at most 20.",
+            "smithy.api#required": {}
+          }
+        },
+        "pull_requests": {
+          "target": "com.posthog.vision#ScannerSelfDrivingStatsPullRequestsList",
+          "traits": {
+            "smithy.api#documentation": "The newest PRs counted in `prs_opened`, at most 20.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Response of GET /vision/scanners/:id/self_driving_stats/."
+      }
+    },
+    "com.posthog.vision#SelfDrivingReport": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Signal report ID, for linking to it in the inbox.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Report title. Null until the report is summarized.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The report's inbox status.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#ScannerSelfDrivingStatsReportsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.vision#SelfDrivingReport"
+      },
+      "traits": {
+        "smithy.api#documentation": "The newest reports counted in `reports_contributed`, at most 20."
+      }
+    },
+    "com.posthog.vision#SelfDrivingPullRequest": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the implementation pull request.",
+            "smithy.api#required": {}
+          }
+        },
+        "merged": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the pull request has merged.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#ScannerSelfDrivingStatsPullRequestsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.vision#SelfDrivingPullRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "The newest PRs counted in `prs_opened`, at most 20."
       }
     },
     "com.posthog.vision#GetVisionScannersSelfDrivingStat": {
@@ -4675,7 +5512,14 @@
         "window_end": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Exclusive upper bound of the window; clamped server-side to now.",
+            "smithy.api#documentation": "Exclusive upper bound of the window; clamped server-side to now, and for an experiment scanner to the experiment's end date.",
+            "smithy.api#required": {}
+          }
+        },
+        "max_total_credits": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The most this backfill may cost, in credits (1 credit = $0.01): pass the `total_credits` from the estimate the person agreed to. The create is rejected if the window now costs more.",
             "smithy.api#required": {}
           }
         }
@@ -4873,7 +5717,7 @@
         "window_end": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Exclusive upper bound of the window; clamped server-side to now.",
+            "smithy.api#documentation": "Exclusive upper bound of the window; clamped server-side to now, and for an experiment scanner to the experiment's end date.",
             "smithy.api#required": {}
           }
         }
@@ -4924,7 +5768,7 @@
         "window_end": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The window upper bound after clamping to now.",
+            "smithy.api#documentation": "The window upper bound after clamping to now and, for an experiment scanner, to the experiment's end date.",
             "smithy.api#required": {}
           }
         }
@@ -5103,14 +5947,14 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "date_from",
-            "smithy.api#documentation": "Only observations created at or after this time. Accepts ISO 8601 or a relative date like `-7d`; values without an explicit offset are interpreted in the project's timezone."
+            "smithy.api#documentation": "Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone."
           }
         },
         "date_to": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "date_to",
-            "smithy.api#documentation": "Only observations created at or before this time. Accepts ISO 8601 or a relative date like `-1d`; date-only values include the whole day, interpreted in the project's timezone."
+            "smithy.api#documentation": "Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone."
           }
         },
         "labeled": {
@@ -5188,6 +6032,13 @@
           "traits": {
             "smithy.api#httpQuery": "triggered_by",
             "smithy.api#documentation": "Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list."
+          }
+        },
+        "variant": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "variant",
+            "smithy.api#documentation": "Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant."
           }
         },
         "verdict": {
@@ -5382,14 +6233,14 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "date_from",
-            "smithy.api#documentation": "Only observations created at or after this time. Accepts ISO 8601 or a relative date like `-7d`; values without an explicit offset are interpreted in the project's timezone."
+            "smithy.api#documentation": "Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone."
           }
         },
         "date_to": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "date_to",
-            "smithy.api#documentation": "Only observations created at or before this time. Accepts ISO 8601 or a relative date like `-1d`; date-only values include the whole day, interpreted in the project's timezone."
+            "smithy.api#documentation": "Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone."
           }
         },
         "labeled": {
@@ -5453,6 +6304,13 @@
           "traits": {
             "smithy.api#httpQuery": "triggered_by",
             "smithy.api#documentation": "Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list."
+          }
+        },
+        "variant": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "variant",
+            "smithy.api#documentation": "Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant."
           }
         },
         "verdict": {
@@ -5694,6 +6552,282 @@
         "smithy.api#documentation": "Delete a failed or ineligible observation and re-run its scanner on the same recording. Returns 202 with the workflow handle."
       }
     },
+    "com.posthog.vision#ListVisionScannersObservationsSignalReportsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "scanner_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this replay observation."
+          }
+        },
+        "backfill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "backfill_id",
+            "smithy.api#documentation": "Only observations dispatched by this backfill."
+          }
+        },
+        "date_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "date_from",
+            "smithy.api#documentation": "Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone."
+          }
+        },
+        "date_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "date_to",
+            "smithy.api#documentation": "Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone."
+          }
+        },
+        "labeled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "labeled",
+            "smithy.api#documentation": "When true, return only observations that have a shared label (thumbs up or down); when false, only unlabeled observations."
+          }
+        },
+        "max_score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "max_score",
+            "smithy.api#documentation": "Filter scorer observations to those scoring at or below this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded."
+          }
+        },
+        "min_score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "min_score",
+            "smithy.api#documentation": "Filter scorer observations to those scoring at or above this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded."
+          }
+        },
+        "order_by": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort observations by created_at, started_at, completed_at, status, recording_subject_email, result_score, result_verdict, result_confidence, or scanner_version. Prefix with `-` for descending. Keys that can be null (started_at, completed_at, recording_subject_email, result_*, scanner_version) sort nulls last regardless of direction."
+          }
+        },
+        "recording_subject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "recording_subject",
+            "smithy.api#documentation": "Filter to observations whose person email contains this value (case-insensitive)."
+          }
+        },
+        "session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "session_id",
+            "smithy.api#documentation": "Filter to observations of one or more session recordings. Accepts a comma-separated list."
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter by observation status. Accepts a comma-separated list."
+          }
+        },
+        "tags": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Filter classifier observations whose fixed or freeform tags include any of the given values (comma-separated). Matches if the tag appears in either `tags` or `tags_freeform`."
+          }
+        },
+        "triggered_by": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "triggered_by",
+            "smithy.api#documentation": "Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list."
+          }
+        },
+        "variant": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "variant",
+            "smithy.api#documentation": "Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant."
+          }
+        },
+        "verdict": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "verdict",
+            "smithy.api#documentation": "Filter monitor observations by verdict. Accepts a comma-separated list (e.g. `yes,inconclusive`)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.vision#ListVisionScannersObservationsSignalReportsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.vision#ObservationSignalReport"
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#ListVisionScannersObservationsSignalReportsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.vision#ListVisionScannersObservationsSignalReportsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.vision#ListVisionScannersObservationsSignalReports": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.vision#ListVisionScannersObservationsSignalReportsRequest"
+      },
+      "output": {
+        "target": "com.posthog.vision#ListVisionScannersObservationsSignalReportsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/vision/scanners/{scanner_id}/observations/{id}/signal_reports/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The inbox reports this observation's emitted signals were grouped into, newest first."
+      }
+    },
+    "com.posthog.vision#GetVisionScannersObservationsThumbnailRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "scanner_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this replay observation."
+          }
+        },
+        "chapter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "chapter",
+            "smithy.api#documentation": "Index into the summary's `model_output.chapters`. Serves that chapter's frame instead of the observation's thumbnail."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.vision#GetVisionScannersObservationsThumbnail": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.vision#GetVisionScannersObservationsThumbnailRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.vision#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/vision/scanners/{scanner_id}/observations/{id}/thumbnail/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Redirect to the frame that illustrates this observation, so a caller with only the observation id can show it."
+      }
+    },
+    "com.posthog.vision#CreateVisionScannersObservationsViewedRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "scanner_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this replay observation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.vision#CreateVisionScannersObservationsViewed": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.vision#CreateVisionScannersObservationsViewedRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/vision/scanners/{scanner_id}/observations/{id}/viewed/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Record that the calling user opened this observation. Idempotent."
+      }
+    },
     "com.posthog.vision#GetVisionScannersObservationsStatRequest": {
       "type": "structure",
       "members": {
@@ -5723,14 +6857,14 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "date_from",
-            "smithy.api#documentation": "Only observations created at or after this time. Accepts ISO 8601 or a relative date like `-7d`; values without an explicit offset are interpreted in the project's timezone."
+            "smithy.api#documentation": "Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone."
           }
         },
         "date_to": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "date_to",
-            "smithy.api#documentation": "Only observations created at or before this time. Accepts ISO 8601 or a relative date like `-1d`; date-only values include the whole day, interpreted in the project's timezone."
+            "smithy.api#documentation": "Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone."
           }
         },
         "labeled": {
@@ -5796,6 +6930,13 @@
             "smithy.api#documentation": "Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list."
           }
         },
+        "variant": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "variant",
+            "smithy.api#documentation": "Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant."
+          }
+        },
         "verdict": {
           "target": "smithy.api#String",
           "traits": {
@@ -5859,14 +7000,6 @@
           "target": "com.posthog.vision#ScorerStats",
           "traits": {
             "smithy.api#documentation": "Scorer-type aggregates; null when the scanner is not a scorer.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "summarizer": {
-          "target": "com.posthog.vision#SummarizerStats",
-          "traits": {
-            "smithy.api#documentation": "Summarizer-type facet aggregates; null when the scanner is not a summarizer.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -6371,78 +7504,6 @@
         "smithy.api#documentation": "Observation count per bucket; same length as `labels`."
       }
     },
-    "com.posthog.vision#SummarizerStats": {
-      "type": "structure",
-      "members": {
-        "friction_ranked": {
-          "target": "com.posthog.vision#SummarizerStatsFrictionRankedList",
-          "traits": {
-            "smithy.api#documentation": "Top friction points by emission count.",
-            "smithy.api#required": {}
-          }
-        },
-        "keyword_ranked": {
-          "target": "com.posthog.vision#SummarizerStatsKeywordRankedList",
-          "traits": {
-            "smithy.api#documentation": "Top keywords by emission count.",
-            "smithy.api#required": {}
-          }
-        },
-        "total_with_facets": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Succeeded observations that emitted at least one friction point or keyword.",
-            "smithy.api#required": {}
-          }
-        },
-        "total_with_friction": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Succeeded observations that reported at least one friction point.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.vision#FacetCount": {
-      "type": "structure",
-      "members": {
-        "term": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The facet value as emitted by the summarizer (lowercased).",
-            "smithy.api#required": {}
-          }
-        },
-        "count": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Number of succeeded observations that emitted this value.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.vision#SummarizerStatsFrictionRankedList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.vision#FacetCount"
-      },
-      "traits": {
-        "smithy.api#documentation": "Top friction points by emission count."
-      }
-    },
-    "com.posthog.vision#SummarizerStatsKeywordRankedList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.vision#FacetCount"
-      },
-      "traits": {
-        "smithy.api#documentation": "Top keywords by emission count."
-      }
-    },
     "com.posthog.vision#GetVisionScannersObservationsStat": {
       "type": "operation",
       "input": {
@@ -6458,696 +7519,6 @@
           "code": 200
         },
         "smithy.api#documentation": "Aggregate counts and per-scanner-type distributions over the filtered observation set. Same filters as the list endpoint apply."
-      }
-    },
-    "com.posthog.vision#ListVisionScannersPromptSuggestionsRequest": {
-      "type": "structure",
-      "members": {
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
-          }
-        },
-        "scanner_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "limit": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpQuery": "limit",
-            "smithy.api#documentation": "Number of results to return per page."
-          }
-        },
-        "offset": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpQuery": "offset",
-            "smithy.api#documentation": "The initial index from which to return the results."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.posthog.vision#PaginatedReplayScannerPromptSuggestionList": {
-      "type": "structure",
-      "members": {
-        "count": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "next": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "previous": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "results": {
-          "target": "com.posthog.vision#PaginatedReplayScannerPromptSuggestionListResultsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.vision#ReplayScannerPromptSuggestion": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "status": {
-          "target": "com.posthog.vision#PromptSuggestionStatusEnum",
-          "traits": {
-            "smithy.api#documentation": "pending (current), applied, dismissed, or superseded by a newer suggestion.\n\n* `pending` - Pending\n* `applied` - Applied\n* `dismissed` - Dismissed\n* `superseded` - Superseded\n* `no_change` - No change",
-            "smithy.api#required": {}
-          }
-        },
-        "suggested_prompt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The full rewritten prompt, ready to apply to the scanner.",
-            "smithy.api#required": {}
-          }
-        },
-        "base_prompt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The scanner prompt this suggestion was generated against, for diffing.",
-            "smithy.api#required": {}
-          }
-        },
-        "base_config": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "The scanner config this suggestion was generated against.",
-            "smithy.api#required": {}
-          }
-        },
-        "suggested_config": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "The full proposed scanner config, ready to apply.",
-            "smithy.api#required": {}
-          }
-        },
-        "changes": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "Typed per-field diff entries driving the change cards.",
-            "smithy.api#required": {}
-          }
-        },
-        "rationale": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "What the rewrite changed and why, grounded in the ratings.",
-            "smithy.api#required": {}
-          }
-        },
-        "based_on_up": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Thumbs-up ratings the suggestion was based on.",
-            "smithy.api#required": {}
-          }
-        },
-        "based_on_down": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Thumbs-down ratings the suggestion was based on.",
-            "smithy.api#required": {}
-          }
-        },
-        "scanner_version": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The scanner version whose prompt this suggestion was generated against.",
-            "smithy.api#required": {}
-          }
-        },
-        "created_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "created_by": {
-          "target": "com.posthog.vision#UserBasic",
-          "traits": {
-            "smithy.api#documentation": "User who requested this suggestion; null for automatic refreshes.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "applied_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "applied_by": {
-          "target": "com.posthog.vision#UserBasic",
-          "traits": {
-            "smithy.api#documentation": "User who applied this suggestion to the scanner; null unless applied.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "evaluation": {
-          "target": "com.posthog.vision#PromptSuggestionEvaluation",
-          "traits": {
-            "smithy.api#documentation": "Test-before-apply results: the suggested prompt re-run against rated sessions.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.vision#PromptSuggestionStatusEnum": {
-      "type": "enum",
-      "members": {
-        "PENDING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "pending"
-          }
-        },
-        "APPLIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "applied"
-          }
-        },
-        "DISMISSED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "dismissed"
-          }
-        },
-        "SUPERSEDED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "superseded"
-          }
-        },
-        "NO_CHANGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "no_change"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "* `pending` - Pending\n* `applied` - Applied\n* `dismissed` - Dismissed\n* `superseded` - Superseded\n* `no_change` - No change"
-      }
-    },
-    "com.posthog.vision#PromptSuggestionEvaluation": {
-      "type": "structure",
-      "members": {
-        "status": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "running, succeeded, or failed.",
-            "smithy.api#required": {}
-          }
-        },
-        "started_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "When the evaluation started.",
-            "smithy.api#required": {}
-          }
-        },
-        "finished_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "When the evaluation finished, if it has.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "total": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "How many rated sessions are being re-run.",
-            "smithy.api#required": {}
-          }
-        },
-        "labels_fingerprint": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The rated set the evaluation ran against.",
-            "smithy.api#required": {}
-          }
-        },
-        "results": {
-          "target": "com.posthog.vision#PromptSuggestionEvaluationResultsList",
-          "traits": {
-            "smithy.api#documentation": "Per-session outcomes, in completion order.",
-            "smithy.api#required": {}
-          }
-        },
-        "summary": {
-          "target": "com.posthog.vision#PromptEvaluationSummary",
-          "traits": {
-            "smithy.api#documentation": "Outcome counts. Null while the evaluation is running.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.vision#PromptEvaluationResult": {
-      "type": "structure",
-      "members": {
-        "session_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The rated session that was re-run with the suggested prompt.",
-            "smithy.api#required": {}
-          }
-        },
-        "observation_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The original rated observation the comparison is against.",
-            "smithy.api#required": {}
-          }
-        },
-        "rated_correct": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "The team's rating of the original output (thumbs up = true).",
-            "smithy.api#required": {}
-          }
-        },
-        "before": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The original output's primary outcome.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "after": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The suggested prompt's outcome for the same session. Null when the run errored or returned no discrete outcome (e.g. a classifier with no tags).",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "outcome": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "kept (up, unchanged), regressed (up, changed), fixed (down, changed), still_wrong (down, unchanged), error, or preview (scorer/summarizer: raw before/after, no classification).",
-            "smithy.api#required": {}
-          }
-        },
-        "error": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Why this session's re-run failed, when it did.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.vision#PromptSuggestionEvaluationResultsList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.vision#PromptEvaluationResult"
-      },
-      "traits": {
-        "smithy.api#documentation": "Per-session outcomes, in completion order."
-      }
-    },
-    "com.posthog.vision#PromptEvaluationSummary": {
-      "type": "structure",
-      "members": {
-        "kept": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Thumbs-up sessions whose output is unchanged.",
-            "smithy.api#required": {}
-          }
-        },
-        "regressed": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Thumbs-up sessions whose output changed.",
-            "smithy.api#required": {}
-          }
-        },
-        "fixed": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Thumbs-down sessions whose output changed.",
-            "smithy.api#required": {}
-          }
-        },
-        "still_wrong": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Thumbs-down sessions whose output is unchanged.",
-            "smithy.api#required": {}
-          }
-        },
-        "errors": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Sessions whose re-run failed.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.vision#PaginatedReplayScannerPromptSuggestionListResultsList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.vision#ReplayScannerPromptSuggestion"
-      },
-      "traits": {}
-    },
-    "com.posthog.vision#ListVisionScannersPromptSuggestions": {
-      "type": "operation",
-      "input": {
-        "target": "com.posthog.vision#ListVisionScannersPromptSuggestionsRequest"
-      },
-      "output": {
-        "target": "com.posthog.vision#PaginatedReplayScannerPromptSuggestionList"
-      },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/vision/scanners/{scanner_id}/prompt_suggestions/",
-          "code": 200
-        },
-        "smithy.api#documentation": "AI prompt-rewrite suggestions for a scanner, generated from the team's thumbs up/down ratings."
-      }
-    },
-    "com.posthog.vision#VisionScannersPromptSuggestionsApplyCreateRequest": {
-      "type": "structure",
-      "members": {
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
-          }
-        },
-        "scanner_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "A UUID string identifying this replay scanner prompt suggestion."
-          }
-        },
-        "config": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "The edited config to apply, assembled from the recommendation's approved fields. Omit to apply the full suggested config unchanged."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.posthog.vision#VisionScannersPromptSuggestionsApplyCreate": {
-      "type": "operation",
-      "input": {
-        "target": "com.posthog.vision#VisionScannersPromptSuggestionsApplyCreateRequest"
-      },
-      "output": {
-        "target": "com.posthog.vision#ReplayScannerPromptSuggestion"
-      },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/vision/scanners/{scanner_id}/prompt_suggestions/{id}/apply/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Apply this suggestion: write a config to the scanner (the prompt plus any type-specific config such as classifier tags or the monitor allow_inconclusive flag), bumping the scanner version, and mark the suggestion applied. Pass `config` to apply an edited subset of the recommendation; omit it to apply the full suggested config. Only the current pending suggestion can be applied. Requires session recording edit access."
-      }
-    },
-    "com.posthog.vision#CreateVisionScannersPromptSuggestionsDismissRequest": {
-      "type": "structure",
-      "members": {
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
-          }
-        },
-        "scanner_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "A UUID string identifying this replay scanner prompt suggestion."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.posthog.vision#CreateVisionScannersPromptSuggestionsDismiss": {
-      "type": "operation",
-      "input": {
-        "target": "com.posthog.vision#CreateVisionScannersPromptSuggestionsDismissRequest"
-      },
-      "output": {
-        "target": "com.posthog.vision#ReplayScannerPromptSuggestion"
-      },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/vision/scanners/{scanner_id}/prompt_suggestions/{id}/dismiss/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Dismiss this suggestion without applying it. Only the current pending suggestion can be dismissed. Requires editor access to the scanner."
-      }
-    },
-    "com.posthog.vision#CreateVisionScannersPromptSuggestionsEvaluateRequest": {
-      "type": "structure",
-      "members": {
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
-          }
-        },
-        "scanner_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "A UUID string identifying this replay scanner prompt suggestion."
-          }
-        },
-        "session_limit": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "How many rated sessions to re-run, thumbs-down prioritized. Each successful re-run charges credits like a normal observation of the same model. Defaults to 10. The maximum is `evaluation_session_cap`."
-          }
-        },
-        "config": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "The edited config to test, assembled from the recommendation's approved fields. Omit to test the full suggested config."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.posthog.vision#CreateVisionScannersPromptSuggestionsEvaluate": {
-      "type": "operation",
-      "input": {
-        "target": "com.posthog.vision#CreateVisionScannersPromptSuggestionsEvaluateRequest"
-      },
-      "output": {
-        "target": "com.posthog.vision#ReplayScannerPromptSuggestion"
-      },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/vision/scanners/{scanner_id}/prompt_suggestions/{id}/evaluate/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Test this suggestion before applying it: re-run the scanner with the suggested prompt against already-rated sessions in the background and compare each fresh output with the stored one. Results land on the suggestion's `evaluation` field. Poll `current` while status is running. `session_limit` controls how many rated sessions are re-run (thumbs-down prioritized, up to `evaluation_session_cap`). Each successful re-run charges credits like a normal observation of the same model. The request is refused with 402 when the planned credits exceed what is left for the current billing period, either the org's limit or this scanner's own. Monitor and classifier scanners get a kept/fixed/regressed classification, while scorer and summarizer scanners show the raw before and after output. Requires session recording edit access."
-      }
-    },
-    "com.posthog.vision#GetVisionScannersPromptSuggestionsCurrentRequest": {
-      "type": "structure",
-      "members": {
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
-          }
-        },
-        "scanner_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.posthog.vision#CurrentPromptSuggestion": {
-      "type": "structure",
-      "members": {
-        "suggestion": {
-          "target": "com.posthog.vision#ReplayScannerPromptSuggestion",
-          "traits": {
-            "smithy.api#documentation": "The newest suggestion for this scanner, or null when none has been generated yet.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "stale": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "True when the team's ratings changed since the newest suggestion was generated.",
-            "smithy.api#required": {}
-          }
-        },
-        "rated_count": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Number of rated (thumbs up or down) succeeded observations available to generate from.",
-            "smithy.api#required": {}
-          }
-        },
-        "evaluation_session_cap": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Maximum rated sessions one suggestion test re-runs. Each successful re-run charges credits like a normal observation of the same model.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.vision#GetVisionScannersPromptSuggestionsCurrent": {
-      "type": "operation",
-      "input": {
-        "target": "com.posthog.vision#GetVisionScannersPromptSuggestionsCurrentRequest"
-      },
-      "output": {
-        "target": "com.posthog.vision#CurrentPromptSuggestion"
-      },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/vision/scanners/{scanner_id}/prompt_suggestions/current/",
-          "code": 200
-        },
-        "smithy.api#documentation": "The scanner's newest prompt suggestion plus whether it is stale (the ratings changed since it was generated) and how many rated observations are available."
-      }
-    },
-    "com.posthog.vision#VisionScannersPromptSuggestionsGenerateCreateRequest": {
-      "type": "structure",
-      "members": {
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
-          }
-        },
-        "scanner_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.posthog.vision#VisionScannersPromptSuggestionsGenerateCreate": {
-      "type": "operation",
-      "input": {
-        "target": "com.posthog.vision#VisionScannersPromptSuggestionsGenerateCreateRequest"
-      },
-      "output": {
-        "target": "com.posthog.vision#ReplayScannerPromptSuggestion"
-      },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/vision/scanners/{scanner_id}/prompt_suggestions/generate/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Generate a fresh prompt suggestion from the team's current ratings. The previous pending suggestion becomes history (superseded). Requires at least one rated observation and editor access to the scanner."
       }
     },
     "com.posthog.vision#ListVisionScannersScoutReportsRequest": {
@@ -7390,6 +7761,44 @@
     "com.posthog.vision#SignalScoutConfigOptions": {
       "type": "structure",
       "members": {
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional model id this scout's runs are pinned to, e.g. `claude-opus-4-5`. Must be one of the platform's agent models; an invalid id is rejected with the available ones listed. Null keeps the default model, chosen by the platform. Early access: the pin can only be set on projects enrolled in the scout model preview, and only takes effect there. Set null to clear it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.posthog.vision#SignalScoutConfigOptionsTagsList",
+          "traits": {
+            "smithy.api#documentation": "Free-form labels for grouping the fleet, e.g. `[\"revenue\", \"on-call\"]`. Normalized to lowercase kebab-case (`On Call` and `on_call` both become `on-call`), deduped, and stored sorted; at most 10 tags, each at most 50 characters once normalized. Pass the full desired set — a write replaces the existing tags rather than merging into them. Filter the config list with the `tags` query parameter."
+          }
+        },
+        "structured_output_schema": {
+          "target": "com.posthog.vision#SignalScoutConfigOptionsStructuredOutputSchemaMap",
+          "traits": {
+            "smithy.api#documentation": "Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` — e.g. a per-report quality judgment (`{\"type\": \"object\", \"properties\": {\"verdict\": {\"enum\": [\"good\", \"bad\", \"unsure\"]}, \"reason\": {\"type\": \"string\"}}, \"required\": [\"verdict\", \"reason\"]}`). The root must be `\"type\": \"object\"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit — a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mcp_gateway_server_ids": {
+          "target": "com.posthog.vision#SignalScoutConfigOptionsMcpGatewayServerIdsList",
+          "traits": {
+            "smithy.api#documentation": "MCP gateway servers (by id) this scout's runs may use, chosen from the connections members shared to the whole team. Selection is per scout: an empty list gives the scout no MCP servers. Applies from the scout's next run."
+          }
+        },
+        "repositories": {
+          "target": "com.posthog.vision#SignalScoutConfigOptionsRepositoriesList",
+          "traits": {
+            "smithy.api#documentation": "GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run."
+          }
+        },
+        "write_scopes": {
+          "target": "com.posthog.vision#SignalScoutConfigOptionsWriteScopesList",
+          "traits": {
+            "smithy.api#documentation": "Extra write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `customer_task:write`, `dashboard:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `replay_scanner:write`, `warehouse_table:write`, `warehouse_view:write`. Empty (the default) means the scout reads the project and writes only what every scout may write: notebooks, its findings, and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant. Applies from the scout's next run."
+          }
+        },
         "enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -7432,36 +7841,58 @@
             "smithy.api#documentation": "Optional five-field cron expression, e.g. '30 9 * * *' (daily at 09:30), '0 9,17 * * *' (twice daily), or '0 9 * * 1-5' (weekday mornings). Evaluated in the project timezone. Takes precedence over `run_interval_minutes`; occurrences must be at least 30 minutes apart.",
             "com.distilled.openapi#nullable": {}
           }
-        },
-        "model": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional model id this scout's runs are pinned to, e.g. `claude-opus-4-5`. Must be one of the platform's agent models; an invalid id is rejected with the available ones listed. Null keeps the default model, chosen by the platform. Early access: the pin can only be set on projects enrolled in the scout model preview, and only takes effect there. Set null to clear it.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "tags": {
-          "target": "com.posthog.vision#SignalScoutConfigOptionsTagsList",
-          "traits": {
-            "smithy.api#documentation": "Free-form labels for grouping the fleet, e.g. `[\"revenue\", \"on-call\"]`. Normalized to lowercase kebab-case (`On Call` and `on_call` both become `on-call`), deduped, and stored sorted; at most 10 tags, each at most 50 characters once normalized. Pass the full desired set — a write replaces the existing tags rather than merging into them. Filter the config list with the `tags` query parameter."
-          }
-        },
-        "structured_output_schema": {
-          "target": "com.posthog.vision#SignalScoutConfigOptionsStructuredOutputSchemaMap",
-          "traits": {
-            "smithy.api#documentation": "Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` — e.g. a per-report quality judgment (`{\"type\": \"object\", \"properties\": {\"verdict\": {\"enum\": [\"good\", \"bad\", \"unsure\"]}, \"reason\": {\"type\": \"string\"}}, \"required\": [\"verdict\", \"reason\"]}`). The root must be `\"type\": \"object\"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit — a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "mcp_gateway_server_ids": {
-          "target": "com.posthog.vision#SignalScoutConfigOptionsMcpGatewayServerIdsList",
-          "traits": {
-            "smithy.api#documentation": "MCP gateway servers (by id) this scout's runs may use, chosen from the connections members shared to the whole team. Selection is per scout: an empty list gives the scout no MCP servers. Applies from the scout's next run."
-          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Schedule, enablement, and delivery options accepted while creating a scout."
+      }
+    },
+    "com.posthog.vision#SignalScoutConfigOptionsTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Free-form labels for grouping the fleet, e.g. `[\"revenue\", \"on-call\"]`. Normalized to lowercase kebab-case (`On Call` and `on_call` both become `on-call`), deduped, and stored sorted; at most 10 tags, each at most 50 characters once normalized. Pass the full desired set — a write replaces the existing tags rather than merging into them. Filter the config list with the `tags` query parameter."
+      }
+    },
+    "com.posthog.vision#SignalScoutConfigOptionsStructuredOutputSchemaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` — e.g. a per-report quality judgment (`{\"type\": \"object\", \"properties\": {\"verdict\": {\"enum\": [\"good\", \"bad\", \"unsure\"]}, \"reason\": {\"type\": \"string\"}}, \"required\": [\"verdict\", \"reason\"]}`). The root must be `\"type\": \"object\"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit — a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched."
+      }
+    },
+    "com.posthog.vision#SignalScoutConfigOptionsMcpGatewayServerIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "MCP gateway servers (by id) this scout's runs may use, chosen from the connections members shared to the whole team. Selection is per scout: an empty list gives the scout no MCP servers. Applies from the scout's next run."
+      }
+    },
+    "com.posthog.vision#SignalScoutConfigOptionsRepositoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run."
+      }
+    },
+    "com.posthog.vision#SignalScoutConfigOptionsWriteScopesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Extra write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `customer_task:write`, `dashboard:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `replay_scanner:write`, `warehouse_table:write`, `warehouse_view:write`. Empty (the default) means the scout reads the project and writes only what every scout may write: notebooks, its findings, and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant. Applies from the scout's next run."
       }
     },
     "com.posthog.vision#SignalScoutOutputDestinations": {
@@ -7511,7 +7942,7 @@
         "thread_reports": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When true, post a report as a thread: a short lead in the channel and the rest split into replies at the summary's section labels, which can be Markdown headings or bold labels. Keeps a long summary from being clipped at Slack's section limit. Off by default, and it does not change how findings post."
+            "smithy.api#documentation": "When true, post a report as a thread: a short lead in the channel and the rest split into replies at the summary's section labels, which can be Markdown headings or bold labels. Keeps a long summary from being clipped at Slack's section limit. On by default; set it false to post a single message, which can truncate a long summary. It does not change how findings post."
           }
         }
       },
@@ -7559,36 +7990,6 @@
         "smithy.api#documentation": "* `trusted` - Trusted domains only\n* `full` - Full"
       }
     },
-    "com.posthog.vision#SignalScoutConfigOptionsTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Free-form labels for grouping the fleet, e.g. `[\"revenue\", \"on-call\"]`. Normalized to lowercase kebab-case (`On Call` and `on_call` both become `on-call`), deduped, and stored sorted; at most 10 tags, each at most 50 characters once normalized. Pass the full desired set — a write replaces the existing tags rather than merging into them. Filter the config list with the `tags` query parameter."
-      }
-    },
-    "com.posthog.vision#SignalScoutConfigOptionsStructuredOutputSchemaMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
-      },
-      "traits": {
-        "smithy.api#documentation": "Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` — e.g. a per-report quality judgment (`{\"type\": \"object\", \"properties\": {\"verdict\": {\"enum\": [\"good\", \"bad\", \"unsure\"]}, \"reason\": {\"type\": \"string\"}}, \"required\": [\"verdict\", \"reason\"]}`). The root must be `\"type\": \"object\"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit — a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched."
-      }
-    },
-    "com.posthog.vision#SignalScoutConfigOptionsMcpGatewayServerIdsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "MCP gateway servers (by id) this scout's runs may use, chosen from the connections members shared to the whole team. Selection is per scout: an empty list gives the scout no MCP servers. Applies from the scout's next run."
-      }
-    },
     "com.posthog.vision#CreateVisionScannersScoutRequest": {
       "type": "structure",
       "members": {
@@ -7607,11 +8008,16 @@
             "smithy.api#required": {}
           }
         },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name shown wherever people identify this scout, written however you want it — spaces, capitalization, and acronyms are kept as typed, and two scouts may share one. It does not change the scout's skill name, which stays its identity, so renaming a scout keeps its schedule, run history, notes, memory, and links. At most 200 characters; blank means the scout has no name of its own and is labelled from its skill name instead."
+          }
+        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Unique scout name. Must start with `signals-scout-` and contain only lowercase letters, numbers, and hyphens.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Optional skill name for the scout — its permanent identifier, containing only lowercase letters, numbers, and hyphens. Omit it and one is generated from `display_name` (`My APM scout` becomes `my-apm-scout`), with a numeric suffix when that name is taken. Pass it to pick the identifier yourself, or to keep a client written before display names working unchanged. The `signals-scout-` prefix is optional."
           }
         },
         "description": {
@@ -7632,6 +8038,12 @@
           "target": "com.posthog.vision#SignalScoutConfigOptions",
           "traits": {
             "smithy.api#documentation": "Optional schedule, enablement, dry-run posture, and delivery settings. Defaults to an enabled, emitting scout on the daily interval with no external destination."
+          }
+        },
+        "variant_analysis": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Make this the experiment scanner's variant analysis scout: its runs record a structured comparison of the variants, which the scanner's variants readout shows. Experiment scanners only."
           }
         }
       },
@@ -7673,7 +8085,7 @@
         "skill_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The `signals-scout-*` skill this config controls. Set at creation, not editable.",
+            "smithy.api#documentation": "The skill this config controls as a scout. Set at creation, not editable.",
             "smithy.api#required": {}
           }
         },
@@ -7684,11 +8096,32 @@
             "smithy.api#required": {}
           }
         },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name shown in the UI. Does not change the skill name. Leave blank to use the default name."
+          }
+        },
         "scout_origin": {
           "target": "com.posthog.vision#ScoutOriginEnum",
           "traits": {
             "smithy.api#documentation": "Where this scout came from: `canonical` for a scout PostHog ships and maintains (seeded from `products/signals/skills/`), or `custom` for one a team hand-authored on this project. Use it to badge built-in vs custom scouts instead of a hardcoded name list. Defaults to `custom` if the skill is not currently present on the team.",
             "smithy.api#required": {}
+          }
+        },
+        "scout_role": {
+          "target": "com.posthog.vision#ScoutRoleEnum",
+          "traits": {
+            "smithy.api#documentation": "What this scout is to the harness: `specialist` for one that watches a product surface, or `operational` for one PostHog ships to watch the self-driving system itself. An operational scout is exempt from the inactivity sweep and from the enabled-scout cap, and is not a scout a project should delete. Always `specialist` for a custom scout.",
+            "smithy.api#required": {}
+          }
+        },
+        "deprecation": {
+          "target": "com.posthog.vision#ScoutDeprecation",
+          "traits": {
+            "smithy.api#documentation": "Set when PostHog is retiring this scout, and null otherwise. Carries the phase, the reason to show, what replaces the scout, and when it stops running. Only a canonical scout the project has not edited is ever marked: a project's own copy keeps running and reads as null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "owners": {
@@ -7715,9 +8148,16 @@
         "pause_reason": {
           "target": "com.posthog.vision#SignalScoutConfigPauseReasonEnum",
           "traits": {
-            "smithy.api#documentation": "Why the system paused (or warned) this scout: `no_output` (it emitted nothing over the evaluation window), `ignored` (no person engaged with its reports — no view, rating, note, dismissal, or resolution), or `repeated_failures` (consecutive failed runs). Null unless `status` is `pending_pause` or `paused_by_system`.\n\n* `no_output` - No output\n* `ignored` - Ignored\n* `repeated_failures` - Repeated failures",
+            "smithy.api#documentation": "Why the system paused (or warned) this scout: `no_output` (it emitted nothing over the evaluation window), `ignored` (no person engaged with its reports — no view, rating, note, dismissal, or resolution), `repeated_failures` (consecutive failed runs), `retired` (PostHog retired the scout), or `background_removed` (the background lane stopped managing the scout). Null unless `status` is `pending_pause` or `paused_by_system`.\n\n* `no_output` - No output\n* `ignored` - Ignored\n* `repeated_failures` - Repeated failures\n* `retired` - Retired\n* `background_removed` - Background removed",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "managed_by": {
+          "target": "com.posthog.vision#SignalScoutConfigManagedByEnum",
+          "traits": {
+            "smithy.api#documentation": "Who controls this scout now. `team`: a person set it up or has changed it. `background`: PostHog runs it in the background and no person has edited it yet. Any edit through this API changes `background` to `team`.\n\n* `team` - Team\n* `background` - Background",
+            "smithy.api#required": {}
           }
         },
         "emit": {
@@ -7779,6 +8219,19 @@
             "smithy.api#required": {}
           }
         },
+        "repositories": {
+          "target": "com.posthog.vision#SignalScoutConfigRepositoriesList",
+          "traits": {
+            "smithy.api#documentation": "GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run."
+          }
+        },
+        "write_scopes": {
+          "target": "com.posthog.vision#SignalScoutConfigWriteScopesList",
+          "traits": {
+            "smithy.api#documentation": "Extra write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `customer_task:write`, `dashboard:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `replay_scanner:write`, `warehouse_table:write`, `warehouse_view:write`. Empty (the default) means the scout reads the project and writes only what every scout may write: notebooks, its findings, and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant. Applies from the scout's next run.",
+            "smithy.api#required": {}
+          }
+        },
         "last_run_at": {
           "target": "smithy.api#String",
           "traits": {
@@ -7798,6 +8251,14 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "When `status` last changed. For `pending_pause` this is when the warning was issued (an `ignored` warning pauses about a week later unless someone engages with the scout's reports — opening one counts; a `no_output` warning only flags the scout); for the paused statuses it is when the scout was paused. Null if the status never changed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status_changed_by": {
+          "target": "com.posthog.vision#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "Who last moved `status`, when a person did it through this API. Null for a system transition such as an automatic pause, for a row whose status never changed, and for a caller that may not read member identities. Pair it with `status` to say who turned a scout off, instead of only when it went off.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -7836,10 +8297,17 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this config last changed: an edit through this API, or a status change the system made such as an automatic pause. A scheduled run does not bump it — the coordinator stamps `last_run_at` with a direct write — so this reads as when the scout was last tuned rather than when it last ran.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Read shape for a per-(team, skill) scout config.\n\nOne row per `signals-scout-*` skill on the team. The coordinator auto-creates a row\nwhen it discovers a scout skill; this serializer lets agents tune the row."
+        "smithy.api#documentation": "Read shape for a per-(team, skill) scout config.\n\nOne row per scout skill on the team. The coordinator auto-creates a row\nwhen it discovers a scout skill; this serializer lets agents tune the row."
       }
     },
     "com.posthog.vision#ScoutOriginEnum": {
@@ -7860,6 +8328,81 @@
       },
       "traits": {
         "smithy.api#documentation": "* `canonical` - canonical\n* `custom` - custom"
+      }
+    },
+    "com.posthog.vision#ScoutRoleEnum": {
+      "type": "enum",
+      "members": {
+        "SPECIALIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "specialist"
+          }
+        },
+        "OPERATIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "operational"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#ScoutDeprecation": {
+      "type": "structure",
+      "members": {
+        "phase": {
+          "target": "com.posthog.vision#ScoutDeprecationPhaseEnum",
+          "traits": {
+            "smithy.api#documentation": "How far the retirement has got: `announced` while the scout still runs, `retired` once its sunset has passed. A retired scout is paused and does not run again.\n\n* `announced` - announced\n* `retired` - retired",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why PostHog is retiring the scout, written to be shown to a person as-is.",
+            "smithy.api#required": {}
+          }
+        },
+        "superseded_by": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Skill name of the scout that takes over, or blank when nothing replaces it.",
+            "smithy.api#required": {}
+          }
+        },
+        "sunset_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the scout stops running. Null means the next fleet reconcile retires it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What PostHog has said about retiring this scout, for the chip and the banner to render."
+      }
+    },
+    "com.posthog.vision#ScoutDeprecationPhaseEnum": {
+      "type": "enum",
+      "members": {
+        "ANNOUNCED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "announced"
+          }
+        },
+        "RETIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "retired"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `announced` - announced\n* `retired` - retired"
       }
     },
     "com.posthog.vision#SignalScoutConfigOwnersList": {
@@ -7923,10 +8466,42 @@
           "traits": {
             "smithy.api#enumValue": "repeated_failures"
           }
+        },
+        "RETIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "retired"
+          }
+        },
+        "BACKGROUND_REMOVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "background_removed"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `no_output` - No output\n* `ignored` - Ignored\n* `repeated_failures` - Repeated failures"
+        "smithy.api#documentation": "* `no_output` - No output\n* `ignored` - Ignored\n* `repeated_failures` - Repeated failures\n* `retired` - Retired\n* `background_removed` - Background removed"
+      }
+    },
+    "com.posthog.vision#SignalScoutConfigManagedByEnum": {
+      "type": "enum",
+      "members": {
+        "TEAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team"
+          }
+        },
+        "BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "background"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `team` - Team\n* `background` - Background"
       }
     },
     "com.posthog.vision#SignalScoutConfigStructuredOutputSchemaMap": {
@@ -7948,6 +8523,24 @@
       },
       "traits": {
         "smithy.api#documentation": "MCP gateway servers (by id) this scout's runs may use, chosen from the connections members shared to the whole team. Selection is per scout: an empty list gives the scout no MCP servers. Applies from the scout's next run."
+      }
+    },
+    "com.posthog.vision#SignalScoutConfigRepositoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run."
+      }
+    },
+    "com.posthog.vision#SignalScoutConfigWriteScopesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Extra write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `customer_task:write`, `dashboard:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `replay_scanner:write`, `warehouse_table:write`, `warehouse_view:write`. Empty (the default) means the scout reads the project and writes only what every scout may write: notebooks, its findings, and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant. Applies from the scout's next run."
       }
     },
     "com.posthog.vision#SignalScoutConfigTagsList": {
@@ -7979,6 +8572,439 @@
           "code": 200
         },
         "smithy.api#documentation": "Create a scout that watches this scanner, recorded as belonging to it."
+      }
+    },
+    "com.posthog.vision#ListVisionScannersVariantsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "scanner_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.vision#ExperimentVariantsReadout": {
+      "type": "structure",
+      "members": {
+        "experiment": {
+          "target": "com.posthog.vision#VariantsExperiment",
+          "traits": {
+            "smithy.api#documentation": "The watched experiment; null if it was deleted.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "window": {
+          "target": "com.posthog.vision#VariantsWindow",
+          "traits": {
+            "smithy.api#documentation": "The span of observations the counts cover.",
+            "smithy.api#required": {}
+          }
+        },
+        "variants": {
+          "target": "com.posthog.vision#ExperimentVariantsReadoutVariantsList",
+          "traits": {
+            "smithy.api#documentation": "One entry per watched variant, plus any variant still holding observations.",
+            "smithy.api#required": {}
+          }
+        },
+        "differences": {
+          "target": "com.posthog.vision#ExperimentVariantsReadoutDifferencesList",
+          "traits": {
+            "smithy.api#documentation": "What differs between variants, from the variant analysis. Null without a current analysis.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unattributed_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Succeeded observations with no attributed variant.",
+            "smithy.api#required": {}
+          }
+        },
+        "analysis": {
+          "target": "com.posthog.vision#VariantsAnalysisState",
+          "traits": {
+            "smithy.api#documentation": "The scanner's variant analysis scout and its newest run; null when none is set up.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#VariantsExperiment": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The experiment's id.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The experiment's name.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "draft, running, paused, exposure_frozen, or stopped.",
+            "smithy.api#required": {}
+          }
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the experiment launched.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "end_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the experiment ended; null while it runs.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "planned_duration_days": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The experiment's recommended running time in days, when one was set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "current_day": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The experiment's day number: 1 on its launch day, frozen once it ends. Null before launch.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#VariantsWindow": {
+      "type": "structure",
+      "members": {
+        "total_observations": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Succeeded observations of this scanner, attributed to a variant or not.",
+            "smithy.api#required": {}
+          }
+        },
+        "first_observation_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the earliest of those observations completed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_observation_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the latest of those observations completed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#VariantReadout": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The variant key.",
+            "smithy.api#required": {}
+          }
+        },
+        "observations": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Succeeded observations attributed to this variant.",
+            "smithy.api#required": {}
+          }
+        },
+        "distinct_people": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Distinct people (by distinct id) behind those observations.",
+            "smithy.api#required": {}
+          }
+        },
+        "median_session_duration_s": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Median scanned session length in seconds; null with no observations.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sampling_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The 0..1 rate this variant was sampled at when its latest observation was dispatched. Read even counts against it: balanced sampling gives a small variant a higher rate.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "analysis_observations": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Summaries of this variant the analysis read: the denominator of its digest and difference counts. Null without a current analysis.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "digest": {
+          "target": "com.posthog.vision#VariantReadoutDigestList",
+          "traits": {
+            "smithy.api#documentation": "This variant's most notable themes from the variant analysis. Null without a current analysis.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "latest_observations": {
+          "target": "com.posthog.vision#VariantReadoutLatestObservationsList",
+          "traits": {
+            "smithy.api#documentation": "This variant's most recent observations, newest first.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#VariantAnalysisLine": {
+      "type": "structure",
+      "members": {
+        "theme": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A short label for the theme, shared across variants.",
+            "smithy.api#required": {}
+          }
+        },
+        "statement": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the theme shows up for this variant.",
+            "smithy.api#required": {}
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many of this variant's summaries the analysis read show the theme, as the scout counted them.",
+            "smithy.api#required": {}
+          }
+        },
+        "example_observation_ids": {
+          "target": "com.posthog.vision#VariantAnalysisLineExampleObservationIdsList",
+          "traits": {
+            "smithy.api#documentation": "Observations of this variant the scout cited for the theme. Ids it can't back are dropped.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#VariantAnalysisLineExampleObservationIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Observations of this variant the scout cited for the theme. Ids it can't back are dropped."
+      }
+    },
+    "com.posthog.vision#VariantReadoutDigestList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.vision#VariantAnalysisLine"
+      },
+      "traits": {
+        "smithy.api#documentation": "This variant's most notable themes from the variant analysis. Null without a current analysis."
+      }
+    },
+    "com.posthog.vision#VariantReadoutLatestObservationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.vision#ReplayObservation"
+      },
+      "traits": {
+        "smithy.api#documentation": "This variant's most recent observations, newest first."
+      }
+    },
+    "com.posthog.vision#ExperimentVariantsReadoutVariantsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.vision#VariantReadout"
+      },
+      "traits": {
+        "smithy.api#documentation": "One entry per watched variant, plus any variant still holding observations."
+      }
+    },
+    "com.posthog.vision#VariantAnalysisDifference": {
+      "type": "structure",
+      "members": {
+        "theme": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The theme the difference rests on.",
+            "smithy.api#required": {}
+          }
+        },
+        "statement": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What differs between the variants.",
+            "smithy.api#required": {}
+          }
+        },
+        "counts": {
+          "target": "com.posthog.vision#VariantAnalysisDifferenceCountsMap",
+          "traits": {
+            "smithy.api#documentation": "Summaries the analysis read that show the theme, per variant key, as the scout counted them.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#VariantAnalysisDifferenceCountsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Summaries the analysis read that show the theme, per variant key, as the scout counted them."
+      }
+    },
+    "com.posthog.vision#ExperimentVariantsReadoutDifferencesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.vision#VariantAnalysisDifference"
+      },
+      "traits": {
+        "smithy.api#documentation": "What differs between variants, from the variant analysis. Null without a current analysis."
+      }
+    },
+    "com.posthog.vision#VariantsAnalysisState": {
+      "type": "structure",
+      "members": {
+        "scout_config_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The variant analysis scout's config id.",
+            "smithy.api#required": {}
+          }
+        },
+        "scout_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the scout runs on its schedule.",
+            "smithy.api#required": {}
+          }
+        },
+        "recorded_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the run behind the newest analysis started; null before its first run.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scanner_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The scanner version the newest analysis covered.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "current": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the newest analysis covers the scanner's current version. When false, digests and differences are null until the scout's next run.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#ListVisionScannersVariantsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.vision#ExperimentVariantsReadout"
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#ListVisionScannersVariantsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.vision#ListVisionScannersVariantsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.vision#ListVisionScannersVariants": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.vision#ListVisionScannersVariantsRequest"
+      },
+      "output": {
+        "target": "com.posthog.vision#ListVisionScannersVariantsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.vision#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/vision/scanners/{scanner_id}/variants/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Per-variant readout for an experiment scanner: observation counts, distinct people, median session length, sampling rate and latest observations per variant, read live, plus the digests and differences of the scanner's variant analysis scout."
       }
     },
     "com.posthog.vision#GetVisionScannersCreatorRequest": {
@@ -8087,7 +9113,7 @@
         "scanner_type": {
           "target": "com.posthog.vision#ScannerTypeEnum",
           "traits": {
-            "smithy.api#documentation": "The scanner type the draft picked for the goal.\n\n* `monitor` - Monitor\n* `classifier` - Classifier\n* `scorer` - Scorer\n* `summarizer` - Summarizer",
+            "smithy.api#documentation": "The scanner type the draft picked for the goal.\n\n* `monitor` - Monitor\n* `classifier` - Classifier\n* `scorer` - Scorer\n* `summarizer` - Summarizer\n* `experiment` - Experiment",
             "smithy.api#required": {}
           }
         },
@@ -8144,6 +9170,14 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "experiment_targeting": {
+          "target": "com.posthog.vision#ScannerExperimentTargeting",
+          "traits": {
+            "smithy.api#documentation": "Goal-based flow only: the experiment whose participants the draft watches, when the goal named one of the project's launched experiments. Null when it named none. Carried separately from `query`, which never holds an exposure filter.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "estimated_monthly_observations": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -8180,6 +9214,35 @@
           "code": 200
         },
         "smithy.api#documentation": "Draft a full scanner configuration from a natural-language goal, for the goal-based creation flow."
+      }
+    },
+    "com.posthog.vision#EstimateExperimentScope": {
+      "type": "structure",
+      "members": {
+        "experiment_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The experiment an experiment scanner watches.",
+            "smithy.api#required": {}
+          }
+        },
+        "variants": {
+          "target": "com.posthog.vision#EstimateExperimentScopeVariantsList",
+          "traits": {
+            "smithy.api#documentation": "The variant keys it watches. Null or omitted means every variant.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#EstimateExperimentScopeVariantsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The variant keys it watches. Null or omitted means every variant."
       }
     },
     "com.posthog.vision#CreateVisionScannersEstimateRequest": {
@@ -8228,6 +9291,13 @@
           "target": "com.posthog.vision#ScannerExperimentTargeting",
           "traits": {
             "smithy.api#documentation": "Proposed experiment targeting, merged into the query as its exposure filter the same way a saved scanner derives it. The estimate then runs as the requesting user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "experiment": {
+          "target": "com.posthog.vision#EstimateExperimentScope",
+          "traits": {
+            "smithy.api#documentation": "For an experiment scanner: the `experiment_id` and `variants` it will keep in its config, merged into the query as its exposure filter so the estimate counts only exposed sessions. Not combined with `experiment_targeting`.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -8354,7 +9424,7 @@
         "scanner_type": {
           "target": "com.posthog.vision#ScannerTypeEnum",
           "traits": {
-            "smithy.api#documentation": "What the scan produces. Defaults to monitor, an open-ended observation against the prompt.\n\n* `monitor` - Monitor\n* `classifier` - Classifier\n* `scorer` - Scorer\n* `summarizer` - Summarizer"
+            "smithy.api#documentation": "What the scan produces. Defaults to monitor, an open-ended observation against the prompt. Use `summarizer` to get PostHog's own AI summary of a recording. An inline scan is keyed by its whole config, so the Summarize button in the replay player shares this scan only when the prompt and `scanner_config` match the ones it sends.\n\n* `monitor` - Monitor\n* `classifier` - Classifier\n* `scorer` - Scorer\n* `summarizer` - Summarizer\n* `experiment` - Experiment"
           }
         },
         "scanner_config": {
@@ -8388,7 +9458,7 @@
           "uri": "/api/projects/{project_id}/vision/scanners/inline_scan/",
           "code": 200
         },
-        "smithy.api#documentation": "Scan named sessions against a prompt without saving a scanner first, for one-off questions.\n\nThe config resolves to a scanner minted on first use, so asking the same question twice reuses\nthe observations it already has, while a different question about the same session gets its own."
+        "smithy.api#documentation": "Scan named sessions against a prompt without saving a scanner first, for one-off questions.\n\nThe config resolves to a scanner minted on first use, so asking the same question twice reuses\nthe observations it already has, while a different question about the same session gets its own.\n\nWith `scanner_type` set to `summarizer`, this is how you get PostHog's own AI summary for a\nrecording ID. It resolves to the Summarize button's own scanner only when the prompt and\n`scanner_config` match what the button sends, since the config is what the key fingerprints."
       }
     },
     "com.posthog.vision#GetVisionScannersStatRequest": {
@@ -8427,7 +9497,7 @@
         "by_type": {
           "target": "com.posthog.vision#ScannerStatsByType",
           "traits": {
-            "smithy.api#documentation": "Per-scanner-type breakdown (monitor / classifier / scorer / summarizer).",
+            "smithy.api#documentation": "Per-scanner-type breakdown (monitor / classifier / scorer / summarizer / experiment).",
             "smithy.api#required": {}
           }
         }
@@ -8458,6 +9528,12 @@
           }
         },
         "summarizer": {
+          "target": "com.posthog.vision#ScannerTypeStats",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "experiment": {
           "target": "com.posthog.vision#ScannerTypeStats",
           "traits": {
             "smithy.api#required": {}
@@ -8660,6 +9736,408 @@
         "smithy.api#documentation": "Suggest classifier tags grounded in the scanner's own observations and the org's product data."
       }
     },
+    "com.posthog.vision#VisionScannersWatchFeedRetrieveRequestScannerType": {
+      "type": "enum",
+      "members": {
+        "MONITOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monitor"
+          }
+        },
+        "CLASSIFIER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "classifier"
+          }
+        },
+        "SCORER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scorer"
+          }
+        },
+        "SUMMARIZER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "summarizer"
+          }
+        },
+        "EXPERIMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experiment"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.vision#VisionScannersWatchFeedRetrieveRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "date_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "date_from",
+            "smithy.api#documentation": "Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone. The window between `date_from` and `date_to` may span at most 90 days."
+          }
+        },
+        "date_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "date_to",
+            "smithy.api#documentation": "Only observations created at or before this time. Same formats as `date_from`; omit it to query through the current time."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Ceiling on feed items to return, at most 50. The feed is bounded, not paginated, and routinely returns far fewer: a window is not padded to this number with clips that carry no finding."
+          }
+        },
+        "scanner_ids": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "scanner_ids",
+            "smithy.api#documentation": "Comma-separated scanner UUIDs to restrict the feed to. Defaults to every scanner you can read."
+          }
+        },
+        "scanner_type": {
+          "target": "com.posthog.vision#VisionScannersWatchFeedRetrieveRequestScannerType",
+          "traits": {
+            "smithy.api#httpQuery": "scanner_type",
+            "smithy.api#documentation": "Restrict the feed to observations from scanners of this type.\n\n* `monitor` - Monitor\n* `classifier` - Classifier\n* `scorer` - Scorer\n* `summarizer` - Summarizer\n* `experiment` - Experiment"
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Case-insensitive text to match against the scan's own words (title, summary, reasoning, and the notability sentence) and the scanner's name. Applied before ranking, so it searches the whole window rather than the items that would have surfaced without it."
+          }
+        },
+        "tags": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Comma-separated scanner tags to restrict the feed to. A team with many scanners uses these to follow one area without naming every scanner in it."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.vision#WatchFeedResponse": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.vision#WatchFeedResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "Succeeded observations in the window worth watching, most interesting first, each carrying the reason it ranked. Every observation that carries a finding is returned; observations that carry none (`unviewed_recent`, `recent`) are returned only to pad a near-empty feed to three items, so a quiet window answers with a handful of rows rather than a full page of newest clips.",
+            "smithy.api#required": {}
+          }
+        },
+        "ranker": {
+          "target": "com.posthog.vision#RankerEnum",
+          "traits": {
+            "smithy.api#documentation": "Which ranker ordered this feed: `jev` ranks on the decision model's cached judgments, `weighted-score` on the deterministic blend. The arm is decided server-side per team, so clients read it from here rather than evaluating the flag themselves.\n\n* `weighted-score` - weighted-score\n* `jev` - jev",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response of GET /vision/scanners/watch_feed/."
+      }
+    },
+    "com.posthog.vision#WatchFeedItem": {
+      "type": "structure",
+      "members": {
+        "observation": {
+          "target": "com.posthog.vision#ReplayObservation",
+          "traits": {
+            "smithy.api#documentation": "The observation, in the standard shape.",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "com.posthog.vision#WatchFeedReason",
+          "traits": {
+            "smithy.api#documentation": "Why this observation made the feed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One feed entry: the observation plus why it ranked."
+      }
+    },
+    "com.posthog.vision#WatchFeedReason": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.posthog.vision#WatchFeedReasonEnum",
+          "traits": {
+            "smithy.api#documentation": "Highest-priority rule the observation satisfied: `signal_emitted` (it pushed a signal), `unusual_verdict` (a monitor answer that is the minority for that scanner this window), `verdict_yes` (a monitor hit, when the window is too thin to know which answer is unusual), `outlier_score` (far from the scanner's window average), `rare_tag` (a tag uncommon for the scanner this window), `novel_summary` (a summary that reads unlike the scanner's other sessions this window), `notable` (the scan itself judged the session worth watching), `friction` (the scan describes errors, retries, or dead ends), `jev_watchable` (the decision model judged the session worth watching; teams on the Jev ranker experiment only), `unviewed_recent` (new to you), `recent` (nothing special, newest available).\n\n* `signal_emitted` - Signal Emitted\n* `unusual_verdict` - Unusual Verdict\n* `notable` - Notable\n* `verdict_yes` - Verdict Yes\n* `outlier_score` - Outlier Score\n* `rare_tag` - Rare Tag\n* `novel_summary` - Novel Summary\n* `friction` - Friction\n* `jev_watchable` - Jev Watchable\n* `unviewed_recent` - Unviewed Recent\n* `recent` - Recent",
+            "smithy.api#required": {}
+          }
+        },
+        "signals_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Signals this observation emitted, for `signal_emitted`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "problem_types": {
+          "target": "com.posthog.vision#WatchFeedReasonProblemTypesList",
+          "traits": {
+            "smithy.api#documentation": "Issue type of each emitted signal (`bug`, `crash`, `design_flaw`, `ux_friction`), one entry per signal in the order raised, for `signal_emitted`. Absent on signals scanned before this shipped."
+          }
+        },
+        "signals": {
+          "target": "com.posthog.vision#WatchFeedReasonSignalsList",
+          "traits": {
+            "smithy.api#documentation": "Each emitted signal in the order raised, for `signal_emitted`. Carries what the card needs to name the findings instead of counting them. Absent on sessions scanned before this shipped, which carry `problem_types` alone."
+          }
+        },
+        "verdict": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The monitor's answer, for `unusual_verdict`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "verdict_share": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share (0-1) of the scanner's window observations with this answer, for `unusual_verdict`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notability": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The scan's own 0-1 judgment of how much a team would benefit from watching, for `notable`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "jev_probability": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The decision model's 0-1 judgment that the session is worth watching, for `jev_watchable`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notability_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scan's own sentence naming why the session is worth watching. Present on the `notable` and `jev_watchable` reason kinds when the scan itself found the session notable, and preferred over copy derived from the reason kind. Absent on observations scanned before notability shipped.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The observation's score, for `outlier_score`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "window_mean": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The scanner's mean score in the window, for `outlier_score`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The rare tag that ranked the observation, for `rare_tag`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tag_share": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share (0-1) of the scanner's window observations carrying `tag`, for `rare_tag`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Machine-readable reason an observation made the feed; the frontend renders the copy."
+      }
+    },
+    "com.posthog.vision#WatchFeedReasonEnum": {
+      "type": "enum",
+      "members": {
+        "SIGNAL_EMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "signal_emitted"
+          }
+        },
+        "UNUSUAL_VERDICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unusual_verdict"
+          }
+        },
+        "NOTABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notable"
+          }
+        },
+        "VERDICT_YES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verdict_yes"
+          }
+        },
+        "OUTLIER_SCORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "outlier_score"
+          }
+        },
+        "RARE_TAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rare_tag"
+          }
+        },
+        "NOVEL_SUMMARY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "novel_summary"
+          }
+        },
+        "FRICTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "friction"
+          }
+        },
+        "JEV_WATCHABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jev_watchable"
+          }
+        },
+        "UNVIEWED_RECENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unviewed_recent"
+          }
+        },
+        "RECENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "recent"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `signal_emitted` - Signal Emitted\n* `unusual_verdict` - Unusual Verdict\n* `notable` - Notable\n* `verdict_yes` - Verdict Yes\n* `outlier_score` - Outlier Score\n* `rare_tag` - Rare Tag\n* `novel_summary` - Novel Summary\n* `friction` - Friction\n* `jev_watchable` - Jev Watchable\n* `unviewed_recent` - Unviewed Recent\n* `recent` - Recent"
+      }
+    },
+    "com.posthog.vision#WatchFeedReasonProblemTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Issue type of each emitted signal (`bug`, `crash`, `design_flaw`, `ux_friction`), one entry per signal in the order raised, for `signal_emitted`. Absent on signals scanned before this shipped."
+      }
+    },
+    "com.posthog.vision#WatchFeedSignal": {
+      "type": "structure",
+      "members": {
+        "problem_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Issue type: `bug`, `crash`, `design_flaw`, or `ux_friction`.",
+            "smithy.api#required": {}
+          }
+        },
+        "headline": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The finding in a few words, written by the scan. The full description lives on the signal itself.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One signal an observation raised, named rather than counted."
+      }
+    },
+    "com.posthog.vision#WatchFeedReasonSignalsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.vision#WatchFeedSignal"
+      },
+      "traits": {
+        "smithy.api#documentation": "Each emitted signal in the order raised, for `signal_emitted`. Carries what the card needs to name the findings instead of counting them. Absent on sessions scanned before this shipped, which carry `problem_types` alone."
+      }
+    },
+    "com.posthog.vision#WatchFeedResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.vision#WatchFeedItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Succeeded observations in the window worth watching, most interesting first, each carrying the reason it ranked. Every observation that carries a finding is returned; observations that carry none (`unviewed_recent`, `recent`) are returned only to pad a near-empty feed to three items, so a quiet window answers with a handful of rows rather than a full page of newest clips."
+      }
+    },
+    "com.posthog.vision#RankerEnum": {
+      "type": "enum",
+      "members": {
+        "WEIGHTED_SCORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weighted-score"
+          }
+        },
+        "JEV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jev"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `weighted-score` - weighted-score\n* `jev` - jev"
+      }
+    },
+    "com.posthog.vision#VisionScannersWatchFeedRetrieve": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.vision#VisionScannersWatchFeedRetrieveRequest"
+      },
+      "output": {
+        "target": "com.posthog.vision#WatchFeedResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/vision/scanners/watch_feed/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Succeeded observations in the window worth watching, ranked — feeds the What to watch tab."
+      }
+    },
     "com.posthog.vision#Conflict": {
       "type": "structure",
       "members": {},
@@ -8669,6 +10147,19 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 409
+          }
+        ]
+      }
+    },
+    "com.posthog.vision#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
           }
         ]
       }
@@ -8752,7 +10243,22 @@
           "target": "com.posthog.vision#VisionObservationsRetryCreate"
         },
         {
+          "target": "com.posthog.vision#ListVisionObservationsSignalReports"
+        },
+        {
+          "target": "com.posthog.vision#GetVisionObservationsThumbnail"
+        },
+        {
+          "target": "com.posthog.vision#CreateVisionObservationsViewed"
+        },
+        {
           "target": "com.posthog.vision#VisionObservationsSearchRetrieve"
+        },
+        {
+          "target": "com.posthog.vision#VisionObservationsSearchSuggestionsRetrieve"
+        },
+        {
+          "target": "com.posthog.vision#VisionObservationsSearchViewedCreate"
         },
         {
           "target": "com.posthog.vision#GetEnvironmentVisionQuota"
@@ -8830,25 +10336,16 @@
           "target": "com.posthog.vision#VisionScannersObservationsRetryCreate"
         },
         {
+          "target": "com.posthog.vision#ListVisionScannersObservationsSignalReports"
+        },
+        {
+          "target": "com.posthog.vision#GetVisionScannersObservationsThumbnail"
+        },
+        {
+          "target": "com.posthog.vision#CreateVisionScannersObservationsViewed"
+        },
+        {
           "target": "com.posthog.vision#GetVisionScannersObservationsStat"
-        },
-        {
-          "target": "com.posthog.vision#ListVisionScannersPromptSuggestions"
-        },
-        {
-          "target": "com.posthog.vision#VisionScannersPromptSuggestionsApplyCreate"
-        },
-        {
-          "target": "com.posthog.vision#CreateVisionScannersPromptSuggestionsDismiss"
-        },
-        {
-          "target": "com.posthog.vision#CreateVisionScannersPromptSuggestionsEvaluate"
-        },
-        {
-          "target": "com.posthog.vision#GetVisionScannersPromptSuggestionsCurrent"
-        },
-        {
-          "target": "com.posthog.vision#VisionScannersPromptSuggestionsGenerateCreate"
         },
         {
           "target": "com.posthog.vision#ListVisionScannersScoutReports"
@@ -8858,6 +10355,9 @@
         },
         {
           "target": "com.posthog.vision#CreateVisionScannersScout"
+        },
+        {
+          "target": "com.posthog.vision#ListVisionScannersVariants"
         },
         {
           "target": "com.posthog.vision#GetVisionScannersCreator"
@@ -8876,6 +10376,9 @@
         },
         {
           "target": "com.posthog.vision#CreateVisionScannersSuggestTag"
+        },
+        {
+          "target": "com.posthog.vision#VisionScannersWatchFeedRetrieve"
         }
       ],
       "traits": {

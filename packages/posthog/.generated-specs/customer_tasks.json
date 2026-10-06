@@ -1,0 +1,1145 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.customer_tasks#ListCustomerTasksRequestArchiveState": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archived"
+          }
+        },
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_tasks#ListCustomerTasksRequestOrdering": {
+      "type": "enum",
+      "members": {
+        "NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name"
+          }
+        },
+        "NAME_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-name"
+          }
+        },
+        "STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status"
+          }
+        },
+        "STATUS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-status"
+          }
+        },
+        "ASSIGNED_TO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "assigned_to"
+          }
+        },
+        "ASSIGNED_TO_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-assigned_to"
+          }
+        },
+        "DUE_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "due_at"
+          }
+        },
+        "DUE_AT_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-due_at"
+          }
+        },
+        "UPDATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at"
+          }
+        },
+        "UPDATED_AT_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-updated_at"
+          }
+        },
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "ACCOUNT_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-account"
+          }
+        },
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "CREATED_AT_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-created_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_tasks#ListCustomerTasksRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Filter by account UUID."
+          }
+        },
+        "archive_state": {
+          "target": "com.posthog.customer_tasks#ListCustomerTasksRequestArchiveState",
+          "traits": {
+            "smithy.api#httpQuery": "archive_state",
+            "smithy.api#documentation": "Which archive state to include.\n\n* `active` - active\n* `archived` - archived\n* `all` - all"
+          }
+        },
+        "assigned_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "assigned_to",
+            "smithy.api#documentation": "Filter by me, unassigned, or one user ID."
+          }
+        },
+        "due_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "due_after",
+            "smithy.api#documentation": "Inclusive lower deadline bound."
+          }
+        },
+        "due_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "due_before",
+            "smithy.api#documentation": "Exclusive upper deadline bound."
+          }
+        },
+        "has_due_at": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "has_due_at",
+            "smithy.api#documentation": "Filter tasks by whether a deadline exists."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Page size, from 1 to 100."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "Number of rows to skip."
+          }
+        },
+        "ordering": {
+          "target": "com.posthog.customer_tasks#ListCustomerTasksRequestOrdering",
+          "traits": {
+            "smithy.api#httpQuery": "ordering",
+            "smithy.api#documentation": "Sort by task name, status, assignee, deadline, last update, account, or creation time. Prefix with - for descending order.\n\n* `name` - name\n* `-name` - -name\n* `status` - status\n* `-status` - -status\n* `assigned_to` - assigned_to\n* `-assigned_to` - -assigned_to\n* `due_at` - due_at\n* `-due_at` - -due_at\n* `updated_at` - updated_at\n* `-updated_at` - -updated_at\n* `account` - account\n* `-account` - -account\n* `created_at` - created_at\n* `-created_at` - -created_at"
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Search task name and description."
+          }
+        },
+        "statuses": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "statuses",
+            "smithy.api#documentation": "Comma-separated task statuses."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_tasks#CustomerTaskPage": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of matching tasks.",
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the next page, if available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the previous page, if available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.customer_tasks#CustomerTaskPageResultsList",
+          "traits": {
+            "smithy.api#documentation": "Tasks in this page.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_tasks#CustomerTask": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the task.",
+            "smithy.api#required": {}
+          }
+        },
+        "account": {
+          "target": "com.posthog.customer_tasks#CustomerTaskAccount",
+          "traits": {
+            "smithy.api#documentation": "Linked account, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Task name.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Task description, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.customer_tasks#CustomerTaskStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Task lifecycle status.\n\n* `open` - Open\n* `in_progress` - In progress\n* `completed` - Completed\n* `canceled` - Canceled",
+            "smithy.api#required": {}
+          }
+        },
+        "assigned_to": {
+          "target": "com.posthog.customer_tasks#CustomerTaskUser",
+          "traits": {
+            "smithy.api#documentation": "Assigned project member, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "due_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Task deadline, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "completed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the task was completed, if applicable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "completed_by": {
+          "target": "com.posthog.customer_tasks#CustomerTaskUser",
+          "traits": {
+            "smithy.api#documentation": "User credited with completion, if known.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.customer_tasks#CustomerTaskUser",
+          "traits": {
+            "smithy.api#documentation": "User who created the task, if known.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "archived_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the task was archived.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the task was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the task was last updated.",
+            "smithy.api#required": {}
+          }
+        },
+        "can_edit": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the current user can edit this task.",
+            "smithy.api#required": {}
+          }
+        },
+        "can_restore": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the current user can restore this task.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_tasks#CustomerTaskAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the linked account.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the linked account.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_tasks#CustomerTaskStatusEnum": {
+      "type": "enum",
+      "members": {
+        "OPEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "open"
+          }
+        },
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `open` - Open\n* `in_progress` - In progress\n* `completed` - Completed\n* `canceled` - Canceled"
+      }
+    },
+    "com.posthog.customer_tasks#CustomerTaskUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "PostHog user ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First name of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last name of the user.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_tasks#CustomerTaskPageResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.customer_tasks#CustomerTask"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tasks in this page."
+      }
+    },
+    "com.posthog.customer_tasks#ListCustomerTasks": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_tasks#ListCustomerTasksRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_tasks#CustomerTaskPage"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/customer_tasks/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.customer_tasks#CreateCustomerTaskRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of a visible account, or null for an accountless task.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Task name.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Task description, or null to leave it empty.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "assigned_to_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "PostHog user ID to assign, or null to leave unassigned.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "due_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 deadline, or null for no deadline.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.customer_tasks#CustomerTaskStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Initial task status.\n\n* `open` - Open\n* `in_progress` - In progress\n* `completed` - Completed\n* `canceled` - Canceled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_tasks#CreateCustomerTask": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_tasks#CreateCustomerTaskRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_tasks#CustomerTask"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/customer_tasks/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.customer_tasks#GetCustomerTaskRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_tasks#GetCustomerTask": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_tasks#GetCustomerTaskRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_tasks#CustomerTask"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.customer_tasks#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/customer_tasks/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.customer_tasks#UpdateCustomerTaskRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of a visible account, or null to remove the account link.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Replacement task name.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Replacement description, or null to clear it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "assigned_to_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Replacement assignee ID, or null to unassign.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "due_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Replacement ISO 8601 deadline, or null to clear it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.customer_tasks#CustomerTaskStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Replacement task status.\n\n* `open` - Open\n* `in_progress` - In progress\n* `completed` - Completed\n* `canceled` - Canceled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_tasks#UpdateCustomerTask": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_tasks#UpdateCustomerTaskRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_tasks#CustomerTask"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/customer_tasks/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.customer_tasks#UpdateCustomerTasksPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of a visible account, or null to remove the account link.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Replacement task name."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Replacement description, or null to clear it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "assigned_to_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Replacement assignee ID, or null to unassign.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "due_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Replacement ISO 8601 deadline, or null to clear it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.customer_tasks#CustomerTaskStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Replacement task status.\n\n* `open` - Open\n* `in_progress` - In progress\n* `completed` - Completed\n* `canceled` - Canceled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_tasks#UpdateCustomerTasksPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_tasks#UpdateCustomerTasksPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_tasks#CustomerTask"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/customer_tasks/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.customer_tasks#ListCustomerTasksActivitiesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Page size, from 1 to 100."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "Number of rows to skip."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_tasks#CustomerTaskActivityPage": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of matching activities.",
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the next page, if available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the previous page, if available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.customer_tasks#CustomerTaskActivityPageResultsList",
+          "traits": {
+            "smithy.api#documentation": "Activities in this page.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_tasks#CustomerTaskActivity": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the activity.",
+            "smithy.api#required": {}
+          }
+        },
+        "activity_type": {
+          "target": "com.posthog.customer_tasks#CustomerTaskActivityTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Action that produced the activity.\n\n* `created` - Created\n* `updated` - Updated\n* `archived` - Archived\n* `restored` - Restored",
+            "smithy.api#required": {}
+          }
+        },
+        "changes": {
+          "target": "com.posthog.customer_tasks#CustomerTaskActivityChangesList",
+          "traits": {
+            "smithy.api#documentation": "Semantic field changes in this action.",
+            "smithy.api#required": {}
+          }
+        },
+        "actor": {
+          "target": "com.posthog.customer_tasks#CustomerTaskUser",
+          "traits": {
+            "smithy.api#documentation": "User who made the change, if known.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the activity was recorded.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_tasks#CustomerTaskActivityTypeEnum": {
+      "type": "enum",
+      "members": {
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archived"
+          }
+        },
+        "RESTORED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restored"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `created` - Created\n* `updated` - Updated\n* `archived` - Archived\n* `restored` - Restored"
+      }
+    },
+    "com.posthog.customer_tasks#CustomerTaskChange": {
+      "type": "structure",
+      "members": {
+        "field": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Semantic task field that changed.",
+            "smithy.api#required": {}
+          }
+        },
+        "before": {
+          "target": "com.posthog.customer_tasks#CustomerTaskChangeBefore",
+          "traits": {
+            "smithy.api#documentation": "Value before the change.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "after": {
+          "target": "com.posthog.customer_tasks#CustomerTaskChangeAfter",
+          "traits": {
+            "smithy.api#documentation": "Value after the change.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_tasks#CustomerTaskChangeBefore": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        },
+        "Case2": {
+          "target": "smithy.api#Boolean"
+        },
+        "Case3": {
+          "target": "smithy.api#Document"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Value before the change."
+      }
+    },
+    "com.posthog.customer_tasks#CustomerTaskChangeAfter": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        },
+        "Case2": {
+          "target": "smithy.api#Boolean"
+        },
+        "Case3": {
+          "target": "smithy.api#Document"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Value after the change."
+      }
+    },
+    "com.posthog.customer_tasks#CustomerTaskActivityChangesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.customer_tasks#CustomerTaskChange"
+      },
+      "traits": {
+        "smithy.api#documentation": "Semantic field changes in this action."
+      }
+    },
+    "com.posthog.customer_tasks#CustomerTaskActivityPageResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.customer_tasks#CustomerTaskActivity"
+      },
+      "traits": {
+        "smithy.api#documentation": "Activities in this page."
+      }
+    },
+    "com.posthog.customer_tasks#ListCustomerTasksActivities": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_tasks#ListCustomerTasksActivitiesRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_tasks#CustomerTaskActivityPage"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/customer_tasks/{id}/activities/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.customer_tasks#CustomerTasksArchiveCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_tasks#CustomerTasksArchiveCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_tasks#CustomerTasksArchiveCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_tasks#CustomerTask"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/customer_tasks/{id}/archive/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.customer_tasks#CustomerTasksRestoreCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_tasks#CustomerTasksRestoreCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_tasks#CustomerTasksRestoreCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_tasks#CustomerTask"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/customer_tasks/{id}/restore/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.customer_tasks#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.posthog.customer_tasks#CustomerTasks": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.customer_tasks#ListCustomerTasks"
+        },
+        {
+          "target": "com.posthog.customer_tasks#CreateCustomerTask"
+        },
+        {
+          "target": "com.posthog.customer_tasks#GetCustomerTask"
+        },
+        {
+          "target": "com.posthog.customer_tasks#UpdateCustomerTask"
+        },
+        {
+          "target": "com.posthog.customer_tasks#UpdateCustomerTasksPartial"
+        },
+        {
+          "target": "com.posthog.customer_tasks#ListCustomerTasksActivities"
+        },
+        {
+          "target": "com.posthog.customer_tasks#CustomerTasksArchiveCreate"
+        },
+        {
+          "target": "com.posthog.customer_tasks#CustomerTasksRestoreCreate"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

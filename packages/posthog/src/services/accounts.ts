@@ -18,15 +18,9 @@ export const AccountsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/accounts/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/accounts/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "AccountsDestroyRequest",
-}) as any as S.Schema<AccountsDestroyRequest>;
+).annotate({ identifier: "AccountsDestroyRequest" }) as any as S.Schema<AccountsDestroyRequest>;
 
 export interface AccountsDestroyResponse {}
 export const AccountsDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -115,16 +109,8 @@ export const CreateAccountRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateAccountRequestTagsList),
     slack_summary_cadence: S.optional(S.NullOr(SlackSummaryCadenceEnum)),
     churned_at: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/accounts/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateAccountRequest",
-}) as any as S.Schema<CreateAccountRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/accounts/", code: 200 })),
+).annotate({ identifier: "CreateAccountRequest" }) as any as S.Schema<CreateAccountRequest>;
 
 /** Email domains owned by this account's company, used to match inbound touchpoints to the account. */
 export type AccountPropertiesEmailDomainsList = Array<string>;
@@ -169,9 +155,7 @@ export const AccountProperties = /*@__PURE__*/ S.suspend(() =>
     usage_dashboard_link: S.optional(S.NullOr(S.String)),
     metabase_link: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "AccountProperties",
-}) as any as S.Schema<AccountProperties>;
+).annotate({ identifier: "AccountProperties" }) as any as S.Schema<AccountProperties>;
 
 /** Tag names attached to the account. Pass a list to replace existing tags. */
 export type AccountTagsList = Array<string>;
@@ -223,6 +207,52 @@ export const Account = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Account" }) as any as S.Schema<Account>;
 
+export interface CreateAccountsPresenceRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this account. */
+  id: string;
+}
+export const CreateAccountsPresenceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/accounts/{id}/presence/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateAccountsPresenceRequest",
+}) as any as S.Schema<CreateAccountsPresenceRequest>;
+
+export interface AccountPresenceViewer {
+  /** PostHog user ID of the teammate viewing this account. */
+  user_id: number;
+  /** Display name of the teammate viewing this account. */
+  display_name: string;
+}
+export const AccountPresenceViewer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    user_id: S.Number,
+    display_name: S.String,
+  }),
+).annotate({ identifier: "AccountPresenceViewer" }) as any as S.Schema<AccountPresenceViewer>;
+
+export type CreateAccountsPresenceResponseBodyList = Array<AccountPresenceViewer>;
+export const CreateAccountsPresenceResponseBodyList = /*@__PURE__*/ S.Array(
+  AccountPresenceViewer,
+) as any as S.Schema<CreateAccountsPresenceResponseBodyList>;
+
+export type CreateAccountsPresenceResponse = CreateAccountsPresenceResponseBodyList;
+export const CreateAccountsPresenceResponse = /*@__PURE__*/ S.suspend(() =>
+  CreateAccountsPresenceResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "CreateAccountsPresenceResponse",
+}) as any as S.Schema<CreateAccountsPresenceResponse>;
+
 export interface GetAccountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -233,16 +263,29 @@ export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/accounts/{id}/", code: 200 })),
+).annotate({ identifier: "GetAccountRequest" }) as any as S.Schema<GetAccountRequest>;
+
+export interface GetAccountsByExternalIdRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Exact external account identifier. Leading and trailing whitespace is significant. */
+  external_id: string;
+}
+export const GetAccountsByExternalIdRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    external_id: S.String.pipe(T.Query()),
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/api/projects/{project_id}/accounts/{id}/",
+      uri: "/api/projects/{project_id}/accounts/by_external_id/",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "GetAccountRequest",
-}) as any as S.Schema<GetAccountRequest>;
+  identifier: "GetAccountsByExternalIdRequest",
+}) as any as S.Schema<GetAccountsByExternalIdRequest>;
 
 export type ListAccountsRequestOrdering =
   | "-created_at"
@@ -284,16 +327,8 @@ export const ListAccountsRequest = /*@__PURE__*/ S.suspend(() =>
     ordering: S.optional(ListAccountsRequestOrdering.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
     tags: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/accounts/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListAccountsRequest",
-}) as any as S.Schema<ListAccountsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/accounts/", code: 200 })),
+).annotate({ identifier: "ListAccountsRequest" }) as any as S.Schema<ListAccountsRequest>;
 
 export type PaginatedAccountListResultsList = Array<Account>;
 export const PaginatedAccountListResultsList = /*@__PURE__*/ S.Array(
@@ -313,9 +348,7 @@ export const PaginatedAccountList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: PaginatedAccountListResultsList,
   }),
-).annotate({
-  identifier: "PaginatedAccountList",
-}) as any as S.Schema<PaginatedAccountList>;
+).annotate({ identifier: "PaginatedAccountList" }) as any as S.Schema<PaginatedAccountList>;
 
 export interface ListAccountsEmailThreadMessagesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -561,9 +594,7 @@ export const AccountEmailThread = /*@__PURE__*/ S.suspend(() =>
     message_count: S.Number,
     participants: AccountEmailThreadParticipantsList,
   }),
-).annotate({
-  identifier: "AccountEmailThread",
-}) as any as S.Schema<AccountEmailThread>;
+).annotate({ identifier: "AccountEmailThread" }) as any as S.Schema<AccountEmailThread>;
 
 export type PaginatedAccountEmailThreadListResultsList = Array<AccountEmailThread>;
 export const PaginatedAccountEmailThreadListResultsList = /*@__PURE__*/ S.Array(
@@ -607,11 +638,7 @@ export const ListAccountsMeetingsRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/accounts/{id}/meetings/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/accounts/{id}/meetings/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListAccountsMeetingsRequest",
@@ -638,9 +665,7 @@ export const MeetingParticipant = /*@__PURE__*/ S.suspend(() =>
     is_organizer: S.Boolean,
     person_id: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "MeetingParticipant",
-}) as any as S.Schema<MeetingParticipant>;
+).annotate({ identifier: "MeetingParticipant" }) as any as S.Schema<MeetingParticipant>;
 
 /** Attendees of the meeting. */
 export type MeetingParticipantsList = Array<MeetingParticipant>;
@@ -698,9 +723,65 @@ export const PaginatedMeetingList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: PaginatedMeetingListResultsList,
   }),
+).annotate({ identifier: "PaginatedMeetingList" }) as any as S.Schema<PaginatedMeetingList>;
+
+/** Up to 100 account IDs to read presence for. */
+export type ListAccountsPresenceRequestAccountIdsList = Array<string>;
+export const ListAccountsPresenceRequestAccountIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListAccountsPresenceRequestAccountIdsList>;
+
+export interface ListAccountsPresenceRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Up to 100 account IDs to read presence for. */
+  account_ids: ListAccountsPresenceRequestAccountIdsList;
+}
+export const ListAccountsPresenceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    account_ids: ListAccountsPresenceRequestAccountIdsList,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/accounts/presence_list/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "PaginatedMeetingList",
-}) as any as S.Schema<PaginatedMeetingList>;
+  identifier: "ListAccountsPresenceRequest",
+}) as any as S.Schema<ListAccountsPresenceRequest>;
+
+/** People viewing this account. */
+export type AccountPresenceViewersList = Array<AccountPresenceViewer>;
+export const AccountPresenceViewersList = /*@__PURE__*/ S.Array(
+  AccountPresenceViewer,
+) as any as S.Schema<AccountPresenceViewersList>;
+
+export interface AccountPresence {
+  /** Customer analytics account ID. */
+  account_id: string;
+  /** People viewing this account. */
+  viewers: AccountPresenceViewersList;
+}
+export const AccountPresence = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_id: S.String,
+    viewers: AccountPresenceViewersList,
+  }),
+).annotate({ identifier: "AccountPresence" }) as any as S.Schema<AccountPresence>;
+
+export type ListAccountsPresenceResponseBodyList = Array<AccountPresence>;
+export const ListAccountsPresenceResponseBodyList = /*@__PURE__*/ S.Array(
+  AccountPresence,
+) as any as S.Schema<ListAccountsPresenceResponseBodyList>;
+
+export type ListAccountsPresenceResponse = ListAccountsPresenceResponseBodyList;
+export const ListAccountsPresenceResponse = /*@__PURE__*/ S.suspend(() =>
+  ListAccountsPresenceResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListAccountsPresenceResponse",
+}) as any as S.Schema<ListAccountsPresenceResponse>;
 
 export interface ListAccountsSummariesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -744,9 +825,7 @@ export const ChannelSummaryMessage = /*@__PURE__*/ S.suspend(() =>
     sent_at: S.String,
     permalink: S.String,
   }),
-).annotate({
-  identifier: "ChannelSummaryMessage",
-}) as any as S.Schema<ChannelSummaryMessage>;
+).annotate({ identifier: "ChannelSummaryMessage" }) as any as S.Schema<ChannelSummaryMessage>;
 
 /** The messages the summary covered, in transcript order — metadata only, no message text. */
 export type AccountChannelSummaryMessagesList = Array<ChannelSummaryMessage>;
@@ -787,9 +866,7 @@ export const AccountChannelSummary = /*@__PURE__*/ S.suspend(() =>
     messages: AccountChannelSummaryMessagesList,
     generated_at: S.String,
   }),
-).annotate({
-  identifier: "AccountChannelSummary",
-}) as any as S.Schema<AccountChannelSummary>;
+).annotate({ identifier: "AccountChannelSummary" }) as any as S.Schema<AccountChannelSummary>;
 
 export type PaginatedAccountChannelSummaryListResultsList = Array<AccountChannelSummary>;
 export const PaginatedAccountChannelSummaryListResultsList = /*@__PURE__*/ S.Array(
@@ -1044,16 +1121,8 @@ export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateAccountRequestTagsList),
     slack_summary_cadence: S.optional(S.NullOr(SlackSummaryCadenceEnum)),
     churned_at: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/accounts/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateAccountRequest",
-}) as any as S.Schema<UpdateAccountRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/projects/{project_id}/accounts/{id}/", code: 200 })),
+).annotate({ identifier: "UpdateAccountRequest" }) as any as S.Schema<UpdateAccountRequest>;
 
 /** Email domains owned by this account's company, used to match inbound touchpoints to the account. */
 export type UpdateAccountsPartialRequestPropertiesEmailDomainsList = Array<string>;
@@ -1136,13 +1205,7 @@ export const UpdateAccountsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateAccountsPartialRequestTagsList),
     slack_summary_cadence: S.optional(S.NullOr(SlackSummaryCadenceEnum)),
     churned_at: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/accounts/{id}/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/accounts/{id}/", code: 200 })),
 ).annotate({
   identifier: "UpdateAccountsPartialRequest",
 }) as any as S.Schema<UpdateAccountsPartialRequest>;
@@ -1175,6 +1238,20 @@ export const createAccount: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateAccountsPresenceError = PosthogOpError;
+export const createAccountsPresence: API.OperationMethod<
+  CreateAccountsPresenceRequest,
+  CreateAccountsPresenceResponse,
+  CreateAccountsPresenceError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateAccountsPresenceRequest,
+  output: CreateAccountsPresenceResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetAccountError = PosthogOpError;
 export const getAccount: API.OperationMethod<
   GetAccountRequest,
@@ -1183,6 +1260,20 @@ export const getAccount: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountRequest,
+  output: Account,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAccountsByExternalIdError = PosthogOpError;
+export const getAccountsByExternalId: API.OperationMethod<
+  GetAccountsByExternalIdRequest,
+  Account,
+  GetAccountsByExternalIdError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAccountsByExternalIdRequest,
   output: Account,
   errors: [],
   protocol: PosthogProtocol,
@@ -1240,6 +1331,20 @@ export const listAccountsMeetings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListAccountsMeetingsRequest,
   output: PaginatedMeetingList,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListAccountsPresenceError = PosthogOpError;
+export const listAccountsPresence: API.OperationMethod<
+  ListAccountsPresenceRequest,
+  ListAccountsPresenceResponse,
+  ListAccountsPresenceError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListAccountsPresenceRequest,
+  output: ListAccountsPresenceResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,

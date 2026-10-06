@@ -676,7 +676,7 @@
           }
         },
         "outcome": {
-          "target": "com.posthog.mcp_analytics#OutcomeEnum",
+          "target": "com.posthog.mcp_analytics#MCPIntentClusterJourneyPathOutcomeEnum",
           "traits": {
             "smithy.api#documentation": "Terminal outcome of the sessions following this path.\n\n* `completed` - Completed\n* `error` - Error",
             "smithy.api#required": {}
@@ -704,7 +704,7 @@
         "smithy.api#documentation": "Ordered tool names called during the path. Length is fixed; null entries indicate the session ended before this step."
       }
     },
-    "com.posthog.mcp_analytics#OutcomeEnum": {
+    "com.posthog.mcp_analytics#MCPIntentClusterJourneyPathOutcomeEnum": {
       "type": "enum",
       "members": {
         "COMPLETED": {
@@ -1415,6 +1415,20 @@
             "smithy.api#documentation": "End of the window. PostHog date string or absolute ISO timestamp. Defaults to now."
           }
         },
+        "filter_test_accounts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "filter_test_accounts",
+            "smithy.api#documentation": "Whether to also apply the project's internal and test user filters (its test_account_filters setting) on top of `properties`."
+          }
+        },
+        "has_errors": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "has_errors",
+            "smithy.api#documentation": "Filter by session outcome. true keeps sessions with at least one errored tool call ($mcp_is_error), false keeps sessions with none. Omit to list both."
+          }
+        },
         "limit": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -1434,6 +1448,13 @@
           "traits": {
             "smithy.api#httpQuery": "order_by",
             "smithy.api#documentation": "Sort column. Allowed: session_id, session_start, session_end, duration_seconds, tool_call_count, mcp_client_name, distinct_id. Prefix with '-' for descending. Defaults to '-session_start' (newest sessions first)."
+          }
+        },
+        "properties": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "properties",
+            "smithy.api#documentation": "Property filters that narrow the underlying $mcp_tool_call events, JSON-encoded. A list of event, person, or session property filters, each with key, value, operator, and type. Example: [{\"key\": \"$mcp_tool_name\", \"value\": [\"query_run\"], \"operator\": \"exact\", \"type\": \"event\"}]"
           }
         },
         "search": {
@@ -1481,6 +1502,13 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Total number of $mcp_tool_call events in the session.",
+            "smithy.api#required": {}
+          }
+        },
+        "error_calls": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of the session's $mcp_tool_call events with $mcp_is_error true, counted over the same properties / filter_test_accounts matches as tool_calls.",
             "smithy.api#required": {}
           }
         },
@@ -1677,6 +1705,13 @@
             "smithy.api#documentation": "Absolute ISO timestamp lower bound for the event scan — pass the session's start so older sessions resolve. Defaults to a 7-day lookback when omitted or unparseable."
           }
         },
+        "filter_test_accounts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "filter_test_accounts",
+            "smithy.api#documentation": "Whether to also apply the project's internal and test user filters (its test_account_filters setting) on top of `properties`."
+          }
+        },
         "limit": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -1689,6 +1724,13 @@
           "traits": {
             "smithy.api#httpQuery": "offset",
             "smithy.api#documentation": "Number of tool calls to skip before returning results. Combine with limit to page through a session's calls; the response's has_next flag indicates whether more remain."
+          }
+        },
+        "properties": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "properties",
+            "smithy.api#documentation": "Property filters that narrow the underlying $mcp_tool_call events, JSON-encoded. A list of event, person, or session property filters, each with key, value, operator, and type. Example: [{\"key\": \"$mcp_tool_name\", \"value\": [\"query_run\"], \"operator\": \"exact\", \"type\": \"event\"}]"
           }
         }
       },
@@ -1804,6 +1846,20 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
             "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "filter_test_accounts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "filter_test_accounts",
+            "smithy.api#documentation": "Whether to also apply the project's internal and test user filters (its test_account_filters setting) on top of `properties`."
+          }
+        },
+        "properties": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "properties",
+            "smithy.api#documentation": "Property filters that narrow the underlying $mcp_tool_call events, JSON-encoded. A list of event, person, or session property filters, each with key, value, operator, and type. Example: [{\"key\": \"$mcp_tool_name\", \"value\": [\"query_run\"], \"operator\": \"exact\", \"type\": \"event\"}]"
           }
         }
       },

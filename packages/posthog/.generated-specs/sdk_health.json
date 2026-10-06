@@ -129,7 +129,7 @@
         "lib": {
           "target": "com.posthog.sdk_health#LibEnum",
           "traits": {
-            "smithy.api#documentation": "SDK identifier, e.g. 'web', 'posthog-python', 'posthog-node', 'posthog-ios'.\n\n* `web` - web\n* `posthog-ios` - posthog-ios\n* `posthog-android` - posthog-android\n* `posthog-java` - posthog-java\n* `posthog-server` - posthog-server\n* `posthog-node` - posthog-node\n* `posthog-python` - posthog-python\n* `posthog-php` - posthog-php\n* `posthog-ruby` - posthog-ruby\n* `posthog-go` - posthog-go\n* `posthog-flutter` - posthog-flutter\n* `posthog-react-native` - posthog-react-native\n* `posthog-kmp` - posthog-kmp\n* `posthog-dotnet` - posthog-dotnet\n* `posthog-elixir` - posthog-elixir"
+            "smithy.api#documentation": "SDK identifier, e.g. 'web', 'posthog-python', 'posthog-node', 'posthog-ios'.\n\n* `web` - web\n* `posthog-ios` - posthog-ios\n* `posthog-android` - posthog-android\n* `posthog-java` - posthog-java\n* `posthog-server` - posthog-server\n* `posthog-node` - posthog-node\n* `posthog-python` - posthog-python\n* `posthog-php` - posthog-php\n* `posthog-ruby` - posthog-ruby\n* `posthog-go` - posthog-go\n* `posthog-flutter` - posthog-flutter\n* `posthog-react-native` - posthog-react-native\n* `posthog-kmp` - posthog-kmp\n* `posthog-dotnet` - posthog-dotnet\n* `posthog-elixir` - posthog-elixir\n* `posthog-unity` - posthog-unity\n* `posthog-node-mcp` - posthog-node-mcp\n* `posthog-python-mcp` - posthog-python-mcp\n* `posthog-edge` - posthog-edge\n* `posthog-convex` - posthog-convex\n* `posthog-rails` - posthog-rails\n* `posthog-aspnetcore` - posthog-aspnetcore"
           }
         },
         "readable_name": {
@@ -293,10 +293,52 @@
           "traits": {
             "smithy.api#enumValue": "posthog-elixir"
           }
+        },
+        "POSTHOG_UNITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-unity"
+          }
+        },
+        "POSTHOG_NODE_MCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-node-mcp"
+          }
+        },
+        "POSTHOG_PYTHON_MCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-python-mcp"
+          }
+        },
+        "POSTHOG_EDGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-edge"
+          }
+        },
+        "POSTHOG_CONVEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-convex"
+          }
+        },
+        "POSTHOG_RAILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-rails"
+          }
+        },
+        "POSTHOG_ASPNETCORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-aspnetcore"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `web` - web\n* `posthog-ios` - posthog-ios\n* `posthog-android` - posthog-android\n* `posthog-java` - posthog-java\n* `posthog-server` - posthog-server\n* `posthog-node` - posthog-node\n* `posthog-python` - posthog-python\n* `posthog-php` - posthog-php\n* `posthog-ruby` - posthog-ruby\n* `posthog-go` - posthog-go\n* `posthog-flutter` - posthog-flutter\n* `posthog-react-native` - posthog-react-native\n* `posthog-kmp` - posthog-kmp\n* `posthog-dotnet` - posthog-dotnet\n* `posthog-elixir` - posthog-elixir"
+        "smithy.api#documentation": "* `web` - web\n* `posthog-ios` - posthog-ios\n* `posthog-android` - posthog-android\n* `posthog-java` - posthog-java\n* `posthog-server` - posthog-server\n* `posthog-node` - posthog-node\n* `posthog-python` - posthog-python\n* `posthog-php` - posthog-php\n* `posthog-ruby` - posthog-ruby\n* `posthog-go` - posthog-go\n* `posthog-flutter` - posthog-flutter\n* `posthog-react-native` - posthog-react-native\n* `posthog-kmp` - posthog-kmp\n* `posthog-dotnet` - posthog-dotnet\n* `posthog-elixir` - posthog-elixir\n* `posthog-unity` - posthog-unity\n* `posthog-node-mcp` - posthog-node-mcp\n* `posthog-python-mcp` - posthog-python-mcp\n* `posthog-edge` - posthog-edge\n* `posthog-convex` - posthog-convex\n* `posthog-rails` - posthog-rails\n* `posthog-aspnetcore` - posthog-aspnetcore"
       }
     },
     "com.posthog.sdk_health#SdkAssessmentSeverityEnum": {

@@ -50,11 +50,7 @@ export const CreateWebExperimentRequest = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     variants: S.optional(S.Unknown),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/web_experiments/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/web_experiments/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateWebExperimentRequest",
@@ -77,9 +73,7 @@ export const WebExperimentsAPI = /*@__PURE__*/ S.suspend(() =>
     feature_flag_key: S.optional(S.String),
     variants: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "WebExperimentsAPI",
-}) as any as S.Schema<WebExperimentsAPI>;
+).annotate({ identifier: "WebExperimentsAPI" }) as any as S.Schema<WebExperimentsAPI>;
 
 export interface GetWebExperimentRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -92,15 +86,9 @@ export const GetWebExperimentRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/web_experiments/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/web_experiments/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetWebExperimentRequest",
-}) as any as S.Schema<GetWebExperimentRequest>;
+).annotate({ identifier: "GetWebExperimentRequest" }) as any as S.Schema<GetWebExperimentRequest>;
 
 export interface ListWebExperimentsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -115,13 +103,7 @@ export const ListWebExperimentsRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/web_experiments/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/web_experiments/", code: 200 })),
 ).annotate({
   identifier: "ListWebExperimentsRequest",
 }) as any as S.Schema<ListWebExperimentsRequest>;
@@ -166,11 +148,7 @@ export const UpdateWebExperimentRequest = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     variants: S.optional(S.Unknown),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/web_experiments/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/web_experiments/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateWebExperimentRequest",
@@ -194,11 +172,7 @@ export const UpdateWebExperimentsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     variants: S.optional(S.Unknown),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/web_experiments/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/web_experiments/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateWebExperimentsPartialRequest",

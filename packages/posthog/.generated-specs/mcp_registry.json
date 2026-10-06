@@ -1,0 +1,1071 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.mcp_registry#ListMcpRegistryServersRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "measured_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "measured_only",
+            "smithy.api#documentation": "Only servers with real MCP Analytics signal."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Free-text query matched against server names, descriptions, and tool names."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "version",
+            "smithy.api#documentation": "Ranking version ordering the results; defaults to the current default version."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_registry#PaginatedMCPRegistryServerListList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.mcp_registry#PaginatedMCPRegistryServerListListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_registry#MCPRegistryServerList": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry server id.",
+            "smithy.api#required": {}
+          }
+        },
+        "registry_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reverse-DNS name in the official MCP registry; empty for measured-only servers.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable server name.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server description.",
+            "smithy.api#required": {}
+          }
+        },
+        "canonical_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Primary hosted remote URL; empty for package-only servers.",
+            "smithy.api#required": {}
+          }
+        },
+        "liveness": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Probed liveness state (alive_open, alive_auth, dead, ...).",
+            "smithy.api#required": {}
+          }
+        },
+        "auth_method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Detected auth method (none, oauth, api_key, unknown).",
+            "smithy.api#required": {}
+          }
+        },
+        "listed_in_registry": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the server appears in the official MCP registry.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_measured": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether real usage signal exists via MCP Analytics.",
+            "smithy.api#required": {}
+          }
+        },
+        "rank_score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Static score under the requested ranking version; null when the version has no completed run.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_registry#PaginatedMCPRegistryServerListListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_registry#MCPRegistryServerList"
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_registry#ListMcpRegistryServers": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_registry#ListMcpRegistryServersRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_registry#PaginatedMCPRegistryServerListList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_registry/servers/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List registry servers ordered by static rank under the chosen ranking version."
+      }
+    },
+    "com.posthog.mcp_registry#GetMcpRegistryServerRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_registry#MCPRegistryServerDetail": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry server id.",
+            "smithy.api#required": {}
+          }
+        },
+        "registry_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reverse-DNS name in the official MCP registry; empty for measured-only servers.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable server name.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server description.",
+            "smithy.api#required": {}
+          }
+        },
+        "canonical_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Primary hosted remote URL; empty for package-only servers.",
+            "smithy.api#required": {}
+          }
+        },
+        "liveness": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Probed liveness state (alive_open, alive_auth, dead, ...).",
+            "smithy.api#required": {}
+          }
+        },
+        "auth_method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Detected auth method (none, oauth, api_key, unknown).",
+            "smithy.api#required": {}
+          }
+        },
+        "listed_in_registry": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the server appears in the official MCP registry.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_measured": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether real usage signal exists via MCP Analytics.",
+            "smithy.api#required": {}
+          }
+        },
+        "rank_score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Static score under the requested ranking version; null when the version has no completed run.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "remotes": {
+          "target": "com.posthog.mcp_registry#MCPRegistryServerDetailRemotesList",
+          "traits": {
+            "smithy.api#documentation": "All hosted remotes: [{type, url}].",
+            "smithy.api#required": {}
+          }
+        },
+        "packages": {
+          "target": "com.posthog.mcp_registry#MCPRegistryServerDetailPackagesList",
+          "traits": {
+            "smithy.api#documentation": "Published packages: [{registry_type, identifier}].",
+            "smithy.api#required": {}
+          }
+        },
+        "repository_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source repository URL, when published.",
+            "smithy.api#required": {}
+          }
+        },
+        "website_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Vendor website URL, when published.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_probed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the shallow probe last ran.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tools": {
+          "target": "com.posthog.mcp_registry#MCPRegistryServerDetailToolsList",
+          "traits": {
+            "smithy.api#documentation": "Known tools, fused from probes and analytics. A tool known only from another project's traffic is limited to callers who may see that project's measurements.",
+            "smithy.api#required": {}
+          }
+        },
+        "measured_stats": {
+          "target": "com.posthog.mcp_registry#MCPRegistryServerDetailMeasuredStatsList",
+          "traits": {
+            "smithy.api#documentation": "Behavioral aggregates, one per measured MCP Analytics project. Limited to this project's own measurements unless the server is marked measured_public.",
+            "smithy.api#required": {}
+          }
+        },
+        "scores": {
+          "target": "com.posthog.mcp_registry#MCPRegistryServerDetailScoresList",
+          "traits": {
+            "smithy.api#documentation": "Latest score under every ranking version with a completed run.",
+            "smithy.api#required": {}
+          }
+        },
+        "connect": {
+          "target": "com.posthog.mcp_registry#MCPRegistryServerDetailConnectMap",
+          "traits": {
+            "smithy.api#documentation": "Connection instructions: methods ordered most-automated first, steps typed by actor (agent executes; human steps are narrated to the user).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_registry#MCPRegistryServerDetailRemotesItem": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "url": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_registry#MCPRegistryServerDetailRemotesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_registry#MCPRegistryServerDetailRemotesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "All hosted remotes: [{type, url}]."
+      }
+    },
+    "com.posthog.mcp_registry#MCPRegistryServerDetailPackagesItem": {
+      "type": "structure",
+      "members": {
+        "registry_type": {
+          "target": "smithy.api#String"
+        },
+        "identifier": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_registry#MCPRegistryServerDetailPackagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_registry#MCPRegistryServerDetailPackagesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Published packages: [{registry_type, identifier}]."
+      }
+    },
+    "com.posthog.mcp_registry#MCPRegistryServerDetailToolsItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_registry#MCPRegistryServerDetailToolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_registry#MCPRegistryServerDetailToolsItemMap"
+      },
+      "traits": {
+        "smithy.api#documentation": "Known tools, fused from probes and analytics. A tool known only from another project's traffic is limited to callers who may see that project's measurements."
+      }
+    },
+    "com.posthog.mcp_registry#MCPRegistryServerDetailMeasuredStatsItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_registry#MCPRegistryServerDetailMeasuredStatsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_registry#MCPRegistryServerDetailMeasuredStatsItemMap"
+      },
+      "traits": {
+        "smithy.api#documentation": "Behavioral aggregates, one per measured MCP Analytics project. Limited to this project's own measurements unless the server is marked measured_public."
+      }
+    },
+    "com.posthog.mcp_registry#MCPRegistryServerDetailScoresItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_registry#MCPRegistryServerDetailScoresList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_registry#MCPRegistryServerDetailScoresItemMap"
+      },
+      "traits": {
+        "smithy.api#documentation": "Latest score under every ranking version with a completed run."
+      }
+    },
+    "com.posthog.mcp_registry#MCPRegistryServerDetailConnectMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Connection instructions: methods ordered most-automated first, steps typed by actor (agent executes; human steps are narrated to the user)."
+      }
+    },
+    "com.posthog.mcp_registry#GetMcpRegistryServer": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_registry#GetMcpRegistryServerRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_registry#MCPRegistryServerDetail"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_registry/servers/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Full server record: tools, measured stats, per-version scores, connection instructions."
+      }
+    },
+    "com.posthog.mcp_registry#GetMcpRegistryServersCompareRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Rows per arm (default 20, max 100)."
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Optional text filter applied to every arm."
+          }
+        },
+        "versions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "versions",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Comma-separated ranking versions to compare (2+)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_registry#GetMcpRegistryServersCompareResponseBodyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_registry#GetMcpRegistryServersCompareResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.mcp_registry#GetMcpRegistryServersCompareResponseBodyMap",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.mcp_registry#GetMcpRegistryServersCompare": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_registry#GetMcpRegistryServersCompareRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_registry#GetMcpRegistryServersCompareResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_registry/servers/compare/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Rank the same index under several ranking versions side by side. With exactly two versions the response includes per-server rank deltas, the review surface for promoting a new ranking version."
+      }
+    },
+    "com.posthog.mcp_registry#GetMcpRegistryServersDiscoverRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "intent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "intent",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "What the agent is trying to do, in natural language."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Candidates to return (default 5, max 20)."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "version",
+            "smithy.api#documentation": "Ranking version to rank candidates by."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_registry#MCPDiscoverResponse": {
+      "type": "structure",
+      "members": {
+        "intent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The intent the candidates were ranked against, echoed back.",
+            "smithy.api#required": {}
+          }
+        },
+        "ranking_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Ranking version the candidates were ordered by.",
+            "smithy.api#required": {}
+          }
+        },
+        "candidates": {
+          "target": "com.posthog.mcp_registry#MCPDiscoverResponseCandidatesList",
+          "traits": {
+            "smithy.api#documentation": "Servers most likely to do the thing, best first.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Everything an agent gets back from one discover call."
+      }
+    },
+    "com.posthog.mcp_registry#MCPDiscoverCandidate": {
+      "type": "structure",
+      "members": {
+        "rank": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "1-based position under the ranking version used.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry server id, for the detail endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "registry_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Official registry name, empty for measured-only servers.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable server name.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the server does.",
+            "smithy.api#required": {}
+          }
+        },
+        "score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The server's own standing in [0, 1] under the ranking version used: liveness x trust, independent of the query.",
+            "smithy.api#required": {}
+          }
+        },
+        "relevance": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "How well the server's own text answered `intent`, in [0, 1]. Null when the intent held no words worth matching on.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "combined_score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The value candidates are ordered by: relevance and score combined, weighted toward relevance. Null in two cases. When the intent held no words worth matching on, ordering falls back to `score`. When the ranking version has no completed run, `score` is 0 for every candidate and ordering falls back to `relevance`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "why": {
+          "target": "com.posthog.mcp_registry#MCPDiscoverCandidateWhyMap",
+          "traits": {
+            "smithy.api#documentation": "Score breakdown so an agent can explain its choice: fit, liveness, trust, and whether real usage signal contributed.",
+            "smithy.api#required": {}
+          }
+        },
+        "liveness": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Probed liveness state (alive_open, alive_auth, dead, ...).",
+            "smithy.api#required": {}
+          }
+        },
+        "auth_method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Detected auth method (none, oauth, api_key, unknown).",
+            "smithy.api#required": {}
+          }
+        },
+        "measured": {
+          "target": "com.posthog.mcp_registry#MCPDiscoverCandidateMeasuredMap",
+          "traits": {
+            "smithy.api#documentation": "Real MCP Analytics aggregates when the server is measured, otherwise null: calls, sessions, error_rate_pct, intent_coverage_pct, harness_count.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "matched_tools": {
+          "target": "com.posthog.mcp_registry#MCPDiscoverCandidateMatchedToolsList",
+          "traits": {
+            "smithy.api#documentation": "Tools that matched the intent: [{name, description, source}]. Empty when only the server description matched.",
+            "smithy.api#required": {}
+          }
+        },
+        "connect": {
+          "target": "com.posthog.mcp_registry#MCPDiscoverCandidateConnectMap",
+          "traits": {
+            "smithy.api#documentation": "Connection instructions, most-automated method first, steps typed by actor so the agent runs its own steps and narrates the human ones.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One ranked candidate in a discover response, with everything an agent needs to act."
+      }
+    },
+    "com.posthog.mcp_registry#MCPDiscoverCandidateWhyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Score breakdown so an agent can explain its choice: fit, liveness, trust, and whether real usage signal contributed."
+      }
+    },
+    "com.posthog.mcp_registry#MCPDiscoverCandidateMeasuredMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Real MCP Analytics aggregates when the server is measured, otherwise null: calls, sessions, error_rate_pct, intent_coverage_pct, harness_count."
+      }
+    },
+    "com.posthog.mcp_registry#MCPDiscoverCandidateMatchedToolsItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "source": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_registry#MCPDiscoverCandidateMatchedToolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_registry#MCPDiscoverCandidateMatchedToolsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tools that matched the intent: [{name, description, source}]. Empty when only the server description matched."
+      }
+    },
+    "com.posthog.mcp_registry#MCPDiscoverCandidateConnectMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Connection instructions, most-automated method first, steps typed by actor so the agent runs its own steps and narrates the human ones."
+      }
+    },
+    "com.posthog.mcp_registry#MCPDiscoverResponseCandidatesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_registry#MCPDiscoverCandidate"
+      },
+      "traits": {
+        "smithy.api#documentation": "Servers most likely to do the thing, best first."
+      }
+    },
+    "com.posthog.mcp_registry#GetMcpRegistryServersDiscover": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_registry#GetMcpRegistryServersDiscoverRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_registry#MCPDiscoverResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_registry/servers/discover/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Given a task, return the MCP servers most likely to do it, each with its rank rationale, real usage signal where we measure it, and ready-to-run connection instructions. One call is everything an agent needs to go from a task to a connected server."
+      }
+    },
+    "com.posthog.mcp_registry#ListMcpRegistryServersMeasuredProjectsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_registry#MCPMeasuredProject": {
+      "type": "structure",
+      "members": {
+        "team_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Project supplying the MCP Analytics signal.",
+            "smithy.api#required": {}
+          }
+        },
+        "servers": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Distinct servers this project has measured.",
+            "smithy.api#required": {}
+          }
+        },
+        "calls": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Tool calls this project contributes across those servers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One project's contribution to the measured layer, for the staff fleet view."
+      }
+    },
+    "com.posthog.mcp_registry#ListMcpRegistryServersMeasuredProjectsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_registry#MCPMeasuredProject"
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_registry#ListMcpRegistryServersMeasuredProjectsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.mcp_registry#ListMcpRegistryServersMeasuredProjectsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.mcp_registry#ListMcpRegistryServersMeasuredProjects": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_registry#ListMcpRegistryServersMeasuredProjectsRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_registry#ListMcpRegistryServersMeasuredProjectsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_registry/servers/measured_projects/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Which projects feed MCP Analytics signal into the index, and how much each contributes. Staff only, because it reports across every project rather than the one in the route: it answers whether the measured layer has enough coverage to rank on."
+      }
+    },
+    "com.posthog.mcp_registry#ListMcpRegistryServersVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_registry#MCPRankingVersion": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Ranking version key, passed as ?version= to the list endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What this version scores on.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this is the version used when ?version= is omitted.",
+            "smithy.api#required": {}
+          }
+        },
+        "latest_run": {
+          "target": "com.posthog.mcp_registry#MCPRankingRun",
+          "traits": {
+            "smithy.api#documentation": "Latest completed run; null when the version never ran.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A registered ranking version and its latest completed run."
+      }
+    },
+    "com.posthog.mcp_registry#MCPRankingRun": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Run id.",
+            "smithy.api#required": {}
+          }
+        },
+        "server_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Servers scored in the run.",
+            "smithy.api#required": {}
+          }
+        },
+        "computed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the run completed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A completed ranking run."
+      }
+    },
+    "com.posthog.mcp_registry#ListMcpRegistryServersVersionsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_registry#MCPRankingVersion"
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_registry#ListMcpRegistryServersVersionsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.mcp_registry#ListMcpRegistryServersVersionsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.mcp_registry#ListMcpRegistryServersVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_registry#ListMcpRegistryServersVersionsRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_registry#ListMcpRegistryServersVersionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_registry/servers/versions/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Registered ranking versions and their latest completed runs."
+      }
+    },
+    "com.posthog.mcp_registry#McpRegistry": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.mcp_registry#ListMcpRegistryServers"
+        },
+        {
+          "target": "com.posthog.mcp_registry#GetMcpRegistryServer"
+        },
+        {
+          "target": "com.posthog.mcp_registry#GetMcpRegistryServersCompare"
+        },
+        {
+          "target": "com.posthog.mcp_registry#GetMcpRegistryServersDiscover"
+        },
+        {
+          "target": "com.posthog.mcp_registry#ListMcpRegistryServersMeasuredProjects"
+        },
+        {
+          "target": "com.posthog.mcp_registry#ListMcpRegistryServersVersions"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

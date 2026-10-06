@@ -46,15 +46,9 @@ export const GetFlagValueValueRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     key: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/flag_value/values/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/flag_value/values/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetFlagValueValueRequest",
-}) as any as S.Schema<GetFlagValueValueRequest>;
+).annotate({ identifier: "GetFlagValueValueRequest" }) as any as S.Schema<GetFlagValueValueRequest>;
 
 export interface FlagValueItem {
   name?: unknown;
@@ -79,9 +73,7 @@ export const FlagValueResponse = /*@__PURE__*/ S.suspend(() =>
     results: S.optional(FlagValueResponseResultsList),
     refreshing: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "FlagValueResponse",
-}) as any as S.Schema<FlagValueResponse>;
+).annotate({ identifier: "FlagValueResponse" }) as any as S.Schema<FlagValueResponse>;
 
 export type GetFlagValueValueError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Get possible values for a feature flag. Query parameters: - key: The flag ID (required) Returns: - Array of objects with 'name' field containing possible values */

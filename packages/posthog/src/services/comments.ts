@@ -55,15 +55,9 @@ export const CommentsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/comments/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/comments/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "CommentsDestroyRequest",
-}) as any as S.Schema<CommentsDestroyRequest>;
+).annotate({ identifier: "CommentsDestroyRequest" }) as any as S.Schema<CommentsDestroyRequest>;
 
 export interface CommentsDestroyResponse {}
 export const CommentsDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -184,9 +178,7 @@ export const CommentSlackThread = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     created_by: S.NullOr(UserBasic),
   }),
-).annotate({
-  identifier: "CommentSlackThread",
-}) as any as S.Schema<CommentSlackThread>;
+).annotate({ identifier: "CommentSlackThread" }) as any as S.Schema<CommentSlackThread>;
 
 export type CreateCommentRequestMentionsList = Array<number>;
 export const CreateCommentRequestMentionsList = /*@__PURE__*/ S.Array(
@@ -222,16 +214,8 @@ export const CreateCommentRequest = /*@__PURE__*/ S.suspend(() =>
     rich_content: S.optional(S.Unknown),
     item_id: S.optional(S.NullOr(S.String)),
     source_comment: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/comments/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateCommentRequest",
-}) as any as S.Schema<CreateCommentRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/comments/", code: 200 })),
+).annotate({ identifier: "CreateCommentRequest" }) as any as S.Schema<CreateCommentRequest>;
 
 export interface CommentSlackThreadRef {
   /** Slack channel ID this discussion is mirrored to. */
@@ -247,9 +231,7 @@ export const CommentSlackThreadRef = /*@__PURE__*/ S.suspend(() =>
     channel_name: S.String,
     url: S.String,
   }),
-).annotate({
-  identifier: "CommentSlackThreadRef",
-}) as any as S.Schema<CommentSlackThreadRef>;
+).annotate({ identifier: "CommentSlackThreadRef" }) as any as S.Schema<CommentSlackThreadRef>;
 
 export interface CommentOutput {
   id?: string;
@@ -325,11 +307,7 @@ export const CreateCommentsReopenRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/comments/{id}/reopen/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/comments/{id}/reopen/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCommentsReopenRequest",
@@ -345,16 +323,8 @@ export const GetCommentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/comments/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetCommentRequest",
-}) as any as S.Schema<GetCommentRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/comments/{id}/", code: 200 })),
+).annotate({ identifier: "GetCommentRequest" }) as any as S.Schema<GetCommentRequest>;
 
 export interface GetCommentsCountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -363,16 +333,8 @@ export interface GetCommentsCountRequest {
 export const GetCommentsCountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/comments/count/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetCommentsCountRequest",
-}) as any as S.Schema<GetCommentsCountRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/comments/count/", code: 200 })),
+).annotate({ identifier: "GetCommentsCountRequest" }) as any as S.Schema<GetCommentsCountRequest>;
 
 export interface GetCommentsCountResponse {}
 export const GetCommentsCountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -390,15 +352,9 @@ export const GetCommentsThreadRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/comments/{id}/thread/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/comments/{id}/thread/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetCommentsThreadRequest",
-}) as any as S.Schema<GetCommentsThreadRequest>;
+).annotate({ identifier: "GetCommentsThreadRequest" }) as any as S.Schema<GetCommentsThreadRequest>;
 
 export interface GetCommentsThreadResponse {}
 export const GetCommentsThreadResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -416,6 +372,8 @@ export interface ListCommentsRequest {
   project_id: string;
   /** When kind=task, restrict to open (incomplete) or completed tasks. Ignored when kind is not 'task'. Defaults to 'any' (no filter). * `any` - any * `open` - open * `completed` - completed */
   completed?: ListCommentsRequestCompleted | (string & {});
+  /** Filter by the numeric ID of the user who wrote the comment. */
+  created_by?: number;
   /** The pagination cursor value. */
   cursor?: string;
   /** Filter by the ID of the resource being commented on. */
@@ -428,13 +386,14 @@ export interface ListCommentsRequest {
   search?: string;
   /** Filter replies to a specific parent comment. */
   source_comment?: string;
-  /** Owning task for task, task_artifact, and desktop_canvas comment scopes. */
+  /** Owning task for task, task_artifact, task_preview, task_browser, and canvas comment scopes. */
   task_id?: string;
 }
 export const ListCommentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     completed: S.optional(ListCommentsRequestCompleted.pipe(T.Query())),
+    created_by: S.optional(S.Number.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
     item_id: S.optional(S.String.pipe(T.Query())),
     kind: S.optional(ListCommentsRequestKind.pipe(T.Query())),
@@ -442,16 +401,8 @@ export const ListCommentsRequest = /*@__PURE__*/ S.suspend(() =>
     search: S.optional(S.String.pipe(T.Query())),
     source_comment: S.optional(S.String.pipe(T.Query())),
     task_id: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/comments/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListCommentsRequest",
-}) as any as S.Schema<ListCommentsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/comments/", code: 200 })),
+).annotate({ identifier: "ListCommentsRequest" }) as any as S.Schema<ListCommentsRequest>;
 
 export type PaginatedCommentListOutputResultsList = Array<CommentOutput>;
 export const PaginatedCommentListOutputResultsList = /*@__PURE__*/ S.Array(
@@ -510,16 +461,8 @@ export const UpdateCommentRequest = /*@__PURE__*/ S.suspend(() =>
     rich_content: S.optional(S.Unknown),
     item_id: S.optional(S.NullOr(S.String)),
     source_comment: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/comments/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateCommentRequest",
-}) as any as S.Schema<UpdateCommentRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/projects/{project_id}/comments/{id}/", code: 200 })),
+).annotate({ identifier: "UpdateCommentRequest" }) as any as S.Schema<UpdateCommentRequest>;
 
 export type UpdateCommentsPartialRequestMentionsList = Array<number>;
 export const UpdateCommentsPartialRequestMentionsList = /*@__PURE__*/ S.Array(
@@ -558,13 +501,7 @@ export const UpdateCommentsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     rich_content: S.optional(S.Unknown),
     item_id: S.optional(S.NullOr(S.String)),
     source_comment: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/comments/{id}/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/comments/{id}/", code: 200 })),
 ).annotate({
   identifier: "UpdateCommentsPartialRequest",
 }) as any as S.Schema<UpdateCommentsPartialRequest>;

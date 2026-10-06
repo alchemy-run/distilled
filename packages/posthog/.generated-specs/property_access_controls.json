@@ -188,6 +188,302 @@
         "smithy.api#documentation": "Get all property access control rules for a property definition."
       }
     },
+    "com.posthog.property_access_controls#AIEventPropertyEnum": {
+      "type": "enum",
+      "members": {
+        "AI_TRACE_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_trace_id"
+          }
+        },
+        "AI_SESSION_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_session_id"
+          }
+        },
+        "AI_PARENT_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_parent_id"
+          }
+        },
+        "AI_SPAN_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_span_id"
+          }
+        },
+        "AI_SPAN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_span_type"
+          }
+        },
+        "AI_GENERATION_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_generation_id"
+          }
+        },
+        "AI_EXPERIMENT_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_experiment_id"
+          }
+        },
+        "AI_SPAN_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_span_name"
+          }
+        },
+        "AI_TRACE_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_trace_name"
+          }
+        },
+        "AI_PROMPT_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_prompt_name"
+          }
+        },
+        "AI_MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_model"
+          }
+        },
+        "AI_PROVIDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_provider"
+          }
+        },
+        "AI_FRAMEWORK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_framework"
+          }
+        },
+        "AI_TOTAL_TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_total_tokens"
+          }
+        },
+        "AI_INPUT_TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_input_tokens"
+          }
+        },
+        "AI_OUTPUT_TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_output_tokens"
+          }
+        },
+        "AI_TEXT_INPUT_TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_text_input_tokens"
+          }
+        },
+        "AI_TEXT_OUTPUT_TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_text_output_tokens"
+          }
+        },
+        "AI_IMAGE_INPUT_TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_image_input_tokens"
+          }
+        },
+        "AI_IMAGE_OUTPUT_TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_image_output_tokens"
+          }
+        },
+        "AI_AUDIO_INPUT_TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_audio_input_tokens"
+          }
+        },
+        "AI_AUDIO_OUTPUT_TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_audio_output_tokens"
+          }
+        },
+        "AI_VIDEO_INPUT_TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_video_input_tokens"
+          }
+        },
+        "AI_VIDEO_OUTPUT_TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_video_output_tokens"
+          }
+        },
+        "AI_REASONING_TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_reasoning_tokens"
+          }
+        },
+        "AI_CACHE_READ_INPUT_TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_cache_read_input_tokens"
+          }
+        },
+        "AI_CACHE_CREATION_INPUT_TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_cache_creation_input_tokens"
+          }
+        },
+        "AI_WEB_SEARCH_COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_web_search_count"
+          }
+        },
+        "AI_INPUT_COST_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_input_cost_usd"
+          }
+        },
+        "AI_OUTPUT_COST_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_output_cost_usd"
+          }
+        },
+        "AI_TOTAL_COST_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_total_cost_usd"
+          }
+        },
+        "AI_REQUEST_COST_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_request_cost_usd"
+          }
+        },
+        "AI_WEB_SEARCH_COST_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_web_search_cost_usd"
+          }
+        },
+        "AI_AUDIO_COST_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_audio_cost_usd"
+          }
+        },
+        "AI_IMAGE_COST_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_image_cost_usd"
+          }
+        },
+        "AI_VIDEO_COST_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_video_cost_usd"
+          }
+        },
+        "AI_LATENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_latency"
+          }
+        },
+        "AI_TIME_TO_FIRST_TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_time_to_first_token"
+          }
+        },
+        "AI_IS_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_is_error"
+          }
+        },
+        "AI_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_error"
+          }
+        },
+        "AI_ERROR_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_error_type"
+          }
+        },
+        "AI_ERROR_NORMALIZED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_error_normalized"
+          }
+        },
+        "AI_INPUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_input"
+          }
+        },
+        "AI_OUTPUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_output"
+          }
+        },
+        "AI_OUTPUT_CHOICES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_output_choices"
+          }
+        },
+        "AI_INPUT_STATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_input_state"
+          }
+        },
+        "AI_OUTPUT_STATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_output_state"
+          }
+        },
+        "AI_TOOLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ai_tools"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `$ai_trace_id` - $ai_trace_id\n* `$ai_session_id` - $ai_session_id\n* `$ai_parent_id` - $ai_parent_id\n* `$ai_span_id` - $ai_span_id\n* `$ai_span_type` - $ai_span_type\n* `$ai_generation_id` - $ai_generation_id\n* `$ai_experiment_id` - $ai_experiment_id\n* `$ai_span_name` - $ai_span_name\n* `$ai_trace_name` - $ai_trace_name\n* `$ai_prompt_name` - $ai_prompt_name\n* `$ai_model` - $ai_model\n* `$ai_provider` - $ai_provider\n* `$ai_framework` - $ai_framework\n* `$ai_total_tokens` - $ai_total_tokens\n* `$ai_input_tokens` - $ai_input_tokens\n* `$ai_output_tokens` - $ai_output_tokens\n* `$ai_text_input_tokens` - $ai_text_input_tokens\n* `$ai_text_output_tokens` - $ai_text_output_tokens\n* `$ai_image_input_tokens` - $ai_image_input_tokens\n* `$ai_image_output_tokens` - $ai_image_output_tokens\n* `$ai_audio_input_tokens` - $ai_audio_input_tokens\n* `$ai_audio_output_tokens` - $ai_audio_output_tokens\n* `$ai_video_input_tokens` - $ai_video_input_tokens\n* `$ai_video_output_tokens` - $ai_video_output_tokens\n* `$ai_reasoning_tokens` - $ai_reasoning_tokens\n* `$ai_cache_read_input_tokens` - $ai_cache_read_input_tokens\n* `$ai_cache_creation_input_tokens` - $ai_cache_creation_input_tokens\n* `$ai_web_search_count` - $ai_web_search_count\n* `$ai_input_cost_usd` - $ai_input_cost_usd\n* `$ai_output_cost_usd` - $ai_output_cost_usd\n* `$ai_total_cost_usd` - $ai_total_cost_usd\n* `$ai_request_cost_usd` - $ai_request_cost_usd\n* `$ai_web_search_cost_usd` - $ai_web_search_cost_usd\n* `$ai_audio_cost_usd` - $ai_audio_cost_usd\n* `$ai_image_cost_usd` - $ai_image_cost_usd\n* `$ai_video_cost_usd` - $ai_video_cost_usd\n* `$ai_latency` - $ai_latency\n* `$ai_time_to_first_token` - $ai_time_to_first_token\n* `$ai_is_error` - $ai_is_error\n* `$ai_error` - $ai_error\n* `$ai_error_type` - $ai_error_type\n* `$ai_error_normalized` - $ai_error_normalized\n* `$ai_input` - $ai_input\n* `$ai_output` - $ai_output\n* `$ai_output_choices` - $ai_output_choices\n* `$ai_input_state` - $ai_input_state\n* `$ai_output_state` - $ai_output_state\n* `$ai_tools` - $ai_tools"
+      }
+    },
     "com.posthog.property_access_controls#CreatePropertyAccessControlRequest": {
       "type": "structure",
       "members": {
@@ -202,8 +498,13 @@
         "property_definition_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The property definition ID this rule applies to.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The existing property definition ID. Provide this or ai_property."
+          }
+        },
+        "ai_property": {
+          "target": "com.posthog.property_access_controls#AIEventPropertyEnum",
+          "traits": {
+            "smithy.api#documentation": "A built-in AI event property. Creates its definition if missing. Provide this or property_definition_id.\n\n* `$ai_trace_id` - $ai_trace_id\n* `$ai_session_id` - $ai_session_id\n* `$ai_parent_id` - $ai_parent_id\n* `$ai_span_id` - $ai_span_id\n* `$ai_span_type` - $ai_span_type\n* `$ai_generation_id` - $ai_generation_id\n* `$ai_experiment_id` - $ai_experiment_id\n* `$ai_span_name` - $ai_span_name\n* `$ai_trace_name` - $ai_trace_name\n* `$ai_prompt_name` - $ai_prompt_name\n* `$ai_model` - $ai_model\n* `$ai_provider` - $ai_provider\n* `$ai_framework` - $ai_framework\n* `$ai_total_tokens` - $ai_total_tokens\n* `$ai_input_tokens` - $ai_input_tokens\n* `$ai_output_tokens` - $ai_output_tokens\n* `$ai_text_input_tokens` - $ai_text_input_tokens\n* `$ai_text_output_tokens` - $ai_text_output_tokens\n* `$ai_image_input_tokens` - $ai_image_input_tokens\n* `$ai_image_output_tokens` - $ai_image_output_tokens\n* `$ai_audio_input_tokens` - $ai_audio_input_tokens\n* `$ai_audio_output_tokens` - $ai_audio_output_tokens\n* `$ai_video_input_tokens` - $ai_video_input_tokens\n* `$ai_video_output_tokens` - $ai_video_output_tokens\n* `$ai_reasoning_tokens` - $ai_reasoning_tokens\n* `$ai_cache_read_input_tokens` - $ai_cache_read_input_tokens\n* `$ai_cache_creation_input_tokens` - $ai_cache_creation_input_tokens\n* `$ai_web_search_count` - $ai_web_search_count\n* `$ai_input_cost_usd` - $ai_input_cost_usd\n* `$ai_output_cost_usd` - $ai_output_cost_usd\n* `$ai_total_cost_usd` - $ai_total_cost_usd\n* `$ai_request_cost_usd` - $ai_request_cost_usd\n* `$ai_web_search_cost_usd` - $ai_web_search_cost_usd\n* `$ai_audio_cost_usd` - $ai_audio_cost_usd\n* `$ai_image_cost_usd` - $ai_image_cost_usd\n* `$ai_video_cost_usd` - $ai_video_cost_usd\n* `$ai_latency` - $ai_latency\n* `$ai_time_to_first_token` - $ai_time_to_first_token\n* `$ai_is_error` - $ai_is_error\n* `$ai_error` - $ai_error\n* `$ai_error_type` - $ai_error_type\n* `$ai_error_normalized` - $ai_error_normalized\n* `$ai_input` - $ai_input\n* `$ai_output` - $ai_output\n* `$ai_output_choices` - $ai_output_choices\n* `$ai_input_state` - $ai_input_state\n* `$ai_output_state` - $ai_output_state\n* `$ai_tools` - $ai_tools"
           }
         },
         "access_level": {

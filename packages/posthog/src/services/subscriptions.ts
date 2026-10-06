@@ -71,6 +71,40 @@ export const AIPromptConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AIPromptConfig" }) as any as S.Schema<AIPromptConfig>;
 
+export interface CreateSubscriptionRequestContextsItemCase0 {
+  dashboard_id: number;
+}
+export const CreateSubscriptionRequestContextsItemCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dashboard_id: S.Number,
+  }),
+).annotate({
+  identifier: "CreateSubscriptionRequestContextsItemCase0",
+}) as any as S.Schema<CreateSubscriptionRequestContextsItemCase0>;
+
+export interface CreateSubscriptionRequestContextsItemCase1 {
+  insight_id: number;
+}
+export const CreateSubscriptionRequestContextsItemCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    insight_id: S.Number,
+  }),
+).annotate({
+  identifier: "CreateSubscriptionRequestContextsItemCase1",
+}) as any as S.Schema<CreateSubscriptionRequestContextsItemCase1>;
+
+export type CreateSubscriptionRequestContextsItem =
+  | CreateSubscriptionRequestContextsItemCase0
+  | CreateSubscriptionRequestContextsItemCase1;
+export const CreateSubscriptionRequestContextsItem =
+  S.Unknown as any as S.Schema<CreateSubscriptionRequestContextsItem>;
+
+/** Complete dashboard and insight context for an AI report. Omit on PATCH to preserve, pass an empty list to clear, or pass up to 3 items to replace all contexts. */
+export type CreateSubscriptionRequestContextsList = Array<CreateSubscriptionRequestContextsItem>;
+export const CreateSubscriptionRequestContextsList = /*@__PURE__*/ S.Array(
+  CreateSubscriptionRequestContextsItem,
+) as any as S.Schema<CreateSubscriptionRequestContextsList>;
+
 /** * `email` - Email * `slack` - Slack * `teams` - Microsoft Teams */
 export type SubscriptionTargetEnum = "email" | "slack" | "teams";
 export const SubscriptionTargetEnum = S.String;
@@ -100,12 +134,24 @@ export const CreateSubscriptionRequestByweekdayList = /*@__PURE__*/ S.Array(
 
 /** Typed view over the Subscription.delivery_config JSON blob. */
 export interface DeliveryConfig {
-  /** Slack only: when true, upload all insight images together in the main Slack message instead of posting the first image in the main message and the rest as threaded replies. Defaults to false. */
+  /** Slack insight and dashboard subscriptions only: when true, upload all insight images together in the main Slack message instead of posting the first image in the main message and the rest as threaded replies. Defaults to false. The request is rejected when target_type is not 'slack', when the subscription sets prompt instead of insight or dashboard, or when the Slack integration does not hold the files:write permission. Omit it unless the user asks for one combined message. */
   post_all_insights_in_main_message?: boolean;
+  /** Prompt subscriptions only: include generated chart images. Defaults to true when omitted. The request is rejected when the subscription sets insight or dashboard instead of prompt. It does not control the AI summary on an insight or dashboard subscription: use summary_enabled and summary_prompt_guide for that. */
+  include_images?: boolean;
+  /** Prompt subscriptions only: include report feedback links. Defaults to true when omitted. The request is rejected when the subscription sets insight or dashboard instead of prompt. It does not control the AI summary on an insight or dashboard subscription: use summary_enabled and summary_prompt_guide for that. */
+  include_feedback?: boolean;
+  /** Prompt subscriptions only: include a link to manage the subscription. Defaults to true when omitted. The request is rejected when the subscription sets insight or dashboard instead of prompt. It does not control the AI summary on an insight or dashboard subscription: use summary_enabled and summary_prompt_guide for that. */
+  include_manage_link?: boolean;
+  /** Prompt subscriptions only: include PostHog product guidance. Defaults to true when omitted. Only a Slack report renders the guidance. Email and Microsoft Teams reports leave it out and accept the option without an error, unlike post_all_insights_in_main_message. The request is rejected when the subscription sets insight or dashboard instead of prompt. It does not control the AI summary on an insight or dashboard subscription: use summary_enabled and summary_prompt_guide for that. */
+  include_posthog_hint?: boolean;
 }
 export const DeliveryConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     post_all_insights_in_main_message: S.optional(S.Boolean),
+    include_images: S.optional(S.Boolean),
+    include_feedback: S.optional(S.Boolean),
+    include_manage_link: S.optional(S.Boolean),
+    include_posthog_hint: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "DeliveryConfig" }) as any as S.Schema<DeliveryConfig>;
 
@@ -122,14 +168,16 @@ export interface CreateSubscriptionRequest {
   prompt?: string | null;
   /** Configuration for AI report subscriptions (analysis window, future knobs). Only valid when resource_type is 'ai_prompt'. Replaced wholesale on writes. */
   ai_prompt_config?: AIPromptConfig;
+  /** Complete dashboard and insight context for an AI report. Omit on PATCH to preserve, pass an empty list to clear, or pass up to 3 items to replace all contexts. */
+  contexts?: CreateSubscriptionRequestContextsList;
   /** Delivery channel: email, slack, or teams. * `email` - Email * `slack` - Slack * `teams` - Microsoft Teams */
-  target_type?: SubscriptionTargetEnum | (string & {});
+  target_type: SubscriptionTargetEnum | (string & {});
   /** Recipient(s): comma-separated email addresses for email, Slack channel name/ID for slack, or a Microsoft Teams webhook URL for teams. A Teams webhook URL is only ever returned as its host, because the URL authorizes a post to the channel by itself. On update, omit the field to keep the stored URL, or send a full URL to replace it. */
-  target_value?: string;
+  target_value: string;
   /** How often to deliver: daily, weekly, monthly, or yearly. * `daily` - Daily * `weekly` - Weekly * `monthly` - Monthly * `yearly` - Yearly */
-  frequency?: RecurrenceIntervalEnum | (string & {});
+  frequency: RecurrenceIntervalEnum | (string & {});
   /** Interval multiplier (e.g. 2 with weekly frequency means every 2 weeks). Required on create; must be 1 or greater. */
-  interval?: number;
+  interval: number;
   /** Days of week for daily or weekly subscriptions: monday, tuesday, wednesday, thursday, friday, saturday, sunday. */
   byweekday?: CreateSubscriptionRequestByweekdayList | null;
   /** Position within byweekday set for monthly frequency (e.g. 1 for first, -1 for last). */
@@ -137,7 +185,7 @@ export interface CreateSubscriptionRequest {
   /** Total number of deliveries before the subscription stops. Null for unlimited. */
   count?: number | null;
   /** When to start delivering (ISO 8601 datetime). The date anchors the recurrence and may be in the past. Deliveries run on half-hour cycles at :00 and :30. Other minute values are accepted for backward compatibility, but delivery happens during the next cycle instead of at that exact minute. */
-  start_date?: string;
+  start_date: string;
   /** When to stop delivering (ISO 8601 datetime). Null for indefinite. */
   until_date?: string | null;
   /** Set to true to soft-delete. Subscriptions cannot be hard-deleted. */
@@ -156,7 +204,7 @@ export interface CreateSubscriptionRequest {
   summary_enabled?: boolean;
   /** Optional free-text guidance (max 500 chars) steering the AI summary, e.g. which metrics to emphasize. Only settable when AI summary context is enabled for the organization; clearing it (empty string) is always allowed. */
   summary_prompt_guide?: string;
-  /** Per-delivery rendering options. Each option documents which delivery targets it applies to. */
+  /** Per-delivery rendering options. Every option applies to one subscription kind or delivery target only, and each option's own description says where it applies and whether a mismatch is rejected or ignored. Omit this field unless the user asks for one of the options. */
   delivery_config?: DeliveryConfig;
 }
 export const CreateSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
@@ -167,14 +215,15 @@ export const CreateSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     dashboard_export_insights: S.optional(CreateSubscriptionRequestDashboardExportInsightsList),
     prompt: S.optional(S.NullOr(S.String)),
     ai_prompt_config: S.optional(AIPromptConfig),
-    target_type: S.optional(SubscriptionTargetEnum),
-    target_value: S.optional(S.String),
-    frequency: S.optional(RecurrenceIntervalEnum),
-    interval: S.optional(S.Number),
+    contexts: S.optional(CreateSubscriptionRequestContextsList),
+    target_type: SubscriptionTargetEnum,
+    target_value: S.String,
+    frequency: RecurrenceIntervalEnum,
+    interval: S.Number,
     byweekday: S.optional(S.NullOr(CreateSubscriptionRequestByweekdayList)),
     bysetpos: S.optional(S.NullOr(S.Number)),
     count: S.optional(S.NullOr(S.Number)),
-    start_date: S.optional(S.String),
+    start_date: S.String,
     until_date: S.optional(S.NullOr(S.String)),
     deleted: S.optional(S.Boolean),
     enabled: S.optional(S.Boolean),
@@ -185,13 +234,7 @@ export const CreateSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     summary_enabled: S.optional(S.Boolean),
     summary_prompt_guide: S.optional(S.String),
     delivery_config: S.optional(DeliveryConfig),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/subscriptions/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/subscriptions/", code: 200 })),
 ).annotate({
   identifier: "CreateSubscriptionRequest",
 }) as any as S.Schema<CreateSubscriptionRequest>;
@@ -205,6 +248,51 @@ export type SubscriptionOutputDashboardExportInsightsList = Array<number>;
 export const SubscriptionOutputDashboardExportInsightsList = /*@__PURE__*/ S.Array(
   S.Number,
 ) as any as S.Schema<SubscriptionOutputDashboardExportInsightsList>;
+
+export interface SubscriptionDashboardContext {
+  /** Dashboard ID used to open the context dashboard. */
+  dashboard_id: number;
+  /** Current display name of the context dashboard. */
+  dashboard_name: string;
+}
+export const SubscriptionDashboardContext = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dashboard_id: S.Number,
+    dashboard_name: S.String,
+  }),
+).annotate({
+  identifier: "SubscriptionDashboardContext",
+}) as any as S.Schema<SubscriptionDashboardContext>;
+
+export interface SubscriptionInsightContext {
+  /** Database ID of the context insight. */
+  insight_id: number;
+  /** Stable insight identifier used to open the context insight. */
+  insight_short_id: string;
+  /** Current display name of the context insight. */
+  insight_name: string;
+}
+export const SubscriptionInsightContext = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    insight_id: S.Number,
+    insight_short_id: S.String,
+    insight_name: S.String,
+  }),
+).annotate({
+  identifier: "SubscriptionInsightContext",
+}) as any as S.Schema<SubscriptionInsightContext>;
+
+export type SubscriptionContext = SubscriptionDashboardContext | SubscriptionInsightContext;
+export const SubscriptionContext = S.Unknown as any as S.Schema<SubscriptionContext>;
+
+/** Dashboards and insights that ground this AI report. Deleted resources are omitted. */
+export type SubscriptionOutputContextsList = Array<SubscriptionContext>;
+export const SubscriptionOutputContextsList = /*@__PURE__*/ S.Array(
+  SubscriptionContext,
+) as any as S.Schema<SubscriptionOutputContextsList>;
+
+export type AIQueryPlanStatusEnum = "frozen" | "not_frozen" | "planner_updated";
+export const AIQueryPlanStatusEnum = S.String;
 
 /** * `monday` - Monday * `tuesday` - Tuesday * `wednesday` - Wednesday * `thursday` - Thursday * `friday` - Friday * `saturday` - Saturday * `sunday` - Sunday */
 export type SubscriptionOutputByweekdayItem =
@@ -291,6 +379,10 @@ export interface SubscriptionOutput {
   prompt?: string | null;
   /** Configuration for AI report subscriptions (analysis window, future knobs). Only valid when resource_type is 'ai_prompt'. Replaced wholesale on writes. */
   ai_prompt_config?: AIPromptConfig;
+  /** Dashboards and insights that ground this AI report. Deleted resources are omitted. */
+  contexts?: SubscriptionOutputContextsList;
+  /** Query plan reuse state for AI prompt subscriptions: frozen, not_frozen, or planner_updated. Null for other subscription types. */
+  ai_query_plan_status?: AIQueryPlanStatusEnum | null;
   /** Delivery channel: email, slack, or teams. * `email` - Email * `slack` - Slack * `teams` - Microsoft Teams */
   target_type?: SubscriptionTargetEnum;
   /** Recipient(s): comma-separated email addresses for email, Slack channel name/ID for slack, or a Microsoft Teams webhook URL for teams. A Teams webhook URL is only ever returned as its host, because the URL authorizes a post to the channel by itself. On update, omit the field to keep the stored URL, or send a full URL to replace it. */
@@ -328,7 +420,7 @@ export interface SubscriptionOutput {
   summary_enabled?: boolean;
   /** Optional free-text guidance (max 500 chars) steering the AI summary, e.g. which metrics to emphasize. Only settable when AI summary context is enabled for the organization; clearing it (empty string) is always allowed. */
   summary_prompt_guide?: string;
-  /** Per-delivery rendering options. Each option documents which delivery targets it applies to. */
+  /** Per-delivery rendering options. Every option applies to one subscription kind or delivery target only, and each option's own description says where it applies and whether a mismatch is rejected or ignored. Omit this field unless the user asks for one of the options. */
   delivery_config?: DeliveryConfig;
 }
 export const SubscriptionOutput = /*@__PURE__*/ S.suspend(() =>
@@ -342,6 +434,8 @@ export const SubscriptionOutput = /*@__PURE__*/ S.suspend(() =>
     dashboard_export_insights: S.optional(SubscriptionOutputDashboardExportInsightsList),
     prompt: S.optional(S.NullOr(S.String)),
     ai_prompt_config: S.optional(AIPromptConfig),
+    contexts: S.optional(SubscriptionOutputContextsList),
+    ai_query_plan_status: S.optional(S.NullOr(AIQueryPlanStatusEnum)),
     target_type: S.optional(SubscriptionTargetEnum),
     target_value: S.optional(S.String),
     frequency: S.optional(RecurrenceIntervalEnum),
@@ -364,9 +458,7 @@ export const SubscriptionOutput = /*@__PURE__*/ S.suspend(() =>
     summary_prompt_guide: S.optional(S.String),
     delivery_config: S.optional(DeliveryConfig),
   }),
-).annotate({
-  identifier: "SubscriptionOutput",
-}) as any as S.Schema<SubscriptionOutput>;
+).annotate({ identifier: "SubscriptionOutput" }) as any as S.Schema<SubscriptionOutput>;
 
 export interface CreateSubscriptionsTestDeliveryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -407,15 +499,9 @@ export const GetSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/subscriptions/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/subscriptions/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetSubscriptionRequest",
-}) as any as S.Schema<GetSubscriptionRequest>;
+).annotate({ identifier: "GetSubscriptionRequest" }) as any as S.Schema<GetSubscriptionRequest>;
 
 export interface GetSubscriptionsDeliveryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -459,6 +545,8 @@ export interface AIReportQueryDiagnostic {
   ok: boolean;
   /** Exception class name when the query failed; null on success. */
   error_type: string | null;
+  /** Stable query API error code when available; null on success and for unclassified errors. */
+  error_code?: string | null;
   /** Human-readable failure reason, present only for query errors safe to surface to the subscription owner (e.g. an unresolved field name); null on success and for internal errors, which expose error_type only. */
   human_readable_error?: string | null;
 }
@@ -468,11 +556,10 @@ export const AIReportQueryDiagnostic = /*@__PURE__*/ S.suspend(() =>
     hogql: S.String,
     ok: S.Boolean,
     error_type: S.NullOr(S.String),
+    error_code: S.optional(S.NullOr(S.String)),
     human_readable_error: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "AIReportQueryDiagnostic",
-}) as any as S.Schema<AIReportQueryDiagnostic>;
+).annotate({ identifier: "AIReportQueryDiagnostic" }) as any as S.Schema<AIReportQueryDiagnostic>;
 
 /** Per-step query diagnostics (generated HogQL + failure type) for this report. Null for non-AI deliveries or runs without persisted diagnostics. */
 export type SubscriptionDeliveryAiReportDiagnosticsList = Array<AIReportQueryDiagnostic>;
@@ -545,6 +632,8 @@ export interface SubscriptionDelivery {
   ai_report_charts?: SubscriptionDeliveryAiReportChartsList | null;
   /** The subscription's prompt as it was when this report was generated. Null for older deliveries and non-AI deliveries. */
   ai_report_prompt?: string | null;
+  /** Query plan state recorded for this delivery: frozen, not_frozen, or planner_updated. Null for older deliveries and non-AI deliveries. */
+  ai_query_plan_status?: AIQueryPlanStatusEnum | null;
 }
 export const SubscriptionDelivery = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -569,10 +658,9 @@ export const SubscriptionDelivery = /*@__PURE__*/ S.suspend(() =>
     ai_report_diagnostics: S.optional(S.NullOr(SubscriptionDeliveryAiReportDiagnosticsList)),
     ai_report_charts: S.optional(S.NullOr(SubscriptionDeliveryAiReportChartsList)),
     ai_report_prompt: S.optional(S.NullOr(S.String)),
+    ai_query_plan_status: S.optional(S.NullOr(AIQueryPlanStatusEnum)),
   }),
-).annotate({
-  identifier: "SubscriptionDelivery",
-}) as any as S.Schema<SubscriptionDelivery>;
+).annotate({ identifier: "SubscriptionDelivery" }) as any as S.Schema<SubscriptionDelivery>;
 
 export interface GetSubscriptionsSummaryQuotaRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -653,16 +741,8 @@ export const ListSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
     resource_type: S.optional(ListSubscriptionsRequestResourceType.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
     target_type: S.optional(ListSubscriptionsRequestTargetType.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/subscriptions/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListSubscriptionsRequest",
-}) as any as S.Schema<ListSubscriptionsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/subscriptions/", code: 200 })),
+).annotate({ identifier: "ListSubscriptionsRequest" }) as any as S.Schema<ListSubscriptionsRequest>;
 
 export type PaginatedSubscriptionListOutputResultsList = Array<SubscriptionOutput>;
 export const PaginatedSubscriptionListOutputResultsList = /*@__PURE__*/ S.Array(
@@ -750,11 +830,7 @@ export const SubscriptionsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/subscriptions/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/subscriptions/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "SubscriptionsDestroyRequest",
@@ -770,6 +846,26 @@ export type UpdateSubscriptionRequestDashboardExportInsightsList = Array<number>
 export const UpdateSubscriptionRequestDashboardExportInsightsList = /*@__PURE__*/ S.Array(
   S.Number,
 ) as any as S.Schema<UpdateSubscriptionRequestDashboardExportInsightsList>;
+
+export type UpdateSubscriptionRequestContextsItemCase0 = CreateSubscriptionRequestContextsItemCase0;
+export const UpdateSubscriptionRequestContextsItemCase0 =
+  CreateSubscriptionRequestContextsItemCase0;
+
+export type UpdateSubscriptionRequestContextsItemCase1 = CreateSubscriptionRequestContextsItemCase1;
+export const UpdateSubscriptionRequestContextsItemCase1 =
+  CreateSubscriptionRequestContextsItemCase1;
+
+export type UpdateSubscriptionRequestContextsItem =
+  | CreateSubscriptionRequestContextsItemCase0
+  | CreateSubscriptionRequestContextsItemCase1;
+export const UpdateSubscriptionRequestContextsItem =
+  S.Unknown as any as S.Schema<UpdateSubscriptionRequestContextsItem>;
+
+/** Complete dashboard and insight context for an AI report. Omit on PATCH to preserve, pass an empty list to clear, or pass up to 3 items to replace all contexts. */
+export type UpdateSubscriptionRequestContextsList = Array<UpdateSubscriptionRequestContextsItem>;
+export const UpdateSubscriptionRequestContextsList = /*@__PURE__*/ S.Array(
+  UpdateSubscriptionRequestContextsItem,
+) as any as S.Schema<UpdateSubscriptionRequestContextsList>;
 
 /** * `monday` - Monday * `tuesday` - Tuesday * `wednesday` - Wednesday * `thursday` - Thursday * `friday` - Friday * `saturday` - Saturday * `sunday` - Sunday */
 export type UpdateSubscriptionRequestByweekdayItem =
@@ -805,14 +901,16 @@ export interface UpdateSubscriptionRequest {
   prompt?: string | null;
   /** Configuration for AI report subscriptions (analysis window, future knobs). Only valid when resource_type is 'ai_prompt'. Replaced wholesale on writes. */
   ai_prompt_config?: AIPromptConfig;
+  /** Complete dashboard and insight context for an AI report. Omit on PATCH to preserve, pass an empty list to clear, or pass up to 3 items to replace all contexts. */
+  contexts?: UpdateSubscriptionRequestContextsList;
   /** Delivery channel: email, slack, or teams. * `email` - Email * `slack` - Slack * `teams` - Microsoft Teams */
-  target_type?: SubscriptionTargetEnum | (string & {});
+  target_type: SubscriptionTargetEnum | (string & {});
   /** Recipient(s): comma-separated email addresses for email, Slack channel name/ID for slack, or a Microsoft Teams webhook URL for teams. A Teams webhook URL is only ever returned as its host, because the URL authorizes a post to the channel by itself. On update, omit the field to keep the stored URL, or send a full URL to replace it. */
-  target_value?: string;
+  target_value: string;
   /** How often to deliver: daily, weekly, monthly, or yearly. * `daily` - Daily * `weekly` - Weekly * `monthly` - Monthly * `yearly` - Yearly */
-  frequency?: RecurrenceIntervalEnum | (string & {});
+  frequency: RecurrenceIntervalEnum | (string & {});
   /** Interval multiplier (e.g. 2 with weekly frequency means every 2 weeks). Required on create; must be 1 or greater. */
-  interval?: number;
+  interval: number;
   /** Days of week for daily or weekly subscriptions: monday, tuesday, wednesday, thursday, friday, saturday, sunday. */
   byweekday?: UpdateSubscriptionRequestByweekdayList | null;
   /** Position within byweekday set for monthly frequency (e.g. 1 for first, -1 for last). */
@@ -820,7 +918,7 @@ export interface UpdateSubscriptionRequest {
   /** Total number of deliveries before the subscription stops. Null for unlimited. */
   count?: number | null;
   /** When to start delivering (ISO 8601 datetime). The date anchors the recurrence and may be in the past. Deliveries run on half-hour cycles at :00 and :30. Other minute values are accepted for backward compatibility, but delivery happens during the next cycle instead of at that exact minute. */
-  start_date?: string;
+  start_date: string;
   /** When to stop delivering (ISO 8601 datetime). Null for indefinite. */
   until_date?: string | null;
   /** Set to true to soft-delete. Subscriptions cannot be hard-deleted. */
@@ -839,7 +937,7 @@ export interface UpdateSubscriptionRequest {
   summary_enabled?: boolean;
   /** Optional free-text guidance (max 500 chars) steering the AI summary, e.g. which metrics to emphasize. Only settable when AI summary context is enabled for the organization; clearing it (empty string) is always allowed. */
   summary_prompt_guide?: string;
-  /** Per-delivery rendering options. Each option documents which delivery targets it applies to. */
+  /** Per-delivery rendering options. Every option applies to one subscription kind or delivery target only, and each option's own description says where it applies and whether a mismatch is rejected or ignored. Omit this field unless the user asks for one of the options. */
   delivery_config?: DeliveryConfig;
 }
 export const UpdateSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
@@ -851,14 +949,15 @@ export const UpdateSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     dashboard_export_insights: S.optional(UpdateSubscriptionRequestDashboardExportInsightsList),
     prompt: S.optional(S.NullOr(S.String)),
     ai_prompt_config: S.optional(AIPromptConfig),
-    target_type: S.optional(SubscriptionTargetEnum),
-    target_value: S.optional(S.String),
-    frequency: S.optional(RecurrenceIntervalEnum),
-    interval: S.optional(S.Number),
+    contexts: S.optional(UpdateSubscriptionRequestContextsList),
+    target_type: SubscriptionTargetEnum,
+    target_value: S.String,
+    frequency: RecurrenceIntervalEnum,
+    interval: S.Number,
     byweekday: S.optional(S.NullOr(UpdateSubscriptionRequestByweekdayList)),
     bysetpos: S.optional(S.NullOr(S.Number)),
     count: S.optional(S.NullOr(S.Number)),
-    start_date: S.optional(S.String),
+    start_date: S.String,
     until_date: S.optional(S.NullOr(S.String)),
     deleted: S.optional(S.Boolean),
     enabled: S.optional(S.Boolean),
@@ -870,11 +969,7 @@ export const UpdateSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     summary_prompt_guide: S.optional(S.String),
     delivery_config: S.optional(DeliveryConfig),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/subscriptions/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/subscriptions/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateSubscriptionRequest",
@@ -885,6 +980,29 @@ export type UpdateSubscriptionsPartialRequestDashboardExportInsightsList = Array
 export const UpdateSubscriptionsPartialRequestDashboardExportInsightsList = /*@__PURE__*/ S.Array(
   S.Number,
 ) as any as S.Schema<UpdateSubscriptionsPartialRequestDashboardExportInsightsList>;
+
+export type UpdateSubscriptionsPartialRequestContextsItemCase0 =
+  CreateSubscriptionRequestContextsItemCase0;
+export const UpdateSubscriptionsPartialRequestContextsItemCase0 =
+  CreateSubscriptionRequestContextsItemCase0;
+
+export type UpdateSubscriptionsPartialRequestContextsItemCase1 =
+  CreateSubscriptionRequestContextsItemCase1;
+export const UpdateSubscriptionsPartialRequestContextsItemCase1 =
+  CreateSubscriptionRequestContextsItemCase1;
+
+export type UpdateSubscriptionsPartialRequestContextsItem =
+  | CreateSubscriptionRequestContextsItemCase0
+  | CreateSubscriptionRequestContextsItemCase1;
+export const UpdateSubscriptionsPartialRequestContextsItem =
+  S.Unknown as any as S.Schema<UpdateSubscriptionsPartialRequestContextsItem>;
+
+/** Complete dashboard and insight context for an AI report. Omit on PATCH to preserve, pass an empty list to clear, or pass up to 3 items to replace all contexts. */
+export type UpdateSubscriptionsPartialRequestContextsList =
+  Array<UpdateSubscriptionsPartialRequestContextsItem>;
+export const UpdateSubscriptionsPartialRequestContextsList = /*@__PURE__*/ S.Array(
+  UpdateSubscriptionsPartialRequestContextsItem,
+) as any as S.Schema<UpdateSubscriptionsPartialRequestContextsList>;
 
 /** * `monday` - Monday * `tuesday` - Tuesday * `wednesday` - Wednesday * `thursday` - Thursday * `friday` - Friday * `saturday` - Saturday * `sunday` - Sunday */
 export type UpdateSubscriptionsPartialRequestByweekdayItem =
@@ -920,6 +1038,8 @@ export interface UpdateSubscriptionsPartialRequest {
   prompt?: string | null;
   /** Configuration for AI report subscriptions (analysis window, future knobs). Only valid when resource_type is 'ai_prompt'. Replaced wholesale on writes. */
   ai_prompt_config?: AIPromptConfig;
+  /** Complete dashboard and insight context for an AI report. Omit on PATCH to preserve, pass an empty list to clear, or pass up to 3 items to replace all contexts. */
+  contexts?: UpdateSubscriptionsPartialRequestContextsList;
   /** Delivery channel: email, slack, or teams. * `email` - Email * `slack` - Slack * `teams` - Microsoft Teams */
   target_type?: SubscriptionTargetEnum | (string & {});
   /** Recipient(s): comma-separated email addresses for email, Slack channel name/ID for slack, or a Microsoft Teams webhook URL for teams. A Teams webhook URL is only ever returned as its host, because the URL authorizes a post to the channel by itself. On update, omit the field to keep the stored URL, or send a full URL to replace it. */
@@ -954,7 +1074,7 @@ export interface UpdateSubscriptionsPartialRequest {
   summary_enabled?: boolean;
   /** Optional free-text guidance (max 500 chars) steering the AI summary, e.g. which metrics to emphasize. Only settable when AI summary context is enabled for the organization; clearing it (empty string) is always allowed. */
   summary_prompt_guide?: string;
-  /** Per-delivery rendering options. Each option documents which delivery targets it applies to. */
+  /** Per-delivery rendering options. Every option applies to one subscription kind or delivery target only, and each option's own description says where it applies and whether a mismatch is rejected or ignored. Omit this field unless the user asks for one of the options. */
   delivery_config?: DeliveryConfig;
 }
 export const UpdateSubscriptionsPartialRequest = /*@__PURE__*/ S.suspend(() =>
@@ -968,6 +1088,7 @@ export const UpdateSubscriptionsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     prompt: S.optional(S.NullOr(S.String)),
     ai_prompt_config: S.optional(AIPromptConfig),
+    contexts: S.optional(UpdateSubscriptionsPartialRequestContextsList),
     target_type: S.optional(SubscriptionTargetEnum),
     target_value: S.optional(S.String),
     frequency: S.optional(RecurrenceIntervalEnum),
@@ -987,11 +1108,7 @@ export const UpdateSubscriptionsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     summary_prompt_guide: S.optional(S.String),
     delivery_config: S.optional(DeliveryConfig),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/subscriptions/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/subscriptions/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateSubscriptionsPartialRequest",

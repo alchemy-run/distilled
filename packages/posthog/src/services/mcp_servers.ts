@@ -20,16 +20,8 @@ export const ListMcpServersRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/mcp_servers/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListMcpServersRequest",
-}) as any as S.Schema<ListMcpServersRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/mcp_servers/", code: 200 })),
+).annotate({ identifier: "ListMcpServersRequest" }) as any as S.Schema<ListMcpServersRequest>;
 
 /** * `api_key` - API Key * `oauth` - OAuth */
 export type MCPAuthTypeEnum = "api_key" | "oauth";
@@ -70,9 +62,7 @@ export const MCPServerTemplate = /*@__PURE__*/ S.suspend(() =>
     icon_domain: S.optional(S.String),
     category: S.optional(MCPServerCategoryEnum),
   }),
-).annotate({
-  identifier: "MCPServerTemplate",
-}) as any as S.Schema<MCPServerTemplate>;
+).annotate({ identifier: "MCPServerTemplate" }) as any as S.Schema<MCPServerTemplate>;
 
 export type PaginatedMCPServerTemplateListResultsList = Array<MCPServerTemplate>;
 export const PaginatedMCPServerTemplateListResultsList = /*@__PURE__*/ S.Array(

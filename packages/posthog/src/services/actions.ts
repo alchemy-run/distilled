@@ -50,16 +50,8 @@ export const ActionsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
     format: S.optional(ActionsDestroyRequestFormat.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/actions/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ActionsDestroyRequest",
-}) as any as S.Schema<ActionsDestroyRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/actions/{id}/", code: 200 })),
+).annotate({ identifier: "ActionsDestroyRequest" }) as any as S.Schema<ActionsDestroyRequest>;
 
 export interface ActionsDestroyResponse {}
 export const ActionsDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -140,9 +132,7 @@ export const StringPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     operator: S.optional(StringMatchOperatorEnum),
   }),
-).annotate({
-  identifier: "StringPropertyFilter",
-}) as any as S.Schema<StringPropertyFilter>;
+).annotate({ identifier: "StringPropertyFilter" }) as any as S.Schema<StringPropertyFilter>;
 
 /** * `exact` - exact * `is_not` - is_not * `gt` - gt * `lt` - lt * `gte` - gte * `lte` - lte */
 export type NumericPropertyFilterOperatorEnum = "exact" | "is_not" | "gt" | "lt" | "gte" | "lte";
@@ -166,9 +156,7 @@ export const NumericPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.Number),
     operator: S.optional(NumericPropertyFilterOperatorEnum),
   }),
-).annotate({
-  identifier: "NumericPropertyFilter",
-}) as any as S.Schema<NumericPropertyFilter>;
+).annotate({ identifier: "NumericPropertyFilter" }) as any as S.Schema<NumericPropertyFilter>;
 
 /** List of values to match. For example `["test@example.com", "ok@example.com"]`. */
 export type ArrayPropertyFilterValueList = Array<string>;
@@ -198,9 +186,7 @@ export const ArrayPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ArrayPropertyFilterValueList),
     operator: S.optional(ArrayPropertyFilterOperatorEnum),
   }),
-).annotate({
-  identifier: "ArrayPropertyFilter",
-}) as any as S.Schema<ArrayPropertyFilter>;
+).annotate({ identifier: "ArrayPropertyFilter" }) as any as S.Schema<ArrayPropertyFilter>;
 
 /** * `is_date_exact` - is_date_exact * `is_date_before` - is_date_before * `is_date_after` - is_date_after */
 export type DateOperatorEnum = "is_date_exact" | "is_date_before" | "is_date_after";
@@ -224,9 +210,7 @@ export const DatePropertyFilter = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     operator: S.optional(DateOperatorEnum),
   }),
-).annotate({
-  identifier: "DatePropertyFilter",
-}) as any as S.Schema<DatePropertyFilter>;
+).annotate({ identifier: "DatePropertyFilter" }) as any as S.Schema<DatePropertyFilter>;
 
 /** * `is_set` - is_set * `is_not_set` - is_not_set */
 export type ExistenceOperatorEnum = "is_set" | "is_not_set";
@@ -247,9 +231,7 @@ export const ExistencePropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(PropertyFilterTypeEnum),
     operator: S.optional(ExistenceOperatorEnum),
   }),
-).annotate({
-  identifier: "ExistencePropertyFilter",
-}) as any as S.Schema<ExistencePropertyFilter>;
+).annotate({ identifier: "ExistencePropertyFilter" }) as any as S.Schema<ExistencePropertyFilter>;
 
 export type ActionStepPropertyFilter =
   | StringPropertyFilter
@@ -304,9 +286,7 @@ export const ActionStepJSONInput = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     url_matching: S.optional(S.NullOr(ActionStepMatchingEnum)),
   }),
-).annotate({
-  identifier: "ActionStepJSONInput",
-}) as any as S.Schema<ActionStepJSONInput>;
+).annotate({ identifier: "ActionStepJSONInput" }) as any as S.Schema<ActionStepJSONInput>;
 
 /** Action steps defining trigger conditions. Each step matches events by name, properties, URL, or element attributes. Multiple steps are OR-ed together. */
 export type CreateActionRequestStepsList = Array<ActionStepJSONInput>;
@@ -349,16 +329,8 @@ export const CreateActionRequest = /*@__PURE__*/ S.suspend(() =>
     last_calculated_at: S.optional(S.String),
     pinned_at: S.optional(S.NullOr(S.String)),
     _create_in_folder: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/actions/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateActionRequest",
-}) as any as S.Schema<CreateActionRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/actions/", code: 200 })),
+).annotate({ identifier: "CreateActionRequest" }) as any as S.Schema<CreateActionRequest>;
 
 export type ActionOutputTagsList = Array<unknown>;
 export const ActionOutputTagsList = /*@__PURE__*/ S.Array(
@@ -533,16 +505,8 @@ export const GetActionRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
     format: S.optional(GetActionRequestFormat.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/actions/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetActionRequest",
-}) as any as S.Schema<GetActionRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/actions/{id}/", code: 200 })),
+).annotate({ identifier: "GetActionRequest" }) as any as S.Schema<GetActionRequest>;
 
 export type ListActionsRequestFormat = "csv" | "json";
 export const ListActionsRequestFormat = S.String;
@@ -574,16 +538,8 @@ export const ListActionsRequest = /*@__PURE__*/ S.suspend(() =>
     ordering: S.optional(S.String.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
     tags: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/actions/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListActionsRequest",
-}) as any as S.Schema<ListActionsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/actions/", code: 200 })),
+).annotate({ identifier: "ListActionsRequest" }) as any as S.Schema<ListActionsRequest>;
 
 export type PaginatedActionListOutputResultsList = Array<ActionOutput>;
 export const PaginatedActionListOutputResultsList = /*@__PURE__*/ S.Array(
@@ -656,9 +612,7 @@ export const ActionReference = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.NullOr(S.String)),
     created_by: S.optional(S.NullOr(UserBasic)),
   }),
-).annotate({
-  identifier: "ActionReference",
-}) as any as S.Schema<ActionReference>;
+).annotate({ identifier: "ActionReference" }) as any as S.Schema<ActionReference>;
 
 export type ListActionsReferencesResponseBodyList = Array<ActionReference>;
 export const ListActionsReferencesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -724,16 +678,8 @@ export const UpdateActionRequest = /*@__PURE__*/ S.suspend(() =>
     last_calculated_at: S.optional(S.String),
     pinned_at: S.optional(S.NullOr(S.String)),
     _create_in_folder: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/actions/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateActionRequest",
-}) as any as S.Schema<UpdateActionRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/projects/{project_id}/actions/{id}/", code: 200 })),
+).annotate({ identifier: "UpdateActionRequest" }) as any as S.Schema<UpdateActionRequest>;
 
 export type UpdateActionsPartialRequestFormat = "csv" | "json";
 export const UpdateActionsPartialRequestFormat = S.String;
@@ -787,13 +733,7 @@ export const UpdateActionsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     last_calculated_at: S.optional(S.String),
     pinned_at: S.optional(S.NullOr(S.String)),
     _create_in_folder: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/actions/{id}/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/actions/{id}/", code: 200 })),
 ).annotate({
   identifier: "UpdateActionsPartialRequest",
 }) as any as S.Schema<UpdateActionsPartialRequest>;

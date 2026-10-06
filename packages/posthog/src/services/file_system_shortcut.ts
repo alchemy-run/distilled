@@ -58,11 +58,7 @@ export const CreateFileSystemShortcutRequest = /*@__PURE__*/ S.suspend(() =>
     href: S.optional(S.NullOr(S.String)),
     order: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/file_system_shortcut/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/file_system_shortcut/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateFileSystemShortcutRequest",
@@ -95,9 +91,7 @@ export const FileSystemShortcut2 = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     user_access_level: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "FileSystemShortcut2",
-}) as any as S.Schema<FileSystemShortcut2>;
+).annotate({ identifier: "FileSystemShortcut2" }) as any as S.Schema<FileSystemShortcut2>;
 
 /** IDs of the current user's shortcuts in the desired display order. */
 export type CreateFileSystemShortcutReorderRequestOrderedIdsList = Array<string>;
@@ -147,6 +141,76 @@ export const PaginatedFileSystemShortcutList = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PaginatedFileSystemShortcutList",
 }) as any as S.Schema<PaginatedFileSystemShortcutList>;
+
+export interface FileSystemShortcutBulkItem {
+  /** Display path of the shortcut in the sidebar. */
+  path: string;
+  /** Type of the linked item (e.g. 'folder', 'insight'), or blank. */
+  type?: string;
+  /** Reference to the linked item, scoped to its type. Null for href-only shortcuts. */
+  ref?: string | null;
+  /** Destination URL the shortcut opens. Null when the shortcut points at an item by ref. */
+  href?: string | null;
+}
+export const FileSystemShortcutBulkItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    path: S.String,
+    type: S.optional(S.String),
+    ref: S.optional(S.NullOr(S.String)),
+    href: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "FileSystemShortcutBulkItem",
+}) as any as S.Schema<FileSystemShortcutBulkItem>;
+
+/** Shortcuts to create, appended to the end of the current order in the given sequence. An item identical to a shortcut the user already has is skipped. */
+export type FileSystemShortcutBulkUpdateCreateRequestAddList = Array<FileSystemShortcutBulkItem>;
+export const FileSystemShortcutBulkUpdateCreateRequestAddList = /*@__PURE__*/ S.Array(
+  FileSystemShortcutBulkItem,
+) as any as S.Schema<FileSystemShortcutBulkUpdateCreateRequestAddList>;
+
+/** IDs of the current user's shortcuts to delete. */
+export type FileSystemShortcutBulkUpdateCreateRequestRemoveIdsList = Array<string>;
+export const FileSystemShortcutBulkUpdateCreateRequestRemoveIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<FileSystemShortcutBulkUpdateCreateRequestRemoveIdsList>;
+
+export interface FileSystemShortcutBulkUpdateCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Shortcuts to create, appended to the end of the current order in the given sequence. An item identical to a shortcut the user already has is skipped. */
+  add?: FileSystemShortcutBulkUpdateCreateRequestAddList;
+  /** IDs of the current user's shortcuts to delete. */
+  remove_ids?: FileSystemShortcutBulkUpdateCreateRequestRemoveIdsList;
+}
+export const FileSystemShortcutBulkUpdateCreateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    add: S.optional(FileSystemShortcutBulkUpdateCreateRequestAddList),
+    remove_ids: S.optional(FileSystemShortcutBulkUpdateCreateRequestRemoveIdsList),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/file_system_shortcut/bulk_update/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "FileSystemShortcutBulkUpdateCreateRequest",
+}) as any as S.Schema<FileSystemShortcutBulkUpdateCreateRequest>;
+
+export type FileSystemShortcutBulkUpdateCreateResponseBodyList = Array<FileSystemShortcut2>;
+export const FileSystemShortcutBulkUpdateCreateResponseBodyList = /*@__PURE__*/ S.Array(
+  FileSystemShortcut2,
+) as any as S.Schema<FileSystemShortcutBulkUpdateCreateResponseBodyList>;
+
+export type FileSystemShortcutBulkUpdateCreateResponse =
+  FileSystemShortcutBulkUpdateCreateResponseBodyList;
+export const FileSystemShortcutBulkUpdateCreateResponse = /*@__PURE__*/ S.suspend(() =>
+  FileSystemShortcutBulkUpdateCreateResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "FileSystemShortcutBulkUpdateCreateResponse",
+}) as any as S.Schema<FileSystemShortcutBulkUpdateCreateResponse>;
 
 export interface FileSystemShortcutDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -211,11 +275,7 @@ export const ListFileSystemShortcutRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/file_system_shortcut/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/file_system_shortcut/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListFileSystemShortcutRequest",
@@ -317,6 +377,21 @@ export const createFileSystemShortcutReorder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateFileSystemShortcutReorderRequest,
   output: PaginatedFileSystemShortcutList,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type FileSystemShortcutBulkUpdateCreateError = PosthogOpError;
+/** Create and delete several of the current user's shortcuts in one transaction, then return the full shortcut list in display order. Any unknown ID in `remove_ids` rejects the whole request. */
+export const fileSystemShortcutBulkUpdateCreate: API.OperationMethod<
+  FileSystemShortcutBulkUpdateCreateRequest,
+  FileSystemShortcutBulkUpdateCreateResponse,
+  FileSystemShortcutBulkUpdateCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: FileSystemShortcutBulkUpdateCreateRequest,
+  output: FileSystemShortcutBulkUpdateCreateResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,

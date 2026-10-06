@@ -23,16 +23,8 @@ export const ListTaskActivityRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     before_id: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/task_activity/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListTaskActivityRequest",
-}) as any as S.Schema<ListTaskActivityRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/task_activity/", code: 200 })),
+).annotate({ identifier: "ListTaskActivityRequest" }) as any as S.Schema<ListTaskActivityRequest>;
 
 /** * `awaiting_input` - awaiting_input * `completed` - completed * `mention` - mention * `thread_reply` - thread_reply * `owned_item_comment` - owned_item_comment * `message` - message * `created` - created */
 export type ActivityKindEnum =
@@ -45,9 +37,7 @@ export type ActivityKindEnum =
   | "created";
 export const ActivityKindEnum = S.String;
 
-export type TaskUserBasicInfoHedgehogConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type TaskUserBasicInfoHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const TaskUserBasicInfoHedgehogConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -77,14 +67,12 @@ export const TaskUserBasicInfo = /*@__PURE__*/ S.suspend(() =>
     hedgehog_config: S.optional(S.NullOr(TaskUserBasicInfoHedgehogConfigMap)),
     role_at_organization: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TaskUserBasicInfo",
-}) as any as S.Schema<TaskUserBasicInfo>;
+).annotate({ identifier: "TaskUserBasicInfo" }) as any as S.Schema<TaskUserBasicInfo>;
 
 /** Response shape for one task in the requester's activity feed (one row per task). */
 export interface TaskActivityDTO {
   id: string;
-  task_id: string;
+  task_id: string | null;
   task_title: string;
   channel_id: string | null;
   channel_name: string | null;
@@ -105,7 +93,7 @@ export interface TaskActivityDTO {
 export const TaskActivityDTO = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
-    task_id: S.String,
+    task_id: S.NullOr(S.String),
     task_title: S.String,
     channel_id: S.NullOr(S.String),
     channel_name: S.NullOr(S.String),
@@ -119,9 +107,7 @@ export const TaskActivityDTO = /*@__PURE__*/ S.suspend(() =>
     latest_comment_item_id: S.optional(S.NullOr(S.String)),
     is_unread: S.Boolean,
   }),
-).annotate({
-  identifier: "TaskActivityDTO",
-}) as any as S.Schema<TaskActivityDTO>;
+).annotate({ identifier: "TaskActivityDTO" }) as any as S.Schema<TaskActivityDTO>;
 
 /** Tasks with activity, most recent first. */
 export type TaskActivityPageDTOResultsList = Array<TaskActivityDTO>;
@@ -147,13 +133,11 @@ export const TaskActivityPageDTO = /*@__PURE__*/ S.suspend(() =>
     next_before: S.optional(S.NullOr(S.String)),
     next_before_id: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TaskActivityPageDTO",
-}) as any as S.Schema<TaskActivityPageDTO>;
+).annotate({ identifier: "TaskActivityPageDTO" }) as any as S.Schema<TaskActivityPageDTO>;
 
 export interface TaskActivityReadMarker {
-  /** Task whose displayed activity should be marked read. */
-  task_id: string;
+  /** Task whose displayed activity should be marked read. Optional when activity_id is set. */
+  task_id?: string | null;
   /** Comment activity row to mark read. Omit for collapsed task activity. */
   activity_id?: string | null;
   /** Mark activity at or before this timestamp read without clearing newer activity. */
@@ -161,13 +145,11 @@ export interface TaskActivityReadMarker {
 }
 export const TaskActivityReadMarker = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    task_id: S.String,
+    task_id: S.optional(S.NullOr(S.String)),
     activity_id: S.optional(S.NullOr(S.String)),
     seen_before: S.String,
   }),
-).annotate({
-  identifier: "TaskActivityReadMarker",
-}) as any as S.Schema<TaskActivityReadMarker>;
+).annotate({ identifier: "TaskActivityReadMarker" }) as any as S.Schema<TaskActivityReadMarker>;
 
 /** Displayed task activities to mark read if they have not changed. */
 export type TaskActivityMarkReadCreateRequestActivitiesList = Array<TaskActivityReadMarker>;

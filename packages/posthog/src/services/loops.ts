@@ -27,8 +27,8 @@ export class NotFound
   ) {}
 
 /** * `personal` - personal * `team` - team */
-export type VisibilityEnum = "personal" | "team";
-export const VisibilityEnum = S.String;
+export type LoopWriteVisibilityEnum = "personal" | "team";
+export const LoopWriteVisibilityEnum = S.String;
 
 /** * `claude` - claude * `codex` - codex */
 export type RuntimeAdapterEnum = "claude" | "codex";
@@ -49,9 +49,7 @@ export const LoopRepositoryEntry = /*@__PURE__*/ S.suspend(() =>
     github_integration_id: S.Number,
     full_name: S.String,
   }),
-).annotate({
-  identifier: "LoopRepositoryEntry",
-}) as any as S.Schema<LoopRepositoryEntry>;
+).annotate({ identifier: "LoopRepositoryEntry" }) as any as S.Schema<LoopRepositoryEntry>;
 
 /** Repositories this loop operates on, ordered. Capped at 1 until multi-repo execution ships. May be empty for report-only loops. */
 export type CreateLoopRequestRepositoriesList = Array<LoopRepositoryEntry>;
@@ -105,20 +103,24 @@ export const LoopConnectors = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "LoopConnectors" }) as any as S.Schema<LoopConnectors>;
 
-/** * `run_completed` - run_completed * `run_failed` - run_failed * `pr_created` - pr_created * `needs_attention` - needs_attention */
-export type EventsEnum = "run_completed" | "run_failed" | "pr_created" | "needs_attention";
+/** * `run_completed` - run_completed * `run_failed` - run_failed * `pr_created` - pr_created * `pr_merged` - pr_merged * `pr_closed` - pr_closed * `needs_attention` - needs_attention */
+export type EventsEnum =
+  | "run_completed"
+  | "run_failed"
+  | "pr_created"
+  | "pr_merged"
+  | "pr_closed"
+  | "needs_attention";
 export const EventsEnum = S.String;
 
-/** Event kinds this channel notifies on. One or more of: run_completed, run_failed, pr_created, needs_attention. */
+/** Event kinds this channel notifies on. One or more of: run_completed, run_failed, pr_created, pr_merged, pr_closed, needs_attention. */
 export type LoopNotificationChannelEventsList = Array<EventsEnum | (string & {})>;
 export const LoopNotificationChannelEventsList = /*@__PURE__*/ S.Array(
   EventsEnum,
 ) as any as S.Schema<LoopNotificationChannelEventsList>;
 
 /** Channel-specific parameters, e.g. Slack's `integration_id` and `channel`. */
-export type LoopNotificationChannelParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type LoopNotificationChannelParamsMap = { [key: string]: unknown | undefined };
 export const LoopNotificationChannelParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -127,7 +129,7 @@ export const LoopNotificationChannelParamsMap = /*@__PURE__*/ S.Record(
 export interface LoopNotificationChannel {
   /** Whether this channel is active. */
   enabled?: boolean;
-  /** Event kinds this channel notifies on. One or more of: run_completed, run_failed, pr_created, needs_attention. */
+  /** Event kinds this channel notifies on. One or more of: run_completed, run_failed, pr_created, pr_merged, pr_closed, needs_attention. */
   events?: LoopNotificationChannelEventsList;
   /** Channel-specific parameters, e.g. Slack's `integration_id` and `channel`. */
   params?: LoopNotificationChannelParamsMap;
@@ -138,9 +140,7 @@ export const LoopNotificationChannel = /*@__PURE__*/ S.suspend(() =>
     events: S.optional(LoopNotificationChannelEventsList),
     params: S.optional(LoopNotificationChannelParamsMap),
   }),
-).annotate({
-  identifier: "LoopNotificationChannel",
-}) as any as S.Schema<LoopNotificationChannel>;
+).annotate({ identifier: "LoopNotificationChannel" }) as any as S.Schema<LoopNotificationChannel>;
 
 export interface LoopNotifications {
   /** Push notification settings. */
@@ -156,9 +156,7 @@ export const LoopNotifications = /*@__PURE__*/ S.suspend(() =>
     email: S.optional(LoopNotificationChannel),
     slack: S.optional(LoopNotificationChannel),
   }),
-).annotate({
-  identifier: "LoopNotifications",
-}) as any as S.Schema<LoopNotifications>;
+).annotate({ identifier: "LoopNotifications" }) as any as S.Schema<LoopNotifications>;
 
 export interface LoopContextOutputsWrite {
   /** Whether each run is filed into the context's feed as a card (sets the run's channel). */
@@ -174,9 +172,7 @@ export const LoopContextOutputsWrite = /*@__PURE__*/ S.suspend(() =>
     update_context: S.optional(S.Boolean),
     canvas_id: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "LoopContextOutputsWrite",
-}) as any as S.Schema<LoopContextOutputsWrite>;
+).annotate({ identifier: "LoopContextOutputsWrite" }) as any as S.Schema<LoopContextOutputsWrite>;
 
 export interface LoopContextTargetWrite {
   /** Id of the channel (context) this loop is attached to. */
@@ -192,9 +188,7 @@ export const LoopContextTargetWrite = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     outputs: S.optional(LoopContextOutputsWrite),
   }),
-).annotate({
-  identifier: "LoopContextTargetWrite",
-}) as any as S.Schema<LoopContextTargetWrite>;
+).annotate({ identifier: "LoopContextTargetWrite" }) as any as S.Schema<LoopContextTargetWrite>;
 
 /** * `schedule` - schedule * `github` - github * `api` - api */
 export type LoopTriggerTypeEnum = "schedule" | "github" | "api";
@@ -217,9 +211,7 @@ export const LoopTriggerWrite = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     config: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "LoopTriggerWrite",
-}) as any as S.Schema<LoopTriggerWrite>;
+).annotate({ identifier: "LoopTriggerWrite" }) as any as S.Schema<LoopTriggerWrite>;
 
 /** Full desired trigger list, id-stable: entries with a matching `id` are updated in place, entries without one are created, and existing triggers absent from this list are deleted. Omit the field entirely to leave triggers untouched. At most 25 triggers per loop. */
 export type CreateLoopRequestTriggersList = Array<LoopTriggerWrite>;
@@ -237,7 +229,7 @@ export interface CreateLoopRequest {
   /** On a team loop, claim ownership as part of this update so you can edit identity-bearing config (instructions, model, triggers, ...) that only the owner may change. Ignored on personal loops and on create. */
   take_ownership?: boolean;
   /** `personal` (owner-only) or `team` (visible and fireable by any team member). * `personal` - personal * `team` - team */
-  visibility?: VisibilityEnum | (string & {});
+  visibility?: LoopWriteVisibilityEnum | (string & {});
   /** The prompt delivered to the agent on every run. */
   instructions: string;
   /** Runtime adapter: 'claude' or 'codex'. * `claude` - claude * `codex` - codex */
@@ -271,7 +263,7 @@ export const CreateLoopRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     description: S.optional(S.String),
     take_ownership: S.optional(S.Boolean),
-    visibility: S.optional(VisibilityEnum),
+    visibility: S.optional(LoopWriteVisibilityEnum),
     instructions: S.String,
     runtime_adapter: RuntimeAdapterEnum,
     model: S.optional(S.String),
@@ -285,16 +277,8 @@ export const CreateLoopRequest = /*@__PURE__*/ S.suspend(() =>
     notifications: S.optional(LoopNotifications),
     context_target: S.optional(S.NullOr(LoopContextTargetWrite)),
     triggers: S.optional(CreateLoopRequestTriggersList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/loops/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateLoopRequest",
-}) as any as S.Schema<CreateLoopRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/loops/", code: 200 })),
+).annotate({ identifier: "CreateLoopRequest" }) as any as S.Schema<CreateLoopRequest>;
 
 export interface LoopRepositoryEntryDTO {
   github_integration_id: number;
@@ -305,9 +289,7 @@ export const LoopRepositoryEntryDTO = /*@__PURE__*/ S.suspend(() =>
     github_integration_id: S.Number,
     full_name: S.String,
   }),
-).annotate({
-  identifier: "LoopRepositoryEntryDTO",
-}) as any as S.Schema<LoopRepositoryEntryDTO>;
+).annotate({ identifier: "LoopRepositoryEntryDTO" }) as any as S.Schema<LoopRepositoryEntryDTO>;
 
 /** Repositories this loop operates on. */
 export type LoopDTORepositoriesList = Array<LoopRepositoryEntryDTO>;
@@ -328,9 +310,7 @@ export const LoopBehaviorsDTO = /*@__PURE__*/ S.suspend(() =>
     fix_review_comments: S.optional(S.Boolean),
     max_fix_iterations: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "LoopBehaviorsDTO",
-}) as any as S.Schema<LoopBehaviorsDTO>;
+).annotate({ identifier: "LoopBehaviorsDTO" }) as any as S.Schema<LoopBehaviorsDTO>;
 
 export type LoopConnectorsDTOMcpInstallationIdsList = Array<string>;
 export const LoopConnectorsDTOMcpInstallationIdsList = /*@__PURE__*/ S.Array(
@@ -346,18 +326,14 @@ export const LoopConnectorsDTO = /*@__PURE__*/ S.suspend(() =>
     mcp_installation_ids: S.optional(LoopConnectorsDTOMcpInstallationIdsList),
     posthog_mcp_scopes: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LoopConnectorsDTO",
-}) as any as S.Schema<LoopConnectorsDTO>;
+).annotate({ identifier: "LoopConnectorsDTO" }) as any as S.Schema<LoopConnectorsDTO>;
 
 export type LoopNotificationChannelDTOEventsList = Array<string>;
 export const LoopNotificationChannelDTOEventsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<LoopNotificationChannelDTOEventsList>;
 
-export type LoopNotificationChannelDTOParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type LoopNotificationChannelDTOParamsMap = { [key: string]: unknown | undefined };
 export const LoopNotificationChannelDTOParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -389,9 +365,7 @@ export const LoopNotificationsDTO = /*@__PURE__*/ S.suspend(() =>
     email: LoopNotificationChannelDTO,
     slack: LoopNotificationChannelDTO,
   }),
-).annotate({
-  identifier: "LoopNotificationsDTO",
-}) as any as S.Schema<LoopNotificationsDTO>;
+).annotate({ identifier: "LoopNotificationsDTO" }) as any as S.Schema<LoopNotificationsDTO>;
 
 export interface LoopContextOutputsDTO {
   post_to_feed?: boolean;
@@ -404,9 +378,7 @@ export const LoopContextOutputsDTO = /*@__PURE__*/ S.suspend(() =>
     update_context: S.optional(S.Boolean),
     canvas_id: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "LoopContextOutputsDTO",
-}) as any as S.Schema<LoopContextOutputsDTO>;
+).annotate({ identifier: "LoopContextOutputsDTO" }) as any as S.Schema<LoopContextOutputsDTO>;
 
 export interface LoopContextTargetDTO {
   /** What the loop maintains in this context each run. */
@@ -420,9 +392,7 @@ export const LoopContextTargetDTO = /*@__PURE__*/ S.suspend(() =>
     channel_id: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "LoopContextTargetDTO",
-}) as any as S.Schema<LoopContextTargetDTO>;
+).annotate({ identifier: "LoopContextTargetDTO" }) as any as S.Schema<LoopContextTargetDTO>;
 
 export type LoopTriggerDTOConfigMap = { [key: string]: unknown | undefined };
 export const LoopTriggerDTOConfigMap = /*@__PURE__*/ S.Record(
@@ -479,9 +449,7 @@ export const LoopSkillBundleDTO = /*@__PURE__*/ S.suspend(() =>
     content_sha256: S.String,
     uploaded_at: S.String,
   }),
-).annotate({
-  identifier: "LoopSkillBundleDTO",
-}) as any as S.Schema<LoopSkillBundleDTO>;
+).annotate({ identifier: "LoopSkillBundleDTO" }) as any as S.Schema<LoopSkillBundleDTO>;
 
 /** Skill bundles attached to this loop, seeded into every fired run. */
 export type LoopDTOSkillBundlesList = Array<LoopSkillBundleDTO>;
@@ -578,11 +546,7 @@ export const CreateLoopsPreviewRequest = /*@__PURE__*/ S.suspend(() =>
     trigger_type: S.optional(LoopTriggerTypeEnum),
     payload: S.optional(S.Unknown),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/loops/{id}/preview/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/loops/{id}/preview/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateLoopsPreviewRequest",
@@ -610,16 +574,8 @@ export const CreateLoopsRunRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/loops/{id}/run/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateLoopsRunRequest",
-}) as any as S.Schema<CreateLoopsRunRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/loops/{id}/run/", code: 200 })),
+).annotate({ identifier: "CreateLoopsRunRequest" }) as any as S.Schema<CreateLoopsRunRequest>;
 
 /** * `created` - created * `deduped` - deduped * `overlap_skipped` - overlap_skipped * `rate_capped` - rate_capped * `team_rate_capped` - team_rate_capped * `disabled` - disabled * `gate_blocked` - gate_blocked * `owner_inactive` - owner_inactive * `owner_changed` - owner_changed */
 export type LoopFireResultReasonEnum =
@@ -662,14 +618,17 @@ export const GetLoopRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/loops/{id}/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/loops/{id}/", code: 200 })),
 ).annotate({ identifier: "GetLoopRequest" }) as any as S.Schema<GetLoopRequest>;
+
+export type GetLoopsRunRequestStatus =
+  | "not_started"
+  | "queued"
+  | "in_progress"
+  | "completed"
+  | "failed"
+  | "cancelled";
+export const GetLoopsRunRequestStatus = S.String;
 
 export interface GetLoopsRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -679,6 +638,8 @@ export interface GetLoopsRunRequest {
   cursor?: string;
   /** Max results per page (default 50, max 100). */
   limit?: number;
+  /** Only return runs with this status. Use failed to read errors even when canvas state is unavailable. * `not_started` - Not Started * `queued` - Queued * `in_progress` - In Progress * `completed` - Completed * `failed` - Failed * `cancelled` - Cancelled */
+  status?: GetLoopsRunRequestStatus | (string & {});
 }
 export const GetLoopsRunRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -686,16 +647,9 @@ export const GetLoopsRunRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/loops/{id}/runs/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetLoopsRunRequest",
-}) as any as S.Schema<GetLoopsRunRequest>;
+    status: S.optional(GetLoopsRunRequestStatus.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/loops/{id}/runs/", code: 200 })),
+).annotate({ identifier: "GetLoopsRunRequest" }) as any as S.Schema<GetLoopsRunRequest>;
 
 export type LoopRunDTOOutputMap = { [key: string]: unknown | undefined };
 export const LoopRunDTOOutputMap = /*@__PURE__*/ S.Record(
@@ -763,16 +717,8 @@ export const ListLoopsRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/loops/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListLoopsRequest",
-}) as any as S.Schema<ListLoopsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/loops/", code: 200 })),
+).annotate({ identifier: "ListLoopsRequest" }) as any as S.Schema<ListLoopsRequest>;
 
 export type PaginatedLoopDTOListResultsList = Array<LoopDTO>;
 export const PaginatedLoopDTOListResultsList = /*@__PURE__*/ S.Array(
@@ -798,9 +744,7 @@ export const PaginatedLoopDTOList = /*@__PURE__*/ S.suspend(() =>
     max_loops_per_team: S.optional(S.Number),
     total_loop_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaginatedLoopDTOList",
-}) as any as S.Schema<PaginatedLoopDTOList>;
+).annotate({ identifier: "PaginatedLoopDTOList" }) as any as S.Schema<PaginatedLoopDTOList>;
 
 export interface LoopsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -811,25 +755,15 @@ export const LoopsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/loops/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "LoopsDestroyRequest",
-}) as any as S.Schema<LoopsDestroyRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/loops/{id}/", code: 200 })),
+).annotate({ identifier: "LoopsDestroyRequest" }) as any as S.Schema<LoopsDestroyRequest>;
 
 export interface LoopsDestroyResponse {}
 export const LoopsDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "LoopsDestroyResponse",
 }) as any as S.Schema<LoopsDestroyResponse>;
 
-export type LoopsTriggerCreateRequestBodyMap = {
-  [key: string]: unknown | undefined;
-};
+export type LoopsTriggerCreateRequestBodyMap = { [key: string]: unknown | undefined };
 export const LoopsTriggerCreateRequestBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -847,11 +781,7 @@ export const LoopsTriggerCreateRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     body: S.optional(LoopsTriggerCreateRequestBodyMap.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/loops/{id}/trigger/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/loops/{id}/trigger/", code: 200 }),
   ),
 ).annotate({
   identifier: "LoopsTriggerCreateRequest",
@@ -880,7 +810,7 @@ export interface UpdateLoopsPartialRequest {
   /** On a team loop, claim ownership as part of this update so you can edit identity-bearing config (instructions, model, triggers, ...) that only the owner may change. Ignored on personal loops and on create. */
   take_ownership?: boolean;
   /** `personal` (owner-only) or `team` (visible and fireable by any team member). * `personal` - personal * `team` - team */
-  visibility?: VisibilityEnum | (string & {});
+  visibility?: LoopWriteVisibilityEnum | (string & {});
   /** The prompt delivered to the agent on every run. */
   instructions?: string;
   /** Runtime adapter: 'claude' or 'codex'. * `claude` - claude * `codex` - codex */
@@ -915,7 +845,7 @@ export const UpdateLoopsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     take_ownership: S.optional(S.Boolean),
-    visibility: S.optional(VisibilityEnum),
+    visibility: S.optional(LoopWriteVisibilityEnum),
     instructions: S.optional(S.String),
     runtime_adapter: S.optional(RuntimeAdapterEnum),
     model: S.optional(S.String),
@@ -929,13 +859,7 @@ export const UpdateLoopsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     notifications: S.optional(LoopNotifications),
     context_target: S.optional(S.NullOr(LoopContextTargetWrite)),
     triggers: S.optional(UpdateLoopsPartialRequestTriggersList),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/loops/{id}/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/loops/{id}/", code: 200 })),
 ).annotate({
   identifier: "UpdateLoopsPartialRequest",
 }) as any as S.Schema<UpdateLoopsPartialRequest>;
@@ -972,9 +896,7 @@ export const LoopSkillBundleUpload = /*@__PURE__*/ S.suspend(() =>
     bundle_format: BundleFormatEnum,
     content_base64: S.String,
   }),
-).annotate({
-  identifier: "LoopSkillBundleUpload",
-}) as any as S.Schema<LoopSkillBundleUpload>;
+).annotate({ identifier: "LoopSkillBundleUpload" }) as any as S.Schema<LoopSkillBundleUpload>;
 
 export type UpdateLoopsSkillBundleRequestBundlesList = Array<LoopSkillBundleUpload>;
 export const UpdateLoopsSkillBundleRequestBundlesList = /*@__PURE__*/ S.Array(

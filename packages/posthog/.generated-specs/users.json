@@ -186,6 +186,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "fresh_reauth_expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the last re-authentication stops counting as fresh. Changing `email` after this needs a new re-authentication. Null when the session has none on record.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "team": {
           "target": "com.posthog.users#TeamBasic"
         },
@@ -253,7 +260,7 @@
         "ui_configuration": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown."
+            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true."
           }
         },
         "onboarding_skipped_at": {
@@ -335,7 +342,7 @@
         "setting": {
           "target": "com.posthog.users#SettingEnum",
           "traits": {
-            "smithy.api#documentation": "Notification setting this rule enforces.\n\n* `discussions_mentioned` - discussions_mentioned\n* `error_tracking_issue_assigned` - error_tracking_issue_assigned\n* `error_tracking_weekly_digest_project_enabled` - error_tracking_weekly_digest_project_enabled\n* `materialized_view_sync_failed` - materialized_view_sync_failed\n* `materialized_view_sync_failed_daily` - materialized_view_sync_failed_daily\n* `materialized_view_sync_failed_immediate` - materialized_view_sync_failed_immediate\n* `organization_member_join_email_disabled` - organization_member_join_email_disabled\n* `pipeline_notifications_disabled` - pipeline_notifications_disabled\n* `project_weekly_digest_disabled` - project_weekly_digest_disabled\n* `web_analytics_weekly_digest_project_enabled` - web_analytics_weekly_digest_project_enabled",
+            "smithy.api#documentation": "Notification setting this rule enforces.\n\n* `data_catalog_weekly_digest` - data_catalog_weekly_digest\n* `discussions_mentioned` - discussions_mentioned\n* `error_tracking_issue_assigned` - error_tracking_issue_assigned\n* `error_tracking_weekly_digest_project_enabled` - error_tracking_weekly_digest_project_enabled\n* `materialized_view_sync_failed` - materialized_view_sync_failed\n* `materialized_view_sync_failed_daily` - materialized_view_sync_failed_daily\n* `materialized_view_sync_failed_immediate` - materialized_view_sync_failed_immediate\n* `organization_member_join_email_disabled` - organization_member_join_email_disabled\n* `pipeline_notifications_disabled` - pipeline_notifications_disabled\n* `project_weekly_digest_disabled` - project_weekly_digest_disabled\n* `web_analytics_weekly_digest_project_enabled` - web_analytics_weekly_digest_project_enabled",
             "smithy.api#required": {}
           }
         },
@@ -359,6 +366,12 @@
     "com.posthog.users#SettingEnum": {
       "type": "enum",
       "members": {
+        "DATA_CATALOG_WEEKLY_DIGEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data_catalog_weekly_digest"
+          }
+        },
         "DISCUSSIONS_MENTIONED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -421,7 +434,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `discussions_mentioned` - discussions_mentioned\n* `error_tracking_issue_assigned` - error_tracking_issue_assigned\n* `error_tracking_weekly_digest_project_enabled` - error_tracking_weekly_digest_project_enabled\n* `materialized_view_sync_failed` - materialized_view_sync_failed\n* `materialized_view_sync_failed_daily` - materialized_view_sync_failed_daily\n* `materialized_view_sync_failed_immediate` - materialized_view_sync_failed_immediate\n* `organization_member_join_email_disabled` - organization_member_join_email_disabled\n* `pipeline_notifications_disabled` - pipeline_notifications_disabled\n* `project_weekly_digest_disabled` - project_weekly_digest_disabled\n* `web_analytics_weekly_digest_project_enabled` - web_analytics_weekly_digest_project_enabled"
+        "smithy.api#documentation": "* `data_catalog_weekly_digest` - data_catalog_weekly_digest\n* `discussions_mentioned` - discussions_mentioned\n* `error_tracking_issue_assigned` - error_tracking_issue_assigned\n* `error_tracking_weekly_digest_project_enabled` - error_tracking_weekly_digest_project_enabled\n* `materialized_view_sync_failed` - materialized_view_sync_failed\n* `materialized_view_sync_failed_daily` - materialized_view_sync_failed_daily\n* `materialized_view_sync_failed_immediate` - materialized_view_sync_failed_immediate\n* `organization_member_join_email_disabled` - organization_member_join_email_disabled\n* `pipeline_notifications_disabled` - pipeline_notifications_disabled\n* `project_weekly_digest_disabled` - project_weekly_digest_disabled\n* `web_analytics_weekly_digest_project_enabled` - web_analytics_weekly_digest_project_enabled"
       }
     },
     "com.posthog.users#UserOutputNotificationLocksList": {
@@ -4210,6 +4223,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "member_notice": {
+          "target": "com.posthog.users#OrganizationMemberNotice",
+          "traits": {
+            "smithy.api#documentation": "Notice shown in a banner to every member of the organization. Set to null to remove it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "member_count": {
           "target": "smithy.api#Integer"
         },
@@ -4240,17 +4260,10 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "is_hipaa": {
+        "has_signed_baa": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "default_experiment_stats_method": {
-          "target": "com.posthog.users#OrganizationDefaultExperimentStatsMethod",
-          "traits": {
-            "smithy.api#documentation": "Default statistical method for new experiments in this organization.\n\n* `bayesian` - Bayesian\n* `frequentist` - Frequentist",
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#documentation": "Whether the organization has a countersigned Business Associate Agreement on file. When true, AI training stays opted out and cannot be changed."
           }
         },
         "default_anonymize_ips": {
@@ -4284,6 +4297,13 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Set to True when org deletion has been initiated. Blocks all UI access until the async task completes.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "uses_most_specific_access_resolution": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When True, access controls resolve with the most specific matching rule. When False, the legacy resolution order applies.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -4399,39 +4419,45 @@
       },
       "traits": {}
     },
-    "com.posthog.users#OrganizationDefaultExperimentStatsMethodEnum": {
-      "type": "enum",
+    "com.posthog.users#OrganizationMemberNotice": {
+      "type": "structure",
       "members": {
-        "BAYESIAN": {
-          "target": "smithy.api#Unit",
+        "message": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#enumValue": "bayesian"
+            "smithy.api#documentation": "HTML shown in the banner. Supports formatting tags and links (<b>, <strong>, <i>, <em>, <u>, <s>, <code>, <br>, <p>, <span>, <ul>, <ol>, <li>, <a href>). Other tags, styles and scripts are removed.",
+            "smithy.api#required": {}
           }
         },
-        "FREQUENTIST": {
-          "target": "smithy.api#Unit",
+        "action": {
+          "target": "com.posthog.users#OrganizationMemberNoticeAction",
           "traits": {
-            "smithy.api#enumValue": "frequentist"
+            "smithy.api#documentation": "Optional link button shown on the right of the banner.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
-      "traits": {
-        "smithy.api#documentation": "* `bayesian` - Bayesian\n* `frequentist` - Frequentist"
-      }
+      "traits": {}
     },
-    "com.posthog.users#OrganizationDefaultExperimentStatsMethod": {
-      "type": "union",
+    "com.posthog.users#OrganizationMemberNoticeAction": {
+      "type": "structure",
       "members": {
-        "OrganizationDefaultExperimentStatsMethodEnum": {
-          "target": "com.posthog.users#OrganizationDefaultExperimentStatsMethodEnum"
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text on the button shown next to the notice.",
+            "smithy.api#required": {}
+          }
         },
-        "BlankEnum": {
-          "target": "com.posthog.users#BlankEnum"
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Link the button opens in a new tab. Must use http or https.",
+            "smithy.api#required": {}
+          }
         }
       },
-      "traits": {
-        "smithy.api#documentation": "Default statistical method for new experiments in this organization.\n\n* `bayesian` - Bayesian\n* `frequentist` - Frequentist"
-      }
+      "traits": {}
     },
     "com.posthog.users#OrganizationBasic": {
       "type": "structure",
@@ -4792,7 +4818,7 @@
         "slack_notification_channel": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Slack channel target in the same `channel_id|#channel-name` shape PostHog uses elsewhere (only the channel id is required). Null disables Slack notifications.",
+            "smithy.api#documentation": "Where the reviewer ping goes, in the same `id|name` shape PostHog uses elsewhere (only the id is required): a channel (`C0123ABC456|#alerts`), or a workspace member (`U0123ABC456|@sam`) who is sent a direct message. Null disables Slack notifications.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -4800,6 +4826,19 @@
           "target": "com.posthog.users#SignalUserAutonomyConfigSlackNotificationMinPriority",
           "traits": {
             "smithy.api#documentation": "Minimum report priority that triggers a Slack notification. P0 is highest. Null means notify on every priority. When set, reports without a priority judgment do not notify.\n\n* `P0` - P0\n* `P1` - P1\n* `P2` - P2\n* `P3` - P3\n* `P4` - P4",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "github_assign_on_pull_request": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to add this user as a GitHub assignee on implementation pull requests for reports that suggest them as reviewer. Off by default. Assignment is additive, so turning it off never removes an assignee from a pull request that already has one."
+          }
+        },
+        "github_open_pull_request_ready": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether implementation pull requests for reports that suggest this user as reviewer open ready for review instead of draft, so the full CI matrix starts right away. Null follows the project's default_open_pull_request_ready. Applies only when the pull request is created; a pull request somebody converts back to draft stays draft.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -4922,32 +4961,6 @@
         "smithy.api#documentation": "Per-user signal autonomy config (singleton keyed by user).\n\nGET    /api/users/<id>/signal_autonomy/ → current config (or 404)\nPOST   /api/users/<id>/signal_autonomy/ → create or update\nDELETE /api/users/<id>/signal_autonomy/ → remove (opt out)"
       }
     },
-    "com.posthog.users#CreateUsersSignalAutonomyRequestAutostartPriority": {
-      "type": "union",
-      "members": {
-        "AutonomyPriorityEnum": {
-          "target": "com.posthog.users#AutonomyPriorityEnum"
-        },
-        "BlankEnum": {
-          "target": "com.posthog.users#BlankEnum"
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.users#CreateUsersSignalAutonomyRequestSlackNotificationMinPriority": {
-      "type": "union",
-      "members": {
-        "AutonomyPriorityEnum": {
-          "target": "com.posthog.users#AutonomyPriorityEnum"
-        },
-        "BlankEnum": {
-          "target": "com.posthog.users#BlankEnum"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Minimum report priority that triggers a Slack notification. P0 is highest. Null means notify on every priority. When set, reports without a priority judgment do not notify.\n\n* `P0` - P0\n* `P1` - P1\n* `P2` - P2\n* `P3` - P3\n* `P4` - P4"
-      }
-    },
     "com.posthog.users#CreateUsersSignalAutonomyRequest": {
       "type": "structure",
       "members": {
@@ -4959,22 +4972,48 @@
           }
         },
         "autostart_priority": {
-          "target": "com.posthog.users#CreateUsersSignalAutonomyRequestAutostartPriority",
+          "target": "com.posthog.users#AutonomyPriorityEnum",
           "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "slack_notification_integration_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Primary key of a Slack `Integration` row in one of the caller's teams. Pair with `slack_notification_channel` to enable notifications; pass null on either to disable them.",
             "com.distilled.openapi#nullable": {}
           }
         },
         "slack_notification_channel": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Slack channel target in the same `channel_id|#channel-name` shape PostHog uses elsewhere (only the channel id is required). Null disables Slack notifications.",
+            "smithy.api#documentation": "`channel_id|#channel-name` target, the same convention used by Insight Alerts, or a `member_id|@display-name` target (`U0123ABC456|@sam`) to send the ping as a direct message. A member target is checked against the workspace on save.",
             "com.distilled.openapi#nullable": {}
           }
         },
-        "slack_notification_min_priority": {
-          "target": "com.posthog.users#CreateUsersSignalAutonomyRequestSlackNotificationMinPriority",
+        "slack_notification_direct_message": {
+          "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Minimum report priority that triggers a Slack notification. P0 is highest. Null means notify on every priority. When set, reports without a priority judgment do not notify.\n\n* `P0` - P0\n* `P1` - P1\n* `P2` - P2\n* `P3` - P3\n* `P4` - P4",
+            "smithy.api#documentation": "Set true to send the ping as a direct message from the PostHog app. The caller's own member id is resolved in the connected workspace and stored in `slack_notification_channel`, so nothing has to be picked. Rejected when the workspace has no eligible account for the caller, and cannot be combined with `slack_notification_channel`."
+          }
+        },
+        "slack_notification_min_priority": {
+          "target": "com.posthog.users#AutonomyPriorityEnum",
+          "traits": {
+            "smithy.api#documentation": "P0 is highest. Null = notify for every priority. When set, reports without a priority judgment do not notify.\n\n* `P0` - P0\n* `P1` - P1\n* `P2` - P2\n* `P3` - P3\n* `P4` - P4",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "github_assign_on_pull_request": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Add this user as a GitHub assignee on implementation pull requests for reports that suggest them as reviewer. Off by default. Turning it off stops future assignment and never removes an existing assignee."
+          }
+        },
+        "github_open_pull_request_ready": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Open implementation pull requests for reports that suggest this user as reviewer ready for review instead of draft, so the full CI matrix runs without anybody clicking Ready. Null follows the project default. A ready pull request runs the full matrix on every push.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -5254,7 +5293,7 @@
         "ui_configuration": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown."
+            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true."
           }
         }
       },
@@ -5453,7 +5492,7 @@
         "ui_configuration": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown."
+            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true."
           }
         }
       },
@@ -5815,7 +5854,7 @@
         "ui_configuration": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown."
+            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true."
           }
         }
       },
@@ -6096,6 +6135,214 @@
         "smithy.api#documentation": "List the user's personal integrations of a given kind\n\nReturn the authenticated user's personal integrations of a given\n``kind`` (``github`` or ``slack``).\n\nThe response shape varies per kind because the underlying ``UserIntegration``\nrows carry different identity fields — GitHub rows expose\n``installation_id`` / ``account`` / ``uses_shared_installation``; Slack\nrows expose ``slack_user_id`` / ``slack_team_id`` / ``slack_team_name``.\nKind-specific destroy and start actions remain split so their distinct\nsemantics (e.g. Slack's lack of \"uninstall on last reference\") stay\nexplicit at the URL layer.\n\nDefault of ``kind=github`` is load-bearing: mobile (``apps/mobile/...``)\nand the Code SDK (``packages/api-client/...``) both call this endpoint\nwithout a query param today and rely on receiving GitHub rows."
       }
     },
+    "com.posthog.users#GetUsersIntegrationsCodexRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.users#UserCodexIntegration": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.posthog.users#CodexIntegrationStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "`connected` when cloud runs can use the account; `reauth_required` when OpenAI rejected the refresh token and the user must log in and connect again; `not_connected` when no account is connected.\n\n* `connected` - Connected\n* `reauth_required` - Reauth Required\n* `not_connected` - Not Connected",
+            "smithy.api#required": {}
+          }
+        },
+        "plan_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ChatGPT plan type OpenAI reports for the account.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email of the connected ChatGPT account.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "connected_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the account was connected.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.users#CodexIntegrationStatusEnum": {
+      "type": "enum",
+      "members": {
+        "CONNECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connected"
+          }
+        },
+        "REAUTH_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reauth_required"
+          }
+        },
+        "NOT_CONNECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_connected"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `connected` - Connected\n* `reauth_required` - Reauth Required\n* `not_connected` - Not Connected"
+      }
+    },
+    "com.posthog.users#GetUsersIntegrationsCodex": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.users#GetUsersIntegrationsCodexRequest"
+      },
+      "output": {
+        "target": "com.posthog.users#UserCodexIntegration"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/users/{uuid}/integrations/codex/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Show the ChatGPT account connected for Codex cloud tasks\n\n`/api/users/@me/integrations/` — manage the user's personal GitHub integrations."
+      }
+    },
+    "com.posthog.users#UserCodexAuthTokens": {
+      "type": "structure",
+      "members": {
+        "access_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ChatGPT access token (a JWT) from the `tokens` object of the Codex `auth.json`.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "refresh_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The single-use ChatGPT refresh token from the same `tokens` object.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "id_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The OpenID id token from the same `tokens` object, when present. Used to read the account email.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.users#CreateUsersIntegrationsCodexRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "tokens": {
+          "target": "com.posthog.users#UserCodexAuthTokens",
+          "traits": {
+            "smithy.api#documentation": "The `tokens` object of the `auth.json` that `codex login` wrote. PostHog refreshes the chain once, stores the rotated tokens, and refreshes them for cloud runs from then on.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.users#CreateUsersIntegrationsCodex": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.users#CreateUsersIntegrationsCodexRequest"
+      },
+      "output": {
+        "target": "com.posthog.users#UserCodexIntegration"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/users/{uuid}/integrations/codex/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Connect a ChatGPT account for Codex cloud tasks\n\nSubmit the `tokens` object of the `auth.json` that `codex login` wrote on the user's machine. PostHog refreshes the chain once to prove it works, stores the rotated tokens encrypted, and from then on refreshes them for the user's Codex cloud runs. Only the owning user can connect. No response carries a token."
+      }
+    },
+    "com.posthog.users#UsersIntegrationsCodexDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.users#UsersIntegrationsCodexDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.users#UsersIntegrationsCodexDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.users#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/users/{uuid}/integrations/codex/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Disconnect the ChatGPT account used for Codex cloud tasks\n\nRevokes the refresh token at OpenAI and deletes the stored tokens. Idempotent."
+      }
+    },
     "com.posthog.users#UsersIntegrationsGithubDestroyRequest": {
       "type": "structure",
       "members": {
@@ -6254,6 +6501,13 @@
             "smithy.api#required": {}
           }
         },
+        "compact": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "compact",
+            "smithy.api#documentation": "When true, return only id, name, and full_name for each repository. Use it to list large rosters in fewer, smaller pages."
+          }
+        },
         "limit": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -6290,6 +6544,13 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether more repositories are available beyond this page."
+          }
+        },
+        "next_offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The offset to pass to get the next page, or null when this page is the last one.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "total": {
@@ -7586,7 +7847,7 @@
         "ui_configuration": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown."
+            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true."
           }
         }
       },
@@ -7823,7 +8084,7 @@
         "ui_configuration": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown."
+            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true."
           }
         }
       },
@@ -8022,7 +8283,7 @@
         "ui_configuration": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown."
+            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true."
           }
         }
       },
@@ -8112,13 +8373,62 @@
         "smithy.api#input": {}
       }
     },
+    "com.posthog.users#TwoFactorStatus": {
+      "type": "structure",
+      "members": {
+        "is_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the user has any 2FA method enabled.",
+            "smithy.api#required": {}
+          }
+        },
+        "backup_codes_remaining": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of unused backup codes. The codes themselves are only returned when they are generated.",
+            "smithy.api#required": {}
+          }
+        },
+        "method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The primary 2FA method: \"TOTP\" or \"passkey\". Null when 2FA is off.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_passkeys": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the user has at least one verified passkey.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_totp": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the user has an authenticator app set up.",
+            "smithy.api#required": {}
+          }
+        },
+        "passkeys_enabled_for_2fa": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether passkeys count as a 2FA method.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.posthog.users#GetUsersTwoFactorStatus": {
       "type": "operation",
       "input": {
         "target": "com.posthog.users#GetUsersTwoFactorStatusRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.users#TwoFactorStatus"
       },
       "errors": [
         {
@@ -8134,7 +8444,7 @@
           "uri": "/api/users/{uuid}/two_factor_status/",
           "code": 200
         },
-        "smithy.api#documentation": "Get current 2FA status including backup codes if enabled"
+        "smithy.api#documentation": "Get current 2FA status, including how many backup codes are left."
       }
     },
     "com.posthog.users#UsersTwoFactorValidateCreateRequestNotificationSettingsMap": {
@@ -8300,7 +8610,7 @@
         "ui_configuration": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown."
+            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true."
           }
         }
       },
@@ -8498,7 +8808,7 @@
         "ui_configuration": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown."
+            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true."
           }
         }
       },
@@ -8689,7 +8999,7 @@
         "ui_configuration": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown."
+            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true."
           }
         }
       },
@@ -8877,7 +9187,7 @@
         "ui_configuration": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown."
+            "smithy.api#documentation": "Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true."
           }
         }
       },
@@ -9036,6 +9346,15 @@
         },
         {
           "target": "com.posthog.users#ListUsersIntegrations"
+        },
+        {
+          "target": "com.posthog.users#GetUsersIntegrationsCodex"
+        },
+        {
+          "target": "com.posthog.users#CreateUsersIntegrationsCodex"
+        },
+        {
+          "target": "com.posthog.users#UsersIntegrationsCodexDestroy"
         },
         {
           "target": "com.posthog.users#UsersIntegrationsGithubDestroy"

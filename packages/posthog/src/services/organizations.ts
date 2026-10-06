@@ -36,6 +36,96 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export interface BillingSpendExportDownloadRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
+  breakdowns?: string;
+  /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
+  end_date?: string;
+  interval?: string;
+  /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
+  start_date?: string;
+  /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
+  team_ids?: string;
+  /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
+  top_projects?: number;
+  /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
+  usage_types?: string;
+}
+export const BillingSpendExportDownloadRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    breakdowns: S.optional(S.String.pipe(T.Query())),
+    end_date: S.optional(S.String.pipe(T.Query())),
+    interval: S.optional(S.String.pipe(T.Query())),
+    start_date: S.optional(S.String.pipe(T.Query())),
+    team_ids: S.optional(S.String.pipe(T.Query())),
+    top_projects: S.optional(S.Number.pipe(T.Query())),
+    usage_types: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/billing/spend/export/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "BillingSpendExportDownloadRequest",
+}) as any as S.Schema<BillingSpendExportDownloadRequest>;
+
+export interface BillingSpendExportDownloadResponse {}
+export const BillingSpendExportDownloadResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "BillingSpendExportDownloadResponse",
+}) as any as S.Schema<BillingSpendExportDownloadResponse>;
+
+export interface BillingUsageExportDownloadRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** JSON-encoded array of breakdown dimensions. Omit it for one series across the whole organization. Pass `["type"]` for a series per product. Pass `["type","team"]` for a series per product per project. To break usage down by project, pass `"type"` with `"team"`: billing counts usage per product, and the counts do not add up across products. */
+  breakdowns?: string;
+  /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
+  end_date?: string;
+  interval?: string;
+  /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
+  start_date?: string;
+  /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
+  team_ids?: string;
+  /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
+  top_projects?: number;
+  /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
+  usage_types?: string;
+}
+export const BillingUsageExportDownloadRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    breakdowns: S.optional(S.String.pipe(T.Query())),
+    end_date: S.optional(S.String.pipe(T.Query())),
+    interval: S.optional(S.String.pipe(T.Query())),
+    start_date: S.optional(S.String.pipe(T.Query())),
+    team_ids: S.optional(S.String.pipe(T.Query())),
+    top_projects: S.optional(S.Number.pipe(T.Query())),
+    usage_types: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/billing/usage/export/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "BillingUsageExportDownloadRequest",
+}) as any as S.Schema<BillingUsageExportDownloadRequest>;
+
+export interface BillingUsageExportDownloadResponse {}
+export const BillingUsageExportDownloadResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "BillingUsageExportDownloadResponse",
+}) as any as S.Schema<BillingUsageExportDownloadResponse>;
+
 export interface CimdVerificationTokensDestroyRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
@@ -64,19 +154,33 @@ export const CimdVerificationTokensDestroyResponse = /*@__PURE__*/ S.suspend(() 
   identifier: "CimdVerificationTokensDestroyResponse",
 }) as any as S.Schema<CimdVerificationTokensDestroyResponse>;
 
-/** * `bayesian` - Bayesian * `frequentist` - Frequentist */
-export type OrganizationDefaultExperimentStatsMethodEnum = "bayesian" | "frequentist";
-export const OrganizationDefaultExperimentStatsMethodEnum = S.String;
+export interface OrganizationMemberNoticeAction {
+  /** Text on the button shown next to the notice. */
+  label: string;
+  /** Link the button opens in a new tab. Must use http or https. */
+  url: string;
+}
+export const OrganizationMemberNoticeAction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    label: S.String,
+    url: S.String,
+  }),
+).annotate({
+  identifier: "OrganizationMemberNoticeAction",
+}) as any as S.Schema<OrganizationMemberNoticeAction>;
 
-export type BlankEnum = "";
-export const BlankEnum = S.String;
-
-/** Default statistical method for new experiments in this organization. * `bayesian` - Bayesian * `frequentist` - Frequentist */
-export type CreateRequestDefaultExperimentStatsMethod =
-  | OrganizationDefaultExperimentStatsMethodEnum
-  | BlankEnum;
-export const CreateRequestDefaultExperimentStatsMethod =
-  S.Unknown as any as S.Schema<CreateRequestDefaultExperimentStatsMethod>;
+export interface OrganizationMemberNotice {
+  /** HTML shown in the banner. Supports formatting tags and links (<b>, <strong>, <i>, <em>, <u>, <s>, <code>, <br>, <p>, <span>, <ul>, <ol>, <li>, <a href>). Other tags, styles and scripts are removed. */
+  message: string;
+  /** Optional link button shown on the right of the banner. */
+  action?: OrganizationMemberNoticeAction | null;
+}
+export const OrganizationMemberNotice = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.String,
+    action: S.optional(S.NullOr(OrganizationMemberNoticeAction)),
+  }),
+).annotate({ identifier: "OrganizationMemberNotice" }) as any as S.Schema<OrganizationMemberNotice>;
 
 export interface CreateRequest {
   name?: string;
@@ -93,11 +197,11 @@ export interface CreateRequest {
   allow_publicly_shared_resources?: boolean;
   /** When True, requests through the PostHog MCP server can read but not change this organization's data. */
   read_only_mcp_access?: boolean | null;
+  /** Notice shown in a banner to every member of the organization. Set to null to remove it. */
+  member_notice?: OrganizationMemberNotice | null;
   is_ai_data_processing_approved?: boolean | null;
   /** When True, this organization allows its data to be used to train PostHog AI models. */
   is_ai_training_opted_in?: boolean | null;
-  /** Default statistical method for new experiments in this organization. * `bayesian` - Bayesian * `frequentist` - Frequentist */
-  default_experiment_stats_method?: CreateRequestDefaultExperimentStatsMethod | null;
   /** Default setting for 'Discard client IP data' for new projects in this organization. */
   default_anonymize_ips?: boolean;
   /** ID of the role to automatically assign to new members joining the organization */
@@ -115,11 +219,9 @@ export const CreateRequest = /*@__PURE__*/ S.suspend(() =>
     members_can_see_org_members: S.optional(S.Boolean),
     allow_publicly_shared_resources: S.optional(S.Boolean),
     read_only_mcp_access: S.optional(S.NullOr(S.Boolean)),
+    member_notice: S.optional(S.NullOr(OrganizationMemberNotice)),
     is_ai_data_processing_approved: S.optional(S.NullOr(S.Boolean)),
     is_ai_training_opted_in: S.optional(S.NullOr(S.Boolean)),
-    default_experiment_stats_method: S.optional(
-      S.NullOr(CreateRequestDefaultExperimentStatsMethod),
-    ),
     default_anonymize_ips: S.optional(S.Boolean),
     default_role_id: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/api/organizations/", code: 200 })),
@@ -144,9 +246,7 @@ export const OrganizationTeamsList = /*@__PURE__*/ S.Array(
   OrganizationTeamsItemMap,
 ) as any as S.Schema<OrganizationTeamsList>;
 
-export type OrganizationProjectsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type OrganizationProjectsItemMap = { [key: string]: unknown | undefined };
 export const OrganizationProjectsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -167,13 +267,6 @@ export const OrganizationMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<OrganizationMetadataMap>;
-
-/** Default statistical method for new experiments in this organization. * `bayesian` - Bayesian * `frequentist` - Frequentist */
-export type OrganizationDefaultExperimentStatsMethod =
-  | OrganizationDefaultExperimentStatsMethodEnum
-  | BlankEnum;
-export const OrganizationDefaultExperimentStatsMethod =
-  S.Unknown as any as S.Schema<OrganizationDefaultExperimentStatsMethod>;
 
 export interface Organization {
   id?: string;
@@ -203,6 +296,8 @@ export interface Organization {
   allow_publicly_shared_resources?: boolean;
   /** When True, requests through the PostHog MCP server can read but not change this organization's data. */
   read_only_mcp_access?: boolean | null;
+  /** Notice shown in a banner to every member of the organization. Set to null to remove it. */
+  member_notice?: OrganizationMemberNotice | null;
   member_count?: number;
   is_ai_data_processing_approved?: boolean | null;
   /** When True, this organization allows its data to be used to train PostHog AI models. */
@@ -211,9 +306,8 @@ export interface Organization {
   is_ai_training_locked?: boolean | null;
   /** When True, in-app callouts inviting members to enable AI training are shown. */
   is_ai_training_cta_shown?: boolean | null;
-  is_hipaa?: boolean | null;
-  /** Default statistical method for new experiments in this organization. * `bayesian` - Bayesian * `frequentist` - Frequentist */
-  default_experiment_stats_method?: OrganizationDefaultExperimentStatsMethod | null;
+  /** Whether the organization has a countersigned Business Associate Agreement on file. When true, AI training stays opted out and cannot be changed. */
+  has_signed_baa?: boolean;
   /** Default setting for 'Discard client IP data' for new projects in this organization. */
   default_anonymize_ips?: boolean;
   /** ID of the role to automatically assign to new members joining the organization */
@@ -224,6 +318,8 @@ export interface Organization {
   is_not_active_reason?: string | null;
   /** Set to True when org deletion has been initiated. Blocks all UI access until the async task completes. */
   is_pending_deletion?: boolean | null;
+  /** When True, access controls resolve with the most specific matching rule. When False, the legacy resolution order applies. */
+  uses_most_specific_access_resolution?: boolean | null;
 }
 export const Organization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -249,18 +345,19 @@ export const Organization = /*@__PURE__*/ S.suspend(() =>
     members_can_see_org_members: S.optional(S.Boolean),
     allow_publicly_shared_resources: S.optional(S.Boolean),
     read_only_mcp_access: S.optional(S.NullOr(S.Boolean)),
+    member_notice: S.optional(S.NullOr(OrganizationMemberNotice)),
     member_count: S.optional(S.Number),
     is_ai_data_processing_approved: S.optional(S.NullOr(S.Boolean)),
     is_ai_training_opted_in: S.optional(S.NullOr(S.Boolean)),
     is_ai_training_locked: S.optional(S.NullOr(S.Boolean)),
     is_ai_training_cta_shown: S.optional(S.NullOr(S.Boolean)),
-    is_hipaa: S.optional(S.NullOr(S.Boolean)),
-    default_experiment_stats_method: S.optional(S.NullOr(OrganizationDefaultExperimentStatsMethod)),
+    has_signed_baa: S.optional(S.Boolean),
     default_anonymize_ips: S.optional(S.Boolean),
     default_role_id: S.optional(S.NullOr(S.String)),
     is_active: S.optional(S.NullOr(S.Boolean)),
     is_not_active_reason: S.optional(S.NullOr(S.String)),
     is_pending_deletion: S.optional(S.NullOr(S.Boolean)),
+    uses_most_specific_access_resolution: S.optional(S.NullOr(S.Boolean)),
   }),
 ).annotate({ identifier: "Organization" }) as any as S.Schema<Organization>;
 
@@ -306,6 +403,9 @@ export type RoleAtOrganizationEnum =
   | "student"
   | "other";
 export const RoleAtOrganizationEnum = S.String;
+
+export type BlankEnum = "";
+export const BlankEnum = S.String;
 
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export const UserBasicRoleAtOrganization =
@@ -365,36 +465,6 @@ export const CIMDVerificationTokenWithValue = /*@__PURE__*/ S.suspend(() =>
   identifier: "CIMDVerificationTokenWithValue",
 }) as any as S.Schema<CIMDVerificationTokenWithValue>;
 
-export interface CreateDesktopBetaTermRequest {
-  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
-  organization_id: string;
-}
-export const CreateDesktopBetaTermRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    organization_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/organizations/{organization_id}/desktop_beta_terms/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateDesktopBetaTermRequest",
-}) as any as S.Schema<CreateDesktopBetaTermRequest>;
-
-export interface DesktopBetaTermsAcceptanceDTO {
-  /** Whether the organization has accepted the PostHog Desktop beta terms. */
-  is_desktop_beta_terms_accepted: boolean;
-}
-export const DesktopBetaTermsAcceptanceDTO = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    is_desktop_beta_terms_accepted: S.Boolean,
-  }),
-).annotate({
-  identifier: "DesktopBetaTermsAcceptanceDTO",
-}) as any as S.Schema<DesktopBetaTermsAcceptanceDTO>;
-
 export interface CreateDomainRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
@@ -409,15 +479,9 @@ export const CreateDomainRequest = /*@__PURE__*/ S.suspend(() =>
     jit_provisioning_enabled: S.optional(S.Boolean),
     sso_enforcement: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/organizations/{organization_id}/domains/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/organizations/{organization_id}/domains/", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateDomainRequest",
-}) as any as S.Schema<CreateDomainRequest>;
+).annotate({ identifier: "CreateDomainRequest" }) as any as S.Schema<CreateDomainRequest>;
 
 export interface OrganizationDomain {
   id?: string;
@@ -441,9 +505,7 @@ export const OrganizationDomain = /*@__PURE__*/ S.suspend(() =>
     sso_enforcement: S.optional(S.String),
     scim_base_url: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "OrganizationDomain",
-}) as any as S.Schema<OrganizationDomain>;
+).annotate({ identifier: "OrganizationDomain" }) as any as S.Schema<OrganizationDomain>;
 
 /** * `all` - All * `selected` - Selected */
 export type DomainScopeEnum = "all" | "selected";
@@ -454,11 +516,11 @@ export type CreateIdentityProviderConfigRequestDomainScope = DomainScopeEnum | B
 export const CreateIdentityProviderConfigRequestDomainScope =
   S.Unknown as any as S.Schema<CreateIdentityProviderConfigRequestDomainScope>;
 
-/** * `saml` - Saml * `scim` - Scim * `xaa` - Xaa */
-export type ConfigScopeEnum = "saml" | "scim" | "xaa";
+/** * `saml` - Saml * `oidc` - Oidc * `scim` - Scim * `xaa` - Xaa */
+export type ConfigScopeEnum = "saml" | "oidc" | "scim" | "xaa";
 export const ConfigScopeEnum = S.String;
 
-/** Feature configured by this identity provider configuration. * `saml` - Saml * `scim` - Scim * `xaa` - Xaa */
+/** Feature configured by this identity provider configuration. * `saml` - Saml * `oidc` - Oidc * `scim` - Scim * `xaa` - Xaa */
 export type CreateIdentityProviderConfigRequestConfigScope = ConfigScopeEnum | BlankEnum;
 export const CreateIdentityProviderConfigRequestConfigScope =
   S.Unknown as any as S.Schema<CreateIdentityProviderConfigRequestConfigScope>;
@@ -482,10 +544,16 @@ export interface CreateIdentityProviderConfigRequest {
   name?: string;
   /** Domains this configuration applies to. An unset value behaves like selected domains. * `all` - All * `selected` - Selected */
   domain_scope?: CreateIdentityProviderConfigRequestDomainScope | null;
-  /** Feature configured by this identity provider configuration. * `saml` - Saml * `scim` - Scim * `xaa` - Xaa */
+  /** Feature configured by this identity provider configuration. * `saml` - Saml * `oidc` - Oidc * `scim` - Scim * `xaa` - Xaa */
   config_scope?: CreateIdentityProviderConfigRequestConfigScope | null;
   /** Organization domain IDs that this identity provider configuration applies to. */
   organization_domain_ids?: CreateIdentityProviderConfigRequestOrganizationDomainIdsList;
+  /** HTTPS issuer URL. Must exactly match the issuer in the OIDC discovery document. */
+  oidc_issuer_url?: string;
+  /** Client ID of the organization's OIDC application. */
+  oidc_client_id?: string;
+  /** OIDC client secret. Omit to keep the saved secret. Set to an empty string to remove it. Never returned in responses. */
+  oidc_client_secret?: string | Redacted.Redacted<string>;
   /** SAML IdP entity ID (issuer). */
   saml_entity_id?: string | null;
   /** SAML single sign-on (ACS) URL the IdP redirects to. */
@@ -510,6 +578,9 @@ export const CreateIdentityProviderConfigRequest = /*@__PURE__*/ S.suspend(() =>
     organization_domain_ids: S.optional(
       CreateIdentityProviderConfigRequestOrganizationDomainIdsList,
     ),
+    oidc_issuer_url: S.optional(S.String),
+    oidc_client_id: S.optional(S.String),
+    oidc_client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     saml_entity_id: S.optional(S.NullOr(S.String)),
     saml_acs_url: S.optional(S.NullOr(S.String)),
     saml_x509_cert: S.optional(S.NullOr(S.String)),
@@ -529,41 +600,49 @@ export const CreateIdentityProviderConfigRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateIdentityProviderConfigRequest>;
 
 /** Domains this configuration applies to. An unset value behaves like selected domains. * `all` - All * `selected` - Selected */
-export type IdentityProviderConfigDomainScope = DomainScopeEnum | BlankEnum;
-export const IdentityProviderConfigDomainScope =
-  S.Unknown as any as S.Schema<IdentityProviderConfigDomainScope>;
+export type IdentityProviderConfigOutputDomainScope = DomainScopeEnum | BlankEnum;
+export const IdentityProviderConfigOutputDomainScope =
+  S.Unknown as any as S.Schema<IdentityProviderConfigOutputDomainScope>;
 
-/** Feature configured by this identity provider configuration. * `saml` - Saml * `scim` - Scim * `xaa` - Xaa */
-export type IdentityProviderConfigConfigScope = ConfigScopeEnum | BlankEnum;
-export const IdentityProviderConfigConfigScope =
-  S.Unknown as any as S.Schema<IdentityProviderConfigConfigScope>;
+/** Feature configured by this identity provider configuration. * `saml` - Saml * `oidc` - Oidc * `scim` - Scim * `xaa` - Xaa */
+export type IdentityProviderConfigOutputConfigScope = ConfigScopeEnum | BlankEnum;
+export const IdentityProviderConfigOutputConfigScope =
+  S.Unknown as any as S.Schema<IdentityProviderConfigOutputConfigScope>;
 
 /** Organization domain IDs that this identity provider configuration applies to. */
-export type IdentityProviderConfigOrganizationDomainIdsList = Array<string>;
-export const IdentityProviderConfigOrganizationDomainIdsList = /*@__PURE__*/ S.Array(
+export type IdentityProviderConfigOutputOrganizationDomainIdsList = Array<string>;
+export const IdentityProviderConfigOutputOrganizationDomainIdsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<IdentityProviderConfigOrganizationDomainIdsList>;
+) as any as S.Schema<IdentityProviderConfigOutputOrganizationDomainIdsList>;
 
 /** Allowed ID-JAG client IDs. Empty list allows any client_id. */
-export type IdentityProviderConfigIdJagAllowedClientsList = Array<string>;
-export const IdentityProviderConfigIdJagAllowedClientsList = /*@__PURE__*/ S.Array(
+export type IdentityProviderConfigOutputIdJagAllowedClientsList = Array<string>;
+export const IdentityProviderConfigOutputIdJagAllowedClientsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<IdentityProviderConfigIdJagAllowedClientsList>;
+) as any as S.Schema<IdentityProviderConfigOutputIdJagAllowedClientsList>;
 
-export interface IdentityProviderConfig {
+export interface IdentityProviderConfigOutput {
   id: string;
   /** Display name for this IdP configuration (e.g. 'Okta production'). */
   name?: string;
   /** Domains this configuration applies to. An unset value behaves like selected domains. * `all` - All * `selected` - Selected */
-  domain_scope?: IdentityProviderConfigDomainScope | null;
-  /** Feature configured by this identity provider configuration. * `saml` - Saml * `scim` - Scim * `xaa` - Xaa */
-  config_scope?: IdentityProviderConfigConfigScope | null;
+  domain_scope?: IdentityProviderConfigOutputDomainScope | null;
+  /** Feature configured by this identity provider configuration. * `saml` - Saml * `oidc` - Oidc * `scim` - Scim * `xaa` - Xaa */
+  config_scope?: IdentityProviderConfigOutputConfigScope | null;
   /** Organization domain IDs that this identity provider configuration applies to. */
-  organization_domain_ids?: IdentityProviderConfigOrganizationDomainIdsList;
+  organization_domain_ids?: IdentityProviderConfigOutputOrganizationDomainIdsList;
   created_at: string;
   updated_at: string;
   /** Whether SAML is fully configured on this config. */
   has_saml: boolean;
+  /** Whether OIDC has an issuer, client ID, and client secret. */
+  has_oidc: boolean;
+  /** Whether an encrypted OIDC client secret is saved. */
+  has_oidc_client_secret: boolean;
+  /** HTTPS issuer URL. Must exactly match the issuer in the OIDC discovery document. */
+  oidc_issuer_url?: string;
+  /** Client ID of the organization's OIDC application. */
+  oidc_client_id?: string;
   /** Stable UUID sent as SAML RelayState to route authentication responses to this IdP configuration. */
   saml_relay_state: string;
   /** SAML IdP entity ID (issuer). */
@@ -587,18 +666,22 @@ export interface IdentityProviderConfig {
   /** Override JWKS URL. Defaults to OIDC discovery on the issuer URL. */
   id_jag_jwks_url?: string | null;
   /** Allowed ID-JAG client IDs. Empty list allows any client_id. */
-  id_jag_allowed_clients?: IdentityProviderConfigIdJagAllowedClientsList;
+  id_jag_allowed_clients?: IdentityProviderConfigOutputIdJagAllowedClientsList;
 }
-export const IdentityProviderConfig = /*@__PURE__*/ S.suspend(() =>
+export const IdentityProviderConfigOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.optional(S.String),
-    domain_scope: S.optional(S.NullOr(IdentityProviderConfigDomainScope)),
-    config_scope: S.optional(S.NullOr(IdentityProviderConfigConfigScope)),
-    organization_domain_ids: S.optional(IdentityProviderConfigOrganizationDomainIdsList),
+    domain_scope: S.optional(S.NullOr(IdentityProviderConfigOutputDomainScope)),
+    config_scope: S.optional(S.NullOr(IdentityProviderConfigOutputConfigScope)),
+    organization_domain_ids: S.optional(IdentityProviderConfigOutputOrganizationDomainIdsList),
     created_at: S.String,
     updated_at: S.String,
     has_saml: S.Boolean,
+    has_oidc: S.Boolean,
+    has_oidc_client_secret: S.Boolean,
+    oidc_issuer_url: S.optional(S.String),
+    oidc_client_id: S.optional(S.String),
     saml_relay_state: S.String,
     saml_entity_id: S.optional(S.NullOr(S.String)),
     saml_acs_url: S.optional(S.NullOr(S.String)),
@@ -610,11 +693,11 @@ export const IdentityProviderConfig = /*@__PURE__*/ S.suspend(() =>
     has_id_jag: S.Boolean,
     id_jag_issuer_url: S.optional(S.NullOr(S.String)),
     id_jag_jwks_url: S.optional(S.NullOr(S.String)),
-    id_jag_allowed_clients: S.optional(IdentityProviderConfigIdJagAllowedClientsList),
+    id_jag_allowed_clients: S.optional(IdentityProviderConfigOutputIdJagAllowedClientsList),
   }),
 ).annotate({
-  identifier: "IdentityProviderConfig",
-}) as any as S.Schema<IdentityProviderConfig>;
+  identifier: "IdentityProviderConfigOutput",
+}) as any as S.Schema<IdentityProviderConfigOutput>;
 
 export interface CreateIdentityProviderConfigsScimTokenRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -648,9 +731,7 @@ export const SCIMTokenResponse = /*@__PURE__*/ S.suspend(() =>
     scim_enabled: S.Boolean,
     scim_bearer_token: S.String,
   }),
-).annotate({
-  identifier: "SCIMTokenResponse",
-}) as any as S.Schema<SCIMTokenResponse>;
+).annotate({ identifier: "SCIMTokenResponse" }) as any as S.Schema<SCIMTokenResponse>;
 
 export interface CreateInviteRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -675,15 +756,9 @@ export const CreateInviteRequest = /*@__PURE__*/ S.suspend(() =>
     send_email: S.optional(S.Boolean),
     combine_pending_invites: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/organizations/{organization_id}/invites/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/organizations/{organization_id}/invites/", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateInviteRequest",
-}) as any as S.Schema<CreateInviteRequest>;
+).annotate({ identifier: "CreateInviteRequest" }) as any as S.Schema<CreateInviteRequest>;
 
 export interface OrganizationInviteOutput {
   id?: string;
@@ -714,9 +789,7 @@ export const OrganizationInviteOutput = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.NullOr(S.String)),
     private_project_access: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "OrganizationInviteOutput",
-}) as any as S.Schema<OrganizationInviteOutput>;
+).annotate({ identifier: "OrganizationInviteOutput" }) as any as S.Schema<OrganizationInviteOutput>;
 
 export interface CreateInvitesDelegateRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -746,14 +819,14 @@ export const CreateInvitesDelegateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateInvitesDelegateRequest>;
 
 /** * `BAA` - BAA * `DPA` - DPA */
-export type CreateLegalDocumentDocumentTypeEnum = "BAA" | "DPA";
-export const CreateLegalDocumentDocumentTypeEnum = S.String;
+export type DocumentTypeEnum = "BAA" | "DPA";
+export const DocumentTypeEnum = S.String;
 
 export interface CreateLegalDocumentRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Either 'BAA' or 'DPA'. * `BAA` - BAA * `DPA` - DPA */
-  document_type?: CreateLegalDocumentDocumentTypeEnum | (string & {});
+  document_type?: DocumentTypeEnum | (string & {});
   /** The customer legal entity entering the agreement (PandaDoc's Client.Company). */
   company_name?: string;
   /** The customer address (PandaDoc's Client.StreetAddress). */
@@ -764,7 +837,7 @@ export interface CreateLegalDocumentRequest {
 export const CreateLegalDocumentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization_id: S.String.pipe(T.Label()),
-    document_type: S.optional(CreateLegalDocumentDocumentTypeEnum),
+    document_type: S.optional(DocumentTypeEnum),
     company_name: S.optional(S.String),
     company_address: S.optional(S.String),
     representative_email: S.optional(S.String),
@@ -788,9 +861,7 @@ export const LegalDocumentCreator = /*@__PURE__*/ S.suspend(() =>
     first_name: S.optional(S.String),
     email: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LegalDocumentCreator",
-}) as any as S.Schema<LegalDocumentCreator>;
+).annotate({ identifier: "LegalDocumentCreator" }) as any as S.Schema<LegalDocumentCreator>;
 
 /** Output serializer — what the API returns for every row. */
 export interface LegalDocumentDTO {
@@ -814,9 +885,7 @@ export const LegalDocumentDTO = /*@__PURE__*/ S.suspend(() =>
     created_by: S.optional(S.NullOr(LegalDocumentCreator)),
     created_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LegalDocumentDTO",
-}) as any as S.Schema<LegalDocumentDTO>;
+).annotate({ identifier: "LegalDocumentDTO" }) as any as S.Schema<LegalDocumentDTO>;
 
 /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
 export type CreateOrganizationsProjectRequestTagsList = Array<string>;
@@ -1485,6 +1554,15 @@ export type CreateOrganizationsProjectRequestBusinessModel = BusinessModelEnum |
 export const CreateOrganizationsProjectRequestBusinessModel =
   S.Unknown as any as S.Schema<CreateOrganizationsProjectRequestBusinessModel>;
 
+/** Settings for Conversations. Must be a JSON object or null. */
+export type CreateOrganizationsProjectRequestConversationsSettingsMap = {
+  [key: string]: unknown | undefined;
+};
+export const CreateOrganizationsProjectRequestConversationsSettingsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateOrganizationsProjectRequestConversationsSettingsMap>;
+
 /** * `AED` - AED * `AFN` - AFN * `ALL` - ALL * `AMD` - AMD * `ANG` - ANG * `AOA` - AOA * `ARS` - ARS * `AUD` - AUD * `AWG` - AWG * `AZN` - AZN * `BAM` - BAM * `BBD` - BBD * `BDT` - BDT * `BGN` - BGN * `BHD` - BHD * `BIF` - BIF * `BMD` - BMD * `BND` - BND * `BOB` - BOB * `BRL` - BRL * `BSD` - BSD * `BTC` - BTC * `BTN` - BTN * `BWP` - BWP * `BYN` - BYN * `BZD` - BZD * `CAD` - CAD * `CDF` - CDF * `CHF` - CHF * `CLP` - CLP * `CNY` - CNY * `COP` - COP * `CRC` - CRC * `CVE` - CVE * `CZK` - CZK * `DJF` - DJF * `DKK` - DKK * `DOP` - DOP * `DZD` - DZD * `EGP` - EGP * `ERN` - ERN * `ETB` - ETB * `EUR` - EUR * `FJD` - FJD * `GBP` - GBP * `GEL` - GEL * `GHS` - GHS * `GIP` - GIP * `GMD` - GMD * `GNF` - GNF * `GTQ` - GTQ * `GYD` - GYD * `HKD` - HKD * `HNL` - HNL * `HRK` - HRK * `HTG` - HTG * `HUF` - HUF * `IDR` - IDR * `ILS` - ILS * `INR` - INR * `IQD` - IQD * `IRR` - IRR * `ISK` - ISK * `JMD` - JMD * `JOD` - JOD * `JPY` - JPY * `KES` - KES * `KGS` - KGS * `KHR` - KHR * `KMF` - KMF * `KRW` - KRW * `KWD` - KWD * `KYD` - KYD * `KZT` - KZT * `LAK` - LAK * `LBP` - LBP * `LKR` - LKR * `LRD` - LRD * `LTL` - LTL * `LVL` - LVL * `LSL` - LSL * `LYD` - LYD * `MAD` - MAD * `MDL` - MDL * `MGA` - MGA * `MKD` - MKD * `MMK` - MMK * `MNT` - MNT * `MOP` - MOP * `MRU` - MRU * `MTL` - MTL * `MUR` - MUR * `MVR` - MVR * `MWK` - MWK * `MXN` - MXN * `MYR` - MYR * `MZN` - MZN * `NAD` - NAD * `NGN` - NGN * `NIO` - NIO * `NOK` - NOK * `NPR` - NPR * `NZD` - NZD * `OMR` - OMR * `PAB` - PAB * `PEN` - PEN * `PGK` - PGK * `PHP` - PHP * `PKR` - PKR * `PLN` - PLN * `PYG` - PYG * `QAR` - QAR * `RON` - RON * `RSD` - RSD * `RUB` - RUB * `RWF` - RWF * `SAR` - SAR * `SBD` - SBD * `SCR` - SCR * `SDG` - SDG * `SEK` - SEK * `SGD` - SGD * `SRD` - SRD * `SSP` - SSP * `STN` - STN * `SYP` - SYP * `SZL` - SZL * `THB` - THB * `TJS` - TJS * `TMT` - TMT * `TND` - TND * `TOP` - TOP * `TRY` - TRY * `TTD` - TTD * `TWD` - TWD * `TZS` - TZS * `UAH` - UAH * `UGX` - UGX * `USD` - USD * `UYU` - UYU * `UZS` - UZS * `VES` - VES * `VND` - VND * `VUV` - VUV * `WST` - WST * `XAF` - XAF * `XCD` - XCD * `XOF` - XOF * `XPF` - XPF * `YER` - YER * `ZAR` - ZAR * `ZMW` - ZMW */
 export type BaseCurrencyEnum =
   | "AED"
@@ -1692,9 +1770,7 @@ export const SourceMap = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SourceMap" }) as any as S.Schema<SourceMap>;
 
 /** Mapping of external data source id to that source's column mapping. */
-export type MarketingAnalyticsSourceMapping = {
-  [key: string]: SourceMap | undefined;
-};
+export type MarketingAnalyticsSourceMapping = { [key: string]: SourceMap | undefined };
 export const MarketingAnalyticsSourceMapping = /*@__PURE__*/ S.Record(
   S.String,
   SourceMap,
@@ -2018,9 +2094,7 @@ export const EventPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(EventPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "EventPropertyFilter",
-}) as any as S.Schema<EventPropertyFilter>;
+).annotate({ identifier: "EventPropertyFilter" }) as any as S.Schema<EventPropertyFilter>;
 
 export type PersonPropertyFilterValueCase0Item = string | number | boolean;
 export const PersonPropertyFilterValueCase0Item =
@@ -2054,9 +2128,7 @@ export const PersonPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(PersonPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "PersonPropertyFilter",
-}) as any as S.Schema<PersonPropertyFilter>;
+).annotate({ identifier: "PersonPropertyFilter" }) as any as S.Schema<PersonPropertyFilter>;
 
 export interface CohortPropertyFilter {
   cohort_name?: string | null;
@@ -2075,9 +2147,7 @@ export const CohortPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CohortPropertyFilter",
-}) as any as S.Schema<CohortPropertyFilter>;
+).annotate({ identifier: "CohortPropertyFilter" }) as any as S.Schema<CohortPropertyFilter>;
 
 export type Key10 = "tag_name" | "text" | "href" | "selector";
 export const Key10 = S.String;
@@ -2113,9 +2183,7 @@ export const ElementPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(ElementPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "ElementPropertyFilter",
-}) as any as S.Schema<ElementPropertyFilter>;
+).annotate({ identifier: "ElementPropertyFilter" }) as any as S.Schema<ElementPropertyFilter>;
 
 export type HogQLPropertyFilterValueCase0Item = string | number | boolean;
 export const HogQLPropertyFilterValueCase0Item =
@@ -2146,9 +2214,7 @@ export const HogQLPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(HogQLPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "HogQLPropertyFilter",
-}) as any as S.Schema<HogQLPropertyFilter>;
+).annotate({ identifier: "HogQLPropertyFilter" }) as any as S.Schema<HogQLPropertyFilter>;
 
 export type DataWarehousePropertyFilterValueCase0Item = string | number | boolean;
 export const DataWarehousePropertyFilterValueCase0Item =
@@ -2562,9 +2628,7 @@ export const CampaignFieldPreference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     match_field: MatchField,
   }),
-).annotate({
-  identifier: "CampaignFieldPreference",
-}) as any as S.Schema<CampaignFieldPreference>;
+).annotate({ identifier: "CampaignFieldPreference" }) as any as S.Schema<CampaignFieldPreference>;
 
 /** Mapping of integration type to the campaign field used when matching campaigns. */
 export type MarketingAnalyticsCampaignFieldPreferences = {
@@ -2584,6 +2648,8 @@ export interface TeamMarketingAnalyticsConfig {
   attribution_window_days?: number;
   /** How credit is split across touchpoints when a person saw several campaigns before converting. * `first_touch` - First Touch * `last_touch` - Last Touch * `linear` - Linear * `time_decay` - Time Decay * `position_based` - Position Based */
   attribution_mode?: AttributionModeEnum | (string & {});
+  /** Whether marketing analytics drops traffic matching the project's test-account filters. Off by default. */
+  filter_test_accounts?: boolean;
   /** Manual campaign name aliases, keyed by integration type then by canonical campaign name, with the list of names that should be folded into it. Applied before automatic matching. */
   campaign_name_mappings?: MarketingAnalyticsCampaignNameMappings;
   /** Custom UTM source values to fold into an integration, keyed by integration type. A UTM source can only belong to one integration. */
@@ -2597,6 +2663,7 @@ export const TeamMarketingAnalyticsConfig = /*@__PURE__*/ S.suspend(() =>
     conversion_goals: S.optional(MarketingAnalyticsConversionGoalList),
     attribution_window_days: S.optional(S.Number),
     attribution_mode: S.optional(AttributionModeEnum),
+    filter_test_accounts: S.optional(S.Boolean),
     campaign_name_mappings: S.optional(MarketingAnalyticsCampaignNameMappings),
     custom_source_mappings: S.optional(MarketingAnalyticsCustomSourceMappings),
     campaign_field_preferences: S.optional(MarketingAnalyticsCampaignFieldPreferences),
@@ -2604,6 +2671,32 @@ export const TeamMarketingAnalyticsConfig = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "TeamMarketingAnalyticsConfig",
 }) as any as S.Schema<TeamMarketingAnalyticsConfig>;
+
+/** * `custom_property` - Custom property * `relationship` - Relationship */
+export type AccountPropertyPinKindEnum = "custom_property" | "relationship";
+export const AccountPropertyPinKindEnum = S.String;
+
+export interface TeamCustomerAnalyticsPinnedAccountProperty {
+  /** Definition type for this default pinned account property. * `custom_property` - Custom property * `relationship` - Relationship */
+  kind: AccountPropertyPinKindEnum | (string & {});
+  /** Project-scoped custom property or relationship definition UUID. */
+  id: string;
+}
+export const TeamCustomerAnalyticsPinnedAccountProperty = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: AccountPropertyPinKindEnum,
+    id: S.String,
+  }),
+).annotate({
+  identifier: "TeamCustomerAnalyticsPinnedAccountProperty",
+}) as any as S.Schema<TeamCustomerAnalyticsPinnedAccountProperty>;
+
+/** Ordered account properties shown until a user saves a personal pinned-property selection. Pass an empty list to show no properties by default. */
+export type TeamCustomerAnalyticsConfigDefaultPinnedPropertiesList =
+  Array<TeamCustomerAnalyticsPinnedAccountProperty>;
+export const TeamCustomerAnalyticsConfigDefaultPinnedPropertiesList = /*@__PURE__*/ S.Array(
+  TeamCustomerAnalyticsPinnedAccountProperty,
+) as any as S.Schema<TeamCustomerAnalyticsConfigDefaultPinnedPropertiesList>;
 
 export interface TeamCustomerAnalyticsConfig {
   /** Event used as the activity signal (DAU/WAU/MAU). */
@@ -2618,6 +2711,8 @@ export interface TeamCustomerAnalyticsConfig {
   payment_event?: unknown;
   /** Index of the group type to treat as an Account in customer analytics. Must reference an existing group type configured for the project. */
   account_group_type_index?: number | null;
+  /** Ordered account properties shown until a user saves a personal pinned-property selection. Pass an empty list to show no properties by default. */
+  default_pinned_properties?: TeamCustomerAnalyticsConfigDefaultPinnedPropertiesList;
 }
 export const TeamCustomerAnalyticsConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2627,6 +2722,7 @@ export const TeamCustomerAnalyticsConfig = /*@__PURE__*/ S.suspend(() =>
     subscription_event: S.optional(S.Unknown),
     payment_event: S.optional(S.Unknown),
     account_group_type_index: S.optional(S.NullOr(S.Number)),
+    default_pinned_properties: S.optional(TeamCustomerAnalyticsConfigDefaultPinnedPropertiesList),
   }),
 ).annotate({
   identifier: "TeamCustomerAnalyticsConfig",
@@ -2641,15 +2737,19 @@ export interface TeamWorkflowsConfig {
   capture_workflows_engagement_events?: boolean;
   /** Recipient-consent enforcement for open/click tracking on marketing workflow emails. 'off': no enforcement, tracking follows each email step's own setting. 'opt_out': track by default but not recipients who have opted out. 'opt_in': only track recipients who have explicitly opted in. Transactional emails are exempt from consent enforcement. * `off` - Off * `opt_out` - Opt Out * `opt_in` - Opt In */
   email_tracking_consent_mode?: EmailTrackingConsentModeEnum | (string & {});
+  /** How many AI tasks one workflow can create in a rolling 24 hours. Null uses the default of 100; zero pauses task creation for every workflow in the project. Support raises the limit above 500. */
+  workflow_task_rate_limit_per_day?: number | null;
+  /** How many AI tasks all workflows in the project can create together in a rolling 24 hours. Null uses the default of 500; zero pauses task creation for the project. Support raises the limit above 2500. */
+  workflow_task_team_rate_limit_per_day?: number | null;
 }
 export const TeamWorkflowsConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     capture_workflows_engagement_events: S.optional(S.Boolean),
     email_tracking_consent_mode: S.optional(EmailTrackingConsentModeEnum),
+    workflow_task_rate_limit_per_day: S.optional(S.NullOr(S.Number)),
+    workflow_task_team_rate_limit_per_day: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "TeamWorkflowsConfig",
-}) as any as S.Schema<TeamWorkflowsConfig>;
+).annotate({ identifier: "TeamWorkflowsConfig" }) as any as S.Schema<TeamWorkflowsConfig>;
 
 export interface TeamFeatureFlagPolicyConfig {
   /** When enabled, a new feature flag needs at least one tag, and a tagged flag cannot lose its last one. A create that declares it comes from a survey, experiment, early access feature, product tour, or web experiment is exempt, because those forms have no tag input. The caller sets that declaration, so a flag can still be created without a tag. */
@@ -2748,7 +2848,8 @@ export interface CreateOrganizationsProjectRequest {
   business_model?: CreateOrganizationsProjectRequestBusinessModel | null;
   /** Enables the customer conversations / live chat product for this project. */
   conversations_enabled?: boolean | null;
-  conversations_settings?: unknown;
+  /** Settings for Conversations. Must be a JSON object or null. */
+  conversations_settings?: CreateOrganizationsProjectRequestConversationsSettingsMap | null;
   logs_settings?: unknown;
   proactive_tasks_enabled?: boolean | null;
   revenue_analytics_config?: TeamRevenueAnalyticsConfig;
@@ -2834,7 +2935,9 @@ export const CreateOrganizationsProjectRequest = /*@__PURE__*/ S.suspend(() =>
     receive_org_level_activity_logs: S.optional(S.NullOr(S.Boolean)),
     business_model: S.optional(S.NullOr(CreateOrganizationsProjectRequestBusinessModel)),
     conversations_enabled: S.optional(S.NullOr(S.Boolean)),
-    conversations_settings: S.optional(S.Unknown),
+    conversations_settings: S.optional(
+      S.NullOr(CreateOrganizationsProjectRequestConversationsSettingsMap),
+    ),
     logs_settings: S.optional(S.Unknown),
     proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
     revenue_analytics_config: S.optional(TeamRevenueAnalyticsConfig),
@@ -2854,11 +2957,7 @@ export const CreateOrganizationsProjectRequest = /*@__PURE__*/ S.suspend(() =>
     onboarding_tasks: S.optional(S.Unknown),
     web_analytics_pre_aggregated_tables_enabled: S.optional(S.NullOr(S.Boolean)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/organizations/{organization_id}/projects/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/organizations/{organization_id}/projects/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateOrganizationsProjectRequest",
@@ -2870,9 +2969,7 @@ export const ProjectBackwardCompatTagsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ProjectBackwardCompatTagsList>;
 
-export type ProjectBackwardCompatGroupTypesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type ProjectBackwardCompatGroupTypesItemMap = { [key: string]: unknown | undefined };
 export const ProjectBackwardCompatGroupTypesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2920,9 +3017,7 @@ export const ProjectBackwardCompatRecordingDomainsList = /*@__PURE__*/ S.Array(
   S.NullOr(S.String),
 ) as any as S.Schema<ProjectBackwardCompatRecordingDomainsList>;
 
-export type ProjectBackwardCompatDefaultModifiersMap = {
-  [key: string]: unknown | undefined;
-};
+export type ProjectBackwardCompatDefaultModifiersMap = { [key: string]: unknown | undefined };
 export const ProjectBackwardCompatDefaultModifiersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2955,6 +3050,13 @@ export const ProjectBackwardCompatProductIntentsList = /*@__PURE__*/ S.Array(
 export type ProjectBackwardCompatBusinessModel = BusinessModelEnum | BlankEnum;
 export const ProjectBackwardCompatBusinessModel =
   S.Unknown as any as S.Schema<ProjectBackwardCompatBusinessModel>;
+
+/** Settings for Conversations. Must be a JSON object or null. */
+export type ProjectBackwardCompatConversationsSettingsMap = { [key: string]: unknown | undefined };
+export const ProjectBackwardCompatConversationsSettingsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ProjectBackwardCompatConversationsSettingsMap>;
 
 /** * `ingest_first_event` - ingest_first_event * `set_up_reverse_proxy` - set_up_reverse_proxy * `create_first_insight` - create_first_insight * `create_first_dashboard` - create_first_dashboard * `track_custom_events` - track_custom_events * `define_actions` - define_actions * `set_up_cohorts` - set_up_cohorts * `explore_trends_insight` - explore_trends_insight * `create_funnel` - create_funnel * `explore_retention_insight` - explore_retention_insight * `explore_paths_insight` - explore_paths_insight * `explore_stickiness_insight` - explore_stickiness_insight * `explore_lifecycle_insight` - explore_lifecycle_insight * `add_authorized_domain` - add_authorized_domain * `set_up_web_vitals` - set_up_web_vitals * `review_web_analytics_dashboard` - review_web_analytics_dashboard * `filter_web_analytics` - filter_web_analytics * `set_up_web_analytics_conversion_goals` - set_up_web_analytics_conversion_goals * `visit_web_vitals_dashboard` - visit_web_vitals_dashboard * `setup_session_recordings` - setup_session_recordings * `watch_session_recording` - watch_session_recording * `configure_recording_settings` - configure_recording_settings * `create_recording_playlist` - create_recording_playlist * `enable_console_logs` - enable_console_logs * `create_feature_flag` - create_feature_flag * `implement_flag_in_code` - implement_flag_in_code * `update_feature_flag_release_conditions` - update_feature_flag_release_conditions * `create_multivariate_flag` - create_multivariate_flag * `set_up_flag_payloads` - set_up_flag_payloads * `set_up_flag_evaluation_runtimes` - set_up_flag_evaluation_runtimes * `create_experiment` - create_experiment * `implement_experiment_variants` - implement_experiment_variants * `launch_experiment` - launch_experiment * `review_experiment_results` - review_experiment_results * `create_survey` - create_survey * `launch_survey` - launch_survey * `collect_survey_responses` - collect_survey_responses * `connect_source` - connect_source * `run_first_query` - run_first_query * `join_external_data` - join_external_data * `create_saved_view` - create_saved_view * `enable_error_tracking` - enable_error_tracking * `upload_source_maps` - upload_source_maps * `view_first_error` - view_first_error * `resolve_first_error` - resolve_first_error * `ingest_first_llm_event` - ingest_first_llm_event * `view_first_trace` - view_first_trace * `track_costs` - track_costs * `set_up_llm_evaluation` - set_up_llm_evaluation * `run_ai_playground` - run_ai_playground * `enable_log_capture` - enable_log_capture * `view_first_logs` - view_first_logs * `create_first_workflow` - create_first_workflow * `set_up_first_workflow_channel` - set_up_first_workflow_channel * `configure_workflow_trigger` - configure_workflow_trigger * `add_workflow_action` - add_workflow_action * `launch_workflow` - launch_workflow * `create_first_endpoint` - create_first_endpoint * `configure_endpoint` - configure_endpoint * `test_endpoint` - test_endpoint * `create_early_access_feature` - create_early_access_feature * `update_feature_stage` - update_feature_stage * `use_posthog_ai` - use_posthog_ai * `use_posthog_code` - use_posthog_code * `use_posthog_mcp` - use_posthog_mcp * `use_posthog_in_slack` - use_posthog_in_slack */
 export type AvailableSetupTaskIdsEnum =
@@ -3031,13 +3133,14 @@ export const ProjectBackwardCompatAvailableSetupTaskIdsList = /*@__PURE__*/ S.Ar
   AvailableSetupTaskIdsEnum,
 ) as any as S.Schema<ProjectBackwardCompatAvailableSetupTaskIdsList>;
 
-export type ProjectBackwardCompatManagedViewsetsMap = {
-  [key: string]: boolean | undefined;
-};
+export type ProjectBackwardCompatManagedViewsetsMap = { [key: string]: boolean | undefined };
 export const ProjectBackwardCompatManagedViewsetsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean,
 ) as any as S.Schema<ProjectBackwardCompatManagedViewsetsMap>;
+
+export type FlagEvaluationsModeEnum = 0 | 1 | 2;
+export const FlagEvaluationsModeEnum = S.Number;
 
 /** A project and its settings, including the settings that live on its passthrough Team. This shape is a superset of TeamSerializer's, so a request rewritten from /api/environments/ onto /api/projects/ never loses a field. */
 export interface ProjectBackwardCompat {
@@ -3130,22 +3233,29 @@ export interface ProjectBackwardCompat {
   flags_persistence_default?: boolean | null;
   secret_api_token?: string | null;
   secret_api_token_backup?: string | null;
+  /** Value this project's heatmap screenshots send as a cookie scoped to your domain, so bot protection can allow them. Only project admins can read it; null for everyone else and when none has been generated. */
+  heatmaps_screenshot_secret?: string | Redacted.Redacted<string> | null;
   receive_org_level_activity_logs?: boolean | null;
   /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
   business_model?: ProjectBackwardCompatBusinessModel | null;
   /** Enables the customer conversations / live chat product for this project. */
   conversations_enabled?: boolean | null;
-  conversations_settings?: unknown;
+  /** Settings for Conversations. Must be a JSON object or null. */
+  conversations_settings?: ProjectBackwardCompatConversationsSettingsMap | null;
   logs_settings?: unknown;
   proactive_tasks_enabled?: boolean | null;
   available_setup_task_ids?: ProjectBackwardCompatAvailableSetupTaskIdsList;
   /** Set to True when project deletion has been initiated. Blocks UI access to this project until the async task completes. */
   is_pending_deletion?: boolean | null;
+  /** When the scheduled project deletion will run. */
+  deletion_scheduled_at?: string | null;
   /** ID of the project this environment belongs to. */
   project_id?: number;
   /** The effective access level the user has for this object */
   user_access_level?: string | null;
   managed_viewsets?: ProjectBackwardCompatManagedViewsetsMap;
+  /** Which table this project's feature flag usage data is read from. PostHog sets it for the whole organization. 0 reads the events table. 1 and 2 read the flag_evaluations table. */
+  flag_evaluations_mode?: FlagEvaluationsModeEnum;
   revenue_analytics_config?: TeamRevenueAnalyticsConfig;
   marketing_analytics_config?: TeamMarketingAnalyticsConfig;
   customer_analytics_config?: TeamCustomerAnalyticsConfig;
@@ -3165,10 +3275,6 @@ export interface ProjectBackwardCompat {
   default_data_theme?: number | null;
   onboarding_tasks?: unknown;
   web_analytics_pre_aggregated_tables_enabled?: boolean | null;
-  /** The team's events data retention window in months (plan-derived, synced from billing). When retention enforcement is active for the team, queries do not return events older than this many months. Read-only: this value follows your plan's data retention entitlement, so neither you nor PostHog support can change it unless your organization is on the enterprise plan. Background and discussion: https://github.com/PostHog/posthog/issues/17031 */
-  event_retention_months?: number;
-  /** Whether events data retention is currently enforced for this team (cohort/flag gated). Read-only: neither you nor PostHog support can turn enforcement off, and the retention window itself only changes with your plan. Background and discussion: https://github.com/PostHog/posthog/issues/17031 */
-  events_retention_enforced?: boolean;
 }
 export const ProjectBackwardCompat = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3243,17 +3349,20 @@ export const ProjectBackwardCompat = /*@__PURE__*/ S.suspend(() =>
     flags_persistence_default: S.optional(S.NullOr(S.Boolean)),
     secret_api_token: S.optional(S.NullOr(S.String)),
     secret_api_token_backup: S.optional(S.NullOr(S.String)),
+    heatmaps_screenshot_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
     receive_org_level_activity_logs: S.optional(S.NullOr(S.Boolean)),
     business_model: S.optional(S.NullOr(ProjectBackwardCompatBusinessModel)),
     conversations_enabled: S.optional(S.NullOr(S.Boolean)),
-    conversations_settings: S.optional(S.Unknown),
+    conversations_settings: S.optional(S.NullOr(ProjectBackwardCompatConversationsSettingsMap)),
     logs_settings: S.optional(S.Unknown),
     proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
     available_setup_task_ids: S.optional(ProjectBackwardCompatAvailableSetupTaskIdsList),
     is_pending_deletion: S.optional(S.NullOr(S.Boolean)),
+    deletion_scheduled_at: S.optional(S.NullOr(S.String)),
     project_id: S.optional(S.Number),
     user_access_level: S.optional(S.NullOr(S.String)),
     managed_viewsets: S.optional(ProjectBackwardCompatManagedViewsetsMap),
+    flag_evaluations_mode: S.optional(FlagEvaluationsModeEnum),
     revenue_analytics_config: S.optional(TeamRevenueAnalyticsConfig),
     marketing_analytics_config: S.optional(TeamMarketingAnalyticsConfig),
     customer_analytics_config: S.optional(TeamCustomerAnalyticsConfig),
@@ -3270,12 +3379,8 @@ export const ProjectBackwardCompat = /*@__PURE__*/ S.suspend(() =>
     default_data_theme: S.optional(S.NullOr(S.Number)),
     onboarding_tasks: S.optional(S.Unknown),
     web_analytics_pre_aggregated_tables_enabled: S.optional(S.NullOr(S.Boolean)),
-    event_retention_months: S.optional(S.Number),
-    events_retention_enforced: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ProjectBackwardCompat",
-}) as any as S.Schema<ProjectBackwardCompat>;
+).annotate({ identifier: "ProjectBackwardCompat" }) as any as S.Schema<ProjectBackwardCompat>;
 
 /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
 export type CreateOrganizationsProjectsChangeOrganizationRequestTagsList = Array<string>;
@@ -3340,6 +3445,16 @@ export type CreateOrganizationsProjectsChangeOrganizationRequestBusinessModel =
   | BlankEnum;
 export const CreateOrganizationsProjectsChangeOrganizationRequestBusinessModel =
   S.Unknown as any as S.Schema<CreateOrganizationsProjectsChangeOrganizationRequestBusinessModel>;
+
+/** Settings for Conversations. Must be a JSON object or null. */
+export type CreateOrganizationsProjectsChangeOrganizationRequestConversationsSettingsMap = {
+  [key: string]: unknown | undefined;
+};
+export const CreateOrganizationsProjectsChangeOrganizationRequestConversationsSettingsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<CreateOrganizationsProjectsChangeOrganizationRequestConversationsSettingsMap>;
 
 export interface CreateOrganizationsProjectsChangeOrganizationRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -3424,7 +3539,8 @@ export interface CreateOrganizationsProjectsChangeOrganizationRequest {
   business_model?: CreateOrganizationsProjectsChangeOrganizationRequestBusinessModel | null;
   /** Enables the customer conversations / live chat product for this project. */
   conversations_enabled?: boolean | null;
-  conversations_settings?: unknown;
+  /** Settings for Conversations. Must be a JSON object or null. */
+  conversations_settings?: CreateOrganizationsProjectsChangeOrganizationRequestConversationsSettingsMap | null;
   logs_settings?: unknown;
   proactive_tasks_enabled?: boolean | null;
   revenue_analytics_config?: TeamRevenueAnalyticsConfig;
@@ -3521,7 +3637,9 @@ export const CreateOrganizationsProjectsChangeOrganizationRequest = /*@__PURE__*
       S.NullOr(CreateOrganizationsProjectsChangeOrganizationRequestBusinessModel),
     ),
     conversations_enabled: S.optional(S.NullOr(S.Boolean)),
-    conversations_settings: S.optional(S.Unknown),
+    conversations_settings: S.optional(
+      S.NullOr(CreateOrganizationsProjectsChangeOrganizationRequestConversationsSettingsMap),
+    ),
     logs_settings: S.optional(S.Unknown),
     proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
     revenue_analytics_config: S.optional(TeamRevenueAnalyticsConfig),
@@ -3618,6 +3736,16 @@ export type CreateOrganizationsProjectsDefaultEvaluationContextRequestBusinessMo
 export const CreateOrganizationsProjectsDefaultEvaluationContextRequestBusinessModel =
   S.Unknown as any as S.Schema<CreateOrganizationsProjectsDefaultEvaluationContextRequestBusinessModel>;
 
+/** Settings for Conversations. Must be a JSON object or null. */
+export type CreateOrganizationsProjectsDefaultEvaluationContextRequestConversationsSettingsMap = {
+  [key: string]: unknown | undefined;
+};
+export const CreateOrganizationsProjectsDefaultEvaluationContextRequestConversationsSettingsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<CreateOrganizationsProjectsDefaultEvaluationContextRequestConversationsSettingsMap>;
+
 export interface CreateOrganizationsProjectsDefaultEvaluationContextRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
@@ -3701,7 +3829,8 @@ export interface CreateOrganizationsProjectsDefaultEvaluationContextRequest {
   business_model?: CreateOrganizationsProjectsDefaultEvaluationContextRequestBusinessModel | null;
   /** Enables the customer conversations / live chat product for this project. */
   conversations_enabled?: boolean | null;
-  conversations_settings?: unknown;
+  /** Settings for Conversations. Must be a JSON object or null. */
+  conversations_settings?: CreateOrganizationsProjectsDefaultEvaluationContextRequestConversationsSettingsMap | null;
   logs_settings?: unknown;
   proactive_tasks_enabled?: boolean | null;
   revenue_analytics_config?: TeamRevenueAnalyticsConfig;
@@ -3801,7 +3930,11 @@ export const CreateOrganizationsProjectsDefaultEvaluationContextRequest = /*@__P
         S.NullOr(CreateOrganizationsProjectsDefaultEvaluationContextRequestBusinessModel),
       ),
       conversations_enabled: S.optional(S.NullOr(S.Boolean)),
-      conversations_settings: S.optional(S.Unknown),
+      conversations_settings: S.optional(
+        S.NullOr(
+          CreateOrganizationsProjectsDefaultEvaluationContextRequestConversationsSettingsMap,
+        ),
+      ),
       logs_settings: S.optional(S.Unknown),
       proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
       revenue_analytics_config: S.optional(TeamRevenueAnalyticsConfig),
@@ -3881,13 +4014,7 @@ export interface CreateRequestAiAccessRequest {
 export const CreateRequestAiAccessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/organizations/{id}/request_ai_access/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/organizations/{id}/request_ai_access/", code: 200 })),
 ).annotate({
   identifier: "CreateRequestAiAccessRequest",
 }) as any as S.Schema<CreateRequestAiAccessRequest>;
@@ -3914,15 +4041,9 @@ export const CreateRoleRequest = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.String.pipe(T.Label()),
     name: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/organizations/{organization_id}/roles/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/organizations/{organization_id}/roles/", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateRoleRequest",
-}) as any as S.Schema<CreateRoleRequest>;
+).annotate({ identifier: "CreateRoleRequest" }) as any as S.Schema<CreateRoleRequest>;
 
 export type RoleMembersItemMap = { [key: string]: unknown | undefined };
 export const RoleMembersItemMap = /*@__PURE__*/ S.Record(
@@ -4021,9 +4142,7 @@ export const RoleExternalReference = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     created_by: S.optional(S.NullOr(UserBasic)),
   }),
-).annotate({
-  identifier: "RoleExternalReference",
-}) as any as S.Schema<RoleExternalReference>;
+).annotate({ identifier: "RoleExternalReference" }) as any as S.Schema<RoleExternalReference>;
 
 export interface CreateRolesRoleMembershipRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -4074,9 +4193,7 @@ export const OrganizationMember = /*@__PURE__*/ S.suspend(() =>
     last_login: S.optional(S.String),
     search_match_type: S.optional(S.NullOr(SearchMatchTypeEnum)),
   }),
-).annotate({
-  identifier: "OrganizationMember",
-}) as any as S.Schema<OrganizationMember>;
+).annotate({ identifier: "OrganizationMember" }) as any as S.Schema<OrganizationMember>;
 
 export interface RoleMembershipOutput {
   id?: string;
@@ -4095,9 +4212,7 @@ export const RoleMembershipOutput = /*@__PURE__*/ S.suspend(() =>
     joined_at: S.optional(S.String),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RoleMembershipOutput",
-}) as any as S.Schema<RoleMembershipOutput>;
+).annotate({ identifier: "RoleMembershipOutput" }) as any as S.Schema<RoleMembershipOutput>;
 
 export interface DestroyRequest {
   /** A UUID string identifying this organization. */
@@ -4131,9 +4246,7 @@ export const DomainsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DomainsDestroyRequest",
-}) as any as S.Schema<DomainsDestroyRequest>;
+).annotate({ identifier: "DomainsDestroyRequest" }) as any as S.Schema<DomainsDestroyRequest>;
 
 export interface DomainsDestroyResponse {}
 export const DomainsDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4182,6 +4295,1247 @@ export const GetRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "GET", uri: "/api/organizations/{id}/", code: 200 })),
 ).annotate({ identifier: "GetRequest" }) as any as S.Schema<GetRequest>;
 
+export interface GetBillingFeatureRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+}
+export const GetBillingFeatureRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/billing/features/",
+      code: 200,
+    }),
+  ),
+).annotate({ identifier: "GetBillingFeatureRequest" }) as any as S.Schema<GetBillingFeatureRequest>;
+
+export interface ProductFeature {
+  key: string;
+  name: string;
+  description: string;
+  unit?: string | null;
+  limit?: number | null;
+  note?: string | null;
+  is_plan_default?: boolean;
+  entitlement_only?: boolean | null;
+  category?: string | null;
+}
+export const ProductFeature = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    name: S.String,
+    description: S.String,
+    unit: S.optional(S.NullOr(S.String)),
+    limit: S.optional(S.NullOr(S.Number)),
+    note: S.optional(S.NullOr(S.String)),
+    is_plan_default: S.optional(S.Boolean),
+    entitlement_only: S.optional(S.NullOr(S.Boolean)),
+    category: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "ProductFeature" }) as any as S.Schema<ProductFeature>;
+
+export type BillingFeaturesAvailableProductFeaturesList = Array<ProductFeature>;
+export const BillingFeaturesAvailableProductFeaturesList = /*@__PURE__*/ S.Array(
+  ProductFeature,
+) as any as S.Schema<BillingFeaturesAvailableProductFeaturesList>;
+
+export interface BillingFeatures {
+  available_product_features: BillingFeaturesAvailableProductFeaturesList;
+}
+export const BillingFeatures = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    available_product_features: BillingFeaturesAvailableProductFeaturesList,
+  }),
+).annotate({ identifier: "BillingFeatures" }) as any as S.Schema<BillingFeatures>;
+
+export interface GetBillingForecastRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+}
+export const GetBillingForecastRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/billing/forecast/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetBillingForecastRequest",
+}) as any as S.Schema<GetBillingForecastRequest>;
+
+/** * `month` - month * `year` - year */
+export type BillingPeriodIntervalEnum = "month" | "year";
+export const BillingPeriodIntervalEnum = S.String;
+
+export interface BillingPeriod {
+  current_period_start: string;
+  current_period_end: string;
+  interval: BillingPeriodIntervalEnum;
+}
+export const BillingPeriod = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    current_period_start: S.String,
+    current_period_end: S.String,
+    interval: BillingPeriodIntervalEnum,
+  }),
+).annotate({ identifier: "BillingPeriod" }) as any as S.Schema<BillingPeriod>;
+
+/** * `product` - Product * `addon` - Addon */
+export type CatalogKindEnum = "product" | "addon";
+export const CatalogKindEnum = S.String;
+
+export interface TierForecast {
+  up_to: number | null;
+  projected_usage: number | null;
+  projected_amount_usd: string | null;
+}
+export const TierForecast = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    up_to: S.NullOr(S.Number),
+    projected_usage: S.NullOr(S.Number),
+    projected_amount_usd: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "TierForecast" }) as any as S.Schema<TierForecast>;
+
+export type ProductForecastTierForecastList = Array<TierForecast>;
+export const ProductForecastTierForecastList = /*@__PURE__*/ S.Array(
+  TierForecast,
+) as any as S.Schema<ProductForecastTierForecastList>;
+
+export type ForecastItemTierForecastList = Array<TierForecast>;
+export const ForecastItemTierForecastList = /*@__PURE__*/ S.Array(
+  TierForecast,
+) as any as S.Schema<ForecastItemTierForecastList>;
+
+export interface ForecastItem {
+  kind: CatalogKindEnum;
+  key: string;
+  usage_key: string | null;
+  projected_usage: number | null;
+  projected_amount_usd: string | null;
+  projected_amount_usd_with_limit?: string | null;
+  tier_forecast: ForecastItemTierForecastList | null;
+}
+export const ForecastItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: CatalogKindEnum,
+    key: S.String,
+    usage_key: S.NullOr(S.String),
+    projected_usage: S.NullOr(S.Number),
+    projected_amount_usd: S.NullOr(S.String),
+    projected_amount_usd_with_limit: S.optional(S.NullOr(S.String)),
+    tier_forecast: S.NullOr(ForecastItemTierForecastList),
+  }),
+).annotate({ identifier: "ForecastItem" }) as any as S.Schema<ForecastItem>;
+
+export type ProductForecastAddonsList = Array<ForecastItem>;
+export const ProductForecastAddonsList = /*@__PURE__*/ S.Array(
+  ForecastItem,
+) as any as S.Schema<ProductForecastAddonsList>;
+
+export interface ProductForecast {
+  kind: CatalogKindEnum;
+  key: string;
+  usage_key: string | null;
+  projected_usage: number | null;
+  projected_amount_usd: string | null;
+  projected_amount_usd_with_limit?: string | null;
+  tier_forecast: ProductForecastTierForecastList | null;
+  addons: ProductForecastAddonsList;
+}
+export const ProductForecast = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: CatalogKindEnum,
+    key: S.String,
+    usage_key: S.NullOr(S.String),
+    projected_usage: S.NullOr(S.Number),
+    projected_amount_usd: S.NullOr(S.String),
+    projected_amount_usd_with_limit: S.optional(S.NullOr(S.String)),
+    tier_forecast: S.NullOr(ProductForecastTierForecastList),
+    addons: ProductForecastAddonsList,
+  }),
+).annotate({ identifier: "ProductForecast" }) as any as S.Schema<ProductForecast>;
+
+export type BillingForecastProductsList = Array<ProductForecast>;
+export const BillingForecastProductsList = /*@__PURE__*/ S.Array(
+  ProductForecast,
+) as any as S.Schema<BillingForecastProductsList>;
+
+export interface BillingForecast {
+  billing_period: BillingPeriod | null;
+  projected_total_amount_usd: string | null;
+  projected_total_amount_usd_with_limit: string | null;
+  projected_total_amount_usd_after_discount: string | null;
+  projected_total_amount_usd_with_limit_after_discount: string | null;
+  products: BillingForecastProductsList;
+  computed_at: string;
+}
+export const BillingForecast = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billing_period: S.NullOr(BillingPeriod),
+    projected_total_amount_usd: S.NullOr(S.String),
+    projected_total_amount_usd_with_limit: S.NullOr(S.String),
+    projected_total_amount_usd_after_discount: S.NullOr(S.String),
+    projected_total_amount_usd_with_limit_after_discount: S.NullOr(S.String),
+    products: BillingForecastProductsList,
+    computed_at: S.String,
+  }),
+).annotate({ identifier: "BillingForecast" }) as any as S.Schema<BillingForecast>;
+
+export interface GetBillingInvoicesContentRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** The invoice's id. */
+  invoice_id: string;
+}
+export const GetBillingInvoicesContentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    invoice_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/billing/invoices/{invoice_id}/content/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetBillingInvoicesContentRequest",
+}) as any as S.Schema<GetBillingInvoicesContentRequest>;
+
+export interface GetBillingInvoicesContentResponse {}
+export const GetBillingInvoicesContentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "GetBillingInvoicesContentResponse",
+}) as any as S.Schema<GetBillingInvoicesContentResponse>;
+
+export interface GetBillingLimitRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+}
+export const GetBillingLimitRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/billing/limits/",
+      code: 200,
+    }),
+  ),
+).annotate({ identifier: "GetBillingLimitRequest" }) as any as S.Schema<GetBillingLimitRequest>;
+
+export interface ProductLimit {
+  key: string;
+  limit_usd: number | null;
+  next_period_limit_usd: number | null;
+  spend_usd: string | null;
+  reached: boolean;
+}
+export const ProductLimit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    limit_usd: S.NullOr(S.Number),
+    next_period_limit_usd: S.NullOr(S.Number),
+    spend_usd: S.NullOr(S.String),
+    reached: S.Boolean,
+  }),
+).annotate({ identifier: "ProductLimit" }) as any as S.Schema<ProductLimit>;
+
+export type BillingLimitsResultsList = Array<ProductLimit>;
+export const BillingLimitsResultsList = /*@__PURE__*/ S.Array(
+  ProductLimit,
+) as any as S.Schema<BillingLimitsResultsList>;
+
+export interface BillingLimits {
+  results: BillingLimitsResultsList;
+}
+export const BillingLimits = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: BillingLimitsResultsList,
+  }),
+).annotate({ identifier: "BillingLimits" }) as any as S.Schema<BillingLimits>;
+
+export interface GetBillingProductRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** The product's key. */
+  product_key: string;
+  /** Add the `plans` list to each product and add-on. Most of the payload. */
+  include_plans?: boolean;
+}
+export const GetBillingProductRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    product_key: S.String.pipe(T.Label()),
+    include_plans: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/billing/products/{product_key}/",
+      code: 200,
+    }),
+  ),
+).annotate({ identifier: "GetBillingProductRequest" }) as any as S.Schema<GetBillingProductRequest>;
+
+export interface PriceTier {
+  flat_amount_usd: string;
+  unit_amount_usd: string;
+  up_to: number | null;
+}
+export const PriceTier = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    flat_amount_usd: S.String,
+    unit_amount_usd: S.String,
+    up_to: S.NullOr(S.Number),
+  }),
+).annotate({ identifier: "PriceTier" }) as any as S.Schema<PriceTier>;
+
+export type BillingProductTiersList = Array<PriceTier>;
+export const BillingProductTiersList = /*@__PURE__*/ S.Array(
+  PriceTier,
+) as any as S.Schema<BillingProductTiersList>;
+
+export type ProductPlanTiersList = Array<PriceTier>;
+export const ProductPlanTiersList = /*@__PURE__*/ S.Array(
+  PriceTier,
+) as any as S.Schema<ProductPlanTiersList>;
+
+export type ProductPlanFeaturesList = Array<ProductFeature>;
+export const ProductPlanFeaturesList = /*@__PURE__*/ S.Array(
+  ProductFeature,
+) as any as S.Schema<ProductPlanFeaturesList>;
+
+export interface ProductPlan {
+  product_key: string;
+  plan_key: string;
+  name: string;
+  description: string;
+  image_url: string | null;
+  docs_url: string | null;
+  note: string | null;
+  unit: string | null;
+  flat_rate: boolean;
+  tiers: ProductPlanTiersList | null;
+  free_allocation: number | null;
+  features: ProductPlanFeaturesList;
+  included_if: string | null;
+  contact_support: boolean | null;
+  unit_amount_usd: string | null;
+  current_plan: boolean;
+  initial_billing_limit?: number | null;
+}
+export const ProductPlan = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    product_key: S.String,
+    plan_key: S.String,
+    name: S.String,
+    description: S.String,
+    image_url: S.NullOr(S.String),
+    docs_url: S.NullOr(S.String),
+    note: S.NullOr(S.String),
+    unit: S.NullOr(S.String),
+    flat_rate: S.Boolean,
+    tiers: S.NullOr(ProductPlanTiersList),
+    free_allocation: S.NullOr(S.Number),
+    features: ProductPlanFeaturesList,
+    included_if: S.NullOr(S.String),
+    contact_support: S.NullOr(S.Boolean),
+    unit_amount_usd: S.NullOr(S.String),
+    current_plan: S.Boolean,
+    initial_billing_limit: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "ProductPlan" }) as any as S.Schema<ProductPlan>;
+
+export type BillingProductPlansList = Array<ProductPlan>;
+export const BillingProductPlansList = /*@__PURE__*/ S.Array(
+  ProductPlan,
+) as any as S.Schema<BillingProductPlansList>;
+
+export interface ProductBaseFeature {
+  key: string;
+  name: string;
+  description: string;
+  images?: unknown;
+  icon_key?: string | null;
+  type?: string | null;
+  category?: string | null;
+}
+export const ProductBaseFeature = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    name: S.String,
+    description: S.String,
+    images: S.optional(S.Unknown),
+    icon_key: S.optional(S.NullOr(S.String)),
+    type: S.optional(S.NullOr(S.String)),
+    category: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "ProductBaseFeature" }) as any as S.Schema<ProductBaseFeature>;
+
+export type BillingProductFeaturesList = Array<ProductBaseFeature>;
+export const BillingProductFeaturesList = /*@__PURE__*/ S.Array(
+  ProductBaseFeature,
+) as any as S.Schema<BillingProductFeaturesList>;
+
+export interface ProductTrialConfig {
+  length: number;
+}
+export const ProductTrialConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    length: S.Number,
+  }),
+).annotate({ identifier: "ProductTrialConfig" }) as any as S.Schema<ProductTrialConfig>;
+
+export type BillingAddonTiersList = Array<PriceTier>;
+export const BillingAddonTiersList = /*@__PURE__*/ S.Array(
+  PriceTier,
+) as any as S.Schema<BillingAddonTiersList>;
+
+export type BillingAddonPlansList = Array<ProductPlan>;
+export const BillingAddonPlansList = /*@__PURE__*/ S.Array(
+  ProductPlan,
+) as any as S.Schema<BillingAddonPlansList>;
+
+export type BillingAddonFeaturesList = Array<ProductBaseFeature>;
+export const BillingAddonFeaturesList = /*@__PURE__*/ S.Array(
+  ProductBaseFeature,
+) as any as S.Schema<BillingAddonFeaturesList>;
+
+export interface BillingAddon {
+  kind: CatalogKindEnum;
+  key: string;
+  usage_key: string | null;
+  name: string;
+  description: string;
+  price_description: string | null;
+  icon_key: string | null;
+  image_url: string | null;
+  docs_url: string | null;
+  subscribed: boolean | null;
+  inclusion_only: boolean;
+  contact_support: boolean | null;
+  legacy_product: boolean | null;
+  free_allocation: number | null;
+  usage_limit: number | null;
+  unit: string | null;
+  display_unit: string | null;
+  display_decimals: number | null;
+  display_divisor: number | null;
+  tiered: boolean;
+  unit_amount_usd: string | null;
+  tiers: BillingAddonTiersList | null;
+  plans?: BillingAddonPlansList;
+  features: BillingAddonFeaturesList;
+  trial: ProductTrialConfig | null;
+  included_with_main_product: boolean;
+  included_if: string | null;
+  default_unit_amount_usd: string | null;
+}
+export const BillingAddon = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: CatalogKindEnum,
+    key: S.String,
+    usage_key: S.NullOr(S.String),
+    name: S.String,
+    description: S.String,
+    price_description: S.NullOr(S.String),
+    icon_key: S.NullOr(S.String),
+    image_url: S.NullOr(S.String),
+    docs_url: S.NullOr(S.String),
+    subscribed: S.NullOr(S.Boolean),
+    inclusion_only: S.Boolean,
+    contact_support: S.NullOr(S.Boolean),
+    legacy_product: S.NullOr(S.Boolean),
+    free_allocation: S.NullOr(S.Number),
+    usage_limit: S.NullOr(S.Number),
+    unit: S.NullOr(S.String),
+    display_unit: S.NullOr(S.String),
+    display_decimals: S.NullOr(S.Number),
+    display_divisor: S.NullOr(S.Number),
+    tiered: S.Boolean,
+    unit_amount_usd: S.NullOr(S.String),
+    tiers: S.NullOr(BillingAddonTiersList),
+    plans: S.optional(BillingAddonPlansList),
+    features: BillingAddonFeaturesList,
+    trial: S.NullOr(ProductTrialConfig),
+    included_with_main_product: S.Boolean,
+    included_if: S.NullOr(S.String),
+    default_unit_amount_usd: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "BillingAddon" }) as any as S.Schema<BillingAddon>;
+
+export type BillingProductAddonsList = Array<BillingAddon>;
+export const BillingProductAddonsList = /*@__PURE__*/ S.Array(
+  BillingAddon,
+) as any as S.Schema<BillingProductAddonsList>;
+
+export interface BillingProduct {
+  kind: CatalogKindEnum;
+  key: string;
+  usage_key: string | null;
+  name: string;
+  description: string;
+  price_description: string | null;
+  icon_key: string | null;
+  image_url: string | null;
+  docs_url: string | null;
+  subscribed: boolean | null;
+  inclusion_only: boolean;
+  contact_support: boolean | null;
+  legacy_product: boolean | null;
+  free_allocation: number | null;
+  usage_limit: number | null;
+  unit: string | null;
+  display_unit: string | null;
+  display_decimals: number | null;
+  display_divisor: number | null;
+  tiered: boolean;
+  unit_amount_usd: string | null;
+  tiers: BillingProductTiersList | null;
+  plans?: BillingProductPlansList;
+  features: BillingProductFeaturesList;
+  trial: ProductTrialConfig | null;
+  headline: string | null;
+  screenshot_url: string | null;
+  addons: BillingProductAddonsList;
+}
+export const BillingProduct = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: CatalogKindEnum,
+    key: S.String,
+    usage_key: S.NullOr(S.String),
+    name: S.String,
+    description: S.String,
+    price_description: S.NullOr(S.String),
+    icon_key: S.NullOr(S.String),
+    image_url: S.NullOr(S.String),
+    docs_url: S.NullOr(S.String),
+    subscribed: S.NullOr(S.Boolean),
+    inclusion_only: S.Boolean,
+    contact_support: S.NullOr(S.Boolean),
+    legacy_product: S.NullOr(S.Boolean),
+    free_allocation: S.NullOr(S.Number),
+    usage_limit: S.NullOr(S.Number),
+    unit: S.NullOr(S.String),
+    display_unit: S.NullOr(S.String),
+    display_decimals: S.NullOr(S.Number),
+    display_divisor: S.NullOr(S.Number),
+    tiered: S.Boolean,
+    unit_amount_usd: S.NullOr(S.String),
+    tiers: S.NullOr(BillingProductTiersList),
+    plans: S.optional(BillingProductPlansList),
+    features: BillingProductFeaturesList,
+    trial: S.NullOr(ProductTrialConfig),
+    headline: S.NullOr(S.String),
+    screenshot_url: S.NullOr(S.String),
+    addons: BillingProductAddonsList,
+  }),
+).annotate({ identifier: "BillingProduct" }) as any as S.Schema<BillingProduct>;
+
+export interface GetBillingProductsSummaryRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+}
+export const GetBillingProductsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/billing/products/summary/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetBillingProductsSummaryRequest",
+}) as any as S.Schema<GetBillingProductsSummaryRequest>;
+
+export interface BillingProductsSummaryAddon {
+  /** The add-on key. */
+  key: string;
+  /** The add-on name, as the billing page shows it. */
+  name: string;
+  /** What the add-on does. */
+  description: string;
+  /** Whether the organization subscribes to the add-on. */
+  subscribed: boolean | null;
+}
+export const BillingProductsSummaryAddon = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    name: S.String,
+    description: S.String,
+    subscribed: S.NullOr(S.Boolean),
+  }),
+).annotate({
+  identifier: "BillingProductsSummaryAddon",
+}) as any as S.Schema<BillingProductsSummaryAddon>;
+
+/** The product's add-ons. */
+export type BillingProductsSummaryProductAddonsList = Array<BillingProductsSummaryAddon>;
+export const BillingProductsSummaryProductAddonsList = /*@__PURE__*/ S.Array(
+  BillingProductsSummaryAddon,
+) as any as S.Schema<BillingProductsSummaryProductAddonsList>;
+
+/** The add-ons of this product that carry the feature. Empty when only the product carries it. */
+export type BillingProductsSummaryFeatureAddonKeysList = Array<string>;
+export const BillingProductsSummaryFeatureAddonKeysList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<BillingProductsSummaryFeatureAddonKeysList>;
+
+export interface BillingProductsSummaryFeature {
+  /** The feature key. */
+  key: string;
+  /** The feature name, as the billing page shows it. */
+  name: string;
+  /** Whether the feature is available to the organization, trials and overrides included. */
+  included: boolean;
+  /** The add-ons of this product that carry the feature. Empty when only the product carries it. */
+  addon_keys: BillingProductsSummaryFeatureAddonKeysList;
+}
+export const BillingProductsSummaryFeature = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    name: S.String,
+    included: S.Boolean,
+    addon_keys: BillingProductsSummaryFeatureAddonKeysList,
+  }),
+).annotate({
+  identifier: "BillingProductsSummaryFeature",
+}) as any as S.Schema<BillingProductsSummaryFeature>;
+
+/** The features the product and its add-ons carry, each one listed once. */
+export type BillingProductsSummaryProductFeaturesList = Array<BillingProductsSummaryFeature>;
+export const BillingProductsSummaryProductFeaturesList = /*@__PURE__*/ S.Array(
+  BillingProductsSummaryFeature,
+) as any as S.Schema<BillingProductsSummaryProductFeaturesList>;
+
+export interface BillingProductsSummaryProduct {
+  /** The product key. Pass it to the product route for prices and plans. */
+  key: string;
+  /** The product name, as the billing page shows it. */
+  name: string;
+  /** What the product does. */
+  description: string;
+  /** Whether the organization subscribes to the product. Null for an inclusion-only product that carries no price of its own, such as Platform and support, where the plan the organization is on is what counts. */
+  subscribed: boolean | null;
+  /** The product's add-ons. */
+  addons: BillingProductsSummaryProductAddonsList;
+  /** The features the product and its add-ons carry, each one listed once. */
+  features: BillingProductsSummaryProductFeaturesList;
+}
+export const BillingProductsSummaryProduct = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    name: S.String,
+    description: S.String,
+    subscribed: S.NullOr(S.Boolean),
+    addons: BillingProductsSummaryProductAddonsList,
+    features: BillingProductsSummaryProductFeaturesList,
+  }),
+).annotate({
+  identifier: "BillingProductsSummaryProduct",
+}) as any as S.Schema<BillingProductsSummaryProduct>;
+
+/** Every product, add-ons included. */
+export type BillingProductsSummaryResultsList = Array<BillingProductsSummaryProduct>;
+export const BillingProductsSummaryResultsList = /*@__PURE__*/ S.Array(
+  BillingProductsSummaryProduct,
+) as any as S.Schema<BillingProductsSummaryResultsList>;
+
+export interface BillingProductsSummary {
+  /** Every product, add-ons included. */
+  results: BillingProductsSummaryResultsList;
+}
+export const BillingProductsSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: BillingProductsSummaryResultsList,
+  }),
+).annotate({ identifier: "BillingProductsSummary" }) as any as S.Schema<BillingProductsSummary>;
+
+export interface GetBillingSpendSummaryRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+}
+export const GetBillingSpendSummaryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/billing/spend/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetBillingSpendSummaryRequest",
+}) as any as S.Schema<GetBillingSpendSummaryRequest>;
+
+export interface TierSpend {
+  up_to: number | null;
+  current_amount_usd: string | null;
+}
+export const TierSpend = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    up_to: S.NullOr(S.Number),
+    current_amount_usd: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "TierSpend" }) as any as S.Schema<TierSpend>;
+
+export type ProductSpendTierSpendList = Array<TierSpend>;
+export const ProductSpendTierSpendList = /*@__PURE__*/ S.Array(
+  TierSpend,
+) as any as S.Schema<ProductSpendTierSpendList>;
+
+export type SpendItemTierSpendList = Array<TierSpend>;
+export const SpendItemTierSpendList = /*@__PURE__*/ S.Array(
+  TierSpend,
+) as any as S.Schema<SpendItemTierSpendList>;
+
+export interface SpendItem {
+  kind: CatalogKindEnum;
+  key: string;
+  usage_key: string | null;
+  current_amount_usd: string | null;
+  current_amount_usd_before_addons?: string | null;
+  tier_spend: SpendItemTierSpendList | null;
+}
+export const SpendItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: CatalogKindEnum,
+    key: S.String,
+    usage_key: S.NullOr(S.String),
+    current_amount_usd: S.NullOr(S.String),
+    current_amount_usd_before_addons: S.optional(S.NullOr(S.String)),
+    tier_spend: S.NullOr(SpendItemTierSpendList),
+  }),
+).annotate({ identifier: "SpendItem" }) as any as S.Schema<SpendItem>;
+
+export type ProductSpendAddonsList = Array<SpendItem>;
+export const ProductSpendAddonsList = /*@__PURE__*/ S.Array(
+  SpendItem,
+) as any as S.Schema<ProductSpendAddonsList>;
+
+export interface ProductSpend {
+  kind: CatalogKindEnum;
+  key: string;
+  usage_key: string | null;
+  current_amount_usd: string | null;
+  current_amount_usd_before_addons?: string | null;
+  tier_spend: ProductSpendTierSpendList | null;
+  addons: ProductSpendAddonsList;
+}
+export const ProductSpend = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: CatalogKindEnum,
+    key: S.String,
+    usage_key: S.NullOr(S.String),
+    current_amount_usd: S.NullOr(S.String),
+    current_amount_usd_before_addons: S.optional(S.NullOr(S.String)),
+    tier_spend: S.NullOr(ProductSpendTierSpendList),
+    addons: ProductSpendAddonsList,
+  }),
+).annotate({ identifier: "ProductSpend" }) as any as S.Schema<ProductSpend>;
+
+export type BillingSpendSummaryProductsList = Array<ProductSpend>;
+export const BillingSpendSummaryProductsList = /*@__PURE__*/ S.Array(
+  ProductSpend,
+) as any as S.Schema<BillingSpendSummaryProductsList>;
+
+export interface BillingSpendSummary {
+  billing_period: BillingPeriod | null;
+  usage_reported_through: string | null;
+  current_total_amount_usd: string | null;
+  current_total_amount_usd_after_discount: string | null;
+  products: BillingSpendSummaryProductsList;
+}
+export const BillingSpendSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billing_period: S.NullOr(BillingPeriod),
+    usage_reported_through: S.NullOr(S.String),
+    current_total_amount_usd: S.NullOr(S.String),
+    current_total_amount_usd_after_discount: S.NullOr(S.String),
+    products: BillingSpendSummaryProductsList,
+  }),
+).annotate({ identifier: "BillingSpendSummary" }) as any as S.Schema<BillingSpendSummary>;
+
+export interface GetBillingSpendTimeseriesRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
+  breakdowns?: string;
+  /** The cursor from a previous page's `next` link. Opaque. Ignored without `limit`. */
+  cursor?: string;
+  /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
+  end_date?: string;
+  interval?: string;
+  /** Series per page, ranked by total, with a `next` link for the page after. Requires a project breakdown and is ignored without one. Omit it to get every series at once. */
+  limit?: number;
+  /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
+  start_date?: string;
+  /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
+  team_ids?: string;
+  /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
+  top_projects?: number;
+  /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
+  usage_types?: string;
+}
+export const GetBillingSpendTimeseriesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    breakdowns: S.optional(S.String.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    end_date: S.optional(S.String.pipe(T.Query())),
+    interval: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    start_date: S.optional(S.String.pipe(T.Query())),
+    team_ids: S.optional(S.String.pipe(T.Query())),
+    top_projects: S.optional(S.Number.pipe(T.Query())),
+    usage_types: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/billing/spend/timeseries/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetBillingSpendTimeseriesRequest",
+}) as any as S.Schema<GetBillingSpendTimeseriesRequest>;
+
+export type BillingTimeSeriesPointDataList = Array<number>;
+export const BillingTimeSeriesPointDataList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<BillingTimeSeriesPointDataList>;
+
+export type BillingTimeSeriesPointDatesList = Array<string>;
+export const BillingTimeSeriesPointDatesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<BillingTimeSeriesPointDatesList>;
+
+/** * `type` - type * `team` - team * `multiple` - multiple */
+export type BreakdownTypeEnum = "type" | "team" | "multiple";
+export const BreakdownTypeEnum = S.String;
+
+export interface BillingTimeSeriesPoint {
+  id?: number;
+  label?: string;
+  data?: BillingTimeSeriesPointDataList;
+  dates?: BillingTimeSeriesPointDatesList;
+  breakdown_type?: BreakdownTypeEnum | null;
+  breakdown_value?: unknown;
+}
+export const BillingTimeSeriesPoint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.Number),
+    label: S.optional(S.String),
+    data: S.optional(BillingTimeSeriesPointDataList),
+    dates: S.optional(BillingTimeSeriesPointDatesList),
+    breakdown_type: S.optional(S.NullOr(BreakdownTypeEnum)),
+    breakdown_value: S.optional(S.Unknown),
+  }),
+).annotate({ identifier: "BillingTimeSeriesPoint" }) as any as S.Schema<BillingTimeSeriesPoint>;
+
+export type PaginatedBillingTimeSeriesPointListResultsList = Array<BillingTimeSeriesPoint>;
+export const PaginatedBillingTimeSeriesPointListResultsList = /*@__PURE__*/ S.Array(
+  BillingTimeSeriesPoint,
+) as any as S.Schema<PaginatedBillingTimeSeriesPointListResultsList>;
+
+export interface PaginatedBillingTimeSeriesPointList {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: PaginatedBillingTimeSeriesPointListResultsList;
+}
+export const PaginatedBillingTimeSeriesPointList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    next: S.NullOr(S.String),
+    previous: S.NullOr(S.String),
+    results: PaginatedBillingTimeSeriesPointListResultsList,
+  }),
+).annotate({
+  identifier: "PaginatedBillingTimeSeriesPointList",
+}) as any as S.Schema<PaginatedBillingTimeSeriesPointList>;
+
+export interface GetBillingSubscriptionRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+}
+export const GetBillingSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/billing/subscription/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetBillingSubscriptionRequest",
+}) as any as S.Schema<GetBillingSubscriptionRequest>;
+
+/** * `stripe` - stripe * `vercel` - vercel */
+export type BillingProviderEnum = "stripe" | "vercel";
+export const BillingProviderEnum = S.String;
+
+export interface Trial {
+  type: string;
+  status: string;
+  target: string;
+  expires_at: string | null;
+}
+export const Trial = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    status: S.String,
+    target: S.String,
+    expires_at: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "Trial" }) as any as S.Schema<Trial>;
+
+export interface License {
+  plan: string;
+}
+export const License = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    plan: S.String,
+  }),
+).annotate({ identifier: "License" }) as any as S.Schema<License>;
+
+export interface BillingManagedByPartner {
+  /** Name of the partner that pays for this organization. Can be empty. */
+  partner_name: string;
+}
+export const BillingManagedByPartner = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    partner_name: S.String,
+  }),
+).annotate({ identifier: "BillingManagedByPartner" }) as any as S.Schema<BillingManagedByPartner>;
+
+export interface BillingSubscription {
+  customer_id: string | null;
+  has_active_subscription: boolean;
+  subscription_level: string | null;
+  billing_plan: string | null;
+  billing_provider: BillingProviderEnum | null;
+  deactivated: boolean;
+  is_annual_plan_customer: boolean;
+  billing_period: BillingPeriod | null;
+  trial: Trial | null;
+  free_trial_until: string | null;
+  discount_percent: number | null;
+  discount_amount_usd: string | null;
+  amount_off_expires_at: string | null;
+  startup_program_label: string | null;
+  startup_program_label_previous: string | null;
+  billing_portal_url: string;
+  invoices_url?: string;
+  license: License;
+  /** Set when a provisioning partner pays for this organization and the organization has no Stripe customer of its own. Self-serve subscription and payment changes are refused while it is set. Null otherwise. */
+  billing_managed_by_partner: BillingManagedByPartner | null;
+}
+export const BillingSubscription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    customer_id: S.NullOr(S.String),
+    has_active_subscription: S.Boolean,
+    subscription_level: S.NullOr(S.String),
+    billing_plan: S.NullOr(S.String),
+    billing_provider: S.NullOr(BillingProviderEnum),
+    deactivated: S.Boolean,
+    is_annual_plan_customer: S.Boolean,
+    billing_period: S.NullOr(BillingPeriod),
+    trial: S.NullOr(Trial),
+    free_trial_until: S.NullOr(S.String),
+    discount_percent: S.NullOr(S.Number),
+    discount_amount_usd: S.NullOr(S.String),
+    amount_off_expires_at: S.NullOr(S.String),
+    startup_program_label: S.NullOr(S.String),
+    startup_program_label_previous: S.NullOr(S.String),
+    billing_portal_url: S.String,
+    invoices_url: S.optional(S.String),
+    license: License,
+    billing_managed_by_partner: S.NullOr(BillingManagedByPartner),
+  }),
+).annotate({ identifier: "BillingSubscription" }) as any as S.Schema<BillingSubscription>;
+
+export interface GetBillingUsageStatusRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+}
+export const GetBillingUsageStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/billing/usage/status/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetBillingUsageStatusRequest",
+}) as any as S.Schema<GetBillingUsageStatusRequest>;
+
+export interface UsageStatusItem {
+  kind: CatalogKindEnum;
+  key: string;
+  usage_key: string | null;
+  usage_limit: number | null;
+  has_exceeded_limit: boolean;
+  approaching_limit: boolean;
+  quota_limited_until: string | null;
+  quota_limiting_suspended_until: string | null;
+}
+export const UsageStatusItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: CatalogKindEnum,
+    key: S.String,
+    usage_key: S.NullOr(S.String),
+    usage_limit: S.NullOr(S.Number),
+    has_exceeded_limit: S.Boolean,
+    approaching_limit: S.Boolean,
+    quota_limited_until: S.NullOr(S.String),
+    quota_limiting_suspended_until: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "UsageStatusItem" }) as any as S.Schema<UsageStatusItem>;
+
+export type ProductUsageStatusAddonsList = Array<UsageStatusItem>;
+export const ProductUsageStatusAddonsList = /*@__PURE__*/ S.Array(
+  UsageStatusItem,
+) as any as S.Schema<ProductUsageStatusAddonsList>;
+
+export interface ProductUsageStatus {
+  kind: CatalogKindEnum;
+  key: string;
+  usage_key: string | null;
+  usage_limit: number | null;
+  has_exceeded_limit: boolean;
+  approaching_limit: boolean;
+  quota_limited_until: string | null;
+  quota_limiting_suspended_until: string | null;
+  addons: ProductUsageStatusAddonsList;
+}
+export const ProductUsageStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: CatalogKindEnum,
+    key: S.String,
+    usage_key: S.NullOr(S.String),
+    usage_limit: S.NullOr(S.Number),
+    has_exceeded_limit: S.Boolean,
+    approaching_limit: S.Boolean,
+    quota_limited_until: S.NullOr(S.String),
+    quota_limiting_suspended_until: S.NullOr(S.String),
+    addons: ProductUsageStatusAddonsList,
+  }),
+).annotate({ identifier: "ProductUsageStatus" }) as any as S.Schema<ProductUsageStatus>;
+
+export type BillingUsageStatusProductsList = Array<ProductUsageStatus>;
+export const BillingUsageStatusProductsList = /*@__PURE__*/ S.Array(
+  ProductUsageStatus,
+) as any as S.Schema<BillingUsageStatusProductsList>;
+
+export interface BillingUsageStatus {
+  billing_period: BillingPeriod | null;
+  usage_reported_through: string | null;
+  products: BillingUsageStatusProductsList;
+}
+export const BillingUsageStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billing_period: S.NullOr(BillingPeriod),
+    usage_reported_through: S.NullOr(S.String),
+    products: BillingUsageStatusProductsList,
+  }),
+).annotate({ identifier: "BillingUsageStatus" }) as any as S.Schema<BillingUsageStatus>;
+
+export interface GetBillingUsageSummaryRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+}
+export const GetBillingUsageSummaryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/billing/usage/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetBillingUsageSummaryRequest",
+}) as any as S.Schema<GetBillingUsageSummaryRequest>;
+
+export interface UsageKeySummary {
+  usage_key: string;
+  usage: number | null;
+  limit: number | null;
+  todays_usage?: number | null;
+  quota_limited_until: string | null;
+  quota_limiting_suspended_until: string | null;
+}
+export const UsageKeySummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    usage_key: S.String,
+    usage: S.NullOr(S.Number),
+    limit: S.NullOr(S.Number),
+    todays_usage: S.optional(S.NullOr(S.Number)),
+    quota_limited_until: S.NullOr(S.String),
+    quota_limiting_suspended_until: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "UsageKeySummary" }) as any as S.Schema<UsageKeySummary>;
+
+export type BillingUsageSummaryUsageSummaryList = Array<UsageKeySummary>;
+export const BillingUsageSummaryUsageSummaryList = /*@__PURE__*/ S.Array(
+  UsageKeySummary,
+) as any as S.Schema<BillingUsageSummaryUsageSummaryList>;
+
+export interface TierUsage {
+  up_to: number | null;
+  current_usage: number;
+}
+export const TierUsage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    up_to: S.NullOr(S.Number),
+    current_usage: S.Number,
+  }),
+).annotate({ identifier: "TierUsage" }) as any as S.Schema<TierUsage>;
+
+export type ProductUsageTierUsageList = Array<TierUsage>;
+export const ProductUsageTierUsageList = /*@__PURE__*/ S.Array(
+  TierUsage,
+) as any as S.Schema<ProductUsageTierUsageList>;
+
+export type UsageItemTierUsageList = Array<TierUsage>;
+export const UsageItemTierUsageList = /*@__PURE__*/ S.Array(
+  TierUsage,
+) as any as S.Schema<UsageItemTierUsageList>;
+
+export interface UsageItem {
+  kind: CatalogKindEnum;
+  key: string;
+  usage_key: string | null;
+  current_usage: number;
+  usage_limit: number | null;
+  has_exceeded_limit: boolean;
+  usage_ratio: number;
+  tier_usage: UsageItemTierUsageList | null;
+}
+export const UsageItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: CatalogKindEnum,
+    key: S.String,
+    usage_key: S.NullOr(S.String),
+    current_usage: S.Number,
+    usage_limit: S.NullOr(S.Number),
+    has_exceeded_limit: S.Boolean,
+    usage_ratio: S.Number,
+    tier_usage: S.NullOr(UsageItemTierUsageList),
+  }),
+).annotate({ identifier: "UsageItem" }) as any as S.Schema<UsageItem>;
+
+export type ProductUsageAddonsList = Array<UsageItem>;
+export const ProductUsageAddonsList = /*@__PURE__*/ S.Array(
+  UsageItem,
+) as any as S.Schema<ProductUsageAddonsList>;
+
+export interface ProductUsage {
+  kind: CatalogKindEnum;
+  key: string;
+  usage_key: string | null;
+  current_usage: number;
+  usage_limit: number | null;
+  has_exceeded_limit: boolean;
+  usage_ratio: number;
+  tier_usage: ProductUsageTierUsageList | null;
+  addons: ProductUsageAddonsList;
+}
+export const ProductUsage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: CatalogKindEnum,
+    key: S.String,
+    usage_key: S.NullOr(S.String),
+    current_usage: S.Number,
+    usage_limit: S.NullOr(S.Number),
+    has_exceeded_limit: S.Boolean,
+    usage_ratio: S.Number,
+    tier_usage: S.NullOr(ProductUsageTierUsageList),
+    addons: ProductUsageAddonsList,
+  }),
+).annotate({ identifier: "ProductUsage" }) as any as S.Schema<ProductUsage>;
+
+export type BillingUsageSummaryProductsList = Array<ProductUsage>;
+export const BillingUsageSummaryProductsList = /*@__PURE__*/ S.Array(
+  ProductUsage,
+) as any as S.Schema<BillingUsageSummaryProductsList>;
+
+export interface BillingUsageSummary {
+  billing_period: BillingPeriod | null;
+  usage_reported_through: string | null;
+  usage_summary: BillingUsageSummaryUsageSummaryList;
+  products: BillingUsageSummaryProductsList;
+}
+export const BillingUsageSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billing_period: S.NullOr(BillingPeriod),
+    usage_reported_through: S.NullOr(S.String),
+    usage_summary: BillingUsageSummaryUsageSummaryList,
+    products: BillingUsageSummaryProductsList,
+  }),
+).annotate({ identifier: "BillingUsageSummary" }) as any as S.Schema<BillingUsageSummary>;
+
+export interface GetBillingUsageTimeseriesRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** JSON-encoded array of breakdown dimensions. Omit it for one series across the whole organization. Pass `["type"]` for a series per product. Pass `["type","team"]` for a series per product per project. To break usage down by project, pass `"type"` with `"team"`: billing counts usage per product, and the counts do not add up across products. */
+  breakdowns?: string;
+  /** The cursor from a previous page's `next` link. Opaque. Ignored without `limit`. */
+  cursor?: string;
+  /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
+  end_date?: string;
+  interval?: string;
+  /** Series per page, ranked by total, with a `next` link for the page after. Requires a project breakdown and is ignored without one. Omit it to get every series at once. */
+  limit?: number;
+  /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
+  start_date?: string;
+  /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
+  team_ids?: string;
+  /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
+  top_projects?: number;
+  /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
+  usage_types?: string;
+}
+export const GetBillingUsageTimeseriesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    breakdowns: S.optional(S.String.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    end_date: S.optional(S.String.pipe(T.Query())),
+    interval: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    start_date: S.optional(S.String.pipe(T.Query())),
+    team_ids: S.optional(S.String.pipe(T.Query())),
+    top_projects: S.optional(S.Number.pipe(T.Query())),
+    usage_types: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/billing/usage/timeseries/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetBillingUsageTimeseriesRequest",
+}) as any as S.Schema<GetBillingUsageTimeseriesRequest>;
+
 export interface GetCimdVerificationTokenRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
@@ -4225,9 +5579,7 @@ export const CIMDVerificationToken = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     last_used_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CIMDVerificationToken",
-}) as any as S.Schema<CIMDVerificationToken>;
+).annotate({ identifier: "CIMDVerificationToken" }) as any as S.Schema<CIMDVerificationToken>;
 
 export interface GetDomainRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -4240,15 +5592,9 @@ export const GetDomainRequest = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/organizations/{organization_id}/domains/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/organizations/{organization_id}/domains/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetDomainRequest",
-}) as any as S.Schema<GetDomainRequest>;
+).annotate({ identifier: "GetDomainRequest" }) as any as S.Schema<GetDomainRequest>;
 
 export interface GetDomainsScimLogRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -4288,9 +5634,7 @@ export const GetDomainsScimLogRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDomainsScimLogRequest",
-}) as any as S.Schema<GetDomainsScimLogRequest>;
+).annotate({ identifier: "GetDomainsScimLogRequest" }) as any as S.Schema<GetDomainsScimLogRequest>;
 
 export interface SCIMRequestLog {
   id: string;
@@ -4342,9 +5686,7 @@ export const PaginatedSCIMRequestLog = /*@__PURE__*/ S.suspend(() =>
     previous: S.NullOr(S.String),
     results: PaginatedSCIMRequestLogResultsList,
   }),
-).annotate({
-  identifier: "PaginatedSCIMRequestLog",
-}) as any as S.Schema<PaginatedSCIMRequestLog>;
+).annotate({ identifier: "PaginatedSCIMRequestLog" }) as any as S.Schema<PaginatedSCIMRequestLog>;
 
 export interface GetIdentityProviderConfigRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -4425,9 +5767,7 @@ export const GetLegalDocumentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetLegalDocumentRequest",
-}) as any as S.Schema<GetLegalDocumentRequest>;
+).annotate({ identifier: "GetLegalDocumentRequest" }) as any as S.Schema<GetLegalDocumentRequest>;
 
 export interface GetMembersGithubLoginRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -4460,6 +5800,247 @@ export const OrganizationMemberGithubLogin = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "OrganizationMemberGithubLogin",
 }) as any as S.Schema<OrganizationMemberGithubLogin>;
+
+export interface GetMembersProjectAccessRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** Narrow the list to one organization membership id. */
+  member_id?: string;
+}
+export const GetMembersProjectAccessRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    member_id: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/members/project_access/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetMembersProjectAccessRequest",
+}) as any as S.Schema<GetMembersProjectAccessRequest>;
+
+/** * `object` - object * `parent_object` - parent_object * `resource` - resource * `parent_resource` - parent_resource * `system_default` - system_default * `org_admin` - org_admin * `creator` - creator * `org_membership` - org_membership */
+export type ResolvedAccessSourceEnum =
+  | "object"
+  | "parent_object"
+  | "resource"
+  | "parent_resource"
+  | "system_default"
+  | "org_admin"
+  | "creator"
+  | "org_membership";
+export const ResolvedAccessSourceEnum = S.String;
+
+/** * `member` - member * `role` - role * `default` - default */
+export type ResolvedAccessSourceSubjectEnum = "member" | "role" | "default";
+export const ResolvedAccessSourceSubjectEnum = S.String;
+
+/** * `action` - action * `access_control` - access_control * `account` - account * `activity_log` - activity_log * `alert` - alert * `annotation` - annotation * `approvals` - approvals * `autoresearch` - autoresearch * `batch_export` - batch_export * `batch_import` - batch_import * `batch_import_support` - batch_import_support * `billing` - billing * `business_knowledge` - business_knowledge * `canvas` - canvas * `cohort` - cohort * `comment` - comment * `conversation` - conversation * `customer_analytics` - customer_analytics * `customer_task` - customer_task * `customer_journey` - customer_journey * `customer_profile_config` - customer_profile_config * `data_catalog` - data_catalog * `data_catalog_approval` - data_catalog_approval * `data_deletion` - data_deletion * `dashboard` - dashboard * `event_filter` - event_filter * `dashboard_template` - dashboard_template * `dataset` - dataset * `early_access_feature` - early_access_feature * `endpoint` - endpoint * `engineering_analytics` - engineering_analytics * `error_tracking` - error_tracking * `evaluation` - evaluation * `element` - element * `event_definition` - event_definition * `experiment` - experiment * `experiment_holdout` - experiment_holdout * `experiment_saved_metric` - experiment_saved_metric * `export` - export * `external_data_schema` - external_data_schema * `external_data_source` - external_data_source * `feature_flag` - feature_flag * `file_system` - file_system * `file_system_shortcut` - file_system_shortcut * `group` - group * `health_issue` - health_issue * `heatmap` - heatmap * `hog_flow` - hog_flow * `hog_function` - hog_function * `ingestion_warning` - ingestion_warning * `insight` - insight * `insight_variable` - insight_variable * `integration` - integration * `legal_document` - legal_document * `link` - link * `live_debugger` - live_debugger * `llm_analytics` - llm_analytics * `ai_observability_clusters` - ai_observability_clusters * `llm_gateway` - llm_gateway * `llm_playground` - llm_playground * `llm_prompt` - llm_prompt * `llm_provider_key` - llm_provider_key * `llm_skill` - llm_skill * `logs` - logs * `loop` - loop * `marketing_analytics` - marketing_analytics * `mcp_analytics` - mcp_analytics * `mcp_registry` - mcp_registry * `metrics` - metrics * `notebook` - notebook * `offline_evaluation_ingestion` - offline_evaluation_ingestion * `organization` - organization * `organization_integration` - organization_integration * `organization_member` - organization_member * `person` - person * `plugin` - plugin * `product_enablement` - product_enablement * `product_tour` - product_tour * `project` - project * `property_definition` - property_definition * `query` - query * `query_performance` - query_performance * `replay_scanner` - replay_scanner * `review_hog` - review_hog * `revenue_analytics` - revenue_analytics * `session_recording` - session_recording * `session_recording_playlist` - session_recording_playlist * `sharing_configuration` - sharing_configuration * `signal_scout` - signal_scout * `stamphog` - stamphog * `streamlit_app` - streamlit_app * `subscription` - subscription * `support_ticket` - support_ticket * `survey` - survey * `tagger` - tagger * `ticket` - ticket * `task` - task * `today` - today * `toolbar` - toolbar * `tracing` - tracing * `field_note` - field_note * `uploaded_media` - uploaded_media * `usage_metric` - usage_metric * `user` - user * `user_interview` - user_interview * `vision_action` - vision_action * `vision_alert` - vision_alert * `visual_review` - visual_review * `warehouse_objects` - warehouse_objects * `warehouse_table` - warehouse_table * `warehouse_view` - warehouse_view * `web_analytics` - web_analytics * `webhook` - webhook * `wizard_session` - wizard_session * `wizard_run` - wizard_run */
+export type ScopeObjectEnum =
+  | "action"
+  | "access_control"
+  | "account"
+  | "activity_log"
+  | "alert"
+  | "annotation"
+  | "approvals"
+  | "autoresearch"
+  | "batch_export"
+  | "batch_import"
+  | "batch_import_support"
+  | "billing"
+  | "business_knowledge"
+  | "canvas"
+  | "cohort"
+  | "comment"
+  | "conversation"
+  | "customer_analytics"
+  | "customer_task"
+  | "customer_journey"
+  | "customer_profile_config"
+  | "data_catalog"
+  | "data_catalog_approval"
+  | "data_deletion"
+  | "dashboard"
+  | "event_filter"
+  | "dashboard_template"
+  | "dataset"
+  | "early_access_feature"
+  | "endpoint"
+  | "engineering_analytics"
+  | "error_tracking"
+  | "evaluation"
+  | "element"
+  | "event_definition"
+  | "experiment"
+  | "experiment_holdout"
+  | "experiment_saved_metric"
+  | "export"
+  | "external_data_schema"
+  | "external_data_source"
+  | "feature_flag"
+  | "file_system"
+  | "file_system_shortcut"
+  | "group"
+  | "health_issue"
+  | "heatmap"
+  | "hog_flow"
+  | "hog_function"
+  | "ingestion_warning"
+  | "insight"
+  | "insight_variable"
+  | "integration"
+  | "legal_document"
+  | "link"
+  | "live_debugger"
+  | "llm_analytics"
+  | "ai_observability_clusters"
+  | "llm_gateway"
+  | "llm_playground"
+  | "llm_prompt"
+  | "llm_provider_key"
+  | "llm_skill"
+  | "logs"
+  | "loop"
+  | "marketing_analytics"
+  | "mcp_analytics"
+  | "mcp_registry"
+  | "metrics"
+  | "notebook"
+  | "offline_evaluation_ingestion"
+  | "organization"
+  | "organization_integration"
+  | "organization_member"
+  | "person"
+  | "plugin"
+  | "product_enablement"
+  | "product_tour"
+  | "project"
+  | "property_definition"
+  | "query"
+  | "query_performance"
+  | "replay_scanner"
+  | "review_hog"
+  | "revenue_analytics"
+  | "session_recording"
+  | "session_recording_playlist"
+  | "sharing_configuration"
+  | "signal_scout"
+  | "stamphog"
+  | "streamlit_app"
+  | "subscription"
+  | "support_ticket"
+  | "survey"
+  | "tagger"
+  | "ticket"
+  | "task"
+  | "today"
+  | "toolbar"
+  | "tracing"
+  | "field_note"
+  | "uploaded_media"
+  | "usage_metric"
+  | "user"
+  | "user_interview"
+  | "vision_action"
+  | "vision_alert"
+  | "visual_review"
+  | "warehouse_objects"
+  | "warehouse_table"
+  | "warehouse_view"
+  | "web_analytics"
+  | "webhook"
+  | "wizard_session"
+  | "wizard_run";
+export const ScopeObjectEnum = S.String;
+
+/** A resolved access level with the rule that supplied it — the wire form of `ResolvedAccess`. */
+export interface ProjectAccessSource {
+  /** The access level that applies. */
+  access_level: string;
+  /** How the level was derived: a rule on the object, its parent object, the resource, the parent resource, the PostHog default, an organization admin's or a creator's full access, or organization membership when the object is the organization itself. * `object` - object * `parent_object` - parent_object * `resource` - resource * `parent_resource` - parent_resource * `system_default` - system_default * `org_admin` - org_admin * `creator` - creator * `org_membership` - org_membership */
+  source: ResolvedAccessSourceEnum;
+  /** Whose rule decided: a member's own, a role's, or the default for everyone in the project. Null when no rule did. * `member` - member * `role` - role * `default` - default */
+  source_subject: ResolvedAccessSourceSubjectEnum | null;
+  /** The resource the deciding rule belongs to. * `action` - action * `access_control` - access_control * `account` - account * `activity_log` - activity_log * `alert` - alert * `annotation` - annotation * `approvals` - approvals * `autoresearch` - autoresearch * `batch_export` - batch_export * `batch_import` - batch_import * `batch_import_support` - batch_import_support * `billing` - billing * `business_knowledge` - business_knowledge * `canvas` - canvas * `cohort` - cohort * `comment` - comment * `conversation` - conversation * `customer_analytics` - customer_analytics * `customer_task` - customer_task * `customer_journey` - customer_journey * `customer_profile_config` - customer_profile_config * `data_catalog` - data_catalog * `data_catalog_approval` - data_catalog_approval * `data_deletion` - data_deletion * `dashboard` - dashboard * `event_filter` - event_filter * `dashboard_template` - dashboard_template * `dataset` - dataset * `early_access_feature` - early_access_feature * `endpoint` - endpoint * `engineering_analytics` - engineering_analytics * `error_tracking` - error_tracking * `evaluation` - evaluation * `element` - element * `event_definition` - event_definition * `experiment` - experiment * `experiment_holdout` - experiment_holdout * `experiment_saved_metric` - experiment_saved_metric * `export` - export * `external_data_schema` - external_data_schema * `external_data_source` - external_data_source * `feature_flag` - feature_flag * `file_system` - file_system * `file_system_shortcut` - file_system_shortcut * `group` - group * `health_issue` - health_issue * `heatmap` - heatmap * `hog_flow` - hog_flow * `hog_function` - hog_function * `ingestion_warning` - ingestion_warning * `insight` - insight * `insight_variable` - insight_variable * `integration` - integration * `legal_document` - legal_document * `link` - link * `live_debugger` - live_debugger * `llm_analytics` - llm_analytics * `ai_observability_clusters` - ai_observability_clusters * `llm_gateway` - llm_gateway * `llm_playground` - llm_playground * `llm_prompt` - llm_prompt * `llm_provider_key` - llm_provider_key * `llm_skill` - llm_skill * `logs` - logs * `loop` - loop * `marketing_analytics` - marketing_analytics * `mcp_analytics` - mcp_analytics * `mcp_registry` - mcp_registry * `metrics` - metrics * `notebook` - notebook * `offline_evaluation_ingestion` - offline_evaluation_ingestion * `organization` - organization * `organization_integration` - organization_integration * `organization_member` - organization_member * `person` - person * `plugin` - plugin * `product_enablement` - product_enablement * `product_tour` - product_tour * `project` - project * `property_definition` - property_definition * `query` - query * `query_performance` - query_performance * `replay_scanner` - replay_scanner * `review_hog` - review_hog * `revenue_analytics` - revenue_analytics * `session_recording` - session_recording * `session_recording_playlist` - session_recording_playlist * `sharing_configuration` - sharing_configuration * `signal_scout` - signal_scout * `stamphog` - stamphog * `streamlit_app` - streamlit_app * `subscription` - subscription * `support_ticket` - support_ticket * `survey` - survey * `tagger` - tagger * `ticket` - ticket * `task` - task * `today` - today * `toolbar` - toolbar * `tracing` - tracing * `field_note` - field_note * `uploaded_media` - uploaded_media * `usage_metric` - usage_metric * `user` - user * `user_interview` - user_interview * `vision_action` - vision_action * `vision_alert` - vision_alert * `visual_review` - visual_review * `warehouse_objects` - warehouse_objects * `warehouse_table` - warehouse_table * `warehouse_view` - warehouse_view * `web_analytics` - web_analytics * `webhook` - webhook * `wizard_session` - wizard_session * `wizard_run` - wizard_run */
+  source_resource: ScopeObjectEnum;
+  /** The deciding rule's object id, when it is an object-level rule (e.g. the source a table inherits from). */
+  source_resource_id: string | null;
+  /** The name of the role or member whose rule decided. Null when the default or a bypass decided. */
+  subject_name: string | null;
+}
+export const ProjectAccessSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    access_level: S.String,
+    source: ResolvedAccessSourceEnum,
+    source_subject: S.NullOr(ResolvedAccessSourceSubjectEnum),
+    source_resource: ScopeObjectEnum,
+    source_resource_id: S.NullOr(S.String),
+    subject_name: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "ProjectAccessSource" }) as any as S.Schema<ProjectAccessSource>;
+
+export interface MemberProjectAccessEntry {
+  /** The project's id. */
+  team_id: number;
+  /** The project's name. */
+  team_name: string;
+  /** The member's enforced access to the project: none, member or admin. */
+  access_level: string;
+  /** The rule that supplies the level. Read `source` and `source_subject` to tell an organization admin's bypass from a member rule, a role rule or the project default. */
+  resolved: ProjectAccessSource | null;
+  /** The id of the role or organization membership whose rule decided. Null when the default or a bypass decided. */
+  subject_id: string | null;
+}
+export const MemberProjectAccessEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    team_id: S.Number,
+    team_name: S.String,
+    access_level: S.String,
+    resolved: S.NullOr(ProjectAccessSource),
+    subject_id: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "MemberProjectAccessEntry" }) as any as S.Schema<MemberProjectAccessEntry>;
+
+/** One entry per project the caller can access, including projects the member cannot. */
+export type MemberProjectAccessProjectsList = Array<MemberProjectAccessEntry>;
+export const MemberProjectAccessProjectsList = /*@__PURE__*/ S.Array(
+  MemberProjectAccessEntry,
+) as any as S.Schema<MemberProjectAccessProjectsList>;
+
+export interface MemberProjectAccess {
+  /** The organization membership id. */
+  organization_membership_id: string;
+  /** One entry per project the caller can access, including projects the member cannot. */
+  projects: MemberProjectAccessProjectsList;
+}
+export const MemberProjectAccess = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_membership_id: S.String,
+    projects: MemberProjectAccessProjectsList,
+  }),
+).annotate({ identifier: "MemberProjectAccess" }) as any as S.Schema<MemberProjectAccess>;
+
+/** One entry per visible organization member. */
+export type MemberProjectAccessResponseResultsList = Array<MemberProjectAccess>;
+export const MemberProjectAccessResponseResultsList = /*@__PURE__*/ S.Array(
+  MemberProjectAccess,
+) as any as S.Schema<MemberProjectAccessResponseResultsList>;
+
+export interface MemberProjectAccessResponse {
+  /** One entry per visible organization member. */
+  results: MemberProjectAccessResponseResultsList;
+}
+export const MemberProjectAccessResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: MemberProjectAccessResponseResultsList,
+  }),
+).annotate({
+  identifier: "MemberProjectAccessResponse",
+}) as any as S.Schema<MemberProjectAccessResponse>;
 
 export interface GetMembersScopedApiKeyRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -4501,6 +6082,610 @@ export const GetOrganizationsProjectRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetOrganizationsProjectRequest",
 }) as any as S.Schema<GetOrganizationsProjectRequest>;
+
+export interface GetOrganizationsProjectsAccessControlDefaultRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** A unique value identifying this project. */
+  id: number;
+}
+export const GetOrganizationsProjectsAccessControlDefaultRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    id: S.Number.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/projects/{id}/access_control_defaults/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetOrganizationsProjectsAccessControlDefaultRequest",
+}) as any as S.Schema<GetOrganizationsProjectsAccessControlDefaultRequest>;
+
+/** The project access levels, lowest first. */
+export type AccessControlDefaultsResponseAvailableProjectLevelsList = Array<string>;
+export const AccessControlDefaultsResponseAvailableProjectLevelsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AccessControlDefaultsResponseAvailableProjectLevelsList>;
+
+/** The resource access levels, lowest first. */
+export type AccessControlDefaultsResponseAvailableResourceLevelsList = Array<string>;
+export const AccessControlDefaultsResponseAvailableResourceLevelsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AccessControlDefaultsResponseAvailableResourceLevelsList>;
+
+export interface AccessControlResourceDefault {
+  /** The stored default level for this resource type. Null when the PostHog default applies. */
+  access_level: string | null;
+  /** The lowest level this resource type allows. */
+  minimum: string;
+  /** The highest level this resource type allows. */
+  maximum: string;
+}
+export const AccessControlResourceDefault = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    access_level: S.NullOr(S.String),
+    minimum: S.String,
+    maximum: S.String,
+  }),
+).annotate({
+  identifier: "AccessControlResourceDefault",
+}) as any as S.Schema<AccessControlResourceDefault>;
+
+/** The default level per resource type, keyed by resource name. */
+export type AccessControlDefaultsResponseResourceAccessLevelsMap = {
+  [key: string]: AccessControlResourceDefault | undefined;
+};
+export const AccessControlDefaultsResponseResourceAccessLevelsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  AccessControlResourceDefault,
+) as any as S.Schema<AccessControlDefaultsResponseResourceAccessLevelsMap>;
+
+/** The levels an object rule on this resource type accepts, lowest first. */
+export type AccessControlObjectRuleResourceAvailableAccessLevelsList = Array<string>;
+export const AccessControlObjectRuleResourceAvailableAccessLevelsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AccessControlObjectRuleResourceAvailableAccessLevelsList>;
+
+export interface AccessControlObjectRuleResource {
+  /** A resource type that supports rules on single objects. * `action` - action * `access_control` - access_control * `account` - account * `activity_log` - activity_log * `alert` - alert * `annotation` - annotation * `approvals` - approvals * `autoresearch` - autoresearch * `batch_export` - batch_export * `batch_import` - batch_import * `batch_import_support` - batch_import_support * `billing` - billing * `business_knowledge` - business_knowledge * `canvas` - canvas * `cohort` - cohort * `comment` - comment * `conversation` - conversation * `customer_analytics` - customer_analytics * `customer_task` - customer_task * `customer_journey` - customer_journey * `customer_profile_config` - customer_profile_config * `data_catalog` - data_catalog * `data_catalog_approval` - data_catalog_approval * `data_deletion` - data_deletion * `dashboard` - dashboard * `event_filter` - event_filter * `dashboard_template` - dashboard_template * `dataset` - dataset * `early_access_feature` - early_access_feature * `endpoint` - endpoint * `engineering_analytics` - engineering_analytics * `error_tracking` - error_tracking * `evaluation` - evaluation * `element` - element * `event_definition` - event_definition * `experiment` - experiment * `experiment_holdout` - experiment_holdout * `experiment_saved_metric` - experiment_saved_metric * `export` - export * `external_data_schema` - external_data_schema * `external_data_source` - external_data_source * `feature_flag` - feature_flag * `file_system` - file_system * `file_system_shortcut` - file_system_shortcut * `group` - group * `health_issue` - health_issue * `heatmap` - heatmap * `hog_flow` - hog_flow * `hog_function` - hog_function * `ingestion_warning` - ingestion_warning * `insight` - insight * `insight_variable` - insight_variable * `integration` - integration * `legal_document` - legal_document * `link` - link * `live_debugger` - live_debugger * `llm_analytics` - llm_analytics * `ai_observability_clusters` - ai_observability_clusters * `llm_gateway` - llm_gateway * `llm_playground` - llm_playground * `llm_prompt` - llm_prompt * `llm_provider_key` - llm_provider_key * `llm_skill` - llm_skill * `logs` - logs * `loop` - loop * `marketing_analytics` - marketing_analytics * `mcp_analytics` - mcp_analytics * `mcp_registry` - mcp_registry * `metrics` - metrics * `notebook` - notebook * `offline_evaluation_ingestion` - offline_evaluation_ingestion * `organization` - organization * `organization_integration` - organization_integration * `organization_member` - organization_member * `person` - person * `plugin` - plugin * `product_enablement` - product_enablement * `product_tour` - product_tour * `project` - project * `property_definition` - property_definition * `query` - query * `query_performance` - query_performance * `replay_scanner` - replay_scanner * `review_hog` - review_hog * `revenue_analytics` - revenue_analytics * `session_recording` - session_recording * `session_recording_playlist` - session_recording_playlist * `sharing_configuration` - sharing_configuration * `signal_scout` - signal_scout * `stamphog` - stamphog * `streamlit_app` - streamlit_app * `subscription` - subscription * `support_ticket` - support_ticket * `survey` - survey * `tagger` - tagger * `ticket` - ticket * `task` - task * `today` - today * `toolbar` - toolbar * `tracing` - tracing * `field_note` - field_note * `uploaded_media` - uploaded_media * `usage_metric` - usage_metric * `user` - user * `user_interview` - user_interview * `vision_action` - vision_action * `vision_alert` - vision_alert * `visual_review` - visual_review * `warehouse_objects` - warehouse_objects * `warehouse_table` - warehouse_table * `warehouse_view` - warehouse_view * `web_analytics` - web_analytics * `webhook` - webhook * `wizard_session` - wizard_session * `wizard_run` - wizard_run */
+  resource: ScopeObjectEnum;
+  /** The levels an object rule on this resource type accepts, lowest first. */
+  available_access_levels: AccessControlObjectRuleResourceAvailableAccessLevelsList;
+  /** The lowest level an object rule on this resource can set. */
+  minimum_access_level: string;
+}
+export const AccessControlObjectRuleResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resource: ScopeObjectEnum,
+    available_access_levels: AccessControlObjectRuleResourceAvailableAccessLevelsList,
+    minimum_access_level: S.String,
+  }),
+).annotate({
+  identifier: "AccessControlObjectRuleResource",
+}) as any as S.Schema<AccessControlObjectRuleResource>;
+
+/** The resource types that accept rules on single objects, with the levels each accepts. */
+export type AccessControlDefaultsResponseObjectRuleResourcesList =
+  Array<AccessControlObjectRuleResource>;
+export const AccessControlDefaultsResponseObjectRuleResourcesList = /*@__PURE__*/ S.Array(
+  AccessControlObjectRuleResource,
+) as any as S.Schema<AccessControlDefaultsResponseObjectRuleResourcesList>;
+
+/** The project's defaults: what everyone without a rule of their own gets. */
+export interface AccessControlDefaultsResponse {
+  /** The project access levels, lowest first. */
+  available_project_levels: AccessControlDefaultsResponseAvailableProjectLevelsList;
+  /** The resource access levels, lowest first. */
+  available_resource_levels: AccessControlDefaultsResponseAvailableResourceLevelsList;
+  /** Whether the caller may change access rules in this project. */
+  can_edit: boolean;
+  /** The default project access level for members. */
+  project_access_level: string;
+  /** The default level per resource type, keyed by resource name. */
+  resource_access_levels: AccessControlDefaultsResponseResourceAccessLevelsMap;
+  /** The resource types that accept rules on single objects, with the levels each accepts. */
+  object_rule_resources: AccessControlDefaultsResponseObjectRuleResourcesList;
+}
+export const AccessControlDefaultsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    available_project_levels: AccessControlDefaultsResponseAvailableProjectLevelsList,
+    available_resource_levels: AccessControlDefaultsResponseAvailableResourceLevelsList,
+    can_edit: S.Boolean,
+    project_access_level: S.String,
+    resource_access_levels: AccessControlDefaultsResponseResourceAccessLevelsMap,
+    object_rule_resources: AccessControlDefaultsResponseObjectRuleResourcesList,
+  }),
+).annotate({
+  identifier: "AccessControlDefaultsResponse",
+}) as any as S.Schema<AccessControlDefaultsResponse>;
+
+export interface GetOrganizationsProjectsAccessControlDefaultObjectRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** A unique value identifying this project. */
+  id: number;
+}
+export const GetOrganizationsProjectsAccessControlDefaultObjectRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      organization_id: S.String.pipe(T.Label()),
+      id: S.Number.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/api/organizations/{organization_id}/projects/{id}/access_control_default_objects/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetOrganizationsProjectsAccessControlDefaultObjectRequest",
+}) as any as S.Schema<GetOrganizationsProjectsAccessControlDefaultObjectRequest>;
+
+/** A stored rule on one object, as configured for a subject. */
+export interface AccessControlObjectRule {
+  /** The object's resource type, for example `dashboard`. * `action` - action * `access_control` - access_control * `account` - account * `activity_log` - activity_log * `alert` - alert * `annotation` - annotation * `approvals` - approvals * `autoresearch` - autoresearch * `batch_export` - batch_export * `batch_import` - batch_import * `batch_import_support` - batch_import_support * `billing` - billing * `business_knowledge` - business_knowledge * `canvas` - canvas * `cohort` - cohort * `comment` - comment * `conversation` - conversation * `customer_analytics` - customer_analytics * `customer_task` - customer_task * `customer_journey` - customer_journey * `customer_profile_config` - customer_profile_config * `data_catalog` - data_catalog * `data_catalog_approval` - data_catalog_approval * `data_deletion` - data_deletion * `dashboard` - dashboard * `event_filter` - event_filter * `dashboard_template` - dashboard_template * `dataset` - dataset * `early_access_feature` - early_access_feature * `endpoint` - endpoint * `engineering_analytics` - engineering_analytics * `error_tracking` - error_tracking * `evaluation` - evaluation * `element` - element * `event_definition` - event_definition * `experiment` - experiment * `experiment_holdout` - experiment_holdout * `experiment_saved_metric` - experiment_saved_metric * `export` - export * `external_data_schema` - external_data_schema * `external_data_source` - external_data_source * `feature_flag` - feature_flag * `file_system` - file_system * `file_system_shortcut` - file_system_shortcut * `group` - group * `health_issue` - health_issue * `heatmap` - heatmap * `hog_flow` - hog_flow * `hog_function` - hog_function * `ingestion_warning` - ingestion_warning * `insight` - insight * `insight_variable` - insight_variable * `integration` - integration * `legal_document` - legal_document * `link` - link * `live_debugger` - live_debugger * `llm_analytics` - llm_analytics * `ai_observability_clusters` - ai_observability_clusters * `llm_gateway` - llm_gateway * `llm_playground` - llm_playground * `llm_prompt` - llm_prompt * `llm_provider_key` - llm_provider_key * `llm_skill` - llm_skill * `logs` - logs * `loop` - loop * `marketing_analytics` - marketing_analytics * `mcp_analytics` - mcp_analytics * `mcp_registry` - mcp_registry * `metrics` - metrics * `notebook` - notebook * `offline_evaluation_ingestion` - offline_evaluation_ingestion * `organization` - organization * `organization_integration` - organization_integration * `organization_member` - organization_member * `person` - person * `plugin` - plugin * `product_enablement` - product_enablement * `product_tour` - product_tour * `project` - project * `property_definition` - property_definition * `query` - query * `query_performance` - query_performance * `replay_scanner` - replay_scanner * `review_hog` - review_hog * `revenue_analytics` - revenue_analytics * `session_recording` - session_recording * `session_recording_playlist` - session_recording_playlist * `sharing_configuration` - sharing_configuration * `signal_scout` - signal_scout * `stamphog` - stamphog * `streamlit_app` - streamlit_app * `subscription` - subscription * `support_ticket` - support_ticket * `survey` - survey * `tagger` - tagger * `ticket` - ticket * `task` - task * `today` - today * `toolbar` - toolbar * `tracing` - tracing * `field_note` - field_note * `uploaded_media` - uploaded_media * `usage_metric` - usage_metric * `user` - user * `user_interview` - user_interview * `vision_action` - vision_action * `vision_alert` - vision_alert * `visual_review` - visual_review * `warehouse_objects` - warehouse_objects * `warehouse_table` - warehouse_table * `warehouse_view` - warehouse_view * `web_analytics` - web_analytics * `webhook` - webhook * `wizard_session` - wizard_session * `wizard_run` - wizard_run */
+  resource: ScopeObjectEnum;
+  /** The object's primary key. */
+  resource_id: string;
+  /** The object's display name. Falls back to the id when it has no name. */
+  name: string;
+  /** The object's short id, for models that link by one (insights, notebooks). */
+  short_id: string | null;
+  /** The level the rule grants or restricts to. */
+  access_level: string;
+}
+export const AccessControlObjectRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resource: ScopeObjectEnum,
+    resource_id: S.String,
+    name: S.String,
+    short_id: S.NullOr(S.String),
+    access_level: S.String,
+  }),
+).annotate({ identifier: "AccessControlObjectRule" }) as any as S.Schema<AccessControlObjectRule>;
+
+/** The subject's object rules, sorted by resource and name. */
+export type AccessControlObjectRulesResponseResultsList = Array<AccessControlObjectRule>;
+export const AccessControlObjectRulesResponseResultsList = /*@__PURE__*/ S.Array(
+  AccessControlObjectRule,
+) as any as S.Schema<AccessControlObjectRulesResponseResultsList>;
+
+export interface AccessControlObjectRulesResponse {
+  /** The subject's object rules, sorted by resource and name. */
+  results: AccessControlObjectRulesResponseResultsList;
+}
+export const AccessControlObjectRulesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: AccessControlObjectRulesResponseResultsList,
+  }),
+).annotate({
+  identifier: "AccessControlObjectRulesResponse",
+}) as any as S.Schema<AccessControlObjectRulesResponse>;
+
+export interface GetOrganizationsProjectsAccessControlDefaultPropertyRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** A unique value identifying this project. */
+  id: number;
+}
+export const GetOrganizationsProjectsAccessControlDefaultPropertyRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      organization_id: S.String.pipe(T.Label()),
+      id: S.Number.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/api/organizations/{organization_id}/projects/{id}/access_control_default_properties/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetOrganizationsProjectsAccessControlDefaultPropertyRequest",
+}) as any as S.Schema<GetOrganizationsProjectsAccessControlDefaultPropertyRequest>;
+
+/** A stored rule on one property definition, as configured for a subject. */
+export interface AccessControlPropertyRule {
+  /** The property definition id. */
+  property_definition_id: string;
+  /** The property name. */
+  property: string;
+  /** Whether the property is a `person` or an `event` property. */
+  property_type: string;
+  /** The rule's level: `none`, `read` or `read_write`. */
+  access_level: string;
+}
+export const AccessControlPropertyRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    property_definition_id: S.String,
+    property: S.String,
+    property_type: S.String,
+    access_level: S.String,
+  }),
+).annotate({
+  identifier: "AccessControlPropertyRule",
+}) as any as S.Schema<AccessControlPropertyRule>;
+
+/** The subject's property rules, sorted by property type and name. */
+export type AccessControlPropertyRulesResponseResultsList = Array<AccessControlPropertyRule>;
+export const AccessControlPropertyRulesResponseResultsList = /*@__PURE__*/ S.Array(
+  AccessControlPropertyRule,
+) as any as S.Schema<AccessControlPropertyRulesResponseResultsList>;
+
+export interface AccessControlPropertyRulesResponse {
+  /** The subject's property rules, sorted by property type and name. */
+  results: AccessControlPropertyRulesResponseResultsList;
+}
+export const AccessControlPropertyRulesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: AccessControlPropertyRulesResponseResultsList,
+  }),
+).annotate({
+  identifier: "AccessControlPropertyRulesResponse",
+}) as any as S.Schema<AccessControlPropertyRulesResponse>;
+
+export interface GetOrganizationsProjectsAccessControlMemberRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** A unique value identifying this project. */
+  id: number;
+  /** Narrow the list to one organization membership id. */
+  member_id?: string;
+}
+export const GetOrganizationsProjectsAccessControlMemberRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    id: S.Number.pipe(T.Label()),
+    member_id: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/projects/{id}/access_control_members/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetOrganizationsProjectsAccessControlMemberRequest",
+}) as any as S.Schema<GetOrganizationsProjectsAccessControlMemberRequest>;
+
+/** The project access levels, lowest first. */
+export type AccessControlMembersResponseAvailableProjectLevelsList = Array<string>;
+export const AccessControlMembersResponseAvailableProjectLevelsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AccessControlMembersResponseAvailableProjectLevelsList>;
+
+/** The resource access levels, lowest first. */
+export type AccessControlMembersResponseAvailableResourceLevelsList = Array<string>;
+export const AccessControlMembersResponseAvailableResourceLevelsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AccessControlMembersResponseAvailableResourceLevelsList>;
+
+export interface AccessControlMemberUser {
+  /** The user's UUID. */
+  uuid: string;
+  /** The user's first name. */
+  first_name: string;
+  /** The user's last name. */
+  last_name: string;
+  /** The user's email. */
+  email: string;
+}
+export const AccessControlMemberUser = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String,
+    first_name: S.String,
+    last_name: S.String,
+    email: S.String,
+  }),
+).annotate({ identifier: "AccessControlMemberUser" }) as any as S.Schema<AccessControlMemberUser>;
+
+/** The roles the member is in. Use them as `role_id` on the role rule endpoints. */
+export type AccessControlMemberAccessRoleIdsList = Array<string>;
+export const AccessControlMemberAccessRoleIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AccessControlMemberAccessRoleIdsList>;
+
+/** A resolved access level with the rule that supplied it — the wire form of `ResolvedAccess`. */
+export interface ResolvedAccess {
+  /** The access level that applies. */
+  access_level: string;
+  /** How the level was derived: a rule on the object, its parent object, the resource, the parent resource, the PostHog default, an organization admin's or a creator's full access, or organization membership when the object is the organization itself. * `object` - object * `parent_object` - parent_object * `resource` - resource * `parent_resource` - parent_resource * `system_default` - system_default * `org_admin` - org_admin * `creator` - creator * `org_membership` - org_membership */
+  source: ResolvedAccessSourceEnum;
+  /** Whose rule decided: a member's own, a role's, or the default for everyone in the project. Null when no rule did. * `member` - member * `role` - role * `default` - default */
+  source_subject: ResolvedAccessSourceSubjectEnum | null;
+  /** The resource the deciding rule belongs to. * `action` - action * `access_control` - access_control * `account` - account * `activity_log` - activity_log * `alert` - alert * `annotation` - annotation * `approvals` - approvals * `autoresearch` - autoresearch * `batch_export` - batch_export * `batch_import` - batch_import * `batch_import_support` - batch_import_support * `billing` - billing * `business_knowledge` - business_knowledge * `canvas` - canvas * `cohort` - cohort * `comment` - comment * `conversation` - conversation * `customer_analytics` - customer_analytics * `customer_task` - customer_task * `customer_journey` - customer_journey * `customer_profile_config` - customer_profile_config * `data_catalog` - data_catalog * `data_catalog_approval` - data_catalog_approval * `data_deletion` - data_deletion * `dashboard` - dashboard * `event_filter` - event_filter * `dashboard_template` - dashboard_template * `dataset` - dataset * `early_access_feature` - early_access_feature * `endpoint` - endpoint * `engineering_analytics` - engineering_analytics * `error_tracking` - error_tracking * `evaluation` - evaluation * `element` - element * `event_definition` - event_definition * `experiment` - experiment * `experiment_holdout` - experiment_holdout * `experiment_saved_metric` - experiment_saved_metric * `export` - export * `external_data_schema` - external_data_schema * `external_data_source` - external_data_source * `feature_flag` - feature_flag * `file_system` - file_system * `file_system_shortcut` - file_system_shortcut * `group` - group * `health_issue` - health_issue * `heatmap` - heatmap * `hog_flow` - hog_flow * `hog_function` - hog_function * `ingestion_warning` - ingestion_warning * `insight` - insight * `insight_variable` - insight_variable * `integration` - integration * `legal_document` - legal_document * `link` - link * `live_debugger` - live_debugger * `llm_analytics` - llm_analytics * `ai_observability_clusters` - ai_observability_clusters * `llm_gateway` - llm_gateway * `llm_playground` - llm_playground * `llm_prompt` - llm_prompt * `llm_provider_key` - llm_provider_key * `llm_skill` - llm_skill * `logs` - logs * `loop` - loop * `marketing_analytics` - marketing_analytics * `mcp_analytics` - mcp_analytics * `mcp_registry` - mcp_registry * `metrics` - metrics * `notebook` - notebook * `offline_evaluation_ingestion` - offline_evaluation_ingestion * `organization` - organization * `organization_integration` - organization_integration * `organization_member` - organization_member * `person` - person * `plugin` - plugin * `product_enablement` - product_enablement * `product_tour` - product_tour * `project` - project * `property_definition` - property_definition * `query` - query * `query_performance` - query_performance * `replay_scanner` - replay_scanner * `review_hog` - review_hog * `revenue_analytics` - revenue_analytics * `session_recording` - session_recording * `session_recording_playlist` - session_recording_playlist * `sharing_configuration` - sharing_configuration * `signal_scout` - signal_scout * `stamphog` - stamphog * `streamlit_app` - streamlit_app * `subscription` - subscription * `support_ticket` - support_ticket * `survey` - survey * `tagger` - tagger * `ticket` - ticket * `task` - task * `today` - today * `toolbar` - toolbar * `tracing` - tracing * `field_note` - field_note * `uploaded_media` - uploaded_media * `usage_metric` - usage_metric * `user` - user * `user_interview` - user_interview * `vision_action` - vision_action * `vision_alert` - vision_alert * `visual_review` - visual_review * `warehouse_objects` - warehouse_objects * `warehouse_table` - warehouse_table * `warehouse_view` - warehouse_view * `web_analytics` - web_analytics * `webhook` - webhook * `wizard_session` - wizard_session * `wizard_run` - wizard_run */
+  source_resource: ScopeObjectEnum;
+  /** The deciding rule's object id, when it is an object-level rule (e.g. the source a table inherits from). */
+  source_resource_id: string | null;
+}
+export const ResolvedAccess = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    access_level: S.String,
+    source: ResolvedAccessSourceEnum,
+    source_subject: S.NullOr(ResolvedAccessSourceSubjectEnum),
+    source_resource: ScopeObjectEnum,
+    source_resource_id: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "ResolvedAccess" }) as any as S.Schema<ResolvedAccess>;
+
+/** One subject's access to one scope (the project, or a whole resource type): what is stored, what is enforced, and where the enforced level comes from. */
+export interface SubjectAccessEntry {
+  /** The subject's own stored rule for this scope. Null when the subject has no rule of its own here. */
+  access_level: string | null;
+  /** The level that is enforced for the subject after defaults, roles and bypasses are resolved. Null when nothing resolves for this scope. */
+  effective_access_level: string | null;
+  /** The level the subject falls back to without a rule of its own, with the rule that supplies it. Read `source` and `source_subject` to tell a role rule from the project default, or an organization admin's full access. */
+  inherited_access: ResolvedAccess | null;
+  /** The lowest level this scope allows. */
+  minimum: string;
+  /** The highest level this scope allows. */
+  maximum: string;
+}
+export const SubjectAccessEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    access_level: S.NullOr(S.String),
+    effective_access_level: S.NullOr(S.String),
+    inherited_access: S.NullOr(ResolvedAccess),
+    minimum: S.String,
+    maximum: S.String,
+  }),
+).annotate({ identifier: "SubjectAccessEntry" }) as any as S.Schema<SubjectAccessEntry>;
+
+/** Access per resource type, keyed by resource name (for example `dashboard`, `feature_flag`). */
+export type AccessControlMemberAccessResourcesMap = {
+  [key: string]: SubjectAccessEntry | undefined;
+};
+export const AccessControlMemberAccessResourcesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  SubjectAccessEntry,
+) as any as S.Schema<AccessControlMemberAccessResourcesMap>;
+
+/** A member's resolved access to the project and to every resource type in it. */
+export interface AccessControlMemberAccess {
+  /** The organization membership id. Use it as `member_id` on the member rule endpoints. */
+  organization_membership_id: string;
+  /** The member's identity. */
+  user: AccessControlMemberUser;
+  /** The member's organization level: 1 member, 8 admin, 15 owner. Admins and owners have full access to everything. * `1` - member * `8` - administrator * `15` - owner */
+  organization_level: OrganizationMembershipLevelEnum;
+  /** The roles the member is in. Use them as `role_id` on the role rule endpoints. */
+  role_ids: AccessControlMemberAccessRoleIdsList;
+  /** Access to the project itself. */
+  project: SubjectAccessEntry;
+  /** Access per resource type, keyed by resource name (for example `dashboard`, `feature_flag`). */
+  resources: AccessControlMemberAccessResourcesMap;
+}
+export const AccessControlMemberAccess = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_membership_id: S.String,
+    user: AccessControlMemberUser,
+    organization_level: OrganizationMembershipLevelEnum,
+    role_ids: AccessControlMemberAccessRoleIdsList,
+    project: SubjectAccessEntry,
+    resources: AccessControlMemberAccessResourcesMap,
+  }),
+).annotate({
+  identifier: "AccessControlMemberAccess",
+}) as any as S.Schema<AccessControlMemberAccess>;
+
+/** One entry per organization member. */
+export type AccessControlMembersResponseResultsList = Array<AccessControlMemberAccess>;
+export const AccessControlMembersResponseResultsList = /*@__PURE__*/ S.Array(
+  AccessControlMemberAccess,
+) as any as S.Schema<AccessControlMembersResponseResultsList>;
+
+export interface AccessControlMembersResponse {
+  /** The project access levels, lowest first. */
+  available_project_levels: AccessControlMembersResponseAvailableProjectLevelsList;
+  /** The resource access levels, lowest first. */
+  available_resource_levels: AccessControlMembersResponseAvailableResourceLevelsList;
+  /** Whether the caller may change access rules in this project. */
+  can_edit: boolean;
+  /** One entry per organization member. */
+  results: AccessControlMembersResponseResultsList;
+}
+export const AccessControlMembersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    available_project_levels: AccessControlMembersResponseAvailableProjectLevelsList,
+    available_resource_levels: AccessControlMembersResponseAvailableResourceLevelsList,
+    can_edit: S.Boolean,
+    results: AccessControlMembersResponseResultsList,
+  }),
+).annotate({
+  identifier: "AccessControlMembersResponse",
+}) as any as S.Schema<AccessControlMembersResponse>;
+
+export interface GetOrganizationsProjectsAccessControlMemberObjectRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** A unique value identifying this project. */
+  id: number;
+  /** The organization membership id, as `organization_membership_id` in the members endpoint. */
+  member_id: string;
+}
+export const GetOrganizationsProjectsAccessControlMemberObjectRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      organization_id: S.String.pipe(T.Label()),
+      id: S.Number.pipe(T.Label()),
+      member_id: S.String.pipe(T.Query()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/api/organizations/{organization_id}/projects/{id}/access_control_member_objects/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetOrganizationsProjectsAccessControlMemberObjectRequest",
+}) as any as S.Schema<GetOrganizationsProjectsAccessControlMemberObjectRequest>;
+
+export interface GetOrganizationsProjectsAccessControlMemberPropertyRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** A unique value identifying this project. */
+  id: number;
+  /** The organization membership id, as `organization_membership_id` in the members endpoint. */
+  member_id: string;
+}
+export const GetOrganizationsProjectsAccessControlMemberPropertyRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      organization_id: S.String.pipe(T.Label()),
+      id: S.Number.pipe(T.Label()),
+      member_id: S.String.pipe(T.Query()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/api/organizations/{organization_id}/projects/{id}/access_control_member_properties/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetOrganizationsProjectsAccessControlMemberPropertyRequest",
+}) as any as S.Schema<GetOrganizationsProjectsAccessControlMemberPropertyRequest>;
+
+export interface GetOrganizationsProjectsAccessControlRoleRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** A unique value identifying this project. */
+  id: number;
+  /** Narrow the list to one role. */
+  role_id?: string;
+}
+export const GetOrganizationsProjectsAccessControlRoleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    id: S.Number.pipe(T.Label()),
+    role_id: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/projects/{id}/access_control_roles/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetOrganizationsProjectsAccessControlRoleRequest",
+}) as any as S.Schema<GetOrganizationsProjectsAccessControlRoleRequest>;
+
+/** The project access levels, lowest first. */
+export type AccessControlRolesResponseAvailableProjectLevelsList = Array<string>;
+export const AccessControlRolesResponseAvailableProjectLevelsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AccessControlRolesResponseAvailableProjectLevelsList>;
+
+/** The resource access levels, lowest first. */
+export type AccessControlRolesResponseAvailableResourceLevelsList = Array<string>;
+export const AccessControlRolesResponseAvailableResourceLevelsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AccessControlRolesResponseAvailableResourceLevelsList>;
+
+/** Access per resource type, keyed by resource name (for example `dashboard`, `feature_flag`). */
+export type AccessControlRoleAccessResourcesMap = { [key: string]: SubjectAccessEntry | undefined };
+export const AccessControlRoleAccessResourcesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  SubjectAccessEntry,
+) as any as S.Schema<AccessControlRoleAccessResourcesMap>;
+
+/** A role's resolved access to the project and to every resource type in it. */
+export interface AccessControlRoleAccess {
+  /** The role id. Use it as `role_id` on the role rule endpoints. */
+  role_id: string;
+  /** The role's name. */
+  role_name: string;
+  /** Access to the project itself. */
+  project: SubjectAccessEntry;
+  /** Access per resource type, keyed by resource name (for example `dashboard`, `feature_flag`). */
+  resources: AccessControlRoleAccessResourcesMap;
+}
+export const AccessControlRoleAccess = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    role_id: S.String,
+    role_name: S.String,
+    project: SubjectAccessEntry,
+    resources: AccessControlRoleAccessResourcesMap,
+  }),
+).annotate({ identifier: "AccessControlRoleAccess" }) as any as S.Schema<AccessControlRoleAccess>;
+
+/** One entry per role in the organization. */
+export type AccessControlRolesResponseResultsList = Array<AccessControlRoleAccess>;
+export const AccessControlRolesResponseResultsList = /*@__PURE__*/ S.Array(
+  AccessControlRoleAccess,
+) as any as S.Schema<AccessControlRolesResponseResultsList>;
+
+export interface AccessControlRolesResponse {
+  /** The project access levels, lowest first. */
+  available_project_levels: AccessControlRolesResponseAvailableProjectLevelsList;
+  /** The resource access levels, lowest first. */
+  available_resource_levels: AccessControlRolesResponseAvailableResourceLevelsList;
+  /** Whether the caller may change access rules in this project. */
+  can_edit: boolean;
+  /** One entry per role in the organization. */
+  results: AccessControlRolesResponseResultsList;
+}
+export const AccessControlRolesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    available_project_levels: AccessControlRolesResponseAvailableProjectLevelsList,
+    available_resource_levels: AccessControlRolesResponseAvailableResourceLevelsList,
+    can_edit: S.Boolean,
+    results: AccessControlRolesResponseResultsList,
+  }),
+).annotate({
+  identifier: "AccessControlRolesResponse",
+}) as any as S.Schema<AccessControlRolesResponse>;
+
+export interface GetOrganizationsProjectsAccessControlRoleObjectRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** A unique value identifying this project. */
+  id: number;
+  /** The role id, as `role_id` in the roles endpoint. */
+  role_id: string;
+}
+export const GetOrganizationsProjectsAccessControlRoleObjectRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    id: S.Number.pipe(T.Label()),
+    role_id: S.String.pipe(T.Query()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/projects/{id}/access_control_role_objects/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetOrganizationsProjectsAccessControlRoleObjectRequest",
+}) as any as S.Schema<GetOrganizationsProjectsAccessControlRoleObjectRequest>;
+
+export interface GetOrganizationsProjectsAccessControlRolePropertyRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** A unique value identifying this project. */
+  id: number;
+  /** The role id, as `role_id` in the roles endpoint. */
+  role_id: string;
+}
+export const GetOrganizationsProjectsAccessControlRolePropertyRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      organization_id: S.String.pipe(T.Label()),
+      id: S.Number.pipe(T.Label()),
+      role_id: S.String.pipe(T.Query()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/api/organizations/{organization_id}/projects/{id}/access_control_role_properties/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetOrganizationsProjectsAccessControlRolePropertyRequest",
+}) as any as S.Schema<GetOrganizationsProjectsAccessControlRolePropertyRequest>;
 
 export interface GetOrganizationsProjectsActivityRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -4628,6 +6813,43 @@ export const GetOrganizationsProjectsLogsConfigRequest = /*@__PURE__*/ S.suspend
   identifier: "GetOrganizationsProjectsLogsConfigRequest",
 }) as any as S.Schema<GetOrganizationsProjectsLogsConfigRequest>;
 
+/** Log attribute keys whose values should match a person's distinct_id — a log links to a person when any of these attributes equals one of their distinct IDs. Used by the person profile Logs tab and the `query-logs` MCP tool. Defaults to ['posthogDistinctId'] — the convention documented at https://posthog.com/docs/logs/link-session-replay and the key the posthog-js / posthog-react-native SDKs auto-attach. Add keys only if your pipeline emits the person identifier under different attributes. */
+export type TeamLogsConfigLogsDistinctIdAttributeKeysList = Array<string>;
+export const TeamLogsConfigLogsDistinctIdAttributeKeysList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<TeamLogsConfigLogsDistinctIdAttributeKeysList>;
+
+/** Ordered list of log attribute keys whose values hold the PostHog session ID. Detection checks keys in order, then falls back to common session ID attribute conventions; the first key with a value wins. Defaults to ['sessionId'] — the convention documented at https://posthog.com/docs/logs/link-session-replay and the key the posthog-js / posthog-react-native SDKs auto-attach. Add keys only if your pipeline emits the session ID under different attributes. */
+export type TeamLogsConfigLogsSessionIdAttributeKeysList = Array<string>;
+export const TeamLogsConfigLogsSessionIdAttributeKeysList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<TeamLogsConfigLogsSessionIdAttributeKeysList>;
+
+/** Ordered list of top-level JSON keys whose value is the message text that log patterns are derived from. Keys are matched literally at the top level of the log body; a dot in a key is part of the key name, not a path into nested objects. Selection checks keys in order; the first key whose value is a non-empty string wins. Defaults to ['message', 'msg', 'event']. An empty list turns message extraction off, so JSON log bodies group by their key set instead. The stored log body is never changed by this setting. */
+export type TeamLogsConfigLogsPatternMessageKeysList = Array<string>;
+export const TeamLogsConfigLogsPatternMessageKeysList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<TeamLogsConfigLogsPatternMessageKeysList>;
+
+export interface TeamLogsConfig {
+  /** Legacy single-key alias — always the first entry of `logs_distinct_id_attribute_keys`. Read-only; write the plural field instead. */
+  logs_distinct_id_attribute_key: string;
+  /** Log attribute keys whose values should match a person's distinct_id — a log links to a person when any of these attributes equals one of their distinct IDs. Used by the person profile Logs tab and the `query-logs` MCP tool. Defaults to ['posthogDistinctId'] — the convention documented at https://posthog.com/docs/logs/link-session-replay and the key the posthog-js / posthog-react-native SDKs auto-attach. Add keys only if your pipeline emits the person identifier under different attributes. */
+  logs_distinct_id_attribute_keys: TeamLogsConfigLogsDistinctIdAttributeKeysList;
+  /** Ordered list of log attribute keys whose values hold the PostHog session ID. Detection checks keys in order, then falls back to common session ID attribute conventions; the first key with a value wins. Defaults to ['sessionId'] — the convention documented at https://posthog.com/docs/logs/link-session-replay and the key the posthog-js / posthog-react-native SDKs auto-attach. Add keys only if your pipeline emits the session ID under different attributes. */
+  logs_session_id_attribute_keys: TeamLogsConfigLogsSessionIdAttributeKeysList;
+  /** Ordered list of top-level JSON keys whose value is the message text that log patterns are derived from. Keys are matched literally at the top level of the log body; a dot in a key is part of the key name, not a path into nested objects. Selection checks keys in order; the first key whose value is a non-empty string wins. Defaults to ['message', 'msg', 'event']. An empty list turns message extraction off, so JSON log bodies group by their key set instead. The stored log body is never changed by this setting. */
+  logs_pattern_message_keys: TeamLogsConfigLogsPatternMessageKeysList;
+}
+export const TeamLogsConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    logs_distinct_id_attribute_key: S.String,
+    logs_distinct_id_attribute_keys: TeamLogsConfigLogsDistinctIdAttributeKeysList,
+    logs_session_id_attribute_keys: TeamLogsConfigLogsSessionIdAttributeKeysList,
+    logs_pattern_message_keys: TeamLogsConfigLogsPatternMessageKeysList,
+  }),
+).annotate({ identifier: "TeamLogsConfig" }) as any as S.Schema<TeamLogsConfig>;
+
 export interface GetOrganizationsProjectsSettingsAsOfRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
@@ -4649,6 +6871,57 @@ export const GetOrganizationsProjectsSettingsAsOfRequest = /*@__PURE__*/ S.suspe
   identifier: "GetOrganizationsProjectsSettingsAsOfRequest",
 }) as any as S.Schema<GetOrganizationsProjectsSettingsAsOfRequest>;
 
+export interface GetOrganizationsProjectsTracingConfigRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** A unique value identifying this project. */
+  id: number;
+}
+export const GetOrganizationsProjectsTracingConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    id: S.Number.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/projects/{id}/tracing_config/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetOrganizationsProjectsTracingConfigRequest",
+}) as any as S.Schema<GetOrganizationsProjectsTracingConfigRequest>;
+
+/** Span or resource attribute keys whose values should match a person's distinct_id — a span links to a person when any of these attributes holds one of their distinct IDs. Defaults to ['posthogDistinctId'], the key the posthog-js / posthog-react-native SDKs attach to the OTel signals they emit. Add keys only if your pipeline emits the person identifier under different attributes. */
+export type TeamTracingConfigTracingDistinctIdAttributeKeysList = Array<string>;
+export const TeamTracingConfigTracingDistinctIdAttributeKeysList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<TeamTracingConfigTracingDistinctIdAttributeKeysList>;
+
+/** Ordered list of span or resource attribute keys whose values hold the PostHog session ID. Detection checks keys in order, then falls back to common session ID attribute conventions; the first key with a value wins. Defaults to ['sessionId'], the key the posthog-js / posthog-react-native SDKs attach to the OTel signals they emit. Add keys only if your pipeline emits the session ID under different attributes. */
+export type TeamTracingConfigTracingSessionIdAttributeKeysList = Array<string>;
+export const TeamTracingConfigTracingSessionIdAttributeKeysList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<TeamTracingConfigTracingSessionIdAttributeKeysList>;
+
+export interface TeamTracingConfig {
+  /** Span or resource attribute keys whose values should match a person's distinct_id — a span links to a person when any of these attributes holds one of their distinct IDs. Defaults to ['posthogDistinctId'], the key the posthog-js / posthog-react-native SDKs attach to the OTel signals they emit. Add keys only if your pipeline emits the person identifier under different attributes. */
+  tracing_distinct_id_attribute_keys: TeamTracingConfigTracingDistinctIdAttributeKeysList;
+  /** Ordered list of span or resource attribute keys whose values hold the PostHog session ID. Detection checks keys in order, then falls back to common session ID attribute conventions; the first key with a value wins. Defaults to ['sessionId'], the key the posthog-js / posthog-react-native SDKs attach to the OTel signals they emit. Add keys only if your pipeline emits the session ID under different attributes. */
+  tracing_session_id_attribute_keys: TeamTracingConfigTracingSessionIdAttributeKeysList;
+  /** How long spans are kept before they are deleted, in days. Applied at ingest, so a change only affects spans received after it. Can be changed at most once per 24 hours. Span retention rules override this period for the spans they match. */
+  retention_days?: number;
+  retention_last_updated: string | null;
+}
+export const TeamTracingConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tracing_distinct_id_attribute_keys: TeamTracingConfigTracingDistinctIdAttributeKeysList,
+    tracing_session_id_attribute_keys: TeamTracingConfigTracingSessionIdAttributeKeysList,
+    retention_days: S.optional(S.Number),
+    retention_last_updated: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "TeamTracingConfig" }) as any as S.Schema<TeamTracingConfig>;
+
 export interface GetRoleRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
@@ -4660,11 +6933,7 @@ export const GetRoleRequest = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/organizations/{organization_id}/roles/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/organizations/{organization_id}/roles/{id}/", code: 200 }),
   ),
 ).annotate({ identifier: "GetRoleRequest" }) as any as S.Schema<GetRoleRequest>;
 
@@ -4706,9 +6975,7 @@ export const RoleLookupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reference: S.optional(S.NullOr(RoleExternalReference)),
   }),
-).annotate({
-  identifier: "RoleLookupResponse",
-}) as any as S.Schema<RoleLookupResponse>;
+).annotate({ identifier: "RoleLookupResponse" }) as any as S.Schema<RoleLookupResponse>;
 
 export interface GetRolesRoleMembershipRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -4741,11 +7008,7 @@ export const GetTeamsDataFreshnessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/organizations/{id}/teams/data_freshness/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/organizations/{id}/teams/data_freshness/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTeamsDataFreshnessRequest",
@@ -4766,9 +7029,7 @@ export const DataFreshnessSource = /*@__PURE__*/ S.suspend(() =>
     data_source: S.String,
     last_data_at: S.String,
   }),
-).annotate({
-  identifier: "DataFreshnessSource",
-}) as any as S.Schema<DataFreshnessSource>;
+).annotate({ identifier: "DataFreshnessSource" }) as any as S.Schema<DataFreshnessSource>;
 
 /** Per-source breakdown, most recently active first. */
 export type DataFreshnessProjectSourcesList = Array<DataFreshnessSource>;
@@ -4793,9 +7054,7 @@ export const DataFreshnessProject = /*@__PURE__*/ S.suspend(() =>
     last_data_at: S.NullOr(S.String),
     sources: DataFreshnessProjectSourcesList,
   }),
-).annotate({
-  identifier: "DataFreshnessProject",
-}) as any as S.Schema<DataFreshnessProject>;
+).annotate({ identifier: "DataFreshnessProject" }) as any as S.Schema<DataFreshnessProject>;
 
 /** One entry per project the requesting user can see. */
 export type OrganizationDataFreshnessResultsList = Array<DataFreshnessProject>;
@@ -4835,9 +7094,7 @@ export const GetWelcomeCurrentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetWelcomeCurrentRequest",
-}) as any as S.Schema<GetWelcomeCurrentRequest>;
+).annotate({ identifier: "GetWelcomeCurrentRequest" }) as any as S.Schema<GetWelcomeCurrentRequest>;
 
 export interface WelcomeInviter {
   name?: string;
@@ -4869,9 +7126,7 @@ export const WelcomeTeamMember = /*@__PURE__*/ S.suspend(() =>
     role: S.optional(S.String),
     last_active: S.optional(LastActiveEnum),
   }),
-).annotate({
-  identifier: "WelcomeTeamMember",
-}) as any as S.Schema<WelcomeTeamMember>;
+).annotate({ identifier: "WelcomeTeamMember" }) as any as S.Schema<WelcomeTeamMember>;
 
 export type WelcomeResponseTeamMembersList = Array<WelcomeTeamMember>;
 export const WelcomeResponseTeamMembersList = /*@__PURE__*/ S.Array(
@@ -4894,9 +7149,7 @@ export const WelcomeRecentActivity = /*@__PURE__*/ S.suspend(() =>
     entity_url: S.optional(S.NullOr(S.String)),
     timestamp: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WelcomeRecentActivity",
-}) as any as S.Schema<WelcomeRecentActivity>;
+).annotate({ identifier: "WelcomeRecentActivity" }) as any as S.Schema<WelcomeRecentActivity>;
 
 export type WelcomeResponseRecentActivityList = Array<WelcomeRecentActivity>;
 export const WelcomeResponseRecentActivityList = /*@__PURE__*/ S.Array(
@@ -4918,9 +7171,7 @@ export const WelcomePopularDashboard = /*@__PURE__*/ S.suspend(() =>
     team_id: S.optional(S.Number),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WelcomePopularDashboard",
-}) as any as S.Schema<WelcomePopularDashboard>;
+).annotate({ identifier: "WelcomePopularDashboard" }) as any as S.Schema<WelcomePopularDashboard>;
 
 export type WelcomeResponsePopularDashboardsList = Array<WelcomePopularDashboard>;
 export const WelcomeResponsePopularDashboardsList = /*@__PURE__*/ S.Array(
@@ -4947,9 +7198,7 @@ export const WelcomeSuggestedStep = /*@__PURE__*/ S.suspend(() =>
     docs_href: S.optional(S.String),
     product_key: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WelcomeSuggestedStep",
-}) as any as S.Schema<WelcomeSuggestedStep>;
+).annotate({ identifier: "WelcomeSuggestedStep" }) as any as S.Schema<WelcomeSuggestedStep>;
 
 export type WelcomeResponseSuggestedNextStepsList = Array<WelcomeSuggestedStep>;
 export const WelcomeResponseSuggestedNextStepsList = /*@__PURE__*/ S.Array(
@@ -4977,9 +7226,7 @@ export const WelcomeResponse = /*@__PURE__*/ S.suspend(() =>
     suggested_next_steps: S.optional(WelcomeResponseSuggestedNextStepsList),
     is_organization_first_user: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "WelcomeResponse",
-}) as any as S.Schema<WelcomeResponse>;
+).annotate({ identifier: "WelcomeResponse" }) as any as S.Schema<WelcomeResponse>;
 
 export interface IdentityProviderConfigsDestroyRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -5038,9 +7285,7 @@ export const InvitesBulkCreateRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "InvitesBulkCreateRequest",
-}) as any as S.Schema<InvitesBulkCreateRequest>;
+).annotate({ identifier: "InvitesBulkCreateRequest" }) as any as S.Schema<InvitesBulkCreateRequest>;
 
 export interface InvitesBulkCreateResponse {}
 export const InvitesBulkCreateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5064,9 +7309,7 @@ export const InvitesDestroyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "InvitesDestroyRequest",
-}) as any as S.Schema<InvitesDestroyRequest>;
+).annotate({ identifier: "InvitesDestroyRequest" }) as any as S.Schema<InvitesDestroyRequest>;
 
 export interface InvitesDestroyResponse {}
 export const InvitesDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5160,6 +7403,176 @@ export const PaginatedOrganizationList = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedOrganizationList",
 }) as any as S.Schema<PaginatedOrganizationList>;
 
+export type ListBillingInvoicesRequestStatus = "open" | "paid" | "uncollectible" | "void";
+export const ListBillingInvoicesRequestStatus = S.String;
+
+export interface ListBillingInvoicesRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** The cursor from a previous page. */
+  cursor?: string;
+  /** Invoices per page. */
+  limit?: number;
+  /** Only invoices in this state. * `open` - open * `paid` - paid * `uncollectible` - uncollectible * `void` - void */
+  status?: ListBillingInvoicesRequestStatus | (string & {});
+}
+export const ListBillingInvoicesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    status: S.optional(ListBillingInvoicesRequestStatus.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/billing/invoices/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListBillingInvoicesRequest",
+}) as any as S.Schema<ListBillingInvoicesRequest>;
+
+/** * `open` - open * `paid` - paid * `uncollectible` - uncollectible * `void` - void */
+export type BillingInvoiceStatusEnum = "open" | "paid" | "uncollectible" | "void";
+export const BillingInvoiceStatusEnum = S.String;
+
+export interface BillingInvoice {
+  id: string;
+  number: string | null;
+  status: BillingInvoiceStatusEnum;
+  currency: string | null;
+  subtotal: string;
+  total: string;
+  amount_due: string;
+  amount_paid: string;
+  period_start: string;
+  period_end: string;
+  created: string | null;
+  due_date: string | null;
+}
+export const BillingInvoice = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    number: S.NullOr(S.String),
+    status: BillingInvoiceStatusEnum,
+    currency: S.NullOr(S.String),
+    subtotal: S.String,
+    total: S.String,
+    amount_due: S.String,
+    amount_paid: S.String,
+    period_start: S.String,
+    period_end: S.String,
+    created: S.NullOr(S.String),
+    due_date: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "BillingInvoice" }) as any as S.Schema<BillingInvoice>;
+
+export type BillingInvoicesResultsList = Array<BillingInvoice>;
+export const BillingInvoicesResultsList = /*@__PURE__*/ S.Array(
+  BillingInvoice,
+) as any as S.Schema<BillingInvoicesResultsList>;
+
+export interface BillingInvoices {
+  next: string | null;
+  previous: string | null;
+  results: BillingInvoicesResultsList;
+}
+export const BillingInvoices = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    next: S.NullOr(S.String),
+    previous: S.NullOr(S.String),
+    results: BillingInvoicesResultsList,
+  }),
+).annotate({ identifier: "BillingInvoices" }) as any as S.Schema<BillingInvoices>;
+
+export interface ListBillingProductsRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** Add the `plans` list to each product and add-on. Most of the payload. */
+  include_plans?: boolean;
+}
+export const ListBillingProductsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    include_plans: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/billing/products/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListBillingProductsRequest",
+}) as any as S.Schema<ListBillingProductsRequest>;
+
+export type BillingProductsResultsList = Array<BillingProduct>;
+export const BillingProductsResultsList = /*@__PURE__*/ S.Array(
+  BillingProduct,
+) as any as S.Schema<BillingProductsResultsList>;
+
+export interface BillingProducts {
+  results: BillingProductsResultsList;
+}
+export const BillingProducts = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: BillingProductsResultsList,
+  }),
+).annotate({ identifier: "BillingProducts" }) as any as S.Schema<BillingProducts>;
+
+export interface ListBillingProjectRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+}
+export const ListBillingProjectRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/billing/projects/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListBillingProjectRequest",
+}) as any as S.Schema<ListBillingProjectRequest>;
+
+export interface BillingProject {
+  id: number;
+  /** The project's name, or null when the organization deleted the project after it reported usage. */
+  name: string | null;
+  deleted: boolean;
+}
+export const BillingProject = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    name: S.NullOr(S.String),
+    deleted: S.Boolean,
+  }),
+).annotate({ identifier: "BillingProject" }) as any as S.Schema<BillingProject>;
+
+export type BillingProjectsResultsList = Array<BillingProject>;
+export const BillingProjectsResultsList = /*@__PURE__*/ S.Array(
+  BillingProject,
+) as any as S.Schema<BillingProjectsResultsList>;
+
+export interface BillingProjects {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: BillingProjectsResultsList;
+}
+export const BillingProjects = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    next: S.NullOr(S.String),
+    previous: S.NullOr(S.String),
+    results: BillingProjectsResultsList,
+  }),
+).annotate({ identifier: "BillingProjects" }) as any as S.Schema<BillingProjects>;
+
 export interface ListCimdVerificationTokensRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
@@ -5206,24 +7619,6 @@ export const PaginatedCIMDVerificationTokenList = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedCIMDVerificationTokenList",
 }) as any as S.Schema<PaginatedCIMDVerificationTokenList>;
 
-export interface ListDesktopBetaTermsRequest {
-  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
-  organization_id: string;
-}
-export const ListDesktopBetaTermsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    organization_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/organizations/{organization_id}/desktop_beta_terms/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListDesktopBetaTermsRequest",
-}) as any as S.Schema<ListDesktopBetaTermsRequest>;
-
 export interface ListDomainsRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
@@ -5238,15 +7633,9 @@ export const ListDomainsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/organizations/{organization_id}/domains/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/organizations/{organization_id}/domains/", code: 200 }),
   ),
-).annotate({
-  identifier: "ListDomainsRequest",
-}) as any as S.Schema<ListDomainsRequest>;
+).annotate({ identifier: "ListDomainsRequest" }) as any as S.Schema<ListDomainsRequest>;
 
 export type PaginatedOrganizationDomainListResultsList = Array<OrganizationDomain>;
 export const PaginatedOrganizationDomainListResultsList = /*@__PURE__*/ S.Array(
@@ -5294,27 +7683,28 @@ export const ListIdentityProviderConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListIdentityProviderConfigsRequest",
 }) as any as S.Schema<ListIdentityProviderConfigsRequest>;
 
-export type PaginatedIdentityProviderConfigListResultsList = Array<IdentityProviderConfig>;
-export const PaginatedIdentityProviderConfigListResultsList = /*@__PURE__*/ S.Array(
-  IdentityProviderConfig,
-) as any as S.Schema<PaginatedIdentityProviderConfigListResultsList>;
+export type PaginatedIdentityProviderConfigListOutputResultsList =
+  Array<IdentityProviderConfigOutput>;
+export const PaginatedIdentityProviderConfigListOutputResultsList = /*@__PURE__*/ S.Array(
+  IdentityProviderConfigOutput,
+) as any as S.Schema<PaginatedIdentityProviderConfigListOutputResultsList>;
 
-export interface PaginatedIdentityProviderConfigList {
+export interface PaginatedIdentityProviderConfigListOutput {
   count: number;
   next?: string | null;
   previous?: string | null;
-  results: PaginatedIdentityProviderConfigListResultsList;
+  results: PaginatedIdentityProviderConfigListOutputResultsList;
 }
-export const PaginatedIdentityProviderConfigList = /*@__PURE__*/ S.suspend(() =>
+export const PaginatedIdentityProviderConfigListOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     count: S.Number,
     next: S.optional(S.NullOr(S.String)),
     previous: S.optional(S.NullOr(S.String)),
-    results: PaginatedIdentityProviderConfigListResultsList,
+    results: PaginatedIdentityProviderConfigListOutputResultsList,
   }),
 ).annotate({
-  identifier: "PaginatedIdentityProviderConfigList",
-}) as any as S.Schema<PaginatedIdentityProviderConfigList>;
+  identifier: "PaginatedIdentityProviderConfigListOutput",
+}) as any as S.Schema<PaginatedIdentityProviderConfigListOutput>;
 
 export interface ListInvitesRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -5330,15 +7720,9 @@ export const ListInvitesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/organizations/{organization_id}/invites/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/organizations/{organization_id}/invites/", code: 200 }),
   ),
-).annotate({
-  identifier: "ListInvitesRequest",
-}) as any as S.Schema<ListInvitesRequest>;
+).annotate({ identifier: "ListInvitesRequest" }) as any as S.Schema<ListInvitesRequest>;
 
 export type PaginatedOrganizationInviteListOutputResultsList = Array<OrganizationInviteOutput>;
 export const PaginatedOrganizationInviteListOutputResultsList = /*@__PURE__*/ S.Array(
@@ -5440,15 +7824,9 @@ export const ListMembersRequest = /*@__PURE__*/ S.suspend(() =>
     outside_verified_domains: S.optional(S.Boolean.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/organizations/{organization_id}/members/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/organizations/{organization_id}/members/", code: 200 }),
   ),
-).annotate({
-  identifier: "ListMembersRequest",
-}) as any as S.Schema<ListMembersRequest>;
+).annotate({ identifier: "ListMembersRequest" }) as any as S.Schema<ListMembersRequest>;
 
 export type PaginatedOrganizationMemberListResultsList = Array<OrganizationMember>;
 export const PaginatedOrganizationMemberListResultsList = /*@__PURE__*/ S.Array(
@@ -5575,11 +7953,7 @@ export const ListOrganizationsProjectsRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.String.pipe(T.Query())),
     tags_match: S.optional(ListOrganizationsProjectsRequestTagsMatch.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/organizations/{organization_id}/projects/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/organizations/{organization_id}/projects/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListOrganizationsProjectsRequest",
@@ -5709,12 +8083,13 @@ export const EventIngestionRestrictionEventUuidsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<EventIngestionRestrictionEventUuidsList>;
 
-/** * `analytics` - Analytics * `session_recordings` - Session Recordings * `errortracking` - Errortracking * `clientwarnings` - Clientwarnings * `ai` - Ai */
+/** * `analytics` - Analytics * `session_recordings` - Session Recordings * `errortracking` - Errortracking * `clientwarnings` - Clientwarnings * `heatmaps` - Heatmaps * `ai` - Ai */
 export type IngestionPipelineEnum =
   | "analytics"
   | "session_recordings"
   | "errortracking"
   | "clientwarnings"
+  | "heatmaps"
   | "ai";
 export const IngestionPipelineEnum = S.String;
 
@@ -5826,16 +8201,8 @@ export const ListRolesRequest = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/organizations/{organization_id}/roles/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListRolesRequest",
-}) as any as S.Schema<ListRolesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/organizations/{organization_id}/roles/", code: 200 })),
+).annotate({ identifier: "ListRolesRequest" }) as any as S.Schema<ListRolesRequest>;
 
 export type PaginatedRoleListResultsList = Array<Role>;
 export const PaginatedRoleListResultsList = /*@__PURE__*/ S.Array(
@@ -5855,9 +8222,7 @@ export const PaginatedRoleList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: S.optional(PaginatedRoleListResultsList),
   }),
-).annotate({
-  identifier: "PaginatedRoleList",
-}) as any as S.Schema<PaginatedRoleList>;
+).annotate({ identifier: "PaginatedRoleList" }) as any as S.Schema<PaginatedRoleList>;
 
 export interface ListRolesRoleMembershipsRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -5923,9 +8288,7 @@ export const MembersDestroyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "MembersDestroyRequest",
-}) as any as S.Schema<MembersDestroyRequest>;
+).annotate({ identifier: "MembersDestroyRequest" }) as any as S.Schema<MembersDestroyRequest>;
 
 export interface MembersDestroyResponse {}
 export const MembersDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5998,6 +8361,16 @@ export type OrganizationsProjectsAddProductIntentPartialUpdateRequestBusinessMod
   | BlankEnum;
 export const OrganizationsProjectsAddProductIntentPartialUpdateRequestBusinessModel =
   S.Unknown as any as S.Schema<OrganizationsProjectsAddProductIntentPartialUpdateRequestBusinessModel>;
+
+/** Settings for Conversations. Must be a JSON object or null. */
+export type OrganizationsProjectsAddProductIntentPartialUpdateRequestConversationsSettingsMap = {
+  [key: string]: unknown | undefined;
+};
+export const OrganizationsProjectsAddProductIntentPartialUpdateRequestConversationsSettingsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<OrganizationsProjectsAddProductIntentPartialUpdateRequestConversationsSettingsMap>;
 
 export interface OrganizationsProjectsAddProductIntentPartialUpdateRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -6082,7 +8455,8 @@ export interface OrganizationsProjectsAddProductIntentPartialUpdateRequest {
   business_model?: OrganizationsProjectsAddProductIntentPartialUpdateRequestBusinessModel | null;
   /** Enables the customer conversations / live chat product for this project. */
   conversations_enabled?: boolean | null;
-  conversations_settings?: unknown;
+  /** Settings for Conversations. Must be a JSON object or null. */
+  conversations_settings?: OrganizationsProjectsAddProductIntentPartialUpdateRequestConversationsSettingsMap | null;
   logs_settings?: unknown;
   proactive_tasks_enabled?: boolean | null;
   revenue_analytics_config?: TeamRevenueAnalyticsConfig;
@@ -6182,7 +8556,9 @@ export const OrganizationsProjectsAddProductIntentPartialUpdateRequest = /*@__PU
         S.NullOr(OrganizationsProjectsAddProductIntentPartialUpdateRequestBusinessModel),
       ),
       conversations_enabled: S.optional(S.NullOr(S.Boolean)),
-      conversations_settings: S.optional(S.Unknown),
+      conversations_settings: S.optional(
+        S.NullOr(OrganizationsProjectsAddProductIntentPartialUpdateRequestConversationsSettingsMap),
+      ),
       logs_settings: S.optional(S.Unknown),
       proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
       revenue_analytics_config: S.optional(TeamRevenueAnalyticsConfig),
@@ -6211,6 +8587,58 @@ export const OrganizationsProjectsAddProductIntentPartialUpdateRequest = /*@__PU
 ).annotate({
   identifier: "OrganizationsProjectsAddProductIntentPartialUpdateRequest",
 }) as any as S.Schema<OrganizationsProjectsAddProductIntentPartialUpdateRequest>;
+
+export interface OrganizationsProjectsCancelDeletionCreateRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** A unique value identifying this project. */
+  id: number;
+}
+export const OrganizationsProjectsCancelDeletionCreateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    id: S.Number.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/organizations/{organization_id}/projects/{id}/cancel-deletion/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "OrganizationsProjectsCancelDeletionCreateRequest",
+}) as any as S.Schema<OrganizationsProjectsCancelDeletionCreateRequest>;
+
+/** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
+export type ProjectTagsList = Array<string>;
+export const ProjectTagsList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<ProjectTagsList>;
+
+/** The project as the app context serves it, which is where the frontend reads it on page load. projectLogic bootstraps `currentProject` from the app context and only calls the API when that is missing, so a field left out here is invisible to the app until something refetches. */
+export interface Project {
+  id: number;
+  organization_id: string;
+  name?: string;
+  product_description?: string | null;
+  created_at: string;
+  /** Set to True when project deletion has been initiated. Blocks UI access to this project until the async task completes. */
+  is_pending_deletion: boolean | null;
+  /** When the scheduled project deletion will run. */
+  deletion_scheduled_at: string | null;
+  /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
+  tags?: ProjectTagsList;
+}
+export const Project = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    organization_id: S.String,
+    name: S.optional(S.String),
+    product_description: S.optional(S.NullOr(S.String)),
+    created_at: S.String,
+    is_pending_deletion: S.NullOr(S.Boolean),
+    deletion_scheduled_at: S.NullOr(S.String),
+    tags: S.optional(ProjectTagsList),
+  }),
+).annotate({ identifier: "Project" }) as any as S.Schema<Project>;
 
 export interface OrganizationsProjectsDefaultEvaluationContextsDestroyRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -6307,6 +8735,15 @@ export type OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestBusi
 export const OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestBusinessModel =
   S.Unknown as any as S.Schema<OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestBusinessModel>;
 
+/** Settings for Conversations. Must be a JSON object or null. */
+export type OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestConversationsSettingsMap =
+  { [key: string]: unknown | undefined };
+export const OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestConversationsSettingsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestConversationsSettingsMap>;
+
 export interface OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
@@ -6390,7 +8827,8 @@ export interface OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateReques
   business_model?: OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestBusinessModel | null;
   /** Enables the customer conversations / live chat product for this project. */
   conversations_enabled?: boolean | null;
-  conversations_settings?: unknown;
+  /** Settings for Conversations. Must be a JSON object or null. */
+  conversations_settings?: OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestConversationsSettingsMap | null;
   logs_settings?: unknown;
   proactive_tasks_enabled?: boolean | null;
   revenue_analytics_config?: TeamRevenueAnalyticsConfig;
@@ -6496,7 +8934,11 @@ export const OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequest =
         S.NullOr(OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestBusinessModel),
       ),
       conversations_enabled: S.optional(S.NullOr(S.Boolean)),
-      conversations_settings: S.optional(S.Unknown),
+      conversations_settings: S.optional(
+        S.NullOr(
+          OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestConversationsSettingsMap,
+        ),
+      ),
       logs_settings: S.optional(S.Unknown),
       proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
       revenue_analytics_config: S.optional(TeamRevenueAnalyticsConfig),
@@ -6646,6 +9088,15 @@ export type OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestBu
 export const OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestBusinessModel =
   S.Unknown as any as S.Schema<OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestBusinessModel>;
 
+/** Settings for Conversations. Must be a JSON object or null. */
+export type OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestConversationsSettingsMap =
+  { [key: string]: unknown | undefined };
+export const OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestConversationsSettingsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestConversationsSettingsMap>;
+
 export interface OrganizationsProjectsGenerateConversationsPublicTokenCreateRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
@@ -6729,7 +9180,8 @@ export interface OrganizationsProjectsGenerateConversationsPublicTokenCreateRequ
   business_model?: OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestBusinessModel | null;
   /** Enables the customer conversations / live chat product for this project. */
   conversations_enabled?: boolean | null;
-  conversations_settings?: unknown;
+  /** Settings for Conversations. Must be a JSON object or null. */
+  conversations_settings?: OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestConversationsSettingsMap | null;
   logs_settings?: unknown;
   proactive_tasks_enabled?: boolean | null;
   revenue_analytics_config?: TeamRevenueAnalyticsConfig;
@@ -6835,7 +9287,11 @@ export const OrganizationsProjectsGenerateConversationsPublicTokenCreateRequest 
         S.NullOr(OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestBusinessModel),
       ),
       conversations_enabled: S.optional(S.NullOr(S.Boolean)),
-      conversations_settings: S.optional(S.Unknown),
+      conversations_settings: S.optional(
+        S.NullOr(
+          OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestConversationsSettingsMap,
+        ),
+      ),
       logs_settings: S.optional(S.Unknown),
       proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
       revenue_analytics_config: S.optional(TeamRevenueAnalyticsConfig),
@@ -6928,6 +9384,16 @@ export type OrganizationsProjectsResetTokenPartialUpdateRequestBusinessModel =
 export const OrganizationsProjectsResetTokenPartialUpdateRequestBusinessModel =
   S.Unknown as any as S.Schema<OrganizationsProjectsResetTokenPartialUpdateRequestBusinessModel>;
 
+/** Settings for Conversations. Must be a JSON object or null. */
+export type OrganizationsProjectsResetTokenPartialUpdateRequestConversationsSettingsMap = {
+  [key: string]: unknown | undefined;
+};
+export const OrganizationsProjectsResetTokenPartialUpdateRequestConversationsSettingsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<OrganizationsProjectsResetTokenPartialUpdateRequestConversationsSettingsMap>;
+
 export interface OrganizationsProjectsResetTokenPartialUpdateRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
@@ -7011,7 +9477,8 @@ export interface OrganizationsProjectsResetTokenPartialUpdateRequest {
   business_model?: OrganizationsProjectsResetTokenPartialUpdateRequestBusinessModel | null;
   /** Enables the customer conversations / live chat product for this project. */
   conversations_enabled?: boolean | null;
-  conversations_settings?: unknown;
+  /** Settings for Conversations. Must be a JSON object or null. */
+  conversations_settings?: OrganizationsProjectsResetTokenPartialUpdateRequestConversationsSettingsMap | null;
   logs_settings?: unknown;
   proactive_tasks_enabled?: boolean | null;
   revenue_analytics_config?: TeamRevenueAnalyticsConfig;
@@ -7108,7 +9575,9 @@ export const OrganizationsProjectsResetTokenPartialUpdateRequest = /*@__PURE__*/
       S.NullOr(OrganizationsProjectsResetTokenPartialUpdateRequestBusinessModel),
     ),
     conversations_enabled: S.optional(S.NullOr(S.Boolean)),
-    conversations_settings: S.optional(S.Unknown),
+    conversations_settings: S.optional(
+      S.NullOr(OrganizationsProjectsResetTokenPartialUpdateRequestConversationsSettingsMap),
+    ),
     logs_settings: S.optional(S.Unknown),
     proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
     revenue_analytics_config: S.optional(TeamRevenueAnalyticsConfig),
@@ -7137,6 +9606,28 @@ export const OrganizationsProjectsResetTokenPartialUpdateRequest = /*@__PURE__*/
 ).annotate({
   identifier: "OrganizationsProjectsResetTokenPartialUpdateRequest",
 }) as any as S.Schema<OrganizationsProjectsResetTokenPartialUpdateRequest>;
+
+export interface OrganizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdateRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** A unique value identifying this project. */
+  id: number;
+}
+export const OrganizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdateRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      organization_id: S.String.pipe(T.Label()),
+      id: S.Number.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/api/organizations/{organization_id}/projects/{id}/rotate_heatmaps_screenshot_secret/",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "OrganizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdateRequest",
+  }) as any as S.Schema<OrganizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdateRequest>;
 
 /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
 export type OrganizationsProjectsRotateSecretTokenPartialUpdateRequestTagsList = Array<string>;
@@ -7204,6 +9695,16 @@ export type OrganizationsProjectsRotateSecretTokenPartialUpdateRequestBusinessMo
   | BlankEnum;
 export const OrganizationsProjectsRotateSecretTokenPartialUpdateRequestBusinessModel =
   S.Unknown as any as S.Schema<OrganizationsProjectsRotateSecretTokenPartialUpdateRequestBusinessModel>;
+
+/** Settings for Conversations. Must be a JSON object or null. */
+export type OrganizationsProjectsRotateSecretTokenPartialUpdateRequestConversationsSettingsMap = {
+  [key: string]: unknown | undefined;
+};
+export const OrganizationsProjectsRotateSecretTokenPartialUpdateRequestConversationsSettingsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<OrganizationsProjectsRotateSecretTokenPartialUpdateRequestConversationsSettingsMap>;
 
 export interface OrganizationsProjectsRotateSecretTokenPartialUpdateRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -7288,7 +9789,8 @@ export interface OrganizationsProjectsRotateSecretTokenPartialUpdateRequest {
   business_model?: OrganizationsProjectsRotateSecretTokenPartialUpdateRequestBusinessModel | null;
   /** Enables the customer conversations / live chat product for this project. */
   conversations_enabled?: boolean | null;
-  conversations_settings?: unknown;
+  /** Settings for Conversations. Must be a JSON object or null. */
+  conversations_settings?: OrganizationsProjectsRotateSecretTokenPartialUpdateRequestConversationsSettingsMap | null;
   logs_settings?: unknown;
   proactive_tasks_enabled?: boolean | null;
   revenue_analytics_config?: TeamRevenueAnalyticsConfig;
@@ -7388,7 +9890,11 @@ export const OrganizationsProjectsRotateSecretTokenPartialUpdateRequest = /*@__P
         S.NullOr(OrganizationsProjectsRotateSecretTokenPartialUpdateRequestBusinessModel),
       ),
       conversations_enabled: S.optional(S.NullOr(S.Boolean)),
-      conversations_settings: S.optional(S.Unknown),
+      conversations_settings: S.optional(
+        S.NullOr(
+          OrganizationsProjectsRotateSecretTokenPartialUpdateRequestConversationsSettingsMap,
+        ),
+      ),
       logs_settings: S.optional(S.Unknown),
       proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
       revenue_analytics_config: S.optional(TeamRevenueAnalyticsConfig),
@@ -7497,9 +10003,7 @@ export const RolesDestroyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RolesDestroyRequest",
-}) as any as S.Schema<RolesDestroyRequest>;
+).annotate({ identifier: "RolesDestroyRequest" }) as any as S.Schema<RolesDestroyRequest>;
 
 export interface RolesDestroyResponse {}
 export const RolesDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7536,13 +10040,6 @@ export const RolesRoleMembershipsDestroyResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "RolesRoleMembershipsDestroyResponse",
 }) as any as S.Schema<RolesRoleMembershipsDestroyResponse>;
 
-/** Default statistical method for new experiments in this organization. * `bayesian` - Bayesian * `frequentist` - Frequentist */
-export type UpdateRequestDefaultExperimentStatsMethod =
-  | OrganizationDefaultExperimentStatsMethodEnum
-  | BlankEnum;
-export const UpdateRequestDefaultExperimentStatsMethod =
-  S.Unknown as any as S.Schema<UpdateRequestDefaultExperimentStatsMethod>;
-
 export interface UpdateRequest {
   /** A UUID string identifying this organization. */
   id: string;
@@ -7560,11 +10057,11 @@ export interface UpdateRequest {
   allow_publicly_shared_resources?: boolean;
   /** When True, requests through the PostHog MCP server can read but not change this organization's data. */
   read_only_mcp_access?: boolean | null;
+  /** Notice shown in a banner to every member of the organization. Set to null to remove it. */
+  member_notice?: OrganizationMemberNotice | null;
   is_ai_data_processing_approved?: boolean | null;
   /** When True, this organization allows its data to be used to train PostHog AI models. */
   is_ai_training_opted_in?: boolean | null;
-  /** Default statistical method for new experiments in this organization. * `bayesian` - Bayesian * `frequentist` - Frequentist */
-  default_experiment_stats_method?: UpdateRequestDefaultExperimentStatsMethod | null;
   /** Default setting for 'Discard client IP data' for new projects in this organization. */
   default_anonymize_ips?: boolean;
   /** ID of the role to automatically assign to new members joining the organization */
@@ -7583,11 +10080,9 @@ export const UpdateRequest = /*@__PURE__*/ S.suspend(() =>
     members_can_see_org_members: S.optional(S.Boolean),
     allow_publicly_shared_resources: S.optional(S.Boolean),
     read_only_mcp_access: S.optional(S.NullOr(S.Boolean)),
+    member_notice: S.optional(S.NullOr(OrganizationMemberNotice)),
     is_ai_data_processing_approved: S.optional(S.NullOr(S.Boolean)),
     is_ai_training_opted_in: S.optional(S.NullOr(S.Boolean)),
-    default_experiment_stats_method: S.optional(
-      S.NullOr(UpdateRequestDefaultExperimentStatsMethod),
-    ),
     default_anonymize_ips: S.optional(S.Boolean),
     default_role_id: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PUT", uri: "/api/organizations/{id}/", code: 200 })),
@@ -7634,15 +10129,9 @@ export const UpdateDomainRequest = /*@__PURE__*/ S.suspend(() =>
     jit_provisioning_enabled: S.optional(S.Boolean),
     sso_enforcement: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/organizations/{organization_id}/domains/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/organizations/{organization_id}/domains/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateDomainRequest",
-}) as any as S.Schema<UpdateDomainRequest>;
+).annotate({ identifier: "UpdateDomainRequest" }) as any as S.Schema<UpdateDomainRequest>;
 
 export interface UpdateDomainsPartialRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -7676,7 +10165,7 @@ export type UpdateIdentityProviderConfigRequestDomainScope = DomainScopeEnum | B
 export const UpdateIdentityProviderConfigRequestDomainScope =
   S.Unknown as any as S.Schema<UpdateIdentityProviderConfigRequestDomainScope>;
 
-/** Feature configured by this identity provider configuration. * `saml` - Saml * `scim` - Scim * `xaa` - Xaa */
+/** Feature configured by this identity provider configuration. * `saml` - Saml * `oidc` - Oidc * `scim` - Scim * `xaa` - Xaa */
 export type UpdateIdentityProviderConfigRequestConfigScope = ConfigScopeEnum | BlankEnum;
 export const UpdateIdentityProviderConfigRequestConfigScope =
   S.Unknown as any as S.Schema<UpdateIdentityProviderConfigRequestConfigScope>;
@@ -7702,10 +10191,16 @@ export interface UpdateIdentityProviderConfigRequest {
   name?: string;
   /** Domains this configuration applies to. An unset value behaves like selected domains. * `all` - All * `selected` - Selected */
   domain_scope?: UpdateIdentityProviderConfigRequestDomainScope | null;
-  /** Feature configured by this identity provider configuration. * `saml` - Saml * `scim` - Scim * `xaa` - Xaa */
+  /** Feature configured by this identity provider configuration. * `saml` - Saml * `oidc` - Oidc * `scim` - Scim * `xaa` - Xaa */
   config_scope?: UpdateIdentityProviderConfigRequestConfigScope | null;
   /** Organization domain IDs that this identity provider configuration applies to. */
   organization_domain_ids?: UpdateIdentityProviderConfigRequestOrganizationDomainIdsList;
+  /** HTTPS issuer URL. Must exactly match the issuer in the OIDC discovery document. */
+  oidc_issuer_url?: string;
+  /** Client ID of the organization's OIDC application. */
+  oidc_client_id?: string;
+  /** OIDC client secret. Omit to keep the saved secret. Set to an empty string to remove it. Never returned in responses. */
+  oidc_client_secret?: string | Redacted.Redacted<string>;
   /** SAML IdP entity ID (issuer). */
   saml_entity_id?: string | null;
   /** SAML single sign-on (ACS) URL the IdP redirects to. */
@@ -7731,6 +10226,9 @@ export const UpdateIdentityProviderConfigRequest = /*@__PURE__*/ S.suspend(() =>
     organization_domain_ids: S.optional(
       UpdateIdentityProviderConfigRequestOrganizationDomainIdsList,
     ),
+    oidc_issuer_url: S.optional(S.String),
+    oidc_client_id: S.optional(S.String),
+    oidc_client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     saml_entity_id: S.optional(S.NullOr(S.String)),
     saml_acs_url: S.optional(S.NullOr(S.String)),
     saml_x509_cert: S.optional(S.NullOr(S.String)),
@@ -7754,7 +10252,7 @@ export type UpdateIdentityProviderConfigsPartialRequestDomainScope = DomainScope
 export const UpdateIdentityProviderConfigsPartialRequestDomainScope =
   S.Unknown as any as S.Schema<UpdateIdentityProviderConfigsPartialRequestDomainScope>;
 
-/** Feature configured by this identity provider configuration. * `saml` - Saml * `scim` - Scim * `xaa` - Xaa */
+/** Feature configured by this identity provider configuration. * `saml` - Saml * `oidc` - Oidc * `scim` - Scim * `xaa` - Xaa */
 export type UpdateIdentityProviderConfigsPartialRequestConfigScope = ConfigScopeEnum | BlankEnum;
 export const UpdateIdentityProviderConfigsPartialRequestConfigScope =
   S.Unknown as any as S.Schema<UpdateIdentityProviderConfigsPartialRequestConfigScope>;
@@ -7782,10 +10280,16 @@ export interface UpdateIdentityProviderConfigsPartialRequest {
   name?: string;
   /** Domains this configuration applies to. An unset value behaves like selected domains. * `all` - All * `selected` - Selected */
   domain_scope?: UpdateIdentityProviderConfigsPartialRequestDomainScope | null;
-  /** Feature configured by this identity provider configuration. * `saml` - Saml * `scim` - Scim * `xaa` - Xaa */
+  /** Feature configured by this identity provider configuration. * `saml` - Saml * `oidc` - Oidc * `scim` - Scim * `xaa` - Xaa */
   config_scope?: UpdateIdentityProviderConfigsPartialRequestConfigScope | null;
   /** Organization domain IDs that this identity provider configuration applies to. */
   organization_domain_ids?: UpdateIdentityProviderConfigsPartialRequestOrganizationDomainIdsList;
+  /** HTTPS issuer URL. Must exactly match the issuer in the OIDC discovery document. */
+  oidc_issuer_url?: string;
+  /** Client ID of the organization's OIDC application. */
+  oidc_client_id?: string;
+  /** OIDC client secret. Omit to keep the saved secret. Set to an empty string to remove it. Never returned in responses. */
+  oidc_client_secret?: string | Redacted.Redacted<string>;
   /** SAML IdP entity ID (issuer). */
   saml_entity_id?: string | null;
   /** SAML single sign-on (ACS) URL the IdP redirects to. */
@@ -7811,6 +10315,9 @@ export const UpdateIdentityProviderConfigsPartialRequest = /*@__PURE__*/ S.suspe
     organization_domain_ids: S.optional(
       UpdateIdentityProviderConfigsPartialRequestOrganizationDomainIdsList,
     ),
+    oidc_issuer_url: S.optional(S.String),
+    oidc_client_id: S.optional(S.String),
+    oidc_client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     saml_entity_id: S.optional(S.NullOr(S.String)),
     saml_acs_url: S.optional(S.NullOr(S.String)),
     saml_x509_cert: S.optional(S.NullOr(S.String)),
@@ -7876,9 +10383,7 @@ export const OrganizationIntegration = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     created_by: S.optional(S.NullOr(UserBasic)),
   }),
-).annotate({
-  identifier: "OrganizationIntegration",
-}) as any as S.Schema<OrganizationIntegration>;
+).annotate({ identifier: "OrganizationIntegration" }) as any as S.Schema<OrganizationIntegration>;
 
 export interface UpdateMemberRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -7898,9 +10403,7 @@ export const UpdateMemberRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateMemberRequest",
-}) as any as S.Schema<UpdateMemberRequest>;
+).annotate({ identifier: "UpdateMemberRequest" }) as any as S.Schema<UpdateMemberRequest>;
 
 export interface UpdateMembersPartialRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -7978,6 +10481,15 @@ export const UpdateOrganizationsProjectRequestRecordingDomainsList = /*@__PURE__
 export type UpdateOrganizationsProjectRequestBusinessModel = BusinessModelEnum | BlankEnum;
 export const UpdateOrganizationsProjectRequestBusinessModel =
   S.Unknown as any as S.Schema<UpdateOrganizationsProjectRequestBusinessModel>;
+
+/** Settings for Conversations. Must be a JSON object or null. */
+export type UpdateOrganizationsProjectRequestConversationsSettingsMap = {
+  [key: string]: unknown | undefined;
+};
+export const UpdateOrganizationsProjectRequestConversationsSettingsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<UpdateOrganizationsProjectRequestConversationsSettingsMap>;
 
 export interface UpdateOrganizationsProjectRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -8062,7 +10574,8 @@ export interface UpdateOrganizationsProjectRequest {
   business_model?: UpdateOrganizationsProjectRequestBusinessModel | null;
   /** Enables the customer conversations / live chat product for this project. */
   conversations_enabled?: boolean | null;
-  conversations_settings?: unknown;
+  /** Settings for Conversations. Must be a JSON object or null. */
+  conversations_settings?: UpdateOrganizationsProjectRequestConversationsSettingsMap | null;
   logs_settings?: unknown;
   proactive_tasks_enabled?: boolean | null;
   revenue_analytics_config?: TeamRevenueAnalyticsConfig;
@@ -8149,7 +10662,9 @@ export const UpdateOrganizationsProjectRequest = /*@__PURE__*/ S.suspend(() =>
     receive_org_level_activity_logs: S.optional(S.NullOr(S.Boolean)),
     business_model: S.optional(S.NullOr(UpdateOrganizationsProjectRequestBusinessModel)),
     conversations_enabled: S.optional(S.NullOr(S.Boolean)),
-    conversations_settings: S.optional(S.Unknown),
+    conversations_settings: S.optional(
+      S.NullOr(UpdateOrganizationsProjectRequestConversationsSettingsMap),
+    ),
     logs_settings: S.optional(S.Unknown),
     proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
     revenue_analytics_config: S.optional(TeamRevenueAnalyticsConfig),
@@ -8246,6 +10761,15 @@ export type UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestBu
 export const UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestBusinessModel =
   S.Unknown as any as S.Schema<UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestBusinessModel>;
 
+/** Settings for Conversations. Must be a JSON object or null. */
+export type UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestConversationsSettingsMap =
+  { [key: string]: unknown | undefined };
+export const UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestConversationsSettingsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestConversationsSettingsMap>;
+
 export interface UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
@@ -8329,7 +10853,8 @@ export interface UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequ
   business_model?: UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestBusinessModel | null;
   /** Enables the customer conversations / live chat product for this project. */
   conversations_enabled?: boolean | null;
-  conversations_settings?: unknown;
+  /** Settings for Conversations. Must be a JSON object or null. */
+  conversations_settings?: UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestConversationsSettingsMap | null;
   logs_settings?: unknown;
   proactive_tasks_enabled?: boolean | null;
   revenue_analytics_config?: TeamRevenueAnalyticsConfig;
@@ -8435,7 +10960,11 @@ export const UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequest 
         S.NullOr(UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestBusinessModel),
       ),
       conversations_enabled: S.optional(S.NullOr(S.Boolean)),
-      conversations_settings: S.optional(S.Unknown),
+      conversations_settings: S.optional(
+        S.NullOr(
+          UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestConversationsSettingsMap,
+        ),
+      ),
       logs_settings: S.optional(S.Unknown),
       proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
       revenue_analytics_config: S.optional(TeamRevenueAnalyticsConfig),
@@ -8532,6 +11061,16 @@ export type UpdateOrganizationsProjectsDefaultReleaseConditionRequestBusinessMod
 export const UpdateOrganizationsProjectsDefaultReleaseConditionRequestBusinessModel =
   S.Unknown as any as S.Schema<UpdateOrganizationsProjectsDefaultReleaseConditionRequestBusinessModel>;
 
+/** Settings for Conversations. Must be a JSON object or null. */
+export type UpdateOrganizationsProjectsDefaultReleaseConditionRequestConversationsSettingsMap = {
+  [key: string]: unknown | undefined;
+};
+export const UpdateOrganizationsProjectsDefaultReleaseConditionRequestConversationsSettingsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<UpdateOrganizationsProjectsDefaultReleaseConditionRequestConversationsSettingsMap>;
+
 export interface UpdateOrganizationsProjectsDefaultReleaseConditionRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
@@ -8615,7 +11154,8 @@ export interface UpdateOrganizationsProjectsDefaultReleaseConditionRequest {
   business_model?: UpdateOrganizationsProjectsDefaultReleaseConditionRequestBusinessModel | null;
   /** Enables the customer conversations / live chat product for this project. */
   conversations_enabled?: boolean | null;
-  conversations_settings?: unknown;
+  /** Settings for Conversations. Must be a JSON object or null. */
+  conversations_settings?: UpdateOrganizationsProjectsDefaultReleaseConditionRequestConversationsSettingsMap | null;
   logs_settings?: unknown;
   proactive_tasks_enabled?: boolean | null;
   revenue_analytics_config?: TeamRevenueAnalyticsConfig;
@@ -8715,7 +11255,9 @@ export const UpdateOrganizationsProjectsDefaultReleaseConditionRequest = /*@__PU
         S.NullOr(UpdateOrganizationsProjectsDefaultReleaseConditionRequestBusinessModel),
       ),
       conversations_enabled: S.optional(S.NullOr(S.Boolean)),
-      conversations_settings: S.optional(S.Unknown),
+      conversations_settings: S.optional(
+        S.NullOr(UpdateOrganizationsProjectsDefaultReleaseConditionRequestConversationsSettingsMap),
+      ),
       logs_settings: S.optional(S.Unknown),
       proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
       revenue_analytics_config: S.optional(TeamRevenueAnalyticsConfig),
@@ -8812,6 +11354,16 @@ export type UpdateOrganizationsProjectsExperimentsConfigPartialRequestBusinessMo
 export const UpdateOrganizationsProjectsExperimentsConfigPartialRequestBusinessModel =
   S.Unknown as any as S.Schema<UpdateOrganizationsProjectsExperimentsConfigPartialRequestBusinessModel>;
 
+/** Settings for Conversations. Must be a JSON object or null. */
+export type UpdateOrganizationsProjectsExperimentsConfigPartialRequestConversationsSettingsMap = {
+  [key: string]: unknown | undefined;
+};
+export const UpdateOrganizationsProjectsExperimentsConfigPartialRequestConversationsSettingsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<UpdateOrganizationsProjectsExperimentsConfigPartialRequestConversationsSettingsMap>;
+
 export interface UpdateOrganizationsProjectsExperimentsConfigPartialRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
@@ -8895,7 +11447,8 @@ export interface UpdateOrganizationsProjectsExperimentsConfigPartialRequest {
   business_model?: UpdateOrganizationsProjectsExperimentsConfigPartialRequestBusinessModel | null;
   /** Enables the customer conversations / live chat product for this project. */
   conversations_enabled?: boolean | null;
-  conversations_settings?: unknown;
+  /** Settings for Conversations. Must be a JSON object or null. */
+  conversations_settings?: UpdateOrganizationsProjectsExperimentsConfigPartialRequestConversationsSettingsMap | null;
   logs_settings?: unknown;
   proactive_tasks_enabled?: boolean | null;
   revenue_analytics_config?: TeamRevenueAnalyticsConfig;
@@ -8995,7 +11548,11 @@ export const UpdateOrganizationsProjectsExperimentsConfigPartialRequest = /*@__P
         S.NullOr(UpdateOrganizationsProjectsExperimentsConfigPartialRequestBusinessModel),
       ),
       conversations_enabled: S.optional(S.NullOr(S.Boolean)),
-      conversations_settings: S.optional(S.Unknown),
+      conversations_settings: S.optional(
+        S.NullOr(
+          UpdateOrganizationsProjectsExperimentsConfigPartialRequestConversationsSettingsMap,
+        ),
+      ),
       logs_settings: S.optional(S.Unknown),
       proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
       revenue_analytics_config: S.optional(TeamRevenueAnalyticsConfig),
@@ -9025,268 +11582,55 @@ export const UpdateOrganizationsProjectsExperimentsConfigPartialRequest = /*@__P
   identifier: "UpdateOrganizationsProjectsExperimentsConfigPartialRequest",
 }) as any as S.Schema<UpdateOrganizationsProjectsExperimentsConfigPartialRequest>;
 
-/** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-export type UpdateOrganizationsProjectsLogsConfigPartialRequestTagsList = Array<string>;
-export const UpdateOrganizationsProjectsLogsConfigPartialRequestTagsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<UpdateOrganizationsProjectsLogsConfigPartialRequestTagsList>;
-
-export type UpdateOrganizationsProjectsLogsConfigPartialRequestAppUrlsList = Array<string | null>;
-export const UpdateOrganizationsProjectsLogsConfigPartialRequestAppUrlsList = /*@__PURE__*/ S.Array(
-  S.NullOr(S.String),
-) as any as S.Schema<UpdateOrganizationsProjectsLogsConfigPartialRequestAppUrlsList>;
-
-/** Ordered list of person properties used to render a human-friendly display name in the UI. */
-export type UpdateOrganizationsProjectsLogsConfigPartialRequestPersonDisplayNamePropertiesList =
+/** Log attribute keys whose values should match a person's distinct_id — a log links to a person when any of these attributes equals one of their distinct IDs. Used by the person profile Logs tab and the `query-logs` MCP tool. Defaults to ['posthogDistinctId'] — the convention documented at https://posthog.com/docs/logs/link-session-replay and the key the posthog-js / posthog-react-native SDKs auto-attach. Add keys only if your pipeline emits the person identifier under different attributes. */
+export type UpdateOrganizationsProjectsLogsConfigPartialRequestLogsDistinctIdAttributeKeysList =
   Array<string>;
-export const UpdateOrganizationsProjectsLogsConfigPartialRequestPersonDisplayNamePropertiesList =
+export const UpdateOrganizationsProjectsLogsConfigPartialRequestLogsDistinctIdAttributeKeysList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<UpdateOrganizationsProjectsLogsConfigPartialRequestPersonDisplayNamePropertiesList>;
+  ) as any as S.Schema<UpdateOrganizationsProjectsLogsConfigPartialRequestLogsDistinctIdAttributeKeysList>;
 
-export type UpdateOrganizationsProjectsLogsConfigPartialRequestSessionRecordingUrlTriggerConfigList =
-  Array<unknown>;
-export const UpdateOrganizationsProjectsLogsConfigPartialRequestSessionRecordingUrlTriggerConfigList =
-  /*@__PURE__*/ S.Array(
-    S.Unknown,
-  ) as any as S.Schema<UpdateOrganizationsProjectsLogsConfigPartialRequestSessionRecordingUrlTriggerConfigList>;
-
-export type UpdateOrganizationsProjectsLogsConfigPartialRequestSessionRecordingUrlBlocklistConfigList =
-  Array<unknown>;
-export const UpdateOrganizationsProjectsLogsConfigPartialRequestSessionRecordingUrlBlocklistConfigList =
-  /*@__PURE__*/ S.Array(
-    S.Unknown,
-  ) as any as S.Schema<UpdateOrganizationsProjectsLogsConfigPartialRequestSessionRecordingUrlBlocklistConfigList>;
-
-export type UpdateOrganizationsProjectsLogsConfigPartialRequestSessionRecordingEventTriggerConfigList =
-  Array<string | null>;
-export const UpdateOrganizationsProjectsLogsConfigPartialRequestSessionRecordingEventTriggerConfigList =
-  /*@__PURE__*/ S.Array(
-    S.NullOr(S.String),
-  ) as any as S.Schema<UpdateOrganizationsProjectsLogsConfigPartialRequestSessionRecordingEventTriggerConfigList>;
-
-export type UpdateOrganizationsProjectsLogsConfigPartialRequestLiveEventsColumnsList =
+/** Ordered list of log attribute keys whose values hold the PostHog session ID. Detection checks keys in order, then falls back to common session ID attribute conventions; the first key with a value wins. Defaults to ['sessionId'] — the convention documented at https://posthog.com/docs/logs/link-session-replay and the key the posthog-js / posthog-react-native SDKs auto-attach. Add keys only if your pipeline emits the session ID under different attributes. */
+export type UpdateOrganizationsProjectsLogsConfigPartialRequestLogsSessionIdAttributeKeysList =
   Array<string>;
-export const UpdateOrganizationsProjectsLogsConfigPartialRequestLiveEventsColumnsList =
+export const UpdateOrganizationsProjectsLogsConfigPartialRequestLogsSessionIdAttributeKeysList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<UpdateOrganizationsProjectsLogsConfigPartialRequestLiveEventsColumnsList>;
+  ) as any as S.Schema<UpdateOrganizationsProjectsLogsConfigPartialRequestLogsSessionIdAttributeKeysList>;
 
-/** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-export type UpdateOrganizationsProjectsLogsConfigPartialRequestRecordingDomainsList = Array<
-  string | null
->;
-export const UpdateOrganizationsProjectsLogsConfigPartialRequestRecordingDomainsList =
+/** Ordered list of top-level JSON keys whose value is the message text that log patterns are derived from. Keys are matched literally at the top level of the log body; a dot in a key is part of the key name, not a path into nested objects. Selection checks keys in order; the first key whose value is a non-empty string wins. Defaults to ['message', 'msg', 'event']. An empty list turns message extraction off, so JSON log bodies group by their key set instead. The stored log body is never changed by this setting. */
+export type UpdateOrganizationsProjectsLogsConfigPartialRequestLogsPatternMessageKeysList =
+  Array<string>;
+export const UpdateOrganizationsProjectsLogsConfigPartialRequestLogsPatternMessageKeysList =
   /*@__PURE__*/ S.Array(
-    S.NullOr(S.String),
-  ) as any as S.Schema<UpdateOrganizationsProjectsLogsConfigPartialRequestRecordingDomainsList>;
-
-/** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-export type UpdateOrganizationsProjectsLogsConfigPartialRequestBusinessModel =
-  | BusinessModelEnum
-  | BlankEnum;
-export const UpdateOrganizationsProjectsLogsConfigPartialRequestBusinessModel =
-  S.Unknown as any as S.Schema<UpdateOrganizationsProjectsLogsConfigPartialRequestBusinessModel>;
+    S.String,
+  ) as any as S.Schema<UpdateOrganizationsProjectsLogsConfigPartialRequestLogsPatternMessageKeysList>;
 
 export interface UpdateOrganizationsProjectsLogsConfigPartialRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** A unique value identifying this project. */
   id: number;
-  /** Project name. Must be unique within the organization (case-insensitive). If omitted on creation, a unique default name is generated. */
-  name?: string;
-  /** Short description of what the project is about. This is helpful to give our AI agents context about your project. */
-  product_description?: string | null;
-  /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: UpdateOrganizationsProjectsLogsConfigPartialRequestTagsList;
-  app_urls?: UpdateOrganizationsProjectsLogsConfigPartialRequestAppUrlsList;
-  /** When true, PostHog drops the IP address from every ingested event. */
-  anonymize_ips?: boolean;
-  completed_snippet_onboarding?: boolean;
-  /** Filter groups that identify internal/test traffic to be excluded from insights. */
-  test_account_filters?: unknown;
-  /** When true, new insights default to excluding internal/test users. */
-  test_account_filters_default_checked?: boolean | null;
-  /** Regex rewrite rules that collapse dynamic path segments (e.g. user IDs) before displaying URLs in paths. */
-  path_cleaning_filters?: unknown;
-  is_demo?: boolean;
-  /** IANA timezone used for date-based filters and reporting (e.g. `America/Los_Angeles`). * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
-  timezone?: TimezoneEnum | (string & {});
-  /** Element attributes that posthog-js should capture as action identifiers (e.g. `['data-attr']`). */
-  data_attributes?: unknown;
-  /** Ordered list of person properties used to render a human-friendly display name in the UI. */
-  person_display_name_properties?: UpdateOrganizationsProjectsLogsConfigPartialRequestPersonDisplayNamePropertiesList | null;
-  correlation_config?: unknown;
-  /** Disables posthog-js autocapture (clicks, page views) when true. */
-  autocapture_opt_out?: boolean | null;
-  /** Enables automatic capture of JavaScript exceptions via the SDK. */
-  autocapture_exceptions_opt_in?: boolean | null;
-  /** Enables automatic capture of Core Web Vitals performance metrics. */
-  autocapture_web_vitals_opt_in?: boolean | null;
-  autocapture_web_vitals_allowed_metrics?: unknown;
-  autocapture_exceptions_errors_to_ignore?: unknown;
-  /** Enables capturing browser console logs alongside session replays. */
-  capture_console_log_opt_in?: boolean | null;
-  /** Enables capturing performance timing and network requests. */
-  capture_performance_opt_in?: boolean | null;
-  /** Enables session replay recording for this project. */
-  session_recording_opt_in?: boolean;
-  /** Fraction of sessions to record, as a decimal string between `0.00` and `1.00` (e.g. `0.1` = 10%). */
-  session_recording_sample_rate?: string | null;
-  /** Skip saving sessions shorter than this many milliseconds. */
-  session_recording_minimum_duration_milliseconds?: number | null;
-  session_recording_linked_flag?: unknown;
-  session_recording_network_payload_capture_config?: unknown;
-  session_recording_masking_config?: unknown;
-  session_recording_url_trigger_config?: UpdateOrganizationsProjectsLogsConfigPartialRequestSessionRecordingUrlTriggerConfigList | null;
-  session_recording_url_blocklist_config?: UpdateOrganizationsProjectsLogsConfigPartialRequestSessionRecordingUrlBlocklistConfigList | null;
-  session_recording_event_trigger_config?: UpdateOrganizationsProjectsLogsConfigPartialRequestSessionRecordingEventTriggerConfigList | null;
-  session_recording_trigger_match_type_config?: string | null;
-  /** V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields. */
-  session_recording_trigger_groups?: unknown;
-  /** How long to retain new session recordings. One of `30d`, `90d`, `1y`, or `5y` (availability depends on plan). * `30d` - 30 Days * `90d` - 90 Days * `1y` - 1 Year * `5y` - 5 Years */
-  session_recording_retention_period?: SessionRecordingRetentionPeriodEnum | (string & {});
-  session_replay_config?: unknown;
-  survey_config?: unknown;
-  access_control?: boolean;
-  /** First day of the week for date range filters. 0 = Sunday, 1 = Monday. * `0` - Sunday * `1` - Monday */
-  week_start_day?: WeekStartDayEnum | (number & {}) | null;
-  /** ID of the dashboard shown as the project's default landing dashboard. */
-  primary_dashboard?: number | null;
-  live_events_columns?: UpdateOrganizationsProjectsLogsConfigPartialRequestLiveEventsColumnsList | null;
-  /** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-  recording_domains?: UpdateOrganizationsProjectsLogsConfigPartialRequestRecordingDomainsList | null;
-  inject_web_apps?: boolean | null;
-  extra_settings?: unknown;
-  modifiers?: unknown;
-  has_completed_onboarding_for?: unknown;
-  /** Enables displaying surveys via posthog-js on allowed origins. */
-  surveys_opt_in?: boolean | null;
-  /** Enables heatmap recording on pages that host posthog-js. */
-  heatmaps_opt_in?: boolean | null;
-  /** Default value for the `persist` option on newly created feature flags. */
-  flags_persistence_default?: boolean | null;
-  receive_org_level_activity_logs?: boolean | null;
-  /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-  business_model?: UpdateOrganizationsProjectsLogsConfigPartialRequestBusinessModel | null;
-  /** Enables the customer conversations / live chat product for this project. */
-  conversations_enabled?: boolean | null;
-  conversations_settings?: unknown;
-  logs_settings?: unknown;
-  proactive_tasks_enabled?: boolean | null;
-  revenue_analytics_config?: TeamRevenueAnalyticsConfig;
-  marketing_analytics_config?: TeamMarketingAnalyticsConfig;
-  customer_analytics_config?: TeamCustomerAnalyticsConfig;
-  workflows_config?: TeamWorkflowsConfig;
-  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig;
-  base_currency?: BaseCurrencyEnum | (string & {});
-  /** Enables capturing clicks that had no effect (rage-click detection). */
-  capture_dead_clicks?: boolean | null;
-  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null;
-  human_friendly_comparison_periods?: boolean | null;
-  feature_flag_confirmation_enabled?: boolean | null;
-  feature_flag_confirmation_message?: string | null;
-  /** Whether to automatically apply default evaluation contexts to new feature flags */
-  default_evaluation_contexts_enabled?: boolean | null;
-  /** Whether to require at least one evaluation context tag when creating new feature flags */
-  require_evaluation_contexts?: boolean | null;
-  default_data_theme?: number | null;
-  onboarding_tasks?: unknown;
-  web_analytics_pre_aggregated_tables_enabled?: boolean | null;
+  /** Log attribute keys whose values should match a person's distinct_id — a log links to a person when any of these attributes equals one of their distinct IDs. Used by the person profile Logs tab and the `query-logs` MCP tool. Defaults to ['posthogDistinctId'] — the convention documented at https://posthog.com/docs/logs/link-session-replay and the key the posthog-js / posthog-react-native SDKs auto-attach. Add keys only if your pipeline emits the person identifier under different attributes. */
+  logs_distinct_id_attribute_keys?: UpdateOrganizationsProjectsLogsConfigPartialRequestLogsDistinctIdAttributeKeysList;
+  /** Ordered list of log attribute keys whose values hold the PostHog session ID. Detection checks keys in order, then falls back to common session ID attribute conventions; the first key with a value wins. Defaults to ['sessionId'] — the convention documented at https://posthog.com/docs/logs/link-session-replay and the key the posthog-js / posthog-react-native SDKs auto-attach. Add keys only if your pipeline emits the session ID under different attributes. */
+  logs_session_id_attribute_keys?: UpdateOrganizationsProjectsLogsConfigPartialRequestLogsSessionIdAttributeKeysList;
+  /** Ordered list of top-level JSON keys whose value is the message text that log patterns are derived from. Keys are matched literally at the top level of the log body; a dot in a key is part of the key name, not a path into nested objects. Selection checks keys in order; the first key whose value is a non-empty string wins. Defaults to ['message', 'msg', 'event']. An empty list turns message extraction off, so JSON log bodies group by their key set instead. The stored log body is never changed by this setting. */
+  logs_pattern_message_keys?: UpdateOrganizationsProjectsLogsConfigPartialRequestLogsPatternMessageKeysList;
 }
 export const UpdateOrganizationsProjectsLogsConfigPartialRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-    name: S.optional(S.String),
-    product_description: S.optional(S.NullOr(S.String)),
-    tags: S.optional(UpdateOrganizationsProjectsLogsConfigPartialRequestTagsList),
-    app_urls: S.optional(UpdateOrganizationsProjectsLogsConfigPartialRequestAppUrlsList),
-    anonymize_ips: S.optional(S.Boolean),
-    completed_snippet_onboarding: S.optional(S.Boolean),
-    test_account_filters: S.optional(S.Unknown),
-    test_account_filters_default_checked: S.optional(S.NullOr(S.Boolean)),
-    path_cleaning_filters: S.optional(S.Unknown),
-    is_demo: S.optional(S.Boolean),
-    timezone: S.optional(TimezoneEnum),
-    data_attributes: S.optional(S.Unknown),
-    person_display_name_properties: S.optional(
-      S.NullOr(UpdateOrganizationsProjectsLogsConfigPartialRequestPersonDisplayNamePropertiesList),
+    logs_distinct_id_attribute_keys: S.optional(
+      UpdateOrganizationsProjectsLogsConfigPartialRequestLogsDistinctIdAttributeKeysList,
     ),
-    correlation_config: S.optional(S.Unknown),
-    autocapture_opt_out: S.optional(S.NullOr(S.Boolean)),
-    autocapture_exceptions_opt_in: S.optional(S.NullOr(S.Boolean)),
-    autocapture_web_vitals_opt_in: S.optional(S.NullOr(S.Boolean)),
-    autocapture_web_vitals_allowed_metrics: S.optional(S.Unknown),
-    autocapture_exceptions_errors_to_ignore: S.optional(S.Unknown),
-    capture_console_log_opt_in: S.optional(S.NullOr(S.Boolean)),
-    capture_performance_opt_in: S.optional(S.NullOr(S.Boolean)),
-    session_recording_opt_in: S.optional(S.Boolean),
-    session_recording_sample_rate: S.optional(S.NullOr(S.String)),
-    session_recording_minimum_duration_milliseconds: S.optional(S.NullOr(S.Number)),
-    session_recording_linked_flag: S.optional(S.Unknown),
-    session_recording_network_payload_capture_config: S.optional(S.Unknown),
-    session_recording_masking_config: S.optional(S.Unknown),
-    session_recording_url_trigger_config: S.optional(
-      S.NullOr(
-        UpdateOrganizationsProjectsLogsConfigPartialRequestSessionRecordingUrlTriggerConfigList,
-      ),
+    logs_session_id_attribute_keys: S.optional(
+      UpdateOrganizationsProjectsLogsConfigPartialRequestLogsSessionIdAttributeKeysList,
     ),
-    session_recording_url_blocklist_config: S.optional(
-      S.NullOr(
-        UpdateOrganizationsProjectsLogsConfigPartialRequestSessionRecordingUrlBlocklistConfigList,
-      ),
+    logs_pattern_message_keys: S.optional(
+      UpdateOrganizationsProjectsLogsConfigPartialRequestLogsPatternMessageKeysList,
     ),
-    session_recording_event_trigger_config: S.optional(
-      S.NullOr(
-        UpdateOrganizationsProjectsLogsConfigPartialRequestSessionRecordingEventTriggerConfigList,
-      ),
-    ),
-    session_recording_trigger_match_type_config: S.optional(S.NullOr(S.String)),
-    session_recording_trigger_groups: S.optional(S.Unknown),
-    session_recording_retention_period: S.optional(SessionRecordingRetentionPeriodEnum),
-    session_replay_config: S.optional(S.Unknown),
-    survey_config: S.optional(S.Unknown),
-    access_control: S.optional(S.Boolean),
-    week_start_day: S.optional(S.NullOr(WeekStartDayEnum)),
-    primary_dashboard: S.optional(S.NullOr(S.Number)),
-    live_events_columns: S.optional(
-      S.NullOr(UpdateOrganizationsProjectsLogsConfigPartialRequestLiveEventsColumnsList),
-    ),
-    recording_domains: S.optional(
-      S.NullOr(UpdateOrganizationsProjectsLogsConfigPartialRequestRecordingDomainsList),
-    ),
-    inject_web_apps: S.optional(S.NullOr(S.Boolean)),
-    extra_settings: S.optional(S.Unknown),
-    modifiers: S.optional(S.Unknown),
-    has_completed_onboarding_for: S.optional(S.Unknown),
-    surveys_opt_in: S.optional(S.NullOr(S.Boolean)),
-    heatmaps_opt_in: S.optional(S.NullOr(S.Boolean)),
-    flags_persistence_default: S.optional(S.NullOr(S.Boolean)),
-    receive_org_level_activity_logs: S.optional(S.NullOr(S.Boolean)),
-    business_model: S.optional(
-      S.NullOr(UpdateOrganizationsProjectsLogsConfigPartialRequestBusinessModel),
-    ),
-    conversations_enabled: S.optional(S.NullOr(S.Boolean)),
-    conversations_settings: S.optional(S.Unknown),
-    logs_settings: S.optional(S.Unknown),
-    proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
-    revenue_analytics_config: S.optional(TeamRevenueAnalyticsConfig),
-    marketing_analytics_config: S.optional(TeamMarketingAnalyticsConfig),
-    customer_analytics_config: S.optional(TeamCustomerAnalyticsConfig),
-    workflows_config: S.optional(TeamWorkflowsConfig),
-    feature_flag_policy_config: S.optional(TeamFeatureFlagPolicyConfig),
-    base_currency: S.optional(BaseCurrencyEnum),
-    capture_dead_clicks: S.optional(S.NullOr(S.Boolean)),
-    cookieless_server_hash_mode: S.optional(S.NullOr(CookielessServerHashModeEnum)),
-    human_friendly_comparison_periods: S.optional(S.NullOr(S.Boolean)),
-    feature_flag_confirmation_enabled: S.optional(S.NullOr(S.Boolean)),
-    feature_flag_confirmation_message: S.optional(S.NullOr(S.String)),
-    default_evaluation_contexts_enabled: S.optional(S.NullOr(S.Boolean)),
-    require_evaluation_contexts: S.optional(S.NullOr(S.Boolean)),
-    default_data_theme: S.optional(S.NullOr(S.Number)),
-    onboarding_tasks: S.optional(S.Unknown),
-    web_analytics_pre_aggregated_tables_enabled: S.optional(S.NullOr(S.Boolean)),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -9354,6 +11698,16 @@ export const UpdateOrganizationsProjectsPartialRequestRecordingDomainsList = /*@
 export type UpdateOrganizationsProjectsPartialRequestBusinessModel = BusinessModelEnum | BlankEnum;
 export const UpdateOrganizationsProjectsPartialRequestBusinessModel =
   S.Unknown as any as S.Schema<UpdateOrganizationsProjectsPartialRequestBusinessModel>;
+
+/** Settings for Conversations. Must be a JSON object or null. */
+export type UpdateOrganizationsProjectsPartialRequestConversationsSettingsMap = {
+  [key: string]: unknown | undefined;
+};
+export const UpdateOrganizationsProjectsPartialRequestConversationsSettingsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<UpdateOrganizationsProjectsPartialRequestConversationsSettingsMap>;
 
 export interface UpdateOrganizationsProjectsPartialRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -9438,7 +11792,8 @@ export interface UpdateOrganizationsProjectsPartialRequest {
   business_model?: UpdateOrganizationsProjectsPartialRequestBusinessModel | null;
   /** Enables the customer conversations / live chat product for this project. */
   conversations_enabled?: boolean | null;
-  conversations_settings?: unknown;
+  /** Settings for Conversations. Must be a JSON object or null. */
+  conversations_settings?: UpdateOrganizationsProjectsPartialRequestConversationsSettingsMap | null;
   logs_settings?: unknown;
   proactive_tasks_enabled?: boolean | null;
   revenue_analytics_config?: TeamRevenueAnalyticsConfig;
@@ -9527,7 +11882,9 @@ export const UpdateOrganizationsProjectsPartialRequest = /*@__PURE__*/ S.suspend
     receive_org_level_activity_logs: S.optional(S.NullOr(S.Boolean)),
     business_model: S.optional(S.NullOr(UpdateOrganizationsProjectsPartialRequestBusinessModel)),
     conversations_enabled: S.optional(S.NullOr(S.Boolean)),
-    conversations_settings: S.optional(S.Unknown),
+    conversations_settings: S.optional(
+      S.NullOr(UpdateOrganizationsProjectsPartialRequestConversationsSettingsMap),
+    ),
     logs_settings: S.optional(S.Unknown),
     proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
     revenue_analytics_config: S.optional(TeamRevenueAnalyticsConfig),
@@ -9557,12 +11914,55 @@ export const UpdateOrganizationsProjectsPartialRequest = /*@__PURE__*/ S.suspend
   identifier: "UpdateOrganizationsProjectsPartialRequest",
 }) as any as S.Schema<UpdateOrganizationsProjectsPartialRequest>;
 
-/** Default statistical method for new experiments in this organization. * `bayesian` - Bayesian * `frequentist` - Frequentist */
-export type UpdatePartialRequestDefaultExperimentStatsMethod =
-  | OrganizationDefaultExperimentStatsMethodEnum
-  | BlankEnum;
-export const UpdatePartialRequestDefaultExperimentStatsMethod =
-  S.Unknown as any as S.Schema<UpdatePartialRequestDefaultExperimentStatsMethod>;
+/** Span or resource attribute keys whose values should match a person's distinct_id — a span links to a person when any of these attributes holds one of their distinct IDs. Defaults to ['posthogDistinctId'], the key the posthog-js / posthog-react-native SDKs attach to the OTel signals they emit. Add keys only if your pipeline emits the person identifier under different attributes. */
+export type UpdateOrganizationsProjectsTracingConfigPartialRequestTracingDistinctIdAttributeKeysList =
+  Array<string>;
+export const UpdateOrganizationsProjectsTracingConfigPartialRequestTracingDistinctIdAttributeKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateOrganizationsProjectsTracingConfigPartialRequestTracingDistinctIdAttributeKeysList>;
+
+/** Ordered list of span or resource attribute keys whose values hold the PostHog session ID. Detection checks keys in order, then falls back to common session ID attribute conventions; the first key with a value wins. Defaults to ['sessionId'], the key the posthog-js / posthog-react-native SDKs attach to the OTel signals they emit. Add keys only if your pipeline emits the session ID under different attributes. */
+export type UpdateOrganizationsProjectsTracingConfigPartialRequestTracingSessionIdAttributeKeysList =
+  Array<string>;
+export const UpdateOrganizationsProjectsTracingConfigPartialRequestTracingSessionIdAttributeKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateOrganizationsProjectsTracingConfigPartialRequestTracingSessionIdAttributeKeysList>;
+
+export interface UpdateOrganizationsProjectsTracingConfigPartialRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** A unique value identifying this project. */
+  id: number;
+  /** Span or resource attribute keys whose values should match a person's distinct_id — a span links to a person when any of these attributes holds one of their distinct IDs. Defaults to ['posthogDistinctId'], the key the posthog-js / posthog-react-native SDKs attach to the OTel signals they emit. Add keys only if your pipeline emits the person identifier under different attributes. */
+  tracing_distinct_id_attribute_keys?: UpdateOrganizationsProjectsTracingConfigPartialRequestTracingDistinctIdAttributeKeysList;
+  /** Ordered list of span or resource attribute keys whose values hold the PostHog session ID. Detection checks keys in order, then falls back to common session ID attribute conventions; the first key with a value wins. Defaults to ['sessionId'], the key the posthog-js / posthog-react-native SDKs attach to the OTel signals they emit. Add keys only if your pipeline emits the session ID under different attributes. */
+  tracing_session_id_attribute_keys?: UpdateOrganizationsProjectsTracingConfigPartialRequestTracingSessionIdAttributeKeysList;
+  /** How long spans are kept before they are deleted, in days. Applied at ingest, so a change only affects spans received after it. Can be changed at most once per 24 hours. Span retention rules override this period for the spans they match. */
+  retention_days?: number;
+}
+export const UpdateOrganizationsProjectsTracingConfigPartialRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    id: S.Number.pipe(T.Label()),
+    tracing_distinct_id_attribute_keys: S.optional(
+      UpdateOrganizationsProjectsTracingConfigPartialRequestTracingDistinctIdAttributeKeysList,
+    ),
+    tracing_session_id_attribute_keys: S.optional(
+      UpdateOrganizationsProjectsTracingConfigPartialRequestTracingSessionIdAttributeKeysList,
+    ),
+    retention_days: S.optional(S.Number),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/api/organizations/{organization_id}/projects/{id}/tracing_config/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateOrganizationsProjectsTracingConfigPartialRequest",
+}) as any as S.Schema<UpdateOrganizationsProjectsTracingConfigPartialRequest>;
 
 export interface UpdatePartialRequest {
   /** A UUID string identifying this organization. */
@@ -9581,11 +11981,11 @@ export interface UpdatePartialRequest {
   allow_publicly_shared_resources?: boolean;
   /** When True, requests through the PostHog MCP server can read but not change this organization's data. */
   read_only_mcp_access?: boolean | null;
+  /** Notice shown in a banner to every member of the organization. Set to null to remove it. */
+  member_notice?: OrganizationMemberNotice | null;
   is_ai_data_processing_approved?: boolean | null;
   /** When True, this organization allows its data to be used to train PostHog AI models. */
   is_ai_training_opted_in?: boolean | null;
-  /** Default statistical method for new experiments in this organization. * `bayesian` - Bayesian * `frequentist` - Frequentist */
-  default_experiment_stats_method?: UpdatePartialRequestDefaultExperimentStatsMethod | null;
   /** Default setting for 'Discard client IP data' for new projects in this organization. */
   default_anonymize_ips?: boolean;
   /** ID of the role to automatically assign to new members joining the organization */
@@ -9604,17 +12004,13 @@ export const UpdatePartialRequest = /*@__PURE__*/ S.suspend(() =>
     members_can_see_org_members: S.optional(S.Boolean),
     allow_publicly_shared_resources: S.optional(S.Boolean),
     read_only_mcp_access: S.optional(S.NullOr(S.Boolean)),
+    member_notice: S.optional(S.NullOr(OrganizationMemberNotice)),
     is_ai_data_processing_approved: S.optional(S.NullOr(S.Boolean)),
     is_ai_training_opted_in: S.optional(S.NullOr(S.Boolean)),
-    default_experiment_stats_method: S.optional(
-      S.NullOr(UpdatePartialRequestDefaultExperimentStatsMethod),
-    ),
     default_anonymize_ips: S.optional(S.Boolean),
     default_role_id: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/api/organizations/{id}/", code: 200 })),
-).annotate({
-  identifier: "UpdatePartialRequest",
-}) as any as S.Schema<UpdatePartialRequest>;
+).annotate({ identifier: "UpdatePartialRequest" }) as any as S.Schema<UpdatePartialRequest>;
 
 export interface UpdateRoleRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -9629,15 +12025,9 @@ export const UpdateRoleRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     name: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/organizations/{organization_id}/roles/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/organizations/{organization_id}/roles/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateRoleRequest",
-}) as any as S.Schema<UpdateRoleRequest>;
+).annotate({ identifier: "UpdateRoleRequest" }) as any as S.Schema<UpdateRoleRequest>;
 
 export interface UpdateRolesPartialRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -9652,15 +12042,41 @@ export const UpdateRolesPartialRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     name: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/organizations/{organization_id}/roles/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/organizations/{organization_id}/roles/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateRolesPartialRequest",
 }) as any as S.Schema<UpdateRolesPartialRequest>;
+
+export type BillingSpendExportDownloadError = PosthogOpError;
+/** Export spend as CSV In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
+export const billingSpendExportDownload: API.OperationMethod<
+  BillingSpendExportDownloadRequest,
+  BillingSpendExportDownloadResponse,
+  BillingSpendExportDownloadError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: BillingSpendExportDownloadRequest,
+  output: BillingSpendExportDownloadResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type BillingUsageExportDownloadError = PosthogOpError;
+/** Export usage as CSV In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
+export const billingUsageExportDownload: API.OperationMethod<
+  BillingUsageExportDownloadRequest,
+  BillingUsageExportDownloadResponse,
+  BillingUsageExportDownloadError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: BillingUsageExportDownloadRequest,
+  output: BillingUsageExportDownloadResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
 
 export type CimdVerificationTokensDestroyError = PosthogOpError;
 /** Manage CIMD verification tokens for an organization. A partner embeds the plaintext token in their CIMD metadata document as `verification_token` inside the `com.posthog` object (the legacy top-level `posthog_verification_token` field still works as a fallback). When PostHog fetches the metadata, matching the token links the partner app to this organization and grants a higher default rate limit for account provisioning. Each token is scoped at creation to the one `cimd_url` it will be published at, and verifies nowhere else. Two organizations may name the same URL; only the one whose token is actually served there verifies, so claiming a URL cannot be used to block a partner from verifying theirs. The plaintext value is only available on creation; we store a hash. */
@@ -9706,20 +12122,6 @@ export const createCimdVerificationToken: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateDesktopBetaTermError = PosthogOpError;
-export const createDesktopBetaTerm: API.OperationMethod<
-  CreateDesktopBetaTermRequest,
-  DesktopBetaTermsAcceptanceDTO,
-  CreateDesktopBetaTermError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: CreateDesktopBetaTermRequest,
-  output: DesktopBetaTermsAcceptanceDTO,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
 export type CreateDomainError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createDomain: API.OperationMethod<
   CreateDomainRequest,
@@ -9737,12 +12139,12 @@ export const createDomain: API.OperationMethod<
 export type CreateIdentityProviderConfigError = PosthogOpError;
 export const createIdentityProviderConfig: API.OperationMethod<
   CreateIdentityProviderConfigRequest,
-  IdentityProviderConfig,
+  IdentityProviderConfigOutput,
   CreateIdentityProviderConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateIdentityProviderConfigRequest,
-  output: IdentityProviderConfig,
+  output: IdentityProviderConfigOutput,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9981,6 +12383,186 @@ export const get: API.OperationMethod<GetRequest, Organization, GetError, Postho
     retry: Retry.Retry,
   }));
 
+export type GetBillingFeatureError = PosthogOpError;
+/** Get the features the organization's plans include In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
+export const getBillingFeature: API.OperationMethod<
+  GetBillingFeatureRequest,
+  BillingFeatures,
+  GetBillingFeatureError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBillingFeatureRequest,
+  output: BillingFeatures,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBillingForecastError = PosthogOpError;
+/** Get the forecast for the rest of the billing period In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
+export const getBillingForecast: API.OperationMethod<
+  GetBillingForecastRequest,
+  BillingForecast,
+  GetBillingForecastError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBillingForecastRequest,
+  output: BillingForecast,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBillingInvoicesContentError = PosthogOpError;
+/** Download an invoice as PDF In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
+export const getBillingInvoicesContent: API.OperationMethod<
+  GetBillingInvoicesContentRequest,
+  GetBillingInvoicesContentResponse,
+  GetBillingInvoicesContentError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBillingInvoicesContentRequest,
+  output: GetBillingInvoicesContentResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBillingLimitError = PosthogOpError;
+/** Get the organization's spend limits In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
+export const getBillingLimit: API.OperationMethod<
+  GetBillingLimitRequest,
+  BillingLimits,
+  GetBillingLimitError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBillingLimitRequest,
+  output: BillingLimits,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBillingProductError = PosthogOpError;
+/** Get one product In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
+export const getBillingProduct: API.OperationMethod<
+  GetBillingProductRequest,
+  BillingProduct,
+  GetBillingProductError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBillingProductRequest,
+  output: BillingProduct,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBillingProductsSummaryError = PosthogOpError;
+/** Get every product in summary In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
+export const getBillingProductsSummary: API.OperationMethod<
+  GetBillingProductsSummaryRequest,
+  BillingProductsSummary,
+  GetBillingProductsSummaryError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBillingProductsSummaryRequest,
+  output: BillingProductsSummary,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBillingSpendSummaryError = PosthogOpError;
+/** Get spend so far this billing period In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
+export const getBillingSpendSummary: API.OperationMethod<
+  GetBillingSpendSummaryRequest,
+  BillingSpendSummary,
+  GetBillingSpendSummaryError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBillingSpendSummaryRequest,
+  output: BillingSpendSummary,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBillingSpendTimeseriesError = PosthogOpError;
+/** Spend over time In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
+export const getBillingSpendTimeseries: API.OperationMethod<
+  GetBillingSpendTimeseriesRequest,
+  PaginatedBillingTimeSeriesPointList,
+  GetBillingSpendTimeseriesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBillingSpendTimeseriesRequest,
+  output: PaginatedBillingTimeSeriesPointList,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBillingSubscriptionError = PosthogOpError;
+/** Get the organization's subscription In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
+export const getBillingSubscription: API.OperationMethod<
+  GetBillingSubscriptionRequest,
+  BillingSubscription,
+  GetBillingSubscriptionError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBillingSubscriptionRequest,
+  output: BillingSubscription,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBillingUsageStatusError = PosthogOpError;
+/** Get usage against limits, without the counts In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
+export const getBillingUsageStatus: API.OperationMethod<
+  GetBillingUsageStatusRequest,
+  BillingUsageStatus,
+  GetBillingUsageStatusError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBillingUsageStatusRequest,
+  output: BillingUsageStatus,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBillingUsageSummaryError = PosthogOpError;
+/** Get usage so far this billing period In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
+export const getBillingUsageSummary: API.OperationMethod<
+  GetBillingUsageSummaryRequest,
+  BillingUsageSummary,
+  GetBillingUsageSummaryError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBillingUsageSummaryRequest,
+  output: BillingUsageSummary,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBillingUsageTimeseriesError = PosthogOpError;
+/** Usage over time In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
+export const getBillingUsageTimeseries: API.OperationMethod<
+  GetBillingUsageTimeseriesRequest,
+  PaginatedBillingTimeSeriesPointList,
+  GetBillingUsageTimeseriesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBillingUsageTimeseriesRequest,
+  output: PaginatedBillingTimeSeriesPointList,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetCimdVerificationTokenError = PosthogOpError;
 /** Manage CIMD verification tokens for an organization. A partner embeds the plaintext token in their CIMD metadata document as `verification_token` inside the `com.posthog` object (the legacy top-level `posthog_verification_token` field still works as a fallback). When PostHog fetches the metadata, matching the token links the partner app to this organization and grants a higher default rate limit for account provisioning. Each token is scoped at creation to the one `cimd_url` it will be published at, and verifies nowhere else. Two organizations may name the same URL; only the one whose token is actually served there verifies, so claiming a URL cannot be used to block a partner from verifying theirs. The plaintext value is only available on creation; we store a hash. */
 export const getCimdVerificationToken: API.OperationMethod<
@@ -10027,12 +12609,12 @@ export const getDomainsScimLog: API.OperationMethod<
 export type GetIdentityProviderConfigError = PosthogOpError;
 export const getIdentityProviderConfig: API.OperationMethod<
   GetIdentityProviderConfigRequest,
-  IdentityProviderConfig,
+  IdentityProviderConfigOutput,
   GetIdentityProviderConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetIdentityProviderConfigRequest,
-  output: IdentityProviderConfig,
+  output: IdentityProviderConfigOutput,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -10080,6 +12662,21 @@ export const getMembersGithubLogin: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetMembersProjectAccessError = PosthogOpError;
+/** Every visible member's access to every project the caller can reach, with the rule behind it. */
+export const getMembersProjectAccess: API.OperationMethod<
+  GetMembersProjectAccessRequest,
+  MemberProjectAccessResponse,
+  GetMembersProjectAccessError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetMembersProjectAccessRequest,
+  output: MemberProjectAccessResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetMembersScopedApiKeyError = Forbidden | NotFound | PosthogOpError;
 export const getMembersScopedApiKey: API.OperationMethod<
   GetMembersScopedApiKeyRequest,
@@ -10105,6 +12702,141 @@ export const getOrganizationsProject: API.OperationMethod<
   input: GetOrganizationsProjectRequest,
   output: ProjectBackwardCompat,
   errors: [Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetOrganizationsProjectsAccessControlDefaultError = PosthogOpError;
+/** The project's default access. Returns the level that applies to the project and to each resource type when a member or a role has no rule of their own. Also lists the resource types that accept rules on single objects, with the levels such a rule can set. */
+export const getOrganizationsProjectsAccessControlDefault: API.OperationMethod<
+  GetOrganizationsProjectsAccessControlDefaultRequest,
+  AccessControlDefaultsResponse,
+  GetOrganizationsProjectsAccessControlDefaultError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrganizationsProjectsAccessControlDefaultRequest,
+  output: AccessControlDefaultsResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetOrganizationsProjectsAccessControlDefaultObjectError = PosthogOpError;
+/** Object rules that apply to everyone in the project without a rule of their own on that object. */
+export const getOrganizationsProjectsAccessControlDefaultObject: API.OperationMethod<
+  GetOrganizationsProjectsAccessControlDefaultObjectRequest,
+  AccessControlObjectRulesResponse,
+  GetOrganizationsProjectsAccessControlDefaultObjectError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrganizationsProjectsAccessControlDefaultObjectRequest,
+  output: AccessControlObjectRulesResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetOrganizationsProjectsAccessControlDefaultPropertyError = PosthogOpError;
+/** Property rules that apply to everyone in the project without a rule of their own on that property. */
+export const getOrganizationsProjectsAccessControlDefaultProperty: API.OperationMethod<
+  GetOrganizationsProjectsAccessControlDefaultPropertyRequest,
+  AccessControlPropertyRulesResponse,
+  GetOrganizationsProjectsAccessControlDefaultPropertyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrganizationsProjectsAccessControlDefaultPropertyRequest,
+  output: AccessControlPropertyRulesResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetOrganizationsProjectsAccessControlMemberError = PosthogOpError;
+/** Every organization member's access in this project. For the project and for each resource type, the response gives the member's own rule and the level that is enforced. It also says where the enforced level comes from: the member's rule, a role's rule, the project default, or full access as an organization admin. Pass `member_id` for one member. */
+export const getOrganizationsProjectsAccessControlMember: API.OperationMethod<
+  GetOrganizationsProjectsAccessControlMemberRequest,
+  AccessControlMembersResponse,
+  GetOrganizationsProjectsAccessControlMemberError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrganizationsProjectsAccessControlMemberRequest,
+  output: AccessControlMembersResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetOrganizationsProjectsAccessControlMemberObjectError = PosthogOpError;
+/** Object rules configured for a member: the single objects, for example a dashboard or a notebook, the member is granted or denied, regardless of the resource-level rules. */
+export const getOrganizationsProjectsAccessControlMemberObject: API.OperationMethod<
+  GetOrganizationsProjectsAccessControlMemberObjectRequest,
+  AccessControlObjectRulesResponse,
+  GetOrganizationsProjectsAccessControlMemberObjectError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrganizationsProjectsAccessControlMemberObjectRequest,
+  output: AccessControlObjectRulesResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetOrganizationsProjectsAccessControlMemberPropertyError = PosthogOpError;
+/** Property rules configured for a member: the person and event properties the member can read, read and write, or not see. */
+export const getOrganizationsProjectsAccessControlMemberProperty: API.OperationMethod<
+  GetOrganizationsProjectsAccessControlMemberPropertyRequest,
+  AccessControlPropertyRulesResponse,
+  GetOrganizationsProjectsAccessControlMemberPropertyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrganizationsProjectsAccessControlMemberPropertyRequest,
+  output: AccessControlPropertyRulesResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetOrganizationsProjectsAccessControlRoleError = PosthogOpError;
+/** Every role's resolved access to this project and to each resource type in it: the role's own rule, the level that is enforced, and the rule the enforced level comes from. Pass `role_id` for one role. */
+export const getOrganizationsProjectsAccessControlRole: API.OperationMethod<
+  GetOrganizationsProjectsAccessControlRoleRequest,
+  AccessControlRolesResponse,
+  GetOrganizationsProjectsAccessControlRoleError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrganizationsProjectsAccessControlRoleRequest,
+  output: AccessControlRolesResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetOrganizationsProjectsAccessControlRoleObjectError = PosthogOpError;
+/** Object rules configured for a role: the single objects the role's members are granted or denied, regardless of the resource-level rules. */
+export const getOrganizationsProjectsAccessControlRoleObject: API.OperationMethod<
+  GetOrganizationsProjectsAccessControlRoleObjectRequest,
+  AccessControlObjectRulesResponse,
+  GetOrganizationsProjectsAccessControlRoleObjectError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrganizationsProjectsAccessControlRoleObjectRequest,
+  output: AccessControlObjectRulesResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetOrganizationsProjectsAccessControlRolePropertyError = PosthogOpError;
+/** Property rules configured for a role: the person and event properties the role's members can read, read and write, or not see. */
+export const getOrganizationsProjectsAccessControlRoleProperty: API.OperationMethod<
+  GetOrganizationsProjectsAccessControlRolePropertyRequest,
+  AccessControlPropertyRulesResponse,
+  GetOrganizationsProjectsAccessControlRolePropertyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrganizationsProjectsAccessControlRolePropertyRequest,
+  output: AccessControlPropertyRulesResponse,
+  errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -10191,12 +12923,12 @@ export type GetOrganizationsProjectsLogsConfigError = PosthogOpError;
 /** Manage logs product configuration for this project's canonical environment. Members can read; writing requires project admin, matching the admin-only settings UI. Mirrors the env-router action so /api/projects/:id/logs_config/ resolves alongside the legacy /api/environments/:id/logs_config/ alias. */
 export const getOrganizationsProjectsLogsConfig: API.OperationMethod<
   GetOrganizationsProjectsLogsConfigRequest,
-  ProjectBackwardCompat,
+  TeamLogsConfig,
   GetOrganizationsProjectsLogsConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsProjectsLogsConfigRequest,
-  output: ProjectBackwardCompat,
+  output: TeamLogsConfig,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -10212,6 +12944,21 @@ export const getOrganizationsProjectsSettingsAsOf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsProjectsSettingsAsOfRequest,
   output: ProjectBackwardCompat,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetOrganizationsProjectsTracingConfigError = PosthogOpError;
+/** Manage tracing product configuration for this project's canonical environment. Members can read; writing requires project admin, matching the admin-only settings UI. Mirrors the env-router action so /api/projects/:id/tracing_config/ resolves alongside the legacy /api/environments/:id/tracing_config/ alias. */
+export const getOrganizationsProjectsTracingConfig: API.OperationMethod<
+  GetOrganizationsProjectsTracingConfigRequest,
+  TeamTracingConfig,
+  GetOrganizationsProjectsTracingConfigError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrganizationsProjectsTracingConfigRequest,
+  output: TeamTracingConfig,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -10377,6 +13124,51 @@ export const list: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListBillingInvoicesError = PosthogOpError;
+/** List the organization's invoices In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
+export const listBillingInvoices: API.OperationMethod<
+  ListBillingInvoicesRequest,
+  BillingInvoices,
+  ListBillingInvoicesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListBillingInvoicesRequest,
+  output: BillingInvoices,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListBillingProductsError = PosthogOpError;
+/** List the organization's products In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
+export const listBillingProducts: API.OperationMethod<
+  ListBillingProductsRequest,
+  BillingProducts,
+  ListBillingProductsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListBillingProductsRequest,
+  output: BillingProducts,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListBillingProjectError = PosthogOpError;
+/** List the projects with usage In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. Every project the organization has reported usage for, deleted ones included, so a caller knows which ids a project breakdown or a team_ids filter can name. Below full billing access the list is the projects the caller can see. */
+export const listBillingProject: API.OperationMethod<
+  ListBillingProjectRequest,
+  BillingProjects,
+  ListBillingProjectError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListBillingProjectRequest,
+  output: BillingProjects,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListCimdVerificationTokensError = PosthogOpError;
 /** Manage CIMD verification tokens for an organization. A partner embeds the plaintext token in their CIMD metadata document as `verification_token` inside the `com.posthog` object (the legacy top-level `posthog_verification_token` field still works as a fallback). When PostHog fetches the metadata, matching the token links the partner app to this organization and grants a higher default rate limit for account provisioning. Each token is scoped at creation to the one `cimd_url` it will be published at, and verifies nowhere else. Two organizations may name the same URL; only the one whose token is actually served there verifies, so claiming a URL cannot be used to block a partner from verifying theirs. The plaintext value is only available on creation; we store a hash. */
 export const listCimdVerificationTokens: API.OperationMethod<
@@ -10387,20 +13179,6 @@ export const listCimdVerificationTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListCimdVerificationTokensRequest,
   output: PaginatedCIMDVerificationTokenList,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ListDesktopBetaTermsError = PosthogOpError;
-export const listDesktopBetaTerms: API.OperationMethod<
-  ListDesktopBetaTermsRequest,
-  DesktopBetaTermsAcceptanceDTO,
-  ListDesktopBetaTermsError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ListDesktopBetaTermsRequest,
-  output: DesktopBetaTermsAcceptanceDTO,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -10423,12 +13201,12 @@ export const listDomains: API.OperationMethod<
 export type ListIdentityProviderConfigsError = PosthogOpError;
 export const listIdentityProviderConfigs: API.OperationMethod<
   ListIdentityProviderConfigsRequest,
-  PaginatedIdentityProviderConfigList,
+  PaginatedIdentityProviderConfigListOutput,
   ListIdentityProviderConfigsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ListIdentityProviderConfigsRequest,
-  output: PaginatedIdentityProviderConfigList,
+  output: PaginatedIdentityProviderConfigListOutput,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -10598,6 +13376,21 @@ export const organizationsProjectsAddProductIntentPartialUpdate: API.OperationMe
   retry: Retry.Retry,
 }));
 
+export type OrganizationsProjectsCancelDeletionCreateError = PosthogOpError;
+/** Cancel a scheduled project deletion and restore access to the project. */
+export const organizationsProjectsCancelDeletionCreate: API.OperationMethod<
+  OrganizationsProjectsCancelDeletionCreateRequest,
+  Project,
+  OrganizationsProjectsCancelDeletionCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: OrganizationsProjectsCancelDeletionCreateRequest,
+  output: Project,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type OrganizationsProjectsDefaultEvaluationContextsDestroyError = PosthogOpError;
 /** Manage default evaluation contexts for a project. Members can read; writing requires project admin, matching the admin-only settings UI. */
 export const organizationsProjectsDefaultEvaluationContextsDestroy: API.OperationMethod<
@@ -10696,6 +13489,21 @@ export const organizationsProjectsResetTokenPartialUpdate: API.OperationMethod<
   input: OrganizationsProjectsResetTokenPartialUpdateRequest,
   output: ProjectBackwardCompat,
   errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type OrganizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdateError = PosthogOpError;
+/** Projects for the current organization. */
+export const organizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdate: API.OperationMethod<
+  OrganizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdateRequest,
+  ProjectBackwardCompat,
+  OrganizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: OrganizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdateRequest,
+  output: ProjectBackwardCompat,
+  errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -10838,12 +13646,12 @@ export const updateDomainsPartial: API.OperationMethod<
 export type UpdateIdentityProviderConfigError = PosthogOpError;
 export const updateIdentityProviderConfig: API.OperationMethod<
   UpdateIdentityProviderConfigRequest,
-  IdentityProviderConfig,
+  IdentityProviderConfigOutput,
   UpdateIdentityProviderConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateIdentityProviderConfigRequest,
-  output: IdentityProviderConfig,
+  output: IdentityProviderConfigOutput,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -10852,12 +13660,12 @@ export const updateIdentityProviderConfig: API.OperationMethod<
 export type UpdateIdentityProviderConfigsPartialError = PosthogOpError;
 export const updateIdentityProviderConfigsPartial: API.OperationMethod<
   UpdateIdentityProviderConfigsPartialRequest,
-  IdentityProviderConfig,
+  IdentityProviderConfigOutput,
   UpdateIdentityProviderConfigsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateIdentityProviderConfigsPartialRequest,
-  output: IdentityProviderConfig,
+  output: IdentityProviderConfigOutput,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -10978,12 +13786,12 @@ export type UpdateOrganizationsProjectsLogsConfigPartialError = PosthogOpError;
 /** Manage logs product configuration for this project's canonical environment. Members can read; writing requires project admin, matching the admin-only settings UI. Mirrors the env-router action so /api/projects/:id/logs_config/ resolves alongside the legacy /api/environments/:id/logs_config/ alias. */
 export const updateOrganizationsProjectsLogsConfigPartial: API.OperationMethod<
   UpdateOrganizationsProjectsLogsConfigPartialRequest,
-  ProjectBackwardCompat,
+  TeamLogsConfig,
   UpdateOrganizationsProjectsLogsConfigPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsProjectsLogsConfigPartialRequest,
-  output: ProjectBackwardCompat,
+  output: TeamLogsConfig,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -11004,6 +13812,21 @@ export const updateOrganizationsProjectsPartial: API.OperationMethod<
   input: UpdateOrganizationsProjectsPartialRequest,
   output: ProjectBackwardCompat,
   errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateOrganizationsProjectsTracingConfigPartialError = PosthogOpError;
+/** Manage tracing product configuration for this project's canonical environment. Members can read; writing requires project admin, matching the admin-only settings UI. Mirrors the env-router action so /api/projects/:id/tracing_config/ resolves alongside the legacy /api/environments/:id/tracing_config/ alias. */
+export const updateOrganizationsProjectsTracingConfigPartial: API.OperationMethod<
+  UpdateOrganizationsProjectsTracingConfigPartialRequest,
+  TeamTracingConfig,
+  UpdateOrganizationsProjectsTracingConfigPartialError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateOrganizationsProjectsTracingConfigPartialRequest,
+  output: TeamTracingConfig,
+  errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));

@@ -43,19 +43,13 @@ export const GetJsSnippetResolveRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/js-snippet/resolve/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/js-snippet/resolve/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetJsSnippetResolveRequest",
 }) as any as S.Schema<GetJsSnippetResolveRequest>;
 
-export type GetJsSnippetResolveResponseBodyMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetJsSnippetResolveResponseBodyMap = { [key: string]: unknown | undefined };
 export const GetJsSnippetResolveResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -76,19 +70,13 @@ export const GetJsSnippetVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/js-snippet/version/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/js-snippet/version/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetJsSnippetVersionRequest",
 }) as any as S.Schema<GetJsSnippetVersionRequest>;
 
-export type GetJsSnippetVersionResponseBodyMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetJsSnippetVersionResponseBodyMap = { [key: string]: unknown | undefined };
 export const GetJsSnippetVersionResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -112,19 +100,13 @@ export const UpdateJsSnippetVersionPartialRequest = /*@__PURE__*/ S.suspend(() =
     project_id: S.String.pipe(T.Label()),
     js_snippet_version: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/js-snippet/version/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/js-snippet/version/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateJsSnippetVersionPartialRequest",
 }) as any as S.Schema<UpdateJsSnippetVersionPartialRequest>;
 
-export type UpdateJsSnippetVersionPartialResponseBodyMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateJsSnippetVersionPartialResponseBodyMap = { [key: string]: unknown | undefined };
 export const UpdateJsSnippetVersionPartialResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
