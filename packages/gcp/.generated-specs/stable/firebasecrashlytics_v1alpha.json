@@ -8,178 +8,6 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.gcp.firebasecrashlytics_v1alpha#Device": {
-      "type": "structure",
-      "members": {
-        "companyName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "An invariant name of the manufacturer that submitted this product in its most recognizable public form, e.g. \"Google\"."
-          }
-        },
-        "formFactor": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#DeviceFormFactorEnum",
-          "traits": {
-            "smithy.api#documentation": "See FormFactor message."
-          }
-        },
-        "model": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The model name which is consistent with android.os.Build.MODEL, e.g. (\"SPH-L710\", \"GT-I9300\")."
-          }
-        },
-        "manufacturer": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Device brand name which is consistent with android.os.Build.BRAND."
-          }
-        },
-        "architecture": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Device processor architecture."
-          }
-        },
-        "displayName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Full device name, suitable for passing to DeviceFilter. Format: \"manufacturer (model)\"."
-          }
-        },
-        "marketingName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Marketing name, most recognizable public form, e.g. \"Pixel 6\"."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Mobile device metadata."
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#DeviceFormFactorEnum": {
-      "type": "enum",
-      "members": {
-        "FORM_FACTOR_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "FORM_FACTOR_UNSPECIFIED"
-          }
-        },
-        "PHONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "PHONE"
-          }
-        },
-        "TABLET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "TABLET"
-          }
-        },
-        "DESKTOP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "DESKTOP"
-          }
-        },
-        "TV": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "TV"
-          }
-        },
-        "WATCH": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "WATCH"
-          }
-        }
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#Breadcrumb": {
-      "type": "structure",
-      "members": {
-        "eventTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Device timestamp for the event."
-          }
-        },
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Analytic event name."
-          }
-        },
-        "params": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#StringMap",
-          "traits": {
-            "smithy.api#documentation": "Event parameters."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Analytics events recorded during the session."
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#StringMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#String"
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#BatchUpdateIssuesRequest": {
-      "type": "structure",
-      "members": {
-        "updateMask": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. The list of Issue fields to update. If this is set, the update_mask field in the UpdateIssueRequest messages must either be empty or match this field."
-          }
-        },
-        "requests": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#UpdateIssueRequestList",
-          "traits": {
-            "smithy.api#documentation": "Required. The request message specifying the resources to update. A maximum of 100 issues can be modified in a batch."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Request message for the BatchUpdateIssues method."
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#UpdateIssueRequestList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#UpdateIssueRequest"
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#ListReportsResponse": {
-      "type": "structure",
-      "members": {
-        "reports": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#ReportList",
-          "traits": {
-            "smithy.api#documentation": "The report objects returned will contain their names and usage instructions, but include no results. Use the `GetReport` method to run the report and obtain the paged results."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Response method for the ListReports method. The response will always include all of the available reports."
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#ReportList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#Report"
-      }
-    },
     "com.gcp.firebasecrashlytics_v1alpha#Storage": {
       "type": "structure",
       "members": {
@@ -200,19 +28,193 @@
         "smithy.api#documentation": "Mobile device disk/flash usage. Not reported for all devices."
       }
     },
+    "com.gcp.firebasecrashlytics_v1alpha#Issue": {
+      "type": "structure",
+      "members": {
+        "firstSeenTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Immutable. The first time this issue was seen."
+          }
+        },
+        "state": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#IssueStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Output only. Indicates whether this issue is open, closed or muted. For details on how issue states change without user actions, see [Regressed Issues](https://firebase.google.com/docs/crashlytics/troubleshooting?platform=ios#regressed-issues)."
+          }
+        },
+        "errorType": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#IssueErrorTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Output only. Immutable. Indicates whether this issue is a crash, non-fatal exception, or ANR."
+          }
+        },
+        "lastSeenTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The most recent time this issue was seen."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Immutable. Unique identifier for the issue."
+          }
+        },
+        "subtitle": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Immutable. Caption subtitle. This is usually a symbol or an exception message."
+          }
+        },
+        "signals": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#IssueSignalsList",
+          "traits": {
+            "smithy.api#documentation": "Output only. Immutable. Distinctive characteristics assigned by the Crashlytics analyzer."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Output only. Immutable. Identifier. The name of the issue resource. Format: \"projects/{project}/apps/{app}/issues/{issue}\"."
+          }
+        },
+        "firstSeenVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Immutable. The first app display_version in which this issue was seen, populated for mobile issues only."
+          }
+        },
+        "lastSeenVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The most recent app display_version in which this issue was seen, populated for mobile issues only."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Immutable. Caption title. This is usually a source file or method name."
+          }
+        },
+        "stateUpdateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The time at which the issue state was last changed."
+          }
+        },
+        "notesCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The number of notes attached to an issue."
+          }
+        },
+        "sampleEvent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The resource name for a sample event in this issue."
+          }
+        },
+        "variants": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#IssueVariantList",
+          "traits": {
+            "smithy.api#documentation": "Output only. Immutable. The top 12 variants (subgroups) within the issue. Variants group events within an issue that are very similar. A single result implies that the variant is the same as the parent issue. This field will be empty when multiple issues are requested. Request a single issue to list variants."
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Provides a link to the Issue on the Firebase console. When this Issue is obtained as part of a Report, then the link will be configured with the same time interval and filters as the request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An issue describes a set of similar events that have been analyzed by Crashlytics and grouped together. All events within an issue will be of the same error_type: crash, non-fatal exception or ANR. All events within an issue will contain similar stack traces in their blamed thread."
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#IssueStateEnum": {
+      "type": "enum",
+      "members": {
+        "STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATE_UNSPECIFIED"
+          }
+        },
+        "OPEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPEN"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOSED"
+          }
+        },
+        "MUTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MUTED"
+          }
+        }
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#IssueErrorTypeEnum": {
+      "type": "enum",
+      "members": {
+        "ERROR_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ERROR_TYPE_UNSPECIFIED"
+          }
+        },
+        "FATAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FATAL"
+          }
+        },
+        "NON_FATAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NON_FATAL"
+          }
+        },
+        "ANR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ANR"
+          }
+        }
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#IssueSignalsList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#IssueSignals"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#IssueVariantList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#IssueVariant"
+      }
+    },
     "com.gcp.firebasecrashlytics_v1alpha#Log": {
       "type": "structure",
       "members": {
-        "message": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Log message."
-          }
-        },
         "logTime": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Device timestamp when the line was logged."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Log message."
           }
         }
       },
@@ -220,37 +222,38 @@
         "smithy.api#documentation": "Developer-provided log lines recorded during the session."
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#ListNotesResponse": {
+    "com.gcp.firebasecrashlytics_v1alpha#BatchGetEventsResponse": {
       "type": "structure",
       "members": {
-        "nextPageToken": {
-          "target": "smithy.api#String",
+        "events": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#EventList",
           "traits": {
-            "smithy.api#documentation": "A pagination token to retrieve the next page of notes. If this field is not present, there are no subsequent notes."
-          }
-        },
-        "notes": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#NoteList",
-          "traits": {
-            "smithy.api#documentation": "Returns notes ordered descending by the timestamp."
+            "smithy.api#documentation": "The list of retrieved events."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Response message for the ListNotes method."
+        "smithy.api#documentation": "Response message for the BatchGetEvents method."
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#NoteList": {
+    "com.gcp.firebasecrashlytics_v1alpha#EventList": {
       "type": "list",
       "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#Note"
+        "target": "com.gcp.firebasecrashlytics_v1alpha#Event"
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#Empty": {
+    "com.gcp.firebasecrashlytics_v1alpha#WebMetricsGroup": {
       "type": "structure",
-      "members": {},
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The id of the web metrics group"
+          }
+        }
+      },
       "traits": {
-        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
+        "smithy.api#documentation": "Represents a grouping for metrics specific to web applications."
       }
     },
     "com.gcp.firebasecrashlytics_v1alpha#PlayTrack": {
@@ -314,262 +317,54 @@
         }
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#IntervalMetrics": {
+    "com.gcp.firebasecrashlytics_v1alpha#Exception": {
       "type": "structure",
       "members": {
-        "sessionsCount": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The number of distinct sessions in the set of events."
-          }
-        },
-        "eventsCount": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The total count of events in the interval."
-          }
-        },
-        "impactedUsersCount": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The number of distinct users in the set of events."
-          }
-        },
-        "startTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The start of the interval covered by the computation."
-          }
-        },
-        "endTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The end of the interval covered by the computation."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A set of computed metric values for a time interval"
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#ReportGroup": {
-      "type": "structure",
-      "members": {
-        "webMetricsGroup": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#WebMetricsGroup",
-          "traits": {
-            "smithy.api#documentation": "Web metrics group."
-          }
-        },
-        "subgroups": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#ReportGroupList",
-          "traits": {
-            "smithy.api#documentation": "When applicable, this field contains additional nested groupings. For example, events can be grouped by operating system and by operating system version."
-          }
-        },
-        "version": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Version",
-          "traits": {
-            "smithy.api#documentation": "Version metrics group."
-          }
-        },
-        "browser": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Browser",
-          "traits": {
-            "smithy.api#documentation": "Browser metrics group."
-          }
-        },
-        "issue": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Issue",
-          "traits": {
-            "smithy.api#documentation": "Issue metrics group."
-          }
-        },
-        "metrics": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#IntervalMetricsList",
-          "traits": {
-            "smithy.api#documentation": "Scalar metrics will contain a single object covering the entire interval, while time-dimensioned graphs will contain one per time grain."
-          }
-        },
-        "device": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Device",
-          "traits": {
-            "smithy.api#documentation": "Device metrics group."
-          }
-        },
-        "variant": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#IssueVariant",
-          "traits": {
-            "smithy.api#documentation": "Issue variant metrics group."
-          }
-        },
-        "operatingSystem": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#OperatingSystem",
-          "traits": {
-            "smithy.api#documentation": "Operating system metrics group."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A group of results in an EventReport. In any report, the group_parent field is strictly the same type for all of the groups in any collection."
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#ReportGroupList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#ReportGroup"
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#IntervalMetricsList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#IntervalMetrics"
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#IssueVariant": {
-      "type": "structure",
-      "members": {
-        "uri": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. Provides a link to the variant on the Firebase console. When this variant is obtained as part of a Report, then the link will be configured with the same time interval and filters as the request."
-          }
-        },
-        "sampleEvent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The resource name for a sample event in this variant."
-          }
-        },
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. Immutable. Distinct identifier for the variant."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A variant is a subgroup of an issue where all events have very similar stack traces. Issues may contain one or more variants."
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#Frame": {
-      "type": "structure",
-      "members": {
-        "file": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the source file in which the frame is found."
-          }
-        },
-        "address": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The address in the binary image which contains the code. Present for native frames."
-          }
-        },
-        "blamed": {
+        "nested": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "True when the Crashlytics analysis has determined that this frame is likely to be the cause of the error."
-          }
-        },
-        "column": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The column on the line."
-          }
-        },
-        "library": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The display name of the library that includes the frame."
-          }
-        },
-        "line": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The line number in the file of the frame."
-          }
-        },
-        "symbol": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The frame symbol after it has been deobfuscated or symbolicated. The raw symbol from the device if it could not be hydrated."
-          }
-        },
-        "owner": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "One of DEVELOPER, VENDOR, RUNTIME, PLATFORM, or SYSTEM."
-          }
-        },
-        "offset": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The byte offset into the binary image that contains the code. Present for native frames."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A frame in a stacktrace."
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#User": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "User id if provided by the app developer."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Developer-provided end user identifiers."
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#Firebasecrashlytics_Error": {
-      "type": "structure",
-      "members": {
-        "blamed": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "True when the Crashlytics analysis has determined that the stacktrace in this error is where the fault occurred."
-          }
-        },
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The title of the error."
-          }
-        },
-        "frames": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#FrameList",
-          "traits": {
-            "smithy.api#documentation": "The frames in the error's stacktrace."
+            "smithy.api#documentation": "True for all but the last-thrown exception (i.e. the first record)."
           }
         },
         "subtitle": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The subtitle of the error."
+            "smithy.api#documentation": "The subtitle of the exception."
           }
         },
-        "queue": {
+        "title": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The queue on which the thread was running."
+            "smithy.api#documentation": "The title of the exception."
           }
         },
-        "code": {
+        "exceptionMessage": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Error code associated with the app's custom logged NSError."
+            "smithy.api#documentation": "A message associated with the exception."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The exception type e.g. java.lang.IllegalStateException."
+          }
+        },
+        "frames": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#FrameList",
+          "traits": {
+            "smithy.api#documentation": "The frames in the exception's stacktrace."
+          }
+        },
+        "blamed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the Crashlytics analysis has determined that this thread is where the fault occurred."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "A non-fatal error and its stacktrace, only from Apple apps."
+        "smithy.api#documentation": "A Java or Javascript exception and its stacktrace. Only from Android or web apps."
       }
     },
     "com.gcp.firebasecrashlytics_v1alpha#FrameList": {
@@ -578,19 +373,363 @@
         "target": "com.gcp.firebasecrashlytics_v1alpha#Frame"
       }
     },
+    "com.gcp.firebasecrashlytics_v1alpha#Breadcrumb": {
+      "type": "structure",
+      "members": {
+        "eventTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device timestamp for the event."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Analytic event name."
+          }
+        },
+        "params": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Event parameters."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Analytics events recorded during the session."
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#StringMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#Event": {
+      "type": "structure",
+      "members": {
+        "blameFrame": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Frame",
+          "traits": {
+            "smithy.api#documentation": "The stack trace frame blamed by Crashlytics processing. May not be present in future analyzer."
+          }
+        },
+        "routePath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Web only. The route path of the web application when the event occurred, excluding query parameters and fragment."
+          }
+        },
+        "issueTitle": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title of the issue in which the event was grouped. This is usually a source file or method name."
+          }
+        },
+        "receivedTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server timestamp that the event was received by Crashlytics."
+          }
+        },
+        "customKeys": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Custom keys set by the developer during the session."
+          }
+        },
+        "user": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#User",
+          "traits": {
+            "smithy.api#documentation": "End user identifiers for the device owner."
+          }
+        },
+        "deviceOrientation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device orientation at the time of the crash (portrait or landscape)."
+          }
+        },
+        "breadcrumbs": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#BreadcrumbList",
+          "traits": {
+            "smithy.api#documentation": "Analytics events recorded by the analytics SDK during the session."
+          }
+        },
+        "operatingSystem": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#OperatingSystem",
+          "traits": {
+            "smithy.api#documentation": "Operating system and version."
+          }
+        },
+        "threads": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#ThreadList",
+          "traits": {
+            "smithy.api#documentation": "Application threads present at the time the event was recorded. Each contains a stacktrace. One thread will be blamed for the error."
+          }
+        },
+        "crashlyticsSdkVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Crashlytics SDK version."
+          }
+        },
+        "exceptions": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#ExceptionList",
+          "traits": {
+            "smithy.api#documentation": "Android and web only. Exceptions that occurred during this event. Nested exceptions are presented in reverse chronological order, so that the last record is the first exception thrown."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Output only. Immutable. Identifier. The name of the event resource. Format: \"projects/{project}/apps/{app_id}/events/{event}\"."
+          }
+        },
+        "eventId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Immutable. The unique event identifier is assigned during processing."
+          }
+        },
+        "appOrientation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "App orientation at the time of the crash (portrait or landscape)."
+          }
+        },
+        "version": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Version",
+          "traits": {
+            "smithy.api#documentation": "Mobile application version."
+          }
+        },
+        "issue": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Issue",
+          "traits": {
+            "smithy.api#documentation": "Details for the [Issue] assigned to this [Event]."
+          }
+        },
+        "issueSubtitle": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The subtitle of the issue in which the event was grouped. This is usually a symbol or an exception message."
+          }
+        },
+        "bundleOrPackage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The bundle name for iOS apps or the package name of Android apps. Format: \"com.mycompany.myapp\"."
+          }
+        },
+        "processState": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The state of the app process at the time of the event."
+          }
+        },
+        "eventTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device timestamp that the event was recorded."
+          }
+        },
+        "logs": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#LogList",
+          "traits": {
+            "smithy.api#documentation": "Log messages recorded by the developer during the session."
+          }
+        },
+        "errors": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Firebasecrashlytics_ErrorList",
+          "traits": {
+            "smithy.api#documentation": "Apple only. A non-fatal error captured by the iOS SDK and its stacktrace."
+          }
+        },
+        "storage": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Storage",
+          "traits": {
+            "smithy.api#documentation": "Mobile device disk/flash usage."
+          }
+        },
+        "browser": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Browser",
+          "traits": {
+            "smithy.api#documentation": "Browser and version."
+          }
+        },
+        "installationUuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the device-app installation. This field is used to compute the unique number of impacted users."
+          }
+        },
+        "issueVariant": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#IssueVariant",
+          "traits": {
+            "smithy.api#documentation": "Details for the [IssueVariant] assigned to this [Event]."
+          }
+        },
+        "buildStamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Metadata provided by the app's build system, including version control repository info."
+          }
+        },
+        "platform": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ANDROID, IOS, or WEB."
+          }
+        },
+        "memory": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Memory",
+          "traits": {
+            "smithy.api#documentation": "Mobile device memory usage."
+          }
+        },
+        "device": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Device",
+          "traits": {
+            "smithy.api#documentation": "Mobile device metadata."
+          }
+        },
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the Firebase session."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The message describing a single Crashlytics event. Related to BigQuery export schema, which can be found at [Export Crashlytics data to BigQuery](https://firebase.google.com/docs/crashlytics/bigquery-export#dataset-schema-crashlytics)"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#BreadcrumbList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#Breadcrumb"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#ThreadList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#Thread"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#ExceptionList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#Exception"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#LogList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#Log"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#Firebasecrashlytics_ErrorList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#Firebasecrashlytics_Error"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#FirebaseSessionEvent": {
+      "type": "structure",
+      "members": {
+        "eventTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The start timestamp for the session event."
+          }
+        },
+        "firebaseInstallationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uniquely identifies a device with Firebase apps installed."
+          }
+        },
+        "eventType": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#FirebaseSessionEventEventTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Session event type. The SDK only supports SESSION_START events at this time."
+          }
+        },
+        "operatingSystem": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#OperatingSystem",
+          "traits": {
+            "smithy.api#documentation": "Operating system and version."
+          }
+        },
+        "firstSessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier of the first session since the last cold start. This id and the session_id will be the same for app launches."
+          }
+        },
+        "device": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Device",
+          "traits": {
+            "smithy.api#documentation": "Mobile device metadata."
+          }
+        },
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the Firebase session."
+          }
+        },
+        "sessionIndex": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Indicates the number of sessions since the last cold start."
+          }
+        },
+        "version": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Version",
+          "traits": {
+            "smithy.api#documentation": "Mobile application version numbers."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sessions recorded by the Firebase App Quality Sessions SDK."
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#FirebaseSessionEventEventTypeEnum": {
+      "type": "enum",
+      "members": {
+        "SESSION_EVENT_TYPE_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SESSION_EVENT_TYPE_UNKNOWN"
+          }
+        },
+        "SESSION_START": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SESSION_START"
+          }
+        }
+      }
+    },
     "com.gcp.firebasecrashlytics_v1alpha#Report": {
       "type": "structure",
       "members": {
-        "displayName": {
-          "target": "smithy.api#String",
+        "totalSize": {
+          "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Output only. The displayable title of the report."
+            "smithy.api#documentation": "Output only. The total number of groups retrievable by the request."
           }
         },
-        "nextPageToken": {
+        "usage": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Output only. A page token used to retrieve additional report groups. If this field is not present, there are no subsequent pages available to retrieve."
+            "smithy.api#documentation": "Usage instructions for the report with a description of the result metrics. This field contains a description of the underlying query and describes the expected response data with any known caveats. This string can be displayed in the UI of any integration that offers comprehensive access to all Crashlytics reports."
           }
         },
         "name": {
@@ -605,16 +744,16 @@
             "smithy.api#documentation": "Aggregate event statistics in the report will be grouped by a dimension, such as by issue or by version. The response contains one element per group, and all ReportGroup messages will have the same parent field."
           }
         },
-        "usage": {
+        "displayName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Usage instructions for the report with a description of the result metrics. This field contains a description of the underlying query and describes the expected response data with any known caveats. This string can be displayed in the UI of any integration that offers comprehensive access to all Crashlytics reports."
+            "smithy.api#documentation": "Output only. The displayable title of the report."
           }
         },
-        "totalSize": {
-          "target": "smithy.api#Integer",
+        "nextPageToken": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Output only. The total number of groups retrievable by the request."
+            "smithy.api#documentation": "Output only. A page token used to retrieve additional report groups. If this field is not present, there are no subsequent pages available to retrieve."
           }
         }
       },
@@ -622,71 +761,19 @@
         "smithy.api#documentation": "Response message for the GetReport method. A report consists of the results of a query over an application's events. The events may be filtered by various criteria defined in the filters proto. The result will consist of a number of paginated groups, of a type relevant to the report such as issues or device models."
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#WebMetricsGroup": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The id of the web metrics group"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Represents a grouping for metrics specific to web applications."
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#Browser": {
-      "type": "structure",
-      "members": {
-        "displayVersion": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Browser display version number."
-          }
-        },
-        "browser": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Browser name."
-          }
-        },
-        "displayName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Browser name and version number. Formatted to be suitable for passing to BrowserFilter."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Web browser metadata."
+    "com.gcp.firebasecrashlytics_v1alpha#ReportGroupList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#ReportGroup"
       }
     },
     "com.gcp.firebasecrashlytics_v1alpha#Thread": {
       "type": "structure",
       "members": {
-        "crashAddress": {
-          "target": "smithy.api#String",
+        "frames": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#FrameList",
           "traits": {
-            "smithy.api#documentation": "The address of the signal that caused the application to crash. Only present on crashed native threads."
-          }
-        },
-        "signal": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the signal that caused the app to crash. Only present on crashed native threads."
-          }
-        },
-        "threadId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The id of the thread, only available for ANR threads."
-          }
-        },
-        "sysThreadId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The system id of the thread, only available for ANR threads."
+            "smithy.api#documentation": "The frames in the thread's stacktrace."
           }
         },
         "queue": {
@@ -701,10 +788,10 @@
             "smithy.api#documentation": "The subtitle of the thread."
           }
         },
-        "signalCode": {
-          "target": "smithy.api#String",
+        "crashed": {
+          "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "The code of the signal that caused the app to crash. Only present on crashed native threads."
+            "smithy.api#documentation": "True when the thread has crashed."
           }
         },
         "blamed": {
@@ -713,10 +800,22 @@
             "smithy.api#documentation": "True when the Crashlytics analysis has determined that the stacktrace in this thread is where the fault occurred."
           }
         },
-        "title": {
+        "signal": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The title of the thread."
+            "smithy.api#documentation": "The name of the signal that caused the app to crash. Only present on crashed native threads."
+          }
+        },
+        "signalCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The code of the signal that caused the app to crash. Only present on crashed native threads."
+          }
+        },
+        "crashAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The address of the signal that caused the application to crash. Only present on crashed native threads."
           }
         },
         "name": {
@@ -725,16 +824,22 @@
             "smithy.api#documentation": "The name of the thread."
           }
         },
-        "frames": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#FrameList",
+        "sysThreadId": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The frames in the thread's stacktrace."
+            "smithy.api#documentation": "The system id of the thread, only available for ANR threads."
           }
         },
-        "crashed": {
-          "target": "smithy.api#Boolean",
+        "title": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "True when the thread has crashed."
+            "smithy.api#documentation": "The title of the thread."
+          }
+        },
+        "threadId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The id of the thread, only available for ANR threads."
           }
         },
         "threadState": {
@@ -807,260 +912,82 @@
         }
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#Event": {
+    "com.gcp.firebasecrashlytics_v1alpha#User": {
       "type": "structure",
       "members": {
-        "blameFrame": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Frame",
-          "traits": {
-            "smithy.api#documentation": "The stack trace frame blamed by Crashlytics processing. May not be present in future analyzer."
-          }
-        },
-        "issue": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Issue",
-          "traits": {
-            "smithy.api#documentation": "Details for the [Issue] assigned to this [Event]."
-          }
-        },
-        "device": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Device",
-          "traits": {
-            "smithy.api#documentation": "Mobile device metadata."
-          }
-        },
-        "threads": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#ThreadList",
-          "traits": {
-            "smithy.api#documentation": "Application threads present at the time the event was recorded. Each contains a stacktrace. One thread will be blamed for the error."
-          }
-        },
-        "crashlyticsSdkVersion": {
+        "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Crashlytics SDK version."
-          }
-        },
-        "deviceOrientation": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Device orientation at the time of the crash (portrait or landscape)."
-          }
-        },
-        "appOrientation": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "App orientation at the time of the crash (portrait or landscape)."
-          }
-        },
-        "storage": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Storage",
-          "traits": {
-            "smithy.api#documentation": "Mobile device disk/flash usage."
-          }
-        },
-        "buildStamp": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Metadata provided by the app's build system, including version control repository info."
-          }
-        },
-        "issueSubtitle": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The subtitle of the issue in which the event was grouped. This is usually a symbol or an exception message."
-          }
-        },
-        "logs": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#LogList",
-          "traits": {
-            "smithy.api#documentation": "Log messages recorded by the developer during the session."
-          }
-        },
-        "eventId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. Immutable. The unique event identifier is assigned during processing."
-          }
-        },
-        "bundleOrPackage": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The bundle name for iOS apps or the package name of Android apps. Format: \"com.mycompany.myapp\"."
-          }
-        },
-        "customKeys": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#StringMap",
-          "traits": {
-            "smithy.api#documentation": "Custom keys set by the developer during the session."
-          }
-        },
-        "operatingSystem": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#OperatingSystem",
-          "traits": {
-            "smithy.api#documentation": "Operating system and version."
-          }
-        },
-        "user": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#User",
-          "traits": {
-            "smithy.api#documentation": "End user identifiers for the device owner."
-          }
-        },
-        "browser": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Browser",
-          "traits": {
-            "smithy.api#documentation": "Browser and version."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Output only. Immutable. Identifier. The name of the event resource. Format: \"projects/{project}/apps/{app_id}/events/{event}\"."
-          }
-        },
-        "errors": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Firebasecrashlytics_ErrorList",
-          "traits": {
-            "smithy.api#documentation": "Apple only. A non-fatal error captured by the iOS SDK and its stacktrace."
-          }
-        },
-        "platform": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "ANDROID, IOS, or WEB."
-          }
-        },
-        "installationUuid": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Unique identifier for the device-app installation. This field is used to compute the unique number of impacted users."
-          }
-        },
-        "memory": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Memory",
-          "traits": {
-            "smithy.api#documentation": "Mobile device memory usage."
-          }
-        },
-        "issueTitle": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The title of the issue in which the event was grouped. This is usually a source file or method name."
-          }
-        },
-        "eventTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Device timestamp that the event was recorded."
-          }
-        },
-        "version": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Version",
-          "traits": {
-            "smithy.api#documentation": "Mobile application version."
-          }
-        },
-        "routePath": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. Web only. The route path of the web application when the event occurred, excluding query parameters and fragment."
-          }
-        },
-        "breadcrumbs": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#BreadcrumbList",
-          "traits": {
-            "smithy.api#documentation": "Analytics events recorded by the analytics SDK during the session."
-          }
-        },
-        "exceptions": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#ExceptionList",
-          "traits": {
-            "smithy.api#documentation": "Android and web only. Exceptions that occurred during this event. Nested exceptions are presented in reverse chronological order, so that the last record is the first exception thrown."
-          }
-        },
-        "sessionId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Unique identifier for the Firebase session."
-          }
-        },
-        "receivedTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Server timestamp that the event was received by Crashlytics."
-          }
-        },
-        "issueVariant": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#IssueVariant",
-          "traits": {
-            "smithy.api#documentation": "Details for the [IssueVariant] assigned to this [Event]."
-          }
-        },
-        "processState": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The state of the app process at the time of the event."
+            "smithy.api#documentation": "User id if provided by the app developer."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "The message describing a single Crashlytics event. Related to BigQuery export schema, which can be found at [Export Crashlytics data to BigQuery](https://firebase.google.com/docs/crashlytics/bigquery-export#dataset-schema-crashlytics)"
+        "smithy.api#documentation": "Developer-provided end user identifiers."
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#ThreadList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#Thread"
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#LogList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#Log"
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#Firebasecrashlytics_ErrorList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#Firebasecrashlytics_Error"
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#BreadcrumbList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#Breadcrumb"
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#ExceptionList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#Exception"
+    "com.gcp.firebasecrashlytics_v1alpha#OperatingSystem": {
+      "type": "structure",
+      "members": {
+        "modificationState": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the OS has been modified or \"jailbroken\"."
+          }
+        },
+        "os": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Operating system name."
+          }
+        },
+        "deviceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The device category (mobile, tablet, desktop)."
+          }
+        },
+        "displayVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Operating system display version number."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name and version number. Formatted to be suitable for passing to OperatingSystemFilter."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The OS type on Apple platforms (iOS, iPadOS, etc.)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Mobile device operating system metadata."
       }
     },
     "com.gcp.firebasecrashlytics_v1alpha#ListEventsResponse": {
       "type": "structure",
       "members": {
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A pagination token to retrieve the next page of events. The next page will have earlier or later events depending on the request's ordering. If this field is not present, there are no subsequent events."
-          }
-        },
         "events": {
           "target": "com.gcp.firebasecrashlytics_v1alpha#EventList",
           "traits": {
             "smithy.api#documentation": "Returns one element per event, in descending order the by event timestamp."
           }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pagination token to retrieve the next page of events. The next page will have earlier or later events depending on the request's ordering. If this field is not present, there are no subsequent events."
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Response message for the ListEvents method."
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#EventList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#Event"
       }
     },
     "com.gcp.firebasecrashlytics_v1alpha#BatchUpdateIssuesResponse": {
@@ -1083,6 +1010,350 @@
         "target": "com.gcp.firebasecrashlytics_v1alpha#Issue"
       }
     },
+    "com.gcp.firebasecrashlytics_v1alpha#Empty": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#IntervalMetrics": {
+      "type": "structure",
+      "members": {
+        "endTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end of the interval covered by the computation."
+          }
+        },
+        "impactedUsersCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The number of distinct users in the set of events."
+          }
+        },
+        "sessionsCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated: Prefer `impacted_sessions_count`. The number of distinct sessions in the set of events."
+          }
+        },
+        "impactedSessionsCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The number of distinct sessions in the set of events."
+          }
+        },
+        "crashFreeUsersPercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Mobile only. Percentage of crash-free users. (total_users_count - impacted_users_count) / total_users_count * 100"
+          }
+        },
+        "totalUsersCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The number of distinct users."
+          }
+        },
+        "startTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The start of the interval covered by the computation."
+          }
+        },
+        "crashFreeSessionsPercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Mobile only. Percentage of crash-free sessions. (total_sessions_count - impacted_sessions_count) / total_sessions_count * 100."
+          }
+        },
+        "totalSessionsCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The number of distinct sessions."
+          }
+        },
+        "eventsCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The total count of events in the interval."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A set of computed metric values for a time interval"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#ReportGroup": {
+      "type": "structure",
+      "members": {
+        "browser": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Browser",
+          "traits": {
+            "smithy.api#documentation": "Browser metrics group."
+          }
+        },
+        "version": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Version",
+          "traits": {
+            "smithy.api#documentation": "Version metrics group."
+          }
+        },
+        "metrics": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#IntervalMetricsList",
+          "traits": {
+            "smithy.api#documentation": "Scalar metrics will contain a single object covering the entire interval, while time-dimensioned graphs will contain one per time grain."
+          }
+        },
+        "operatingSystem": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#OperatingSystem",
+          "traits": {
+            "smithy.api#documentation": "Operating system metrics group."
+          }
+        },
+        "variant": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#IssueVariant",
+          "traits": {
+            "smithy.api#documentation": "Issue variant metrics group."
+          }
+        },
+        "device": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Device",
+          "traits": {
+            "smithy.api#documentation": "Device metrics group."
+          }
+        },
+        "webMetricsGroup": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#WebMetricsGroup",
+          "traits": {
+            "smithy.api#documentation": "Web metrics group."
+          }
+        },
+        "subgroups": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#ReportGroupList",
+          "traits": {
+            "smithy.api#documentation": "When applicable, this field contains additional nested groupings. For example, events can be grouped by operating system and by operating system version."
+          }
+        },
+        "issue": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Issue",
+          "traits": {
+            "smithy.api#documentation": "Issue metrics group."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A group of results in an EventReport. In any report, the group_parent field is strictly the same type for all of the groups in any collection."
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#IntervalMetricsList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#IntervalMetrics"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#ListReportsResponse": {
+      "type": "structure",
+      "members": {
+        "reports": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#ReportList",
+          "traits": {
+            "smithy.api#documentation": "The report objects returned will contain their names and usage instructions, but include no results. Use the `GetReport` method to run the report and obtain the paged results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response method for the ListReports method. The response will always include all of the available reports."
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#ReportList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#Report"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#Version": {
+      "type": "structure",
+      "members": {
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Compound readable string containing both display and build versions. Format: \"display_version (build_version)\" e.g. \"1.2.3 (456)\". This string can be used for filtering with the VersionFilter.display_name field."
+          }
+        },
+        "tracks": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#PlayTrackList",
+          "traits": {
+            "smithy.api#documentation": "Indicates releases which have artifacts that are currently available in the Play Store to the target audience of the track. Versions may be available in multiple tracks."
+          }
+        },
+        "buildVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Mobile only. One display_version can have many build_version. On Android, strictly the same as \"version code\". On iOS, strictly the same as \"build number\" or CFBundleVersion."
+          }
+        },
+        "displayVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Readable version string, e.g. \"1.2.3\". On Android, strictly the same as \"version name\". On iOS, strictly the same as \"version number\" or CFBundleShortVersionString."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Application software version."
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#PlayTrackList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#PlayTrack"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#IssueVariant": {
+      "type": "structure",
+      "members": {
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Provides a link to the variant on the Firebase console. When this variant is obtained as part of a Report, then the link will be configured with the same time interval and filters as the request."
+          }
+        },
+        "sampleEvent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The resource name for a sample event in this variant."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Immutable. Distinct identifier for the variant."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A variant is a subgroup of an issue where all events have very similar stack traces. Issues may contain one or more variants."
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#Device": {
+      "type": "structure",
+      "members": {
+        "formFactor": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#DeviceFormFactorEnum",
+          "traits": {
+            "smithy.api#documentation": "See FormFactor message."
+          }
+        },
+        "marketingName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Marketing name, most recognizable public form, e.g. \"Pixel 6\"."
+          }
+        },
+        "architecture": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device processor architecture."
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The model name which is consistent with android.os.Build.MODEL, e.g. (\"SPH-L710\", \"GT-I9300\")."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full device name, suitable for passing to DeviceFilter. Format: \"manufacturer (model)\"."
+          }
+        },
+        "companyName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An invariant name of the manufacturer that submitted this product in its most recognizable public form, e.g. \"Google\"."
+          }
+        },
+        "manufacturer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device brand name which is consistent with android.os.Build.BRAND."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Mobile device metadata."
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#DeviceFormFactorEnum": {
+      "type": "enum",
+      "members": {
+        "FORM_FACTOR_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FORM_FACTOR_UNSPECIFIED"
+          }
+        },
+        "PHONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PHONE"
+          }
+        },
+        "TABLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TABLET"
+          }
+        },
+        "DESKTOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESKTOP"
+          }
+        },
+        "TV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TV"
+          }
+        },
+        "WATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WATCH"
+          }
+        }
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#Browser": {
+      "type": "structure",
+      "members": {
+        "displayVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Browser display version number."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Browser name and version number. Formatted to be suitable for passing to BrowserFilter."
+          }
+        },
+        "browser": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Browser name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Web browser metadata."
+      }
+    },
     "com.gcp.firebasecrashlytics_v1alpha#DeleteUserCrashReportsResponse": {
       "type": "structure",
       "members": {
@@ -1100,16 +1371,16 @@
     "com.gcp.firebasecrashlytics_v1alpha#Memory": {
       "type": "structure",
       "members": {
-        "used": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Bytes in use."
-          }
-        },
         "free": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Bytes free."
+          }
+        },
+        "used": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Bytes in use."
           }
         }
       },
@@ -1117,83 +1388,109 @@
         "smithy.api#documentation": "Mobile device memory usage."
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#Exception": {
+    "com.gcp.firebasecrashlytics_v1alpha#UpdateIssueRequest": {
       "type": "structure",
       "members": {
-        "nested": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "True for all but the last-thrown exception (i.e. the first record)."
-          }
-        },
-        "type": {
+        "updateMask": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The exception type e.g. java.lang.IllegalStateException."
+            "smithy.api#documentation": "Optional. The list of Issue fields to update. Currently only \"state\" is mutable."
+          }
+        },
+        "issue": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Issue",
+          "traits": {
+            "smithy.api#documentation": "Required. The issue to update. The issue's `name` field is used to identify the issue to update. Format: \"projects/{project}/apps/{app}/issues/{issue}\"."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request message for the UpdateIssue method."
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#Firebasecrashlytics_Error": {
+      "type": "structure",
+      "members": {
+        "queue": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The queue on which the thread was running."
           }
         },
         "subtitle": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The subtitle of the exception."
+            "smithy.api#documentation": "The subtitle of the error."
           }
         },
-        "frames": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#FrameList",
+        "code": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The frames in the exception's stacktrace."
+            "smithy.api#documentation": "Error code associated with the app's custom logged NSError."
           }
         },
         "title": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The title of the exception."
+            "smithy.api#documentation": "The title of the error."
+          }
+        },
+        "frames": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#FrameList",
+          "traits": {
+            "smithy.api#documentation": "The frames in the error's stacktrace."
           }
         },
         "blamed": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "True when the Crashlytics analysis has determined that this thread is where the fault occurred."
-          }
-        },
-        "exceptionMessage": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A message associated with the exception."
+            "smithy.api#documentation": "True when the Crashlytics analysis has determined that the stacktrace in this error is where the fault occurred."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "A Java or Javascript exception and its stacktrace. Only from Android or web apps."
+        "smithy.api#documentation": "A non-fatal error and its stacktrace, only from Apple apps."
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#BatchGetEventsResponse": {
+    "com.gcp.firebasecrashlytics_v1alpha#ListNotesResponse": {
       "type": "structure",
       "members": {
-        "events": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#EventList",
+        "nextPageToken": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The list of retrieved events."
+            "smithy.api#documentation": "A pagination token to retrieve the next page of notes. If this field is not present, there are no subsequent notes."
+          }
+        },
+        "notes": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#NoteList",
+          "traits": {
+            "smithy.api#documentation": "Returns notes ordered descending by the timestamp."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Response message for the BatchGetEvents method."
+        "smithy.api#documentation": "Response message for the ListNotes method."
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#NoteList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#Note"
       }
     },
     "com.gcp.firebasecrashlytics_v1alpha#IssueSignals": {
       "type": "structure",
       "members": {
-        "signal": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#IssueSignalsSignalEnum",
-          "traits": {
-            "smithy.api#documentation": "Output only. The signal name."
-          }
-        },
         "description": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Output only. Supporting detail information."
+          }
+        },
+        "signal": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#IssueSignalsSignalEnum",
+          "traits": {
+            "smithy.api#documentation": "Output only. The signal name."
           }
         }
       },
@@ -1236,301 +1533,81 @@
         }
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#UpdateIssueRequest": {
+    "com.gcp.firebasecrashlytics_v1alpha#Frame": {
       "type": "structure",
       "members": {
-        "updateMask": {
+        "line": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional. The list of Issue fields to update. Currently only \"state\" is mutable."
+            "smithy.api#documentation": "The line number in the file of the frame."
           }
         },
-        "issue": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Issue",
+        "blamed": {
+          "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Required. The issue to update. The issue's `name` field is used to identify the issue to update. Format: \"projects/{project}/apps/{app}/issues/{issue}\"."
+            "smithy.api#documentation": "True when the Crashlytics analysis has determined that this frame is likely to be the cause of the error."
+          }
+        },
+        "symbol": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The frame symbol after it has been deobfuscated or symbolicated. The raw symbol from the device if it could not be hydrated."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The address in the binary image which contains the code. Present for native frames."
+          }
+        },
+        "file": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the source file in which the frame is found."
+          }
+        },
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "One of DEVELOPER, VENDOR, RUNTIME, PLATFORM, or SYSTEM."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The byte offset into the binary image that contains the code. Present for native frames."
+          }
+        },
+        "library": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the library that includes the frame."
+          }
+        },
+        "column": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The column on the line."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Request message for the UpdateIssue method."
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#OperatingSystem": {
-      "type": "structure",
-      "members": {
-        "os": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Operating system name."
-          }
-        },
-        "displayVersion": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Operating system display version number."
-          }
-        },
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The OS type on Apple platforms (iOS, iPadOS, etc.)."
-          }
-        },
-        "deviceType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The device category (mobile, tablet, desktop)."
-          }
-        },
-        "modificationState": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Indicates if the OS has been modified or \"jailbroken\"."
-          }
-        },
-        "displayName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Name and version number. Formatted to be suitable for passing to OperatingSystemFilter."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Mobile device operating system metadata."
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#Issue": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Output only. Immutable. Identifier. The name of the issue resource. Format: \"projects/{project}/apps/{app}/issues/{issue}\"."
-          }
-        },
-        "stateUpdateTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The time at which the issue state was last changed."
-          }
-        },
-        "notesCount": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The number of notes attached to an issue."
-          }
-        },
-        "subtitle": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. Immutable. Caption subtitle. This is usually a symbol or an exception message."
-          }
-        },
-        "sampleEvent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The resource name for a sample event in this issue."
-          }
-        },
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. Immutable. Caption title. This is usually a source file or method name."
-          }
-        },
-        "lastSeenTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The most recent time this issue was seen."
-          }
-        },
-        "firstSeenVersion": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. Immutable. The first app display_version in which this issue was seen, populated for mobile issues only."
-          }
-        },
-        "firstSeenTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. Immutable. The first time this issue was seen."
-          }
-        },
-        "signals": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#IssueSignalsList",
-          "traits": {
-            "smithy.api#documentation": "Output only. Immutable. Distinctive characteristics assigned by the Crashlytics analyzer."
-          }
-        },
-        "uri": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. Provides a link to the Issue on the Firebase console. When this Issue is obtained as part of a Report, then the link will be configured with the same time interval and filters as the request."
-          }
-        },
-        "errorType": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#IssueErrorTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Output only. Immutable. Indicates whether this issue is a crash, non-fatal exception, or ANR."
-          }
-        },
-        "state": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#IssueStateEnum",
-          "traits": {
-            "smithy.api#documentation": "Output only. Indicates whether this issue is open, closed or muted. For details on how issue states change without user actions, see [Regressed Issues](https://firebase.google.com/docs/crashlytics/troubleshooting?platform=ios#regressed-issues)."
-          }
-        },
-        "lastSeenVersion": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The most recent app display_version in which this issue was seen, populated for mobile issues only."
-          }
-        },
-        "variants": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#IssueVariantList",
-          "traits": {
-            "smithy.api#documentation": "Output only. Immutable. The top 12 variants (subgroups) within the issue. Variants group events within an issue that are very similar. A single result implies that the variant is the same as the parent issue. This field will be empty when multiple issues are requested. Request a single issue to list variants."
-          }
-        },
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. Immutable. Unique identifier for the issue."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "An issue describes a set of similar events that have been analyzed by Crashlytics and grouped together. All events within an issue will be of the same error_type: crash, non-fatal exception or ANR. All events within an issue will contain similar stack traces in their blamed thread."
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#IssueSignalsList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#IssueSignals"
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#IssueErrorTypeEnum": {
-      "type": "enum",
-      "members": {
-        "ERROR_TYPE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ERROR_TYPE_UNSPECIFIED"
-          }
-        },
-        "FATAL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "FATAL"
-          }
-        },
-        "NON_FATAL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "NON_FATAL"
-          }
-        },
-        "ANR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ANR"
-          }
-        }
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#IssueStateEnum": {
-      "type": "enum",
-      "members": {
-        "STATE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "STATE_UNSPECIFIED"
-          }
-        },
-        "OPEN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "OPEN"
-          }
-        },
-        "CLOSED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CLOSED"
-          }
-        },
-        "MUTED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "MUTED"
-          }
-        }
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#IssueVariantList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#IssueVariant"
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#Version": {
-      "type": "structure",
-      "members": {
-        "displayName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Compound readable string containing both display and build versions. Format: \"display_version (build_version)\" e.g. \"1.2.3 (456)\". This string can be used for filtering with the VersionFilter.display_name field."
-          }
-        },
-        "buildVersion": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Mobile only. One display_version can have many build_version. On Android, strictly the same as \"version code\". On iOS, strictly the same as \"build number\" or CFBundleVersion."
-          }
-        },
-        "displayVersion": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Readable version string, e.g. \"1.2.3\". On Android, strictly the same as \"version name\". On iOS, strictly the same as \"version number\" or CFBundleShortVersionString."
-          }
-        },
-        "tracks": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#PlayTrackList",
-          "traits": {
-            "smithy.api#documentation": "Indicates releases which have artifacts that are currently available in the Play Store to the target audience of the track. Versions may be available in multiple tracks."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Application software version."
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#PlayTrackList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#PlayTrack"
+        "smithy.api#documentation": "A frame in a stacktrace."
       }
     },
     "com.gcp.firebasecrashlytics_v1alpha#Note": {
       "type": "structure",
       "members": {
-        "author": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The email of the author of the note."
-          }
-        },
-        "body": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Immutable. The body of the note."
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Output only. Identifier. Format: \"projects/{project}/apps/app/issues/{issue}/notes/{note}\"."
+          }
+        },
+        "author": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The email of the author of the note."
           }
         },
         "createTime": {
@@ -1538,87 +1615,63 @@
           "traits": {
             "smithy.api#documentation": "Output only. Time when the note was created."
           }
+        },
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Immutable. The body of the note."
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Developer notes for an issue."
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#FirebaseSessionEvent": {
+    "com.gcp.firebasecrashlytics_v1alpha#BatchUpdateIssuesRequest": {
       "type": "structure",
       "members": {
-        "version": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Version",
+        "requests": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#UpdateIssueRequestList",
           "traits": {
-            "smithy.api#documentation": "Mobile application version numbers."
+            "smithy.api#documentation": "Required. The request message specifying the resources to update. A maximum of 100 issues can be modified in a batch."
           }
         },
-        "operatingSystem": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#OperatingSystem",
-          "traits": {
-            "smithy.api#documentation": "Operating system and version."
-          }
-        },
-        "eventTime": {
+        "updateMask": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The start timestamp for the session event."
-          }
-        },
-        "sessionIndex": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Indicates the number of sessions since the last cold start."
-          }
-        },
-        "eventType": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#FirebaseSessionEventEventTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Session event type. The SDK only supports SESSION_START events at this time."
-          }
-        },
-        "firstSessionId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identifier of the first session since the last cold start. This id and the session_id will be the same for app launches."
-          }
-        },
-        "firebaseInstallationId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Uniquely identifies a device with Firebase apps installed."
-          }
-        },
-        "sessionId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Unique identifier for the Firebase session."
-          }
-        },
-        "device": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Device",
-          "traits": {
-            "smithy.api#documentation": "Mobile device metadata."
+            "smithy.api#documentation": "Optional. The list of Issue fields to update. If this is set, the update_mask field in the UpdateIssueRequest messages must either be empty or match this field."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Sessions recorded by the Firebase App Quality Sessions SDK."
+        "smithy.api#documentation": "Request message for the BatchUpdateIssues method."
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#FirebaseSessionEventEventTypeEnum": {
+    "com.gcp.firebasecrashlytics_v1alpha#UpdateIssueRequestList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#UpdateIssueRequest"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsReportsViewEnum": {
       "type": "enum",
       "members": {
-        "SESSION_EVENT_TYPE_UNKNOWN": {
+        "REPORT_VIEW_UNSPECIFIED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "SESSION_EVENT_TYPE_UNKNOWN"
+            "smithy.api#enumValue": "REPORT_VIEW_UNSPECIFIED"
           }
         },
-        "SESSION_START": {
+        "REPORT_VIEW_BASIC": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "SESSION_START"
+            "smithy.api#enumValue": "REPORT_VIEW_BASIC"
+          }
+        },
+        "REPORT_VIEW_FULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REPORT_VIEW_FULL"
           }
         }
       }
@@ -1632,6 +1685,13 @@
             "smithy.api#documentation": "Required. The firebase application. Format: \"projects/{project}/apps/{app_id}\".",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "view": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsReportsViewEnum",
+          "traits": {
+            "smithy.api#documentation": "Optional. Response view. If not set, defaults to `REPORT_VIEW_BASIC`. `REPORT_VIEW_FULL` is not supported for list operations.",
+            "smithy.api#httpQuery": "view"
           }
         }
       }
@@ -1686,39 +1746,149 @@
         "smithy.api#documentation": "List all of the available reports."
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_errorTypesEnum": {
+    "com.gcp.firebasecrashlytics_v1alpha#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsGranularityEnum": {
       "type": "enum",
       "members": {
-        "ERROR_TYPE_UNSPECIFIED": {
+        "TIME_GRANULARITY_UNSPECIFIED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "ERROR_TYPE_UNSPECIFIED"
+            "smithy.api#enumValue": "TIME_GRANULARITY_UNSPECIFIED"
           }
         },
-        "FATAL": {
+        "TIME_GRANULARITY_NONE": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "FATAL"
+            "smithy.api#enumValue": "TIME_GRANULARITY_NONE"
           }
         },
-        "NON_FATAL": {
+        "TIME_GRANULARITY_HOUR": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "NON_FATAL"
+            "smithy.api#enumValue": "TIME_GRANULARITY_HOUR"
           }
         },
-        "ANR": {
+        "TIME_GRANULARITY_DAY": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "ANR"
+            "smithy.api#enumValue": "TIME_GRANULARITY_DAY"
           }
         }
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_errorTypesEnumList": {
+    "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_stateEnum": {
+      "type": "enum",
+      "members": {
+        "STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATE_UNSPECIFIED"
+          }
+        },
+        "OPEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPEN"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOSED"
+          }
+        },
+        "MUTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MUTED"
+          }
+        }
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_statesEnum": {
+      "type": "enum",
+      "members": {
+        "STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATE_UNSPECIFIED"
+          }
+        },
+        "OPEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPEN"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOSED"
+          }
+        },
+        "MUTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MUTED"
+          }
+        }
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_statesEnumList": {
       "type": "list",
       "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_errorTypesEnum"
+        "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_statesEnum"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsViewEnum": {
+      "type": "enum",
+      "members": {
+        "REPORT_VIEW_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REPORT_VIEW_UNSPECIFIED"
+          }
+        },
+        "REPORT_VIEW_BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REPORT_VIEW_BASIC"
+          }
+        },
+        "REPORT_VIEW_FULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REPORT_VIEW_FULL"
+          }
+        }
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsMetricsModeEnum": {
+      "type": "enum",
+      "members": {
+        "METRICS_MODE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "METRICS_MODE_UNSPECIFIED"
+          }
+        },
+        "METRICS_MODE_OBSERVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "METRICS_MODE_OBSERVED"
+          }
+        },
+        "METRICS_MODE_EXTRAPOLATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "METRICS_MODE_EXTRAPOLATED"
+          }
+        }
       }
     },
     "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_signalsEnum": {
@@ -1760,70 +1930,6 @@
       "type": "list",
       "member": {
         "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_signalsEnum"
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#StringList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_stateEnum": {
-      "type": "enum",
-      "members": {
-        "STATE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "STATE_UNSPECIFIED"
-          }
-        },
-        "OPEN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "OPEN"
-          }
-        },
-        "CLOSED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CLOSED"
-          }
-        },
-        "MUTED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "MUTED"
-          }
-        }
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsGranularityEnum": {
-      "type": "enum",
-      "members": {
-        "TIME_GRANULARITY_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "TIME_GRANULARITY_UNSPECIFIED"
-          }
-        },
-        "TIME_GRANULARITY_NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "TIME_GRANULARITY_NONE"
-          }
-        },
-        "TIME_GRANULARITY_HOUR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "TIME_GRANULARITY_HOUR"
-          }
-        },
-        "TIME_GRANULARITY_DAY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "TIME_GRANULARITY_DAY"
-          }
-        }
       }
     },
     "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_device_formFactorsEnum": {
@@ -1873,49 +1979,133 @@
         "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_device_formFactorsEnum"
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_statesEnum": {
+    "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_errorTypesEnum": {
       "type": "enum",
       "members": {
-        "STATE_UNSPECIFIED": {
+        "ERROR_TYPE_UNSPECIFIED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "STATE_UNSPECIFIED"
+            "smithy.api#enumValue": "ERROR_TYPE_UNSPECIFIED"
           }
         },
-        "OPEN": {
+        "FATAL": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "OPEN"
+            "smithy.api#enumValue": "FATAL"
           }
         },
-        "CLOSED": {
+        "NON_FATAL": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "CLOSED"
+            "smithy.api#enumValue": "NON_FATAL"
           }
         },
-        "MUTED": {
+        "ANR": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "MUTED"
+            "smithy.api#enumValue": "ANR"
           }
         }
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_statesEnumList": {
+    "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_errorTypesEnumList": {
       "type": "list",
       "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_statesEnum"
+        "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_errorTypesEnum"
       }
     },
     "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsRequest": {
       "type": "structure",
       "members": {
-        "filter.issue.errorTypes": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_errorTypesEnumList",
+        "filter.operatingSystem.displayNames": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#StringList",
           "traits": {
-            "smithy.api#documentation": "Optional. Only counts events of the given error types. This field matches [Issue.error_type].",
-            "smithy.api#httpQuery": "filter.issue.errorTypes"
+            "smithy.api#documentation": "Only counts events in the given operating system and version. This string matches OperatingSystem.display_name. Format: \"osName (osVersion)\" e.g. \"Android (11)\". or just \"osName\" for all versions, e.g. simply \"iPadOS\".",
+            "smithy.api#httpQuery": "filter.operatingSystem.displayNames"
+          }
+        },
+        "filter.device.displayNames": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#StringList",
+          "traits": {
+            "smithy.api#documentation": "Only counts events from the given Device model. This string matches Device.display_name. Format: \"manufacturer (model)\" e.g. \"Google (Pixel 6)\", or just \"manufacturer\" for all possible models, e.g. simply \"Google\". Note that a device's marketing_name field can not be used for filtering.",
+            "smithy.api#httpQuery": "filter.device.displayNames"
+          }
+        },
+        "filter.issue.id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Only counts events in the given issue ID. This field matches [Issue.id].",
+            "smithy.api#httpQuery": "filter.issue.id"
+          }
+        },
+        "granularity": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsGranularityEnum",
+          "traits": {
+            "smithy.api#documentation": "Optional. The report response will contain one data point per time grain. If omitted, the report will contain a single data point for the complete interval.",
+            "smithy.api#httpQuery": "granularity"
+          }
+        },
+        "filter.issue.state": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_stateEnum",
+          "traits": {
+            "smithy.api#documentation": "Optional. Deprecated: Prefer `states` field. Only includes events for issues with the given issue state. Only available for `topIssues` reports.",
+            "smithy.api#httpQuery": "filter.issue.state"
+          }
+        },
+        "filter.issue.states": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_statesEnumList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Only includes events for issues with the given issue states. Only available for `topIssues` reports.",
+            "smithy.api#httpQuery": "filter.issue.states"
+          }
+        },
+        "view": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsViewEnum",
+          "traits": {
+            "smithy.api#documentation": "Optional. Response view. If not set, defaults to `REPORT_VIEW_FULL`.",
+            "smithy.api#httpQuery": "view"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. The maximum number of result groups to return. If omitted, defaults to 25.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "filter.browser.displayNames": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Only count events from the given browser. This string matches Browser.display_name. Format: \"name (display_version)\" e.g. \"Chrome (123)\", or just \"name\" for all possible versions, e.g. simply \"Chrome\".",
+            "smithy.api#httpQuery": "filter.browser.displayNames"
+          }
+        },
+        "filter.issue.variantId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Only counts events for the given issue variant ID. This field matches [IssueVariant.id].",
+            "smithy.api#httpQuery": "filter.issue.variantId"
+          }
+        },
+        "filter.issue.content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A space separated list of filter terms matched against the contents of the issue. Contents include the title and the stack trace. Matches must begin at alphanumeric tokens, i.e., 'util.Sorted' matches 'java.util.SortedSet' but not 'myutil.SortedArray'. The filter matches if all filter terms match. All non-alphanumeric characters are ignored for matching. Filtering is assumed to be prefix-search and order-independent unless phrases are surrounded by \"\". Any terms contained in quotes are searched using exact-match (given filter term \"foo\", we will not return \"foobar\"), and must appear in the order given exactly. To get order-dependence but prefix-search, use a * within the quotes (\"abc foo*\" will match \"abc foobar\", but not \"foo abc\" \"abcd foobar\", or \"abc xyz foobar\").",
+            "smithy.api#httpQuery": "filter.issue.content"
+          }
+        },
+        "metricsMode": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsMetricsModeEnum",
+          "traits": {
+            "smithy.api#documentation": "Optional. Controls whether metrics are raw observed values (mobile and web) or extrapolated values (web only). If omitted, defaults to OBSERVED.",
+            "smithy.api#httpQuery": "metricsMode"
+          }
+        },
+        "filter.issue.signals": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_signalsEnumList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Only returns issues currently marked with the given signals. This field matches [Issue.signals.signal].",
+            "smithy.api#httpQuery": "filter.issue.signals"
           }
         },
         "filter.interval.endTime": {
@@ -1932,18 +2122,25 @@
             "smithy.api#httpQuery": "pageToken"
           }
         },
-        "filter.issue.signals": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_signalsEnumList",
-          "traits": {
-            "smithy.api#documentation": "Optional. Only returns issues currently marked with the given signals. This field matches [Issue.signals.signal].",
-            "smithy.api#httpQuery": "filter.issue.signals"
-          }
-        },
-        "filter.issue.variantId": {
+        "filter.interval.startTime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional. Only counts events for the given issue variant ID. This field matches [IssueVariant.id].",
-            "smithy.api#httpQuery": "filter.issue.variantId"
+            "smithy.api#documentation": "Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start.",
+            "smithy.api#httpQuery": "filter.interval.startTime"
+          }
+        },
+        "filter.device.formFactors": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_device_formFactorsEnumList",
+          "traits": {
+            "smithy.api#documentation": "Only counts events from devices with the given form factor (e.g. phone or tablet).",
+            "smithy.api#httpQuery": "filter.device.formFactors"
+          }
+        },
+        "filter.version.displayNames": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#StringList",
+          "traits": {
+            "smithy.api#documentation": "Only counts events in the given app version. This string matches Version.display_name. Format: \"display_version (build_version)\" e.g. \"1.2.3 (456)\".",
+            "smithy.api#httpQuery": "filter.version.displayNames"
           }
         },
         "name": {
@@ -1954,88 +2151,11 @@
             "smithy.api#required": {}
           }
         },
-        "filter.version.displayNames": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#StringList",
+        "filter.issue.errorTypes": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_errorTypesEnumList",
           "traits": {
-            "smithy.api#documentation": "Only counts events in the given app version. This string matches Version.display_name. Format: \"display_version (build_version)\" e.g. \"1.2.3 (456)\".",
-            "smithy.api#httpQuery": "filter.version.displayNames"
-          }
-        },
-        "filter.operatingSystem.displayNames": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#StringList",
-          "traits": {
-            "smithy.api#documentation": "Only counts events in the given operating system and version. This string matches OperatingSystem.display_name. Format: \"osName (osVersion)\" e.g. \"Android (11)\". or just \"osName\" for all versions, e.g. simply \"iPadOS\".",
-            "smithy.api#httpQuery": "filter.operatingSystem.displayNames"
-          }
-        },
-        "filter.issue.state": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_stateEnum",
-          "traits": {
-            "smithy.api#documentation": "Optional. Deprecated: Prefer `states` field. Only includes events for issues with the given issue state. Only available for `topIssues` reports.",
-            "smithy.api#httpQuery": "filter.issue.state"
-          }
-        },
-        "granularity": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsGranularityEnum",
-          "traits": {
-            "smithy.api#documentation": "Optional. The report response will contain one data point per time grain. If omitted, the report will contain a single data point for the complete interval.",
-            "smithy.api#httpQuery": "granularity"
-          }
-        },
-        "filter.browser.displayNames": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#StringList",
-          "traits": {
-            "smithy.api#documentation": "Optional. Only count events from the given browser. This string matches Browser.display_name. Format: \"name (display_version)\" e.g. \"Chrome (123)\", or just \"name\" for all possible versions, e.g. simply \"Chrome\".",
-            "smithy.api#httpQuery": "filter.browser.displayNames"
-          }
-        },
-        "filter.issue.id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. Only counts events in the given issue ID. This field matches [Issue.id].",
-            "smithy.api#httpQuery": "filter.issue.id"
-          }
-        },
-        "filter.issue.content": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. A space separated list of filter terms matched against the contents of the issue. Contents include the title and the stack trace. Matches must begin at alphanumeric tokens, i.e., 'util.Sorted' matches 'java.util.SortedSet' but not 'myutil.SortedArray'. The filter matches if all filter terms match. All non-alphanumeric characters are ignored for matching. Filtering is assumed to be prefix-search and order-independent unless phrases are surrounded by \"\". Any terms contained in quotes are searched using exact-match (given filter term \"foo\", we will not return \"foobar\"), and must appear in the order given exactly. To get order-dependence but prefix-search, use a * within the quotes (\"abc foo*\" will match \"abc foobar\", but not \"foo abc\" \"abcd foobar\", or \"abc xyz foobar\").",
-            "smithy.api#httpQuery": "filter.issue.content"
-          }
-        },
-        "filter.device.formFactors": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_device_formFactorsEnumList",
-          "traits": {
-            "smithy.api#documentation": "Only counts events from devices with the given form factor (e.g. phone or tablet).",
-            "smithy.api#httpQuery": "filter.device.formFactors"
-          }
-        },
-        "filter.device.displayNames": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#StringList",
-          "traits": {
-            "smithy.api#documentation": "Only counts events from the given Device model. This string matches Device.display_name. Format: \"manufacturer (model)\" e.g. \"Google (Pixel 6)\", or just \"manufacturer\" for all possible models, e.g. simply \"Google\". Note that a device's marketing_name field can not be used for filtering.",
-            "smithy.api#httpQuery": "filter.device.displayNames"
-          }
-        },
-        "filter.issue.states": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#GetProjectsAppsReportsFilter_issue_statesEnumList",
-          "traits": {
-            "smithy.api#documentation": "Optional. Only includes events for issues with the given issue states. Only available for `topIssues` reports.",
-            "smithy.api#httpQuery": "filter.issue.states"
-          }
-        },
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Optional. The maximum number of result groups to return. If omitted, defaults to 25.",
-            "smithy.api#httpQuery": "pageSize"
-          }
-        },
-        "filter.interval.startTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start.",
-            "smithy.api#httpQuery": "filter.interval.startTime"
+            "smithy.api#documentation": "Optional. Only counts events of the given error types. This field matches [Issue.error_type].",
+            "smithy.api#httpQuery": "filter.issue.errorTypes"
           }
         }
       }
@@ -2068,22 +2188,15 @@
         }
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#BatchUpdateProjectsAppsIssuesRequest": {
+    "com.gcp.firebasecrashlytics_v1alpha#DeleteCrashReportsProjectsAppsUsersRequest": {
       "type": "structure",
       "members": {
-        "parent": {
+        "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. The parent resource shared by all issues being updated. Format: projects/{project}/apps/{app}. If this is set, the parent field in the UpdateIssueRequest messages must either be empty or match this field.",
+            "smithy.api#documentation": "Required. Resource name for user reports, in the format: projects/ PROJECT_IDENTIFIER/apps/APP_ID/users/USER_ID/crashReports - PROJECT_IDENTIFIER: The Firebase project's project number (recommended) or its project ID. Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). - APP_ID: The globally unique, Firebase-assigned identifier for the Firebase App. This is not your package name or bundle ID. Learn how to [find your app ID](https://firebase.google.com/support/faq/#find-app-id). - USER_ID: The user ID set using the Crashlytics SDK. Learn how to [set user identifiers](https://firebase.google.com/docs/crashlytics/customize-crash-reports#set-user-ids).",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#BatchUpdateIssuesRequest",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
           }
         }
       }
@@ -2112,6 +2225,56 @@
             "status": 409
           }
         ]
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#DeleteCrashReportsProjectsAppsUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#DeleteCrashReportsProjectsAppsUsersRequest"
+      },
+      "output": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#DeleteUserCrashReportsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#NotFound"
+        },
+        {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#BadRequest"
+        },
+        {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "v1alpha/{+name}"
+        },
+        "smithy.api#documentation": "Enqueues a request to permanently remove crash reports associated with the specified user. All reports belonging to the specified user will be deleted typically within 24 hours of receiving the crash report."
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#BatchUpdateProjectsAppsIssuesRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The parent resource shared by all issues being updated. Format: projects/{project}/apps/{app}. If this is set, the parent field in the UpdateIssueRequest messages must either be empty or match this field.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#BatchUpdateIssuesRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
       }
     },
     "com.gcp.firebasecrashlytics_v1alpha#BatchUpdateProjectsAppsIssues": {
@@ -2238,49 +2401,6 @@
         "smithy.api#documentation": "Change the state of an issue."
       }
     },
-    "com.gcp.firebasecrashlytics_v1alpha#DeleteProjectsAppsIssuesNotesRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The name of the note to delete. Format: projects/{project}/apps/{app}/issues/{issue}/notes/{note}.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#DeleteProjectsAppsIssuesNotes": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#DeleteProjectsAppsIssuesNotesRequest"
-      },
-      "output": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#Empty"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#NotFound"
-        },
-        {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Forbidden"
-        },
-        {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#BadRequest"
-        },
-        {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "v1alpha/{+name}"
-        },
-        "smithy.api#documentation": "Delete a note by its name."
-      }
-    },
     "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsIssuesNotesRequest": {
       "type": "structure",
       "members": {
@@ -2386,14 +2506,57 @@
         "smithy.api#documentation": "Create a new note for an issue."
       }
     },
+    "com.gcp.firebasecrashlytics_v1alpha#DeleteProjectsAppsIssuesNotesRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The name of the note to delete. Format: projects/{project}/apps/{app}/issues/{issue}/notes/{note}.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#DeleteProjectsAppsIssuesNotes": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#DeleteProjectsAppsIssuesNotesRequest"
+      },
+      "output": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#Empty"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#NotFound"
+        },
+        {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#BadRequest"
+        },
+        {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "v1alpha/{+name}"
+        },
+        "smithy.api#documentation": "Delete a note by its name."
+      }
+    },
     "com.gcp.firebasecrashlytics_v1alpha#BatchGetProjectsAppsEventsRequest": {
       "type": "structure",
       "members": {
-        "names": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#StringList",
+        "readMask": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. The resource names of the desired events. A maximum of 100 events can be retrieved in a batch. Format: \"projects/{project}/apps/{app_id}/events/{event_id}\". The app_id and event_id are required, but project may be \"-\" to conserve space in long URIs.",
-            "smithy.api#httpQuery": "names"
+            "smithy.api#documentation": "Optional. The list of Event fields to include in the response. If omitted, the full event is returned.",
+            "smithy.api#httpQuery": "readMask"
           }
         },
         "parent": {
@@ -2404,11 +2567,11 @@
             "smithy.api#required": {}
           }
         },
-        "readMask": {
-          "target": "smithy.api#String",
+        "names": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#StringList",
           "traits": {
-            "smithy.api#documentation": "Optional. The list of Event fields to include in the response. If omitted, the full event is returned.",
-            "smithy.api#httpQuery": "readMask"
+            "smithy.api#documentation": "Required. The resource names of the desired events. A maximum of 100 events can be retrieved in a batch. Format: \"projects/{project}/apps/{app_id}/events/{event_id}\". The app_id and event_id are required, but project may be \"-\" to conserve space in long URIs.",
+            "smithy.api#httpQuery": "names"
           }
         }
       }
@@ -2435,82 +2598,6 @@
           "uri": "v1alpha/{+parent}/events:batchGet"
         },
         "smithy.api#documentation": "Fetch a batch of up to 100 events by name."
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_signalsEnum": {
-      "type": "enum",
-      "members": {
-        "SIGNAL_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SIGNAL_UNSPECIFIED"
-          }
-        },
-        "SIGNAL_EARLY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SIGNAL_EARLY"
-          }
-        },
-        "SIGNAL_FRESH": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SIGNAL_FRESH"
-          }
-        },
-        "SIGNAL_REGRESSED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SIGNAL_REGRESSED"
-          }
-        },
-        "SIGNAL_REPETITIVE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SIGNAL_REPETITIVE"
-          }
-        }
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_signalsEnumList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_signalsEnum"
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_errorTypesEnum": {
-      "type": "enum",
-      "members": {
-        "ERROR_TYPE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ERROR_TYPE_UNSPECIFIED"
-          }
-        },
-        "FATAL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "FATAL"
-          }
-        },
-        "NON_FATAL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "NON_FATAL"
-          }
-        },
-        "ANR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ANR"
-          }
-        }
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_errorTypesEnumList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_errorTypesEnum"
       }
     },
     "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_stateEnum": {
@@ -2540,41 +2627,6 @@
             "smithy.api#enumValue": "MUTED"
           }
         }
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_statesEnum": {
-      "type": "enum",
-      "members": {
-        "STATE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "STATE_UNSPECIFIED"
-          }
-        },
-        "OPEN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "OPEN"
-          }
-        },
-        "CLOSED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CLOSED"
-          }
-        },
-        "MUTED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "MUTED"
-          }
-        }
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_statesEnumList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_statesEnum"
       }
     },
     "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_device_formFactorsEnum": {
@@ -2624,42 +2676,153 @@
         "target": "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_device_formFactorsEnum"
       }
     },
+    "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_statesEnum": {
+      "type": "enum",
+      "members": {
+        "STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATE_UNSPECIFIED"
+          }
+        },
+        "OPEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPEN"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOSED"
+          }
+        },
+        "MUTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MUTED"
+          }
+        }
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_statesEnumList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_statesEnum"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_errorTypesEnum": {
+      "type": "enum",
+      "members": {
+        "ERROR_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ERROR_TYPE_UNSPECIFIED"
+          }
+        },
+        "FATAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FATAL"
+          }
+        },
+        "NON_FATAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NON_FATAL"
+          }
+        },
+        "ANR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ANR"
+          }
+        }
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_errorTypesEnumList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_errorTypesEnum"
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_signalsEnum": {
+      "type": "enum",
+      "members": {
+        "SIGNAL_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SIGNAL_UNSPECIFIED"
+          }
+        },
+        "SIGNAL_EARLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SIGNAL_EARLY"
+          }
+        },
+        "SIGNAL_FRESH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SIGNAL_FRESH"
+          }
+        },
+        "SIGNAL_REGRESSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SIGNAL_REGRESSED"
+          }
+        },
+        "SIGNAL_REPETITIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SIGNAL_REPETITIVE"
+          }
+        }
+      }
+    },
+    "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_signalsEnumList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_signalsEnum"
+      }
+    },
     "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsRequest": {
       "type": "structure",
       "members": {
-        "filter.issue.signals": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_signalsEnumList",
-          "traits": {
-            "smithy.api#documentation": "Optional. Only returns issues currently marked with the given signals. This field matches [Issue.signals.signal].",
-            "smithy.api#httpQuery": "filter.issue.signals"
-          }
-        },
-        "filter.interval.endTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end.",
-            "smithy.api#httpQuery": "filter.interval.endTime"
-          }
-        },
-        "filter.issue.errorTypes": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_errorTypesEnumList",
-          "traits": {
-            "smithy.api#documentation": "Optional. Only counts events of the given error types. This field matches [Issue.error_type].",
-            "smithy.api#httpQuery": "filter.issue.errorTypes"
-          }
-        },
-        "readMask": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. The list of Event fields to include in the response. If omitted, the full event is returned.",
-            "smithy.api#httpQuery": "readMask"
-          }
-        },
-        "filter.browser.displayNames": {
+        "filter.operatingSystem.displayNames": {
           "target": "com.gcp.firebasecrashlytics_v1alpha#StringList",
           "traits": {
-            "smithy.api#documentation": "Optional. Only count events from the given browser. This string matches Browser.display_name. Format: \"name (display_version)\" e.g. \"Chrome (123)\", or just \"name\" for all possible versions, e.g. simply \"Chrome\".",
-            "smithy.api#httpQuery": "filter.browser.displayNames"
+            "smithy.api#documentation": "Only counts events in the given operating system and version. This string matches OperatingSystem.display_name. Format: \"osName (osVersion)\" e.g. \"Android (11)\". or just \"osName\" for all versions, e.g. simply \"iPadOS\".",
+            "smithy.api#httpQuery": "filter.operatingSystem.displayNames"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A page token, received from a previous calls.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "filter.device.displayNames": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#StringList",
+          "traits": {
+            "smithy.api#documentation": "Only counts events from the given Device model. This string matches Device.display_name. Format: \"manufacturer (model)\" e.g. \"Google (Pixel 6)\", or just \"manufacturer\" for all possible models, e.g. simply \"Google\". Note that a device's marketing_name field can not be used for filtering.",
+            "smithy.api#httpQuery": "filter.device.displayNames"
+          }
+        },
+        "filter.issue.variantId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Only counts events for the given issue variant ID. This field matches [IssueVariant.id].",
+            "smithy.api#httpQuery": "filter.issue.variantId"
+          }
+        },
+        "filter.issue.state": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_stateEnum",
+          "traits": {
+            "smithy.api#documentation": "Optional. Deprecated: Prefer `states` field. Only includes events for issues with the given issue state. Only available for `topIssues` reports.",
+            "smithy.api#httpQuery": "filter.issue.state"
           }
         },
         "parent": {
@@ -2670,74 +2833,11 @@
             "smithy.api#required": {}
           }
         },
-        "filter.issue.state": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_stateEnum",
-          "traits": {
-            "smithy.api#documentation": "Optional. Deprecated: Prefer `states` field. Only includes events for issues with the given issue state. Only available for `topIssues` reports.",
-            "smithy.api#httpQuery": "filter.issue.state"
-          }
-        },
-        "filter.issue.content": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. A space separated list of filter terms matched against the contents of the issue. Contents include the title and the stack trace. Matches must begin at alphanumeric tokens, i.e., 'util.Sorted' matches 'java.util.SortedSet' but not 'myutil.SortedArray'. The filter matches if all filter terms match. All non-alphanumeric characters are ignored for matching. Filtering is assumed to be prefix-search and order-independent unless phrases are surrounded by \"\". Any terms contained in quotes are searched using exact-match (given filter term \"foo\", we will not return \"foobar\"), and must appear in the order given exactly. To get order-dependence but prefix-search, use a * within the quotes (\"abc foo*\" will match \"abc foobar\", but not \"foo abc\" \"abcd foobar\", or \"abc xyz foobar\").",
-            "smithy.api#httpQuery": "filter.issue.content"
-          }
-        },
-        "filter.issue.states": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_statesEnumList",
-          "traits": {
-            "smithy.api#documentation": "Optional. Only includes events for issues with the given issue states. Only available for `topIssues` reports.",
-            "smithy.api#httpQuery": "filter.issue.states"
-          }
-        },
-        "filter.operatingSystem.displayNames": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#StringList",
-          "traits": {
-            "smithy.api#documentation": "Only counts events in the given operating system and version. This string matches OperatingSystem.display_name. Format: \"osName (osVersion)\" e.g. \"Android (11)\". or just \"osName\" for all versions, e.g. simply \"iPadOS\".",
-            "smithy.api#httpQuery": "filter.operatingSystem.displayNames"
-          }
-        },
         "filter.device.formFactors": {
           "target": "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_device_formFactorsEnumList",
           "traits": {
             "smithy.api#documentation": "Only counts events from devices with the given form factor (e.g. phone or tablet).",
             "smithy.api#httpQuery": "filter.device.formFactors"
-          }
-        },
-        "pageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. A page token, received from a previous calls.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "filter.issue.id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. Only counts events in the given issue ID. This field matches [Issue.id].",
-            "smithy.api#httpQuery": "filter.issue.id"
-          }
-        },
-        "filter.version.displayNames": {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#StringList",
-          "traits": {
-            "smithy.api#documentation": "Only counts events in the given app version. This string matches Version.display_name. Format: \"display_version (build_version)\" e.g. \"1.2.3 (456)\".",
-            "smithy.api#httpQuery": "filter.version.displayNames"
-          }
-        },
-        "filter.issue.variantId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. Only counts events for the given issue variant ID. This field matches [IssueVariant.id].",
-            "smithy.api#httpQuery": "filter.issue.variantId"
-          }
-        },
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Optional. The maximum number of events per page. If omitted, defaults to 10.",
-            "smithy.api#httpQuery": "pageSize"
           }
         },
         "filter.interval.startTime": {
@@ -2747,11 +2847,81 @@
             "smithy.api#httpQuery": "filter.interval.startTime"
           }
         },
-        "filter.device.displayNames": {
+        "filter.interval.endTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end.",
+            "smithy.api#httpQuery": "filter.interval.endTime"
+          }
+        },
+        "filter.browser.displayNames": {
           "target": "com.gcp.firebasecrashlytics_v1alpha#StringList",
           "traits": {
-            "smithy.api#documentation": "Only counts events from the given Device model. This string matches Device.display_name. Format: \"manufacturer (model)\" e.g. \"Google (Pixel 6)\", or just \"manufacturer\" for all possible models, e.g. simply \"Google\". Note that a device's marketing_name field can not be used for filtering.",
-            "smithy.api#httpQuery": "filter.device.displayNames"
+            "smithy.api#documentation": "Optional. Only count events from the given browser. This string matches Browser.display_name. Format: \"name (display_version)\" e.g. \"Chrome (123)\", or just \"name\" for all possible versions, e.g. simply \"Chrome\".",
+            "smithy.api#httpQuery": "filter.browser.displayNames"
+          }
+        },
+        "filter.issue.states": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_statesEnumList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Only includes events for issues with the given issue states. Only available for `topIssues` reports.",
+            "smithy.api#httpQuery": "filter.issue.states"
+          }
+        },
+        "filter.issue.errorTypes": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_errorTypesEnumList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Only counts events of the given error types. This field matches [Issue.error_type].",
+            "smithy.api#httpQuery": "filter.issue.errorTypes"
+          }
+        },
+        "filter.version.displayNames": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#StringList",
+          "traits": {
+            "smithy.api#documentation": "Only counts events in the given app version. This string matches Version.display_name. Format: \"display_version (build_version)\" e.g. \"1.2.3 (456)\".",
+            "smithy.api#httpQuery": "filter.version.displayNames"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. The maximum number of events per page. If omitted, defaults to 10.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "filter.issue.content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A space separated list of filter terms matched against the contents of the issue. Contents include the title and the stack trace. Matches must begin at alphanumeric tokens, i.e., 'util.Sorted' matches 'java.util.SortedSet' but not 'myutil.SortedArray'. The filter matches if all filter terms match. All non-alphanumeric characters are ignored for matching. Filtering is assumed to be prefix-search and order-independent unless phrases are surrounded by \"\". Any terms contained in quotes are searched using exact-match (given filter term \"foo\", we will not return \"foobar\"), and must appear in the order given exactly. To get order-dependence but prefix-search, use a * within the quotes (\"abc foo*\" will match \"abc foobar\", but not \"foo abc\" \"abcd foobar\", or \"abc xyz foobar\").",
+            "smithy.api#httpQuery": "filter.issue.content"
+          }
+        },
+        "filterExpression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Filters events by custom keys (https://firebase.google.com/docs/crashlytics/customize-crash-reports#add-keys). Supported forms: * Equality: `custom_keys.level = \"vip\"` or `custom_keys.level:\"vip\"` * Presence: `custom_keys.level:*` * OR across values of one key: `custom_keys.level = \"vip\" OR custom_keys.level = \"enterprise\"` * AND across different keys: `custom_keys.level = \"vip\" AND custom_keys.region = \"us\"` Keys are case-sensitive. Keys and values containing spaces must be double-quoted, for example `custom_keys.\"app state\" = \"background\"`. OR across different keys, repeating a key within an AND, NOT, and comparators other than `=` and `:` are rejected with INVALID_ARGUMENT. Wildcards are not supported in values; use `custom_keys.:*` to match events that set a key to any value. This filter expression applies in addition to the `filter` field above. The syntax is a subset of AIP-160 (https://google.aip.dev/160).",
+            "smithy.api#httpQuery": "filterExpression"
+          }
+        },
+        "readMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The list of Event fields to include in the response. If omitted, the full event is returned.",
+            "smithy.api#httpQuery": "readMask"
+          }
+        },
+        "filter.issue.signals": {
+          "target": "com.gcp.firebasecrashlytics_v1alpha#ListProjectsAppsEventsFilter_issue_signalsEnumList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Only returns issues currently marked with the given signals. This field matches [Issue.signals.signal].",
+            "smithy.api#httpQuery": "filter.issue.signals"
+          }
+        },
+        "filter.issue.id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Only counts events in the given issue ID. This field matches [Issue.id].",
+            "smithy.api#httpQuery": "filter.issue.id"
           }
         }
       }
@@ -2782,49 +2952,6 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#DeleteCrashReportsProjectsAppsUsersRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Resource name for user reports, in the format: projects/ PROJECT_IDENTIFIER/apps/APP_ID/users/USER_ID/crashReports - PROJECT_IDENTIFIER: The Firebase project's project number (recommended) or its project ID. Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). - APP_ID: The globally unique, Firebase-assigned identifier for the Firebase App. This is not your package name or bundle ID. Learn how to [find your app ID](https://firebase.google.com/support/faq/#find-app-id). - USER_ID: The user ID set using the Crashlytics SDK. Learn how to [set user identifiers](https://firebase.google.com/docs/crashlytics/customize-crash-reports#set-user-ids).",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.firebasecrashlytics_v1alpha#DeleteCrashReportsProjectsAppsUsers": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#DeleteCrashReportsProjectsAppsUsersRequest"
-      },
-      "output": {
-        "target": "com.gcp.firebasecrashlytics_v1alpha#DeleteUserCrashReportsResponse"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#NotFound"
-        },
-        {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Forbidden"
-        },
-        {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#BadRequest"
-        },
-        {
-          "target": "com.gcp.firebasecrashlytics_v1alpha#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "v1alpha/{+name}"
-        },
-        "smithy.api#documentation": "Enqueues a request to permanently remove crash reports associated with the specified user. All reports belonging to the specified user will be deleted typically within 24 hours of receiving the crash report."
       }
     }
   }

@@ -62,12 +62,7 @@ export class InsufficientAuthenticationScopes
         details: S.optional(S.Array(S.Unknown)),
       },
     ).pipe(C.withAuthError),
-    [
-      {
-        status: 403,
-        message: { includes: "insufficient authentication scopes" },
-      },
-    ],
+    [{ status: 403, message: { includes: "insufficient authentication scopes" } }],
   ) {}
 
 export class NotFound
@@ -97,9 +92,7 @@ export const DeleteWebResourceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://www.googleapis.com/siteVerification/v1/",
     }),
   ),
-).annotate({
-  identifier: "DeleteWebResourceRequest",
-}) as any as S.Schema<DeleteWebResourceRequest>;
+).annotate({ identifier: "DeleteWebResourceRequest" }) as any as S.Schema<DeleteWebResourceRequest>;
 
 export interface DeleteWebResourceResponse {}
 export const DeleteWebResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -122,15 +115,15 @@ export const SiteVerificationWebResourceGettokenRequestSite = /*@__PURE__*/ S.su
 }) as any as S.Schema<SiteVerificationWebResourceGettokenRequestSite>;
 
 export interface SiteVerificationWebResourceGettokenRequest {
-  /** The site for which a verification token will be generated. */
-  site?: SiteVerificationWebResourceGettokenRequestSite;
   /** The verification method that will be used to verify this site. For sites, 'FILE' or 'META' methods may be used. For domains, only 'DNS' may be used. */
   verificationMethod?: string;
+  /** The site for which a verification token will be generated. */
+  site?: SiteVerificationWebResourceGettokenRequestSite;
 }
 export const SiteVerificationWebResourceGettokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    site: S.optional(SiteVerificationWebResourceGettokenRequestSite),
     verificationMethod: S.optional(S.String),
+    site: S.optional(SiteVerificationWebResourceGettokenRequestSite),
   }),
 ).annotate({
   identifier: "SiteVerificationWebResourceGettokenRequest",
@@ -183,23 +176,21 @@ export const GetWebResourceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://www.googleapis.com/siteVerification/v1/",
     }),
   ),
-).annotate({
-  identifier: "GetWebResourceRequest",
-}) as any as S.Schema<GetWebResourceRequest>;
+).annotate({ identifier: "GetWebResourceRequest" }) as any as S.Schema<GetWebResourceRequest>;
 
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
 export interface SiteVerificationWebResourceResourceSite {
-  /** The site identifier. If the type is set to SITE, the identifier is a URL. If the type is set to INET_DOMAIN, the site identifier is a domain name. */
-  identifier?: string;
   /** The site type. Can be SITE or INET_DOMAIN (domain name). */
   type?: string;
+  /** The site identifier. If the type is set to SITE, the identifier is a URL. If the type is set to INET_DOMAIN, the site identifier is a domain name. */
+  identifier?: string;
 }
 export const SiteVerificationWebResourceResourceSite = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    identifier: S.optional(S.String),
     type: S.optional(S.String),
+    identifier: S.optional(S.String),
   }),
 ).annotate({
   identifier: "SiteVerificationWebResourceResourceSite",
@@ -240,9 +231,7 @@ export const InsertWebResourceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://www.googleapis.com/siteVerification/v1/",
     }),
   ),
-).annotate({
-  identifier: "InsertWebResourceRequest",
-}) as any as S.Schema<InsertWebResourceRequest>;
+).annotate({ identifier: "InsertWebResourceRequest" }) as any as S.Schema<InsertWebResourceRequest>;
 
 export interface ListWebResourceRequest {}
 export const ListWebResourceRequest = /*@__PURE__*/ S.suspend(() =>
@@ -253,9 +242,7 @@ export const ListWebResourceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://www.googleapis.com/siteVerification/v1/",
     }),
   ),
-).annotate({
-  identifier: "ListWebResourceRequest",
-}) as any as S.Schema<ListWebResourceRequest>;
+).annotate({ identifier: "ListWebResourceRequest" }) as any as S.Schema<ListWebResourceRequest>;
 
 export type SiteVerificationWebResourceResourceList = Array<SiteVerificationWebResourceResource>;
 export const SiteVerificationWebResourceResourceList = /*@__PURE__*/ S.Array(
@@ -291,9 +278,7 @@ export const PatchWebResourceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://www.googleapis.com/siteVerification/v1/",
     }),
   ),
-).annotate({
-  identifier: "PatchWebResourceRequest",
-}) as any as S.Schema<PatchWebResourceRequest>;
+).annotate({ identifier: "PatchWebResourceRequest" }) as any as S.Schema<PatchWebResourceRequest>;
 
 export interface UpdateWebResourceRequest {
   /** The id of a verified site or domain. */
@@ -312,9 +297,7 @@ export const UpdateWebResourceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://www.googleapis.com/siteVerification/v1/",
     }),
   ),
-).annotate({
-  identifier: "UpdateWebResourceRequest",
-}) as any as S.Schema<UpdateWebResourceRequest>;
+).annotate({ identifier: "UpdateWebResourceRequest" }) as any as S.Schema<UpdateWebResourceRequest>;
 
 export type DeleteWebResourceError =
   | NotFound

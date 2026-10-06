@@ -59,12 +59,7 @@ export class InsufficientScopes
       domain: S.optional(S.String),
       details: S.optional(S.Array(S.Unknown)),
     }).pipe(C.withAuthError),
-    [
-      {
-        status: 403,
-        message: { includes: "insufficient authentication scopes" },
-      },
-    ],
+    [{ status: 403, message: { includes: "insufficient authentication scopes" } }],
   ) {}
 
 export class NotFound
@@ -109,58 +104,36 @@ export const ActivateBiddersPretargetingConfigsRequest = /*@__PURE__*/ S.suspend
   identifier: "ActivateBiddersPretargetingConfigsRequest",
 }) as any as S.Schema<ActivateBiddersPretargetingConfigsRequest>;
 
+export type PretargetingConfigInterstitialTargetingEnum =
+  | "INTERSTITIAL_TARGETING_UNSPECIFIED"
+  | "ONLY_INTERSTITIAL_REQUESTS"
+  | "ONLY_NON_INTERSTITIAL_REQUESTS";
+export const PretargetingConfigInterstitialTargetingEnum = S.String;
+
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
-export type StringTargetingDimensionTargetingModeEnum =
-  | "TARGETING_MODE_UNSPECIFIED"
-  | "INCLUSIVE"
-  | "EXCLUSIVE";
-export const StringTargetingDimensionTargetingModeEnum = S.String;
+export type PretargetingConfigStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "SUSPENDED";
+export const PretargetingConfigStateEnum = S.String;
 
-/** Generic targeting with string values used in app, website and publisher targeting. */
-export interface StringTargetingDimension {
-  /** The values specified. */
-  values?: StringList;
-  /** How the items in this list should be targeted. */
-  targetingMode?: StringTargetingDimensionTargetingModeEnum | (string & {});
+/** The dimensions of a creative. This applies to only HTML and Native creatives. */
+export interface CreativeDimensions {
+  /** The width of the creative in pixels. */
+  width?: string;
+  /** The height of the creative in pixels. */
+  height?: string;
 }
-export const StringTargetingDimension = /*@__PURE__*/ S.suspend(() =>
+export const CreativeDimensions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    values: S.optional(StringList),
-    targetingMode: S.optional(StringTargetingDimensionTargetingModeEnum),
+    width: S.optional(S.String),
+    height: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StringTargetingDimension",
-}) as any as S.Schema<StringTargetingDimension>;
+).annotate({ identifier: "CreativeDimensions" }) as any as S.Schema<CreativeDimensions>;
 
-export type PretargetingConfigIncludedPlatformsItemEnum =
-  | "PLATFORM_UNSPECIFIED"
-  | "PERSONAL_COMPUTER"
-  | "PHONE"
-  | "TABLET"
-  | "CONNECTED_TV";
-export const PretargetingConfigIncludedPlatformsItemEnum = S.String;
-
-export type PretargetingConfigIncludedPlatformsItemEnumList = Array<
-  PretargetingConfigIncludedPlatformsItemEnum | (string & {})
->;
-export const PretargetingConfigIncludedPlatformsItemEnumList = /*@__PURE__*/ S.Array(
-  PretargetingConfigIncludedPlatformsItemEnum,
-) as any as S.Schema<PretargetingConfigIncludedPlatformsItemEnumList>;
-
-export type PretargetingConfigAllowedUserTargetingModesItemEnum =
-  | "USER_TARGETING_MODE_UNSPECIFIED"
-  | "REMARKETING_ADS"
-  | "INTEREST_BASED_TARGETING";
-export const PretargetingConfigAllowedUserTargetingModesItemEnum = S.String;
-
-export type PretargetingConfigAllowedUserTargetingModesItemEnumList = Array<
-  PretargetingConfigAllowedUserTargetingModesItemEnum | (string & {})
->;
-export const PretargetingConfigAllowedUserTargetingModesItemEnumList = /*@__PURE__*/ S.Array(
-  PretargetingConfigAllowedUserTargetingModesItemEnum,
-) as any as S.Schema<PretargetingConfigAllowedUserTargetingModesItemEnumList>;
+export type CreativeDimensionsList = Array<CreativeDimensions>;
+export const CreativeDimensionsList = /*@__PURE__*/ S.Array(
+  CreativeDimensions,
+) as any as S.Schema<CreativeDimensionsList>;
 
 /** Generic targeting used for targeting dimensions that contain a list of included and excluded numeric IDs used in app, user list, geo, and vertical id targeting. */
 export interface NumericTargetingDimension {
@@ -178,33 +151,25 @@ export const NumericTargetingDimension = /*@__PURE__*/ S.suspend(() =>
   identifier: "NumericTargetingDimension",
 }) as any as S.Schema<NumericTargetingDimension>;
 
-/** A subset of app inventory to target. Bid requests that match criteria in at least one of the specified dimensions will be sent. */
-export interface AppTargeting {
-  /** Targeted app IDs. App IDs can refer to those found in an app store or ones that are not published in an app store. A maximum of 30,000 app IDs can be targeted. */
-  mobileAppTargeting?: StringTargetingDimension;
-  /** Lists of included and excluded mobile app categories as defined in https://developers.google.com/adwords/api/docs/appendix/mobileappcategories.csv. */
-  mobileAppCategoryTargeting?: NumericTargetingDimension;
+export type StringTargetingDimensionTargetingModeEnum =
+  | "TARGETING_MODE_UNSPECIFIED"
+  | "INCLUSIVE"
+  | "EXCLUSIVE";
+export const StringTargetingDimensionTargetingModeEnum = S.String;
+
+/** Generic targeting with string values used in app, website and publisher targeting. */
+export interface StringTargetingDimension {
+  /** How the items in this list should be targeted. */
+  targetingMode?: StringTargetingDimensionTargetingModeEnum | (string & {});
+  /** The values specified. */
+  values?: StringList;
 }
-export const AppTargeting = /*@__PURE__*/ S.suspend(() =>
+export const StringTargetingDimension = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mobileAppTargeting: S.optional(StringTargetingDimension),
-    mobileAppCategoryTargeting: S.optional(NumericTargetingDimension),
+    targetingMode: S.optional(StringTargetingDimensionTargetingModeEnum),
+    values: S.optional(StringList),
   }),
-).annotate({ identifier: "AppTargeting" }) as any as S.Schema<AppTargeting>;
-
-export type PretargetingConfigIncludedFormatsItemEnum =
-  | "CREATIVE_FORMAT_UNSPECIFIED"
-  | "HTML"
-  | "VAST"
-  | "NATIVE";
-export const PretargetingConfigIncludedFormatsItemEnum = S.String;
-
-export type PretargetingConfigIncludedFormatsItemEnumList = Array<
-  PretargetingConfigIncludedFormatsItemEnum | (string & {})
->;
-export const PretargetingConfigIncludedFormatsItemEnumList = /*@__PURE__*/ S.Array(
-  PretargetingConfigIncludedFormatsItemEnum,
-) as any as S.Schema<PretargetingConfigIncludedFormatsItemEnumList>;
+).annotate({ identifier: "StringTargetingDimension" }) as any as S.Schema<StringTargetingDimension>;
 
 export type PretargetingConfigIncludedUserIdTypesItemEnum =
   | "USER_ID_TYPE_UNSPECIFIED"
@@ -222,36 +187,6 @@ export const PretargetingConfigIncludedUserIdTypesItemEnumList = /*@__PURE__*/ S
   PretargetingConfigIncludedUserIdTypesItemEnum,
 ) as any as S.Schema<PretargetingConfigIncludedUserIdTypesItemEnumList>;
 
-export type PretargetingConfigInterstitialTargetingEnum =
-  | "INTERSTITIAL_TARGETING_UNSPECIFIED"
-  | "ONLY_INTERSTITIAL_REQUESTS"
-  | "ONLY_NON_INTERSTITIAL_REQUESTS";
-export const PretargetingConfigInterstitialTargetingEnum = S.String;
-
-/** The dimensions of a creative. This applies to only HTML and Native creatives. */
-export interface CreativeDimensions {
-  /** The height of the creative in pixels. */
-  height?: string;
-  /** The width of the creative in pixels. */
-  width?: string;
-}
-export const CreativeDimensions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    height: S.optional(S.String),
-    width: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreativeDimensions",
-}) as any as S.Schema<CreativeDimensions>;
-
-export type CreativeDimensionsList = Array<CreativeDimensions>;
-export const CreativeDimensionsList = /*@__PURE__*/ S.Array(
-  CreativeDimensions,
-) as any as S.Schema<CreativeDimensionsList>;
-
-export type PretargetingConfigStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "SUSPENDED";
-export const PretargetingConfigStateEnum = S.String;
-
 export type PretargetingConfigIncludedEnvironmentsItemEnum =
   | "ENVIRONMENT_UNSPECIFIED"
   | "APP"
@@ -265,84 +200,927 @@ export const PretargetingConfigIncludedEnvironmentsItemEnumList = /*@__PURE__*/ 
   PretargetingConfigIncludedEnvironmentsItemEnum,
 ) as any as S.Schema<PretargetingConfigIncludedEnvironmentsItemEnumList>;
 
+export type PretargetingConfigIncludedFormatsItemEnum =
+  | "CREATIVE_FORMAT_UNSPECIFIED"
+  | "HTML"
+  | "VAST"
+  | "NATIVE";
+export const PretargetingConfigIncludedFormatsItemEnum = S.String;
+
+export type PretargetingConfigIncludedFormatsItemEnumList = Array<
+  PretargetingConfigIncludedFormatsItemEnum | (string & {})
+>;
+export const PretargetingConfigIncludedFormatsItemEnumList = /*@__PURE__*/ S.Array(
+  PretargetingConfigIncludedFormatsItemEnum,
+) as any as S.Schema<PretargetingConfigIncludedFormatsItemEnumList>;
+
+export type PretargetingConfigAllowedUserTargetingModesItemEnum =
+  | "USER_TARGETING_MODE_UNSPECIFIED"
+  | "REMARKETING_ADS"
+  | "INTEREST_BASED_TARGETING";
+export const PretargetingConfigAllowedUserTargetingModesItemEnum = S.String;
+
+export type PretargetingConfigAllowedUserTargetingModesItemEnumList = Array<
+  PretargetingConfigAllowedUserTargetingModesItemEnum | (string & {})
+>;
+export const PretargetingConfigAllowedUserTargetingModesItemEnumList = /*@__PURE__*/ S.Array(
+  PretargetingConfigAllowedUserTargetingModesItemEnum,
+) as any as S.Schema<PretargetingConfigAllowedUserTargetingModesItemEnumList>;
+
+/** A subset of app inventory to target. Bid requests that match criteria in at least one of the specified dimensions will be sent. */
+export interface AppTargeting {
+  /** Targeted app IDs. App IDs can refer to those found in an app store or ones that are not published in an app store. A maximum of 30,000 app IDs can be targeted. */
+  mobileAppTargeting?: StringTargetingDimension;
+  /** Lists of included and excluded mobile app categories as defined in https://developers.google.com/adwords/api/docs/appendix/mobileappcategories.csv. */
+  mobileAppCategoryTargeting?: NumericTargetingDimension;
+}
+export const AppTargeting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mobileAppTargeting: S.optional(StringTargetingDimension),
+    mobileAppCategoryTargeting: S.optional(NumericTargetingDimension),
+  }),
+).annotate({ identifier: "AppTargeting" }) as any as S.Schema<AppTargeting>;
+
+export type PretargetingConfigIncludedPlatformsItemEnum =
+  | "PLATFORM_UNSPECIFIED"
+  | "PERSONAL_COMPUTER"
+  | "PHONE"
+  | "TABLET"
+  | "CONNECTED_TV";
+export const PretargetingConfigIncludedPlatformsItemEnum = S.String;
+
+export type PretargetingConfigIncludedPlatformsItemEnumList = Array<
+  PretargetingConfigIncludedPlatformsItemEnum | (string & {})
+>;
+export const PretargetingConfigIncludedPlatformsItemEnumList = /*@__PURE__*/ S.Array(
+  PretargetingConfigIncludedPlatformsItemEnum,
+) as any as S.Schema<PretargetingConfigIncludedPlatformsItemEnumList>;
+
 /** Pretargeting config: a set of targeting dimensions applied at the pretargeting stage of the RTB funnel. These control which inventory a bidder will receive bid requests for. */
 export interface PretargetingConfig {
-  /** Targeting on a subset of publisher inventory. Publishers can either be targeted positively (bid requests will be sent only if the publisher is listed in the targeting dimension) or negatively (bid requests will be sent only if the publisher is not listed in the targeting dimension). A maximum of 10,000 publisher IDs can be targeted. Publisher IDs are found in [ads.txt](https://iabtechlab.com/ads-txt/) / [app-ads.txt](https://iabtechlab.com/app-ads-txt/) and in bid requests in the `BidRequest.publisher_id` field on the [Google RTB protocol](https://developers.google.com/authorized-buyers/rtb/downloads/realtime-bidding-proto) or the `BidRequest.site.publisher.id` / `BidRequest.app.publisher.id` field on the [OpenRTB protocol](https://developers.google.com/authorized-buyers/rtb/downloads/openrtb-adx-proto). Publisher IDs will be returned in the order that they were entered. */
-  publisherTargeting?: StringTargetingDimension;
-  /** The platforms included by this config. Bid requests for devices with the specified platform types will be sent. An unset value allows all bid requests to be sent, regardless of platform. */
-  includedPlatforms?: PretargetingConfigIncludedPlatformsItemEnumList;
-  /** Deprecated: The value of this field no longer has any effect. Targeting modes included by this config. A bid request must allow all the specified targeting modes. An unset value allows all bid requests to be sent, regardless of which targeting modes they allow. */
-  allowedUserTargetingModes?: PretargetingConfigAllowedUserTargetingModesItemEnumList;
-  /** Targeting on a subset of app inventory. If APP is listed in targeted_environments, the specified targeting is applied. A maximum of 30,000 app IDs can be targeted. An unset value for targeting allows all app-based bid requests to be sent. Apps can either be targeting positively (bid requests will be sent only if the destination app is listed in the targeting dimension) or negatively (bid requests will be sent only if the destination app is not listed in the targeting dimension). */
-  appTargeting?: AppTargeting;
-  /** The sensitive content category label IDs excluded in this config. Bid requests for inventory with any of the specified content label IDs will not be sent. Refer to this file https://storage.googleapis.com/adx-rtb-dictionaries/content-labels.txt for category IDs. */
-  excludedContentLabelIds?: StringList;
+  /** The interstitial targeting specified for this config. The unset value will allow bid requests to be sent regardless of whether they are for interstitials or not. */
+  interstitialTargeting?: PretargetingConfigInterstitialTargetingEnum | (string & {});
+  /** Output only. Existing included or excluded geos that are invalid. Previously targeted geos may become invalid due to privacy restrictions. */
+  invalidGeoIds?: StringList;
   /** The mobile operating systems included in this config as defined in https://storage.googleapis.com/adx-rtb-dictionaries/mobile-os.csv */
   includedMobileOperatingSystemIds?: StringList;
-  /** The targeted minimum viewability decile, ranging in values [0, 10]. A value of 5 means that the config will only match adslots for which we predict at least 50% viewability. Values > 10 will be rounded down to 10. An unset value or a value of 0 indicates that bid requests will be sent regardless of viewability. */
-  minimumViewabilityDecile?: number;
+  /** Output only. The state of this pretargeting config. */
+  state?: PretargetingConfigStateEnum | (string & {});
+  /** Output only. The identifier that corresponds to this pretargeting config that helps buyers track and attribute their spend across their own arbitrary divisions. If a bid request matches more than one config, the buyer chooses which billing_id to attribute each of their bids. */
+  billingId?: string;
+  /** Creative dimensions included by this config. Only bid requests eligible for at least one of the specified creative dimensions will be sent. An unset value allows all bid requests to be sent, regardless of creative dimension. */
+  includedCreativeDimensions?: CreativeDimensionsList;
+  /** Output only. Name of the pretargeting config that must follow the pattern `bidders/{bidder_account_id}/pretargetingConfigs/{config_id}` */
+  name?: string;
+  /** The diplay name associated with this config. This name must be unique among all the pretargeting configs a bidder has. */
+  displayName?: string;
+  /** The sensitive content category label IDs excluded in this config. Bid requests for inventory with any of the specified content label IDs will not be sent. Refer to this file https://storage.googleapis.com/adx-rtb-dictionaries/content-labels.txt for category IDs. */
+  excludedContentLabelIds?: StringList;
   /** The maximum QPS threshold for this config. The bidder should receive no more than this number of bid requests matching this config per second across all their bidding endpoints among all trading locations. Further information available at https://developers.google.com/authorized-buyers/rtb/peer-guide */
   maximumQps?: string;
+  /** The geos included or excluded in this config defined in https://storage.googleapis.com/adx-rtb-dictionaries/geo-table.csv */
+  geoTargeting?: NumericTargetingDimension;
   /** The remarketing lists included or excluded in this config as defined in UserList. */
   userListTargeting?: NumericTargetingDimension;
   /** The languages included in this config, represented by their language code. See https://developers.google.com/adwords/api/docs/appendix/languagecodes. */
   includedLanguages?: StringList;
-  /** Creative formats included by this config. Only bid requests eligible for at least one of the specified creative formats will be sent. An unset value will allow all bid requests to be sent, regardless of format. */
-  includedFormats?: PretargetingConfigIncludedFormatsItemEnumList;
-  /** The verticals included or excluded in this config as defined in https://developers.google.com/authorized-buyers/rtb/downloads/publisher-verticals */
-  verticalTargeting?: NumericTargetingDimension;
   /** Targeting on a subset of site inventory. If WEB is listed in included_environments, the specified targeting is applied. A maximum of 50,000 site URLs can be targeted. An unset value for targeting allows all web-based bid requests to be sent. Sites can either be targeting positively (bid requests will be sent only if the destination site is listed in the targeting dimension) or negatively (bid requests will be sent only if the destination site is not listed in the pretargeting config). */
   webTargeting?: StringTargetingDimension;
-  /** Output only. Existing included or excluded geos that are invalid. Previously targeted geos may become invalid due to privacy restrictions. */
-  invalidGeoIds?: StringList;
-  /** The diplay name associated with this config. This name must be unique among all the pretargeting configs a bidder has. */
-  displayName?: string;
-  /** Output only. Name of the pretargeting config that must follow the pattern `bidders/{bidder_account_id}/pretargetingConfigs/{config_id}` */
-  name?: string;
   /** User identifier types included in this config. At least one of the user identifier types specified in this list must be available for the bid request to be sent. */
   includedUserIdTypes?: PretargetingConfigIncludedUserIdTypesItemEnumList;
-  /** The geos included or excluded in this config defined in https://storage.googleapis.com/adx-rtb-dictionaries/geo-table.csv */
-  geoTargeting?: NumericTargetingDimension;
-  /** The interstitial targeting specified for this config. The unset value will allow bid requests to be sent regardless of whether they are for interstitials or not. */
-  interstitialTargeting?: PretargetingConfigInterstitialTargetingEnum | (string & {});
-  /** Creative dimensions included by this config. Only bid requests eligible for at least one of the specified creative dimensions will be sent. An unset value allows all bid requests to be sent, regardless of creative dimension. */
-  includedCreativeDimensions?: CreativeDimensionsList;
-  /** Output only. The state of this pretargeting config. */
-  state?: PretargetingConfigStateEnum | (string & {});
   /** Environments that are being included. Bid requests will not be sent for a given environment if it is not included. Further restrictions can be applied to included environments to target only a subset of its inventory. An unset value includes all environments. */
   includedEnvironments?: PretargetingConfigIncludedEnvironmentsItemEnumList;
-  /** Output only. The identifier that corresponds to this pretargeting config that helps buyers track and attribute their spend across their own arbitrary divisions. If a bid request matches more than one config, the buyer chooses which billing_id to attribute each of their bids. */
-  billingId?: string;
+  /** The verticals included or excluded in this config as defined in https://developers.google.com/authorized-buyers/rtb/downloads/publisher-verticals */
+  verticalTargeting?: NumericTargetingDimension;
+  /** Creative formats included by this config. Only bid requests eligible for at least one of the specified creative formats will be sent. An unset value will allow all bid requests to be sent, regardless of format. */
+  includedFormats?: PretargetingConfigIncludedFormatsItemEnumList;
+  /** The targeted minimum viewability decile, ranging in values [0, 10]. A value of 5 means that the config will only match adslots for which we predict at least 50% viewability. Values > 10 will be rounded down to 10. An unset value or a value of 0 indicates that bid requests will be sent regardless of viewability. */
+  minimumViewabilityDecile?: number;
+  /** Deprecated: The value of this field no longer has any effect. Targeting modes included by this config. A bid request must allow all the specified targeting modes. An unset value allows all bid requests to be sent, regardless of which targeting modes they allow. */
+  allowedUserTargetingModes?: PretargetingConfigAllowedUserTargetingModesItemEnumList;
+  /** Targeting on a subset of publisher inventory. Publishers can either be targeted positively (bid requests will be sent only if the publisher is listed in the targeting dimension) or negatively (bid requests will be sent only if the publisher is not listed in the targeting dimension). A maximum of 10,000 publisher IDs can be targeted. Publisher IDs are found in [ads.txt](https://iabtechlab.com/ads-txt/) / [app-ads.txt](https://iabtechlab.com/app-ads-txt/) and in bid requests in the `BidRequest.publisher_id` field on the [Google RTB protocol](https://developers.google.com/authorized-buyers/rtb/downloads/realtime-bidding-proto) or the `BidRequest.site.publisher.id` / `BidRequest.app.publisher.id` field on the [OpenRTB protocol](https://developers.google.com/authorized-buyers/rtb/downloads/openrtb-adx-proto). Publisher IDs will be returned in the order that they were entered. */
+  publisherTargeting?: StringTargetingDimension;
+  /** Targeting on a subset of app inventory. If APP is listed in targeted_environments, the specified targeting is applied. A maximum of 30,000 app IDs can be targeted. An unset value for targeting allows all app-based bid requests to be sent. Apps can either be targeting positively (bid requests will be sent only if the destination app is listed in the targeting dimension) or negatively (bid requests will be sent only if the destination app is not listed in the targeting dimension). */
+  appTargeting?: AppTargeting;
+  /** The platforms included by this config. Bid requests for devices with the specified platform types will be sent. An unset value allows all bid requests to be sent, regardless of platform. */
+  includedPlatforms?: PretargetingConfigIncludedPlatformsItemEnumList;
 }
 export const PretargetingConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    publisherTargeting: S.optional(StringTargetingDimension),
-    includedPlatforms: S.optional(PretargetingConfigIncludedPlatformsItemEnumList),
-    allowedUserTargetingModes: S.optional(PretargetingConfigAllowedUserTargetingModesItemEnumList),
-    appTargeting: S.optional(AppTargeting),
-    excludedContentLabelIds: S.optional(StringList),
+    interstitialTargeting: S.optional(PretargetingConfigInterstitialTargetingEnum),
+    invalidGeoIds: S.optional(StringList),
     includedMobileOperatingSystemIds: S.optional(StringList),
-    minimumViewabilityDecile: S.optional(S.Number),
+    state: S.optional(PretargetingConfigStateEnum),
+    billingId: S.optional(S.String),
+    includedCreativeDimensions: S.optional(CreativeDimensionsList),
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
+    excludedContentLabelIds: S.optional(StringList),
     maximumQps: S.optional(S.String),
+    geoTargeting: S.optional(NumericTargetingDimension),
     userListTargeting: S.optional(NumericTargetingDimension),
     includedLanguages: S.optional(StringList),
-    includedFormats: S.optional(PretargetingConfigIncludedFormatsItemEnumList),
-    verticalTargeting: S.optional(NumericTargetingDimension),
     webTargeting: S.optional(StringTargetingDimension),
-    invalidGeoIds: S.optional(StringList),
-    displayName: S.optional(S.String),
-    name: S.optional(S.String),
     includedUserIdTypes: S.optional(PretargetingConfigIncludedUserIdTypesItemEnumList),
-    geoTargeting: S.optional(NumericTargetingDimension),
-    interstitialTargeting: S.optional(PretargetingConfigInterstitialTargetingEnum),
-    includedCreativeDimensions: S.optional(CreativeDimensionsList),
-    state: S.optional(PretargetingConfigStateEnum),
     includedEnvironments: S.optional(PretargetingConfigIncludedEnvironmentsItemEnumList),
-    billingId: S.optional(S.String),
+    verticalTargeting: S.optional(NumericTargetingDimension),
+    includedFormats: S.optional(PretargetingConfigIncludedFormatsItemEnumList),
+    minimumViewabilityDecile: S.optional(S.Number),
+    allowedUserTargetingModes: S.optional(PretargetingConfigAllowedUserTargetingModesItemEnumList),
+    publisherTargeting: S.optional(StringTargetingDimension),
+    appTargeting: S.optional(AppTargeting),
+    includedPlatforms: S.optional(PretargetingConfigIncludedPlatformsItemEnumList),
+  }),
+).annotate({ identifier: "PretargetingConfig" }) as any as S.Schema<PretargetingConfig>;
+
+/** A request to add deals to a creative resource. */
+export interface AddDealsRequest {
+  /** Required. The IDs of the deals to associate with the creative. This can include Programmatic Guaranteed, Private Auction, Preferred Deal, and Marketplace Package deal IDs. You can associate no more than 100 deal IDs per request. */
+  dealIds?: StringList;
+}
+export const AddDealsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dealIds: S.optional(StringList),
+  }),
+).annotate({ identifier: "AddDealsRequest" }) as any as S.Schema<AddDealsRequest>;
+
+export interface AddDealsBuyersCreativesRequest {
+  /** Required. Name of the creative to add the deals to. See creative.name. */
+  name: string;
+  /** Request body */
+  body?: AddDealsRequest;
+}
+export const AddDealsBuyersCreativesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    body: S.optional(AddDealsRequest.pipe(T.HttpBody())),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "v1/{+name}:addDeals",
+      baseUrl: "https://realtimebidding.googleapis.com/",
+    }),
+  ),
+).annotate({
+  identifier: "AddDealsBuyersCreativesRequest",
+}) as any as S.Schema<AddDealsBuyersCreativesRequest>;
+
+/** HTML content for a creative. */
+export interface HtmlContent {
+  /** The HTML snippet that displays the ad when inserted in the web page. */
+  snippet?: string;
+  /** The width of the HTML snippet in pixels. Can be used to filter the response of the creatives.list method. */
+  width?: number;
+  /** The height of the HTML snippet in pixels. Can be used to filter the response of the creatives.list method. */
+  height?: number;
+}
+export const HtmlContent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    snippet: S.optional(S.String),
+    width: S.optional(S.Number),
+    height: S.optional(S.Number),
+  }),
+).annotate({ identifier: "HtmlContent" }) as any as S.Schema<HtmlContent>;
+
+export type CreativeCreativeFormatEnum =
+  | "CREATIVE_FORMAT_UNSPECIFIED"
+  | "HTML"
+  | "VIDEO"
+  | "NATIVE";
+export const CreativeCreativeFormatEnum = S.String;
+
+export type CreativeRestrictedCategoriesItemEnum = "RESTRICTED_CATEGORY_UNSPECIFIED" | "ALCOHOL";
+export const CreativeRestrictedCategoriesItemEnum = S.String;
+
+export type CreativeRestrictedCategoriesItemEnumList = Array<
+  CreativeRestrictedCategoriesItemEnum | (string & {})
+>;
+export const CreativeRestrictedCategoriesItemEnumList = /*@__PURE__*/ S.Array(
+  CreativeRestrictedCategoriesItemEnum,
+) as any as S.Schema<CreativeRestrictedCategoriesItemEnumList>;
+
+export type PolicyComplianceStatusEnum =
+  | "STATUS_UNSPECIFIED"
+  | "PENDING_REVIEW"
+  | "DISAPPROVED"
+  | "APPROVED"
+  | "CERTIFICATE_REQUIRED";
+export const PolicyComplianceStatusEnum = S.String;
+
+/** HTTP calls made by a creative that resulted in policy violations. */
+export interface HttpCallEvidence {
+  /** URLs of HTTP calls made by the creative. */
+  urls?: StringList;
+}
+export const HttpCallEvidence = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    urls: S.optional(StringList),
+  }),
+).annotate({ identifier: "HttpCallEvidence" }) as any as S.Schema<HttpCallEvidence>;
+
+/** The full landing page URL of the destination. */
+export interface DestinationUrlEvidence {
+  /** The full landing page URL of the destination. */
+  destinationUrl?: string;
+}
+export const DestinationUrlEvidence = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    destinationUrl: S.optional(S.String),
+  }),
+).annotate({ identifier: "DestinationUrlEvidence" }) as any as S.Schema<DestinationUrlEvidence>;
+
+export type DestinationNotWorkingEvidenceInvalidPageEnum =
+  | "INVALID_PAGE_UNSPECIFIED"
+  | "EMPTY_OR_ERROR_PAGE";
+export const DestinationNotWorkingEvidenceInvalidPageEnum = S.String;
+
+export type DestinationNotWorkingEvidenceDnsErrorEnum =
+  | "DNS_ERROR_UNSPECIFIED"
+  | "ERROR_DNS"
+  | "GOOGLE_CRAWLER_DNS_ISSUE";
+export const DestinationNotWorkingEvidenceDnsErrorEnum = S.String;
+
+export type DestinationNotWorkingEvidencePlatformEnum =
+  | "PLATFORM_UNSPECIFIED"
+  | "PERSONAL_COMPUTER"
+  | "ANDROID"
+  | "IOS";
+export const DestinationNotWorkingEvidencePlatformEnum = S.String;
+
+export type DestinationNotWorkingEvidenceUrlRejectedEnum =
+  | "URL_REJECTED_UNSPECIFIED"
+  | "BAD_REQUEST"
+  | "MALFORMED_URL"
+  | "URL_REJECTED_UNKNOWN";
+export const DestinationNotWorkingEvidenceUrlRejectedEnum = S.String;
+
+export type DestinationNotWorkingEvidenceRedirectionErrorEnum =
+  | "REDIRECTION_ERROR_UNSPECIFIED"
+  | "TOO_MANY_REDIRECTS"
+  | "INVALID_REDIRECT"
+  | "EMPTY_REDIRECT"
+  | "REDIRECT_ERROR_UNKNOWN";
+export const DestinationNotWorkingEvidenceRedirectionErrorEnum = S.String;
+
+/** Evidence of the creative's destination URL not functioning properly or having been incorrectly set up. */
+export interface DestinationNotWorkingEvidence {
+  /** Page was crawled successfully, but was detected as either a page with no content or an error page. */
+  invalidPage?: DestinationNotWorkingEvidenceInvalidPageEnum | (string & {});
+  /** DNS lookup errors. */
+  dnsError?: DestinationNotWorkingEvidenceDnsErrorEnum | (string & {});
+  /** Approximate time when the ad destination was last checked. */
+  lastCheckTime?: string;
+  /** Platform of the non-working URL. */
+  platform?: DestinationNotWorkingEvidencePlatformEnum | (string & {});
+  /** HTTP error code (for example, 404 or 5xx) */
+  httpError?: number;
+  /** Rejected because of malformed URLs or invalid requests. */
+  urlRejected?: DestinationNotWorkingEvidenceUrlRejectedEnum | (string & {});
+  /** The full non-working URL. */
+  expandedUrl?: string;
+  /** HTTP redirect chain error. */
+  redirectionError?: DestinationNotWorkingEvidenceRedirectionErrorEnum | (string & {});
+}
+export const DestinationNotWorkingEvidence = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    invalidPage: S.optional(DestinationNotWorkingEvidenceInvalidPageEnum),
+    dnsError: S.optional(DestinationNotWorkingEvidenceDnsErrorEnum),
+    lastCheckTime: S.optional(S.String),
+    platform: S.optional(DestinationNotWorkingEvidencePlatformEnum),
+    httpError: S.optional(S.Number),
+    urlRejected: S.optional(DestinationNotWorkingEvidenceUrlRejectedEnum),
+    expandedUrl: S.optional(S.String),
+    redirectionError: S.optional(DestinationNotWorkingEvidenceRedirectionErrorEnum),
   }),
 ).annotate({
-  identifier: "PretargetingConfig",
-}) as any as S.Schema<PretargetingConfig>;
+  identifier: "DestinationNotWorkingEvidence",
+}) as any as S.Schema<DestinationNotWorkingEvidence>;
+
+/** The number of HTTP calls made to the given domain. */
+export interface DomainCalls {
+  /** The domain name. */
+  domain?: string;
+  /** Number of HTTP calls made to the domain. */
+  httpCallCount?: number;
+}
+export const DomainCalls = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.optional(S.String),
+    httpCallCount: S.optional(S.Number),
+  }),
+).annotate({ identifier: "DomainCalls" }) as any as S.Schema<DomainCalls>;
+
+export type DomainCallsList = Array<DomainCalls>;
+export const DomainCallsList = /*@__PURE__*/ S.Array(
+  DomainCalls,
+) as any as S.Schema<DomainCallsList>;
+
+/** Number of HTTP calls made by a creative, broken down by domain. */
+export interface DomainCallEvidence {
+  /** The total number of HTTP calls made by the creative, including but not limited to the number of calls in the top_http_call_domains. */
+  totalHttpCallCount?: number;
+  /** Breakdown of the most frequent domains called through HTTP by the creative. */
+  topHttpCallDomains?: DomainCallsList;
+}
+export const DomainCallEvidence = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    totalHttpCallCount: S.optional(S.Number),
+    topHttpCallDomains: S.optional(DomainCallsList),
+  }),
+).annotate({ identifier: "DomainCallEvidence" }) as any as S.Schema<DomainCallEvidence>;
+
+export type DestinationNotCrawlableEvidenceReasonEnum =
+  | "REASON_UNSPECIFIED"
+  | "UNREACHABLE_ROBOTS"
+  | "TIMEOUT_ROBOTS"
+  | "ROBOTED_DENIED"
+  | "UNKNOWN";
+export const DestinationNotCrawlableEvidenceReasonEnum = S.String;
+
+/** Evidence that the creative's destination URL was not crawlable by Google. */
+export interface DestinationNotCrawlableEvidence {
+  /** Destination URL that was attempted to be crawled. */
+  crawledUrl?: string;
+  /** Approximate time of the crawl. */
+  crawlTime?: string;
+  /** Reason of destination not crawlable. */
+  reason?: DestinationNotCrawlableEvidenceReasonEnum | (string & {});
+}
+export const DestinationNotCrawlableEvidence = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    crawledUrl: S.optional(S.String),
+    crawlTime: S.optional(S.String),
+    reason: S.optional(DestinationNotCrawlableEvidenceReasonEnum),
+  }),
+).annotate({
+  identifier: "DestinationNotCrawlableEvidence",
+}) as any as S.Schema<DestinationNotCrawlableEvidence>;
+
+/** The URL-level breakdown for the download size. */
+export interface UrlDownloadSize {
+  /** The normalized URL with query parameters and fragment removed. */
+  normalizedUrl?: string;
+  /** Download size of the URL in kilobytes. */
+  downloadSizeKb?: number;
+}
+export const UrlDownloadSize = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    normalizedUrl: S.optional(S.String),
+    downloadSizeKb: S.optional(S.Number),
+  }),
+).annotate({ identifier: "UrlDownloadSize" }) as any as S.Schema<UrlDownloadSize>;
+
+export type UrlDownloadSizeList = Array<UrlDownloadSize>;
+export const UrlDownloadSizeList = /*@__PURE__*/ S.Array(
+  UrlDownloadSize,
+) as any as S.Schema<UrlDownloadSizeList>;
+
+/** Total download size and URL-level download size breakdown for resources in a creative. */
+export interface DownloadSizeEvidence {
+  /** Download size broken down by URLs with the top download size. */
+  topUrlDownloadSizeBreakdowns?: UrlDownloadSizeList;
+  /** Total download size (in kilobytes) for all the resources in the creative. */
+  totalDownloadSizeKb?: number;
+}
+export const DownloadSizeEvidence = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    topUrlDownloadSizeBreakdowns: S.optional(UrlDownloadSizeList),
+    totalDownloadSizeKb: S.optional(S.Number),
+  }),
+).annotate({ identifier: "DownloadSizeEvidence" }) as any as S.Schema<DownloadSizeEvidence>;
+
+/** Evidence for HTTP cookie-related policy violations. */
+export interface HttpCookieEvidence {
+  /** The largest number of cookies set by a creative. If this field is set, cookie_names above will be set to the cookie names of top domains with the largest number of cookies. This field will only be set for TOO_MANY_COOKIES policy. */
+  maxCookieCount?: number;
+  /** Names of cookies that violate Google policies. For TOO_MANY_COOKIES policy, this will be the cookie names of top domains with the largest number of cookies. For other policies, this will be all the cookie names that violate the policy. */
+  cookieNames?: StringList;
+}
+export const HttpCookieEvidence = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxCookieCount: S.optional(S.Number),
+    cookieNames: S.optional(StringList),
+  }),
+).annotate({ identifier: "HttpCookieEvidence" }) as any as S.Schema<HttpCookieEvidence>;
+
+/** Evidence associated with a policy topic entry. */
+export interface PolicyTopicEvidence {
+  /** HTTP calls made by the creative that resulted in policy violations. */
+  httpCall?: HttpCallEvidence;
+  /** URL of the actual landing page. */
+  destinationUrl?: DestinationUrlEvidence;
+  /** The creative's destination URL did not function properly or was incorrectly set up. */
+  destinationNotWorking?: DestinationNotWorkingEvidence;
+  /** Number of HTTP calls made by the creative, broken down by domain. */
+  domainCall?: DomainCallEvidence;
+  /** The creative's destination URL was not crawlable by Google. */
+  destinationNotCrawlable?: DestinationNotCrawlableEvidence;
+  /** Total download size and URL-level download size breakdown for resources in a creative. */
+  downloadSize?: DownloadSizeEvidence;
+  /** Evidence for HTTP cookie-related policy violations. */
+  httpCookie?: HttpCookieEvidence;
+}
+export const PolicyTopicEvidence = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    httpCall: S.optional(HttpCallEvidence),
+    destinationUrl: S.optional(DestinationUrlEvidence),
+    destinationNotWorking: S.optional(DestinationNotWorkingEvidence),
+    domainCall: S.optional(DomainCallEvidence),
+    destinationNotCrawlable: S.optional(DestinationNotCrawlableEvidence),
+    downloadSize: S.optional(DownloadSizeEvidence),
+    httpCookie: S.optional(HttpCookieEvidence),
+  }),
+).annotate({ identifier: "PolicyTopicEvidence" }) as any as S.Schema<PolicyTopicEvidence>;
+
+export type PolicyTopicEvidenceList = Array<PolicyTopicEvidence>;
+export const PolicyTopicEvidenceList = /*@__PURE__*/ S.Array(
+  PolicyTopicEvidence,
+) as any as S.Schema<PolicyTopicEvidenceList>;
+
+/** Each policy topic entry will represent a violation of a policy topic for a creative, with the policy topic information and optional evidence for the policy violation. */
+export interface PolicyTopicEntry {
+  /** Whether or not the policy topic is missing a certificate. */
+  missingCertificate?: boolean;
+  /** Policy topic this entry refers to. For example, "ALCOHOL", "TRADEMARKS_IN_AD_TEXT", or "DESTINATION_NOT_WORKING". The set of possible policy topics is not fixed for a particular API version and may change at any time. Can be used to filter the response of the creatives.list method */
+  policyTopic?: string;
+  /** Pieces of evidence associated with this policy topic entry. */
+  evidences?: PolicyTopicEvidenceList;
+  /** URL of the help center article describing this policy topic. */
+  helpCenterUrl?: string;
+}
+export const PolicyTopicEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    missingCertificate: S.optional(S.Boolean),
+    policyTopic: S.optional(S.String),
+    evidences: S.optional(PolicyTopicEvidenceList),
+    helpCenterUrl: S.optional(S.String),
+  }),
+).annotate({ identifier: "PolicyTopicEntry" }) as any as S.Schema<PolicyTopicEntry>;
+
+export type PolicyTopicEntryList = Array<PolicyTopicEntry>;
+export const PolicyTopicEntryList = /*@__PURE__*/ S.Array(
+  PolicyTopicEntry,
+) as any as S.Schema<PolicyTopicEntryList>;
+
+/** Policy compliance of the creative for a transaction type or a region. */
+export interface PolicyCompliance {
+  /** Serving status for the given transaction type (for example, open auction, deals) or region (for example, China, Russia). Can be used to filter the response of the creatives.list method. */
+  status?: PolicyComplianceStatusEnum | (string & {});
+  /** Topics related to the policy compliance for this transaction type (for example, open auction, deals) or region (for example, China, Russia). Topics may be present only if status is DISAPPROVED. */
+  topics?: PolicyTopicEntryList;
+}
+export const PolicyCompliance = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(PolicyComplianceStatusEnum),
+    topics: S.optional(PolicyTopicEntryList),
+  }),
+).annotate({ identifier: "PolicyCompliance" }) as any as S.Schema<PolicyCompliance>;
+
+export type IntegerList = Array<number>;
+export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
+
+/** Detected advertiser and brand information. */
+export interface AdvertiserAndBrand {
+  /** See https://storage.googleapis.com/adx-rtb-dictionaries/advertisers.txt for the list of possible values. Can be used to filter the response of the creatives.list method. */
+  advertiserId?: string;
+  /** Detected brand ID or zero if no brand has been detected. See https://storage.googleapis.com/adx-rtb-dictionaries/brands.txt for the list of possible values. Can be used to filter the response of the creatives.list method. */
+  brandId?: string;
+  /** Brand name. Can be used to filter the response of the creatives.list method. */
+  brandName?: string;
+  /** Advertiser name. Can be used to filter the response of the creatives.list method. */
+  advertiserName?: string;
+}
+export const AdvertiserAndBrand = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    advertiserId: S.optional(S.String),
+    brandId: S.optional(S.String),
+    brandName: S.optional(S.String),
+    advertiserName: S.optional(S.String),
+  }),
+).annotate({ identifier: "AdvertiserAndBrand" }) as any as S.Schema<AdvertiserAndBrand>;
+
+export type AdvertiserAndBrandList = Array<AdvertiserAndBrand>;
+export const AdvertiserAndBrandList = /*@__PURE__*/ S.Array(
+  AdvertiserAndBrand,
+) as any as S.Schema<AdvertiserAndBrandList>;
+
+export type CreativeServingDecisionDetectedCategoriesTaxonomyEnum =
+  | "AD_CATEGORY_TAXONOMY_UNSPECIFIED"
+  | "GOOGLE_AD_CATEGORY_TAXONOMY"
+  | "IAB_CONTENT_1_0";
+export const CreativeServingDecisionDetectedCategoriesTaxonomyEnum = S.String;
+
+export type CreativeServingDecisionDetectedAttributesItemEnum =
+  | "ATTRIBUTE_UNSPECIFIED"
+  | "IMAGE_RICH_MEDIA"
+  | "ADOBE_FLASH_FLV"
+  | "IS_TAGGED"
+  | "IS_COOKIE_TARGETED"
+  | "IS_USER_INTEREST_TARGETED"
+  | "EXPANDING_DIRECTION_NONE"
+  | "EXPANDING_DIRECTION_UP"
+  | "EXPANDING_DIRECTION_DOWN"
+  | "EXPANDING_DIRECTION_LEFT"
+  | "EXPANDING_DIRECTION_RIGHT"
+  | "EXPANDING_DIRECTION_UP_LEFT"
+  | "EXPANDING_DIRECTION_UP_RIGHT"
+  | "EXPANDING_DIRECTION_DOWN_LEFT"
+  | "EXPANDING_DIRECTION_DOWN_RIGHT"
+  | "CREATIVE_TYPE_HTML"
+  | "CREATIVE_TYPE_VAST_VIDEO"
+  | "EXPANDING_DIRECTION_UP_OR_DOWN"
+  | "EXPANDING_DIRECTION_LEFT_OR_RIGHT"
+  | "EXPANDING_DIRECTION_ANY_DIAGONAL"
+  | "EXPANDING_ACTION_ROLLOVER_TO_EXPAND"
+  | "INSTREAM_VAST_VIDEO_TYPE_VPAID_FLASH"
+  | "RICH_MEDIA_CAPABILITY_TYPE_MRAID"
+  | "RICH_MEDIA_CAPABILITY_TYPE_FLASH"
+  | "RICH_MEDIA_CAPABILITY_TYPE_HTML5"
+  | "SKIPPABLE_INSTREAM_VIDEO"
+  | "RICH_MEDIA_CAPABILITY_TYPE_SSL"
+  | "RICH_MEDIA_CAPABILITY_TYPE_NON_SSL"
+  | "RICH_MEDIA_CAPABILITY_TYPE_INTERSTITIAL"
+  | "NON_SKIPPABLE_INSTREAM_VIDEO"
+  | "NATIVE_ELIGIBILITY_ELIGIBLE"
+  | "NON_VPAID"
+  | "NATIVE_ELIGIBILITY_NOT_ELIGIBLE"
+  | "ANY_INTERSTITIAL"
+  | "NON_INTERSTITIAL"
+  | "IN_BANNER_VIDEO"
+  | "RENDERING_SIZELESS_ADX"
+  | "OMSDK_1_0"
+  | "RENDERING_PLAYABLE";
+export const CreativeServingDecisionDetectedAttributesItemEnum = S.String;
+
+export type CreativeServingDecisionDetectedAttributesItemEnumList = Array<
+  CreativeServingDecisionDetectedAttributesItemEnum | (string & {})
+>;
+export const CreativeServingDecisionDetectedAttributesItemEnumList = /*@__PURE__*/ S.Array(
+  CreativeServingDecisionDetectedAttributesItemEnum,
+) as any as S.Schema<CreativeServingDecisionDetectedAttributesItemEnumList>;
+
+/** The list of detected Ad Technology Providers for this creative. Bids placed for inventory that will serve to EEA or UK users are expected to comply with GDPR requirements. You must ensure that the creatives used in such bids should contain only user consented ad technology providers as indicated in the bid request. Google reserves the right to filter non-compliant bids. User consented ad technology providers can be found in the [Google Protocol](https://developers.google.com/authorized-buyers/rtb/downloads/realtime-bidding-proto) with the `BidRequest.adslot.consented_providers_settings` field, and can be found as an [OpenRTB extension](https://developers.google.com/authorized-buyers/rtb/downloads/openrtb-adx-proto) with the `BidRequest.user.ext.consented_providers_settings` and `BidRequest.user.ext.consent` fields. See https://support.google.com/authorizedbuyers/answer/9789378 for additional information about the Google TCF v2 integration. */
+export interface AdTechnologyProviders {
+  /** The detected [Google Ad Tech Providers (ATP)](https://support.google.com/admanager/answer/9012903) for this creative. See https://storage.googleapis.com/adx-rtb-dictionaries/providers.csv for mapping of provider ID to provided name, a privacy policy URL, and a list of domains which can be attributed to the provider. */
+  detectedProviderIds?: StringList;
+  /** Domains of detected unidentified ad technology providers (if any). You must ensure that the creatives used in bids placed for inventory that will serve to EEA or UK users does not contain unidentified ad technology providers. Google reserves the right to filter non-compliant bids. */
+  unidentifiedProviderDomains?: StringList;
+  /** The detected IAB Global Vendor List (GVL) IDs for this creative. See the IAB Global Vendor List at https://vendor-list.consensu.org/v2/vendor-list.json for details about the vendors. */
+  detectedGvlIds?: StringList;
+}
+export const AdTechnologyProviders = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    detectedProviderIds: S.optional(StringList),
+    unidentifiedProviderDomains: S.optional(StringList),
+    detectedGvlIds: S.optional(StringList),
+  }),
+).annotate({ identifier: "AdTechnologyProviders" }) as any as S.Schema<AdTechnologyProviders>;
+
+/** Top level status and detected attributes of a creative. */
+export interface CreativeServingDecision {
+  /** Output only. IDs of the detected categories. The taxonomy in which the categories are expressed is specified by the detected_categories_taxonomy field. Use this in conjunction with BidRequest.bcat to avoid bidding on impressions where a given ad category is blocked, or to troubleshoot filtered bids. Can be used to filter the response of the creatives.list method. */
+  detectedCategories?: StringList;
+  /** Policy compliance of this creative when bidding on Programmatic Guaranteed and Preferred Deals (outside of Russia and China). */
+  dealsPolicyCompliance?: PolicyCompliance;
+  /** Detected sensitive categories, if any. Can be used to filter the response of the creatives.list method. See the ad-sensitive-categories.txt file in the technical documentation for a list of IDs. You should use these IDs along with the excluded-sensitive-category field in the bid request to filter your bids. */
+  detectedSensitiveCategories?: IntegerList;
+  /** Policy compliance of this creative when bidding in Open Bidding (outside of Russia and China). For the list of platform policies, see: https://support.google.com/platformspolicy/answer/3013851. */
+  platformPolicyCompliance?: PolicyCompliance;
+  /** Detected advertisers and brands. */
+  detectedAdvertisers?: AdvertiserAndBrandList;
+  /** The policy compliance of this creative in Russia. When approved or disapproved, this applies to both deals and open auction in Russia. When pending review, this creative is allowed to serve for deals but not for open auction. */
+  russiaPolicyCompliance?: PolicyCompliance;
+  /** Output only. The taxonomy in which the detected_categories field is expressed. */
+  detectedCategoriesTaxonomy?:
+    | CreativeServingDecisionDetectedCategoriesTaxonomyEnum
+    | (string & {});
+  /** The last time the creative status was updated. Can be used to filter the response of the creatives.list method. */
+  lastStatusUpdate?: string;
+  /** Detected product categories, if any. See the ad-product-categories.txt file in the technical documentation for a list of IDs. Can be used to filter the response of the creatives.list method. */
+  detectedProductCategories?: IntegerList;
+  /** Publisher-excludable attributes that were detected for this creative. Can be used to filter the response of the creatives.list method. If the `excluded_attribute` field of a [bid request](https://developers.google.com/authorized-buyers/rtb/downloads/realtime-bidding-proto) contains one of the attributes that were declared or detected for a given creative, and a bid is submitted with that creative, the bid will be filtered before the auction. */
+  detectedAttributes?: CreativeServingDecisionDetectedAttributesItemEnumList;
+  /** The policy compliance of this creative in China. When approved or disapproved, this applies to both deals and open auction in China. When pending review, this creative is allowed to serve for deals but not for open auction. */
+  chinaPolicyCompliance?: PolicyCompliance;
+  /** IDs of the ad technology vendors that were detected to be used by this creative. See https://storage.googleapis.com/adx-rtb-dictionaries/vendors.txt for possible values. Can be used to filter the response of the creatives.list method. If the `allowed_vendor_type` field of a [bid request](https://developers.google.com/authorized-buyers/rtb/downloads/realtime-bidding-proto) does not contain one of the vendor type IDs that were declared or detected for a given creative, and a bid is submitted with that creative, the bid will be filtered before the auction. */
+  detectedVendorIds?: IntegerList;
+  /** The detected ad technology providers. */
+  adTechnologyProviders?: AdTechnologyProviders;
+  /** The detected domains for this creative. */
+  detectedDomains?: StringList;
+  /** Policy compliance of this creative when bidding in open auction, private auction, or auction packages (outside of Russia and China). */
+  networkPolicyCompliance?: PolicyCompliance;
+  /** The set of detected destination URLs for the creative. Can be used to filter the response of the creatives.list method. */
+  detectedClickThroughUrls?: StringList;
+  /** The detected languages for this creative. The order is arbitrary. The codes are 2 or 5 characters and are documented at https://developers.google.com/adwords/api/docs/appendix/languagecodes. Can be used to filter the response of the creatives.list method. */
+  detectedLanguages?: StringList;
+}
+export const CreativeServingDecision = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    detectedCategories: S.optional(StringList),
+    dealsPolicyCompliance: S.optional(PolicyCompliance),
+    detectedSensitiveCategories: S.optional(IntegerList),
+    platformPolicyCompliance: S.optional(PolicyCompliance),
+    detectedAdvertisers: S.optional(AdvertiserAndBrandList),
+    russiaPolicyCompliance: S.optional(PolicyCompliance),
+    detectedCategoriesTaxonomy: S.optional(CreativeServingDecisionDetectedCategoriesTaxonomyEnum),
+    lastStatusUpdate: S.optional(S.String),
+    detectedProductCategories: S.optional(IntegerList),
+    detectedAttributes: S.optional(CreativeServingDecisionDetectedAttributesItemEnumList),
+    chinaPolicyCompliance: S.optional(PolicyCompliance),
+    detectedVendorIds: S.optional(IntegerList),
+    adTechnologyProviders: S.optional(AdTechnologyProviders),
+    detectedDomains: S.optional(StringList),
+    networkPolicyCompliance: S.optional(PolicyCompliance),
+    detectedClickThroughUrls: S.optional(StringList),
+    detectedLanguages: S.optional(StringList),
+  }),
+).annotate({ identifier: "CreativeServingDecision" }) as any as S.Schema<CreativeServingDecision>;
+
+export type CreativeDeclaredAttributesItemEnum =
+  | "ATTRIBUTE_UNSPECIFIED"
+  | "IMAGE_RICH_MEDIA"
+  | "ADOBE_FLASH_FLV"
+  | "IS_TAGGED"
+  | "IS_COOKIE_TARGETED"
+  | "IS_USER_INTEREST_TARGETED"
+  | "EXPANDING_DIRECTION_NONE"
+  | "EXPANDING_DIRECTION_UP"
+  | "EXPANDING_DIRECTION_DOWN"
+  | "EXPANDING_DIRECTION_LEFT"
+  | "EXPANDING_DIRECTION_RIGHT"
+  | "EXPANDING_DIRECTION_UP_LEFT"
+  | "EXPANDING_DIRECTION_UP_RIGHT"
+  | "EXPANDING_DIRECTION_DOWN_LEFT"
+  | "EXPANDING_DIRECTION_DOWN_RIGHT"
+  | "CREATIVE_TYPE_HTML"
+  | "CREATIVE_TYPE_VAST_VIDEO"
+  | "EXPANDING_DIRECTION_UP_OR_DOWN"
+  | "EXPANDING_DIRECTION_LEFT_OR_RIGHT"
+  | "EXPANDING_DIRECTION_ANY_DIAGONAL"
+  | "EXPANDING_ACTION_ROLLOVER_TO_EXPAND"
+  | "INSTREAM_VAST_VIDEO_TYPE_VPAID_FLASH"
+  | "RICH_MEDIA_CAPABILITY_TYPE_MRAID"
+  | "RICH_MEDIA_CAPABILITY_TYPE_FLASH"
+  | "RICH_MEDIA_CAPABILITY_TYPE_HTML5"
+  | "SKIPPABLE_INSTREAM_VIDEO"
+  | "RICH_MEDIA_CAPABILITY_TYPE_SSL"
+  | "RICH_MEDIA_CAPABILITY_TYPE_NON_SSL"
+  | "RICH_MEDIA_CAPABILITY_TYPE_INTERSTITIAL"
+  | "NON_SKIPPABLE_INSTREAM_VIDEO"
+  | "NATIVE_ELIGIBILITY_ELIGIBLE"
+  | "NON_VPAID"
+  | "NATIVE_ELIGIBILITY_NOT_ELIGIBLE"
+  | "ANY_INTERSTITIAL"
+  | "NON_INTERSTITIAL"
+  | "IN_BANNER_VIDEO"
+  | "RENDERING_SIZELESS_ADX"
+  | "OMSDK_1_0"
+  | "RENDERING_PLAYABLE";
+export const CreativeDeclaredAttributesItemEnum = S.String;
+
+export type CreativeDeclaredAttributesItemEnumList = Array<
+  CreativeDeclaredAttributesItemEnum | (string & {})
+>;
+export const CreativeDeclaredAttributesItemEnumList = /*@__PURE__*/ S.Array(
+  CreativeDeclaredAttributesItemEnum,
+) as any as S.Schema<CreativeDeclaredAttributesItemEnumList>;
+
+export type VideoMetadataVastVersionEnum =
+  | "VAST_VERSION_UNSPECIFIED"
+  | "VAST_VERSION_1_0"
+  | "VAST_VERSION_2_0"
+  | "VAST_VERSION_3_0"
+  | "VAST_VERSION_4_0";
+export const VideoMetadataVastVersionEnum = S.String;
+
+export type MediaFileMimeTypeEnum =
+  | "VIDEO_MIME_TYPE_UNSPECIFIED"
+  | "MIME_VIDEO_XFLV"
+  | "MIME_VIDEO_WEBM"
+  | "MIME_VIDEO_MP4"
+  | "MIME_VIDEO_OGG"
+  | "MIME_VIDEO_YT_HOSTED"
+  | "MIME_VIDEO_X_MS_WMV"
+  | "MIME_VIDEO_3GPP"
+  | "MIME_VIDEO_MOV"
+  | "MIME_APPLICATION_SWF"
+  | "MIME_APPLICATION_SURVEY"
+  | "MIME_APPLICATION_JAVASCRIPT"
+  | "MIME_APPLICATION_SILVERLIGHT"
+  | "MIME_APPLICATION_MPEGURL"
+  | "MIME_APPLICATION_MPEGDASH"
+  | "MIME_AUDIO_MP4A"
+  | "MIME_AUDIO_MP3"
+  | "MIME_AUDIO_OGG";
+export const MediaFileMimeTypeEnum = S.String;
+
+/** Information about each media file in the VAST. */
+export interface MediaFile {
+  /** The MIME type of this media file. Can be used to filter the response of the creatives.list method. */
+  mimeType?: MediaFileMimeTypeEnum | (string & {});
+  /** Bitrate of the video file, in Kbps. Can be used to filter the response of the creatives.list method. */
+  bitrate?: string;
+}
+export const MediaFile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mimeType: S.optional(MediaFileMimeTypeEnum),
+    bitrate: S.optional(S.String),
+  }),
+).annotate({ identifier: "MediaFile" }) as any as S.Schema<MediaFile>;
+
+export type MediaFileList = Array<MediaFile>;
+export const MediaFileList = /*@__PURE__*/ S.Array(MediaFile) as any as S.Schema<MediaFileList>;
+
+/** Video metadata for a creative. */
+export interface VideoMetadata {
+  /** The maximum VAST version across all wrapped VAST documents. Can be used to filter the response of the creatives.list method. */
+  vastVersion?: VideoMetadataVastVersionEnum | (string & {});
+  /** The list of all media files declared in the VAST. If there are multiple VASTs in a wrapper chain, this includes the media files from the deepest one in the chain. */
+  mediaFiles?: MediaFileList;
+  /** Is this a VPAID ad? Can be used to filter the response of the creatives.list method. */
+  isVpaid?: boolean;
+  /** The duration of the ad. Can be used to filter the response of the creatives.list method. */
+  duration?: string;
+  /** Is this a valid VAST ad? Can be used to filter the response of the creatives.list method. */
+  isValidVast?: boolean;
+  /** The minimum duration that the user has to watch before being able to skip this ad. If the field is not set, the ad is not skippable. If the field is set, the ad is skippable. Can be used to filter the response of the creatives.list method. */
+  skipOffset?: string;
+}
+export const VideoMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vastVersion: S.optional(VideoMetadataVastVersionEnum),
+    mediaFiles: S.optional(MediaFileList),
+    isVpaid: S.optional(S.Boolean),
+    duration: S.optional(S.String),
+    isValidVast: S.optional(S.Boolean),
+    skipOffset: S.optional(S.String),
+  }),
+).annotate({ identifier: "VideoMetadata" }) as any as S.Schema<VideoMetadata>;
+
+/** Video content for a creative. */
+export interface VideoContent {
+  /** The contents of a VAST document for a video ad. This document should conform to the VAST 2.0, 3.0, or 4.x standard. */
+  videoVastXml?: string;
+  /** The URL to fetch a video ad. The URL should return an XML response that conforms to the VAST 2.0, 3.0 or 4.x standard. */
+  videoUrl?: string;
+  /** Output only. Video metadata. */
+  videoMetadata?: VideoMetadata;
+}
+export const VideoContent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    videoVastXml: S.optional(S.String),
+    videoUrl: S.optional(S.String),
+    videoMetadata: S.optional(VideoMetadata),
+  }),
+).annotate({ identifier: "VideoContent" }) as any as S.Schema<VideoContent>;
+
+export type CreativeDeclaredRestrictedCategoriesItemEnum =
+  | "RESTRICTED_CATEGORY_UNSPECIFIED"
+  | "ALCOHOL";
+export const CreativeDeclaredRestrictedCategoriesItemEnum = S.String;
+
+export type CreativeDeclaredRestrictedCategoriesItemEnumList = Array<
+  CreativeDeclaredRestrictedCategoriesItemEnum | (string & {})
+>;
+export const CreativeDeclaredRestrictedCategoriesItemEnumList = /*@__PURE__*/ S.Array(
+  CreativeDeclaredRestrictedCategoriesItemEnum,
+) as any as S.Schema<CreativeDeclaredRestrictedCategoriesItemEnumList>;
+
+/** An image resource. You may provide a larger image than was requested, so long as the aspect ratio is preserved. */
+export interface Image {
+  /** Image height in pixels. */
+  height?: number;
+  /** Image width in pixels. */
+  width?: number;
+  /** The URL of the image. */
+  url?: string;
+}
+export const Image = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    height: S.optional(S.Number),
+    width: S.optional(S.Number),
+    url: S.optional(S.String),
+  }),
+).annotate({ identifier: "Image" }) as any as S.Schema<Image>;
+
+/** Native content for a creative. */
+export interface NativeContent {
+  /** A label for the button that the user is supposed to click. */
+  callToAction?: string;
+  /** The URL to fetch a native video ad. */
+  videoUrl?: string;
+  /** The URL that the browser/SDK will load when the user clicks the ad. */
+  clickLinkUrl?: string;
+  /** A short title for the ad. */
+  headline?: string;
+  /** A long description of the ad. */
+  body?: string;
+  /** A smaller image, for the advertiser's logo. */
+  logo?: Image;
+  /** A large image. */
+  image?: Image;
+  /** The price of the promoted app including currency info. */
+  priceDisplayText?: string;
+  /** The contents of a VAST document for a native video ad. */
+  videoVastXml?: string;
+  /** The app icon, for app download ads. */
+  appIcon?: Image;
+  /** The name of the advertiser or sponsor, to be displayed in the ad creative. */
+  advertiserName?: string;
+  /** The URL to use for click tracking. */
+  clickTrackingUrl?: string;
+  /** The app rating in the app store. Must be in the range [0-5]. */
+  starRating?: number;
+}
+export const NativeContent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    callToAction: S.optional(S.String),
+    videoUrl: S.optional(S.String),
+    clickLinkUrl: S.optional(S.String),
+    headline: S.optional(S.String),
+    body: S.optional(S.String),
+    logo: S.optional(Image),
+    image: S.optional(Image),
+    priceDisplayText: S.optional(S.String),
+    videoVastXml: S.optional(S.String),
+    appIcon: S.optional(Image),
+    advertiserName: S.optional(S.String),
+    clickTrackingUrl: S.optional(S.String),
+    starRating: S.optional(S.Number),
+  }),
+).annotate({ identifier: "NativeContent" }) as any as S.Schema<NativeContent>;
+
+/** A creative and its classification data. */
+export interface Creative {
+  /** An HTML creative. */
+  html?: HtmlContent;
+  /** The agency ID for this creative. */
+  agencyId?: string;
+  /** Output only. The last update timestamp of the creative through the API. */
+  apiUpdateTime?: string;
+  /** Output only. ID of the buyer account that this creative is owned by. Can be used to filter the response of the creatives.list method with equality and inequality check. */
+  accountId?: string;
+  /** The set of URLs to be called to record an impression. */
+  impressionTrackingUrls?: StringList;
+  /** Output only. The format of this creative. Can be used to filter the response of the creatives.list method. */
+  creativeFormat?: CreativeCreativeFormatEnum | (string & {});
+  /** Deprecated: FLEDGE is no longer supported. See: https://privacysandbox.google.com/blog/update-on-plans-for-privacy-sandbox-technologies Experimental field that can be used during the [FLEDGE Origin Trial](/authorized-buyers/rtb/fledge-origin-trial). The URL to fetch an interest group ad used in [TURTLEDOVE on-device auction](https://github.com/WICG/turtledove/blob/main/FLEDGE.md#1-browsers-record-interest-groups"). This should be unique among all creatives for a given `accountId`. This URL should be the same as the URL returned by [generateBid()](https://github.com/WICG/turtledove/blob/main/FLEDGE.md#32-on-device-bidding). */
+  renderUrl?: string;
+  /** All restricted categories for the ads that may be shown from this creative. */
+  restrictedCategories?: CreativeRestrictedCategoriesItemEnumList;
+  /** Output only. Top level status and detected attributes of a creative (for example domain, language, advertiser, product category, etc.) that affect whether (status) and where (context) a creative will be allowed to serve. */
+  creativeServingDecision?: CreativeServingDecision;
+  /** The name of the company being advertised in the creative. Can be used to filter the response of the creatives.list method. */
+  advertiserName?: string;
+  /** Buyer-specific creative ID that references this creative in bid responses. This field is Ignored in update operations. Can be used to filter the response of the creatives.list method. The maximum length of the creative ID is 128 bytes. */
+  creativeId?: string;
+  /** All declared attributes for the ads that may be shown from this creative. Can be used to filter the response of the creatives.list method. If the `excluded_attribute` field of a [bid request](https://developers.google.com/authorized-buyers/rtb/downloads/realtime-bidding-proto") contains one of the attributes that were declared or detected for a given creative, and a bid is submitted with that creative, the bid will be filtered before the auction. */
+  declaredAttributes?: CreativeDeclaredAttributesItemEnumList;
+  /** A video creative. */
+  video?: VideoContent;
+  /** All declared restricted categories for the ads that may be shown from this creative. Can be used to filter the response of the creatives.list method. */
+  declaredRestrictedCategories?: CreativeDeclaredRestrictedCategoriesItemEnumList;
+  /** Output only. IDs of all of the deals with which this creative has been used in bidding. Can be used to filter the response of the creatives.list method. */
+  dealIds?: StringList;
+  /** The link to AdChoices destination page. This is only supported for native ads. */
+  adChoicesDestinationUrl?: string;
+  /** IDs for the declared ad technology vendors that may be used by this creative. See https://storage.googleapis.com/adx-rtb-dictionaries/vendors.txt for possible values. Can be used to filter the response of the creatives.list method. */
+  declaredVendorIds?: IntegerList;
+  /** Output only. Name of the creative. Follows the pattern `buyers/{buyer}/creatives/{creative}`, where `{buyer}` represents the account ID of the buyer who owns the creative, and `{creative}` is the buyer-specific creative ID that references this creative in the bid response. */
+  name?: string;
+  /** A native creative. */
+  native?: NativeContent;
+  /** Output only. The version of the creative. Version for a new creative is 1 and it increments during subsequent creative updates. */
+  version?: number;
+  /** The set of declared destination URLs for the creative. Can be used to filter the response of the creatives.list method. */
+  declaredClickThroughUrls?: StringList;
+}
+export const Creative = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    html: S.optional(HtmlContent),
+    agencyId: S.optional(S.String),
+    apiUpdateTime: S.optional(S.String),
+    accountId: S.optional(S.String),
+    impressionTrackingUrls: S.optional(StringList),
+    creativeFormat: S.optional(CreativeCreativeFormatEnum),
+    renderUrl: S.optional(S.String),
+    restrictedCategories: S.optional(CreativeRestrictedCategoriesItemEnumList),
+    creativeServingDecision: S.optional(CreativeServingDecision),
+    advertiserName: S.optional(S.String),
+    creativeId: S.optional(S.String),
+    declaredAttributes: S.optional(CreativeDeclaredAttributesItemEnumList),
+    video: S.optional(VideoContent),
+    declaredRestrictedCategories: S.optional(CreativeDeclaredRestrictedCategoriesItemEnumList),
+    dealIds: S.optional(StringList),
+    adChoicesDestinationUrl: S.optional(S.String),
+    declaredVendorIds: S.optional(IntegerList),
+    name: S.optional(S.String),
+    native: S.optional(NativeContent),
+    version: S.optional(S.Number),
+    declaredClickThroughUrls: S.optional(StringList),
+  }),
+).annotate({ identifier: "Creative" }) as any as S.Schema<Creative>;
 
 export type AddTargetedAppsRequestTargetingModeEnum =
   | "TARGETING_MODE_UNSPECIFIED"
@@ -362,9 +1140,7 @@ export const AddTargetedAppsRequest = /*@__PURE__*/ S.suspend(() =>
     targetingMode: S.optional(AddTargetedAppsRequestTargetingModeEnum),
     appIds: S.optional(StringList),
   }),
-).annotate({
-  identifier: "AddTargetedAppsRequest",
-}) as any as S.Schema<AddTargetedAppsRequest>;
+).annotate({ identifier: "AddTargetedAppsRequest" }) as any as S.Schema<AddTargetedAppsRequest>;
 
 export interface AddTargetedAppsBiddersPretargetingConfigsRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
@@ -395,15 +1171,15 @@ export const AddTargetedPublishersRequestTargetingModeEnum = S.String;
 
 /** A request to start targeting the provided publishers in a specific pretargeting configuration. The pretargeting configuration itself specifies how these publishers are targeted in PretargetingConfig.publisherTargeting. */
 export interface AddTargetedPublishersRequest {
-  /** A list of publisher IDs to target in the pretargeting configuration. These values will be added to the list of targeted publisher IDs in PretargetingConfig.publisherTargeting.values. Publishers are identified by their publisher ID from ads.txt / app-ads.txt. See https://iabtechlab.com/ads-txt/ and https://iabtechlab.com/app-ads-txt/ for more details. */
-  publisherIds?: StringList;
   /** Required. The targeting mode that should be applied to the list of publisher IDs. If are existing publisher IDs, must be equal to the existing PretargetingConfig.publisherTargeting.targetingMode or a 400 bad request error will be returned. */
   targetingMode?: AddTargetedPublishersRequestTargetingModeEnum | (string & {});
+  /** A list of publisher IDs to target in the pretargeting configuration. These values will be added to the list of targeted publisher IDs in PretargetingConfig.publisherTargeting.values. Publishers are identified by their publisher ID from ads.txt / app-ads.txt. See https://iabtechlab.com/ads-txt/ and https://iabtechlab.com/app-ads-txt/ for more details. */
+  publisherIds?: StringList;
 }
 export const AddTargetedPublishersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    publisherIds: S.optional(StringList),
     targetingMode: S.optional(AddTargetedPublishersRequestTargetingModeEnum),
+    publisherIds: S.optional(StringList),
   }),
 ).annotate({
   identifier: "AddTargetedPublishersRequest",
@@ -448,9 +1224,7 @@ export const AddTargetedSitesRequest = /*@__PURE__*/ S.suspend(() =>
     sites: S.optional(StringList),
     targetingMode: S.optional(AddTargetedSitesRequestTargetingModeEnum),
   }),
-).annotate({
-  identifier: "AddTargetedSitesRequest",
-}) as any as S.Schema<AddTargetedSitesRequest>;
+).annotate({ identifier: "AddTargetedSitesRequest" }) as any as S.Schema<AddTargetedSitesRequest>;
 
 export interface AddTargetedSitesBiddersPretargetingConfigsRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
@@ -522,28 +1296,26 @@ export const PublisherConnectionPublisherPlatformEnum = S.String;
 
 /** An Open Bidding exchange's connection to a publisher. This is initiated by the publisher for the bidder to review. If approved by the bidder, this means that the bidder agrees to receive bid requests from the publisher. */
 export interface PublisherConnection {
-  /** Output only. The time at which the publisher initiated a connection with the bidder (irrespective of if or when the bidder approves it). This is subsequently updated if the publisher revokes and re-initiates the connection. */
-  createTime?: string;
-  /** Output only. Publisher display name. */
-  displayName?: string;
   /** Whether the publisher has been approved by the bidder. */
   biddingState?: PublisherConnectionBiddingStateEnum;
-  /** Output only. Whether the publisher is an Ad Manager or AdMob publisher. */
-  publisherPlatform?: PublisherConnectionPublisherPlatformEnum;
+  /** Output only. Publisher display name. */
+  displayName?: string;
   /** Output only. Name of the publisher connection. This follows the pattern `bidders/{bidder}/publisherConnections/{publisher}`, where `{bidder}` represents the account ID of the bidder, and `{publisher}` is the ads.txt/app-ads.txt publisher ID. */
   name?: string;
+  /** Output only. The time at which the publisher initiated a connection with the bidder (irrespective of if or when the bidder approves it). This is subsequently updated if the publisher revokes and re-initiates the connection. */
+  createTime?: string;
+  /** Output only. Whether the publisher is an Ad Manager or AdMob publisher. */
+  publisherPlatform?: PublisherConnectionPublisherPlatformEnum;
 }
 export const PublisherConnection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    displayName: S.optional(S.String),
     biddingState: S.optional(PublisherConnectionBiddingStateEnum),
-    publisherPlatform: S.optional(PublisherConnectionPublisherPlatformEnum),
+    displayName: S.optional(S.String),
     name: S.optional(S.String),
+    createTime: S.optional(S.String),
+    publisherPlatform: S.optional(PublisherConnectionPublisherPlatformEnum),
   }),
-).annotate({
-  identifier: "PublisherConnection",
-}) as any as S.Schema<PublisherConnection>;
+).annotate({ identifier: "PublisherConnection" }) as any as S.Schema<PublisherConnection>;
 
 export type PublisherConnectionList = Array<PublisherConnection>;
 export const PublisherConnectionList = /*@__PURE__*/ S.Array(
@@ -635,24 +1407,8 @@ export const CloseBuyersUserListsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CloseBuyersUserListsRequest",
 }) as any as S.Schema<CloseBuyersUserListsRequest>;
 
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Realtimebidding_Date {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
-}
-export const Realtimebidding_Date = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    year: S.optional(S.Number),
-    day: S.optional(S.Number),
-    month: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "Realtimebidding_Date",
-}) as any as S.Schema<Realtimebidding_Date>;
+export type UserListStatusEnum = "STATUS_UNSPECIFIED" | "OPEN" | "CLOSED";
+export const UserListStatusEnum = S.String;
 
 export type UrlRestrictionRestrictionTypeEnum =
   | "RESTRICTION_TYPE_UNSPECIFIED"
@@ -666,52 +1422,66 @@ export type UrlRestrictionRestrictionTypeEnum =
   | "DOES_NOT_END_WITH";
 export const UrlRestrictionRestrictionTypeEnum = S.String;
 
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Realtimebidding_Date {
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
+}
+export const Realtimebidding_Date = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    month: S.optional(S.Number),
+    day: S.optional(S.Number),
+    year: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Realtimebidding_Date" }) as any as S.Schema<Realtimebidding_Date>;
+
 /** Deprecated. This will be removed in October 2023. For more information, see the release notes: https://developers.google.com/authorized-buyers/apis/relnotes#real-time-bidding-api Represents the URL restriction (for the URL captured by the pixel callback) for a user list. */
 export interface UrlRestriction {
-  /** Start date (if specified) of the URL restriction. */
-  startDate?: Realtimebidding_Date;
-  /** Required. The URL to use for applying the restriction on the user list. */
-  url?: string;
   /** The restriction type for the specified URL. */
   restrictionType?: UrlRestrictionRestrictionTypeEnum | (string & {});
   /** End date (if specified) of the URL restriction. End date should be later than the start date for the date range to be valid. */
   endDate?: Realtimebidding_Date;
+  /** Start date (if specified) of the URL restriction. */
+  startDate?: Realtimebidding_Date;
+  /** Required. The URL to use for applying the restriction on the user list. */
+  url?: string;
 }
 export const UrlRestriction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    startDate: S.optional(Realtimebidding_Date),
-    url: S.optional(S.String),
     restrictionType: S.optional(UrlRestrictionRestrictionTypeEnum),
     endDate: S.optional(Realtimebidding_Date),
+    startDate: S.optional(Realtimebidding_Date),
+    url: S.optional(S.String),
   }),
 ).annotate({ identifier: "UrlRestriction" }) as any as S.Schema<UrlRestriction>;
 
-export type UserListStatusEnum = "STATUS_UNSPECIFIED" | "OPEN" | "CLOSED";
-export const UserListStatusEnum = S.String;
-
 /** Represents an Authorized Buyers user list. Authorized Buyers can create/update/list user lists. Once a user list is created in the system, Authorized Buyers can add users to the user list using the bulk uploader API. Alternatively, users can be added by hosting a tag on the advertiser's page. */
 export interface UserList {
-  /** Required. Deprecated. This will be removed in October 2023. For more information, see the release notes: https://developers.google.com/authorized-buyers/apis/relnotes#real-time-bidding-api The URL restriction for the user list. */
-  urlRestriction?: UrlRestriction;
   /** Output only. Name of the user list that must follow the pattern `buyers/{buyer}/userLists/{user_list}`, where `{buyer}` represents the account ID of the buyer who owns the user list. For a bidder accessing user lists on behalf of a child seat buyer, `{buyer}` represents the account ID of the child seat buyer. `{user_list}` is an int64 identifier assigned by Google to uniquely identify a user list. */
   name?: string;
-  /** Required. Display name of the user list. This must be unique across all user lists for a given account. */
-  displayName?: string;
-  /** Required. The number of days a user's cookie stays on the user list. The field must be between 0 and 540 inclusive. */
-  membershipDurationDays?: string;
-  /** Output only. The status of the user list. A new user list starts out as open. */
-  status?: UserListStatusEnum | (string & {});
   /** The description for the user list. */
   description?: string;
+  /** Output only. The status of the user list. A new user list starts out as open. */
+  status?: UserListStatusEnum | (string & {});
+  /** Required. Display name of the user list. This must be unique across all user lists for a given account. */
+  displayName?: string;
+  /** Required. Deprecated. This will be removed in October 2023. For more information, see the release notes: https://developers.google.com/authorized-buyers/apis/relnotes#real-time-bidding-api The URL restriction for the user list. */
+  urlRestriction?: UrlRestriction;
+  /** Required. The number of days a user's cookie stays on the user list. The field must be between 0 and 540 inclusive. */
+  membershipDurationDays?: string;
 }
 export const UserList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    urlRestriction: S.optional(UrlRestriction),
     name: S.optional(S.String),
-    displayName: S.optional(S.String),
-    membershipDurationDays: S.optional(S.String),
-    status: S.optional(UserListStatusEnum),
     description: S.optional(S.String),
+    status: S.optional(UserListStatusEnum),
+    displayName: S.optional(S.String),
+    urlRestriction: S.optional(UrlRestriction),
+    membershipDurationDays: S.optional(S.String),
   }),
 ).annotate({ identifier: "UserList" }) as any as S.Schema<UserList>;
 
@@ -735,787 +1505,6 @@ export const CreateBiddersPretargetingConfigsRequest = /*@__PURE__*/ S.suspend((
 ).annotate({
   identifier: "CreateBiddersPretargetingConfigsRequest",
 }) as any as S.Schema<CreateBiddersPretargetingConfigsRequest>;
-
-export type CreativeCreativeFormatEnum =
-  | "CREATIVE_FORMAT_UNSPECIFIED"
-  | "HTML"
-  | "VIDEO"
-  | "NATIVE";
-export const CreativeCreativeFormatEnum = S.String;
-
-/** HTML content for a creative. */
-export interface HtmlContent {
-  /** The HTML snippet that displays the ad when inserted in the web page. */
-  snippet?: string;
-  /** The height of the HTML snippet in pixels. Can be used to filter the response of the creatives.list method. */
-  height?: number;
-  /** The width of the HTML snippet in pixels. Can be used to filter the response of the creatives.list method. */
-  width?: number;
-}
-export const HtmlContent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    snippet: S.optional(S.String),
-    height: S.optional(S.Number),
-    width: S.optional(S.Number),
-  }),
-).annotate({ identifier: "HtmlContent" }) as any as S.Schema<HtmlContent>;
-
-export type MediaFileMimeTypeEnum =
-  | "VIDEO_MIME_TYPE_UNSPECIFIED"
-  | "MIME_VIDEO_XFLV"
-  | "MIME_VIDEO_WEBM"
-  | "MIME_VIDEO_MP4"
-  | "MIME_VIDEO_OGG"
-  | "MIME_VIDEO_YT_HOSTED"
-  | "MIME_VIDEO_X_MS_WMV"
-  | "MIME_VIDEO_3GPP"
-  | "MIME_VIDEO_MOV"
-  | "MIME_APPLICATION_SWF"
-  | "MIME_APPLICATION_SURVEY"
-  | "MIME_APPLICATION_JAVASCRIPT"
-  | "MIME_APPLICATION_SILVERLIGHT"
-  | "MIME_APPLICATION_MPEGURL"
-  | "MIME_APPLICATION_MPEGDASH"
-  | "MIME_AUDIO_MP4A"
-  | "MIME_AUDIO_MP3"
-  | "MIME_AUDIO_OGG";
-export const MediaFileMimeTypeEnum = S.String;
-
-/** Information about each media file in the VAST. */
-export interface MediaFile {
-  /** Bitrate of the video file, in Kbps. Can be used to filter the response of the creatives.list method. */
-  bitrate?: string;
-  /** The MIME type of this media file. Can be used to filter the response of the creatives.list method. */
-  mimeType?: MediaFileMimeTypeEnum | (string & {});
-}
-export const MediaFile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bitrate: S.optional(S.String),
-    mimeType: S.optional(MediaFileMimeTypeEnum),
-  }),
-).annotate({ identifier: "MediaFile" }) as any as S.Schema<MediaFile>;
-
-export type MediaFileList = Array<MediaFile>;
-export const MediaFileList = /*@__PURE__*/ S.Array(MediaFile) as any as S.Schema<MediaFileList>;
-
-export type VideoMetadataVastVersionEnum =
-  | "VAST_VERSION_UNSPECIFIED"
-  | "VAST_VERSION_1_0"
-  | "VAST_VERSION_2_0"
-  | "VAST_VERSION_3_0"
-  | "VAST_VERSION_4_0";
-export const VideoMetadataVastVersionEnum = S.String;
-
-/** Video metadata for a creative. */
-export interface VideoMetadata {
-  /** The duration of the ad. Can be used to filter the response of the creatives.list method. */
-  duration?: string;
-  /** The list of all media files declared in the VAST. If there are multiple VASTs in a wrapper chain, this includes the media files from the deepest one in the chain. */
-  mediaFiles?: MediaFileList;
-  /** The minimum duration that the user has to watch before being able to skip this ad. If the field is not set, the ad is not skippable. If the field is set, the ad is skippable. Can be used to filter the response of the creatives.list method. */
-  skipOffset?: string;
-  /** Is this a VPAID ad? Can be used to filter the response of the creatives.list method. */
-  isVpaid?: boolean;
-  /** Is this a valid VAST ad? Can be used to filter the response of the creatives.list method. */
-  isValidVast?: boolean;
-  /** The maximum VAST version across all wrapped VAST documents. Can be used to filter the response of the creatives.list method. */
-  vastVersion?: VideoMetadataVastVersionEnum | (string & {});
-}
-export const VideoMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    duration: S.optional(S.String),
-    mediaFiles: S.optional(MediaFileList),
-    skipOffset: S.optional(S.String),
-    isVpaid: S.optional(S.Boolean),
-    isValidVast: S.optional(S.Boolean),
-    vastVersion: S.optional(VideoMetadataVastVersionEnum),
-  }),
-).annotate({ identifier: "VideoMetadata" }) as any as S.Schema<VideoMetadata>;
-
-/** Video content for a creative. */
-export interface VideoContent {
-  /** The contents of a VAST document for a video ad. This document should conform to the VAST 2.0, 3.0, or 4.x standard. */
-  videoVastXml?: string;
-  /** The URL to fetch a video ad. The URL should return an XML response that conforms to the VAST 2.0, 3.0 or 4.x standard. */
-  videoUrl?: string;
-  /** Output only. Video metadata. */
-  videoMetadata?: VideoMetadata;
-}
-export const VideoContent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    videoVastXml: S.optional(S.String),
-    videoUrl: S.optional(S.String),
-    videoMetadata: S.optional(VideoMetadata),
-  }),
-).annotate({ identifier: "VideoContent" }) as any as S.Schema<VideoContent>;
-
-export type CreativeDeclaredAttributesItemEnum =
-  | "ATTRIBUTE_UNSPECIFIED"
-  | "IMAGE_RICH_MEDIA"
-  | "ADOBE_FLASH_FLV"
-  | "IS_TAGGED"
-  | "IS_COOKIE_TARGETED"
-  | "IS_USER_INTEREST_TARGETED"
-  | "EXPANDING_DIRECTION_NONE"
-  | "EXPANDING_DIRECTION_UP"
-  | "EXPANDING_DIRECTION_DOWN"
-  | "EXPANDING_DIRECTION_LEFT"
-  | "EXPANDING_DIRECTION_RIGHT"
-  | "EXPANDING_DIRECTION_UP_LEFT"
-  | "EXPANDING_DIRECTION_UP_RIGHT"
-  | "EXPANDING_DIRECTION_DOWN_LEFT"
-  | "EXPANDING_DIRECTION_DOWN_RIGHT"
-  | "CREATIVE_TYPE_HTML"
-  | "CREATIVE_TYPE_VAST_VIDEO"
-  | "EXPANDING_DIRECTION_UP_OR_DOWN"
-  | "EXPANDING_DIRECTION_LEFT_OR_RIGHT"
-  | "EXPANDING_DIRECTION_ANY_DIAGONAL"
-  | "EXPANDING_ACTION_ROLLOVER_TO_EXPAND"
-  | "INSTREAM_VAST_VIDEO_TYPE_VPAID_FLASH"
-  | "RICH_MEDIA_CAPABILITY_TYPE_MRAID"
-  | "RICH_MEDIA_CAPABILITY_TYPE_FLASH"
-  | "RICH_MEDIA_CAPABILITY_TYPE_HTML5"
-  | "SKIPPABLE_INSTREAM_VIDEO"
-  | "RICH_MEDIA_CAPABILITY_TYPE_SSL"
-  | "RICH_MEDIA_CAPABILITY_TYPE_NON_SSL"
-  | "RICH_MEDIA_CAPABILITY_TYPE_INTERSTITIAL"
-  | "NON_SKIPPABLE_INSTREAM_VIDEO"
-  | "NATIVE_ELIGIBILITY_ELIGIBLE"
-  | "NON_VPAID"
-  | "NATIVE_ELIGIBILITY_NOT_ELIGIBLE"
-  | "ANY_INTERSTITIAL"
-  | "NON_INTERSTITIAL"
-  | "IN_BANNER_VIDEO"
-  | "RENDERING_SIZELESS_ADX"
-  | "OMSDK_1_0"
-  | "RENDERING_PLAYABLE";
-export const CreativeDeclaredAttributesItemEnum = S.String;
-
-export type CreativeDeclaredAttributesItemEnumList = Array<
-  CreativeDeclaredAttributesItemEnum | (string & {})
->;
-export const CreativeDeclaredAttributesItemEnumList = /*@__PURE__*/ S.Array(
-  CreativeDeclaredAttributesItemEnum,
-) as any as S.Schema<CreativeDeclaredAttributesItemEnumList>;
-
-/** An image resource. You may provide a larger image than was requested, so long as the aspect ratio is preserved. */
-export interface Image {
-  /** The URL of the image. */
-  url?: string;
-  /** Image height in pixels. */
-  height?: number;
-  /** Image width in pixels. */
-  width?: number;
-}
-export const Image = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    url: S.optional(S.String),
-    height: S.optional(S.Number),
-    width: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Image" }) as any as S.Schema<Image>;
-
-/** Native content for a creative. */
-export interface NativeContent {
-  /** A long description of the ad. */
-  body?: string;
-  /** The URL to fetch a native video ad. */
-  videoUrl?: string;
-  /** A large image. */
-  image?: Image;
-  /** The contents of a VAST document for a native video ad. */
-  videoVastXml?: string;
-  /** The app rating in the app store. Must be in the range [0-5]. */
-  starRating?: number;
-  /** The URL that the browser/SDK will load when the user clicks the ad. */
-  clickLinkUrl?: string;
-  /** The app icon, for app download ads. */
-  appIcon?: Image;
-  /** A smaller image, for the advertiser's logo. */
-  logo?: Image;
-  /** The URL to use for click tracking. */
-  clickTrackingUrl?: string;
-  /** A short title for the ad. */
-  headline?: string;
-  /** The name of the advertiser or sponsor, to be displayed in the ad creative. */
-  advertiserName?: string;
-  /** A label for the button that the user is supposed to click. */
-  callToAction?: string;
-  /** The price of the promoted app including currency info. */
-  priceDisplayText?: string;
-}
-export const NativeContent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    body: S.optional(S.String),
-    videoUrl: S.optional(S.String),
-    image: S.optional(Image),
-    videoVastXml: S.optional(S.String),
-    starRating: S.optional(S.Number),
-    clickLinkUrl: S.optional(S.String),
-    appIcon: S.optional(Image),
-    logo: S.optional(Image),
-    clickTrackingUrl: S.optional(S.String),
-    headline: S.optional(S.String),
-    advertiserName: S.optional(S.String),
-    callToAction: S.optional(S.String),
-    priceDisplayText: S.optional(S.String),
-  }),
-).annotate({ identifier: "NativeContent" }) as any as S.Schema<NativeContent>;
-
-export type IntegerList = Array<number>;
-export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
-
-export type CreativeDeclaredRestrictedCategoriesItemEnum =
-  | "RESTRICTED_CATEGORY_UNSPECIFIED"
-  | "ALCOHOL";
-export const CreativeDeclaredRestrictedCategoriesItemEnum = S.String;
-
-export type CreativeDeclaredRestrictedCategoriesItemEnumList = Array<
-  CreativeDeclaredRestrictedCategoriesItemEnum | (string & {})
->;
-export const CreativeDeclaredRestrictedCategoriesItemEnumList = /*@__PURE__*/ S.Array(
-  CreativeDeclaredRestrictedCategoriesItemEnum,
-) as any as S.Schema<CreativeDeclaredRestrictedCategoriesItemEnumList>;
-
-export type CreativeRestrictedCategoriesItemEnum = "RESTRICTED_CATEGORY_UNSPECIFIED" | "ALCOHOL";
-export const CreativeRestrictedCategoriesItemEnum = S.String;
-
-export type CreativeRestrictedCategoriesItemEnumList = Array<
-  CreativeRestrictedCategoriesItemEnum | (string & {})
->;
-export const CreativeRestrictedCategoriesItemEnumList = /*@__PURE__*/ S.Array(
-  CreativeRestrictedCategoriesItemEnum,
-) as any as S.Schema<CreativeRestrictedCategoriesItemEnumList>;
-
-/** Detected advertiser and brand information. */
-export interface AdvertiserAndBrand {
-  /** See https://storage.googleapis.com/adx-rtb-dictionaries/advertisers.txt for the list of possible values. Can be used to filter the response of the creatives.list method. */
-  advertiserId?: string;
-  /** Brand name. Can be used to filter the response of the creatives.list method. */
-  brandName?: string;
-  /** Detected brand ID or zero if no brand has been detected. See https://storage.googleapis.com/adx-rtb-dictionaries/brands.txt for the list of possible values. Can be used to filter the response of the creatives.list method. */
-  brandId?: string;
-  /** Advertiser name. Can be used to filter the response of the creatives.list method. */
-  advertiserName?: string;
-}
-export const AdvertiserAndBrand = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    advertiserId: S.optional(S.String),
-    brandName: S.optional(S.String),
-    brandId: S.optional(S.String),
-    advertiserName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AdvertiserAndBrand",
-}) as any as S.Schema<AdvertiserAndBrand>;
-
-export type AdvertiserAndBrandList = Array<AdvertiserAndBrand>;
-export const AdvertiserAndBrandList = /*@__PURE__*/ S.Array(
-  AdvertiserAndBrand,
-) as any as S.Schema<AdvertiserAndBrandList>;
-
-/** Evidence for HTTP cookie-related policy violations. */
-export interface HttpCookieEvidence {
-  /** Names of cookies that violate Google policies. For TOO_MANY_COOKIES policy, this will be the cookie names of top domains with the largest number of cookies. For other policies, this will be all the cookie names that violate the policy. */
-  cookieNames?: StringList;
-  /** The largest number of cookies set by a creative. If this field is set, cookie_names above will be set to the cookie names of top domains with the largest number of cookies. This field will only be set for TOO_MANY_COOKIES policy. */
-  maxCookieCount?: number;
-}
-export const HttpCookieEvidence = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cookieNames: S.optional(StringList),
-    maxCookieCount: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "HttpCookieEvidence",
-}) as any as S.Schema<HttpCookieEvidence>;
-
-/** HTTP calls made by a creative that resulted in policy violations. */
-export interface HttpCallEvidence {
-  /** URLs of HTTP calls made by the creative. */
-  urls?: StringList;
-}
-export const HttpCallEvidence = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    urls: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "HttpCallEvidence",
-}) as any as S.Schema<HttpCallEvidence>;
-
-export type DestinationNotWorkingEvidenceInvalidPageEnum =
-  | "INVALID_PAGE_UNSPECIFIED"
-  | "EMPTY_OR_ERROR_PAGE";
-export const DestinationNotWorkingEvidenceInvalidPageEnum = S.String;
-
-export type DestinationNotWorkingEvidenceUrlRejectedEnum =
-  | "URL_REJECTED_UNSPECIFIED"
-  | "BAD_REQUEST"
-  | "MALFORMED_URL"
-  | "URL_REJECTED_UNKNOWN";
-export const DestinationNotWorkingEvidenceUrlRejectedEnum = S.String;
-
-export type DestinationNotWorkingEvidenceDnsErrorEnum =
-  | "DNS_ERROR_UNSPECIFIED"
-  | "ERROR_DNS"
-  | "GOOGLE_CRAWLER_DNS_ISSUE";
-export const DestinationNotWorkingEvidenceDnsErrorEnum = S.String;
-
-export type DestinationNotWorkingEvidenceRedirectionErrorEnum =
-  | "REDIRECTION_ERROR_UNSPECIFIED"
-  | "TOO_MANY_REDIRECTS"
-  | "INVALID_REDIRECT"
-  | "EMPTY_REDIRECT"
-  | "REDIRECT_ERROR_UNKNOWN";
-export const DestinationNotWorkingEvidenceRedirectionErrorEnum = S.String;
-
-export type DestinationNotWorkingEvidencePlatformEnum =
-  | "PLATFORM_UNSPECIFIED"
-  | "PERSONAL_COMPUTER"
-  | "ANDROID"
-  | "IOS";
-export const DestinationNotWorkingEvidencePlatformEnum = S.String;
-
-/** Evidence of the creative's destination URL not functioning properly or having been incorrectly set up. */
-export interface DestinationNotWorkingEvidence {
-  /** Page was crawled successfully, but was detected as either a page with no content or an error page. */
-  invalidPage?: DestinationNotWorkingEvidenceInvalidPageEnum | (string & {});
-  /** Approximate time when the ad destination was last checked. */
-  lastCheckTime?: string;
-  /** Rejected because of malformed URLs or invalid requests. */
-  urlRejected?: DestinationNotWorkingEvidenceUrlRejectedEnum | (string & {});
-  /** DNS lookup errors. */
-  dnsError?: DestinationNotWorkingEvidenceDnsErrorEnum | (string & {});
-  /** HTTP redirect chain error. */
-  redirectionError?: DestinationNotWorkingEvidenceRedirectionErrorEnum | (string & {});
-  /** The full non-working URL. */
-  expandedUrl?: string;
-  /** Platform of the non-working URL. */
-  platform?: DestinationNotWorkingEvidencePlatformEnum | (string & {});
-  /** HTTP error code (for example, 404 or 5xx) */
-  httpError?: number;
-}
-export const DestinationNotWorkingEvidence = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    invalidPage: S.optional(DestinationNotWorkingEvidenceInvalidPageEnum),
-    lastCheckTime: S.optional(S.String),
-    urlRejected: S.optional(DestinationNotWorkingEvidenceUrlRejectedEnum),
-    dnsError: S.optional(DestinationNotWorkingEvidenceDnsErrorEnum),
-    redirectionError: S.optional(DestinationNotWorkingEvidenceRedirectionErrorEnum),
-    expandedUrl: S.optional(S.String),
-    platform: S.optional(DestinationNotWorkingEvidencePlatformEnum),
-    httpError: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "DestinationNotWorkingEvidence",
-}) as any as S.Schema<DestinationNotWorkingEvidence>;
-
-export type DestinationNotCrawlableEvidenceReasonEnum =
-  | "REASON_UNSPECIFIED"
-  | "UNREACHABLE_ROBOTS"
-  | "TIMEOUT_ROBOTS"
-  | "ROBOTED_DENIED"
-  | "UNKNOWN";
-export const DestinationNotCrawlableEvidenceReasonEnum = S.String;
-
-/** Evidence that the creative's destination URL was not crawlable by Google. */
-export interface DestinationNotCrawlableEvidence {
-  /** Destination URL that was attempted to be crawled. */
-  crawledUrl?: string;
-  /** Approximate time of the crawl. */
-  crawlTime?: string;
-  /** Reason of destination not crawlable. */
-  reason?: DestinationNotCrawlableEvidenceReasonEnum | (string & {});
-}
-export const DestinationNotCrawlableEvidence = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    crawledUrl: S.optional(S.String),
-    crawlTime: S.optional(S.String),
-    reason: S.optional(DestinationNotCrawlableEvidenceReasonEnum),
-  }),
-).annotate({
-  identifier: "DestinationNotCrawlableEvidence",
-}) as any as S.Schema<DestinationNotCrawlableEvidence>;
-
-/** The URL-level breakdown for the download size. */
-export interface UrlDownloadSize {
-  /** Download size of the URL in kilobytes. */
-  downloadSizeKb?: number;
-  /** The normalized URL with query parameters and fragment removed. */
-  normalizedUrl?: string;
-}
-export const UrlDownloadSize = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    downloadSizeKb: S.optional(S.Number),
-    normalizedUrl: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UrlDownloadSize",
-}) as any as S.Schema<UrlDownloadSize>;
-
-export type UrlDownloadSizeList = Array<UrlDownloadSize>;
-export const UrlDownloadSizeList = /*@__PURE__*/ S.Array(
-  UrlDownloadSize,
-) as any as S.Schema<UrlDownloadSizeList>;
-
-/** Total download size and URL-level download size breakdown for resources in a creative. */
-export interface DownloadSizeEvidence {
-  /** Total download size (in kilobytes) for all the resources in the creative. */
-  totalDownloadSizeKb?: number;
-  /** Download size broken down by URLs with the top download size. */
-  topUrlDownloadSizeBreakdowns?: UrlDownloadSizeList;
-}
-export const DownloadSizeEvidence = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    totalDownloadSizeKb: S.optional(S.Number),
-    topUrlDownloadSizeBreakdowns: S.optional(UrlDownloadSizeList),
-  }),
-).annotate({
-  identifier: "DownloadSizeEvidence",
-}) as any as S.Schema<DownloadSizeEvidence>;
-
-/** The number of HTTP calls made to the given domain. */
-export interface DomainCalls {
-  /** The domain name. */
-  domain?: string;
-  /** Number of HTTP calls made to the domain. */
-  httpCallCount?: number;
-}
-export const DomainCalls = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domain: S.optional(S.String),
-    httpCallCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "DomainCalls" }) as any as S.Schema<DomainCalls>;
-
-export type DomainCallsList = Array<DomainCalls>;
-export const DomainCallsList = /*@__PURE__*/ S.Array(
-  DomainCalls,
-) as any as S.Schema<DomainCallsList>;
-
-/** Number of HTTP calls made by a creative, broken down by domain. */
-export interface DomainCallEvidence {
-  /** Breakdown of the most frequent domains called through HTTP by the creative. */
-  topHttpCallDomains?: DomainCallsList;
-  /** The total number of HTTP calls made by the creative, including but not limited to the number of calls in the top_http_call_domains. */
-  totalHttpCallCount?: number;
-}
-export const DomainCallEvidence = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    topHttpCallDomains: S.optional(DomainCallsList),
-    totalHttpCallCount: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "DomainCallEvidence",
-}) as any as S.Schema<DomainCallEvidence>;
-
-/** The full landing page URL of the destination. */
-export interface DestinationUrlEvidence {
-  /** The full landing page URL of the destination. */
-  destinationUrl?: string;
-}
-export const DestinationUrlEvidence = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    destinationUrl: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DestinationUrlEvidence",
-}) as any as S.Schema<DestinationUrlEvidence>;
-
-/** Evidence associated with a policy topic entry. */
-export interface PolicyTopicEvidence {
-  /** Evidence for HTTP cookie-related policy violations. */
-  httpCookie?: HttpCookieEvidence;
-  /** HTTP calls made by the creative that resulted in policy violations. */
-  httpCall?: HttpCallEvidence;
-  /** The creative's destination URL did not function properly or was incorrectly set up. */
-  destinationNotWorking?: DestinationNotWorkingEvidence;
-  /** The creative's destination URL was not crawlable by Google. */
-  destinationNotCrawlable?: DestinationNotCrawlableEvidence;
-  /** Total download size and URL-level download size breakdown for resources in a creative. */
-  downloadSize?: DownloadSizeEvidence;
-  /** Number of HTTP calls made by the creative, broken down by domain. */
-  domainCall?: DomainCallEvidence;
-  /** URL of the actual landing page. */
-  destinationUrl?: DestinationUrlEvidence;
-}
-export const PolicyTopicEvidence = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    httpCookie: S.optional(HttpCookieEvidence),
-    httpCall: S.optional(HttpCallEvidence),
-    destinationNotWorking: S.optional(DestinationNotWorkingEvidence),
-    destinationNotCrawlable: S.optional(DestinationNotCrawlableEvidence),
-    downloadSize: S.optional(DownloadSizeEvidence),
-    domainCall: S.optional(DomainCallEvidence),
-    destinationUrl: S.optional(DestinationUrlEvidence),
-  }),
-).annotate({
-  identifier: "PolicyTopicEvidence",
-}) as any as S.Schema<PolicyTopicEvidence>;
-
-export type PolicyTopicEvidenceList = Array<PolicyTopicEvidence>;
-export const PolicyTopicEvidenceList = /*@__PURE__*/ S.Array(
-  PolicyTopicEvidence,
-) as any as S.Schema<PolicyTopicEvidenceList>;
-
-/** Each policy topic entry will represent a violation of a policy topic for a creative, with the policy topic information and optional evidence for the policy violation. */
-export interface PolicyTopicEntry {
-  /** Pieces of evidence associated with this policy topic entry. */
-  evidences?: PolicyTopicEvidenceList;
-  /** URL of the help center article describing this policy topic. */
-  helpCenterUrl?: string;
-  /** Policy topic this entry refers to. For example, "ALCOHOL", "TRADEMARKS_IN_AD_TEXT", or "DESTINATION_NOT_WORKING". The set of possible policy topics is not fixed for a particular API version and may change at any time. Can be used to filter the response of the creatives.list method */
-  policyTopic?: string;
-  /** Whether or not the policy topic is missing a certificate. Some policy topics require a certificate to unblock serving in some regions. For more information about creative certification, refer to: https://support.google.com/authorizedbuyers/answer/7450776 */
-  missingCertificate?: boolean;
-}
-export const PolicyTopicEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    evidences: S.optional(PolicyTopicEvidenceList),
-    helpCenterUrl: S.optional(S.String),
-    policyTopic: S.optional(S.String),
-    missingCertificate: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "PolicyTopicEntry",
-}) as any as S.Schema<PolicyTopicEntry>;
-
-export type PolicyTopicEntryList = Array<PolicyTopicEntry>;
-export const PolicyTopicEntryList = /*@__PURE__*/ S.Array(
-  PolicyTopicEntry,
-) as any as S.Schema<PolicyTopicEntryList>;
-
-export type PolicyComplianceStatusEnum =
-  | "STATUS_UNSPECIFIED"
-  | "PENDING_REVIEW"
-  | "DISAPPROVED"
-  | "APPROVED"
-  | "CERTIFICATE_REQUIRED";
-export const PolicyComplianceStatusEnum = S.String;
-
-/** Policy compliance of the creative for a transaction type or a region. */
-export interface PolicyCompliance {
-  /** Topics related to the policy compliance for this transaction type (for example, open auction, deals) or region (for example, China, Russia). Topics may be present only if status is DISAPPROVED. */
-  topics?: PolicyTopicEntryList;
-  /** Serving status for the given transaction type (for example, open auction, deals) or region (for example, China, Russia). Can be used to filter the response of the creatives.list method. */
-  status?: PolicyComplianceStatusEnum | (string & {});
-}
-export const PolicyCompliance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    topics: S.optional(PolicyTopicEntryList),
-    status: S.optional(PolicyComplianceStatusEnum),
-  }),
-).annotate({
-  identifier: "PolicyCompliance",
-}) as any as S.Schema<PolicyCompliance>;
-
-/** The list of detected Ad Technology Providers for this creative. Bids placed for inventory that will serve to EEA or UK users are expected to comply with GDPR requirements. You must ensure that the creatives used in such bids should contain only user consented ad technology providers as indicated in the bid request. Google reserves the right to filter non-compliant bids. User consented ad technology providers can be found in the [Google Protocol](https://developers.google.com/authorized-buyers/rtb/downloads/realtime-bidding-proto) with the `BidRequest.adslot.consented_providers_settings` field, and can be found as an [OpenRTB extension](https://developers.google.com/authorized-buyers/rtb/downloads/openrtb-adx-proto) with the `BidRequest.user.ext.consented_providers_settings` and `BidRequest.user.ext.consent` fields. See https://support.google.com/authorizedbuyers/answer/9789378 for additional information about the Google TCF v2 integration. */
-export interface AdTechnologyProviders {
-  /** The detected [Google Ad Tech Providers (ATP)](https://support.google.com/admanager/answer/9012903) for this creative. See https://storage.googleapis.com/adx-rtb-dictionaries/providers.csv for mapping of provider ID to provided name, a privacy policy URL, and a list of domains which can be attributed to the provider. */
-  detectedProviderIds?: StringList;
-  /** The detected IAB Global Vendor List (GVL) IDs for this creative. See the IAB Global Vendor List at https://vendor-list.consensu.org/v2/vendor-list.json for details about the vendors. */
-  detectedGvlIds?: StringList;
-  /** Domains of detected unidentified ad technology providers (if any). You must ensure that the creatives used in bids placed for inventory that will serve to EEA or UK users does not contain unidentified ad technology providers. Google reserves the right to filter non-compliant bids. */
-  unidentifiedProviderDomains?: StringList;
-}
-export const AdTechnologyProviders = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    detectedProviderIds: S.optional(StringList),
-    detectedGvlIds: S.optional(StringList),
-    unidentifiedProviderDomains: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "AdTechnologyProviders",
-}) as any as S.Schema<AdTechnologyProviders>;
-
-export type CreativeServingDecisionDetectedAttributesItemEnum =
-  | "ATTRIBUTE_UNSPECIFIED"
-  | "IMAGE_RICH_MEDIA"
-  | "ADOBE_FLASH_FLV"
-  | "IS_TAGGED"
-  | "IS_COOKIE_TARGETED"
-  | "IS_USER_INTEREST_TARGETED"
-  | "EXPANDING_DIRECTION_NONE"
-  | "EXPANDING_DIRECTION_UP"
-  | "EXPANDING_DIRECTION_DOWN"
-  | "EXPANDING_DIRECTION_LEFT"
-  | "EXPANDING_DIRECTION_RIGHT"
-  | "EXPANDING_DIRECTION_UP_LEFT"
-  | "EXPANDING_DIRECTION_UP_RIGHT"
-  | "EXPANDING_DIRECTION_DOWN_LEFT"
-  | "EXPANDING_DIRECTION_DOWN_RIGHT"
-  | "CREATIVE_TYPE_HTML"
-  | "CREATIVE_TYPE_VAST_VIDEO"
-  | "EXPANDING_DIRECTION_UP_OR_DOWN"
-  | "EXPANDING_DIRECTION_LEFT_OR_RIGHT"
-  | "EXPANDING_DIRECTION_ANY_DIAGONAL"
-  | "EXPANDING_ACTION_ROLLOVER_TO_EXPAND"
-  | "INSTREAM_VAST_VIDEO_TYPE_VPAID_FLASH"
-  | "RICH_MEDIA_CAPABILITY_TYPE_MRAID"
-  | "RICH_MEDIA_CAPABILITY_TYPE_FLASH"
-  | "RICH_MEDIA_CAPABILITY_TYPE_HTML5"
-  | "SKIPPABLE_INSTREAM_VIDEO"
-  | "RICH_MEDIA_CAPABILITY_TYPE_SSL"
-  | "RICH_MEDIA_CAPABILITY_TYPE_NON_SSL"
-  | "RICH_MEDIA_CAPABILITY_TYPE_INTERSTITIAL"
-  | "NON_SKIPPABLE_INSTREAM_VIDEO"
-  | "NATIVE_ELIGIBILITY_ELIGIBLE"
-  | "NON_VPAID"
-  | "NATIVE_ELIGIBILITY_NOT_ELIGIBLE"
-  | "ANY_INTERSTITIAL"
-  | "NON_INTERSTITIAL"
-  | "IN_BANNER_VIDEO"
-  | "RENDERING_SIZELESS_ADX"
-  | "OMSDK_1_0"
-  | "RENDERING_PLAYABLE";
-export const CreativeServingDecisionDetectedAttributesItemEnum = S.String;
-
-export type CreativeServingDecisionDetectedAttributesItemEnumList = Array<
-  CreativeServingDecisionDetectedAttributesItemEnum | (string & {})
->;
-export const CreativeServingDecisionDetectedAttributesItemEnumList = /*@__PURE__*/ S.Array(
-  CreativeServingDecisionDetectedAttributesItemEnum,
-) as any as S.Schema<CreativeServingDecisionDetectedAttributesItemEnumList>;
-
-export type CreativeServingDecisionDetectedCategoriesTaxonomyEnum =
-  | "AD_CATEGORY_TAXONOMY_UNSPECIFIED"
-  | "GOOGLE_AD_CATEGORY_TAXONOMY"
-  | "IAB_CONTENT_1_0";
-export const CreativeServingDecisionDetectedCategoriesTaxonomyEnum = S.String;
-
-/** Top level status and detected attributes of a creative. */
-export interface CreativeServingDecision {
-  /** The last time the creative status was updated. Can be used to filter the response of the creatives.list method. */
-  lastStatusUpdate?: string;
-  /** Detected advertisers and brands. */
-  detectedAdvertisers?: AdvertiserAndBrandList;
-  /** The policy compliance of this creative in China. When approved or disapproved, this applies to both deals and open auction in China. When pending review, this creative is allowed to serve for deals but not for open auction. */
-  chinaPolicyCompliance?: PolicyCompliance;
-  /** The set of detected destination URLs for the creative. Can be used to filter the response of the creatives.list method. */
-  detectedClickThroughUrls?: StringList;
-  /** IDs of the ad technology vendors that were detected to be used by this creative. See https://storage.googleapis.com/adx-rtb-dictionaries/vendors.txt for possible values. Can be used to filter the response of the creatives.list method. If the `allowed_vendor_type` field of a [bid request](https://developers.google.com/authorized-buyers/rtb/downloads/realtime-bidding-proto) does not contain one of the vendor type IDs that were declared or detected for a given creative, and a bid is submitted with that creative, the bid will be filtered before the auction. */
-  detectedVendorIds?: IntegerList;
-  /** Policy compliance of this creative when bidding in open auction, private auction, or auction packages (outside of Russia and China). */
-  networkPolicyCompliance?: PolicyCompliance;
-  /** The detected ad technology providers. */
-  adTechnologyProviders?: AdTechnologyProviders;
-  /** Output only. IDs of the detected categories. The taxonomy in which the categories are expressed is specified by the detected_categories_taxonomy field. Use this in conjunction with BidRequest.bcat to avoid bidding on impressions where a given ad category is blocked, or to troubleshoot filtered bids. Can be used to filter the response of the creatives.list method. */
-  detectedCategories?: StringList;
-  /** Policy compliance of this creative when bidding on Programmatic Guaranteed and Preferred Deals (outside of Russia and China). */
-  dealsPolicyCompliance?: PolicyCompliance;
-  /** The detected domains for this creative. */
-  detectedDomains?: StringList;
-  /** The detected languages for this creative. The order is arbitrary. The codes are 2 or 5 characters and are documented at https://developers.google.com/adwords/api/docs/appendix/languagecodes. Can be used to filter the response of the creatives.list method. */
-  detectedLanguages?: StringList;
-  /** Policy compliance of this creative when bidding in Open Bidding (outside of Russia and China). For the list of platform policies, see: https://support.google.com/platformspolicy/answer/3013851. */
-  platformPolicyCompliance?: PolicyCompliance;
-  /** Publisher-excludable attributes that were detected for this creative. Can be used to filter the response of the creatives.list method. If the `excluded_attribute` field of a [bid request](https://developers.google.com/authorized-buyers/rtb/downloads/realtime-bidding-proto) contains one of the attributes that were declared or detected for a given creative, and a bid is submitted with that creative, the bid will be filtered before the auction. */
-  detectedAttributes?: CreativeServingDecisionDetectedAttributesItemEnumList;
-  /** Detected sensitive categories, if any. Can be used to filter the response of the creatives.list method. See the ad-sensitive-categories.txt file in the technical documentation for a list of IDs. You should use these IDs along with the excluded-sensitive-category field in the bid request to filter your bids. */
-  detectedSensitiveCategories?: IntegerList;
-  /** Output only. The taxonomy in which the detected_categories field is expressed. */
-  detectedCategoriesTaxonomy?:
-    | CreativeServingDecisionDetectedCategoriesTaxonomyEnum
-    | (string & {});
-  /** The policy compliance of this creative in Russia. When approved or disapproved, this applies to both deals and open auction in Russia. When pending review, this creative is allowed to serve for deals but not for open auction. */
-  russiaPolicyCompliance?: PolicyCompliance;
-  /** Detected product categories, if any. See the ad-product-categories.txt file in the technical documentation for a list of IDs. Can be used to filter the response of the creatives.list method. */
-  detectedProductCategories?: IntegerList;
-}
-export const CreativeServingDecision = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lastStatusUpdate: S.optional(S.String),
-    detectedAdvertisers: S.optional(AdvertiserAndBrandList),
-    chinaPolicyCompliance: S.optional(PolicyCompliance),
-    detectedClickThroughUrls: S.optional(StringList),
-    detectedVendorIds: S.optional(IntegerList),
-    networkPolicyCompliance: S.optional(PolicyCompliance),
-    adTechnologyProviders: S.optional(AdTechnologyProviders),
-    detectedCategories: S.optional(StringList),
-    dealsPolicyCompliance: S.optional(PolicyCompliance),
-    detectedDomains: S.optional(StringList),
-    detectedLanguages: S.optional(StringList),
-    platformPolicyCompliance: S.optional(PolicyCompliance),
-    detectedAttributes: S.optional(CreativeServingDecisionDetectedAttributesItemEnumList),
-    detectedSensitiveCategories: S.optional(IntegerList),
-    detectedCategoriesTaxonomy: S.optional(CreativeServingDecisionDetectedCategoriesTaxonomyEnum),
-    russiaPolicyCompliance: S.optional(PolicyCompliance),
-    detectedProductCategories: S.optional(IntegerList),
-  }),
-).annotate({
-  identifier: "CreativeServingDecision",
-}) as any as S.Schema<CreativeServingDecision>;
-
-/** A creative and its classification data. */
-export interface Creative {
-  /** Output only. Name of the creative. Follows the pattern `buyers/{buyer}/creatives/{creative}`, where `{buyer}` represents the account ID of the buyer who owns the creative, and `{creative}` is the buyer-specific creative ID that references this creative in the bid response. */
-  name?: string;
-  /** Output only. IDs of all of the deals with which this creative has been used in bidding. Can be used to filter the response of the creatives.list method. */
-  dealIds?: StringList;
-  /** Output only. The format of this creative. Can be used to filter the response of the creatives.list method. */
-  creativeFormat?: CreativeCreativeFormatEnum | (string & {});
-  /** Output only. The version of the creative. Version for a new creative is 1 and it increments during subsequent creative updates. */
-  version?: number;
-  /** Output only. The last update timestamp of the creative through the API. */
-  apiUpdateTime?: string;
-  /** An HTML creative. */
-  html?: HtmlContent;
-  /** A video creative. */
-  video?: VideoContent;
-  /** The link to AdChoices destination page. This is only supported for native ads. */
-  adChoicesDestinationUrl?: string;
-  /** All declared attributes for the ads that may be shown from this creative. Can be used to filter the response of the creatives.list method. If the `excluded_attribute` field of a [bid request](https://developers.google.com/authorized-buyers/rtb/downloads/realtime-bidding-proto") contains one of the attributes that were declared or detected for a given creative, and a bid is submitted with that creative, the bid will be filtered before the auction. */
-  declaredAttributes?: CreativeDeclaredAttributesItemEnumList;
-  /** The set of URLs to be called to record an impression. */
-  impressionTrackingUrls?: StringList;
-  /** Deprecated: FLEDGE is no longer supported. See: https://privacysandbox.google.com/blog/update-on-plans-for-privacy-sandbox-technologies Experimental field that can be used during the [FLEDGE Origin Trial](/authorized-buyers/rtb/fledge-origin-trial). The URL to fetch an interest group ad used in [TURTLEDOVE on-device auction](https://github.com/WICG/turtledove/blob/main/FLEDGE.md#1-browsers-record-interest-groups"). This should be unique among all creatives for a given `accountId`. This URL should be the same as the URL returned by [generateBid()](https://github.com/WICG/turtledove/blob/main/FLEDGE.md#32-on-device-bidding). */
-  renderUrl?: string;
-  /** A native creative. */
-  native?: NativeContent;
-  /** The name of the company being advertised in the creative. Can be used to filter the response of the creatives.list method. */
-  advertiserName?: string;
-  /** The set of declared destination URLs for the creative. Can be used to filter the response of the creatives.list method. */
-  declaredClickThroughUrls?: StringList;
-  /** Output only. ID of the buyer account that this creative is owned by. Can be used to filter the response of the creatives.list method with equality and inequality check. */
-  accountId?: string;
-  /** Buyer-specific creative ID that references this creative in bid responses. This field is Ignored in update operations. Can be used to filter the response of the creatives.list method. The maximum length of the creative ID is 128 bytes. */
-  creativeId?: string;
-  /** IDs for the declared ad technology vendors that may be used by this creative. See https://storage.googleapis.com/adx-rtb-dictionaries/vendors.txt for possible values. Can be used to filter the response of the creatives.list method. */
-  declaredVendorIds?: IntegerList;
-  /** All declared restricted categories for the ads that may be shown from this creative. Can be used to filter the response of the creatives.list method. */
-  declaredRestrictedCategories?: CreativeDeclaredRestrictedCategoriesItemEnumList;
-  /** The agency ID for this creative. */
-  agencyId?: string;
-  /** All restricted categories for the ads that may be shown from this creative. */
-  restrictedCategories?: CreativeRestrictedCategoriesItemEnumList;
-  /** Output only. Top level status and detected attributes of a creative (for example domain, language, advertiser, product category, etc.) that affect whether (status) and where (context) a creative will be allowed to serve. */
-  creativeServingDecision?: CreativeServingDecision;
-}
-export const Creative = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    dealIds: S.optional(StringList),
-    creativeFormat: S.optional(CreativeCreativeFormatEnum),
-    version: S.optional(S.Number),
-    apiUpdateTime: S.optional(S.String),
-    html: S.optional(HtmlContent),
-    video: S.optional(VideoContent),
-    adChoicesDestinationUrl: S.optional(S.String),
-    declaredAttributes: S.optional(CreativeDeclaredAttributesItemEnumList),
-    impressionTrackingUrls: S.optional(StringList),
-    renderUrl: S.optional(S.String),
-    native: S.optional(NativeContent),
-    advertiserName: S.optional(S.String),
-    declaredClickThroughUrls: S.optional(StringList),
-    accountId: S.optional(S.String),
-    creativeId: S.optional(S.String),
-    declaredVendorIds: S.optional(IntegerList),
-    declaredRestrictedCategories: S.optional(CreativeDeclaredRestrictedCategoriesItemEnumList),
-    agencyId: S.optional(S.String),
-    restrictedCategories: S.optional(CreativeRestrictedCategoriesItemEnumList),
-    creativeServingDecision: S.optional(CreativeServingDecision),
-  }),
-).annotate({ identifier: "Creative" }) as any as S.Schema<Creative>;
 
 export interface CreateBuyersCreativesRequest {
   /** Required. The name of the parent buyer that the new creative belongs to that must follow the pattern `buyers/{buyerAccountId}`, where `{buyerAccountId}` represents the account ID of the buyer who owns a creative. For a bidder accessing creatives on behalf of a child seat buyer, `{buyerAccountId}` should represent the account ID of the child seat buyer. */
@@ -1597,29 +1586,27 @@ export const GetBiddersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://realtimebidding.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetBiddersRequest",
-}) as any as S.Schema<GetBiddersRequest>;
+).annotate({ identifier: "GetBiddersRequest" }) as any as S.Schema<GetBiddersRequest>;
 
 /** Bidder settings. */
 export interface Bidder {
-  /** Output only. The base URL used in cookie match requests. Refer to https://developers.google.com/authorized-buyers/rtb/cookie-guide for further information. */
-  cookieMatchingUrl?: string;
   /** Output only. The buyer's network ID used for cookie matching. This ID corresponds to the `google_nid` parameter in the URL used in cookie match requests. Refer to https://developers.google.com/authorized-buyers/rtb/cookie-guide for further information. */
   cookieMatchingNetworkId?: string;
-  /** Output only. An option to bypass pretargeting for private auctions and preferred deals. When true, bid requests from these nonguaranteed deals will always be sent. When false, bid requests will be subject to regular pretargeting configurations. Programmatic Guaranteed deals will always be sent to the bidder, regardless of the value for this option. Auction packages are not impacted by this value and are subject to the regular pretargeting configurations. */
-  bypassNonguaranteedDealsPretargeting?: boolean;
   /** Output only. The billing ID for the deals pretargeting config. This billing ID is sent on the bid request for guaranteed and nonguaranteed deals matched in pretargeting. */
   dealsBillingId?: string;
+  /** Output only. An option to bypass pretargeting for private auctions and preferred deals. When true, bid requests from these nonguaranteed deals will always be sent. When false, bid requests will be subject to regular pretargeting configurations. Programmatic Guaranteed deals will always be sent to the bidder, regardless of the value for this option. Auction packages are not impacted by this value and are subject to the regular pretargeting configurations. */
+  bypassNonguaranteedDealsPretargeting?: boolean;
+  /** Output only. The base URL used in cookie match requests. Refer to https://developers.google.com/authorized-buyers/rtb/cookie-guide for further information. */
+  cookieMatchingUrl?: string;
   /** Output only. Name of the bidder resource that must follow the pattern `bidders/{bidderAccountId}`, where `{bidderAccountId}` is the account ID of the bidder whose information is to be received. One can get their account ID on the Authorized Buyers or Open Bidding UI, or by contacting their Google account manager. */
   name?: string;
 }
 export const Bidder = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cookieMatchingUrl: S.optional(S.String),
     cookieMatchingNetworkId: S.optional(S.String),
-    bypassNonguaranteedDealsPretargeting: S.optional(S.Boolean),
     dealsBillingId: S.optional(S.String),
+    bypassNonguaranteedDealsPretargeting: S.optional(S.Boolean),
+    cookieMatchingUrl: S.optional(S.String),
     name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Bidder" }) as any as S.Schema<Bidder>;
@@ -1642,6 +1629,13 @@ export const GetBiddersEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetBiddersEndpointsRequest",
 }) as any as S.Schema<GetBiddersEndpointsRequest>;
 
+export type EndpointBidProtocolEnum =
+  | "BID_PROTOCOL_UNSPECIFIED"
+  | "GOOGLE_RTB"
+  | "OPENRTB_JSON"
+  | "OPENRTB_PROTOBUF";
+export const EndpointBidProtocolEnum = S.String;
+
 export type EndpointTradingLocationEnum =
   | "TRADING_LOCATION_UNSPECIFIED"
   | "US_WEST"
@@ -1650,33 +1644,26 @@ export type EndpointTradingLocationEnum =
   | "ASIA";
 export const EndpointTradingLocationEnum = S.String;
 
-export type EndpointBidProtocolEnum =
-  | "BID_PROTOCOL_UNSPECIFIED"
-  | "GOOGLE_RTB"
-  | "OPENRTB_JSON"
-  | "OPENRTB_PROTOBUF";
-export const EndpointBidProtocolEnum = S.String;
-
 /** Bidder endpoint that receives bid requests. */
 export interface Endpoint {
-  /** The maximum number of queries per second allowed to be sent to this server. */
-  maximumQps?: string;
-  /** The trading location that bid requests should be sent from. See https://developers.google.com/authorized-buyers/rtb/peer-guide#trading-locations for further information. */
-  tradingLocation?: EndpointTradingLocationEnum | (string & {});
   /** Output only. Name of the endpoint resource that must follow the pattern `bidders/{bidderAccountId}/endpoints/{endpointId}`, where {bidderAccountId} is the account ID of the bidder who operates this endpoint, and {endpointId} is a unique ID assigned by the server. */
   name?: string;
-  /** The protocol that the bidder endpoint is using. */
-  bidProtocol?: EndpointBidProtocolEnum | (string & {});
+  /** The maximum number of queries per second allowed to be sent to this server. */
+  maximumQps?: string;
   /** Output only. The URL that bid requests should be sent to. */
   url?: string;
+  /** The protocol that the bidder endpoint is using. */
+  bidProtocol?: EndpointBidProtocolEnum | (string & {});
+  /** The trading location that bid requests should be sent from. See https://developers.google.com/authorized-buyers/rtb/peer-guide#trading-locations for further information. */
+  tradingLocation?: EndpointTradingLocationEnum | (string & {});
 }
 export const Endpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maximumQps: S.optional(S.String),
-    tradingLocation: S.optional(EndpointTradingLocationEnum),
     name: S.optional(S.String),
-    bidProtocol: S.optional(EndpointBidProtocolEnum),
+    maximumQps: S.optional(S.String),
     url: S.optional(S.String),
+    bidProtocol: S.optional(EndpointBidProtocolEnum),
+    tradingLocation: S.optional(EndpointTradingLocationEnum),
   }),
 ).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
 
@@ -1730,33 +1717,31 @@ export const GetBuyersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://realtimebidding.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetBuyersRequest",
-}) as any as S.Schema<GetBuyersRequest>;
+).annotate({ identifier: "GetBuyersRequest" }) as any as S.Schema<GetBuyersRequest>;
 
 /** RTB Buyer account information. */
 export interface Buyer {
   /** Output only. The maximum number of active creatives that this buyer can have. */
   maximumActiveCreativeCount?: string;
-  /** Output only. The number of creatives that this buyer submitted through the API or bid with in the last 30 days. This is counted against the maximum number of active creatives. */
-  activeCreativeCount?: string;
-  /** Output only. Name of the buyer resource that must follow the pattern `buyers/{buyerAccountId}`, where `{buyerAccountId}` is the account ID of the buyer account whose information is to be received. One can get their account ID on the Authorized Buyers or Open Bidding UI, or by contacting their Google account manager. */
-  name?: string;
-  /** Output only. The name of the bidder resource that is responsible for receiving bidding traffic for this account. The bidder name must follow the pattern `bidders/{bidderAccountId}`, where `{bidderAccountId}` is the account ID of the bidder receiving traffic for this buyer. */
-  bidder?: string;
-  /** Output only. A list of billing IDs associated with this account. These IDs appear on: 1. A bid request, to signal which buyers are eligible to bid on a given opportunity, and which pretargeting configurations were matched for each eligible buyer. 2. The bid response, to attribute a winning impression to a specific account for billing, reporting, policy and publisher block enforcement. */
-  billingIds?: StringList;
   /** Output only. The diplay name associated with this buyer account, as visible to sellers. */
   displayName?: string;
+  /** Output only. Name of the buyer resource that must follow the pattern `buyers/{buyerAccountId}`, where `{buyerAccountId}` is the account ID of the buyer account whose information is to be received. One can get their account ID on the Authorized Buyers or Open Bidding UI, or by contacting their Google account manager. */
+  name?: string;
+  /** Output only. A list of billing IDs associated with this account. These IDs appear on: 1. A bid request, to signal which buyers are eligible to bid on a given opportunity, and which pretargeting configurations were matched for each eligible buyer. 2. The bid response, to attribute a winning impression to a specific account for billing, reporting, policy and publisher block enforcement. */
+  billingIds?: StringList;
+  /** Output only. The number of creatives that this buyer submitted through the API or bid with in the last 30 days. This is counted against the maximum number of active creatives. */
+  activeCreativeCount?: string;
+  /** Output only. The name of the bidder resource that is responsible for receiving bidding traffic for this account. The bidder name must follow the pattern `bidders/{bidderAccountId}`, where `{bidderAccountId}` is the account ID of the bidder receiving traffic for this buyer. */
+  bidder?: string;
 }
 export const Buyer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maximumActiveCreativeCount: S.optional(S.String),
-    activeCreativeCount: S.optional(S.String),
-    name: S.optional(S.String),
-    bidder: S.optional(S.String),
-    billingIds: S.optional(StringList),
     displayName: S.optional(S.String),
+    name: S.optional(S.String),
+    billingIds: S.optional(StringList),
+    activeCreativeCount: S.optional(S.String),
+    bidder: S.optional(S.String),
   }),
 ).annotate({ identifier: "Buyer" }) as any as S.Schema<Buyer>;
 
@@ -1855,15 +1840,15 @@ export const GetRemarketingTagBuyersUserListsRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<GetRemarketingTagBuyersUserListsRequest>;
 
 export interface ListBiddersRequest {
-  /** A token identifying a page of results the server should return. This value is received from a previous `ListBidders` call in ListBiddersResponse.nextPageToken. */
-  pageToken?: string;
   /** The maximum number of bidders to return. If unspecified, at most 100 bidders will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
   pageSize?: number;
+  /** A token identifying a page of results the server should return. This value is received from a previous `ListBidders` call in ListBiddersResponse.nextPageToken. */
+  pageToken?: string;
 }
 export const ListBiddersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1871,28 +1856,24 @@ export const ListBiddersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://realtimebidding.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListBiddersRequest",
-}) as any as S.Schema<ListBiddersRequest>;
+).annotate({ identifier: "ListBiddersRequest" }) as any as S.Schema<ListBiddersRequest>;
 
 export type BidderList = Array<Bidder>;
 export const BidderList = /*@__PURE__*/ S.Array(Bidder) as any as S.Schema<BidderList>;
 
 /** A response containing bidders. */
 export interface ListBiddersResponse {
-  /** A token which can be passed to a subsequent call to the `ListBidders` method to retrieve the next page of results in ListBiddersRequest.pageToken. */
-  nextPageToken?: string;
   /** List of bidders. */
   bidders?: BidderList;
+  /** A token which can be passed to a subsequent call to the `ListBidders` method to retrieve the next page of results in ListBiddersRequest.pageToken. */
+  nextPageToken?: string;
 }
 export const ListBiddersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     bidders: S.optional(BidderList),
+    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListBiddersResponse",
-}) as any as S.Schema<ListBiddersResponse>;
+).annotate({ identifier: "ListBiddersResponse" }) as any as S.Schema<ListBiddersResponse>;
 
 export type ListBiddersCreativesViewEnum =
   | "CREATIVE_VIEW_UNSPECIFIED"
@@ -1901,24 +1882,24 @@ export type ListBiddersCreativesViewEnum =
 export const ListBiddersCreativesViewEnum = S.String;
 
 export interface ListBiddersCreativesRequest {
-  /** Requested page size. The server may return fewer creatives than requested (due to timeout constraint) even if more are available through another call. If unspecified, server will pick an appropriate default. Acceptable values are 1 to 1000, inclusive. */
-  pageSize?: number;
   /** A token identifying a page of results the server should return. Typically, this is the value of ListCreativesResponse.nextPageToken returned from the previous call to the 'ListCreatives' method. Page tokens for continued pages are valid for up to five hours, counting from the call to 'ListCreatives' for the first page. */
   pageToken?: string;
-  /** Required. Name of the parent buyer that owns the creatives. The pattern for this resource is either `buyers/{buyerAccountId}` or `bidders/{bidderAccountId}`. For `buyers/{buyerAccountId}`, the `buyerAccountId` can be one of the following: 1. The ID of the buyer that is accessing their own creatives. 2. The ID of the child seat buyer under a bidder account. So for listing creatives pertaining to the child seat buyer (`456`) under bidder account (`123`), you would use the pattern: `buyers/456`. 3. The ID of the bidder itself. So for listing creatives pertaining to bidder (`123`), you would use `buyers/123`. If you want to access all creatives pertaining to both the bidder and all of its child seat accounts, you would use `bidders/{bidderAccountId}`, for example, for all creatives pertaining to bidder (`123`), use `bidders/123`. */
-  parent: string;
-  /** Query string to filter creatives. If no filter is specified, all active creatives will be returned. Example: 'accountId=12345 AND (dealsStatus:DISAPPROVED AND disapprovalReason:UNACCEPTABLE_CONTENT) OR declaredAttributes:IS_COOKIE_TARGETED' */
-  filter?: string;
   /** Controls the amount of information included in the response. By default only creativeServingDecision is included. To retrieve the entire creative resource (including the declared fields and the creative content) specify the view as "FULL". */
   view?: ListBiddersCreativesViewEnum | (string & {});
+  /** Query string to filter creatives. If no filter is specified, all active creatives will be returned. Example: 'accountId=12345 AND (dealsStatus:DISAPPROVED AND disapprovalReason:UNACCEPTABLE_CONTENT) OR declaredAttributes:IS_COOKIE_TARGETED' */
+  filter?: string;
+  /** Required. Name of the parent buyer that owns the creatives. The pattern for this resource is either `buyers/{buyerAccountId}` or `bidders/{bidderAccountId}`. For `buyers/{buyerAccountId}`, the `buyerAccountId` can be one of the following: 1. The ID of the buyer that is accessing their own creatives. 2. The ID of the child seat buyer under a bidder account. So for listing creatives pertaining to the child seat buyer (`456`) under bidder account (`123`), you would use the pattern: `buyers/456`. 3. The ID of the bidder itself. So for listing creatives pertaining to bidder (`123`), you would use `buyers/123`. If you want to access all creatives pertaining to both the bidder and all of its child seat accounts, you would use `bidders/{bidderAccountId}`, for example, for all creatives pertaining to bidder (`123`), use `bidders/123`. */
+  parent: string;
+  /** Requested page size. The server may return fewer creatives than requested (due to timeout constraint) even if more are available through another call. If unspecified, server will pick an appropriate default. Acceptable values are 1 to 1000, inclusive. */
+  pageSize?: number;
 }
 export const ListBiddersCreativesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     view: S.optional(ListBiddersCreativesViewEnum.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1945,23 +1926,21 @@ export const ListCreativesResponse = /*@__PURE__*/ S.suspend(() =>
     creatives: S.optional(CreativeList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListCreativesResponse",
-}) as any as S.Schema<ListCreativesResponse>;
+).annotate({ identifier: "ListCreativesResponse" }) as any as S.Schema<ListCreativesResponse>;
 
 export interface ListBiddersEndpointsRequest {
   /** Required. Name of the bidder whose endpoints will be listed. Format: `bidders/{bidderAccountId}` */
   parent: string;
-  /** A token identifying a page of results the server should return. This value is received from a previous `ListEndpoints` call in ListEndpointsResponse.nextPageToken. */
-  pageToken?: string;
   /** The maximum number of endpoints to return. If unspecified, at most 100 endpoints will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
   pageSize?: number;
+  /** A token identifying a page of results the server should return. This value is received from a previous `ListEndpoints` call in ListEndpointsResponse.nextPageToken. */
+  pageToken?: string;
 }
 export const ListBiddersEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1988,23 +1967,21 @@ export const ListEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
     endpoints: S.optional(EndpointList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListEndpointsResponse",
-}) as any as S.Schema<ListEndpointsResponse>;
+).annotate({ identifier: "ListEndpointsResponse" }) as any as S.Schema<ListEndpointsResponse>;
 
 export interface ListBiddersPretargetingConfigsRequest {
   /** Required. Name of the bidder whose pretargeting configurations will be listed. Format: bidders/{bidderAccountId} */
   parent: string;
-  /** The maximum number of pretargeting configurations to return. If unspecified, at most 10 pretargeting configurations will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
   /** A token identifying a page of results the server should return. This value is received from a previous `ListPretargetingConfigs` call in ListPretargetingConfigsResponse.nextPageToken. */
   pageToken?: string;
+  /** The maximum number of pretargeting configurations to return. If unspecified, at most 10 pretargeting configurations will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
+  pageSize?: number;
 }
 export const ListBiddersPretargetingConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2038,24 +2015,24 @@ export const ListPretargetingConfigsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListPretargetingConfigsResponse>;
 
 export interface ListBiddersPublisherConnectionsRequest {
-  /** A token identifying a page of results the server should return. Typically, this is the value of ListPublisherConnectionsResponse.nextPageToken returned from the previous call to the 'ListPublisherConnections' method. */
-  pageToken?: string;
-  /** Requested page size. The server may return fewer results than requested (due to timeout constraint) even if more are available through another call. If unspecified, the server will pick an appropriate default. Acceptable values are 1 to 5000, inclusive. */
-  pageSize?: number;
-  /** Required. Name of the bidder for which publishers have initiated connections. The pattern for this resource is `bidders/{bidder}` where `{bidder}` represents the account ID of the bidder. */
-  parent: string;
-  /** Query string to filter publisher connections. Connections can be filtered by `displayName`, `publisherPlatform`, and `biddingState`. If no filter is specified, all publisher connections will be returned. Example: 'displayName="Great Publisher*" AND publisherPlatform=ADMOB AND biddingState != PENDING' See https://google.aip.dev/160 for more information about filtering syntax. */
-  filter?: string;
   /** Order specification by which results should be sorted. If no sort order is specified, the results will be returned in alphabetic order based on the publisher's publisher code. Results can be sorted by `createTime`. Example: 'createTime DESC'. */
   orderBy?: string;
+  /** Requested page size. The server may return fewer results than requested (due to timeout constraint) even if more are available through another call. If unspecified, the server will pick an appropriate default. Acceptable values are 1 to 5000, inclusive. */
+  pageSize?: number;
+  /** Query string to filter publisher connections. Connections can be filtered by `displayName`, `publisherPlatform`, and `biddingState`. If no filter is specified, all publisher connections will be returned. Example: 'displayName="Great Publisher*" AND publisherPlatform=ADMOB AND biddingState != PENDING' See https://google.aip.dev/160 for more information about filtering syntax. */
+  filter?: string;
+  /** A token identifying a page of results the server should return. Typically, this is the value of ListPublisherConnectionsResponse.nextPageToken returned from the previous call to the 'ListPublisherConnections' method. */
+  pageToken?: string;
+  /** Required. Name of the bidder for which publishers have initiated connections. The pattern for this resource is `bidders/{bidder}` where `{bidder}` represents the account ID of the bidder. */
+  parent: string;
 }
 export const ListBiddersPublisherConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2094,15 +2071,9 @@ export const ListBuyersRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/buyers",
-      baseUrl: "https://realtimebidding.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/buyers", baseUrl: "https://realtimebidding.googleapis.com/" }),
   ),
-).annotate({
-  identifier: "ListBuyersRequest",
-}) as any as S.Schema<ListBuyersRequest>;
+).annotate({ identifier: "ListBuyersRequest" }) as any as S.Schema<ListBuyersRequest>;
 
 export type BuyerList = Array<Buyer>;
 export const BuyerList = /*@__PURE__*/ S.Array(Buyer) as any as S.Schema<BuyerList>;
@@ -2119,9 +2090,7 @@ export const ListBuyersResponse = /*@__PURE__*/ S.suspend(() =>
     buyers: S.optional(BuyerList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListBuyersResponse",
-}) as any as S.Schema<ListBuyersResponse>;
+).annotate({ identifier: "ListBuyersResponse" }) as any as S.Schema<ListBuyersResponse>;
 
 export type ListBuyersCreativesViewEnum =
   | "CREATIVE_VIEW_UNSPECIFIED"
@@ -2130,24 +2099,24 @@ export type ListBuyersCreativesViewEnum =
 export const ListBuyersCreativesViewEnum = S.String;
 
 export interface ListBuyersCreativesRequest {
-  /** Controls the amount of information included in the response. By default only creativeServingDecision is included. To retrieve the entire creative resource (including the declared fields and the creative content) specify the view as "FULL". */
-  view?: ListBuyersCreativesViewEnum | (string & {});
-  /** Requested page size. The server may return fewer creatives than requested (due to timeout constraint) even if more are available through another call. If unspecified, server will pick an appropriate default. Acceptable values are 1 to 1000, inclusive. */
-  pageSize?: number;
-  /** A token identifying a page of results the server should return. Typically, this is the value of ListCreativesResponse.nextPageToken returned from the previous call to the 'ListCreatives' method. Page tokens for continued pages are valid for up to five hours, counting from the call to 'ListCreatives' for the first page. */
-  pageToken?: string;
   /** Required. Name of the parent buyer that owns the creatives. The pattern for this resource is either `buyers/{buyerAccountId}` or `bidders/{bidderAccountId}`. For `buyers/{buyerAccountId}`, the `buyerAccountId` can be one of the following: 1. The ID of the buyer that is accessing their own creatives. 2. The ID of the child seat buyer under a bidder account. So for listing creatives pertaining to the child seat buyer (`456`) under bidder account (`123`), you would use the pattern: `buyers/456`. 3. The ID of the bidder itself. So for listing creatives pertaining to bidder (`123`), you would use `buyers/123`. If you want to access all creatives pertaining to both the bidder and all of its child seat accounts, you would use `bidders/{bidderAccountId}`, for example, for all creatives pertaining to bidder (`123`), use `bidders/123`. */
   parent: string;
+  /** Controls the amount of information included in the response. By default only creativeServingDecision is included. To retrieve the entire creative resource (including the declared fields and the creative content) specify the view as "FULL". */
+  view?: ListBuyersCreativesViewEnum | (string & {});
   /** Query string to filter creatives. If no filter is specified, all active creatives will be returned. Example: 'accountId=12345 AND (dealsStatus:DISAPPROVED AND disapprovalReason:UNACCEPTABLE_CONTENT) OR declaredAttributes:IS_COOKIE_TARGETED' */
   filter?: string;
+  /** A token identifying a page of results the server should return. Typically, this is the value of ListCreativesResponse.nextPageToken returned from the previous call to the 'ListCreatives' method. Page tokens for continued pages are valid for up to five hours, counting from the call to 'ListCreatives' for the first page. */
+  pageToken?: string;
+  /** Requested page size. The server may return fewer creatives than requested (due to timeout constraint) even if more are available through another call. If unspecified, server will pick an appropriate default. Acceptable values are 1 to 1000, inclusive. */
+  pageSize?: number;
 }
 export const ListBuyersCreativesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    view: S.optional(ListBuyersCreativesViewEnum.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    view: S.optional(ListBuyersCreativesViewEnum.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2160,17 +2129,17 @@ export const ListBuyersCreativesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListBuyersCreativesRequest>;
 
 export interface ListBuyersUserListsRequest {
-  /** Continuation page token as received from a previous response. */
-  pageToken?: string;
   /** The number of results to return per page. */
   pageSize?: number;
+  /** Continuation page token as received from a previous response. */
+  pageToken?: string;
   /** Required. The name of the parent buyer for the user lists to be returned that must follow the pattern `buyers/{buyerAccountId}`, where `{buyerAccountId}` represents the account ID of the buyer who owns user lists. For a bidder accessing user lists on behalf of a child seat buyer , `{buyerAccountId}` should represent the account ID of the child seat buyer. */
   parent: string;
 }
 export const ListBuyersUserListsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -2198,9 +2167,7 @@ export const ListUserListsResponse = /*@__PURE__*/ S.suspend(() =>
     userLists: S.optional(UserListList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListUserListsResponse",
-}) as any as S.Schema<ListUserListsResponse>;
+).annotate({ identifier: "ListUserListsResponse" }) as any as S.Schema<ListUserListsResponse>;
 
 /** A request to open a specified user list. */
 export type OpenUserListRequest = ActivatePretargetingConfigRequest;
@@ -2252,17 +2219,17 @@ export const PatchBiddersEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchBiddersEndpointsRequest>;
 
 export interface PatchBiddersPretargetingConfigsRequest {
-  /** Output only. Name of the pretargeting config that must follow the pattern `bidders/{bidder_account_id}/pretargetingConfigs/{config_id}` */
-  name: string;
   /** Field mask to use for partial in-place updates. */
   updateMask?: string;
+  /** Output only. Name of the pretargeting config that must follow the pattern `bidders/{bidder_account_id}/pretargetingConfigs/{config_id}` */
+  name: string;
   /** Request body */
   body?: PretargetingConfig;
 }
 export const PatchBiddersPretargetingConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(PretargetingConfig.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2475,19 +2442,17 @@ export const WatchBiddersCreativesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A response for the request to receive push notification when a bidder's creatives change status. */
 export interface WatchCreativesResponse {
-  /** The Pub/Sub subscription that can be used to pull creative status notifications. This would be of the format `projects/{project_id}/subscriptions/{subscription_id}`. Subscription is created with pull delivery. All service accounts belonging to the bidder will have read access to this subscription. Subscriptions that are inactive for more than 90 days will be disabled. Use watchCreatives to re-enable the subscription. */
-  subscription?: string;
   /** The Pub/Sub topic that will be used to publish creative serving status notifications. This would be of the format `projects/{project_id}/topics/{topic_id}`. */
   topic?: string;
+  /** The Pub/Sub subscription that can be used to pull creative status notifications. This would be of the format `projects/{project_id}/subscriptions/{subscription_id}`. Subscription is created with pull delivery. All service accounts belonging to the bidder will have read access to this subscription. Subscriptions that are inactive for more than 90 days will be disabled. Use watchCreatives to re-enable the subscription. */
+  subscription?: string;
 }
 export const WatchCreativesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    subscription: S.optional(S.String),
     topic: S.optional(S.String),
+    subscription: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WatchCreativesResponse",
-}) as any as S.Schema<WatchCreativesResponse>;
+).annotate({ identifier: "WatchCreativesResponse" }) as any as S.Schema<WatchCreativesResponse>;
 
 export type ActivateBiddersPretargetingConfigsError =
   | NotFound
@@ -2506,6 +2471,26 @@ export const activateBiddersPretargetingConfigs: API.OperationMethod<
   input: ActivateBiddersPretargetingConfigsRequest,
   output: PretargetingConfig,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type AddDealsBuyersCreativesError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Adds a list of deals to a creative, which submits the creative for publisher review. Returns the updated creative. */
+export const addDealsBuyersCreatives: API.OperationMethod<
+  AddDealsBuyersCreativesRequest,
+  Creative,
+  AddDealsBuyersCreativesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AddDealsBuyersCreativesRequest,
+  output: Creative,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2877,10 +2862,7 @@ export const listBidders: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListBiddersCreativesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -2897,10 +2879,7 @@ export const listBiddersCreatives: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListBiddersEndpointsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -2917,10 +2896,7 @@ export const listBiddersEndpoints: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListBiddersPretargetingConfigsError =
@@ -2941,10 +2917,7 @@ export const listBiddersPretargetingConfigs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListBiddersPublisherConnectionsError =
@@ -2965,10 +2938,7 @@ export const listBiddersPublisherConnections: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListBuyersError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -2985,10 +2955,7 @@ export const listBuyers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListBuyersCreativesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -3005,10 +2972,7 @@ export const listBuyersCreatives: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListBuyersUserListsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -3025,10 +2989,7 @@ export const listBuyersUserLists: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type OpenBuyersUserListsError =

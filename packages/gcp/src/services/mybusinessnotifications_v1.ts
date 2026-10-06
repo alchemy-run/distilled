@@ -103,35 +103,33 @@ export const NotificationSettingNotificationTypesItemEnumList = /*@__PURE__*/ S.
 
 /** A Google Pub/Sub topic where notifications can be published when a location is updated or has a new review. There will be only one notification setting resource per-account. */
 export interface NotificationSetting {
-  /** The types of notifications that will be sent to the Pub/Sub topic. To stop receiving notifications entirely, use NotificationSettings.UpdateNotificationSetting with an empty notification_types or set the pubsub_topic to an empty string. */
-  notificationTypes?: NotificationSettingNotificationTypesItemEnumList;
   /** Required. The resource name this setting is for. This is of the form `accounts/{account_id}/notificationSetting`. */
   name?: string;
+  /** The types of notifications that will be sent to the Pub/Sub topic. To stop receiving notifications entirely, use NotificationSettings.UpdateNotificationSetting with an empty notification_types or set the pubsub_topic to an empty string. */
+  notificationTypes?: NotificationSettingNotificationTypesItemEnumList;
   /** Optional. The Google Pub/Sub topic that will receive notifications when locations managed by this account are updated. If unset, no notifications will be posted. The account mybusiness-api-pubsub@system.gserviceaccount.com must have at least Publish permissions on the Pub/Sub topic. */
   pubsubTopic?: string;
 }
 export const NotificationSetting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    notificationTypes: S.optional(NotificationSettingNotificationTypesItemEnumList),
     name: S.optional(S.String),
+    notificationTypes: S.optional(NotificationSettingNotificationTypesItemEnumList),
     pubsubTopic: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NotificationSetting",
-}) as any as S.Schema<NotificationSetting>;
+).annotate({ identifier: "NotificationSetting" }) as any as S.Schema<NotificationSetting>;
 
 export interface UpdateNotificationSettingAccountsRequest {
-  /** Required. The resource name this setting is for. This is of the form `accounts/{account_id}/notificationSetting`. */
-  name: string;
   /** Required. The specific fields that should be updated. The only editable field is notification_setting. */
   updateMask?: string;
+  /** Required. The resource name this setting is for. This is of the form `accounts/{account_id}/notificationSetting`. */
+  name: string;
   /** Request body */
   body?: NotificationSetting;
 }
 export const UpdateNotificationSettingAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(NotificationSetting.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

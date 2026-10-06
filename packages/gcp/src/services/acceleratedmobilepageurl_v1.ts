@@ -79,9 +79,7 @@ export const BatchGetAmpUrlsRequest = /*@__PURE__*/ S.suspend(() =>
     urls: S.optional(StringList),
     lookupStrategy: S.optional(BatchGetAmpUrlsRequestLookupStrategyEnum),
   }),
-).annotate({
-  identifier: "BatchGetAmpUrlsRequest",
-}) as any as S.Schema<BatchGetAmpUrlsRequest>;
+).annotate({ identifier: "BatchGetAmpUrlsRequest" }) as any as S.Schema<BatchGetAmpUrlsRequest>;
 
 export interface BatchGetAmpUrlsRequest_ {
   /** Request body */
@@ -97,9 +95,7 @@ export const BatchGetAmpUrlsRequest_ = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://acceleratedmobilepageurl.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "BatchGetAmpUrlsRequest_",
-}) as any as S.Schema<BatchGetAmpUrlsRequest_>;
+).annotate({ identifier: "BatchGetAmpUrlsRequest_" }) as any as S.Schema<BatchGetAmpUrlsRequest_>;
 
 export type AmpUrlErrorErrorCodeEnum =
   | "ERROR_CODE_UNSPECIFIED"
@@ -112,18 +108,18 @@ export const AmpUrlErrorErrorCodeEnum = S.String;
 
 /** AMP URL Error resource for a requested URL that couldn't be found. */
 export interface AmpUrlError {
-  /** The error code of an API call. */
-  errorCode?: AmpUrlErrorErrorCodeEnum;
-  /** The original non-AMP URL. */
-  originalUrl?: string;
   /** An optional descriptive error message. */
   errorMessage?: string;
+  /** The original non-AMP URL. */
+  originalUrl?: string;
+  /** The error code of an API call. */
+  errorCode?: AmpUrlErrorErrorCodeEnum;
 }
 export const AmpUrlError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    errorCode: S.optional(AmpUrlErrorErrorCodeEnum),
-    originalUrl: S.optional(S.String),
     errorMessage: S.optional(S.String),
+    originalUrl: S.optional(S.String),
+    errorCode: S.optional(AmpUrlErrorErrorCodeEnum),
   }),
 ).annotate({ identifier: "AmpUrlError" }) as any as S.Schema<AmpUrlError>;
 
@@ -136,16 +132,16 @@ export const AmpUrlErrorList = /*@__PURE__*/ S.Array(
 export interface AmpUrl {
   /** The original non-AMP URL. */
   originalUrl?: string;
-  /** The [AMP Cache URL](/amp/cache/overview#amp-cache-url-format) pointing to the cached document in the Google AMP Cache. */
-  cdnAmpUrl?: string;
   /** The AMP URL pointing to the publisher's web server. */
   ampUrl?: string;
+  /** The [AMP Cache URL](/amp/cache/overview#amp-cache-url-format) pointing to the cached document in the Google AMP Cache. */
+  cdnAmpUrl?: string;
 }
 export const AmpUrl = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     originalUrl: S.optional(S.String),
-    cdnAmpUrl: S.optional(S.String),
     ampUrl: S.optional(S.String),
+    cdnAmpUrl: S.optional(S.String),
   }),
 ).annotate({ identifier: "AmpUrl" }) as any as S.Schema<AmpUrl>;
 
@@ -164,9 +160,7 @@ export const BatchGetAmpUrlsResponse = /*@__PURE__*/ S.suspend(() =>
     urlErrors: S.optional(AmpUrlErrorList),
     ampUrls: S.optional(AmpUrlList),
   }),
-).annotate({
-  identifier: "BatchGetAmpUrlsResponse",
-}) as any as S.Schema<BatchGetAmpUrlsResponse>;
+).annotate({ identifier: "BatchGetAmpUrlsResponse" }) as any as S.Schema<BatchGetAmpUrlsResponse>;
 
 export type BatchGetAmpUrlsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Returns AMP URL(s) and equivalent [AMP Cache URL(s)](/amp/cache/overview#amp-cache-url-format). */

@@ -62,18 +62,18 @@ export class NotFound
   ) {}
 
 export interface CheckFreeAccessPublicationsRequest {
-  /** Required. The HTTP referrer. */
-  httpReferrer?: string;
   /** Required. The resource name of the publication. Format: publications/{publication_id} */
   name: string;
   /** Required. The URI of the content. */
   uri?: string;
+  /** Required. The HTTP referrer. */
+  httpReferrer?: string;
 }
 export const CheckFreeAccessPublicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    httpReferrer: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     uri: S.optional(S.String.pipe(T.Query())),
+    httpReferrer: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -94,54 +94,45 @@ export const CheckFreeAccessResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     isAllowed: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CheckFreeAccessResponse",
-}) as any as S.Schema<CheckFreeAccessResponse>;
+).annotate({ identifier: "CheckFreeAccessResponse" }) as any as S.Schema<CheckFreeAccessResponse>;
+
+export type PublicationOnboardingStateEnum =
+  | "ONBOARDING_STATE_UNSPECIFIED"
+  | "ACTION_REQUIRED"
+  | "PENDING_VERIFICATION"
+  | "COMPLETE";
+export const PublicationOnboardingStateEnum = S.String;
 
 /** Details about the acceptance of the Terms of Service (TOS). */
 export interface TosAcceptance {
-  /** Required. Whether the user has accepted the Terms of Service. */
-  userAccepted?: boolean;
   /** Optional. Whether the user opted in to receive product updates and email communications. */
   emailOptIn?: boolean;
+  /** Required. Whether the user has accepted the Terms of Service. */
+  userAccepted?: boolean;
 }
 export const TosAcceptance = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userAccepted: S.optional(S.Boolean),
     emailOptIn: S.optional(S.Boolean),
+    userAccepted: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "TosAcceptance" }) as any as S.Schema<TosAcceptance>;
 
 /** Configuration and status of the Reader Revenue Manager (RRM) product for a publication. */
 export interface RrmProduct {
+  /** Output only. The URL to the product-specific Terms of Service. */
+  productTosUrl?: string;
   /** Optional. Whether the RRM product is enabled for the publication. */
   enabled?: boolean;
   /** Optional. The details of the TOS acceptance. */
   tosAcceptance?: TosAcceptance;
-  /** Output only. The URL to the product-specific Terms of Service. */
-  productTosUrl?: string;
 }
 export const RrmProduct = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    productTosUrl: S.optional(S.String),
     enabled: S.optional(S.Boolean),
     tosAcceptance: S.optional(TosAcceptance),
-    productTosUrl: S.optional(S.String),
   }),
 ).annotate({ identifier: "RrmProduct" }) as any as S.Schema<RrmProduct>;
-
-/** Represents a domain property associated with a publication, typically used to verify ownership and scope access. */
-export interface DomainProperty {
-  /** Required. The URL of the domain property (e.g., "https://example.com"). */
-  url?: string;
-  /** Optional. Whether the domain ownership has been verified (e.g., via Google Search Console). */
-  ownershipVerified?: boolean;
-}
-export const DomainProperty = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    url: S.optional(S.String),
-    ownershipVerified: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "DomainProperty" }) as any as S.Schema<DomainProperty>;
 
 /** Subscription Linking (SL) product settings and status. */
 export interface SlProduct {
@@ -179,16 +170,13 @@ export const ContentPolicyStatus = /*@__PURE__*/ S.suspend(() =>
     policyInfoUrl: S.optional(S.String),
     state: S.optional(ContentPolicyStatusStateEnum),
   }),
-).annotate({
-  identifier: "ContentPolicyStatus",
-}) as any as S.Schema<ContentPolicyStatus>;
+).annotate({ identifier: "ContentPolicyStatus" }) as any as S.Schema<ContentPolicyStatus>;
 
-export type PublicationOnboardingStateEnum =
-  | "ONBOARDING_STATE_UNSPECIFIED"
-  | "ACTION_REQUIRED"
-  | "PENDING_VERIFICATION"
-  | "COMPLETE";
-export const PublicationOnboardingStateEnum = S.String;
+export type PublicationPublicationTypeEnum =
+  | "PUBLICATION_TYPE_UNSPECIFIED"
+  | "FOR_PROFIT"
+  | "NON_PROFIT";
+export const PublicationPublicationTypeEnum = S.String;
 
 export type PublicationPaymentOptionEnum =
   | "PAYMENT_OPTION_UNSPECIFIED"
@@ -197,91 +185,99 @@ export type PublicationPaymentOptionEnum =
   | "CONTRIBUTIONS";
 export const PublicationPaymentOptionEnum = S.String;
 
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
+/** Represents a domain property associated with a publication, typically used to verify ownership and scope access. */
+export interface DomainProperty {
+  /** Output only. Whether the domain ownership has been verified (e.g., via Google Search Console). */
+  ownershipVerified?: boolean;
+  /** Required. The URL of the domain property (e.g., "https://example.com"). */
+  url?: string;
+}
+export const DomainProperty = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ownershipVerified: S.optional(S.Boolean),
+    url: S.optional(S.String),
+  }),
+).annotate({ identifier: "DomainProperty" }) as any as S.Schema<DomainProperty>;
+
 export type DomainPropertyList = Array<DomainProperty>;
 export const DomainPropertyList = /*@__PURE__*/ S.Array(
   DomainProperty,
 ) as any as S.Schema<DomainPropertyList>;
 
-export type PublicationPublicationTypeEnum =
-  | "PUBLICATION_TYPE_UNSPECIFIED"
-  | "FOR_PROFIT"
-  | "NON_PROFIT";
-export const PublicationPublicationTypeEnum = S.String;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
 /** Represents a publisher's publication in Reader Revenue Manager. */
 export interface Publication {
   /** Optional. The URL to the publisher's Privacy Policy. */
   publicationPrivacyPolicyUrl?: string;
-  /** Optional. Reader Revenue Manager product settings and status. */
-  rrmProduct?: RrmProduct;
-  /** Required. The primary domain property associated with the publication. */
-  primaryDomain?: DomainProperty;
-  /** Optional. Subscription Linking product configurations. */
-  slProduct?: SlProduct;
-  /** Output only. The content policy compliance status of the publication. */
-  contentPolicyStatus?: ContentPolicyStatus;
   /** Output only. The current onboarding state. */
   onboardingState?: PublicationOnboardingStateEnum | (string & {});
-  /** Output only. The unique identifier of the publication. */
-  publicationId?: string;
-  /** Output only. The configured payment option. */
-  paymentOption?: PublicationPaymentOptionEnum | (string & {});
-  /** Identifier. The resource name of the publication. Format: organizations/{organization}/publications/{publication} */
-  name?: string;
-  /** Optional. Additional domain properties verified for the publication. */
-  additionalDomains?: DomainPropertyList;
   /** Output only. The unique identifier of the organization that owns this publication. */
   organizationId?: string;
-  /** Optional. The publication entity type (for-profit vs non-profit). Defaults to FOR_PROFIT if omitted. */
-  publicationType?: PublicationPublicationTypeEnum | (string & {});
-  /** Output only. The list of active products/features enabled for this publication. */
-  products?: StringList;
+  /** Output only. The unique identifier of the publication. */
+  publicationId?: string;
+  /** Optional. Reader Revenue Manager product settings and status. */
+  rrmProduct?: RrmProduct;
+  /** Optional. Subscription Linking product configurations. */
+  slProduct?: SlProduct;
   /** Optional. The URL to the publisher's own Terms of Service. */
   publicationTosUrl?: string;
-  /** Required. The primary language of the publication (BCP-47 code, e.g., "en-US"). */
-  languageCode?: string;
+  /** Output only. The content policy compliance status of the publication. */
+  contentPolicyStatus?: ContentPolicyStatus;
+  /** Identifier. The resource name of the publication. Format: organizations/{organization}/publications/{publication} */
+  name?: string;
   /** Required. The user-visible display name of the publication. */
   displayName?: string;
+  /** Optional. The publication entity type (for-profit vs non-profit). Defaults to FOR_PROFIT if omitted. */
+  publicationType?: PublicationPublicationTypeEnum | (string & {});
+  /** Output only. The configured payment option. */
+  paymentOption?: PublicationPaymentOptionEnum | (string & {});
+  /** Output only. The list of active products/features enabled for this publication. */
+  products?: StringList;
+  /** Optional. Additional domain properties verified for the publication. */
+  additionalDomains?: DomainPropertyList;
+  /** Required. The primary domain property associated with the publication. */
+  primaryDomain?: DomainProperty;
   /** Required. The ISO 3166-1 alpha-2 region code where the publication is registered (e.g., "US"). */
   regionCode?: string;
+  /** Required. The primary language of the publication (BCP-47 code, e.g., "en-US"). */
+  languageCode?: string;
 }
 export const Publication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     publicationPrivacyPolicyUrl: S.optional(S.String),
-    rrmProduct: S.optional(RrmProduct),
-    primaryDomain: S.optional(DomainProperty),
-    slProduct: S.optional(SlProduct),
-    contentPolicyStatus: S.optional(ContentPolicyStatus),
     onboardingState: S.optional(PublicationOnboardingStateEnum),
-    publicationId: S.optional(S.String),
-    paymentOption: S.optional(PublicationPaymentOptionEnum),
-    name: S.optional(S.String),
-    additionalDomains: S.optional(DomainPropertyList),
     organizationId: S.optional(S.String),
-    publicationType: S.optional(PublicationPublicationTypeEnum),
-    products: S.optional(StringList),
+    publicationId: S.optional(S.String),
+    rrmProduct: S.optional(RrmProduct),
+    slProduct: S.optional(SlProduct),
     publicationTosUrl: S.optional(S.String),
-    languageCode: S.optional(S.String),
+    contentPolicyStatus: S.optional(ContentPolicyStatus),
+    name: S.optional(S.String),
     displayName: S.optional(S.String),
+    publicationType: S.optional(PublicationPublicationTypeEnum),
+    paymentOption: S.optional(PublicationPaymentOptionEnum),
+    products: S.optional(StringList),
+    additionalDomains: S.optional(DomainPropertyList),
+    primaryDomain: S.optional(DomainProperty),
     regionCode: S.optional(S.String),
+    languageCode: S.optional(S.String),
   }),
 ).annotate({ identifier: "Publication" }) as any as S.Schema<Publication>;
 
 export interface CreateOrganizationsPublicationsRequest {
-  /** Required. The parent resource where this publication will be created. Format: `organizations/{organization}`. */
-  parent: string;
   /** Optional. The unique identifier of the publication to create. If not specified, the server will generate a random publication ID. */
   publicationId?: string;
+  /** Required. The parent resource where this publication will be created. Format: `organizations/{organization}`. */
+  parent: string;
   /** Request body */
   body?: Publication;
 }
 export const CreateOrganizationsPublicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     publicationId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(Publication.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -297,69 +293,67 @@ export const CreateOrganizationsPublicationsRequest = /*@__PURE__*/ S.suspend(()
 export type CtaTypeEnum = "TYPE_UNSPECIFIED" | "NEWSLETTER_SIGNUP";
 export const CtaTypeEnum = S.String;
 
+export type CtaStateEnum = "STATE_UNSPECIFIED" | "DRAFT" | "ACTIVE";
+export const CtaStateEnum = S.String;
+
 /** Configuration for newsletter signup calls-to-action (CTAs). */
 export interface NewsletterConfig {
-  /** Optional. Whether checking the opt-in checkbox is required. */
-  optInRequired?: boolean;
   /** Optional. Custom consent or disclosure text shown to the user. */
   customConsentText?: string;
+  /** Optional. Whether checking the opt-in checkbox is required. */
+  optInRequired?: boolean;
+  /** Required. The title of the newsletter signup prompt. */
+  title?: string;
   /** Optional. Whether the user is required to provide their name to sign up. */
   nameRequired?: boolean;
   /** Optional. A custom message displayed to the user in the signup prompt. */
   customMessage?: string;
-  /** Required. The title of the newsletter signup prompt. */
-  title?: string;
 }
 export const NewsletterConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    optInRequired: S.optional(S.Boolean),
     customConsentText: S.optional(S.String),
+    optInRequired: S.optional(S.Boolean),
+    title: S.optional(S.String),
     nameRequired: S.optional(S.Boolean),
     customMessage: S.optional(S.String),
-    title: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NewsletterConfig",
-}) as any as S.Schema<NewsletterConfig>;
-
-export type CtaStateEnum = "STATE_UNSPECIFIED" | "DRAFT" | "ACTIVE";
-export const CtaStateEnum = S.String;
+).annotate({ identifier: "NewsletterConfig" }) as any as S.Schema<NewsletterConfig>;
 
 /** Represents a Call-To-Action (CTA) configuration for a publication. */
 export interface Cta {
   /** Required. The type of this CTA. */
   type?: CtaTypeEnum | (string & {});
-  /** Optional. Configuration specific to newsletter signup CTAs. Only populated if type is `NEWSLETTER_SIGNUP`. */
-  newsletterConfig?: NewsletterConfig;
+  /** Identifier. The resource name of the Cta. Format: organizations/{organization}/publications/{publication}/ctas/{cta} */
+  name?: string;
   /** Output only. The current state of this CTA. */
   state?: CtaStateEnum | (string & {});
   /** Required. The user-visible display name of the CTA. */
   displayName?: string;
-  /** Identifier. The resource name of the Cta. Format: organizations/{organization}/publications/{publication}/ctas/{cta} */
-  name?: string;
+  /** Optional. Configuration specific to newsletter signup CTAs. Only populated if type is `NEWSLETTER_SIGNUP`. */
+  newsletterConfig?: NewsletterConfig;
 }
 export const Cta = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(CtaTypeEnum),
-    newsletterConfig: S.optional(NewsletterConfig),
+    name: S.optional(S.String),
     state: S.optional(CtaStateEnum),
     displayName: S.optional(S.String),
-    name: S.optional(S.String),
+    newsletterConfig: S.optional(NewsletterConfig),
   }),
 ).annotate({ identifier: "Cta" }) as any as S.Schema<Cta>;
 
 export interface CreateOrganizationsPublicationsCtasRequest {
-  /** Required. The parent publication resource where this CTA will be created. Format: `organizations/{organization}/publications/{publication}`. */
-  parent: string;
   /** Optional. The unique identifier of the CTA to create. If not specified, the server will generate a random CTA ID. */
   ctaId?: string;
+  /** Required. The parent publication resource where this CTA will be created. Format: `organizations/{organization}/publications/{publication}`. */
+  parent: string;
   /** Request body */
   body?: Cta;
 }
 export const CreateOrganizationsPublicationsCtasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     ctaId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(Cta.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -403,15 +397,15 @@ export const GeneratePlatformSiteTokensUsersRequest = /*@__PURE__*/ S.suspend(()
 
 /** Represents a domain-scoped secure token mapping. */
 export interface SiteToken {
-  /** The domain scope this token is valid for. */
-  domain?: string;
   /** The domain-scoped secure token value (ESUT). */
   token?: string;
+  /** The domain scope this token is valid for. */
+  domain?: string;
 }
 export const SiteToken = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    domain: S.optional(S.String),
     token: S.optional(S.String),
+    domain: S.optional(S.String),
   }),
 ).annotate({ identifier: "SiteToken" }) as any as S.Schema<SiteToken>;
 
@@ -470,19 +464,19 @@ export const GetOrganizationsPublicationsCtasRequest = /*@__PURE__*/ S.suspend((
 export interface ListOrganizationsPublicationsRequest {
   /** Optional. The maximum number of publications to return. The service may return fewer than this value. If unspecified, at most 50 publications will be returned. */
   pageSize?: number;
-  /** Optional. A page token, received from a previous `ListPublications` call, to retrieve the next page. */
-  pageToken?: string;
-  /** Required. The parent organization whose publications to list. Format: `organizations/{organization}`. */
-  parent: string;
   /** Optional. A filter expression to filter the publications returned. */
   filter?: string;
+  /** Required. The parent organization whose publications to list, or "organizations/-" for all organizations a user has access to. Format: `organizations/{organization}`. */
+  parent: string;
+  /** Optional. A page token, received from a previous `ListPublications` call, to retrieve the next page. */
+  pageToken?: string;
 }
 export const ListOrganizationsPublicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -501,33 +495,31 @@ export const PublicationList = /*@__PURE__*/ S.Array(
 
 /** Response message for `ListPublications`. */
 export interface ListPublicationsResponse {
-  /** Output only. A token to retrieve the next page of results, or empty if there are no more results. */
-  nextPageToken?: string;
   /** Output only. The list of publications. */
   publications?: PublicationList;
+  /** Output only. A token to retrieve the next page of results, or empty if there are no more results. */
+  nextPageToken?: string;
 }
 export const ListPublicationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     publications: S.optional(PublicationList),
+    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListPublicationsResponse",
-}) as any as S.Schema<ListPublicationsResponse>;
+).annotate({ identifier: "ListPublicationsResponse" }) as any as S.Schema<ListPublicationsResponse>;
 
 export interface ListOrganizationsPublicationsCtasRequest {
   /** Optional. A page token, received from a previous `ListCtas` call, to retrieve the next page. */
   pageToken?: string;
-  /** Optional. The maximum number of CTAs to return. The service may return fewer than this value. If unspecified, at most 50 CTAs will be returned. */
-  pageSize?: number;
   /** Required. The parent publication resource whose CTAs to list. Format: `organizations/{organization}/publications/{publication}`. */
   parent: string;
+  /** Optional. The maximum number of CTAs to return. The service may return fewer than this value. If unspecified, at most 50 CTAs will be returned. */
+  pageSize?: number;
 }
 export const ListOrganizationsPublicationsCtasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -554,22 +546,20 @@ export const ListCtasResponse = /*@__PURE__*/ S.suspend(() =>
     ctas: S.optional(CtaList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListCtasResponse",
-}) as any as S.Schema<ListCtasResponse>;
+).annotate({ identifier: "ListCtasResponse" }) as any as S.Schema<ListCtasResponse>;
 
 export interface PatchOrganizationsPublicationsRequest {
-  /** Identifier. The resource name of the publication. Format: organizations/{organization}/publications/{publication} */
-  name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string;
+  /** Identifier. The resource name of the publication. Format: organizations/{organization}/publications/{publication} */
+  name: string;
   /** Request body */
   body?: Publication;
 }
 export const PatchOrganizationsPublicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(Publication.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -583,17 +573,17 @@ export const PatchOrganizationsPublicationsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<PatchOrganizationsPublicationsRequest>;
 
 export interface PatchOrganizationsPublicationsCtasRequest {
-  /** Identifier. The resource name of the Cta. Format: organizations/{organization}/publications/{publication}/ctas/{cta} */
-  name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string;
+  /** Identifier. The resource name of the Cta. Format: organizations/{organization}/publications/{publication}/ctas/{cta} */
+  name: string;
   /** Request body */
   body?: Cta;
 }
 export const PatchOrganizationsPublicationsCtasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(Cta.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -725,10 +715,7 @@ export const listOrganizationsPublications: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListOrganizationsPublicationsCtasError = NotFound | Forbidden | GcpOpError;
@@ -745,10 +732,7 @@ export const listOrganizationsPublicationsCtas: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type PatchOrganizationsPublicationsError =

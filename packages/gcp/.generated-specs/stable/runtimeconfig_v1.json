@@ -8,6 +8,53 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.gcp.runtimeconfig_v1#Operation": {
+      "type": "structure",
+      "members": {
+        "done": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available."
+          }
+        },
+        "error": {
+          "target": "com.gcp.runtimeconfig_v1#Status",
+          "traits": {
+            "smithy.api#documentation": "The error result of the operation in case of failure or cancellation."
+          }
+        },
+        "metadata": {
+          "target": "com.gcp.runtimeconfig_v1#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`."
+          }
+        },
+        "response": {
+          "target": "com.gcp.runtimeconfig_v1#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This resource represents a long-running operation that is the result of a network API call."
+      }
+    },
+    "com.gcp.runtimeconfig_v1#DocumentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
     "com.gcp.runtimeconfig_v1#CancelOperationRequest": {
       "type": "structure",
       "members": {},
@@ -25,12 +72,6 @@
     "com.gcp.runtimeconfig_v1#ListOperationsResponse": {
       "type": "structure",
       "members": {
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The standard List next-page token."
-          }
-        },
         "operations": {
           "target": "com.gcp.runtimeconfig_v1#OperationList",
           "traits": {
@@ -41,6 +82,12 @@
           "target": "com.gcp.runtimeconfig_v1#StringList",
           "traits": {
             "smithy.api#documentation": "Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The standard List next-page token."
           }
         }
       },
@@ -63,10 +110,10 @@
     "com.gcp.runtimeconfig_v1#Status": {
       "type": "structure",
       "members": {
-        "code": {
-          "target": "smithy.api#Integer",
+        "message": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The status code, which should be an enum value of google.rpc.Code."
+            "smithy.api#documentation": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client."
           }
         },
         "details": {
@@ -75,24 +122,15 @@
             "smithy.api#documentation": "A list of messages that carry the error details. There is a common set of message types for APIs to use."
           }
         },
-        "message": {
-          "target": "smithy.api#String",
+        "code": {
+          "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client."
+            "smithy.api#documentation": "The status code, which should be an enum value of google.rpc.Code."
           }
         }
       },
       "traits": {
         "smithy.api#documentation": "The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors)."
-      }
-    },
-    "com.gcp.runtimeconfig_v1#DocumentMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
       }
     },
     "com.gcp.runtimeconfig_v1#DocumentMapList": {
@@ -101,53 +139,22 @@
         "target": "com.gcp.runtimeconfig_v1#DocumentMap"
       }
     },
-    "com.gcp.runtimeconfig_v1#Operation": {
-      "type": "structure",
-      "members": {
-        "response": {
-          "target": "com.gcp.runtimeconfig_v1#DocumentMap",
-          "traits": {
-            "smithy.api#documentation": "The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`."
-          }
-        },
-        "metadata": {
-          "target": "com.gcp.runtimeconfig_v1#DocumentMap",
-          "traits": {
-            "smithy.api#documentation": "Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`."
-          }
-        },
-        "error": {
-          "target": "com.gcp.runtimeconfig_v1#Status",
-          "traits": {
-            "smithy.api#documentation": "The error result of the operation in case of failure or cancellation."
-          }
-        },
-        "done": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "This resource represents a long-running operation that is the result of a network API call."
-      }
-    },
-    "com.gcp.runtimeconfig_v1#DeleteOperationsRequest": {
+    "com.gcp.runtimeconfig_v1#CancelOperationsRequest": {
       "type": "structure",
       "members": {
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The name of the operation resource to be deleted.",
+            "smithy.api#documentation": "The name of the operation resource to be cancelled.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.runtimeconfig_v1#CancelOperationRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
           }
         }
       }
@@ -204,10 +211,10 @@
         ]
       }
     },
-    "com.gcp.runtimeconfig_v1#DeleteOperations": {
+    "com.gcp.runtimeconfig_v1#CancelOperations": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.runtimeconfig_v1#DeleteOperationsRequest"
+        "target": "com.gcp.runtimeconfig_v1#CancelOperationsRequest"
       },
       "output": {
         "target": "com.gcp.runtimeconfig_v1#Empty"
@@ -228,20 +235,21 @@
       ],
       "traits": {
         "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "v1/{+name}"
+          "method": "POST",
+          "uri": "v1/{+name}:cancel"
         },
-        "smithy.api#documentation": "Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`."
+        "smithy.api#documentation": "Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`."
       }
     },
     "com.gcp.runtimeconfig_v1#ListOperationsRequest": {
       "type": "structure",
       "members": {
-        "pageToken": {
+        "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The standard list page token.",
-            "smithy.api#httpQuery": "pageToken"
+            "smithy.api#documentation": "The name of the operation's parent resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
           }
         },
         "filter": {
@@ -251,12 +259,11 @@
             "smithy.api#httpQuery": "filter"
           }
         },
-        "name": {
-          "target": "smithy.api#String",
+        "returnPartialSuccess": {
+          "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "The name of the operation's parent resource.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
+            "smithy.api#documentation": "When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `\"projects/example/locations/-\"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation.",
+            "smithy.api#httpQuery": "returnPartialSuccess"
           }
         },
         "pageSize": {
@@ -266,11 +273,11 @@
             "smithy.api#httpQuery": "pageSize"
           }
         },
-        "returnPartialSuccess": {
-          "target": "smithy.api#Boolean",
+        "pageToken": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `\"projects/example/locations/-\"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation.",
-            "smithy.api#httpQuery": "returnPartialSuccess"
+            "smithy.api#documentation": "The standard list page token.",
+            "smithy.api#httpQuery": "pageToken"
           }
         }
       }
@@ -303,30 +310,23 @@
         }
       }
     },
-    "com.gcp.runtimeconfig_v1#CancelOperationsRequest": {
+    "com.gcp.runtimeconfig_v1#DeleteOperationsRequest": {
       "type": "structure",
       "members": {
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The name of the operation resource to be cancelled.",
+            "smithy.api#documentation": "The name of the operation resource to be deleted.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.runtimeconfig_v1#CancelOperationRequest",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
           }
         }
       }
     },
-    "com.gcp.runtimeconfig_v1#CancelOperations": {
+    "com.gcp.runtimeconfig_v1#DeleteOperations": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.runtimeconfig_v1#CancelOperationsRequest"
+        "target": "com.gcp.runtimeconfig_v1#DeleteOperationsRequest"
       },
       "output": {
         "target": "com.gcp.runtimeconfig_v1#Empty"
@@ -347,10 +347,10 @@
       ],
       "traits": {
         "smithy.api#http": {
-          "method": "POST",
-          "uri": "v1/{+name}:cancel"
+          "method": "DELETE",
+          "uri": "v1/{+name}"
         },
-        "smithy.api#documentation": "Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`."
+        "smithy.api#documentation": "Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`."
       }
     }
   }

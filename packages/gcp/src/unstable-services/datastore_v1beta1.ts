@@ -119,9 +119,7 @@ export const ExportProjectsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://datastore.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ExportProjectsRequest",
-}) as any as S.Schema<ExportProjectsRequest>;
+).annotate({ identifier: "ExportProjectsRequest" }) as any as S.Schema<ExportProjectsRequest>;
 
 export type DocumentMap = { [key: string]: unknown | undefined };
 export const DocumentMap = /*@__PURE__*/ S.Record(
@@ -136,41 +134,41 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    message: S.optional(S.String),
     code: S.optional(S.Number),
     details: S.optional(DocumentMapList),
+    message: S.optional(S.String),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
 }
 export const GoogleLongrunningOperation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.optional(S.String),
     response: S.optional(DocumentMap),
-    metadata: S.optional(DocumentMap),
     done: S.optional(S.Boolean),
     error: S.optional(Status),
-    name: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
   }),
 ).annotate({
   identifier: "GoogleLongrunningOperation",
@@ -180,16 +178,16 @@ export const GoogleLongrunningOperation = /*@__PURE__*/ S.suspend(() =>
 export interface GoogleDatastoreAdminV1beta1ImportEntitiesRequest {
   /** The full resource URL of the external storage location. Currently, only Google Cloud Storage is supported. So input_url should be of the form: `gs://BUCKET_NAME[/NAMESPACE_PATH]/OVERALL_EXPORT_METADATA_FILE`, where `BUCKET_NAME` is the name of the Cloud Storage bucket, `NAMESPACE_PATH` is an optional Cloud Storage namespace path (this is not a Cloud Datastore namespace), and `OVERALL_EXPORT_METADATA_FILE` is the metadata file written by the ExportEntities operation. For more information about Cloud Storage namespace paths, see [Object name considerations](https://cloud.google.com/storage/docs/naming#object-considerations). For more information, see google.datastore.admin.v1beta1.ExportEntitiesResponse.output_url. */
   inputUrl?: string;
-  /** Optionally specify which kinds/namespaces are to be imported. If provided, the list must be a subset of the EntityFilter used in creating the export, otherwise a FAILED_PRECONDITION error will be returned. If no filter is specified then all entities from the export are imported. */
-  entityFilter?: GoogleDatastoreAdminV1beta1EntityFilter;
   /** Client-assigned labels. */
   labels?: StringMap;
+  /** Optionally specify which kinds/namespaces are to be imported. If provided, the list must be a subset of the EntityFilter used in creating the export, otherwise a FAILED_PRECONDITION error will be returned. If no filter is specified then all entities from the export are imported. */
+  entityFilter?: GoogleDatastoreAdminV1beta1EntityFilter;
 }
 export const GoogleDatastoreAdminV1beta1ImportEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     inputUrl: S.optional(S.String),
-    entityFilter: S.optional(GoogleDatastoreAdminV1beta1EntityFilter),
     labels: S.optional(StringMap),
+    entityFilter: S.optional(GoogleDatastoreAdminV1beta1EntityFilter),
   }),
 ).annotate({
   identifier: "GoogleDatastoreAdminV1beta1ImportEntitiesRequest",
@@ -212,9 +210,7 @@ export const ImportProjectsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://datastore.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ImportProjectsRequest",
-}) as any as S.Schema<ImportProjectsRequest>;
+).annotate({ identifier: "ImportProjectsRequest" }) as any as S.Schema<ImportProjectsRequest>;
 
 export type ExportProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Exports a copy of all or a subset of entities from Google Cloud Datastore to another storage system, such as Google Cloud Storage. Recent updates to entities may not be reflected in the export. The export occurs in the background and its progress can be monitored and managed via the Operation resource that is created. The output of an export may only be used once the associated operation is done. If an export operation is cancelled before completion it may leave partial data behind in Google Cloud Storage. */

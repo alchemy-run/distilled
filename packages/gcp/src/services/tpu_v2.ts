@@ -83,11 +83,7 @@ export const CancelProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v2/{+name}:cancel",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
+    T.Http({ method: "POST", uri: "v2/{+name}:cancel", baseUrl: "https://tpu.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "CancelProjectsLocationsOperationsRequest",
@@ -99,28 +95,57 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "Empty",
 }) as any as S.Schema<Empty>;
 
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+export type UpcomingMaintenanceTypeEnum = "UNKNOWN_TYPE" | "SCHEDULED" | "UNSCHEDULED";
+export const UpcomingMaintenanceTypeEnum = S.String;
+
+export type UpcomingMaintenanceMaintenanceStatusEnum = "UNKNOWN" | "PENDING" | "ONGOING";
+export const UpcomingMaintenanceMaintenanceStatusEnum = S.String;
+
+/** Upcoming Maintenance notification information. */
+export interface UpcomingMaintenance {
+  /** Indicates if the maintenance can be customer triggered. */
+  canReschedule?: boolean;
+  /** The time by which the maintenance disruption will be completed. This timestamp value is in RFC3339 text format. */
+  windowEndTime?: string;
+  /** Defines the type of maintenance. */
+  type?: UpcomingMaintenanceTypeEnum | (string & {});
+  /** The latest time for the planned maintenance window to start. This timestamp value is in RFC3339 text format. */
+  latestWindowStartTime?: string;
+  /** The current start time of the maintenance window. This timestamp value is in RFC3339 text format. */
+  windowStartTime?: string;
+  /** The status of the maintenance. */
+  maintenanceStatus?: UpcomingMaintenanceMaintenanceStatusEnum | (string & {});
+}
+export const UpcomingMaintenance = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    canReschedule: S.optional(S.Boolean),
+    windowEndTime: S.optional(S.String),
+    type: S.optional(UpcomingMaintenanceTypeEnum),
+    latestWindowStartTime: S.optional(S.String),
+    windowStartTime: S.optional(S.String),
+    maintenanceStatus: S.optional(UpcomingMaintenanceMaintenanceStatusEnum),
+  }),
+).annotate({ identifier: "UpcomingMaintenance" }) as any as S.Schema<UpcomingMaintenance>;
 
 /** Network related configurations. */
 export interface NetworkConfig {
-  /** The name of the subnetwork for the TPU node. It must be a preexisting Google Compute Engine subnetwork. If none is provided, "default" will be used. */
-  subnetwork?: string;
   /** Optional. Specifies networking queue count for TPU VM instance's network interface. */
   queueCount?: number;
-  /** Indicates that external IP addresses would be associated with the TPU workers. If set to false, the specified subnetwork or network should have Private Google Access enabled. */
-  enableExternalIps?: boolean;
   /** Allows the TPU node to send and receive packets with non-matching destination or source IPs. This is required if you plan to use the TPU workers to forward routes. */
   canIpForward?: boolean;
+  /** Indicates that external IP addresses would be associated with the TPU workers. If set to false, the specified subnetwork or network should have Private Google Access enabled. */
+  enableExternalIps?: boolean;
+  /** The name of the subnetwork for the TPU node. It must be a preexisting Google Compute Engine subnetwork. If none is provided, "default" will be used. */
+  subnetwork?: string;
   /** The name of the network for the TPU node. It must be a preexisting Google Compute Engine network. If none is provided, "default" will be used. */
   network?: string;
 }
 export const NetworkConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    subnetwork: S.optional(S.String),
     queueCount: S.optional(S.Number),
-    enableExternalIps: S.optional(S.Boolean),
     canIpForward: S.optional(S.Boolean),
+    enableExternalIps: S.optional(S.Boolean),
+    subnetwork: S.optional(S.String),
     network: S.optional(S.String),
   }),
 ).annotate({ identifier: "NetworkConfig" }) as any as S.Schema<NetworkConfig>;
@@ -129,6 +154,17 @@ export type NetworkConfigList = Array<NetworkConfig>;
 export const NetworkConfigList = /*@__PURE__*/ S.Array(
   NetworkConfig,
 ) as any as S.Schema<NetworkConfigList>;
+
+export type NodeApiVersionEnum =
+  | "API_VERSION_UNSPECIFIED"
+  | "V1_ALPHA1"
+  | "V1"
+  | "V2_ALPHA1"
+  | "V2";
+export const NodeApiVersionEnum = S.String;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
 
 /** A set of Shielded Instance options. */
 export interface ShieldedInstanceConfig {
@@ -139,17 +175,112 @@ export const ShieldedInstanceConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enableSecureBoot: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ShieldedInstanceConfig",
-}) as any as S.Schema<ShieldedInstanceConfig>;
+).annotate({ identifier: "ShieldedInstanceConfig" }) as any as S.Schema<ShieldedInstanceConfig>;
 
-export type NodeApiVersionEnum =
-  | "API_VERSION_UNSPECIFIED"
-  | "V1_ALPHA1"
-  | "V1"
-  | "V2_ALPHA1"
-  | "V2";
-export const NodeApiVersionEnum = S.String;
+/** Sets the scheduling options for this node. */
+export interface SchedulingConfig {
+  /** Optional. Defines whether the node is Spot VM. */
+  spot?: boolean;
+  /** Whether the node is created under a reservation. */
+  reserved?: boolean;
+  /** Defines whether the node is preemptible. */
+  preemptible?: boolean;
+}
+export const SchedulingConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    spot: S.optional(S.Boolean),
+    reserved: S.optional(S.Boolean),
+    preemptible: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "SchedulingConfig" }) as any as S.Schema<SchedulingConfig>;
+
+export type AttachedDiskModeEnum = "DISK_MODE_UNSPECIFIED" | "READ_WRITE" | "READ_ONLY";
+export const AttachedDiskModeEnum = S.String;
+
+/** A node-attached disk resource. Next ID: 8; */
+export interface AttachedDisk {
+  /** The mode in which to attach this disk. If not specified, the default is READ_WRITE mode. Only applicable to data_disks. */
+  mode?: AttachedDiskModeEnum | (string & {});
+  /** Specifies the full path to an existing disk. For example: "projects/my-project/zones/us-central1-c/disks/my-disk". */
+  sourceDisk?: string;
+}
+export const AttachedDisk = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mode: S.optional(AttachedDiskModeEnum),
+    sourceDisk: S.optional(S.String),
+  }),
+).annotate({ identifier: "AttachedDisk" }) as any as S.Schema<AttachedDisk>;
+
+export type AttachedDiskList = Array<AttachedDisk>;
+export const AttachedDiskList = /*@__PURE__*/ S.Array(
+  AttachedDisk,
+) as any as S.Schema<AttachedDiskList>;
+
+/** Defines the customer encryption key for disk encryption. */
+export interface CustomerEncryptionKey {
+  /** The name of the encryption key that is stored in Google Cloud KMS. For example: "kmsKeyName": "projects/KMS_PROJECT_ID/locations/REGION/keyRings/KEY_REGION/cryptoKeys/KEY The fully-qualifed key name may be returned for resource GET requests. For example: "kmsKeyName": "projects/KMS_PROJECT_ID/locations/REGION/keyRings/KEY_REGION/cryptoKeys/KEY/cryptoKeyVersions/1 */
+  kmsKeyName?: string;
+}
+export const CustomerEncryptionKey = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kmsKeyName: S.optional(S.String),
+  }),
+).annotate({ identifier: "CustomerEncryptionKey" }) as any as S.Schema<CustomerEncryptionKey>;
+
+/** Sets the boot disk configuration for the TPU node. */
+export interface BootDiskConfig {
+  /** Optional. Customer encryption key for boot disk. */
+  customerEncryptionKey?: CustomerEncryptionKey;
+}
+export const BootDiskConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    customerEncryptionKey: S.optional(CustomerEncryptionKey),
+  }),
+).annotate({ identifier: "BootDiskConfig" }) as any as S.Schema<BootDiskConfig>;
+
+export type NodeHealthEnum =
+  | "HEALTH_UNSPECIFIED"
+  | "HEALTHY"
+  | "TIMEOUT"
+  | "UNHEALTHY_TENSORFLOW"
+  | "UNHEALTHY_MAINTENANCE";
+export const NodeHealthEnum = S.String;
+
+export type SymptomSymptomTypeEnum =
+  | "SYMPTOM_TYPE_UNSPECIFIED"
+  | "LOW_MEMORY"
+  | "OUT_OF_MEMORY"
+  | "EXECUTE_TIMED_OUT"
+  | "MESH_BUILD_FAIL"
+  | "HBM_OUT_OF_MEMORY"
+  | "PROJECT_ABUSE";
+export const SymptomSymptomTypeEnum = S.String;
+
+/** A Symptom instance. */
+export interface Symptom {
+  /** A string used to uniquely distinguish a worker within a TPU node. */
+  workerId?: string;
+  /** Type of the Symptom. */
+  symptomType?: SymptomSymptomTypeEnum | (string & {});
+  /** Timestamp when the Symptom is created. */
+  createTime?: string;
+  /** Detailed information of the current Symptom. */
+  details?: string;
+}
+export const Symptom = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workerId: S.optional(S.String),
+    symptomType: S.optional(SymptomSymptomTypeEnum),
+    createTime: S.optional(S.String),
+    details: S.optional(S.String),
+  }),
+).annotate({ identifier: "Symptom" }) as any as S.Schema<Symptom>;
+
+export type SymptomList = Array<Symptom>;
+export const SymptomList = /*@__PURE__*/ S.Array(Symptom) as any as S.Schema<SymptomList>;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
 export type NodeStateEnum =
   | "STATE_UNSPECIFIED"
@@ -170,60 +301,6 @@ export type NodeStateEnum =
   | "UNKNOWN";
 export const NodeStateEnum = S.String;
 
-export type NodeHealthEnum =
-  | "HEALTH_UNSPECIFIED"
-  | "HEALTHY"
-  | "TIMEOUT"
-  | "UNHEALTHY_TENSORFLOW"
-  | "UNHEALTHY_MAINTENANCE";
-export const NodeHealthEnum = S.String;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-/** Defines the customer encryption key for disk encryption. */
-export interface CustomerEncryptionKey {
-  /** The name of the encryption key that is stored in Google Cloud KMS. For example: "kmsKeyName": "projects/KMS_PROJECT_ID/locations/REGION/keyRings/KEY_REGION/cryptoKeys/KEY The fully-qualifed key name may be returned for resource GET requests. For example: "kmsKeyName": "projects/KMS_PROJECT_ID/locations/REGION/keyRings/KEY_REGION/cryptoKeys/KEY/cryptoKeyVersions/1 */
-  kmsKeyName?: string;
-}
-export const CustomerEncryptionKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kmsKeyName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CustomerEncryptionKey",
-}) as any as S.Schema<CustomerEncryptionKey>;
-
-/** Sets the boot disk configuration for the TPU node. */
-export interface BootDiskConfig {
-  /** Optional. Customer encryption key for boot disk. */
-  customerEncryptionKey?: CustomerEncryptionKey;
-}
-export const BootDiskConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    customerEncryptionKey: S.optional(CustomerEncryptionKey),
-  }),
-).annotate({ identifier: "BootDiskConfig" }) as any as S.Schema<BootDiskConfig>;
-
-/** Sets the scheduling options for this node. */
-export interface SchedulingConfig {
-  /** Optional. Defines whether the node is Spot VM. */
-  spot?: boolean;
-  /** Defines whether the node is preemptible. */
-  preemptible?: boolean;
-  /** Whether the node is created under a reservation. */
-  reserved?: boolean;
-}
-export const SchedulingConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    spot: S.optional(S.Boolean),
-    preemptible: S.optional(S.Boolean),
-    reserved: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "SchedulingConfig",
-}) as any as S.Schema<SchedulingConfig>;
-
 /** An access config attached to the TPU worker. */
 export interface AccessConfig {
   /** Output only. An external IP address associated with the TPU worker. */
@@ -239,95 +316,23 @@ export const AccessConfig = /*@__PURE__*/ S.suspend(() =>
 export interface NetworkEndpoint {
   /** The access config for the TPU worker. */
   accessConfig?: AccessConfig;
-  /** The internal IP address of this network endpoint. */
-  ipAddress?: string;
   /** The port of this network endpoint. */
   port?: number;
+  /** The internal IP address of this network endpoint. */
+  ipAddress?: string;
 }
 export const NetworkEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accessConfig: S.optional(AccessConfig),
-    ipAddress: S.optional(S.String),
     port: S.optional(S.Number),
+    ipAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkEndpoint",
-}) as any as S.Schema<NetworkEndpoint>;
+).annotate({ identifier: "NetworkEndpoint" }) as any as S.Schema<NetworkEndpoint>;
 
 export type NetworkEndpointList = Array<NetworkEndpoint>;
 export const NetworkEndpointList = /*@__PURE__*/ S.Array(
   NetworkEndpoint,
 ) as any as S.Schema<NetworkEndpointList>;
-
-export type AttachedDiskModeEnum = "DISK_MODE_UNSPECIFIED" | "READ_WRITE" | "READ_ONLY";
-export const AttachedDiskModeEnum = S.String;
-
-/** A node-attached disk resource. Next ID: 8; */
-export interface AttachedDisk {
-  /** Specifies the full path to an existing disk. For example: "projects/my-project/zones/us-central1-c/disks/my-disk". */
-  sourceDisk?: string;
-  /** The mode in which to attach this disk. If not specified, the default is READ_WRITE mode. Only applicable to data_disks. */
-  mode?: AttachedDiskModeEnum | (string & {});
-}
-export const AttachedDisk = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceDisk: S.optional(S.String),
-    mode: S.optional(AttachedDiskModeEnum),
-  }),
-).annotate({ identifier: "AttachedDisk" }) as any as S.Schema<AttachedDisk>;
-
-export type AttachedDiskList = Array<AttachedDisk>;
-export const AttachedDiskList = /*@__PURE__*/ S.Array(
-  AttachedDisk,
-) as any as S.Schema<AttachedDiskList>;
-
-export type UpcomingMaintenanceMaintenanceStatusEnum = "UNKNOWN" | "PENDING" | "ONGOING";
-export const UpcomingMaintenanceMaintenanceStatusEnum = S.String;
-
-export type UpcomingMaintenanceTypeEnum = "UNKNOWN_TYPE" | "SCHEDULED" | "UNSCHEDULED";
-export const UpcomingMaintenanceTypeEnum = S.String;
-
-/** Upcoming Maintenance notification information. */
-export interface UpcomingMaintenance {
-  /** Indicates if the maintenance can be customer triggered. */
-  canReschedule?: boolean;
-  /** The latest time for the planned maintenance window to start. This timestamp value is in RFC3339 text format. */
-  latestWindowStartTime?: string;
-  /** The status of the maintenance. */
-  maintenanceStatus?: UpcomingMaintenanceMaintenanceStatusEnum | (string & {});
-  /** The current start time of the maintenance window. This timestamp value is in RFC3339 text format. */
-  windowStartTime?: string;
-  /** The time by which the maintenance disruption will be completed. This timestamp value is in RFC3339 text format. */
-  windowEndTime?: string;
-  /** Defines the type of maintenance. */
-  type?: UpcomingMaintenanceTypeEnum | (string & {});
-}
-export const UpcomingMaintenance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    canReschedule: S.optional(S.Boolean),
-    latestWindowStartTime: S.optional(S.String),
-    maintenanceStatus: S.optional(UpcomingMaintenanceMaintenanceStatusEnum),
-    windowStartTime: S.optional(S.String),
-    windowEndTime: S.optional(S.String),
-    type: S.optional(UpcomingMaintenanceTypeEnum),
-  }),
-).annotate({
-  identifier: "UpcomingMaintenance",
-}) as any as S.Schema<UpcomingMaintenance>;
-
-/** A service account. */
-export interface ServiceAccount {
-  /** The list of scopes to be made available for this service account. If empty, access to all Cloud APIs will be allowed. */
-  scope?: StringList;
-  /** Email address of the service account. If empty, default Compute service account will be used. */
-  email?: string;
-}
-export const ServiceAccount = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scope: S.optional(StringList),
-    email: S.optional(S.String),
-  }),
-).annotate({ identifier: "ServiceAccount" }) as any as S.Schema<ServiceAccount>;
 
 export type AcceleratorConfigTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -351,129 +356,108 @@ export const AcceleratorConfig = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(AcceleratorConfigTypeEnum),
     topology: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AcceleratorConfig",
-}) as any as S.Schema<AcceleratorConfig>;
+).annotate({ identifier: "AcceleratorConfig" }) as any as S.Schema<AcceleratorConfig>;
 
-export type SymptomSymptomTypeEnum =
-  | "SYMPTOM_TYPE_UNSPECIFIED"
-  | "LOW_MEMORY"
-  | "OUT_OF_MEMORY"
-  | "EXECUTE_TIMED_OUT"
-  | "MESH_BUILD_FAIL"
-  | "HBM_OUT_OF_MEMORY"
-  | "PROJECT_ABUSE";
-export const SymptomSymptomTypeEnum = S.String;
-
-/** A Symptom instance. */
-export interface Symptom {
-  /** Timestamp when the Symptom is created. */
-  createTime?: string;
-  /** Type of the Symptom. */
-  symptomType?: SymptomSymptomTypeEnum | (string & {});
-  /** A string used to uniquely distinguish a worker within a TPU node. */
-  workerId?: string;
-  /** Detailed information of the current Symptom. */
-  details?: string;
+/** A service account. */
+export interface ServiceAccount {
+  /** The list of scopes to be made available for this service account. If empty, access to all Cloud APIs will be allowed. */
+  scope?: StringList;
+  /** Email address of the service account. If empty, default Compute service account will be used. */
+  email?: string;
 }
-export const Symptom = /*@__PURE__*/ S.suspend(() =>
+export const ServiceAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    symptomType: S.optional(SymptomSymptomTypeEnum),
-    workerId: S.optional(S.String),
-    details: S.optional(S.String),
+    scope: S.optional(StringList),
+    email: S.optional(S.String),
   }),
-).annotate({ identifier: "Symptom" }) as any as S.Schema<Symptom>;
-
-export type SymptomList = Array<Symptom>;
-export const SymptomList = /*@__PURE__*/ S.Array(Symptom) as any as S.Schema<SymptomList>;
+).annotate({ identifier: "ServiceAccount" }) as any as S.Schema<ServiceAccount>;
 
 /** A TPU instance. */
 export interface Node {
-  /** Resource labels to represent user-provided metadata. */
-  labels?: StringMap;
-  /** The user-supplied description of the TPU. Maximum of 512 characters. */
-  description?: string;
   /** Output only. Immutable. The name of the TPU. */
   name?: string;
-  /** The CIDR block that the TPU node will use when selecting an IP address. This CIDR block must be a /29 block; the Compute Engine networks API forbids a smaller block, and using a larger block would be wasteful (a node can only consume one IP address). Errors will occur if the CIDR block has already been used for a currently existing TPU node, the CIDR block conflicts with any subnetworks in the user's provided network, or the provided network is peered with another network that is using that CIDR block. */
-  cidrBlock?: string;
+  /** Output only. Upcoming maintenance on this TPU node. */
+  upcomingMaintenance?: UpcomingMaintenance;
   /** Optional. Repeated network configurations for the TPU node. This field is used to specify multiple networks configs for the TPU node. network_config and network_configs are mutually exclusive, you can only specify one of them. If both are specified, an error will be returned. */
   networkConfigs?: NetworkConfigList;
-  /** Output only. The time when the node was created. */
-  createTime?: string;
-  /** Shielded Instance options. */
-  shieldedInstanceConfig?: ShieldedInstanceConfig;
-  /** Output only. Whether the Node belongs to a Multislice group. */
-  multisliceNode?: boolean;
   /** Output only. The unique identifier for the TPU Node. */
   id?: string;
   /** Output only. The API version that created this Node. */
   apiVersion?: NodeApiVersionEnum | (string & {});
-  /** Output only. If this field is populated, it contains a description of why the TPU Node is unhealthy. */
-  healthDescription?: string;
-  /** Required. The runtime version running in the Node. */
-  runtimeVersion?: string;
-  /** Output only. The current state for the TPU Node. */
-  state?: NodeStateEnum | (string & {});
-  /** Network configurations for the TPU node. network_config and network_configs are mutually exclusive, you can only specify one of them. If both are specified, an error will be returned. */
-  networkConfig?: NetworkConfig;
-  /** The health status of the TPU node. */
-  health?: NodeHealthEnum | (string & {});
-  /** Tags to apply to the TPU Node. Tags are used to identify valid sources or targets for network firewalls. */
-  tags?: StringList;
-  /** Optional. Boot disk configuration. */
-  bootDiskConfig?: BootDiskConfig;
+  /** Resource labels to represent user-provided metadata. */
+  labels?: StringMap;
+  /** Shielded Instance options. */
+  shieldedInstanceConfig?: ShieldedInstanceConfig;
+  /** The user-supplied description of the TPU. Maximum of 512 characters. */
+  description?: string;
+  /** Output only. Whether the Node belongs to a Multislice group. */
+  multisliceNode?: boolean;
   /** The scheduling options for this node. */
   schedulingConfig?: SchedulingConfig;
-  /** Output only. The network endpoints where TPU workers can be accessed and sent work. It is recommended that runtime clients of the node reach out to the 0th entry in this map first. */
-  networkEndpoints?: NetworkEndpointList;
-  /** Custom metadata to apply to the TPU Node. Can set startup-script and shutdown-script */
-  metadata?: StringMap;
-  /** Optional. The type of hardware accelerators associated with this node. */
-  acceleratorType?: string;
   /** The additional data disks for the Node. */
   dataDisks?: AttachedDiskList;
+  /** Optional. Boot disk configuration. */
+  bootDiskConfig?: BootDiskConfig;
+  /** Output only. The time when the node was created. */
+  createTime?: string;
+  /** Network configurations for the TPU node. network_config and network_configs are mutually exclusive, you can only specify one of them. If both are specified, an error will be returned. */
+  networkConfig?: NetworkConfig;
   /** Output only. The qualified name of the QueuedResource that requested this Node. */
   queuedResource?: string;
-  /** Output only. Upcoming maintenance on this TPU node. */
-  upcomingMaintenance?: UpcomingMaintenance;
-  /** The Google Cloud Platform Service Account to be used by the TPU node VMs. If None is specified, the default compute service account will be used. */
-  serviceAccount?: ServiceAccount;
-  /** The AccleratorConfig for the TPU Node. */
-  acceleratorConfig?: AcceleratorConfig;
+  /** Required. The runtime version running in the Node. */
+  runtimeVersion?: string;
+  /** The health status of the TPU node. */
+  health?: NodeHealthEnum | (string & {});
+  /** The CIDR block that the TPU node will use when selecting an IP address. This CIDR block must be a /29 block; the Compute Engine networks API forbids a smaller block, and using a larger block would be wasteful (a node can only consume one IP address). Errors will occur if the CIDR block has already been used for a currently existing TPU node, the CIDR block conflicts with any subnetworks in the user's provided network, or the provided network is peered with another network that is using that CIDR block. */
+  cidrBlock?: string;
   /** Output only. The Symptoms that have occurred to the TPU Node. */
   symptoms?: SymptomList;
+  /** Optional. The type of hardware accelerators associated with this node. */
+  acceleratorType?: string;
+  /** Tags to apply to the TPU Node. Tags are used to identify valid sources or targets for network firewalls. */
+  tags?: StringList;
+  /** Output only. The current state for the TPU Node. */
+  state?: NodeStateEnum | (string & {});
+  /** Output only. The network endpoints where TPU workers can be accessed and sent work. It is recommended that runtime clients of the node reach out to the 0th entry in this map first. */
+  networkEndpoints?: NetworkEndpointList;
+  /** The AccleratorConfig for the TPU Node. */
+  acceleratorConfig?: AcceleratorConfig;
+  /** Output only. If this field is populated, it contains a description of why the TPU Node is unhealthy. */
+  healthDescription?: string;
+  /** Custom metadata to apply to the TPU Node. Can set startup-script and shutdown-script */
+  metadata?: StringMap;
+  /** The Google Cloud Platform Service Account to be used by the TPU node VMs. If None is specified, the default compute service account will be used. */
+  serviceAccount?: ServiceAccount;
 }
 export const Node = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    labels: S.optional(StringMap),
-    description: S.optional(S.String),
     name: S.optional(S.String),
-    cidrBlock: S.optional(S.String),
+    upcomingMaintenance: S.optional(UpcomingMaintenance),
     networkConfigs: S.optional(NetworkConfigList),
-    createTime: S.optional(S.String),
-    shieldedInstanceConfig: S.optional(ShieldedInstanceConfig),
-    multisliceNode: S.optional(S.Boolean),
     id: S.optional(S.String),
     apiVersion: S.optional(NodeApiVersionEnum),
-    healthDescription: S.optional(S.String),
-    runtimeVersion: S.optional(S.String),
-    state: S.optional(NodeStateEnum),
-    networkConfig: S.optional(NetworkConfig),
-    health: S.optional(NodeHealthEnum),
-    tags: S.optional(StringList),
-    bootDiskConfig: S.optional(BootDiskConfig),
+    labels: S.optional(StringMap),
+    shieldedInstanceConfig: S.optional(ShieldedInstanceConfig),
+    description: S.optional(S.String),
+    multisliceNode: S.optional(S.Boolean),
     schedulingConfig: S.optional(SchedulingConfig),
-    networkEndpoints: S.optional(NetworkEndpointList),
-    metadata: S.optional(StringMap),
-    acceleratorType: S.optional(S.String),
     dataDisks: S.optional(AttachedDiskList),
+    bootDiskConfig: S.optional(BootDiskConfig),
+    createTime: S.optional(S.String),
+    networkConfig: S.optional(NetworkConfig),
     queuedResource: S.optional(S.String),
-    upcomingMaintenance: S.optional(UpcomingMaintenance),
-    serviceAccount: S.optional(ServiceAccount),
-    acceleratorConfig: S.optional(AcceleratorConfig),
+    runtimeVersion: S.optional(S.String),
+    health: S.optional(NodeHealthEnum),
+    cidrBlock: S.optional(S.String),
     symptoms: S.optional(SymptomList),
+    acceleratorType: S.optional(S.String),
+    tags: S.optional(StringList),
+    state: S.optional(NodeStateEnum),
+    networkEndpoints: S.optional(NetworkEndpointList),
+    acceleratorConfig: S.optional(AcceleratorConfig),
+    healthDescription: S.optional(S.String),
+    metadata: S.optional(StringMap),
+    serviceAccount: S.optional(ServiceAccount),
   }),
 ).annotate({ identifier: "Node" }) as any as S.Schema<Node>;
 
@@ -491,11 +475,7 @@ export const CreateProjectsLocationsNodesRequest = /*@__PURE__*/ S.suspend(() =>
     nodeId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Node.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v2/{+parent}/nodes",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
+    T.Http({ method: "POST", uri: "v2/{+parent}/nodes", baseUrl: "https://tpu.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "CreateProjectsLocationsNodesRequest",
@@ -514,43 +494,86 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    details: S.optional(DocumentMapList),
     message: S.optional(S.String),
+    details: S.optional(DocumentMapList),
     code: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
     done: S.optional(S.Boolean),
-    name: S.optional(S.String),
     response: S.optional(DocumentMap),
     error: S.optional(Status),
+    metadata: S.optional(DocumentMap),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
+
+/** Spot tier definition. */
+export interface Spot {}
+export const Spot = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "Spot",
+}) as any as S.Schema<Spot>;
+
+/** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive). The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
+export interface Interval {
+  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
+  endTime?: string;
+  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
+  startTime?: string;
+}
+export const Interval = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endTime: S.optional(S.String),
+    startTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "Interval" }) as any as S.Schema<Interval>;
+
+/** Defines the policy of the QueuedRequest. */
+export interface QueueingPolicy {
+  /** Optional. An absolute time after which resources may be created. */
+  validAfterTime?: string;
+  /** Optional. A relative time after which resources should not be created. If the request cannot be fulfilled by this time the request will be failed. */
+  validUntilDuration?: string;
+  /** Optional. An absolute time interval within which resources may be created. */
+  validInterval?: Interval;
+  /** Optional. An absolute time after which resources should not be created. If the request cannot be fulfilled by this time the request will be failed. */
+  validUntilTime?: string;
+  /** Optional. A relative time after which resources may be created. */
+  validAfterDuration?: string;
+}
+export const QueueingPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    validAfterTime: S.optional(S.String),
+    validUntilDuration: S.optional(S.String),
+    validInterval: S.optional(Interval),
+    validUntilTime: S.optional(S.String),
+    validAfterDuration: S.optional(S.String),
+  }),
+).annotate({ identifier: "QueueingPolicy" }) as any as S.Schema<QueueingPolicy>;
 
 /** Parameters to specify for multislice QueuedResource requests. This message must be populated in case of multislice requests instead of node_id. */
 export interface MultisliceParams {
@@ -564,9 +587,7 @@ export const MultisliceParams = /*@__PURE__*/ S.suspend(() =>
     nodeIdPrefix: S.optional(S.String),
     nodeCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MultisliceParams",
-}) as any as S.Schema<MultisliceParams>;
+).annotate({ identifier: "MultisliceParams" }) as any as S.Schema<MultisliceParams>;
 
 /** Details of the TPU node(s) being requested. Users can request either a single node or multiple nodes. NodeSpec provides the specification for node(s) to be created. */
 export interface NodeSpec {
@@ -574,17 +595,17 @@ export interface NodeSpec {
   node?: Node;
   /** Required. The parent resource name. */
   parent?: string;
-  /** Optional. Fields to specify in case of multislice request. */
-  multisliceParams?: MultisliceParams;
   /** Optional. The unqualified resource name. Should follow the `^[A-Za-z0-9_.~+%-]+$` regex format. This is only specified when requesting a single node. In case of multislice requests, multislice_params must be populated instead. */
   nodeId?: string;
+  /** Optional. Fields to specify in case of multislice request. */
+  multisliceParams?: MultisliceParams;
 }
 export const NodeSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     node: S.optional(Node),
     parent: S.optional(S.String),
-    multisliceParams: S.optional(MultisliceParams),
     nodeId: S.optional(S.String),
+    multisliceParams: S.optional(MultisliceParams),
   }),
 ).annotate({ identifier: "NodeSpec" }) as any as S.Schema<NodeSpec>;
 
@@ -613,48 +634,17 @@ export const Guaranteed = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Guaranteed" }) as any as S.Schema<Guaranteed>;
 
-/** Further data for the creating state. */
-export interface CreatingData {}
-export const CreatingData = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "CreatingData",
-}) as any as S.Schema<CreatingData>;
-
 /** Further data for the accepted state. */
-export type AcceptedData = CreatingData;
-export const AcceptedData = CreatingData;
-
-export type QueuedResourceStateStateInitiatorEnum =
-  | "STATE_INITIATOR_UNSPECIFIED"
-  | "USER"
-  | "SERVICE";
-export const QueuedResourceStateStateInitiatorEnum = S.String;
-
-/** Further data for the deleting state. */
-export type DeletingData = CreatingData;
-export const DeletingData = CreatingData;
-
-/** Further data for the suspending state. */
-export type SuspendingData = CreatingData;
-export const SuspendingData = CreatingData;
-
-/** Further data for the failed state. */
-export interface FailedData {
-  /** Output only. The error that caused the queued resource to enter the FAILED state. */
-  error?: Status;
-}
-export const FailedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    error: S.optional(Status),
-  }),
-).annotate({ identifier: "FailedData" }) as any as S.Schema<FailedData>;
+export type AcceptedData = Spot;
+export const AcceptedData = Spot;
 
 /** Further data for the provisioning state. */
-export type ProvisioningData = CreatingData;
-export const ProvisioningData = CreatingData;
+export type ProvisioningData = Spot;
+export const ProvisioningData = Spot;
 
-/** Further data for the suspended state. */
-export type SuspendedData = CreatingData;
-export const SuspendedData = CreatingData;
+/** Further data for the suspending state. */
+export type SuspendingData = Spot;
+export const SuspendingData = Spot;
 
 export type QueuedResourceStateStateEnum =
   | "STATE_UNSPECIFIED"
@@ -669,120 +659,106 @@ export type QueuedResourceStateStateEnum =
   | "WAITING_FOR_RESOURCES";
 export const QueuedResourceStateStateEnum = S.String;
 
+/** Further data for the failed state. */
+export interface FailedData {
+  /** Output only. The error that caused the queued resource to enter the FAILED state. */
+  error?: Status;
+}
+export const FailedData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    error: S.optional(Status),
+  }),
+).annotate({ identifier: "FailedData" }) as any as S.Schema<FailedData>;
+
+/** Further data for the suspended state. */
+export type SuspendedData = Spot;
+export const SuspendedData = Spot;
+
+/** Further data for the deleting state. */
+export type DeletingData = Spot;
+export const DeletingData = Spot;
+
 /** Further data for the active state. */
-export type ActiveData = CreatingData;
-export const ActiveData = CreatingData;
+export type ActiveData = Spot;
+export const ActiveData = Spot;
+
+export type QueuedResourceStateStateInitiatorEnum =
+  | "STATE_INITIATOR_UNSPECIFIED"
+  | "USER"
+  | "SERVICE";
+export const QueuedResourceStateStateInitiatorEnum = S.String;
+
+/** Further data for the creating state. */
+export type CreatingData = Spot;
+export const CreatingData = Spot;
 
 /** QueuedResourceState defines the details of the QueuedResource request. */
 export interface QueuedResourceState {
-  /** Output only. Further data for the creating state. */
-  creatingData?: CreatingData;
   /** Output only. Further data for the accepted state. */
-  acceptedData?: CreatingData;
-  /** Output only. The initiator of the QueuedResources's current state. Used to indicate whether the SUSPENDING/SUSPENDED state was initiated by the user or the service. */
-  stateInitiator?: QueuedResourceStateStateInitiatorEnum | (string & {});
-  /** Output only. Further data for the deleting state. */
-  deletingData?: CreatingData;
-  /** Output only. Further data for the suspending state. */
-  suspendingData?: CreatingData;
-  /** Output only. Further data for the failed state. */
-  failedData?: FailedData;
+  acceptedData?: Spot;
   /** Output only. Further data for the provisioning state. */
-  provisioningData?: CreatingData;
-  /** Output only. Further data for the suspended state. */
-  suspendedData?: CreatingData;
+  provisioningData?: Spot;
+  /** Output only. Further data for the suspending state. */
+  suspendingData?: Spot;
   /** Output only. State of the QueuedResource request. */
   state?: QueuedResourceStateStateEnum | (string & {});
+  /** Output only. Further data for the failed state. */
+  failedData?: FailedData;
+  /** Output only. Further data for the suspended state. */
+  suspendedData?: Spot;
+  /** Output only. Further data for the deleting state. */
+  deletingData?: Spot;
   /** Output only. Further data for the active state. */
-  activeData?: CreatingData;
+  activeData?: Spot;
+  /** Output only. The initiator of the QueuedResources's current state. Used to indicate whether the SUSPENDING/SUSPENDED state was initiated by the user or the service. */
+  stateInitiator?: QueuedResourceStateStateInitiatorEnum | (string & {});
+  /** Output only. Further data for the creating state. */
+  creatingData?: Spot;
 }
 export const QueuedResourceState = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    creatingData: S.optional(CreatingData),
-    acceptedData: S.optional(CreatingData),
-    stateInitiator: S.optional(QueuedResourceStateStateInitiatorEnum),
-    deletingData: S.optional(CreatingData),
-    suspendingData: S.optional(CreatingData),
-    failedData: S.optional(FailedData),
-    provisioningData: S.optional(CreatingData),
-    suspendedData: S.optional(CreatingData),
+    acceptedData: S.optional(Spot),
+    provisioningData: S.optional(Spot),
+    suspendingData: S.optional(Spot),
     state: S.optional(QueuedResourceStateStateEnum),
-    activeData: S.optional(CreatingData),
+    failedData: S.optional(FailedData),
+    suspendedData: S.optional(Spot),
+    deletingData: S.optional(Spot),
+    activeData: S.optional(Spot),
+    stateInitiator: S.optional(QueuedResourceStateStateInitiatorEnum),
+    creatingData: S.optional(Spot),
   }),
-).annotate({
-  identifier: "QueuedResourceState",
-}) as any as S.Schema<QueuedResourceState>;
-
-/** Spot tier definition. */
-export type Spot = CreatingData;
-export const Spot = CreatingData;
-
-/** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive). The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
-export interface Interval {
-  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  startTime?: string;
-  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  endTime?: string;
-}
-export const Interval = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startTime: S.optional(S.String),
-    endTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "Interval" }) as any as S.Schema<Interval>;
-
-/** Defines the policy of the QueuedRequest. */
-export interface QueueingPolicy {
-  /** Optional. A relative time after which resources should not be created. If the request cannot be fulfilled by this time the request will be failed. */
-  validUntilDuration?: string;
-  /** Optional. A relative time after which resources may be created. */
-  validAfterDuration?: string;
-  /** Optional. An absolute time after which resources may be created. */
-  validAfterTime?: string;
-  /** Optional. An absolute time interval within which resources may be created. */
-  validInterval?: Interval;
-  /** Optional. An absolute time after which resources should not be created. If the request cannot be fulfilled by this time the request will be failed. */
-  validUntilTime?: string;
-}
-export const QueueingPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    validUntilDuration: S.optional(S.String),
-    validAfterDuration: S.optional(S.String),
-    validAfterTime: S.optional(S.String),
-    validInterval: S.optional(Interval),
-    validUntilTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "QueueingPolicy" }) as any as S.Schema<QueueingPolicy>;
+).annotate({ identifier: "QueuedResourceState" }) as any as S.Schema<QueuedResourceState>;
 
 /** A QueuedResource represents a request for resources that will be placed in a queue and fulfilled when the necessary resources are available. */
 export interface QueuedResource {
+  /** Optional. The Spot tier. */
+  spot?: Spot;
+  /** Optional. The queueing policy of the QueuedRequest. */
+  queueingPolicy?: QueueingPolicy;
   /** Optional. Defines a TPU resource. */
   tpu?: Tpu;
   /** Output only. The time when the QueuedResource was created. */
   createTime?: string;
-  /** Output only. Immutable. The name of the QueuedResource. */
-  name?: string;
   /** Optional. The Guaranteed tier */
   guaranteed?: Guaranteed;
-  /** Optional. Name of the reservation in which the resource should be provisioned. Format: projects/{project}/locations/{zone}/reservations/{reservation} */
-  reservationName?: string;
+  /** Output only. Immutable. The name of the QueuedResource. */
+  name?: string;
   /** Output only. State of the QueuedResource request. */
   state?: QueuedResourceState;
-  /** Optional. The Spot tier. */
-  spot?: CreatingData;
-  /** Optional. The queueing policy of the QueuedRequest. */
-  queueingPolicy?: QueueingPolicy;
+  /** Optional. Name of the reservation in which the resource should be provisioned. Format: projects/{project}/locations/{zone}/reservations/{reservation} */
+  reservationName?: string;
 }
 export const QueuedResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    spot: S.optional(Spot),
+    queueingPolicy: S.optional(QueueingPolicy),
     tpu: S.optional(Tpu),
     createTime: S.optional(S.String),
-    name: S.optional(S.String),
     guaranteed: S.optional(Guaranteed),
-    reservationName: S.optional(S.String),
+    name: S.optional(S.String),
     state: S.optional(QueuedResourceState),
-    spot: S.optional(CreatingData),
-    queueingPolicy: S.optional(QueueingPolicy),
+    reservationName: S.optional(S.String),
   }),
 ).annotate({ identifier: "QueuedResource" }) as any as S.Schema<QueuedResource>;
 
@@ -820,13 +796,7 @@ export interface DeleteProjectsLocationsNodesRequest {
 export const DeleteProjectsLocationsNodesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v2/{+name}",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://tpu.googleapis.com/" })),
 ).annotate({
   identifier: "DeleteProjectsLocationsNodesRequest",
 }) as any as S.Schema<DeleteProjectsLocationsNodesRequest>;
@@ -838,55 +808,43 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export const DeleteProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v2/{+name}",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://tpu.googleapis.com/" })),
 ).annotate({
   identifier: "DeleteProjectsLocationsOperationsRequest",
 }) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>;
 
 export interface DeleteProjectsLocationsQueuedResourcesRequest {
-  /** Optional. If set to true, all running nodes belonging to this queued resource will be deleted first and then the queued resource will be deleted. Otherwise (i.e. force=false), the queued resource will only be deleted if its nodes have already been deleted or the queued resource is in the ACCEPTED, FAILED, or SUSPENDED state. */
-  force?: boolean;
   /** Optional. Idempotent request UUID. */
   requestId?: string;
+  /** Optional. If set to true, all running nodes belonging to this queued resource will be deleted first and then the queued resource will be deleted. Otherwise (i.e. force=false), the queued resource will only be deleted if its nodes have already been deleted or the queued resource is in the ACCEPTED, FAILED, or SUSPENDED state. */
+  force?: boolean;
   /** Required. The resource name. */
   name: string;
 }
 export const DeleteProjectsLocationsQueuedResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    force: S.optional(S.Boolean.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    force: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v2/{+name}",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://tpu.googleapis.com/" })),
 ).annotate({
   identifier: "DeleteProjectsLocationsQueuedResourcesRequest",
 }) as any as S.Schema<DeleteProjectsLocationsQueuedResourcesRequest>;
 
 /** Request for GenerateServiceIdentity. */
-export type GenerateServiceIdentityRequest = CreatingData;
-export const GenerateServiceIdentityRequest = CreatingData;
+export type GenerateServiceIdentityRequest = Spot;
+export const GenerateServiceIdentityRequest = Spot;
 
 export interface GenerateServiceIdentityProjectsLocationsRequest {
   /** Required. The parent resource name. */
   parent: string;
   /** Request body */
-  body?: CreatingData;
+  body?: Spot;
 }
 export const GenerateServiceIdentityProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    body: S.optional(CreatingData.pipe(T.HttpBody())),
+    body: S.optional(Spot.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
       method: "POST",
@@ -907,9 +865,7 @@ export const ServiceIdentity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     email: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceIdentity",
-}) as any as S.Schema<ServiceIdentity>;
+).annotate({ identifier: "ServiceIdentity" }) as any as S.Schema<ServiceIdentity>;
 
 /** Response for GenerateServiceIdentity. */
 export interface GenerateServiceIdentityResponse {
@@ -976,9 +932,7 @@ export const GuestAttributesEntry = /*@__PURE__*/ S.suspend(() =>
     key: S.optional(S.String),
     namespace: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GuestAttributesEntry",
-}) as any as S.Schema<GuestAttributesEntry>;
+).annotate({ identifier: "GuestAttributesEntry" }) as any as S.Schema<GuestAttributesEntry>;
 
 export type GuestAttributesEntryList = Array<GuestAttributesEntry>;
 export const GuestAttributesEntryList = /*@__PURE__*/ S.Array(
@@ -994,25 +948,21 @@ export const GuestAttributesValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(GuestAttributesEntryList),
   }),
-).annotate({
-  identifier: "GuestAttributesValue",
-}) as any as S.Schema<GuestAttributesValue>;
+).annotate({ identifier: "GuestAttributesValue" }) as any as S.Schema<GuestAttributesValue>;
 
 /** A guest attributes. */
 export interface GuestAttributes {
-  /** The path to be queried. This can be the default namespace ('/') or a nested namespace ('/\/') or a specified key ('/\/\') */
-  queryPath?: string;
   /** The value of the requested queried path. */
   queryValue?: GuestAttributesValue;
+  /** The path to be queried. This can be the default namespace ('/') or a nested namespace ('/\/') or a specified key ('/\/\') */
+  queryPath?: string;
 }
 export const GuestAttributes = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    queryPath: S.optional(S.String),
     queryValue: S.optional(GuestAttributesValue),
+    queryPath: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GuestAttributes",
-}) as any as S.Schema<GuestAttributes>;
+).annotate({ identifier: "GuestAttributes" }) as any as S.Schema<GuestAttributes>;
 
 export type GuestAttributesList = Array<GuestAttributes>;
 export const GuestAttributesList = /*@__PURE__*/ S.Array(
@@ -1039,36 +989,30 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v2/{+name}",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://tpu.googleapis.com/" })),
 ).annotate({
   identifier: "GetProjectsLocationsRequest",
 }) as any as S.Schema<GetProjectsLocationsRequest>;
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
-    name: S.optional(S.String),
     displayName: S.optional(S.String),
     labels: S.optional(StringMap),
+    metadata: S.optional(DocumentMap),
+    name: S.optional(S.String),
     locationId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
@@ -1080,13 +1024,7 @@ export interface GetProjectsLocationsAcceleratorTypesRequest {
 export const GetProjectsLocationsAcceleratorTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v2/{+name}",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://tpu.googleapis.com/" })),
 ).annotate({
   identifier: "GetProjectsLocationsAcceleratorTypesRequest",
 }) as any as S.Schema<GetProjectsLocationsAcceleratorTypesRequest>;
@@ -1098,22 +1036,20 @@ export const AcceleratorConfigList = /*@__PURE__*/ S.Array(
 
 /** A accelerator type that a Node can be configured with. */
 export interface AcceleratorType {
-  /** The resource name. */
-  name?: string;
   /** The accelerator type. */
   type?: string;
   /** The accelerator config. */
   acceleratorConfigs?: AcceleratorConfigList;
+  /** The resource name. */
+  name?: string;
 }
 export const AcceleratorType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     type: S.optional(S.String),
     acceleratorConfigs: S.optional(AcceleratorConfigList),
+    name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AcceleratorType",
-}) as any as S.Schema<AcceleratorType>;
+).annotate({ identifier: "AcceleratorType" }) as any as S.Schema<AcceleratorType>;
 
 export interface GetProjectsLocationsNodesRequest {
   /** Required. The resource name. */
@@ -1122,13 +1058,7 @@ export interface GetProjectsLocationsNodesRequest {
 export const GetProjectsLocationsNodesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v2/{+name}",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://tpu.googleapis.com/" })),
 ).annotate({
   identifier: "GetProjectsLocationsNodesRequest",
 }) as any as S.Schema<GetProjectsLocationsNodesRequest>;
@@ -1140,13 +1070,7 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v2/{+name}",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://tpu.googleapis.com/" })),
 ).annotate({
   identifier: "GetProjectsLocationsOperationsRequest",
 }) as any as S.Schema<GetProjectsLocationsOperationsRequest>;
@@ -1158,13 +1082,7 @@ export interface GetProjectsLocationsQueuedResourcesRequest {
 export const GetProjectsLocationsQueuedResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v2/{+name}",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://tpu.googleapis.com/" })),
 ).annotate({
   identifier: "GetProjectsLocationsQueuedResourcesRequest",
 }) as any as S.Schema<GetProjectsLocationsQueuedResourcesRequest>;
@@ -1176,13 +1094,7 @@ export interface GetProjectsLocationsRuntimeVersionsRequest {
 export const GetProjectsLocationsRuntimeVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v2/{+name}",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://tpu.googleapis.com/" })),
 ).annotate({
   identifier: "GetProjectsLocationsRuntimeVersionsRequest",
 }) as any as S.Schema<GetProjectsLocationsRuntimeVersionsRequest>;
@@ -1202,30 +1114,26 @@ export const RuntimeVersion = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "RuntimeVersion" }) as any as S.Schema<RuntimeVersion>;
 
 export interface ListProjectsLocationsRequest {
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
   /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v2/{+name}/locations",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v2/{+name}/locations", baseUrl: "https://tpu.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "ListProjectsLocationsRequest",
@@ -1246,29 +1154,27 @@ export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
     locations: S.optional(LocationList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListLocationsResponse",
-}) as any as S.Schema<ListLocationsResponse>;
+).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsAcceleratorTypesRequest {
-  /** Sort results. */
-  orderBy?: string;
   /** List filter. */
   filter?: string;
-  /** The maximum number of items to return. */
-  pageSize?: number;
-  /** Required. The parent resource name. */
-  parent: string;
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
+  /** Required. The parent resource name. */
+  parent: string;
+  /** Sort results. */
+  orderBy?: string;
+  /** The maximum number of items to return. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsAcceleratorTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1287,42 +1193,38 @@ export const AcceleratorTypeList = /*@__PURE__*/ S.Array(
 
 /** Response for ListAcceleratorTypes. */
 export interface ListAcceleratorTypesResponse {
-  /** The next page token or empty if none. */
-  nextPageToken?: string;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** The listed nodes. */
   acceleratorTypes?: AcceleratorTypeList;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
+  /** The next page token or empty if none. */
+  nextPageToken?: string;
 }
 export const ListAcceleratorTypesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    unreachable: S.optional(StringList),
     acceleratorTypes: S.optional(AcceleratorTypeList),
+    unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListAcceleratorTypesResponse",
 }) as any as S.Schema<ListAcceleratorTypesResponse>;
 
 export interface ListProjectsLocationsNodesRequest {
+  /** The maximum number of items to return. */
+  pageSize?: number;
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
   /** Required. The parent resource name. */
   parent: string;
-  /** The maximum number of items to return. */
-  pageSize?: number;
 }
 export const ListProjectsLocationsNodesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v2/{+parent}/nodes",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v2/{+parent}/nodes", baseUrl: "https://tpu.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "ListProjectsLocationsNodesRequest",
@@ -1333,48 +1235,42 @@ export const NodeList = /*@__PURE__*/ S.Array(Node) as any as S.Schema<NodeList>
 
 /** Response for ListNodes. */
 export interface ListNodesResponse {
+  /** The next page token or empty if none. */
+  nextPageToken?: string;
   /** The listed nodes. */
   nodes?: NodeList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** The next page token or empty if none. */
-  nextPageToken?: string;
 }
 export const ListNodesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    nextPageToken: S.optional(S.String),
     nodes: S.optional(NodeList),
     unreachable: S.optional(StringList),
-    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListNodesResponse",
-}) as any as S.Schema<ListNodesResponse>;
+).annotate({ identifier: "ListNodesResponse" }) as any as S.Schema<ListNodesResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
   pageToken?: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list page size. */
   pageSize?: number;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
   /** The standard list filter. */
   filter?: string;
+  /** The name of the operation's parent resource. */
+  name: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageToken: S.optional(S.String.pipe(T.Query())),
-    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v2/{+name}/operations",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v2/{+name}/operations", baseUrl: "https://tpu.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "ListProjectsLocationsOperationsRequest",
@@ -1385,36 +1281,34 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    unreachable: S.optional(StringList),
     operations: S.optional(OperationList),
     nextPageToken: S.optional(S.String),
-    unreachable: S.optional(StringList),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListProjectsLocationsQueuedResourcesRequest {
-  /** Optional. The maximum number of items to return. */
-  pageSize?: number;
   /** Required. The parent resource name. */
   parent: string;
   /** Optional. The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
+  /** Optional. The maximum number of items to return. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsQueuedResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1433,41 +1327,41 @@ export const QueuedResourceList = /*@__PURE__*/ S.Array(
 
 /** Response for ListQueuedResources. */
 export interface ListQueuedResourcesResponse {
-  /** The next page token or empty if none. */
-  nextPageToken?: string;
   /** The listed queued resources. */
   queuedResources?: QueuedResourceList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** The next page token or empty if none. */
+  nextPageToken?: string;
 }
 export const ListQueuedResourcesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     queuedResources: S.optional(QueuedResourceList),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListQueuedResourcesResponse",
 }) as any as S.Schema<ListQueuedResourcesResponse>;
 
 export interface ListProjectsLocationsRuntimeVersionsRequest {
+  /** Required. The parent resource name. */
+  parent: string;
   /** Sort results. */
   orderBy?: string;
   /** List filter. */
   filter?: string;
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
-  /** Required. The parent resource name. */
-  parent: string;
   /** The maximum number of items to return. */
   pageSize?: number;
 }
 export const ListProjectsLocationsRuntimeVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -1487,117 +1381,99 @@ export const RuntimeVersionList = /*@__PURE__*/ S.Array(
 
 /** Response for ListRuntimeVersions. */
 export interface ListRuntimeVersionsResponse {
-  /** The next page token or empty if none. */
-  nextPageToken?: string;
   /** The listed nodes. */
   runtimeVersions?: RuntimeVersionList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** The next page token or empty if none. */
+  nextPageToken?: string;
 }
 export const ListRuntimeVersionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     runtimeVersions: S.optional(RuntimeVersionList),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListRuntimeVersionsResponse",
 }) as any as S.Schema<ListRuntimeVersionsResponse>;
 
 export interface PatchProjectsLocationsNodesRequest {
-  /** Output only. Immutable. The name of the TPU. */
-  name: string;
   /** Required. Mask of fields from Node to update. Supported fields: [description, tags, labels, metadata, network_config.enable_external_ips]. */
   updateMask?: string;
+  /** Output only. Immutable. The name of the TPU. */
+  name: string;
   /** Request body */
   body?: Node;
 }
 export const PatchProjectsLocationsNodesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(Node.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v2/{+name}",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://tpu.googleapis.com/" })),
 ).annotate({
   identifier: "PatchProjectsLocationsNodesRequest",
 }) as any as S.Schema<PatchProjectsLocationsNodesRequest>;
 
 /** Request for ResetQueuedResource. */
-export type ResetQueuedResourceRequest = CreatingData;
-export const ResetQueuedResourceRequest = CreatingData;
+export type ResetQueuedResourceRequest = Spot;
+export const ResetQueuedResourceRequest = Spot;
 
 export interface ResetProjectsLocationsQueuedResourcesRequest {
   /** Required. The name of the queued resource. */
   name: string;
   /** Request body */
-  body?: CreatingData;
+  body?: Spot;
 }
 export const ResetProjectsLocationsQueuedResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-    body: S.optional(CreatingData.pipe(T.HttpBody())),
+    body: S.optional(Spot.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v2/{+name}:reset",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
+    T.Http({ method: "POST", uri: "v2/{+name}:reset", baseUrl: "https://tpu.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "ResetProjectsLocationsQueuedResourcesRequest",
 }) as any as S.Schema<ResetProjectsLocationsQueuedResourcesRequest>;
 
 /** Request for StartNode. */
-export type StartNodeRequest = CreatingData;
-export const StartNodeRequest = CreatingData;
+export type StartNodeRequest = Spot;
+export const StartNodeRequest = Spot;
 
 export interface StartProjectsLocationsNodesRequest {
   /** Required. The resource name. */
   name: string;
   /** Request body */
-  body?: CreatingData;
+  body?: Spot;
 }
 export const StartProjectsLocationsNodesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-    body: S.optional(CreatingData.pipe(T.HttpBody())),
+    body: S.optional(Spot.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v2/{+name}:start",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
+    T.Http({ method: "POST", uri: "v2/{+name}:start", baseUrl: "https://tpu.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "StartProjectsLocationsNodesRequest",
 }) as any as S.Schema<StartProjectsLocationsNodesRequest>;
 
 /** Request for StopNode. */
-export type StopNodeRequest = CreatingData;
-export const StopNodeRequest = CreatingData;
+export type StopNodeRequest = Spot;
+export const StopNodeRequest = Spot;
 
 export interface StopProjectsLocationsNodesRequest {
   /** Required. The resource name. */
   name: string;
   /** Request body */
-  body?: CreatingData;
+  body?: Spot;
 }
 export const StopProjectsLocationsNodesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-    body: S.optional(CreatingData.pipe(T.HttpBody())),
+    body: S.optional(Spot.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v2/{+name}:stop",
-      baseUrl: "https://tpu.googleapis.com/",
-    }),
+    T.Http({ method: "POST", uri: "v2/{+name}:stop", baseUrl: "https://tpu.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "StopProjectsLocationsNodesRequest",
@@ -1891,10 +1767,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsAcceleratorTypesError =
@@ -1915,10 +1788,7 @@ export const listProjectsLocationsAcceleratorTypes: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsNodesError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -1935,10 +1805,7 @@ export const listProjectsLocationsNodes: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsOperationsError =
@@ -1959,10 +1826,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsQueuedResourcesError =
@@ -1983,10 +1847,7 @@ export const listProjectsLocationsQueuedResources: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsRuntimeVersionsError =
@@ -2007,10 +1868,7 @@ export const listProjectsLocationsRuntimeVersions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type PatchProjectsLocationsNodesError =

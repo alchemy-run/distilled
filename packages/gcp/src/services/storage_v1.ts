@@ -103,9 +103,7 @@ export class ObjectOwnerAclRequired
     [
       {
         status: 403,
-        message: {
-          includes: "owner of the resource is required to have OWNER access",
-        },
+        message: { includes: "owner of the resource is required to have OWNER access" },
       },
     ],
   ) {}
@@ -238,9 +236,7 @@ export const GoogleRpcStatus = /*@__PURE__*/ S.suspend(() =>
     details: S.optional(DocumentMapList),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GoogleRpcStatus",
-}) as any as S.Schema<GoogleRpcStatus>;
+).annotate({ identifier: "GoogleRpcStatus" }) as any as S.Schema<GoogleRpcStatus>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
@@ -290,9 +286,7 @@ export const CancelOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "CancelOperationsRequest",
-}) as any as S.Schema<CancelOperationsRequest>;
+).annotate({ identifier: "CancelOperationsRequest" }) as any as S.Schema<CancelOperationsRequest>;
 
 export interface CancelOperationsResponse {}
 export const CancelOperationsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -368,9 +362,7 @@ export const ObjectAccessControl = /*@__PURE__*/ S.suspend(() =>
     role: S.optional(S.String),
     selfLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ObjectAccessControl",
-}) as any as S.Schema<ObjectAccessControl>;
+).annotate({ identifier: "ObjectAccessControl" }) as any as S.Schema<ObjectAccessControl>;
 
 export type ObjectAccessControlList = Array<ObjectAccessControl>;
 export const ObjectAccessControlList = /*@__PURE__*/ S.Array(
@@ -403,12 +395,15 @@ export interface ObjectCustomContextPayload {
   createTime?: string;
   /** The time at which the object context was last updated in RFC 3339 format. */
   updateTime?: string;
+  /** The type URL of the object context's extended data. */
+  extendedDataTypeUrl?: string;
 }
 export const ObjectCustomContextPayload = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(S.String),
     createTime: S.optional(S.String),
     updateTime: S.optional(S.String),
+    extendedDataTypeUrl: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ObjectCustomContextPayload",
@@ -430,9 +425,7 @@ export const Storage_ObjectContexts = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     custom: S.optional(ObjectCustomContextPayloadMap),
   }),
-).annotate({
-  identifier: "Storage_ObjectContexts",
-}) as any as S.Schema<Storage_ObjectContexts>;
+).annotate({ identifier: "Storage_ObjectContexts" }) as any as S.Schema<Storage_ObjectContexts>;
 
 export interface Storage_ObjectOwner {
   /** The entity, in the form user-userId. */
@@ -445,9 +438,7 @@ export const Storage_ObjectOwner = /*@__PURE__*/ S.suspend(() =>
     entity: S.optional(S.String),
     entityId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Storage_ObjectOwner",
-}) as any as S.Schema<Storage_ObjectOwner>;
+).annotate({ identifier: "Storage_ObjectOwner" }) as any as S.Schema<Storage_ObjectOwner>;
 
 export interface Storage_ObjectRetention {
   /** A time in RFC 3339 format until which object retention protects this object. */
@@ -460,9 +451,7 @@ export const Storage_ObjectRetention = /*@__PURE__*/ S.suspend(() =>
     retainUntilTime: S.optional(S.String),
     mode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Storage_ObjectRetention",
-}) as any as S.Schema<Storage_ObjectRetention>;
+).annotate({ identifier: "Storage_ObjectRetention" }) as any as S.Schema<Storage_ObjectRetention>;
 
 /** An object. */
 export interface Storage_Object {
@@ -681,9 +670,7 @@ export const ComposeObjectsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "ComposeObjectsRequest",
-}) as any as S.Schema<ComposeObjectsRequest>;
+).annotate({ identifier: "ComposeObjectsRequest" }) as any as S.Schema<ComposeObjectsRequest>;
 
 export type CopyObjectsDestinationPredefinedAclEnum =
   | "authenticatedRead"
@@ -762,9 +749,7 @@ export const CopyObjectsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "CopyObjectsRequest",
-}) as any as S.Schema<CopyObjectsRequest>;
+).annotate({ identifier: "CopyObjectsRequest" }) as any as S.Schema<CopyObjectsRequest>;
 
 export interface CreateProjectsHmacKeysRequest {
   /** Project ID owning the service account. */
@@ -826,9 +811,7 @@ export const HmacKeyMetadata = /*@__PURE__*/ S.suspend(() =>
     timeCreated: S.optional(S.String),
     updated: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HmacKeyMetadata",
-}) as any as S.Schema<HmacKeyMetadata>;
+).annotate({ identifier: "HmacKeyMetadata" }) as any as S.Schema<HmacKeyMetadata>;
 
 /** JSON template to produce a JSON-style HMAC Key resource for Create responses. */
 export interface HmacKey {
@@ -901,9 +884,7 @@ export const DeleteBucketsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "DeleteBucketsRequest",
-}) as any as S.Schema<DeleteBucketsRequest>;
+).annotate({ identifier: "DeleteBucketsRequest" }) as any as S.Schema<DeleteBucketsRequest>;
 
 export interface DeleteBucketsResponse {}
 export const DeleteBucketsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -964,9 +945,7 @@ export const DeleteFoldersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "DeleteFoldersRequest",
-}) as any as S.Schema<DeleteFoldersRequest>;
+).annotate({ identifier: "DeleteFoldersRequest" }) as any as S.Schema<DeleteFoldersRequest>;
 
 export interface DeleteFoldersResponse {}
 export const DeleteFoldersResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1109,9 +1088,7 @@ export const DeleteObjectsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "DeleteObjectsRequest",
-}) as any as S.Schema<DeleteObjectsRequest>;
+).annotate({ identifier: "DeleteObjectsRequest" }) as any as S.Schema<DeleteObjectsRequest>;
 
 export interface DeleteObjectsResponse {}
 export const DeleteObjectsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1280,9 +1257,7 @@ export const GetAnywhereCachesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "GetAnywhereCachesRequest",
-}) as any as S.Schema<GetAnywhereCachesRequest>;
+).annotate({ identifier: "GetAnywhereCachesRequest" }) as any as S.Schema<GetAnywhereCachesRequest>;
 
 export interface GetBucketAccessControlsRequest {
   /** Name of a bucket. */
@@ -1350,9 +1325,7 @@ export const BucketAccessControl = /*@__PURE__*/ S.suspend(() =>
     role: S.optional(S.String),
     selfLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BucketAccessControl",
-}) as any as S.Schema<BucketAccessControl>;
+).annotate({ identifier: "BucketAccessControl" }) as any as S.Schema<BucketAccessControl>;
 
 export type GetBucketsProjectionEnum = "full" | "noAcl";
 export const GetBucketsProjectionEnum = S.String;
@@ -1389,9 +1362,7 @@ export const GetBucketsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "GetBucketsRequest",
-}) as any as S.Schema<GetBucketsRequest>;
+).annotate({ identifier: "GetBucketsRequest" }) as any as S.Schema<GetBucketsRequest>;
 
 export type BucketAccessControlList = Array<BucketAccessControl>;
 export const BucketAccessControlList = /*@__PURE__*/ S.Array(
@@ -1544,9 +1515,7 @@ export const BucketEncryption = /*@__PURE__*/ S.suspend(() =>
       BucketEncryptionCustomerSuppliedEncryptionEnforcementConfig,
     ),
   }),
-).annotate({
-  identifier: "BucketEncryption",
-}) as any as S.Schema<BucketEncryption>;
+).annotate({ identifier: "BucketEncryption" }) as any as S.Schema<BucketEncryption>;
 
 export interface BucketHierarchicalNamespace {
   /** When set to true, hierarchical namespace is enabled for this bucket. */
@@ -1604,9 +1573,7 @@ export const BucketIamConfiguration = /*@__PURE__*/ S.suspend(() =>
     uniformBucketLevelAccess: S.optional(BucketIamConfigurationUniformBucketLevelAccess),
     publicAccessPrevention: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BucketIamConfiguration",
-}) as any as S.Schema<BucketIamConfiguration>;
+).annotate({ identifier: "BucketIamConfiguration" }) as any as S.Schema<BucketIamConfiguration>;
 
 export interface BucketIpFilterPublicNetworkSource {
   /** The list of public IPv4, IPv6 cidr ranges that are allowed to access the bucket. */
@@ -1739,9 +1706,7 @@ export const BucketLifecycleRuleItem = /*@__PURE__*/ S.suspend(() =>
     action: S.optional(BucketLifecycleRuleItemAction),
     condition: S.optional(BucketLifecycleRuleItemCondition),
   }),
-).annotate({
-  identifier: "BucketLifecycleRuleItem",
-}) as any as S.Schema<BucketLifecycleRuleItem>;
+).annotate({ identifier: "BucketLifecycleRuleItem" }) as any as S.Schema<BucketLifecycleRuleItem>;
 
 export type BucketLifecycleRuleItemList = Array<BucketLifecycleRuleItem>;
 export const BucketLifecycleRuleItemList = /*@__PURE__*/ S.Array(
@@ -1756,9 +1721,7 @@ export const BucketLifecycle = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rule: S.optional(BucketLifecycleRuleItemList),
   }),
-).annotate({
-  identifier: "BucketLifecycle",
-}) as any as S.Schema<BucketLifecycle>;
+).annotate({ identifier: "BucketLifecycle" }) as any as S.Schema<BucketLifecycle>;
 
 export interface BucketAutoclass {
   /** Whether or not Autoclass is enabled on this bucket */
@@ -1777,9 +1740,7 @@ export const BucketAutoclass = /*@__PURE__*/ S.suspend(() =>
     terminalStorageClass: S.optional(S.String),
     terminalStorageClassUpdateTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BucketAutoclass",
-}) as any as S.Schema<BucketAutoclass>;
+).annotate({ identifier: "BucketAutoclass" }) as any as S.Schema<BucketAutoclass>;
 
 export interface BucketLogging {
   /** The destination bucket where the current bucket's logs should be placed. */
@@ -1821,9 +1782,7 @@ export const BucketRetentionPolicy = /*@__PURE__*/ S.suspend(() =>
     isLocked: S.optional(S.Boolean),
     retentionPeriod: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BucketRetentionPolicy",
-}) as any as S.Schema<BucketRetentionPolicy>;
+).annotate({ identifier: "BucketRetentionPolicy" }) as any as S.Schema<BucketRetentionPolicy>;
 
 export interface BucketObjectRetention {
   /** The bucket's object retention mode. Can be Enabled. */
@@ -1833,24 +1792,38 @@ export const BucketObjectRetention = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mode: S.optional(S.String),
   }),
+).annotate({ identifier: "BucketObjectRetention" }) as any as S.Schema<BucketObjectRetention>;
+
+export interface BucketSoftDeletePolicyHardDeletePause {
+  /** Whether hard deletions are paused. */
+  enabled?: boolean;
+  /** Server-determined value that indicates the time from which the hard delete pause became effective. This value is in RFC 3339 format. */
+  effectiveTime?: string;
+}
+export const BucketSoftDeletePolicyHardDeletePause = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+    effectiveTime: S.optional(S.String),
+  }),
 ).annotate({
-  identifier: "BucketObjectRetention",
-}) as any as S.Schema<BucketObjectRetention>;
+  identifier: "BucketSoftDeletePolicyHardDeletePause",
+}) as any as S.Schema<BucketSoftDeletePolicyHardDeletePause>;
 
 export interface BucketSoftDeletePolicy {
   /** The duration in seconds that soft-deleted objects in the bucket will be retained and cannot be permanently deleted. */
   retentionDurationSeconds?: string;
   /** Server-determined value that indicates the time from which the policy, or one with a greater retention, was effective. This value is in RFC 3339 format. */
   effectiveTime?: string;
+  /** The bucket's hard delete pause configuration. If set, soft-deleted objects in the bucket will not be permanently deleted until the hard delete pause is disabled. */
+  hardDeletePause?: BucketSoftDeletePolicyHardDeletePause;
 }
 export const BucketSoftDeletePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     retentionDurationSeconds: S.optional(S.String),
     effectiveTime: S.optional(S.String),
+    hardDeletePause: S.optional(BucketSoftDeletePolicyHardDeletePause),
   }),
-).annotate({
-  identifier: "BucketSoftDeletePolicy",
-}) as any as S.Schema<BucketSoftDeletePolicy>;
+).annotate({ identifier: "BucketSoftDeletePolicy" }) as any as S.Schema<BucketSoftDeletePolicy>;
 
 export interface BucketVersioning {
   /** While set to true, versioning is fully enabled for this bucket. */
@@ -1860,9 +1833,7 @@ export const BucketVersioning = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "BucketVersioning",
-}) as any as S.Schema<BucketVersioning>;
+).annotate({ identifier: "BucketVersioning" }) as any as S.Schema<BucketVersioning>;
 
 export interface BucketWebsite {
   /** If the requested object path is missing, the service will ensure the path has a trailing '/', append this suffix, and attempt to retrieve the resulting object. This allows the creation of index.html objects to represent directory pages. */
@@ -2046,9 +2017,7 @@ export const GetFoldersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "GetFoldersRequest",
-}) as any as S.Schema<GetFoldersRequest>;
+).annotate({ identifier: "GetFoldersRequest" }) as any as S.Schema<GetFoldersRequest>;
 
 export interface FolderPendingRenameInfo {
   /** The ID of the rename folder operation. */
@@ -2058,9 +2027,7 @@ export const FolderPendingRenameInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operationId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FolderPendingRenameInfo",
-}) as any as S.Schema<FolderPendingRenameInfo>;
+).annotate({ identifier: "FolderPendingRenameInfo" }) as any as S.Schema<FolderPendingRenameInfo>;
 
 /** A folder. Only available in buckets with hierarchical namespace enabled. */
 export interface Folder {
@@ -2155,9 +2122,7 @@ export const PolicyBindingsItem = /*@__PURE__*/ S.suspend(() =>
     members: S.optional(StringList),
     role: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PolicyBindingsItem",
-}) as any as S.Schema<PolicyBindingsItem>;
+).annotate({ identifier: "PolicyBindingsItem" }) as any as S.Schema<PolicyBindingsItem>;
 
 export type PolicyBindingsItemList = Array<PolicyBindingsItem>;
 export const PolicyBindingsItemList = /*@__PURE__*/ S.Array(
@@ -2264,9 +2229,7 @@ export const GetManagedFoldersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "GetManagedFoldersRequest",
-}) as any as S.Schema<GetManagedFoldersRequest>;
+).annotate({ identifier: "GetManagedFoldersRequest" }) as any as S.Schema<GetManagedFoldersRequest>;
 
 export type RapidCachePolicyIngestOnWriteEnum = "enabled" | "unspecified";
 export const RapidCachePolicyIngestOnWriteEnum = S.String;
@@ -2283,13 +2246,9 @@ export const RapidCachePolicy = /*@__PURE__*/ S.suspend(() =>
     rapidCacheId: S.optional(S.String),
     ingestOnWrite: S.optional(RapidCachePolicyIngestOnWriteEnum),
   }),
-).annotate({
-  identifier: "RapidCachePolicy",
-}) as any as S.Schema<RapidCachePolicy>;
+).annotate({ identifier: "RapidCachePolicy" }) as any as S.Schema<RapidCachePolicy>;
 
-export type RapidCachePolicyMap = {
-  [key: string]: RapidCachePolicy | undefined;
-};
+export type RapidCachePolicyMap = { [key: string]: RapidCachePolicy | undefined };
 export const RapidCachePolicyMap = /*@__PURE__*/ S.Record(
   S.String,
   RapidCachePolicy,
@@ -2304,9 +2263,7 @@ export const RapidCacheConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     policies: S.optional(RapidCachePolicyMap),
   }),
-).annotate({
-  identifier: "RapidCacheConfig",
-}) as any as S.Schema<RapidCacheConfig>;
+).annotate({ identifier: "RapidCacheConfig" }) as any as S.Schema<RapidCacheConfig>;
 
 /** A managed folder. */
 export interface ManagedFolder {
@@ -2363,9 +2320,7 @@ export const GetNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "GetNotificationsRequest",
-}) as any as S.Schema<GetNotificationsRequest>;
+).annotate({ identifier: "GetNotificationsRequest" }) as any as S.Schema<GetNotificationsRequest>;
 
 /** A subscription to receive Google PubSub notifications. */
 export interface Notification {
@@ -2479,9 +2434,7 @@ export const GetObjectsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "GetObjectsRequest",
-}) as any as S.Schema<GetObjectsRequest>;
+).annotate({ identifier: "GetObjectsRequest" }) as any as S.Schema<GetObjectsRequest>;
 
 export interface GetOperationsRequest {
   /** The parent bucket of the operation resource. */
@@ -2500,9 +2453,7 @@ export const GetOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "GetOperationsRequest",
-}) as any as S.Schema<GetOperationsRequest>;
+).annotate({ identifier: "GetOperationsRequest" }) as any as S.Schema<GetOperationsRequest>;
 
 export interface GetProjectsHmacKeysRequest {
   /** Name of the HMAC key. */
@@ -2580,9 +2531,7 @@ export const GetRapidCachesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "GetRapidCachesRequest",
-}) as any as S.Schema<GetRapidCachesRequest>;
+).annotate({ identifier: "GetRapidCachesRequest" }) as any as S.Schema<GetRapidCachesRequest>;
 
 /** A Rapid Cache instance. */
 export interface RapidCache {
@@ -2685,9 +2634,7 @@ export const BucketStorageLayout = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     locationType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BucketStorageLayout",
-}) as any as S.Schema<BucketStorageLayout>;
+).annotate({ identifier: "BucketStorageLayout" }) as any as S.Schema<BucketStorageLayout>;
 
 export interface InsertAnywhereCachesRequest {
   /** Name of the parent bucket. */
@@ -2782,15 +2729,9 @@ export const InsertBucketsRequest = /*@__PURE__*/ S.suspend(() =>
     enableObjectRetention: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(Bucket.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "b",
-      baseUrl: "https://storage.googleapis.com/storage/v1/",
-    }),
+    T.Http({ method: "POST", uri: "b", baseUrl: "https://storage.googleapis.com/storage/v1/" }),
   ),
-).annotate({
-  identifier: "InsertBucketsRequest",
-}) as any as S.Schema<InsertBucketsRequest>;
+).annotate({ identifier: "InsertBucketsRequest" }) as any as S.Schema<InsertBucketsRequest>;
 
 export interface InsertDefaultObjectAccessControlsRequest {
   /** Name of a bucket. */
@@ -2836,9 +2777,7 @@ export const InsertFoldersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "InsertFoldersRequest",
-}) as any as S.Schema<InsertFoldersRequest>;
+).annotate({ identifier: "InsertFoldersRequest" }) as any as S.Schema<InsertFoldersRequest>;
 
 export interface InsertManagedFoldersRequest {
   /** Name of the bucket containing the managed folder. */
@@ -2974,9 +2913,7 @@ export const InsertObjectsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "InsertObjectsRequest",
-}) as any as S.Schema<InsertObjectsRequest>;
+).annotate({ identifier: "InsertObjectsRequest" }) as any as S.Schema<InsertObjectsRequest>;
 
 export interface InsertRapidCachesRequest {
   /** Name of the parent bucket. */
@@ -2995,9 +2932,7 @@ export const InsertRapidCachesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "InsertRapidCachesRequest",
-}) as any as S.Schema<InsertRapidCachesRequest>;
+).annotate({ identifier: "InsertRapidCachesRequest" }) as any as S.Schema<InsertRapidCachesRequest>;
 
 export interface ListAnywhereCachesRequest {
   /** Name of the parent bucket. */
@@ -3078,9 +3013,7 @@ export const BucketAccessControls = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(BucketAccessControlList),
     kind: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BucketAccessControls",
-}) as any as S.Schema<BucketAccessControls>;
+).annotate({ identifier: "BucketAccessControls" }) as any as S.Schema<BucketAccessControls>;
 
 export type ListBucketsProjectionEnum = "full" | "noAcl";
 export const ListBucketsProjectionEnum = S.String;
@@ -3114,15 +3047,9 @@ export const ListBucketsRequest = /*@__PURE__*/ S.suspend(() =>
     userProject: S.optional(S.String.pipe(T.Query())),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "b",
-      baseUrl: "https://storage.googleapis.com/storage/v1/",
-    }),
+    T.Http({ method: "GET", uri: "b", baseUrl: "https://storage.googleapis.com/storage/v1/" }),
   ),
-).annotate({
-  identifier: "ListBucketsRequest",
-}) as any as S.Schema<ListBucketsRequest>;
+).annotate({ identifier: "ListBucketsRequest" }) as any as S.Schema<ListBucketsRequest>;
 
 export type BucketList = Array<Bucket>;
 export const BucketList = /*@__PURE__*/ S.Array(Bucket) as any as S.Schema<BucketList>;
@@ -3186,9 +3113,7 @@ export const ObjectAccessControls = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(ObjectAccessControlList),
     kind: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ObjectAccessControls",
-}) as any as S.Schema<ObjectAccessControls>;
+).annotate({ identifier: "ObjectAccessControls" }) as any as S.Schema<ObjectAccessControls>;
 
 export interface ListFoldersRequest {
   /** Name of the bucket in which to look for folders. */
@@ -3222,9 +3147,7 @@ export const ListFoldersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "ListFoldersRequest",
-}) as any as S.Schema<ListFoldersRequest>;
+).annotate({ identifier: "ListFoldersRequest" }) as any as S.Schema<ListFoldersRequest>;
 
 export type FolderList = Array<Folder>;
 export const FolderList = /*@__PURE__*/ S.Array(Folder) as any as S.Schema<FolderList>;
@@ -3312,9 +3235,7 @@ export const ListNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "ListNotificationsRequest",
-}) as any as S.Schema<ListNotificationsRequest>;
+).annotate({ identifier: "ListNotificationsRequest" }) as any as S.Schema<ListNotificationsRequest>;
 
 export type NotificationList = Array<Notification>;
 export const NotificationList = /*@__PURE__*/ S.Array(
@@ -3421,9 +3342,7 @@ export const ListObjectsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "ListObjectsRequest",
-}) as any as S.Schema<ListObjectsRequest>;
+).annotate({ identifier: "ListObjectsRequest" }) as any as S.Schema<ListObjectsRequest>;
 
 export type Storage_ObjectList = Array<Storage_Object>;
 export const Storage_ObjectList = /*@__PURE__*/ S.Array(
@@ -3473,9 +3392,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 export const GoogleLongrunningOperationList = /*@__PURE__*/ S.Array(
@@ -3554,9 +3471,7 @@ export const HmacKeysMetadata = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HmacKeysMetadata",
-}) as any as S.Schema<HmacKeysMetadata>;
+).annotate({ identifier: "HmacKeysMetadata" }) as any as S.Schema<HmacKeysMetadata>;
 
 export interface ListRapidCachesRequest {
   /** Name of the parent bucket. */
@@ -3578,9 +3493,7 @@ export const ListRapidCachesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "ListRapidCachesRequest",
-}) as any as S.Schema<ListRapidCachesRequest>;
+).annotate({ identifier: "ListRapidCachesRequest" }) as any as S.Schema<ListRapidCachesRequest>;
 
 export type RapidCacheList = Array<RapidCache>;
 export const RapidCacheList = /*@__PURE__*/ S.Array(RapidCache) as any as S.Schema<RapidCacheList>;
@@ -3679,9 +3592,7 @@ export const MoveObjectsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "MoveObjectsRequest",
-}) as any as S.Schema<MoveObjectsRequest>;
+).annotate({ identifier: "MoveObjectsRequest" }) as any as S.Schema<MoveObjectsRequest>;
 
 export interface PatchBucketAccessControlsRequest {
   /** Name of a bucket. */
@@ -3767,9 +3678,7 @@ export const PatchBucketsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "PatchBucketsRequest",
-}) as any as S.Schema<PatchBucketsRequest>;
+).annotate({ identifier: "PatchBucketsRequest" }) as any as S.Schema<PatchBucketsRequest>;
 
 export interface PatchDefaultObjectAccessControlsRequest {
   /** Name of a bucket. */
@@ -3890,9 +3799,7 @@ export const PatchObjectsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "PatchObjectsRequest",
-}) as any as S.Schema<PatchObjectsRequest>;
+).annotate({ identifier: "PatchObjectsRequest" }) as any as S.Schema<PatchObjectsRequest>;
 
 export interface PauseAnywhereCachesRequest {
   /** Name of the parent bucket. */
@@ -3936,9 +3843,7 @@ export const RelocateBucketRequest = /*@__PURE__*/ S.suspend(() =>
     validateOnly: S.optional(S.Boolean),
     destinationKmsKeyName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RelocateBucketRequest",
-}) as any as S.Schema<RelocateBucketRequest>;
+).annotate({ identifier: "RelocateBucketRequest" }) as any as S.Schema<RelocateBucketRequest>;
 
 export interface RelocateBucketsRequest {
   /** Name of the bucket to be moved. */
@@ -3957,9 +3862,7 @@ export const RelocateBucketsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "RelocateBucketsRequest",
-}) as any as S.Schema<RelocateBucketsRequest>;
+).annotate({ identifier: "RelocateBucketsRequest" }) as any as S.Schema<RelocateBucketsRequest>;
 
 export interface RenameFoldersRequest {
   /** Name of the bucket in which the folders are in. */
@@ -3987,9 +3890,7 @@ export const RenameFoldersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "RenameFoldersRequest",
-}) as any as S.Schema<RenameFoldersRequest>;
+).annotate({ identifier: "RenameFoldersRequest" }) as any as S.Schema<RenameFoldersRequest>;
 
 export type RestoreBucketsProjectionEnum = "full" | "noAcl";
 export const RestoreBucketsProjectionEnum = S.String;
@@ -4017,9 +3918,7 @@ export const RestoreBucketsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "RestoreBucketsRequest",
-}) as any as S.Schema<RestoreBucketsRequest>;
+).annotate({ identifier: "RestoreBucketsRequest" }) as any as S.Schema<RestoreBucketsRequest>;
 
 export type RestoreObjectsProjectionEnum = "full" | "noAcl";
 export const RestoreObjectsProjectionEnum = S.String;
@@ -4068,9 +3967,7 @@ export const RestoreObjectsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "RestoreObjectsRequest",
-}) as any as S.Schema<RestoreObjectsRequest>;
+).annotate({ identifier: "RestoreObjectsRequest" }) as any as S.Schema<RestoreObjectsRequest>;
 
 export interface ResumeAnywhereCachesRequest {
   /** Name of the parent bucket. */
@@ -4181,9 +4078,7 @@ export const RewriteObjectsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "RewriteObjectsRequest",
-}) as any as S.Schema<RewriteObjectsRequest>;
+).annotate({ identifier: "RewriteObjectsRequest" }) as any as S.Schema<RewriteObjectsRequest>;
 
 /** A rewrite response. */
 export interface RewriteResponse {
@@ -4209,9 +4104,7 @@ export const RewriteResponse = /*@__PURE__*/ S.suspend(() =>
     rewriteToken: S.optional(S.String),
     totalBytesRewritten: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RewriteResponse",
-}) as any as S.Schema<RewriteResponse>;
+).annotate({ identifier: "RewriteResponse" }) as any as S.Schema<RewriteResponse>;
 
 export interface SetIamPolicyBucketsRequest {
   /** Name of a bucket. */
@@ -4346,9 +4239,7 @@ export const StopChannelsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "StopChannelsRequest",
-}) as any as S.Schema<StopChannelsRequest>;
+).annotate({ identifier: "StopChannelsRequest" }) as any as S.Schema<StopChannelsRequest>;
 
 export interface StopChannelsResponse {}
 export const StopChannelsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4560,9 +4451,7 @@ export const UpdateBucketsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "UpdateBucketsRequest",
-}) as any as S.Schema<UpdateBucketsRequest>;
+).annotate({ identifier: "UpdateBucketsRequest" }) as any as S.Schema<UpdateBucketsRequest>;
 
 export interface UpdateDefaultObjectAccessControlsRequest {
   /** Name of a bucket. */
@@ -4713,9 +4602,7 @@ export const UpdateObjectsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
-).annotate({
-  identifier: "UpdateObjectsRequest",
-}) as any as S.Schema<UpdateObjectsRequest>;
+).annotate({ identifier: "UpdateObjectsRequest" }) as any as S.Schema<UpdateObjectsRequest>;
 
 export interface UpdateProjectsHmacKeysRequest {
   /** Name of the HMAC key being updated. */
@@ -4764,9 +4651,69 @@ export const UpdateRapidCachesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://storage.googleapis.com/storage/v1/",
     }),
   ),
+).annotate({ identifier: "UpdateRapidCachesRequest" }) as any as S.Schema<UpdateRapidCachesRequest>;
+
+export interface ViewFullContextObjectsRequest {
+  /** Name of the bucket in which the object resides. */
+  bucket: string;
+  /** Name of the object. For information about how to URL encode object names to be path safe, see [Encoding URI Path Parts](https://cloud.google.com/storage/docs/request-endpoints#encoding). */
+  object: string;
+  /** If present, selects a specific revision of this object (as opposed to the latest version, the default). */
+  generation?: string;
+  /** Key identifying the object context to retrieve. */
+  contextKey: string;
+  /** The project to be billed for this request. Required for Requester Pays buckets. */
+  userProject?: string;
+}
+export const ViewFullContextObjectsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bucket: S.String.pipe(T.Label()),
+    object: S.String.pipe(T.Label()),
+    generation: S.optional(S.String.pipe(T.Query())),
+    contextKey: S.String.pipe(T.Query()),
+    userProject: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "b/{bucket}/o/{object}/viewFullContext",
+      baseUrl: "https://storage.googleapis.com/storage/v1/",
+    }),
+  ),
 ).annotate({
-  identifier: "UpdateRapidCachesRequest",
-}) as any as S.Schema<UpdateRapidCachesRequest>;
+  identifier: "ViewFullContextObjectsRequest",
+}) as any as S.Schema<ViewFullContextObjectsRequest>;
+
+export type ObjectFullContextTypeEnum = "CUSTOM";
+export const ObjectFullContextTypeEnum = S.String;
+
+/** A full representation of an object context. */
+export interface ObjectFullContext {
+  /** The kind of item this is. For ObjectFullContext, this is always storage#objectFullContext. */
+  kind?: string;
+  /** The type of the object context. */
+  type?: ObjectFullContextTypeEnum;
+  /** The key of the object context. */
+  key?: string;
+  /** The value of the object context. */
+  value?: string;
+  /** The time at which the object context was created. This value is in RFC 3339 format. */
+  createTime?: string;
+  /** The time at which the object context was last updated. This value is in RFC 3339 format. */
+  updateTime?: string;
+  /** The extended data of the object context. */
+  extendedData?: DocumentMap;
+}
+export const ObjectFullContext = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: S.optional(S.String),
+    type: S.optional(ObjectFullContextTypeEnum),
+    key: S.optional(S.String),
+    value: S.optional(S.String),
+    createTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    extendedData: S.optional(DocumentMap),
+  }),
+).annotate({ identifier: "ObjectFullContext" }) as any as S.Schema<ObjectFullContext>;
 
 export type AdvanceRelocateBucketOperationsError =
   | NotFound
@@ -5506,11 +5453,7 @@ export const listAnywhereCaches: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-    items: "items",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
 export type ListBucketAccessControlsError = NotFound | Forbidden | GcpOpError;
@@ -5542,11 +5485,7 @@ export const listBuckets: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-    items: "items",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
 export type ListDefaultObjectAccessControlsError = NotFound | Forbidden | GcpOpError;
@@ -5578,11 +5517,7 @@ export const listFolders: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-    items: "items",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
 export type ListManagedFoldersError = NotFound | Forbidden | GcpOpError;
@@ -5599,11 +5534,7 @@ export const listManagedFolders: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-    items: "items",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
 export type ListNotificationsError = NotFound | Forbidden | GcpOpError;
@@ -5650,11 +5581,7 @@ export const listObjects: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-    items: "items",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
 export type ListOperationsError = NotFound | Forbidden | GcpOpError;
@@ -5671,10 +5598,7 @@ export const listOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsHmacKeysError = NotFound | Forbidden | GcpOpError;
@@ -5691,11 +5615,7 @@ export const listProjectsHmacKeys: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-    items: "items",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
 export type ListRapidCachesError = NotFound | Forbidden | GcpOpError;
@@ -5712,11 +5632,7 @@ export const listRapidCaches: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-    items: "items",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
 export type LockRetentionPolicyBucketsError =
@@ -6211,6 +6127,21 @@ export const updateRapidCaches: API.OperationMethod<
   input: UpdateRapidCachesRequest,
   output: GoogleLongrunningOperation,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ViewFullContextObjectsError = NotFound | Forbidden | GcpOpError;
+/** Retrieves a specific object context with its extended data for a given object. */
+export const viewFullContextObjects: API.OperationMethod<
+  ViewFullContextObjectsRequest,
+  ObjectFullContext,
+  ViewFullContextObjectsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ViewFullContextObjectsRequest,
+  output: ObjectFullContext,
+  errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

@@ -63,26 +63,26 @@ export class NotFound
 
 /** A job creating reports of a specific type. */
 export interface Job {
-  /** The creation date/time of the job. */
-  createTime?: string;
-  /** The date/time when this job will expire/expired. After a job expired, no new reports are generated. */
-  expireTime?: string;
-  /** The type of reports this job creates. Corresponds to the ID of a ReportType. */
-  reportTypeId?: string;
-  /** The server-generated ID of the job (max. 40 characters). */
-  id?: string;
   /** The name of the job (max. 100 characters). */
   name?: string;
+  /** The date/time when this job will expire/expired. After a job expired, no new reports are generated. */
+  expireTime?: string;
+  /** The server-generated ID of the job (max. 40 characters). */
+  id?: string;
+  /** The type of reports this job creates. Corresponds to the ID of a ReportType. */
+  reportTypeId?: string;
+  /** The creation date/time of the job. */
+  createTime?: string;
   /** True if this a system-managed job that cannot be modified by the user; otherwise false. */
   systemManaged?: boolean;
 }
 export const Job = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    expireTime: S.optional(S.String),
-    reportTypeId: S.optional(S.String),
-    id: S.optional(S.String),
     name: S.optional(S.String),
+    expireTime: S.optional(S.String),
+    id: S.optional(S.String),
+    reportTypeId: S.optional(S.String),
+    createTime: S.optional(S.String),
     systemManaged: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Job" }) as any as S.Schema<Job>;
@@ -98,26 +98,20 @@ export const CreateJobsRequest = /*@__PURE__*/ S.suspend(() =>
     onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Job.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1/jobs",
-      baseUrl: "https://youtubereporting.googleapis.com/",
-    }),
+    T.Http({ method: "POST", uri: "v1/jobs", baseUrl: "https://youtubereporting.googleapis.com/" }),
   ),
-).annotate({
-  identifier: "CreateJobsRequest",
-}) as any as S.Schema<CreateJobsRequest>;
+).annotate({ identifier: "CreateJobsRequest" }) as any as S.Schema<CreateJobsRequest>;
 
 export interface DeleteJobsRequest {
-  /** The ID of the job to delete. */
-  jobId: string;
   /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
   onBehalfOfContentOwner?: string;
+  /** The ID of the job to delete. */
+  jobId: string;
 }
 export const DeleteJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    jobId: S.String.pipe(T.Label()),
     onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
+    jobId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -125,9 +119,7 @@ export const DeleteJobsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://youtubereporting.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DeleteJobsRequest",
-}) as any as S.Schema<DeleteJobsRequest>;
+).annotate({ identifier: "DeleteJobsRequest" }) as any as S.Schema<DeleteJobsRequest>;
 
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -149,193 +141,24 @@ export const DownloadMediaRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://youtubereporting.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DownloadMediaRequest",
-}) as any as S.Schema<DownloadMediaRequest>;
-
-/** gdata */
-export interface GdataBlobstore2Info {
-  /** gdata */
-  blobId?: string;
-  /** gdata */
-  blobGeneration?: string;
-  /** gdata */
-  uploadFragmentListCreationInfo?: string;
-  /** gdata */
-  readToken?: string;
-  /** gdata */
-  uploadMetadataContainer?: string;
-  /** gdata */
-  downloadReadHandle?: string;
-  /** gdata */
-  downloadExternalReadToken?: string;
-}
-export const GdataBlobstore2Info = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    blobId: S.optional(S.String),
-    blobGeneration: S.optional(S.String),
-    uploadFragmentListCreationInfo: S.optional(S.String),
-    readToken: S.optional(S.String),
-    uploadMetadataContainer: S.optional(S.String),
-    downloadReadHandle: S.optional(S.String),
-    downloadExternalReadToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GdataBlobstore2Info",
-}) as any as S.Schema<GdataBlobstore2Info>;
+).annotate({ identifier: "DownloadMediaRequest" }) as any as S.Schema<DownloadMediaRequest>;
 
 /** gdata */
 export interface GdataObjectId {
   /** gdata */
+  generation?: string;
+  /** gdata */
   bucketName?: string;
   /** gdata */
   objectName?: string;
-  /** gdata */
-  generation?: string;
 }
 export const GdataObjectId = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    generation: S.optional(S.String),
     bucketName: S.optional(S.String),
     objectName: S.optional(S.String),
-    generation: S.optional(S.String),
   }),
 ).annotate({ identifier: "GdataObjectId" }) as any as S.Schema<GdataObjectId>;
-
-export type GdataCompositeMediaReferenceTypeEnum =
-  | "PATH"
-  | "BLOB_REF"
-  | "INLINE"
-  | "BIGSTORE_REF"
-  | "COSMO_BINARY_REFERENCE";
-export const GdataCompositeMediaReferenceTypeEnum = S.String;
-
-/** gdata */
-export interface GdataCompositeMedia {
-  /** gdata */
-  blobstore2Info?: GdataBlobstore2Info;
-  /** gdata */
-  length?: string;
-  /** gdata */
-  path?: string;
-  /** gdata */
-  cosmoBinaryReference?: string;
-  /** gdata */
-  sha1Hash?: string;
-  /** gdata */
-  inline?: string;
-  /** gdata */
-  crc32cHash?: number;
-  /** gdata */
-  blobRef?: string;
-  /** gdata */
-  md5Hash?: string;
-  /** gdata */
-  objectId?: GdataObjectId;
-  /** gdata */
-  referenceType?: GdataCompositeMediaReferenceTypeEnum;
-}
-export const GdataCompositeMedia = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    blobstore2Info: S.optional(GdataBlobstore2Info),
-    length: S.optional(S.String),
-    path: S.optional(S.String),
-    cosmoBinaryReference: S.optional(S.String),
-    sha1Hash: S.optional(S.String),
-    inline: S.optional(S.String),
-    crc32cHash: S.optional(S.Number),
-    blobRef: S.optional(S.String),
-    md5Hash: S.optional(S.String),
-    objectId: S.optional(GdataObjectId),
-    referenceType: S.optional(GdataCompositeMediaReferenceTypeEnum),
-  }),
-).annotate({
-  identifier: "GdataCompositeMedia",
-}) as any as S.Schema<GdataCompositeMedia>;
-
-export type GdataCompositeMediaList = Array<GdataCompositeMedia>;
-export const GdataCompositeMediaList = /*@__PURE__*/ S.Array(
-  GdataCompositeMedia,
-) as any as S.Schema<GdataCompositeMediaList>;
-
-/** gdata */
-export interface GdataDiffUploadResponse {
-  /** gdata */
-  originalObject?: GdataCompositeMedia;
-  /** gdata */
-  objectVersion?: string;
-}
-export const GdataDiffUploadResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    originalObject: S.optional(GdataCompositeMedia),
-    objectVersion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GdataDiffUploadResponse",
-}) as any as S.Schema<GdataDiffUploadResponse>;
-
-/** gdata */
-export interface GdataDownloadParameters {
-  /** gdata */
-  allowGzipCompression?: boolean;
-  /** gdata */
-  ignoreRange?: boolean;
-}
-export const GdataDownloadParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    allowGzipCompression: S.optional(S.Boolean),
-    ignoreRange: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "GdataDownloadParameters",
-}) as any as S.Schema<GdataDownloadParameters>;
-
-/** gdata */
-export interface GdataDiffVersionResponse {
-  /** gdata */
-  objectSizeBytes?: string;
-  /** gdata */
-  objectVersion?: string;
-}
-export const GdataDiffVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    objectSizeBytes: S.optional(S.String),
-    objectVersion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GdataDiffVersionResponse",
-}) as any as S.Schema<GdataDiffVersionResponse>;
-
-/** gdata */
-export interface GdataDiffDownloadResponse {
-  /** gdata */
-  objectLocation?: GdataCompositeMedia;
-}
-export const GdataDiffDownloadResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    objectLocation: S.optional(GdataCompositeMedia),
-  }),
-).annotate({
-  identifier: "GdataDiffDownloadResponse",
-}) as any as S.Schema<GdataDiffDownloadResponse>;
-
-/** gdata */
-export interface GdataDiffUploadRequest {
-  /** gdata */
-  objectVersion?: string;
-  /** gdata */
-  checksumsInfo?: GdataCompositeMedia;
-  /** gdata */
-  objectInfo?: GdataCompositeMedia;
-}
-export const GdataDiffUploadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    objectVersion: S.optional(S.String),
-    checksumsInfo: S.optional(GdataCompositeMedia),
-    objectInfo: S.optional(GdataCompositeMedia),
-  }),
-).annotate({
-  identifier: "GdataDiffUploadRequest",
-}) as any as S.Schema<GdataDiffUploadRequest>;
 
 export type GdataMediaReferenceTypeEnum =
   | "PATH"
@@ -354,7 +177,176 @@ export type GdataMediaReferenceTypeEnum =
 export const GdataMediaReferenceTypeEnum = S.String;
 
 /** gdata */
+export interface GdataContentTypeInfo {
+  /** gdata */
+  fromFusionId?: string;
+  /** gdata */
+  fromHeader?: string;
+  /** gdata */
+  fromBytes?: string;
+  /** gdata */
+  fromFileName?: string;
+  /** gdata */
+  fusionIdDetectionMetadata?: string;
+  /** gdata */
+  fromUrlPath?: string;
+  /** gdata */
+  bestGuess?: string;
+}
+export const GdataContentTypeInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fromFusionId: S.optional(S.String),
+    fromHeader: S.optional(S.String),
+    fromBytes: S.optional(S.String),
+    fromFileName: S.optional(S.String),
+    fusionIdDetectionMetadata: S.optional(S.String),
+    fromUrlPath: S.optional(S.String),
+    bestGuess: S.optional(S.String),
+  }),
+).annotate({ identifier: "GdataContentTypeInfo" }) as any as S.Schema<GdataContentTypeInfo>;
+
+export type GdataCompositeMediaReferenceTypeEnum =
+  | "PATH"
+  | "BLOB_REF"
+  | "INLINE"
+  | "BIGSTORE_REF"
+  | "COSMO_BINARY_REFERENCE";
+export const GdataCompositeMediaReferenceTypeEnum = S.String;
+
+/** gdata */
+export interface GdataBlobstore2Info {
+  /** gdata */
+  blobGeneration?: string;
+  /** gdata */
+  downloadReadHandle?: string;
+  /** gdata */
+  uploadMetadataContainer?: string;
+  /** gdata */
+  uploadFragmentListCreationInfo?: string;
+  /** gdata */
+  blobId?: string;
+  /** gdata */
+  downloadExternalReadToken?: string;
+  /** gdata */
+  readToken?: string;
+}
+export const GdataBlobstore2Info = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    blobGeneration: S.optional(S.String),
+    downloadReadHandle: S.optional(S.String),
+    uploadMetadataContainer: S.optional(S.String),
+    uploadFragmentListCreationInfo: S.optional(S.String),
+    blobId: S.optional(S.String),
+    downloadExternalReadToken: S.optional(S.String),
+    readToken: S.optional(S.String),
+  }),
+).annotate({ identifier: "GdataBlobstore2Info" }) as any as S.Schema<GdataBlobstore2Info>;
+
+/** gdata */
+export interface GdataCompositeMedia {
+  /** gdata */
+  crc32cHash?: number;
+  /** gdata */
+  referenceType?: GdataCompositeMediaReferenceTypeEnum;
+  /** gdata */
+  md5Hash?: string;
+  /** gdata */
+  path?: string;
+  /** gdata */
+  blobstore2Info?: GdataBlobstore2Info;
+  /** gdata */
+  cosmoBinaryReference?: string;
+  /** gdata */
+  length?: string;
+  /** gdata */
+  inline?: string;
+  /** gdata */
+  objectId?: GdataObjectId;
+  /** gdata */
+  sha1Hash?: string;
+  /** gdata */
+  blobRef?: string;
+}
+export const GdataCompositeMedia = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    crc32cHash: S.optional(S.Number),
+    referenceType: S.optional(GdataCompositeMediaReferenceTypeEnum),
+    md5Hash: S.optional(S.String),
+    path: S.optional(S.String),
+    blobstore2Info: S.optional(GdataBlobstore2Info),
+    cosmoBinaryReference: S.optional(S.String),
+    length: S.optional(S.String),
+    inline: S.optional(S.String),
+    objectId: S.optional(GdataObjectId),
+    sha1Hash: S.optional(S.String),
+    blobRef: S.optional(S.String),
+  }),
+).annotate({ identifier: "GdataCompositeMedia" }) as any as S.Schema<GdataCompositeMedia>;
+
+export type GdataCompositeMediaList = Array<GdataCompositeMedia>;
+export const GdataCompositeMediaList = /*@__PURE__*/ S.Array(
+  GdataCompositeMedia,
+) as any as S.Schema<GdataCompositeMediaList>;
+
+/** gdata */
+export interface GdataDownloadParameters {
+  /** gdata */
+  ignoreRange?: boolean;
+  /** gdata */
+  allowGzipCompression?: boolean;
+}
+export const GdataDownloadParameters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ignoreRange: S.optional(S.Boolean),
+    allowGzipCompression: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "GdataDownloadParameters" }) as any as S.Schema<GdataDownloadParameters>;
+
+/** gdata */
+export interface GdataDiffDownloadResponse {
+  /** gdata */
+  objectLocation?: GdataCompositeMedia;
+}
+export const GdataDiffDownloadResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectLocation: S.optional(GdataCompositeMedia),
+  }),
+).annotate({
+  identifier: "GdataDiffDownloadResponse",
+}) as any as S.Schema<GdataDiffDownloadResponse>;
+
+/** gdata */
+export interface GdataDiffUploadResponse {
+  /** gdata */
+  originalObject?: GdataCompositeMedia;
+  /** gdata */
+  objectVersion?: string;
+}
+export const GdataDiffUploadResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    originalObject: S.optional(GdataCompositeMedia),
+    objectVersion: S.optional(S.String),
+  }),
+).annotate({ identifier: "GdataDiffUploadResponse" }) as any as S.Schema<GdataDiffUploadResponse>;
+
+/** gdata */
+export interface GdataDiffVersionResponse {
+  /** gdata */
+  objectSizeBytes?: string;
+  /** gdata */
+  objectVersion?: string;
+}
+export const GdataDiffVersionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectSizeBytes: S.optional(S.String),
+    objectVersion: S.optional(S.String),
+  }),
+).annotate({ identifier: "GdataDiffVersionResponse" }) as any as S.Schema<GdataDiffVersionResponse>;
+
+/** gdata */
 export interface GdataDiffChecksumsResponse {
+  /** gdata */
+  checksumsLocation?: GdataCompositeMedia;
   /** gdata */
   objectVersion?: string;
   /** gdata */
@@ -363,150 +355,134 @@ export interface GdataDiffChecksumsResponse {
   objectSizeBytes?: string;
   /** gdata */
   objectLocation?: GdataCompositeMedia;
-  /** gdata */
-  checksumsLocation?: GdataCompositeMedia;
 }
 export const GdataDiffChecksumsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    checksumsLocation: S.optional(GdataCompositeMedia),
     objectVersion: S.optional(S.String),
     chunkSizeBytes: S.optional(S.String),
     objectSizeBytes: S.optional(S.String),
     objectLocation: S.optional(GdataCompositeMedia),
-    checksumsLocation: S.optional(GdataCompositeMedia),
   }),
 ).annotate({
   identifier: "GdataDiffChecksumsResponse",
 }) as any as S.Schema<GdataDiffChecksumsResponse>;
 
 /** gdata */
-export interface GdataContentTypeInfo {
+export interface GdataDiffUploadRequest {
   /** gdata */
-  fromFusionId?: string;
+  objectInfo?: GdataCompositeMedia;
   /** gdata */
-  bestGuess?: string;
+  checksumsInfo?: GdataCompositeMedia;
   /** gdata */
-  fromFileName?: string;
-  /** gdata */
-  fromBytes?: string;
-  /** gdata */
-  fromHeader?: string;
-  /** gdata */
-  fusionIdDetectionMetadata?: string;
-  /** gdata */
-  fromUrlPath?: string;
+  objectVersion?: string;
 }
-export const GdataContentTypeInfo = /*@__PURE__*/ S.suspend(() =>
+export const GdataDiffUploadRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fromFusionId: S.optional(S.String),
-    bestGuess: S.optional(S.String),
-    fromFileName: S.optional(S.String),
-    fromBytes: S.optional(S.String),
-    fromHeader: S.optional(S.String),
-    fusionIdDetectionMetadata: S.optional(S.String),
-    fromUrlPath: S.optional(S.String),
+    objectInfo: S.optional(GdataCompositeMedia),
+    checksumsInfo: S.optional(GdataCompositeMedia),
+    objectVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GdataContentTypeInfo",
-}) as any as S.Schema<GdataContentTypeInfo>;
+).annotate({ identifier: "GdataDiffUploadRequest" }) as any as S.Schema<GdataDiffUploadRequest>;
 
 /** gdata */
 export interface GdataMedia {
   /** gdata */
-  compositeMedia?: GdataCompositeMediaList;
-  /** gdata */
   crc32cHash?: number;
-  /** gdata */
-  blobstore2Info?: GdataBlobstore2Info;
-  /** gdata */
-  token?: string;
-  /** gdata */
-  mediaId?: string;
-  /** gdata */
-  hashVerified?: boolean;
-  /** gdata */
-  sha1Hash?: string;
-  /** gdata */
-  diffUploadResponse?: GdataDiffUploadResponse;
-  /** gdata */
-  downloadParameters?: GdataDownloadParameters;
-  /** gdata */
-  sha512Hash?: string;
-  /** gdata */
-  timestamp?: string;
-  /** gdata */
-  length?: string;
-  /** gdata */
-  filename?: string;
-  /** gdata */
-  path?: string;
-  /** gdata */
-  diffVersionResponse?: GdataDiffVersionResponse;
-  /** gdata */
-  blobRef?: string;
-  /** gdata */
-  diffDownloadResponse?: GdataDiffDownloadResponse;
-  /** gdata */
-  diffUploadRequest?: GdataDiffUploadRequest;
   /** gdata */
   objectId?: GdataObjectId;
   /** gdata */
-  bigstoreObjectRef?: string;
+  blobRef?: string;
   /** gdata */
-  sha256Hash?: string;
+  path?: string;
   /** gdata */
-  inline?: string;
+  hashVerified?: boolean;
+  /** gdata */
+  filename?: string;
   /** gdata */
   referenceType?: GdataMediaReferenceTypeEnum;
   /** gdata */
-  algorithm?: string;
-  /** gdata */
-  isPotentialRetry?: boolean;
-  /** gdata */
-  diffChecksumsResponse?: GdataDiffChecksumsResponse;
-  /** gdata */
-  md5Hash?: string;
-  /** gdata */
-  contentType?: string;
+  contentTypeInfo?: GdataContentTypeInfo;
   /** gdata */
   hash?: string;
   /** gdata */
+  contentType?: string;
+  /** gdata */
+  sha512Hash?: string;
+  /** gdata */
+  compositeMedia?: GdataCompositeMediaList;
+  /** gdata */
+  blobstore2Info?: GdataBlobstore2Info;
+  /** gdata */
+  downloadParameters?: GdataDownloadParameters;
+  /** gdata */
+  mediaId?: string;
+  /** gdata */
+  length?: string;
+  /** gdata */
+  inline?: string;
+  /** gdata */
+  diffDownloadResponse?: GdataDiffDownloadResponse;
+  /** gdata */
+  diffUploadResponse?: GdataDiffUploadResponse;
+  /** gdata */
+  isPotentialRetry?: boolean;
+  /** gdata */
+  md5Hash?: string;
+  /** gdata */
+  sha256Hash?: string;
+  /** gdata */
   cosmoBinaryReference?: string;
   /** gdata */
-  contentTypeInfo?: GdataContentTypeInfo;
+  sha1Hash?: string;
+  /** gdata */
+  algorithm?: string;
+  /** gdata */
+  diffVersionResponse?: GdataDiffVersionResponse;
+  /** gdata */
+  diffChecksumsResponse?: GdataDiffChecksumsResponse;
+  /** gdata */
+  bigstoreObjectRef?: string;
+  /** gdata */
+  diffUploadRequest?: GdataDiffUploadRequest;
+  /** gdata */
+  timestamp?: string;
+  /** gdata */
+  token?: string;
 }
 export const GdataMedia = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    compositeMedia: S.optional(GdataCompositeMediaList),
     crc32cHash: S.optional(S.Number),
-    blobstore2Info: S.optional(GdataBlobstore2Info),
-    token: S.optional(S.String),
-    mediaId: S.optional(S.String),
-    hashVerified: S.optional(S.Boolean),
-    sha1Hash: S.optional(S.String),
-    diffUploadResponse: S.optional(GdataDiffUploadResponse),
-    downloadParameters: S.optional(GdataDownloadParameters),
-    sha512Hash: S.optional(S.String),
-    timestamp: S.optional(S.String),
-    length: S.optional(S.String),
-    filename: S.optional(S.String),
-    path: S.optional(S.String),
-    diffVersionResponse: S.optional(GdataDiffVersionResponse),
-    blobRef: S.optional(S.String),
-    diffDownloadResponse: S.optional(GdataDiffDownloadResponse),
-    diffUploadRequest: S.optional(GdataDiffUploadRequest),
     objectId: S.optional(GdataObjectId),
-    bigstoreObjectRef: S.optional(S.String),
-    sha256Hash: S.optional(S.String),
-    inline: S.optional(S.String),
+    blobRef: S.optional(S.String),
+    path: S.optional(S.String),
+    hashVerified: S.optional(S.Boolean),
+    filename: S.optional(S.String),
     referenceType: S.optional(GdataMediaReferenceTypeEnum),
-    algorithm: S.optional(S.String),
-    isPotentialRetry: S.optional(S.Boolean),
-    diffChecksumsResponse: S.optional(GdataDiffChecksumsResponse),
-    md5Hash: S.optional(S.String),
-    contentType: S.optional(S.String),
-    hash: S.optional(S.String),
-    cosmoBinaryReference: S.optional(S.String),
     contentTypeInfo: S.optional(GdataContentTypeInfo),
+    hash: S.optional(S.String),
+    contentType: S.optional(S.String),
+    sha512Hash: S.optional(S.String),
+    compositeMedia: S.optional(GdataCompositeMediaList),
+    blobstore2Info: S.optional(GdataBlobstore2Info),
+    downloadParameters: S.optional(GdataDownloadParameters),
+    mediaId: S.optional(S.String),
+    length: S.optional(S.String),
+    inline: S.optional(S.String),
+    diffDownloadResponse: S.optional(GdataDiffDownloadResponse),
+    diffUploadResponse: S.optional(GdataDiffUploadResponse),
+    isPotentialRetry: S.optional(S.Boolean),
+    md5Hash: S.optional(S.String),
+    sha256Hash: S.optional(S.String),
+    cosmoBinaryReference: S.optional(S.String),
+    sha1Hash: S.optional(S.String),
+    algorithm: S.optional(S.String),
+    diffVersionResponse: S.optional(GdataDiffVersionResponse),
+    diffChecksumsResponse: S.optional(GdataDiffChecksumsResponse),
+    bigstoreObjectRef: S.optional(S.String),
+    diffUploadRequest: S.optional(GdataDiffUploadRequest),
+    timestamp: S.optional(S.String),
+    token: S.optional(S.String),
   }),
 ).annotate({ identifier: "GdataMedia" }) as any as S.Schema<GdataMedia>;
 
@@ -530,18 +506,18 @@ export const GetJobsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetJobsRequest" }) as any as S.Schema<GetJobsRequest>;
 
 export interface GetJobsReportsRequest {
-  /** The ID of the report to retrieve. */
-  reportId: string;
   /** The ID of the job. */
   jobId: string;
   /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
   onBehalfOfContentOwner?: string;
+  /** The ID of the report to retrieve. */
+  reportId: string;
 }
 export const GetJobsReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    reportId: S.String.pipe(T.Label()),
     jobId: S.String.pipe(T.Label()),
     onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
+    reportId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -549,12 +525,16 @@ export const GetJobsReportsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://youtubereporting.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetJobsReportsRequest",
-}) as any as S.Schema<GetJobsReportsRequest>;
+).annotate({ identifier: "GetJobsReportsRequest" }) as any as S.Schema<GetJobsReportsRequest>;
 
 /** A report's metadata including the URL from which the report itself can be downloaded. */
 export interface Report {
+  /** The end of the time period that the report instance covers. The value is exclusive. */
+  endTime?: string;
+  /** The date/time when this report was created. */
+  createTime?: string;
+  /** The start of the time period that the report instance covers. The value is inclusive. */
+  startTime?: string;
   /** The URL from which the report can be downloaded (max. 1000 characters). */
   downloadUrl?: string;
   /** The ID of the job that created this report. */
@@ -563,51 +543,39 @@ export interface Report {
   jobExpireTime?: string;
   /** The server-generated ID of the report. */
   id?: string;
-  /** The date/time when this report was created. */
-  createTime?: string;
-  /** The start of the time period that the report instance covers. The value is inclusive. */
-  startTime?: string;
-  /** The end of the time period that the report instance covers. The value is exclusive. */
-  endTime?: string;
 }
 export const Report = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    endTime: S.optional(S.String),
+    createTime: S.optional(S.String),
+    startTime: S.optional(S.String),
     downloadUrl: S.optional(S.String),
     jobId: S.optional(S.String),
     jobExpireTime: S.optional(S.String),
     id: S.optional(S.String),
-    createTime: S.optional(S.String),
-    startTime: S.optional(S.String),
-    endTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Report" }) as any as S.Schema<Report>;
 
 export interface ListJobsRequest {
   /** Requested page size. Server may return fewer jobs than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
-  /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
-  onBehalfOfContentOwner?: string;
   /** If set to true, also system-managed jobs will be returned; otherwise only user-created jobs will be returned. System-managed jobs can neither be modified nor deleted. */
   includeSystemManaged?: boolean;
+  /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
+  onBehalfOfContentOwner?: string;
   /** A token identifying a page of results the server should return. Typically, this is the value of ListReportTypesResponse.next_page_token returned in response to the previous call to the `ListJobs` method. */
   pageToken?: string;
 }
 export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
     includeSystemManaged: S.optional(S.Boolean.pipe(T.Query())),
+    onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/jobs",
-      baseUrl: "https://youtubereporting.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/jobs", baseUrl: "https://youtubereporting.googleapis.com/" }),
   ),
-).annotate({
-  identifier: "ListJobsRequest",
-}) as any as S.Schema<ListJobsRequest>;
+).annotate({ identifier: "ListJobsRequest" }) as any as S.Schema<ListJobsRequest>;
 
 export type JobList = Array<Job>;
 export const JobList = /*@__PURE__*/ S.Array(Job) as any as S.Schema<JobList>;
@@ -624,35 +592,33 @@ export const ListJobsResponse = /*@__PURE__*/ S.suspend(() =>
     nextPageToken: S.optional(S.String),
     jobs: S.optional(JobList),
   }),
-).annotate({
-  identifier: "ListJobsResponse",
-}) as any as S.Schema<ListJobsResponse>;
+).annotate({ identifier: "ListJobsResponse" }) as any as S.Schema<ListJobsResponse>;
 
 export interface ListJobsReportsRequest {
   /** The ID of the job. */
   jobId: string;
-  /** A token identifying a page of results the server should return. Typically, this is the value of ListReportsResponse.next_page_token returned in response to the previous call to the `ListReports` method. */
-  pageToken?: string;
   /** If set, only reports whose start time is greater than or equal the specified date/time are returned. */
   startTimeAtOrAfter?: string;
   /** If set, only reports whose start time is smaller than the specified date/time are returned. */
   startTimeBefore?: string;
+  /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
+  onBehalfOfContentOwner?: string;
   /** If set, only reports created after the specified date/time are returned. */
   createdAfter?: string;
   /** Requested page size. Server may return fewer report types than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
-  /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
-  onBehalfOfContentOwner?: string;
+  /** A token identifying a page of results the server should return. Typically, this is the value of ListReportsResponse.next_page_token returned in response to the previous call to the `ListReports` method. */
+  pageToken?: string;
 }
 export const ListJobsReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     jobId: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     startTimeAtOrAfter: S.optional(S.String.pipe(T.Query())),
     startTimeBefore: S.optional(S.String.pipe(T.Query())),
+    onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
     createdAfter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -660,45 +626,41 @@ export const ListJobsReportsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://youtubereporting.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListJobsReportsRequest",
-}) as any as S.Schema<ListJobsReportsRequest>;
+).annotate({ identifier: "ListJobsReportsRequest" }) as any as S.Schema<ListJobsReportsRequest>;
 
 export type ReportList = Array<Report>;
 export const ReportList = /*@__PURE__*/ S.Array(Report) as any as S.Schema<ReportList>;
 
 /** Response message for ReportingService.ListReports. */
 export interface ListReportsResponse {
-  /** A token to retrieve next page of results. Pass this value in the ListReportsRequest.page_token field in the subsequent call to `ListReports` method to retrieve the next page of results. */
-  nextPageToken?: string;
   /** The list of report types. */
   reports?: ReportList;
+  /** A token to retrieve next page of results. Pass this value in the ListReportsRequest.page_token field in the subsequent call to `ListReports` method to retrieve the next page of results. */
+  nextPageToken?: string;
 }
 export const ListReportsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     reports: S.optional(ReportList),
+    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListReportsResponse",
-}) as any as S.Schema<ListReportsResponse>;
+).annotate({ identifier: "ListReportsResponse" }) as any as S.Schema<ListReportsResponse>;
 
 export interface ListReportTypesRequest {
-  /** A token identifying a page of results the server should return. Typically, this is the value of ListReportTypesResponse.next_page_token returned in response to the previous call to the `ListReportTypes` method. */
-  pageToken?: string;
   /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
   onBehalfOfContentOwner?: string;
-  /** Requested page size. Server may return fewer report types than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
   /** If set to true, also system-managed report types will be returned; otherwise only the report types that can be used to create new reporting jobs will be returned. */
   includeSystemManaged?: boolean;
+  /** Requested page size. Server may return fewer report types than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
+  /** A token identifying a page of results the server should return. Typically, this is the value of ListReportTypesResponse.next_page_token returned in response to the previous call to the `ListReportTypes` method. */
+  pageToken?: string;
 }
 export const ListReportTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     includeSystemManaged: S.optional(S.Boolean.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -706,9 +668,7 @@ export const ListReportTypesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://youtubereporting.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListReportTypesRequest",
-}) as any as S.Schema<ListReportTypesRequest>;
+).annotate({ identifier: "ListReportTypesRequest" }) as any as S.Schema<ListReportTypesRequest>;
 
 /** A report type. */
 export interface ReportType {
@@ -745,9 +705,7 @@ export const ListReportTypesResponse = /*@__PURE__*/ S.suspend(() =>
     nextPageToken: S.optional(S.String),
     reportTypes: S.optional(ReportTypeList),
   }),
-).annotate({
-  identifier: "ListReportTypesResponse",
-}) as any as S.Schema<ListReportTypesResponse>;
+).annotate({ identifier: "ListReportTypesResponse" }) as any as S.Schema<ListReportTypesResponse>;
 
 export type CreateJobsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a job and returns it. */
@@ -834,10 +792,7 @@ export const listJobs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListJobsReportsError = NotFound | Forbidden | GcpOpError;
@@ -854,10 +809,7 @@ export const listJobsReports: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListReportTypesError = NotFound | Forbidden | GcpOpError;
@@ -874,8 +826,5 @@ export const listReportTypes: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;

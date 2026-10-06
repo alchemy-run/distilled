@@ -76,31 +76,29 @@ export type EditionsList = Array<Editions>;
 export const EditionsList = /*@__PURE__*/ S.Array(Editions) as any as S.Schema<EditionsList>;
 
 export interface CustomerLicense {
-  /** The domain name of the customer. */
-  customerId?: string;
   /** The ID of the customer license. */
   id?: string;
   /** (Deprecated) */
   editions?: EditionsList;
-  /** The customer's license status. One of: - `ACTIVE`: The customer has a valid license. - `UNLICENSED`: There is no license. Either this customer has never installed your application or has deleted it. */
-  state?: string;
-  /** The ID of the application corresponding to this license query. */
-  applicationId?: string;
   /** The type of API resource. This is always `appsmarket#customerLicense`. */
   kind?: string;
+  /** The customer's license status. One of: - `ACTIVE`: The customer has a valid license. - `UNLICENSED`: There is no license. Either this customer has never installed your application or has deleted it. */
+  state?: string;
+  /** The domain name of the customer. */
+  customerId?: string;
+  /** The ID of the application corresponding to this license query. */
+  applicationId?: string;
 }
 export const CustomerLicense = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customerId: S.optional(S.String),
     id: S.optional(S.String),
     editions: S.optional(EditionsList),
-    state: S.optional(S.String),
-    applicationId: S.optional(S.String),
     kind: S.optional(S.String),
+    state: S.optional(S.String),
+    customerId: S.optional(S.String),
+    applicationId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomerLicense",
-}) as any as S.Schema<CustomerLicense>;
+).annotate({ identifier: "CustomerLicense" }) as any as S.Schema<CustomerLicense>;
 
 export interface GetUserLicenseRequest {
   /** The ID of the user. */
@@ -119,38 +117,36 @@ export const GetUserLicenseRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://appsmarket.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetUserLicenseRequest",
-}) as any as S.Schema<GetUserLicenseRequest>;
+).annotate({ identifier: "GetUserLicenseRequest" }) as any as S.Schema<GetUserLicenseRequest>;
 
 export interface UserLicense {
-  /** The type of API resource. This is always `appsmarket#userLicense`. */
-  kind?: string;
-  /** The domain administrator has activated the application for this domain. */
-  enabled?: boolean;
-  /** (Deprecated) */
-  editionId?: string;
-  /** The user's licensing status. One of: - `ACTIVE`: The user has a valid license and should be permitted to use the application. - `UNLICENSED`: The administrator of this user's domain never assigned a seat for the application to this user. - `EXPIRED`: The administrator assigned a seat to this user, but the license is expired. */
-  state?: string;
-  /** The email address of the user. */
-  userId?: string;
-  /** The domain name of the user. */
-  customerId?: string;
-  /** The ID of the application corresponding to the license query. */
-  applicationId?: string;
   /** The ID of the user license. */
   id?: string;
+  /** The user's licensing status. One of: - `ACTIVE`: The user has a valid license and should be permitted to use the application. - `UNLICENSED`: The administrator of this user's domain never assigned a seat for the application to this user. - `EXPIRED`: The administrator assigned a seat to this user, but the license is expired. */
+  state?: string;
+  /** The domain name of the user. */
+  customerId?: string;
+  /** The email address of the user. */
+  userId?: string;
+  /** The ID of the application corresponding to the license query. */
+  applicationId?: string;
+  /** The domain administrator has activated the application for this domain. */
+  enabled?: boolean;
+  /** The type of API resource. This is always `appsmarket#userLicense`. */
+  kind?: string;
+  /** (Deprecated) */
+  editionId?: string;
 }
 export const UserLicense = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
-    enabled: S.optional(S.Boolean),
-    editionId: S.optional(S.String),
-    state: S.optional(S.String),
-    userId: S.optional(S.String),
-    customerId: S.optional(S.String),
-    applicationId: S.optional(S.String),
     id: S.optional(S.String),
+    state: S.optional(S.String),
+    customerId: S.optional(S.String),
+    userId: S.optional(S.String),
+    applicationId: S.optional(S.String),
+    enabled: S.optional(S.Boolean),
+    kind: S.optional(S.String),
+    editionId: S.optional(S.String),
   }),
 ).annotate({ identifier: "UserLicense" }) as any as S.Schema<UserLicense>;
 

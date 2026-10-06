@@ -64,15 +64,9 @@ export class NotFound
 export interface GetUserinfoRequest {}
 export const GetUserinfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "oauth2/v2/userinfo",
-      baseUrl: "https://www.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "oauth2/v2/userinfo", baseUrl: "https://www.googleapis.com/" }),
   ),
-).annotate({
-  identifier: "GetUserinfoRequest",
-}) as any as S.Schema<GetUserinfoRequest>;
+).annotate({ identifier: "GetUserinfoRequest" }) as any as S.Schema<GetUserinfoRequest>;
 
 export interface Userinfo {
   /** The user's email address. */
@@ -117,15 +111,9 @@ export const Userinfo = /*@__PURE__*/ S.suspend(() =>
 export interface GetUserinfoV2MeRequest {}
 export const GetUserinfoV2MeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "userinfo/v2/me",
-      baseUrl: "https://www.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "userinfo/v2/me", baseUrl: "https://www.googleapis.com/" }),
   ),
-).annotate({
-  identifier: "GetUserinfoV2MeRequest",
-}) as any as S.Schema<GetUserinfoV2MeRequest>;
+).annotate({ identifier: "GetUserinfoV2MeRequest" }) as any as S.Schema<GetUserinfoV2MeRequest>;
 
 export interface TokeninfoRequest {
   id_token?: string;
@@ -134,15 +122,9 @@ export const TokeninfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_token: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "oauth2/v2/tokeninfo",
-      baseUrl: "https://www.googleapis.com/",
-    }),
+    T.Http({ method: "POST", uri: "oauth2/v2/tokeninfo", baseUrl: "https://www.googleapis.com/" }),
   ),
-).annotate({
-  identifier: "TokeninfoRequest",
-}) as any as S.Schema<TokeninfoRequest>;
+).annotate({ identifier: "TokeninfoRequest" }) as any as S.Schema<TokeninfoRequest>;
 
 export interface Tokeninfo {
   /** Who is the intended audience for this token. In general the same as issued_to. */

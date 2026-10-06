@@ -8,153 +8,13 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.gcp.cloudlocationfinder_v1#ListCloudLocationsResponse": {
-      "type": "structure",
-      "members": {
-        "cloudLocations": {
-          "target": "com.gcp.cloudlocationfinder_v1#CloudLocationList",
-          "traits": {
-            "smithy.api#documentation": "Output only. List of cloud locations."
-          }
-        },
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The continuation token, used to page through large result sets. Provide this value in a subsequent request as page_token in subsequent requests to retrieve the next page. If this field is not present, there are no subsequent results."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Message for response to listing cloud locations."
-      }
-    },
-    "com.gcp.cloudlocationfinder_v1#CloudLocationList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.cloudlocationfinder_v1#CloudLocation"
-      }
-    },
-    "com.gcp.cloudlocationfinder_v1#ListLocationsResponse": {
-      "type": "structure",
-      "members": {
-        "locations": {
-          "target": "com.gcp.cloudlocationfinder_v1#LocationList",
-          "traits": {
-            "smithy.api#documentation": "A list of locations that matches the specified filter in the request."
-          }
-        },
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The standard List next-page token."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The response message for Locations.ListLocations."
-      }
-    },
-    "com.gcp.cloudlocationfinder_v1#LocationList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.cloudlocationfinder_v1#Location"
-      }
-    },
-    "com.gcp.cloudlocationfinder_v1#Location": {
-      "type": "structure",
-      "members": {
-        "metadata": {
-          "target": "com.gcp.cloudlocationfinder_v1#DocumentMap",
-          "traits": {
-            "smithy.api#documentation": "Service-specific metadata. For example the available capacity at the given location."
-          }
-        },
-        "locationId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The canonical id for this location. For example: `\"us-east1\"`."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Resource name for the location, which may vary between implementations. For example: `\"projects/example-project/locations/us-east1\"`"
-          }
-        },
-        "displayName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The friendly name for this location, typically a nearby city name. For example, \"Tokyo\"."
-          }
-        },
-        "labels": {
-          "target": "com.gcp.cloudlocationfinder_v1#StringMap",
-          "traits": {
-            "smithy.api#documentation": "Cross-service attributes for the location. For example {\"cloud.googleapis.com/region\": \"us-east1\"}"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A resource that represents a Google Cloud location."
-      }
-    },
-    "com.gcp.cloudlocationfinder_v1#DocumentMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
-      }
-    },
-    "com.gcp.cloudlocationfinder_v1#StringMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#String"
-      }
-    },
-    "com.gcp.cloudlocationfinder_v1#SearchCloudLocationsResponse": {
-      "type": "structure",
-      "members": {
-        "cloudLocations": {
-          "target": "com.gcp.cloudlocationfinder_v1#CloudLocationList",
-          "traits": {
-            "smithy.api#documentation": "Output only. List of cloud locations."
-          }
-        },
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The continuation token, used to page through large result sets. Provide this value in a subsequent request as page_token in subsequent requests to retrieve the next page. If this field is not present, there are no subsequent results."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Message for response to searching cloud locations."
-      }
-    },
     "com.gcp.cloudlocationfinder_v1#CloudLocation": {
       "type": "structure",
       "members": {
-        "containingCloudLocation": {
+        "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Output only. The containing cloud location in the strict nesting hierarchy. For example, the containing cloud location of a zone is a region."
-          }
-        },
-        "cloudLocationType": {
-          "target": "com.gcp.cloudlocationfinder_v1#CloudLocationCloudLocationTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Optional. The type of the cloud location."
-          }
-        },
-        "territoryCode": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. The two-letter ISO 3166-1 alpha-2 code of the cloud location. Examples: US, JP, KR."
+            "smithy.api#documentation": "Identifier. Name of the cloud location. Unique name of the cloud location including project and location using the form: `projects/{project_id}/locations/{location}/cloudLocations/{cloud_location}`"
           }
         },
         "carbonFreeEnergyPercentage": {
@@ -169,16 +29,34 @@
             "smithy.api#documentation": "Optional. The human-readable name of the cloud location. Example: us-east-2, us-east1."
           }
         },
-        "name": {
-          "target": "smithy.api#String",
+        "cloudLocationType": {
+          "target": "com.gcp.cloudlocationfinder_v1#CloudLocationCloudLocationTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Identifier. Name of the cloud location. Unique name of the cloud location including project and location using the form: `projects/{project_id}/locations/{location}/cloudLocations/{cloud_location}`"
+            "smithy.api#documentation": "Optional. The type of the cloud location."
           }
         },
         "cloudProvider": {
           "target": "com.gcp.cloudlocationfinder_v1#CloudLocationCloudProviderEnum",
           "traits": {
             "smithy.api#documentation": "Optional. The provider of the cloud location. Values can be Google Cloud or third-party providers, including AWS, Azure, or Oracle Cloud Infrastructure."
+          }
+        },
+        "territoryCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The two-letter ISO 3166-1 alpha-2 code of the cloud location. Examples: US, JP, KR."
+          }
+        },
+        "gcpAttributes": {
+          "target": "com.gcp.cloudlocationfinder_v1#GcpAttributes",
+          "traits": {
+            "smithy.api#documentation": "Optional. GCP-specific attributes."
+          }
+        },
+        "containingCloudLocation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The containing cloud location in the strict nesting hierarchy. For example, the containing cloud location of a zone is a region."
           }
         }
       },
@@ -211,6 +89,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "CLOUD_LOCATION_TYPE_GDCC_ZONE"
+          }
+        },
+        "CLOUD_LOCATION_TYPE_GLOBAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOUD_LOCATION_TYPE_GLOBAL"
           }
         }
       }
@@ -248,6 +132,171 @@
             "smithy.api#enumValue": "CLOUD_PROVIDER_OCI"
           }
         }
+      }
+    },
+    "com.gcp.cloudlocationfinder_v1#ListLocationsResponse": {
+      "type": "structure",
+      "members": {
+        "locations": {
+          "target": "com.gcp.cloudlocationfinder_v1#LocationList",
+          "traits": {
+            "smithy.api#documentation": "A list of locations that matches the specified filter in the request."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The standard List next-page token."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response message for Locations.ListLocations."
+      }
+    },
+    "com.gcp.cloudlocationfinder_v1#LocationList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.cloudlocationfinder_v1#Location"
+      }
+    },
+    "com.gcp.cloudlocationfinder_v1#Location": {
+      "type": "structure",
+      "members": {
+        "metadata": {
+          "target": "com.gcp.cloudlocationfinder_v1#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "Service-specific metadata. For example the available capacity at the given location."
+          }
+        },
+        "labels": {
+          "target": "com.gcp.cloudlocationfinder_v1#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Cross-service attributes for the location. For example {\"cloud.googleapis.com/region\": \"us-east1\"}"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource name for the location, which may vary between implementations. For example: `\"projects/example-project/locations/us-east1\"`"
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The friendly name for this location, typically a nearby city name. For example, \"Tokyo\"."
+          }
+        },
+        "locationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The canonical id for this location. For example: `\"us-east1\"`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A resource that represents a Google Cloud location."
+      }
+    },
+    "com.gcp.cloudlocationfinder_v1#DocumentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.gcp.cloudlocationfinder_v1#StringMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.cloudlocationfinder_v1#ListCloudLocationsResponse": {
+      "type": "structure",
+      "members": {
+        "cloudLocations": {
+          "target": "com.gcp.cloudlocationfinder_v1#CloudLocationList",
+          "traits": {
+            "smithy.api#documentation": "Output only. List of cloud locations."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The continuation token, used to page through large result sets. Provide this value in a subsequent request as page_token in subsequent requests to retrieve the next page. If this field is not present, there are no subsequent results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Message for response to listing cloud locations."
+      }
+    },
+    "com.gcp.cloudlocationfinder_v1#CloudLocationList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.cloudlocationfinder_v1#CloudLocation"
+      }
+    },
+    "com.gcp.cloudlocationfinder_v1#GcpAttributes": {
+      "type": "structure",
+      "members": {
+        "zoneType": {
+          "target": "com.gcp.cloudlocationfinder_v1#GcpAttributesZoneTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Optional. The type of the cloud zone."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "GCP-specific attributes."
+      }
+    },
+    "com.gcp.cloudlocationfinder_v1#GcpAttributesZoneTypeEnum": {
+      "type": "enum",
+      "members": {
+        "GCP_ZONE_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GCP_ZONE_TYPE_UNSPECIFIED"
+          }
+        },
+        "GENERAL_PURPOSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERAL_PURPOSE"
+          }
+        },
+        "AI_ZONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AI_ZONE"
+          }
+        }
+      }
+    },
+    "com.gcp.cloudlocationfinder_v1#SearchCloudLocationsResponse": {
+      "type": "structure",
+      "members": {
+        "cloudLocations": {
+          "target": "com.gcp.cloudlocationfinder_v1#CloudLocationList",
+          "traits": {
+            "smithy.api#documentation": "Output only. List of cloud locations."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The continuation token, used to page through large result sets. Provide this value in a subsequent request as page_token in subsequent requests to retrieve the next page. If this field is not present, there are no subsequent results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Message for response to searching cloud locations."
       }
     },
     "com.gcp.cloudlocationfinder_v1#GetProjectsLocationsRequest": {
@@ -322,18 +371,11 @@
     "com.gcp.cloudlocationfinder_v1#ListProjectsLocationsRequest": {
       "type": "structure",
       "members": {
-        "pageToken": {
-          "target": "smithy.api#String",
+        "pageSize": {
+          "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "filter": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A filter to narrow down results to a preferred subset. The filtering language accepts strings like `\"displayName=tokyo\"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160).",
-            "smithy.api#httpQuery": "filter"
+            "smithy.api#documentation": "The maximum number of results to return. If not set, the service selects a default.",
+            "smithy.api#httpQuery": "pageSize"
           }
         },
         "name": {
@@ -344,18 +386,25 @@
             "smithy.api#required": {}
           }
         },
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The maximum number of results to return. If not set, the service selects a default.",
-            "smithy.api#httpQuery": "pageSize"
-          }
-        },
         "extraLocationTypes": {
           "target": "com.gcp.cloudlocationfinder_v1#StringList",
           "traits": {
             "smithy.api#documentation": "Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage.",
             "smithy.api#httpQuery": "extraLocationTypes"
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A filter to narrow down results to a preferred subset. The filtering language accepts strings like `\"displayName=tokyo\"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160).",
+            "smithy.api#httpQuery": "filter"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page.",
+            "smithy.api#httpQuery": "pageToken"
           }
         }
       }
@@ -428,13 +477,6 @@
     "com.gcp.cloudlocationfinder_v1#ListProjectsLocationsCloudLocationsRequest": {
       "type": "structure",
       "members": {
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Optional. The maximum number of cloud locations to return per page. The service might return fewer cloud locations than this value. If unspecified, server will pick an appropriate default.",
-            "smithy.api#httpQuery": "pageSize"
-          }
-        },
         "filter": {
           "target": "smithy.api#String",
           "traits": {
@@ -455,6 +497,13 @@
           "traits": {
             "smithy.api#documentation": "Optional. A token identifying a page of results the server should return. Provide page token returned by a previous 'ListCloudLocations' call to retrieve the next page of results. When paginating, all other parameters provided to 'ListCloudLocations' must match the call that provided the page token.",
             "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. The maximum number of cloud locations to return per page. The service might return fewer cloud locations than this value. If unspecified, server will pick an appropriate default.",
+            "smithy.api#httpQuery": "pageSize"
           }
         }
       }
@@ -497,13 +546,6 @@
             "smithy.api#httpQuery": "pageSize"
           }
         },
-        "query": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. The query string in search query syntax. While filter is used to filter the search results by attributes, query is used to specify the search requirements.",
-            "smithy.api#httpQuery": "query"
-          }
-        },
         "sourceCloudLocation": {
           "target": "smithy.api#String",
           "traits": {
@@ -516,6 +558,13 @@
           "traits": {
             "smithy.api#documentation": "Optional. A token identifying a page of results the server should return. Provide Page token returned by a previous 'ListCloudLocations' call to retrieve the next page of results. When paginating, all other parameters provided to 'ListCloudLocations' must match the call that provided the page token.",
             "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The query string in search query syntax. While filter is used to filter the search results by attributes, query is used to specify the search requirements.",
+            "smithy.api#httpQuery": "query"
           }
         },
         "parent": {

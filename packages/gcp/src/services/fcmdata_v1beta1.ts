@@ -36,18 +36,18 @@ export class NotFound
   ) {}
 
 export interface ListProjectsAndroidAppsDeliveryDataRequest {
+  /** Required. The application for which to list delivery data. Format: `projects/{project_id}/androidApps/{app_id}` */
+  parent: string;
   /** The maximum number of entries to return. The service may return fewer than this value. If unspecified, at most 1,000 entries will be returned. The maximum value is 10,000; values above 10,000 will be capped to 10,000. This default may change over time. */
   pageSize?: number;
   /** A page token, received from a previous `ListAndroidDeliveryDataRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAndroidDeliveryDataRequest` must match the call that provided the page token. */
   pageToken?: string;
-  /** Required. The application for which to list delivery data. Format: `projects/{project_id}/androidApps/{app_id}` */
-  parent: string;
 }
 export const ListProjectsAndroidAppsDeliveryDataRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -59,30 +59,47 @@ export const ListProjectsAndroidAppsDeliveryDataRequest = /*@__PURE__*/ S.suspen
   identifier: "ListProjectsAndroidAppsDeliveryDataRequest",
 }) as any as S.Schema<ListProjectsAndroidAppsDeliveryDataRequest>;
 
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface GoogleTypeDate {
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
+}
+export const GoogleTypeDate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    month: S.optional(S.Number),
+    year: S.optional(S.Number),
+    day: S.optional(S.Number),
+  }),
+).annotate({ identifier: "GoogleTypeDate" }) as any as S.Schema<GoogleTypeDate>;
+
 /** Additional information about [proxy notification](https://firebase.google.com/docs/cloud-messaging/android/message-priority#proxy) delivery. All percentages are calculated with countNotificationsAccepted as the denominator. */
 export interface GoogleFirebaseFcmDataV1beta1ProxyNotificationInsightPercents {
-  /** The percentage of accepted notifications that were skipped because proxy notification is unsupported for the recipient. */
-  skippedUnsupported?: number;
-  /** The percentage of accepted notifications that were skipped because the messages were not throttled. */
-  skippedNotThrottled?: number;
   /** The percentage of accepted notifications that were skipped because configurations required for notifications to be proxied were missing. */
   skippedUnconfigured?: number;
+  /** The percentage of accepted notifications that were skipped because the app disallowed these messages to be proxied. */
+  skippedOptedOut?: number;
   /** The percentage of accepted notifications that were successfully proxied by [Google Play services](https://developers.google.com/android/guides/overview). */
   proxied?: number;
   /** The percentage of accepted notifications that failed to be proxied. This is usually caused by exceptions that occurred while calling [notifyAsPackage](https://developer.android.com/reference/android/app/NotificationManager#notifyAsPackage%28java.lang.String,%20java.lang.String,%20int,%20android.app.Notification%29). */
   failed?: number;
-  /** The percentage of accepted notifications that were skipped because the app disallowed these messages to be proxied. */
-  skippedOptedOut?: number;
+  /** The percentage of accepted notifications that were skipped because proxy notification is unsupported for the recipient. */
+  skippedUnsupported?: number;
+  /** The percentage of accepted notifications that were skipped because the messages were not throttled. */
+  skippedNotThrottled?: number;
 }
 export const GoogleFirebaseFcmDataV1beta1ProxyNotificationInsightPercents = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      skippedUnsupported: S.optional(S.Number),
-      skippedNotThrottled: S.optional(S.Number),
       skippedUnconfigured: S.optional(S.Number),
+      skippedOptedOut: S.optional(S.Number),
       proxied: S.optional(S.Number),
       failed: S.optional(S.Number),
-      skippedOptedOut: S.optional(S.Number),
+      skippedUnsupported: S.optional(S.Number),
+      skippedNotThrottled: S.optional(S.Number),
     }),
 ).annotate({
   identifier: "GoogleFirebaseFcmDataV1beta1ProxyNotificationInsightPercents",
@@ -90,24 +107,24 @@ export const GoogleFirebaseFcmDataV1beta1ProxyNotificationInsightPercents = /*@_
 
 /** Overview of delivery performance for messages that were successfully delivered. All percentages are calculated with countMessagesAccepted as the denominator. These categories are not mutually exclusive; a message can be delayed for multiple reasons. */
 export interface GoogleFirebaseFcmDataV1beta1DeliveryPerformancePercents {
-  /** The percentage of accepted messages that were delayed because the device was in doze mode. Only [normal priority messages](https://firebase.google.com/docs/cloud-messaging/concept-options#setting-the-priority-of-a-message) should be delayed due to doze mode. */
-  delayedDeviceDoze?: number;
-  /** The percentage of accepted messages that were delayed because the target device was not connected at the time of sending. These messages were eventually delivered when the device reconnected. */
-  delayedDeviceOffline?: number;
   /** The percentage of accepted messages that were delayed because the intended device user-profile was [stopped](https://firebase.google.com/docs/cloud-messaging/android/receive#handling_messages) on the target device at the time of the send. The messages were eventually delivered when the user-profile was started again. */
   delayedUserStopped?: number;
-  /** The percentage of accepted messages that were delivered to the device without delay from the FCM system. */
-  deliveredNoDelay?: number;
+  /** The percentage of accepted messages that were delayed because the target device was not connected at the time of sending. These messages were eventually delivered when the device reconnected. */
+  delayedDeviceOffline?: number;
   /** The percentage of accepted messages that were delayed due to message throttling, such as [collapsible message throttling](https://firebase.google.com/docs/cloud-messaging/concept-options#collapsible_throttling). */
   delayedMessageThrottled?: number;
+  /** The percentage of accepted messages that were delivered to the device without delay from the FCM system. */
+  deliveredNoDelay?: number;
+  /** The percentage of accepted messages that were delayed because the device was in doze mode. Only [normal priority messages](https://firebase.google.com/docs/cloud-messaging/concept-options#setting-the-priority-of-a-message) should be delayed due to doze mode. */
+  delayedDeviceDoze?: number;
 }
 export const GoogleFirebaseFcmDataV1beta1DeliveryPerformancePercents = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    delayedDeviceDoze: S.optional(S.Number),
-    delayedDeviceOffline: S.optional(S.Number),
     delayedUserStopped: S.optional(S.Number),
-    deliveredNoDelay: S.optional(S.Number),
+    delayedDeviceOffline: S.optional(S.Number),
     delayedMessageThrottled: S.optional(S.Number),
+    deliveredNoDelay: S.optional(S.Number),
+    delayedDeviceDoze: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "GoogleFirebaseFcmDataV1beta1DeliveryPerformancePercents",
@@ -115,30 +132,30 @@ export const GoogleFirebaseFcmDataV1beta1DeliveryPerformancePercents = /*@__PURE
 
 /** Percentage breakdown of message delivery outcomes. These categories are mutually exclusive. All percentages are calculated with countMessagesAccepted as the denominator. These categories may not account for all message outcomes. */
 export interface GoogleFirebaseFcmDataV1beta1MessageOutcomePercents {
-  /** The percentage of accepted messages that were dropped because the target device is inactive. FCM will drop messages if the target device is deemed inactive by our servers. If a device does reconnect, we call [OnDeletedMessages()](https://firebase.google.com/docs/cloud-messaging/android/receive#override-ondeletedmessages) in our SDK instead of delivering the messages. */
-  droppedDeviceInactive?: number;
   /** The percentage of all accepted messages that were successfully delivered to the device. */
   delivered?: number;
-  /** The percentage of accepted messages that were [collapsed](https://firebase.google.com/docs/cloud-messaging/concept-options#collapsible_and_non-collapsible_messages) by another message. */
-  collapsed?: number;
-  /** The percentage of accepted messages that expired because [Time To Live (TTL)](https://firebase.google.com/docs/cloud-messaging/concept-options#ttl) elapsed before the target device reconnected. */
-  droppedTtlExpired?: number;
   /** The percentage of accepted messages that were dropped because the application was force stopped on the device at the time of delivery and retries were unsuccessful. */
   droppedAppForceStopped?: number;
   /** The percentage of accepted messages that were dropped due to [too many undelivered non-collapsible messages](https://firebase.google.com/docs/cloud-messaging/concept-options#collapsible_and_non-collapsible_messages). Specifically, each app instance can only have 100 pending messages stored on our servers for a device which is disconnected. When that device reconnects, those messages are delivered. When there are more than the maximum pending messages, we call [OnDeletedMessages()](https://firebase.google.com/docs/cloud-messaging/android/receive#override-ondeletedmessages) in our SDK instead of delivering the messages. */
   droppedTooManyPendingMessages?: number;
   /** The percentage of messages accepted on this day that were not dropped and not delivered, due to the device being disconnected (as of the end of the America/Los_Angeles day when the message was sent to FCM). A portion of these messages will be delivered the next day when the device connects but others may be destined to devices that ultimately never reconnect. */
   pending?: number;
+  /** The percentage of accepted messages that were [collapsed](https://firebase.google.com/docs/cloud-messaging/concept-options#collapsible_and_non-collapsible_messages) by another message. */
+  collapsed?: number;
+  /** The percentage of accepted messages that were dropped because the target device is inactive. FCM will drop messages if the target device is deemed inactive by our servers. If a device does reconnect, we call [OnDeletedMessages()](https://firebase.google.com/docs/cloud-messaging/android/receive#override-ondeletedmessages) in our SDK instead of delivering the messages. */
+  droppedDeviceInactive?: number;
+  /** The percentage of accepted messages that expired because [Time To Live (TTL)](https://firebase.google.com/docs/cloud-messaging/concept-options#ttl) elapsed before the target device reconnected. */
+  droppedTtlExpired?: number;
 }
 export const GoogleFirebaseFcmDataV1beta1MessageOutcomePercents = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    droppedDeviceInactive: S.optional(S.Number),
     delivered: S.optional(S.Number),
-    collapsed: S.optional(S.Number),
-    droppedTtlExpired: S.optional(S.Number),
     droppedAppForceStopped: S.optional(S.Number),
     droppedTooManyPendingMessages: S.optional(S.Number),
     pending: S.optional(S.Number),
+    collapsed: S.optional(S.Number),
+    droppedDeviceInactive: S.optional(S.Number),
+    droppedTtlExpired: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "GoogleFirebaseFcmDataV1beta1MessageOutcomePercents",
@@ -163,14 +180,14 @@ export interface GoogleFirebaseFcmDataV1beta1Data {
   proxyNotificationInsightPercents?: GoogleFirebaseFcmDataV1beta1ProxyNotificationInsightPercents;
   /** Count of messages accepted by FCM intended for Android devices. The targeted device must have opted in to the collection of usage and diagnostic information. */
   countMessagesAccepted?: string;
+  /** Count of notifications accepted by FCM intended for Android devices. The targeted device must have opted in to the collection of usage and diagnostic information. */
+  countNotificationsAccepted?: string;
   /** Additional information about delivery performance for messages that were successfully delivered. */
   deliveryPerformancePercents?: GoogleFirebaseFcmDataV1beta1DeliveryPerformancePercents;
   /** Mutually exclusive breakdown of message delivery outcomes. */
   messageOutcomePercents?: GoogleFirebaseFcmDataV1beta1MessageOutcomePercents;
   /** Additional general insights about message delivery. */
   messageInsightPercents?: GoogleFirebaseFcmDataV1beta1MessageInsightPercents;
-  /** Count of notifications accepted by FCM intended for Android devices. The targeted device must have opted in to the collection of usage and diagnostic information. */
-  countNotificationsAccepted?: string;
 }
 export const GoogleFirebaseFcmDataV1beta1Data = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -178,51 +195,34 @@ export const GoogleFirebaseFcmDataV1beta1Data = /*@__PURE__*/ S.suspend(() =>
       GoogleFirebaseFcmDataV1beta1ProxyNotificationInsightPercents,
     ),
     countMessagesAccepted: S.optional(S.String),
+    countNotificationsAccepted: S.optional(S.String),
     deliveryPerformancePercents: S.optional(
       GoogleFirebaseFcmDataV1beta1DeliveryPerformancePercents,
     ),
     messageOutcomePercents: S.optional(GoogleFirebaseFcmDataV1beta1MessageOutcomePercents),
     messageInsightPercents: S.optional(GoogleFirebaseFcmDataV1beta1MessageInsightPercents),
-    countNotificationsAccepted: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleFirebaseFcmDataV1beta1Data",
 }) as any as S.Schema<GoogleFirebaseFcmDataV1beta1Data>;
 
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface GoogleTypeDate {
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
-}
-export const GoogleTypeDate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    month: S.optional(S.Number),
-    day: S.optional(S.Number),
-    year: S.optional(S.Number),
-  }),
-).annotate({ identifier: "GoogleTypeDate" }) as any as S.Schema<GoogleTypeDate>;
-
 /** Message delivery data for a given date, app, and analytics label combination. */
 export interface GoogleFirebaseFcmDataV1beta1AndroidDeliveryData {
-  /** The data for the specified appId, date, and analyticsLabel. */
-  data?: GoogleFirebaseFcmDataV1beta1Data;
-  /** The app ID to which the messages were sent. */
-  appId?: string;
   /** The date represented by this entry. */
   date?: GoogleTypeDate;
+  /** The app ID to which the messages were sent. */
+  appId?: string;
   /** The analytics label associated with the messages sent. All messages sent without an analytics label will be grouped together in a single entry. */
   analyticsLabel?: string;
+  /** The data for the specified appId, date, and analyticsLabel. */
+  data?: GoogleFirebaseFcmDataV1beta1Data;
 }
 export const GoogleFirebaseFcmDataV1beta1AndroidDeliveryData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    data: S.optional(GoogleFirebaseFcmDataV1beta1Data),
-    appId: S.optional(S.String),
     date: S.optional(GoogleTypeDate),
+    appId: S.optional(S.String),
     analyticsLabel: S.optional(S.String),
+    data: S.optional(GoogleFirebaseFcmDataV1beta1Data),
   }),
 ).annotate({
   identifier: "GoogleFirebaseFcmDataV1beta1AndroidDeliveryData",
@@ -236,16 +236,16 @@ export const GoogleFirebaseFcmDataV1beta1AndroidDeliveryDataList = /*@__PURE__*/
 
 /** Response message for ListAndroidDeliveryData. */
 export interface GoogleFirebaseFcmDataV1beta1ListAndroidDeliveryDataResponse {
-  /** The delivery data for the provided app. There will be one entry per combination of app, date, and analytics label. */
-  androidDeliveryData?: GoogleFirebaseFcmDataV1beta1AndroidDeliveryDataList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** The delivery data for the provided app. There will be one entry per combination of app, date, and analytics label. */
+  androidDeliveryData?: GoogleFirebaseFcmDataV1beta1AndroidDeliveryDataList;
 }
 export const GoogleFirebaseFcmDataV1beta1ListAndroidDeliveryDataResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      androidDeliveryData: S.optional(GoogleFirebaseFcmDataV1beta1AndroidDeliveryDataList),
       nextPageToken: S.optional(S.String),
+      androidDeliveryData: S.optional(GoogleFirebaseFcmDataV1beta1AndroidDeliveryDataList),
     }),
 ).annotate({
   identifier: "GoogleFirebaseFcmDataV1beta1ListAndroidDeliveryDataResponse",
@@ -265,8 +265,5 @@ export const listProjectsAndroidAppsDeliveryData: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
