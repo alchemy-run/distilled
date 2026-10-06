@@ -1,11 +1,10 @@
 /**
  * JSON Patch (RFC 6902) Implementation
  *
- * Provides a unified spec patching system for all SDKs. Patches apply in
- * `convert` so `.generated-specs` is the patched Smithy model. generate does
- * not patch. Prefer `operationNaming: "verbNoun"` for operationId renames —
- * JSON pointers at `/paths/~1foo/operationId` go stale when upstream prefixes
- * paths.
+ * The patch engine for every SDK. Patches are Smithy ops applied in
+ * `convert` (`finalizeConvert`), so `.generated-specs` is the patched Smithy
+ * model; generate does not patch. Operation names are convert policy
+ * (`operationNames`), never a patch.
  *
  * Pure functions only — callers load patch files themselves (the generators
  * use Effect's FileSystem) and hand the parsed operations to `applyPatch`.

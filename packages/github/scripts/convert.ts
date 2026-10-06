@@ -10,11 +10,9 @@
  * ordering is load-bearing:
  *
  *   1. Read the full spec.
- *   2. Apply ALL `patches/*.patch.json` ONCE to the full spec (RFC-6902,
- *      sorted name order; stale targets warn+skip — the submodule tracks
- *      upstream and drifts — malformed patches fail the run). Patching
- *      per-slice would hard-fail: a patch targeting one tag's paths doesn't
- *      resolve against another tag's slice.
+ *   2. Patches are Smithy ops on the converted models, under the names the
+ *      spec gives; the finalizeConvert at the end applies them, then the
+ *      deferred verbNoun names (see `@distilled.cloud/core/codegen/patches`).
  *   3. Bucket operations by PRIMARY (first) tag — a single path can
  *      contribute different methods to different service buckets.
  *   4. Shorten operation ids (see `shortId`) so the module namespace isn't
@@ -27,23 +25,17 @@
  * checkout of github/rest-api-description is ~6.7 GB of GHES snapshots and
  * dereferenced variants. `pnpm run specs:fetch` sets that up.
  *
- * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false` — the
- * patches apply HERE, to the OpenAPI document) then compiles the models.
+ * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false`) then
+ * compiles the already-patched models.
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
-import {
-  applyOperation,
-  isStaleTargetError,
-  type PatchFile,
-} from "@distilled.cloud/core/json-patch";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
 const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-github/specs/api.github.com.json");
-const patchDir = path.join(rootDir, "patches");
 const outDir = path.join(rootDir, ".generated-specs");
 
 const HTTP_METHODS = ["get", "post", "put", "patch", "delete"] as const;
@@ -84,40 +76,6 @@ if (!fs.existsSync(specPath)) {
   );
 }
 const fullSpec = JSON.parse(fs.readFileSync(specPath, "utf-8"));
-
-// ---- 2. Apply the patch chain ONCE to the full spec ------------------------
-let patchFiles = 0;
-let staleOps = 0;
-const badPatches: string[] = [];
-if (fs.existsSync(patchDir)) {
-  for (const pf of fs
-    .readdirSync(patchDir)
-    .filter((f) => f.endsWith(".patch.json"))
-    .sort((a, b) => a.localeCompare(b))) {
-    const parsed = JSON.parse(fs.readFileSync(path.join(patchDir, pf), "utf-8")) as PatchFile;
-    for (const patchOp of parsed.patches ?? []) {
-      try {
-        applyOperation(fullSpec, patchOp);
-      } catch (e) {
-        const msg = e instanceof Error ? e.message : String(e);
-        if (isStaleTargetError(msg)) {
-          staleOps++;
-          console.warn(`   ⚠️  stale: ${pf} [${patchOp.op} ${patchOp.path}]`);
-        } else {
-          badPatches.push(`${pf} [${patchOp.op} ${patchOp.path}]: ${msg}`);
-        }
-      }
-    }
-    patchFiles++;
-  }
-}
-if (badPatches.length) {
-  for (const b of badPatches) console.error(`❌ bad patch: ${b}`);
-  throw new Error(`${badPatches.length} malformed patch operation(s) — fix or remove them`);
-}
-console.log(
-  `🩹 ${patchFiles} patch files applied` + (staleOps ? ` (${staleOps} stale op(s) skipped)` : ""),
-);
 
 // ---- 3./4. Bucket paths by primary tag, shortening operation ids -----------
 const tagBuckets = new Map<string, Record<string, Record<string, unknown>>>();

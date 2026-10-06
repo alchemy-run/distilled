@@ -2,12 +2,11 @@
  * OpenAPI → Smithy pipeline helper (dev-time only, provider-agnostic).
  *
  * Owns the spec-side pipeline every OpenAPI-sourced provider shares: read the
- * spec file, apply OpenAPI RFC-6902 ops to the document, convert with
- * {@link convertOpenApiToSmithy} (upstream names, the verbNoun names
- * deferred), and write `.generated-specs/<name>.json`; then
- * {@link finalizeConvert} applies the Smithy RFC-6902 ops (`/shapes`,
- * `/metadata`) and the deferred names. Smithy patches therefore target the
- * names the spec gives. Stale targets fail unless `onStalePatch: "warn"`.
+ * spec file, convert it with {@link convertOpenApiToSmithy} (upstream names,
+ * the verbNoun names deferred), and write `.generated-specs/<name>.json`;
+ * then {@link finalizeConvert} applies the package's RFC-6902 patches (Smithy
+ * ops only: `/shapes`, `/metadata`) and the deferred names, so patches target
+ * the names the spec gives. Stale targets fail unless `onStalePatch: "warn"`.
  *
  * A provider's `scripts/convert.ts` is: a `runOpenApiConvert` call.
  * `scripts/generate.ts` compiles the already-patched models and does not
@@ -16,12 +15,7 @@
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import { convertOpenApiToSmithy, type OpenApiConvertOptions } from "./openapi.ts";
-import {
-  applyRfc6902Files,
-  finalizeConvert,
-  isSmithyPatchPath,
-  listRfc6902PatchFiles,
-} from "./patches.ts";
+import { finalizeConvert } from "./patches.ts";
 import { resolveSpecPath } from "./spec-path.ts";
 
 export interface OpenApiSpecEntry {
@@ -30,7 +24,7 @@ export interface OpenApiSpecEntry {
   /** Spec file path, relative to `root` (or absolute). */
   readonly specPath: string;
   /**
-   * Hook between patching and conversion (e.g. path prefixing, server
+   * Hook between reading and conversion (e.g. path prefixing, server
    * rewrites). May mutate the spec in place or return a replacement.
    */
   readonly preprocess?: (spec: any) => unknown | void | Promise<unknown | void>;
@@ -43,11 +37,10 @@ export interface RunOpenApiConvertOptions {
   readonly root: string;
   readonly specs: readonly OpenApiSpecEntry[];
   /**
-   * RFC-6902 patch chain root, relative to `root`. Default `"patches"`;
-   * `false` disables. Layout: `<patchesDir>/<name>/*.json` when the
-   * per-spec directory exists; for single-spec providers a flat
-   * `<patchesDir>/*.json` also works. Ops under `/shapes` or `/metadata`
-   * apply to the Smithy model after conversion; the rest apply to OpenAPI.
+   * RFC-6902 patch root, relative to `root`. Default `"patches"`; `false`
+   * disables. Layout: `<patchesDir>/<name>/*.json` when the per-spec
+   * directory exists; for single-spec providers a flat `<patchesDir>/*.json`
+   * also works. Every op targets the Smithy model (`/shapes`, `/metadata`).
    */
   readonly patchesDir?: string | false;
   /** Output directory, relative to `root`. Default `".generated-specs"`. */
@@ -112,23 +105,6 @@ export const runOpenApiConvert = async (o: RunOpenApiConvertOptions): Promise<vo
     const specPath = resolveSpecPath(o.root, entry.specPath);
     let spec: any = parse(await fs.readFile(specPath, "utf8"), specPath);
 
-    // ---- RFC-6902: OpenAPI ops before convert (Smithy ops in finalize) ----
-    const dir = patchDirs.get(entry.name);
-    const patchDir = patchRoot && dir !== undefined ? path.join(patchRoot, dir) : undefined;
-    const patchFiles = patchDir ? await listRfc6902PatchFiles(patchDir) : [];
-    const patchLabel = (file: string) => `${entry.name}/${path.basename(file)}`;
-    const openapiPatches = await applyRfc6902Files(spec, patchFiles, {
-      onStalePatch,
-      include: (op) => !isSmithyPatchPath(op.path),
-      label: patchLabel,
-    });
-    if (openapiPatches.errors.length) {
-      for (const b of openapiPatches.errors) console.error(`❌ bad patch: ${b}`);
-      throw new Error(
-        `${openapiPatches.errors.length} patch operation(s) failed — fix the pointers or delete the patch`,
-      );
-    }
-
     // ---- Preprocess hook ----
     if (entry.preprocess) {
       const replaced = await entry.preprocess(spec);
@@ -144,12 +120,8 @@ export const runOpenApiConvert = async (o: RunOpenApiConvertOptions): Promise<vo
     const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
     const outPath = path.join(outDir, `${entry.name}.json`);
     await fs.writeFile(outPath, JSON.stringify(model, null, 2) + "\n");
-    const staleOps = openapiPatches.stale;
     console.log(
-      `   ✅ ${entry.name}: ${opCount} operations, ${Object.keys(model.shapes).length} shapes` +
-        (patchFiles.length
-          ? ` (${patchFiles.length} patch file(s) applied${staleOps ? `, ${staleOps} stale op(s) skipped` : ""})`
-          : ""),
+      `   ✅ ${entry.name}: ${opCount} operations, ${Object.keys(model.shapes).length} shapes`,
     );
   }
 

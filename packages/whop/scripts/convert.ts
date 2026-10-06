@@ -19,10 +19,9 @@
  * and the merge rule is: **versioned wins**.
  *
  *   1. Read both documents.
- *   2. Apply each surface's `patches/<surface>/*.patch.json` chain ONCE to
- *      that document (RFC-6902, sorted name order; stale targets warn+skip —
- *      the specs are refetched from a live URL and drift — malformed patches
- *      fail the run).
+ *   2. Patches are Smithy ops on the converted models, under the names the
+ *      spec gives; the finalizeConvert at the end applies them, then the
+ *      deferred verbNoun names (see `@distilled.cloud/core/codegen/patches`).
  *   3. Rename every LEGACY schema whose name the versioned document also
  *      defines ({@link LEGACY_SCHEMA_PREFIX}) and rewrite the legacy half's
  *      `$ref`s. All 17 such names describe genuinely different shapes; left
@@ -48,22 +47,16 @@
  * lowerCamels them for export: `listPlans`, `uploadDisputeEvidence`). A
  * collision would otherwise be silently renamed, so it fails the run instead.
  *
- * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false` — the
- * patches apply HERE, to the OpenAPI documents) then compiles the models.
+ * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false`) then
+ * compiles the already-patched models.
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import {
-  applyOperation,
-  isStaleTargetError,
-  type PatchFile,
-} from "@distilled.cloud/core/json-patch";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
 const specDir = path.join(rootDir, "specs");
-const patchDir = path.join(rootDir, "patches");
 const outDir = path.join(rootDir, ".generated-specs");
 
 /** Generated: the version pin `src/credentials.ts` defaults to. */
@@ -153,46 +146,6 @@ for (const surface of SURFACES) {
 
 const versioned = documents.get("versioned");
 const legacy = documents.get("legacy");
-
-// ============================================================================
-// 2. Apply each surface's patch chain
-// ============================================================================
-
-let patchFiles = 0;
-let staleOps = 0;
-const badPatches: string[] = [];
-for (const surface of SURFACES) {
-  const dir = path.join(patchDir, surface.id);
-  if (!fs.existsSync(dir)) continue;
-  const doc = documents.get(surface.id);
-  for (const pf of fs
-    .readdirSync(dir)
-    .filter((f) => f.endsWith(".patch.json"))
-    .sort((a, b) => a.localeCompare(b))) {
-    const parsed = JSON.parse(fs.readFileSync(path.join(dir, pf), "utf-8")) as PatchFile;
-    for (const patchOp of parsed.patches ?? []) {
-      try {
-        applyOperation(doc, patchOp);
-      } catch (e) {
-        const msg = e instanceof Error ? e.message : String(e);
-        if (isStaleTargetError(msg)) {
-          staleOps++;
-          console.warn(`   ⚠️  stale: ${surface.id}/${pf} [${patchOp.op} ${patchOp.path}]`);
-        } else {
-          badPatches.push(`${surface.id}/${pf} [${patchOp.op} ${patchOp.path}]: ${msg}`);
-        }
-      }
-    }
-    patchFiles++;
-  }
-}
-if (badPatches.length) {
-  for (const b of badPatches) console.error(`❌ bad patch: ${b}`);
-  throw new Error(`${badPatches.length} malformed patch operation(s) — fix or remove them`);
-}
-console.log(
-  `🩹 ${patchFiles} patch files applied` + (staleOps ? ` (${staleOps} stale op(s) skipped)` : ""),
-);
 
 // ============================================================================
 // The version pin

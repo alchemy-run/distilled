@@ -266,11 +266,16 @@ const loadSmithyPatches = async (
   const out: LoadedPatchFile[] = [];
   for (const file of await listRfc6902PatchFiles(path.join(patchesDir, dir))) {
     const parsed = JSON.parse(await fs.readFile(file, "utf8")) as PatchFile;
-    out.push({
-      key: path.relative(patchesDir, file).split(path.sep).join("/"),
-      file,
-      ops: (parsed.patches ?? []).filter((op) => isSmithyPatchPath(op.path)),
-    });
+    const key = path.relative(patchesDir, file).split(path.sep).join("/");
+    const spec = (parsed.patches ?? []).find((op) => !isSmithyPatchPath(op.path));
+    if (spec) {
+      // Patches edit the converted model under upstream names, never the
+      // spec: one kind of patch, and one the audit can judge in memory.
+      throw new Error(
+        `patches/${key} [${spec.op} ${spec.path}]: patches target the Smithy model (/shapes, /metadata), not the spec — see the distilled-sdk-patch skill`,
+      );
+    }
+    out.push({ key, file, ops: parsed.patches ?? [] });
   }
   return out;
 };

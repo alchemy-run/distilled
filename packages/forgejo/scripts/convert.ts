@@ -11,14 +11,9 @@
  * pipeline, the ordering is load-bearing:
  *
  *   1. Read the full spec.
- *   2. Apply ALL `patches/<service>/<op>.json` ONCE to the full spec
- *      (Cloudflare layout: service dir = tag slug, file = operation id;
- *      `*.manual.json` last. Stale targets warn+skip — the spec is refetched
- *      from a live instance and drifts — malformed patches fail the run).
- *      Patching per-slice would hard-fail: a patch targeting one tag's
- *      paths doesn't resolve against another tag's slice. Ops whose path
- *      starts with `/shapes/` are Smithy patches (typed errors) and apply
- *      AFTER conversion, per tag — Swagger has no `/shapes/` tree.
+ *   2. Patches are Smithy ops on the converted models, under the names the
+ *      spec gives; the finalizeConvert at the end applies them, then the
+ *      deferred verbNoun names (see `@distilled.cloud/core/codegen/patches`).
  *   3. Bucket operations by PRIMARY (first) tag — every operation in this
  *      spec carries exactly one.
  *   4. Convert each bucket through the shared `convertOpenApiToSmithy` and
@@ -36,23 +31,17 @@
  * which none of core's strategies can drive. `page`/`limit` stay plain
  * input fields; callers advance `page` until an empty page comes back.
  *
- * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false` — the
- * patches apply HERE, to the Swagger document) then compiles the models.
+ * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false`) then
+ * compiles the already-patched models.
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import {
-  applyRfc6902Files,
-  finalizeConvert,
-  isSmithyPatchPath,
-  listRfc6902PatchFiles,
-} from "@distilled.cloud/core/codegen/patches";
+import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
 const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-forgejo/specs/forgejo.spec.json");
-const patchDir = path.join(rootDir, "patches");
 const outDir = path.join(rootDir, ".generated-specs");
 
 const HTTP_METHODS = ["get", "post", "put", "patch", "delete"] as const;
@@ -86,44 +75,6 @@ if (!fs.existsSync(specPath)) {
   );
 }
 const fullSpec = JSON.parse(fs.readFileSync(specPath, "utf-8"));
-
-// ---- 2. Apply the patch chain ONCE to the full spec ------------------------
-// Cloudflare layout: patches/<service>/<op>.json. Swagger ops (`/paths/`,
-// `/definitions/`, `/responses/`, …) apply here; `/shapes/` ops apply to the
-// converted Smithy model per tag (generate.ts leaves patchesDir: false).
-// Core's list/apply helpers honour DISTILLED_SKIP_PATCHES, which
-// `pnpm patches:audit forgejo` relies on.
-const SKIP_PATCH_NAMES = new Set(["_metadata.json"]);
-
-const listPatchFiles = async (root: string): Promise<string[]> => {
-  if (!fs.existsSync(root)) return [];
-  const out: string[] = [];
-  for (const ent of fs
-    .readdirSync(root, { withFileTypes: true })
-    .sort((a, b) => a.name.localeCompare(b.name))) {
-    if (ent.isFile()) {
-      console.warn(`   ⚠️  patches/${ent.name} is not patches/<service>/<op>.json — ignored`);
-      continue;
-    }
-    if (!ent.isDirectory()) continue;
-    const files = await listRfc6902PatchFiles(path.join(root, ent.name));
-    out.push(...files.filter((f) => !SKIP_PATCH_NAMES.has(path.basename(f))));
-  }
-  return out;
-};
-
-const patched = await applyRfc6902Files(fullSpec, await listPatchFiles(patchDir), {
-  include: (op) => !isSmithyPatchPath(op.path),
-  label: (file) => path.relative(patchDir, file),
-});
-const badPatches = patched.errors;
-if (badPatches.length) {
-  for (const b of badPatches) console.error(`❌ bad patch: ${b}`);
-  throw new Error(`${badPatches.length} malformed patch operation(s) — fix or remove them`);
-}
-if (patched.files) {
-  console.log(`🩹 ${patched.files} patch files applied`);
-}
 
 // ---- 3. Bucket paths by primary tag ----------------------------------------
 const tagBuckets = new Map<string, Record<string, Record<string, unknown>>>();
@@ -219,10 +170,6 @@ if (emptyBuckets.length) {
   console.log(
     `   (${emptyBuckets.length} tag(s) dropped — every operation deprecated: ${emptyBuckets.join(", ")})`,
   );
-}
-if (badPatches.length) {
-  for (const b of badPatches) console.error(`❌ bad patch: ${b}`);
-  throw new Error(`${badPatches.length} malformed patch operation(s) — fix or remove them`);
 }
 console.log(`✅ ${written} Smithy models (${totalOps} operations) → ${outDir}`);
 

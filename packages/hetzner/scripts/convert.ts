@@ -10,15 +10,9 @@
  * ordering is load-bearing:
  *
  *   1. Read the full spec.
- *   2. Apply ALL `patches/<service>/<op>.json` ONCE to the full spec
- *      (Cloudflare layout: service dir = tag slug, file = camelCase
- *      operation id; `_errors.json` is shared service errors; `*.manual.json`
- *      last. Stale targets warn+skip — the spec is refetched from a live URL
- *      and drifts — malformed patches fail the run). Patching per-slice
- *      would hard-fail: a patch targeting one tag's paths doesn't resolve
- *      against another tag's slice. Ops whose path starts with `/shapes/`
- *      are Smithy patches (typed errors) and apply AFTER conversion, per
- *      tag — OpenAPI has no `/shapes/` tree.
+ *   2. Patches are Smithy ops on the converted models, under the names the
+ *      spec gives; the finalizeConvert at the end applies them, then the
+ *      deferred verbNoun names (see `@distilled.cloud/core/codegen/patches`).
  *   3. Bucket operations by PRIMARY (first) tag — every operation in this
  *      spec carries exactly one, so there is no untagged-routing table the
  *      way Vercel needs.
@@ -33,23 +27,17 @@
  * namespace prefix to strip the way GitHub's `repos/list-for-org` needs; the
  * compiler lowerCamels them for export (`listServers`, `attachIsoToServer`).
  *
- * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false` — the
- * patches apply HERE, to the OpenAPI document) then compiles the models.
+ * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false`) then
+ * compiles the already-patched models.
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import {
-  applyRfc6902Files,
-  finalizeConvert,
-  isSmithyPatchPath,
-  listRfc6902PatchFiles,
-} from "@distilled.cloud/core/codegen/patches";
+import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
 const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-hetzner/specs/cloud.spec.json");
-const patchDir = path.join(rootDir, "patches");
 const outDir = path.join(rootDir, ".generated-specs");
 
 const HTTP_METHODS = ["get", "post", "put", "patch", "delete"] as const;
@@ -84,48 +72,6 @@ if (!fs.existsSync(specPath)) {
   );
 }
 const fullSpec = JSON.parse(fs.readFileSync(specPath, "utf-8"));
-
-// ---- 2. Apply the patch chain ONCE to the full spec ------------------------
-// Cloudflare layout: patches/<service>/<op>.json. OpenAPI ops (`/paths/`,
-// `/components/`, …) apply here; `/shapes/` ops apply to the converted
-// Smithy model per tag (generate.ts leaves patchesDir: false).
-const SKIP_PATCH_NAMES = new Set(["_metadata.json"]);
-
-// Every `patches/<service>/` dir, through core's loader so
-// `DISTILLED_SKIP_PATCHES` (and with it `pnpm patches:audit`) works.
-const patchDirs = fs.existsSync(patchDir)
-  ? fs
-      .readdirSync(patchDir, { withFileTypes: true })
-      .filter((ent) => {
-        if (ent.isFile()) {
-          console.warn(`   ⚠️  patches/${ent.name} is not patches/<service>/<op>.json — ignored`);
-        }
-        return ent.isDirectory();
-      })
-      .map((ent) => ent.name)
-      .sort((a, b) => a.localeCompare(b))
-  : [];
-const patchFileList = (
-  await Promise.all(patchDirs.map((dir) => listRfc6902PatchFiles(path.join(patchDir, dir))))
-)
-  .flat()
-  .filter((f) => !SKIP_PATCH_NAMES.has(path.basename(f)));
-const patched = await applyRfc6902Files(fullSpec, patchFileList, {
-  // Stale targets warn and skip: the spec drifts with the live API.
-  onStalePatch: "warn",
-  include: (op) => !isSmithyPatchPath(op.path),
-  label: (file) => path.relative(patchDir, file),
-});
-if (patched.errors.length) {
-  for (const b of patched.errors) console.error(`❌ bad patch: ${b}`);
-  throw new Error(`${patched.errors.length} malformed patch operation(s) — fix or remove them`);
-}
-if (patched.files) {
-  console.log(
-    `🩹 ${patched.files} patch files applied` +
-      (patched.stale ? ` (${patched.stale} stale op(s) skipped)` : ""),
-  );
-}
 
 // ---- 2b. Re-point inlined union branches at their components ---------------
 /**
