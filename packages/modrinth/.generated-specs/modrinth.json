@@ -68,7 +68,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "facets",
-            "smithy.api#documentation": "Facets are an essential concept for understanding how to filter out results.\n\nThese are the most commonly used facet types:\n- `project_type`\n- `all_project_types` (matches against every project type across all of the project's versions, not just the primary/version-specific type)\n- `categories` (loaders are lumped in with categories in search)\n- `versions`\n- `open_source`\n- `environment` (one of the following values)\n  - `client_and_server`\n  - `client_only`\n  - `client_only_server_optional`\n  - `singleplayer_only`\n  - `server_only`\n  - `server_only_client_optional`\n  - `dedicated_server_only`\n  - `client_or_server`\n  - `client_or_server_prefers_both`\n  - `unknown`\n- `disclosure_types` (list of any of the following values)\n  - `ai_content`\n  - `ai_content_code`\n  - `ai_content_assets`\n  - `ai_content_text`\n  - `ai_content_functionality`\n  - `advertisements`\n  - `epilepsy_triggers`\n  - `system_interactions`\n  - `telemetry`\n  - `telemetry_opt_in`\n  - `telemetry_opt_out`\n  - `telemetry_always_active`\n  - `derivative_work`\n  - `paid_features`\n  - `archived`\n- `client_side` (deprecated - use `environment` instead)\n- `server_side` (deprecated - use `environment` instead)\n\nSeveral others are also available for use, though these should not be used outside very specific use cases.\n- `title`\n- `author`\n- `follows`\n- `project_id`\n- `license`\n- `downloads`\n- `created_timestamp` (uses Unix timestamp)\n- `modified_timestamp` (uses Unix timestamp)\n\nIn order to then use these facets, you need a value to filter by, as well as an operation to perform on this value.\nThe most common operation is `:` (same as `=`), though you can also use `!=`, `>=`, `>`, `<=`, and `<`.\nJoin together the type, operation, and value, and you've got your string.\n```\n{type} {operation} {value}\n```\n\nExamples:\n```\ncategories = adventure\nversions != 1.20.1\ndownloads <= 100\n```\n\nYou then join these strings together in arrays to signal `AND` and `OR` operators.\n\n##### OR\nAll elements in a single array are considered to be joined by OR statements.\nFor example, the search `[[\"versions:1.16.5\", \"versions:1.17.1\"]]` translates to `Projects that support 1.16.5 OR 1.17.1`.\n\n##### AND\nSeparate arrays are considered to be joined by AND statements.\nFor example, the search `[[\"versions:1.16.5\"], [\"project_type:modpack\"]]` translates to `Projects that support 1.16.5 AND are modpacks`.\n"
+            "smithy.api#documentation": "Facets are an essential concept for understanding how to filter out results.\n\nThese are the most commonly used facet types:\n- `project_type`\n- `all_project_types` (matches against every project type across all of the project's versions, not just the primary/version-specific type)\n- `categories` (loaders are lumped in with categories in search)\n- `versions`\n- `open_source`\n- `environment` (one of the following values)\n  - `client_and_server`\n  - `client_only`\n  - `client_only_server_optional`\n  - `singleplayer_only`\n  - `server_only`\n  - `server_only_client_optional`\n  - `dedicated_server_only`\n  - `client_or_server`\n  - `client_or_server_prefers_both`\n  - `unknown`\n- `disclosure_types` (list of any of the following values)\n  - `ai_content`\n  - `ai_content_code`\n  - `ai_content_assets`\n  - `ai_content_text`\n  - `ai_functionality`\n  - `advertisements`\n  - `epilepsy_triggers`\n  - `system_interactions`\n  - `telemetry`\n  - `telemetry_opt_in`\n  - `telemetry_opt_out`\n  - `telemetry_always_active`\n  - `derivative_work`\n  - `paid_features`\n  - `archived`\n- `client_side` (deprecated - use `environment` instead)\n- `server_side` (deprecated - use `environment` instead)\n\nSeveral others are also available for use, though these should not be used outside very specific use cases.\n- `title`\n- `author`\n- `follows`\n- `project_id`\n- `license`\n- `downloads`\n- `created_timestamp` (uses Unix timestamp)\n- `modified_timestamp` (uses Unix timestamp)\n\nIn order to then use these facets, you need a value to filter by, as well as an operation to perform on this value.\nThe most common operation is `:` (same as `=`), though you can also use `!=`, `>=`, `>`, `<=`, and `<`.\nJoin together the type, operation, and value, and you've got your string.\n```\n{type} {operation} {value}\n```\n\nExamples:\n```\ncategories = adventure\nversions != 1.20.1\ndownloads <= 100\n```\n\nYou then join these strings together in arrays to signal `AND` and `OR` operators.\n\n##### OR\nAll elements in a single array are considered to be joined by OR statements.\nFor example, the search `[[\"versions:1.16.5\", \"versions:1.17.1\"]]` translates to `Projects that support 1.16.5 OR 1.17.1`.\n\n##### AND\nSeparate arrays are considered to be joined by AND statements.\nFor example, the search `[[\"versions:1.16.5\"], [\"project_type:modpack\"]]` translates to `Projects that support 1.16.5 AND are modpacks`.\n"
           }
         },
         "index": {
@@ -540,10 +540,10 @@
             "smithy.api#enumValue": "ai_content_text"
           }
         },
-        "AI_CONTENT_FUNCTIONALITY": {
+        "AI_FUNCTIONALITY": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "ai_content_functionality"
+            "smithy.api#enumValue": "ai_functionality"
           }
         },
         "ADVERTISEMENTS": {
@@ -1238,7 +1238,10 @@
     "com.modrinth.api#ProjectGalleryList": {
       "type": "list",
       "member": {
-        "target": "com.modrinth.api#GalleryImage"
+        "target": "com.modrinth.api#GalleryImage",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "A list of images that have been uploaded to the project's gallery"
@@ -2858,7 +2861,10 @@
     "com.modrinth.api#CreatableProjectGalleryItemsList": {
       "type": "list",
       "member": {
-        "target": "com.modrinth.api#CreatableProjectGalleryItem"
+        "target": "com.modrinth.api#CreatableProjectGalleryItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Gallery images to be uploaded with the created project. Deprecated - please upload gallery images after initial upload."
@@ -6229,7 +6235,7 @@
       },
       "traits": {}
     },
-    "com.modrinth.api#GetLatestVersionFromHashRequestVersionTypes": {
+    "com.modrinth.api#GetLatestVersionFromHashRequestVersionTypesItem": {
       "type": "enum",
       "members": {
         "RELEASE": {
@@ -6250,6 +6256,13 @@
             "smithy.api#enumValue": "beta"
           }
         }
+      },
+      "traits": {}
+    },
+    "com.modrinth.api#GetLatestVersionFromHashRequestVersionTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.modrinth.api#GetLatestVersionFromHashRequestVersionTypesItem"
       },
       "traits": {}
     },
@@ -6285,7 +6298,7 @@
           }
         },
         "version_types": {
-          "target": "com.modrinth.api#GetLatestVersionFromHashRequestVersionTypes"
+          "target": "com.modrinth.api#GetLatestVersionFromHashRequestVersionTypesList"
         }
       },
       "traits": {
@@ -6710,7 +6723,7 @@
       },
       "traits": {}
     },
-    "com.modrinth.api#GetLatestVersionsFromHashesRequestVersionTypes": {
+    "com.modrinth.api#GetLatestVersionsFromHashesRequestVersionTypesItem": {
       "type": "enum",
       "members": {
         "RELEASE": {
@@ -6731,6 +6744,13 @@
             "smithy.api#enumValue": "beta"
           }
         }
+      },
+      "traits": {}
+    },
+    "com.modrinth.api#GetLatestVersionsFromHashesRequestVersionTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.modrinth.api#GetLatestVersionsFromHashesRequestVersionTypesItem"
       },
       "traits": {}
     },
@@ -6762,7 +6782,7 @@
           }
         },
         "version_types": {
-          "target": "com.modrinth.api#GetLatestVersionsFromHashesRequestVersionTypes"
+          "target": "com.modrinth.api#GetLatestVersionsFromHashesRequestVersionTypesList"
         }
       },
       "traits": {

@@ -37,16 +37,9 @@ export const AddFilesToVersionRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     data: S.optional(S.Unknown),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/version/{id}/file",
-      code: 200,
-      contentType: "multipart",
-    }),
+    T.Http({ method: "POST", uri: "/version/{id}/file", code: 200, contentType: "multipart" }),
   ),
-).annotate({
-  identifier: "AddFilesToVersionRequest",
-}) as any as S.Schema<AddFilesToVersionRequest>;
+).annotate({ identifier: "AddFilesToVersionRequest" }) as any as S.Schema<AddFilesToVersionRequest>;
 
 export interface AddFilesToVersionResponse {}
 export const AddFilesToVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -88,9 +81,7 @@ export const AddGalleryImageRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String.pipe(T.Query())),
     ordering: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/project/{id_slug}/gallery", code: 200 })),
-).annotate({
-  identifier: "AddGalleryImageRequest",
-}) as any as S.Schema<AddGalleryImageRequest>;
+).annotate({ identifier: "AddGalleryImageRequest" }) as any as S.Schema<AddGalleryImageRequest>;
 
 export interface AddGalleryImageResponse {}
 export const AddGalleryImageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -107,9 +98,7 @@ export const AddTeamMemberRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     user_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/team/{id}/members", code: 200 })),
-).annotate({
-  identifier: "AddTeamMemberRequest",
-}) as any as S.Schema<AddTeamMemberRequest>;
+).annotate({ identifier: "AddTeamMemberRequest" }) as any as S.Schema<AddTeamMemberRequest>;
 
 export interface AddTeamMemberResponse {}
 export const AddTeamMemberResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -139,9 +128,7 @@ export const ChangeProjectIconRequest = /*@__PURE__*/ S.suspend(() =>
     id_slug: S.String.pipe(T.Label()),
     ext: ChangeProjectIconRequestExt.pipe(T.Query()),
   }).pipe(T.Http({ method: "PATCH", uri: "/project/{id_slug}/icon", code: 200 })),
-).annotate({
-  identifier: "ChangeProjectIconRequest",
-}) as any as S.Schema<ChangeProjectIconRequest>;
+).annotate({ identifier: "ChangeProjectIconRequest" }) as any as S.Schema<ChangeProjectIconRequest>;
 
 export interface ChangeProjectIconResponse {}
 export const ChangeProjectIconResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -156,9 +143,7 @@ export const ChangeUserIconRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_username: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "PATCH", uri: "/user/{id_username}/icon", code: 200 })),
-).annotate({
-  identifier: "ChangeUserIconRequest",
-}) as any as S.Schema<ChangeUserIconRequest>;
+).annotate({ identifier: "ChangeUserIconRequest" }) as any as S.Schema<ChangeUserIconRequest>;
 
 export interface ChangeUserIconResponse {}
 export const ChangeUserIconResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -184,9 +169,7 @@ export const ProjectIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProjectIdentifier",
-}) as any as S.Schema<ProjectIdentifier>;
+).annotate({ identifier: "ProjectIdentifier" }) as any as S.Schema<ProjectIdentifier>;
 
 /** A list of the featured categories that the project has. */
 export type CreatableProjectCategoriesList = Array<string>;
@@ -237,9 +220,7 @@ export const ProjectDonationURL = /*@__PURE__*/ S.suspend(() =>
     platform: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProjectDonationURL",
-}) as any as S.Schema<ProjectDonationURL>;
+).annotate({ identifier: "ProjectDonationURL" }) as any as S.Schema<ProjectDonationURL>;
 
 /** A list of donation links for the project */
 export type CreatableProjectDonationUrlsList = Array<ProjectDonationURL>;
@@ -280,9 +261,7 @@ export const VersionDependency = /*@__PURE__*/ S.suspend(() =>
     file_name: S.optional(S.NullOr(S.String)),
     dependency_type: VersionDependencyDependencyType,
   }),
-).annotate({
-  identifier: "VersionDependency",
-}) as any as S.Schema<VersionDependency>;
+).annotate({ identifier: "VersionDependency" }) as any as S.Schema<VersionDependency>;
 
 /** A list of specific versions of projects that this version depends on */
 export type EditableVersionDependenciesList = Array<VersionDependency>;
@@ -337,9 +316,7 @@ export const EditableFileType = /*@__PURE__*/ S.suspend(() =>
     hash: S.String,
     file_type: S.Unknown,
   }),
-).annotate({
-  identifier: "EditableFileType",
-}) as any as S.Schema<EditableFileType>;
+).annotate({ identifier: "EditableFileType" }) as any as S.Schema<EditableFileType>;
 
 /** A list of file_types to edit */
 export type EditableVersionFileTypesList = Array<EditableFileType>;
@@ -386,9 +363,7 @@ export const EditableVersion = /*@__PURE__*/ S.suspend(() =>
     primary_file: S.optional(EditableVersionPrimaryFileList),
     file_types: S.optional(EditableVersionFileTypesList),
   }),
-).annotate({
-  identifier: "EditableVersion",
-}) as any as S.Schema<EditableVersion>;
+).annotate({ identifier: "EditableVersion" }) as any as S.Schema<EditableVersion>;
 
 /** A list of initial versions to upload with the created project. Deprecated - please upload version files after initial upload. */
 export type CreatableProjectInitialVersionsList = Array<EditableVersion>;
@@ -421,9 +396,9 @@ export const CreatableProjectGalleryItem = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreatableProjectGalleryItem>;
 
 /** Gallery images to be uploaded with the created project. Deprecated - please upload gallery images after initial upload. */
-export type CreatableProjectGalleryItemsList = Array<CreatableProjectGalleryItem>;
+export type CreatableProjectGalleryItemsList = Array<CreatableProjectGalleryItem | null>;
 export const CreatableProjectGalleryItemsList = /*@__PURE__*/ S.Array(
-  CreatableProjectGalleryItem,
+  S.NullOr(CreatableProjectGalleryItem),
 ) as any as S.Schema<CreatableProjectGalleryItemsList>;
 
 export interface CreatableProject {
@@ -494,9 +469,7 @@ export const CreatableProject = /*@__PURE__*/ S.suspend(() =>
     is_draft: S.optional(S.Boolean),
     gallery_items: S.optional(CreatableProjectGalleryItemsList),
   }),
-).annotate({
-  identifier: "CreatableProject",
-}) as any as S.Schema<CreatableProject>;
+).annotate({ identifier: "CreatableProject" }) as any as S.Schema<CreatableProject>;
 
 /** Project icon file */
 export type CreateProjectRequestIcon =
@@ -520,17 +493,8 @@ export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CreatableProject,
     icon: S.optional(CreateProjectRequestIcon),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/project",
-      code: 200,
-      contentType: "multipart",
-    }),
-  ),
-).annotate({
-  identifier: "CreateProjectRequest",
-}) as any as S.Schema<CreateProjectRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/project", code: 200, contentType: "multipart" })),
+).annotate({ identifier: "CreateProjectRequest" }) as any as S.Schema<CreateProjectRequest>;
 
 /** The status of the project */
 export type ProjectStatus =
@@ -643,9 +607,9 @@ export const GalleryImage = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GalleryImage" }) as any as S.Schema<GalleryImage>;
 
 /** A list of images that have been uploaded to the project's gallery */
-export type ProjectGalleryList = Array<GalleryImage>;
+export type ProjectGalleryList = Array<GalleryImage | null>;
 export const ProjectGalleryList = /*@__PURE__*/ S.Array(
-  GalleryImage,
+  S.NullOr(GalleryImage),
 ) as any as S.Schema<ProjectGalleryList>;
 
 export type ProjectMonetizationStatus = "monetized" | "demonetized" | "force-demonetized";
@@ -681,9 +645,7 @@ export const ModeratorMessage = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     body: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ModeratorMessage",
-}) as any as S.Schema<ModeratorMessage>;
+).annotate({ identifier: "ModeratorMessage" }) as any as S.Schema<ModeratorMessage>;
 
 export interface Project {
   /** The ID of the project, encoded as a base62 string */
@@ -922,9 +884,7 @@ export const CreatableVersion = /*@__PURE__*/ S.suspend(() =>
     environment: S.optional(EnvironmentInputEnum),
     file_types: S.optional(CreatableVersionFileTypesMap),
   }),
-).annotate({
-  identifier: "CreatableVersion",
-}) as any as S.Schema<CreatableVersion>;
+).annotate({ identifier: "CreatableVersion" }) as any as S.Schema<CreatableVersion>;
 
 export interface CreateVersionRequest {
   data: CreatableVersion;
@@ -932,17 +892,8 @@ export interface CreateVersionRequest {
 export const CreateVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CreatableVersion,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/version",
-      code: 200,
-      contentType: "multipart",
-    }),
-  ),
-).annotate({
-  identifier: "CreateVersionRequest",
-}) as any as S.Schema<CreateVersionRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/version", code: 200, contentType: "multipart" })),
+).annotate({ identifier: "CreateVersionRequest" }) as any as S.Schema<CreateVersionRequest>;
 
 /** A list of specific versions of projects that this version depends on */
 export type CreateVersionResponseDependenciesList = Array<VersionDependency>;
@@ -988,9 +939,7 @@ export const VersionFileHashes = /*@__PURE__*/ S.suspend(() =>
     sha512: S.optional(S.String),
     sha1: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VersionFileHashes",
-}) as any as S.Schema<VersionFileHashes>;
+).annotate({ identifier: "VersionFileHashes" }) as any as S.Schema<VersionFileHashes>;
 
 export interface VersionFile {
   hashes: VersionFileHashes;
@@ -1076,9 +1025,7 @@ export const CreateVersionResponse = /*@__PURE__*/ S.suspend(() =>
     environment: EnvironmentEnum,
     files: CreateVersionResponseFilesList,
   }),
-).annotate({
-  identifier: "CreateVersionResponse",
-}) as any as S.Schema<CreateVersionResponse>;
+).annotate({ identifier: "CreateVersionResponse" }) as any as S.Schema<CreateVersionResponse>;
 
 export type DeleteFileFromHashRequestAlgorithm = "sha1" | "sha512";
 export const DeleteFileFromHashRequestAlgorithm = S.String;
@@ -1168,9 +1115,7 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_slug: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/project/{id_slug}", code: 200 })),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Schema<DeleteProjectRequest>;
 
 export interface DeleteProjectResponse {}
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1185,9 +1130,7 @@ export const DeleteProjectIconRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_slug: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/project/{id_slug}/icon", code: 200 })),
-).annotate({
-  identifier: "DeleteProjectIconRequest",
-}) as any as S.Schema<DeleteProjectIconRequest>;
+).annotate({ identifier: "DeleteProjectIconRequest" }) as any as S.Schema<DeleteProjectIconRequest>;
 
 export interface DeleteProjectIconResponse {}
 export const DeleteProjectIconResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1204,16 +1147,8 @@ export const DeleteTeamMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     id_username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/team/{id}/members/{id_username}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteTeamMemberRequest",
-}) as any as S.Schema<DeleteTeamMemberRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/team/{id}/members/{id_username}", code: 200 })),
+).annotate({ identifier: "DeleteTeamMemberRequest" }) as any as S.Schema<DeleteTeamMemberRequest>;
 
 export interface DeleteTeamMemberResponse {}
 export const DeleteTeamMemberResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1245,9 +1180,7 @@ export const DeleteUserIconRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_username: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/user/{id_username}/icon", code: 200 })),
-).annotate({
-  identifier: "DeleteUserIconRequest",
-}) as any as S.Schema<DeleteUserIconRequest>;
+).annotate({ identifier: "DeleteUserIconRequest" }) as any as S.Schema<DeleteUserIconRequest>;
 
 export interface DeleteUserIconResponse {}
 export const DeleteUserIconResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1262,9 +1195,7 @@ export const DeleteVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/version/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteVersionRequest",
-}) as any as S.Schema<DeleteVersionRequest>;
+).annotate({ identifier: "DeleteVersionRequest" }) as any as S.Schema<DeleteVersionRequest>;
 
 export interface DeleteVersionResponse {}
 export const DeleteVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1279,9 +1210,7 @@ export const FollowProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_slug: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/project/{id_slug}/follow", code: 200 })),
-).annotate({
-  identifier: "FollowProjectRequest",
-}) as any as S.Schema<FollowProjectRequest>;
+).annotate({ identifier: "FollowProjectRequest" }) as any as S.Schema<FollowProjectRequest>;
 
 export interface FollowProjectResponse {}
 export const FollowProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1301,16 +1230,8 @@ export const ForgeUpdatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_slug: S.String.pipe(T.Label()),
     neoforge: S.optional(ForgeUpdatesRequestNeoforge.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/updates/{id_slug}/forge_updates.json",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ForgeUpdatesRequest",
-}) as any as S.Schema<ForgeUpdatesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/updates/{id_slug}/forge_updates.json", code: 200 })),
+).annotate({ identifier: "ForgeUpdatesRequest" }) as any as S.Schema<ForgeUpdatesRequest>;
 
 /** A list of the recommended and latest versions for each Minecraft release */
 export interface ForgeUpdateCheckerPromos {
@@ -1324,9 +1245,7 @@ export const ForgeUpdateCheckerPromos = /*@__PURE__*/ S.suspend(() =>
     _version__recommended: S.optional(S.String.pipe(T.Body("{version}-recommended"))),
     _version__latest: S.optional(S.String.pipe(T.Body("{version}-latest"))),
   }),
-).annotate({
-  identifier: "ForgeUpdateCheckerPromos",
-}) as any as S.Schema<ForgeUpdateCheckerPromos>;
+).annotate({ identifier: "ForgeUpdateCheckerPromos" }) as any as S.Schema<ForgeUpdateCheckerPromos>;
 
 /** Mod version information that can be consumed by Forge's update checker */
 export interface ForgeUpdates {
@@ -1348,16 +1267,8 @@ export interface GetDependenciesRequest {
 export const GetDependenciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/project/{id_slug}/dependencies",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDependenciesRequest",
-}) as any as S.Schema<GetDependenciesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/project/{id_slug}/dependencies", code: 200 })),
+).annotate({ identifier: "GetDependenciesRequest" }) as any as S.Schema<GetDependenciesRequest>;
 
 /** Projects that the project depends upon */
 export type ProjectDependencyListProjectsList = Array<Project>;
@@ -1473,9 +1384,7 @@ export const ProjectDependencyList = /*@__PURE__*/ S.suspend(() =>
     projects: S.optional(ProjectDependencyListProjectsList),
     versions: S.optional(ProjectDependencyListVersionsList),
   }),
-).annotate({
-  identifier: "ProjectDependencyList",
-}) as any as S.Schema<ProjectDependencyList>;
+).annotate({ identifier: "ProjectDependencyList" }) as any as S.Schema<ProjectDependencyList>;
 
 export interface GetFollowedProjectsRequest {
   /** The ID or username of the user */
@@ -1514,8 +1423,15 @@ export const GetLatestVersionFromHashRequestGameVersionsList = /*@__PURE__*/ S.A
   S.String,
 ) as any as S.Schema<GetLatestVersionFromHashRequestGameVersionsList>;
 
-export type GetLatestVersionFromHashRequestVersionTypes = "release" | "alpha" | "beta";
-export const GetLatestVersionFromHashRequestVersionTypes = S.String;
+export type GetLatestVersionFromHashRequestVersionTypesItem = "release" | "alpha" | "beta";
+export const GetLatestVersionFromHashRequestVersionTypesItem = S.String;
+
+export type GetLatestVersionFromHashRequestVersionTypesList = Array<
+  GetLatestVersionFromHashRequestVersionTypesItem | (string & {})
+>;
+export const GetLatestVersionFromHashRequestVersionTypesList = /*@__PURE__*/ S.Array(
+  GetLatestVersionFromHashRequestVersionTypesItem,
+) as any as S.Schema<GetLatestVersionFromHashRequestVersionTypesList>;
 
 export interface GetLatestVersionFromHashRequest {
   /** The hash of the file, considering its byte content, and encoded in hexadecimal */
@@ -1524,7 +1440,7 @@ export interface GetLatestVersionFromHashRequest {
   algorithm: GetLatestVersionFromHashRequestAlgorithm | (string & {});
   loaders: GetLatestVersionFromHashRequestLoadersList;
   game_versions: GetLatestVersionFromHashRequestGameVersionsList;
-  version_types?: GetLatestVersionFromHashRequestVersionTypes | (string & {});
+  version_types?: GetLatestVersionFromHashRequestVersionTypesList;
 }
 export const GetLatestVersionFromHashRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1532,7 +1448,7 @@ export const GetLatestVersionFromHashRequest = /*@__PURE__*/ S.suspend(() =>
     algorithm: GetLatestVersionFromHashRequestAlgorithm.pipe(T.Query()),
     loaders: GetLatestVersionFromHashRequestLoadersList,
     game_versions: GetLatestVersionFromHashRequestGameVersionsList,
-    version_types: S.optional(GetLatestVersionFromHashRequestVersionTypes),
+    version_types: S.optional(GetLatestVersionFromHashRequestVersionTypesList),
   }).pipe(T.Http({ method: "POST", uri: "/version_file/{hash}/update", code: 200 })),
 ).annotate({
   identifier: "GetLatestVersionFromHashRequest",
@@ -1659,15 +1575,22 @@ export const GetLatestVersionsFromHashesRequestGameVersionsList = /*@__PURE__*/ 
   S.String,
 ) as any as S.Schema<GetLatestVersionsFromHashesRequestGameVersionsList>;
 
-export type GetLatestVersionsFromHashesRequestVersionTypes = "release" | "alpha" | "beta";
-export const GetLatestVersionsFromHashesRequestVersionTypes = S.String;
+export type GetLatestVersionsFromHashesRequestVersionTypesItem = "release" | "alpha" | "beta";
+export const GetLatestVersionsFromHashesRequestVersionTypesItem = S.String;
+
+export type GetLatestVersionsFromHashesRequestVersionTypesList = Array<
+  GetLatestVersionsFromHashesRequestVersionTypesItem | (string & {})
+>;
+export const GetLatestVersionsFromHashesRequestVersionTypesList = /*@__PURE__*/ S.Array(
+  GetLatestVersionsFromHashesRequestVersionTypesItem,
+) as any as S.Schema<GetLatestVersionsFromHashesRequestVersionTypesList>;
 
 export interface GetLatestVersionsFromHashesRequest {
   hashes: GetLatestVersionsFromHashesRequestHashesList;
   algorithm: GetLatestVersionsFromHashesRequestAlgorithm | (string & {});
   loaders: GetLatestVersionsFromHashesRequestLoadersList;
   game_versions: GetLatestVersionsFromHashesRequestGameVersionsList;
-  version_types?: GetLatestVersionsFromHashesRequestVersionTypes | (string & {});
+  version_types?: GetLatestVersionsFromHashesRequestVersionTypesList;
 }
 export const GetLatestVersionsFromHashesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1675,7 +1598,7 @@ export const GetLatestVersionsFromHashesRequest = /*@__PURE__*/ S.suspend(() =>
     algorithm: GetLatestVersionsFromHashesRequestAlgorithm,
     loaders: GetLatestVersionsFromHashesRequestLoadersList,
     game_versions: GetLatestVersionsFromHashesRequestGameVersionsList,
-    version_types: S.optional(GetLatestVersionsFromHashesRequestVersionTypes),
+    version_types: S.optional(GetLatestVersionsFromHashesRequestVersionTypesList),
   }).pipe(T.Http({ method: "POST", uri: "/version_files/update", code: 200 })),
 ).annotate({
   identifier: "GetLatestVersionsFromHashesRequest",
@@ -1703,9 +1626,7 @@ export const GetNotificationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/notification/{id}", code: 200 })),
-).annotate({
-  identifier: "GetNotificationRequest",
-}) as any as S.Schema<GetNotificationRequest>;
+).annotate({ identifier: "GetNotificationRequest" }) as any as S.Schema<GetNotificationRequest>;
 
 /** The type of notification */
 export type NotificationType =
@@ -1733,9 +1654,7 @@ export const NotificationAction = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     action_route: S.optional(NotificationActionActionRouteList),
   }),
-).annotate({
-  identifier: "NotificationAction",
-}) as any as S.Schema<NotificationAction>;
+).annotate({ identifier: "NotificationAction" }) as any as S.Schema<NotificationAction>;
 
 /** A list of actions that can be performed */
 export type NotificationActionsList = Array<NotificationAction>;
@@ -1785,9 +1704,7 @@ export const GetNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ids: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/notifications", code: 200 })),
-).annotate({
-  identifier: "GetNotificationsRequest",
-}) as any as S.Schema<GetNotificationsRequest>;
+).annotate({ identifier: "GetNotificationsRequest" }) as any as S.Schema<GetNotificationsRequest>;
 
 export type GetNotificationsResponseBodyList = Array<Notification>;
 export const GetNotificationsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1797,9 +1714,7 @@ export const GetNotificationsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetNotificationsResponse = GetNotificationsResponseBodyList;
 export const GetNotificationsResponse = /*@__PURE__*/ S.suspend(() =>
   GetNotificationsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetNotificationsResponse",
-}) as any as S.Schema<GetNotificationsResponse>;
+).annotate({ identifier: "GetNotificationsResponse" }) as any as S.Schema<GetNotificationsResponse>;
 
 export interface GetOpenReportsRequest {
   count?: number;
@@ -1808,9 +1723,7 @@ export const GetOpenReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     count: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/report", code: 200 })),
-).annotate({
-  identifier: "GetOpenReportsRequest",
-}) as any as S.Schema<GetOpenReportsRequest>;
+).annotate({ identifier: "GetOpenReportsRequest" }) as any as S.Schema<GetOpenReportsRequest>;
 
 /** The type of the item being reported */
 export type ReportItemType = "project" | "user" | "version";
@@ -1858,9 +1771,7 @@ export const GetOpenReportsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetOpenReportsResponse = GetOpenReportsResponseBodyList;
 export const GetOpenReportsResponse = /*@__PURE__*/ S.suspend(() =>
   GetOpenReportsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetOpenReportsResponse",
-}) as any as S.Schema<GetOpenReportsResponse>;
+).annotate({ identifier: "GetOpenReportsResponse" }) as any as S.Schema<GetOpenReportsResponse>;
 
 export interface GetPayoutHistoryRequest {
   /** The ID or username of the user */
@@ -1870,9 +1781,7 @@ export const GetPayoutHistoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_username: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/user/{id_username}/payouts", code: 200 })),
-).annotate({
-  identifier: "GetPayoutHistoryRequest",
-}) as any as S.Schema<GetPayoutHistoryRequest>;
+).annotate({ identifier: "GetPayoutHistoryRequest" }) as any as S.Schema<GetPayoutHistoryRequest>;
 
 export interface UserPayoutHistoryEntry {
   /** The date of this transaction */
@@ -1888,9 +1797,7 @@ export const UserPayoutHistoryEntry = /*@__PURE__*/ S.suspend(() =>
     amount: S.optional(S.Number),
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserPayoutHistoryEntry",
-}) as any as S.Schema<UserPayoutHistoryEntry>;
+).annotate({ identifier: "UserPayoutHistoryEntry" }) as any as S.Schema<UserPayoutHistoryEntry>;
 
 /** A history of all of the user's past transactions */
 export type UserPayoutHistoryPayoutsList = Array<UserPayoutHistoryEntry>;
@@ -1912,9 +1819,7 @@ export const UserPayoutHistory = /*@__PURE__*/ S.suspend(() =>
     last_month: S.optional(S.String),
     payouts: S.optional(UserPayoutHistoryPayoutsList),
   }),
-).annotate({
-  identifier: "UserPayoutHistory",
-}) as any as S.Schema<UserPayoutHistory>;
+).annotate({ identifier: "UserPayoutHistory" }) as any as S.Schema<UserPayoutHistory>;
 
 export interface GetProjectRequest {
   /** The ID or slug of the project */
@@ -1924,9 +1829,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_slug: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/project/{id_slug}", code: 200 })),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
 
 export interface GetProjectsRequest {
   /** The IDs and/or slugs of the projects */
@@ -1936,9 +1839,7 @@ export const GetProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ids: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/projects", code: 200 })),
-).annotate({
-  identifier: "GetProjectsRequest",
-}) as any as S.Schema<GetProjectsRequest>;
+).annotate({ identifier: "GetProjectsRequest" }) as any as S.Schema<GetProjectsRequest>;
 
 export type GetProjectsResponseBodyList = Array<Project>;
 export const GetProjectsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1948,9 +1849,7 @@ export const GetProjectsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetProjectsResponse = GetProjectsResponseBodyList;
 export const GetProjectsResponse = /*@__PURE__*/ S.suspend(() =>
   GetProjectsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetProjectsResponse",
-}) as any as S.Schema<GetProjectsResponse>;
+).annotate({ identifier: "GetProjectsResponse" }) as any as S.Schema<GetProjectsResponse>;
 
 export interface GetProjectTeamMembersRequest {
   /** The ID or slug of the project */
@@ -2137,9 +2036,7 @@ export const GetReportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/report/{id}", code: 200 })),
-).annotate({
-  identifier: "GetReportRequest",
-}) as any as S.Schema<GetReportRequest>;
+).annotate({ identifier: "GetReportRequest" }) as any as S.Schema<GetReportRequest>;
 
 /** The type of the item being reported */
 export type GetReportResponseItemType = "project" | "user" | "version";
@@ -2177,9 +2074,7 @@ export const GetReportResponse = /*@__PURE__*/ S.suspend(() =>
     closed: S.Boolean,
     thread_id: S.String,
   }),
-).annotate({
-  identifier: "GetReportResponse",
-}) as any as S.Schema<GetReportResponse>;
+).annotate({ identifier: "GetReportResponse" }) as any as S.Schema<GetReportResponse>;
 
 export interface GetReportsRequest {
   /** The IDs of the reports */
@@ -2189,9 +2084,7 @@ export const GetReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ids: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/reports", code: 200 })),
-).annotate({
-  identifier: "GetReportsRequest",
-}) as any as S.Schema<GetReportsRequest>;
+).annotate({ identifier: "GetReportsRequest" }) as any as S.Schema<GetReportsRequest>;
 
 export type GetReportsResponseBodyList = Array<Report>;
 export const GetReportsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2201,9 +2094,7 @@ export const GetReportsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetReportsResponse = GetReportsResponseBodyList;
 export const GetReportsResponse = /*@__PURE__*/ S.suspend(() =>
   GetReportsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetReportsResponse",
-}) as any as S.Schema<GetReportsResponse>;
+).annotate({ identifier: "GetReportsResponse" }) as any as S.Schema<GetReportsResponse>;
 
 export interface GetTeamMembersRequest {
   /** The ID of the team */
@@ -2213,9 +2104,7 @@ export const GetTeamMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/team/{id}/members", code: 200 })),
-).annotate({
-  identifier: "GetTeamMembersRequest",
-}) as any as S.Schema<GetTeamMembersRequest>;
+).annotate({ identifier: "GetTeamMembersRequest" }) as any as S.Schema<GetTeamMembersRequest>;
 
 /** An array of team members */
 export type GetTeamMembersResponseBodyList = Array<TeamMember>;
@@ -2226,9 +2115,7 @@ export const GetTeamMembersResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetTeamMembersResponse = GetTeamMembersResponseBodyList;
 export const GetTeamMembersResponse = /*@__PURE__*/ S.suspend(() =>
   GetTeamMembersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetTeamMembersResponse",
-}) as any as S.Schema<GetTeamMembersResponse>;
+).annotate({ identifier: "GetTeamMembersResponse" }) as any as S.Schema<GetTeamMembersResponse>;
 
 export interface GetTeamsRequest {
   /** The IDs of the teams */
@@ -2238,9 +2125,7 @@ export const GetTeamsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ids: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/teams", code: 200 })),
-).annotate({
-  identifier: "GetTeamsRequest",
-}) as any as S.Schema<GetTeamsRequest>;
+).annotate({ identifier: "GetTeamsRequest" }) as any as S.Schema<GetTeamsRequest>;
 
 export type GetTeamsResponseBodyItemList = Array<TeamMember>;
 export const GetTeamsResponseBodyItemList = /*@__PURE__*/ S.Array(
@@ -2255,9 +2140,7 @@ export const GetTeamsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetTeamsResponse = GetTeamsResponseBodyList;
 export const GetTeamsResponse = /*@__PURE__*/ S.suspend(() =>
   GetTeamsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetTeamsResponse",
-}) as any as S.Schema<GetTeamsResponse>;
+).annotate({ identifier: "GetTeamsResponse" }) as any as S.Schema<GetTeamsResponse>;
 
 export interface GetThreadRequest {
   /** The ID of the thread */
@@ -2267,9 +2150,7 @@ export const GetThreadRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/thread/{id}", code: 200 })),
-).annotate({
-  identifier: "GetThreadRequest",
-}) as any as S.Schema<GetThreadRequest>;
+).annotate({ identifier: "GetThreadRequest" }) as any as S.Schema<GetThreadRequest>;
 
 export type ThreadType = "project" | "report" | "direct_message";
 export const ThreadType = S.String;
@@ -2330,9 +2211,7 @@ export const ThreadMessageBody = /*@__PURE__*/ S.suspend(() =>
     old_status: S.optional(ThreadMessageBodyOldStatus),
     new_status: S.optional(ThreadMessageBodyNewStatus),
   }),
-).annotate({
-  identifier: "ThreadMessageBody",
-}) as any as S.Schema<ThreadMessageBody>;
+).annotate({ identifier: "ThreadMessageBody" }) as any as S.Schema<ThreadMessageBody>;
 
 export interface ThreadMessage {
   /** The ID of the message itself */
@@ -2390,9 +2269,7 @@ export const GetThreadsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ids: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/threads", code: 200 })),
-).annotate({
-  identifier: "GetThreadsRequest",
-}) as any as S.Schema<GetThreadsRequest>;
+).annotate({ identifier: "GetThreadsRequest" }) as any as S.Schema<GetThreadsRequest>;
 
 export type GetThreadsResponseBodyList = Array<Thread>;
 export const GetThreadsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2402,9 +2279,7 @@ export const GetThreadsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetThreadsResponse = GetThreadsResponseBodyList;
 export const GetThreadsResponse = /*@__PURE__*/ S.suspend(() =>
   GetThreadsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetThreadsResponse",
-}) as any as S.Schema<GetThreadsResponse>;
+).annotate({ identifier: "GetThreadsResponse" }) as any as S.Schema<GetThreadsResponse>;
 
 export interface GetUserRequest {
   /** The ID or username of the user */
@@ -2475,16 +2350,12 @@ export const GetUserResponse = /*@__PURE__*/ S.suspend(() =>
     has_totp: S.optional(S.NullOr(S.Boolean)),
     github_id: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "GetUserResponse",
-}) as any as S.Schema<GetUserResponse>;
+).annotate({ identifier: "GetUserResponse" }) as any as S.Schema<GetUserResponse>;
 
 export interface GetUserFromAuthRequest {}
 export const GetUserFromAuthRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/user", code: 200 })),
-).annotate({
-  identifier: "GetUserFromAuthRequest",
-}) as any as S.Schema<GetUserFromAuthRequest>;
+).annotate({ identifier: "GetUserFromAuthRequest" }) as any as S.Schema<GetUserFromAuthRequest>;
 
 /** The user's role */
 export type GetUserFromAuthResponseRole = "admin" | "moderator" | "developer";
@@ -2545,9 +2416,7 @@ export const GetUserFromAuthResponse = /*@__PURE__*/ S.suspend(() =>
     has_totp: S.optional(S.NullOr(S.Boolean)),
     github_id: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "GetUserFromAuthResponse",
-}) as any as S.Schema<GetUserFromAuthResponse>;
+).annotate({ identifier: "GetUserFromAuthResponse" }) as any as S.Schema<GetUserFromAuthResponse>;
 
 export interface GetUserNotificationsRequest {
   /** The ID or username of the user */
@@ -2556,13 +2425,7 @@ export interface GetUserNotificationsRequest {
 export const GetUserNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/user/{id_username}/notifications",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/user/{id_username}/notifications", code: 200 })),
 ).annotate({
   identifier: "GetUserNotificationsRequest",
 }) as any as S.Schema<GetUserNotificationsRequest>;
@@ -2587,9 +2450,7 @@ export const GetUserProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_username: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/user/{id_username}/projects", code: 200 })),
-).annotate({
-  identifier: "GetUserProjectsRequest",
-}) as any as S.Schema<GetUserProjectsRequest>;
+).annotate({ identifier: "GetUserProjectsRequest" }) as any as S.Schema<GetUserProjectsRequest>;
 
 export type GetUserProjectsResponseBodyList = Array<Project>;
 export const GetUserProjectsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2599,9 +2460,7 @@ export const GetUserProjectsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetUserProjectsResponse = GetUserProjectsResponseBodyList;
 export const GetUserProjectsResponse = /*@__PURE__*/ S.suspend(() =>
   GetUserProjectsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetUserProjectsResponse",
-}) as any as S.Schema<GetUserProjectsResponse>;
+).annotate({ identifier: "GetUserProjectsResponse" }) as any as S.Schema<GetUserProjectsResponse>;
 
 export interface GetUsersRequest {
   /** The IDs of the users */
@@ -2611,9 +2470,7 @@ export const GetUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ids: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/users", code: 200 })),
-).annotate({
-  identifier: "GetUsersRequest",
-}) as any as S.Schema<GetUsersRequest>;
+).annotate({ identifier: "GetUsersRequest" }) as any as S.Schema<GetUsersRequest>;
 
 export type GetUsersResponseBodyList = Array<User>;
 export const GetUsersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2623,9 +2480,7 @@ export const GetUsersResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetUsersResponse = GetUsersResponseBodyList;
 export const GetUsersResponse = /*@__PURE__*/ S.suspend(() =>
   GetUsersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetUsersResponse",
-}) as any as S.Schema<GetUsersResponse>;
+).annotate({ identifier: "GetUsersResponse" }) as any as S.Schema<GetUsersResponse>;
 
 export interface GetVersionRequest {
   /** The ID of the version */
@@ -2635,9 +2490,7 @@ export const GetVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/version/{id}", code: 200 })),
-).annotate({
-  identifier: "GetVersionRequest",
-}) as any as S.Schema<GetVersionRequest>;
+).annotate({ identifier: "GetVersionRequest" }) as any as S.Schema<GetVersionRequest>;
 
 /** A list of specific versions of projects that this version depends on */
 export type GetVersionResponseDependenciesList = Array<VersionDependency>;
@@ -2734,9 +2587,7 @@ export const GetVersionResponse = /*@__PURE__*/ S.suspend(() =>
     environment: EnvironmentEnum,
     files: GetVersionResponseFilesList,
   }),
-).annotate({
-  identifier: "GetVersionResponse",
-}) as any as S.Schema<GetVersionResponse>;
+).annotate({ identifier: "GetVersionResponse" }) as any as S.Schema<GetVersionResponse>;
 
 export interface GetVersionFromIdOrNumberRequest {
   /** The ID or slug of the project */
@@ -2748,13 +2599,7 @@ export const GetVersionFromIdOrNumberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_slug: S.String.pipe(T.Label()),
     id_number: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/project/{id_slug}/version/{id_number}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/project/{id_slug}/version/{id_number}", code: 200 })),
 ).annotate({
   identifier: "GetVersionFromIdOrNumberRequest",
 }) as any as S.Schema<GetVersionFromIdOrNumberRequest>;
@@ -2870,9 +2715,7 @@ export const GetVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ids: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/versions", code: 200 })),
-).annotate({
-  identifier: "GetVersionsRequest",
-}) as any as S.Schema<GetVersionsRequest>;
+).annotate({ identifier: "GetVersionsRequest" }) as any as S.Schema<GetVersionsRequest>;
 
 export type GetVersionsResponseBodyList = Array<Version>;
 export const GetVersionsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2882,9 +2725,7 @@ export const GetVersionsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetVersionsResponse = GetVersionsResponseBodyList;
 export const GetVersionsResponse = /*@__PURE__*/ S.suspend(() =>
   GetVersionsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetVersionsResponse",
-}) as any as S.Schema<GetVersionsResponse>;
+).annotate({ identifier: "GetVersionsResponse" }) as any as S.Schema<GetVersionsResponse>;
 
 export interface JoinTeamRequest {
   /** The ID of the team */
@@ -2894,9 +2735,7 @@ export const JoinTeamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/team/{id}/join", code: 200 })),
-).annotate({
-  identifier: "JoinTeamRequest",
-}) as any as S.Schema<JoinTeamRequest>;
+).annotate({ identifier: "JoinTeamRequest" }) as any as S.Schema<JoinTeamRequest>;
 
 export interface JoinTeamResponse {}
 export const JoinTeamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2911,9 +2750,7 @@ export const LicenseTextRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/tag/license/{id}", code: 200 })),
-).annotate({
-  identifier: "LicenseTextRequest",
-}) as any as S.Schema<LicenseTextRequest>;
+).annotate({ identifier: "LicenseTextRequest" }) as any as S.Schema<LicenseTextRequest>;
 
 /** A full license */
 export interface License {
@@ -2930,9 +2767,7 @@ export const License = /*@__PURE__*/ S.suspend(() =>
 export interface ListCategoryRequest {}
 export const ListCategoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/tag/category", code: 200 })),
-).annotate({
-  identifier: "ListCategoryRequest",
-}) as any as S.Schema<ListCategoryRequest>;
+).annotate({ identifier: "ListCategoryRequest" }) as any as S.Schema<ListCategoryRequest>;
 
 export interface CategoryTag {
   /** The SVG icon of a category */
@@ -2961,9 +2796,7 @@ export const ListCategoryResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListCategoryResponse = ListCategoryResponseBodyList;
 export const ListCategoryResponse = /*@__PURE__*/ S.suspend(() =>
   ListCategoryResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListCategoryResponse",
-}) as any as S.Schema<ListCategoryResponse>;
+).annotate({ identifier: "ListCategoryResponse" }) as any as S.Schema<ListCategoryResponse>;
 
 export interface ListDonationPlatformRequest {}
 export const ListDonationPlatformRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2983,9 +2816,7 @@ export const DonationPlatformTag = /*@__PURE__*/ S.suspend(() =>
     short: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "DonationPlatformTag",
-}) as any as S.Schema<DonationPlatformTag>;
+).annotate({ identifier: "DonationPlatformTag" }) as any as S.Schema<DonationPlatformTag>;
 
 export type ListDonationPlatformResponseBodyList = Array<DonationPlatformTag>;
 export const ListDonationPlatformResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3002,9 +2833,7 @@ export const ListDonationPlatformResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListLoaderRequest {}
 export const ListLoaderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/tag/loader", code: 200 })),
-).annotate({
-  identifier: "ListLoaderRequest",
-}) as any as S.Schema<ListLoaderRequest>;
+).annotate({ identifier: "ListLoaderRequest" }) as any as S.Schema<ListLoaderRequest>;
 
 /** The project types that this loader is applicable to */
 export type LoaderTagSupportedProjectTypesList = Array<string>;
@@ -3036,16 +2865,12 @@ export const ListLoaderResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListLoaderResponse = ListLoaderResponseBodyList;
 export const ListLoaderResponse = /*@__PURE__*/ S.suspend(() =>
   ListLoaderResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListLoaderResponse",
-}) as any as S.Schema<ListLoaderResponse>;
+).annotate({ identifier: "ListLoaderResponse" }) as any as S.Schema<ListLoaderResponse>;
 
 export interface ListProjectTypeRequest {}
 export const ListProjectTypeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/tag/project_type", code: 200 })),
-).annotate({
-  identifier: "ListProjectTypeRequest",
-}) as any as S.Schema<ListProjectTypeRequest>;
+).annotate({ identifier: "ListProjectTypeRequest" }) as any as S.Schema<ListProjectTypeRequest>;
 
 export type ListProjectTypeResponseBodyList = Array<string>;
 export const ListProjectTypeResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3055,16 +2880,12 @@ export const ListProjectTypeResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListProjectTypeResponse = ListProjectTypeResponseBodyList;
 export const ListProjectTypeResponse = /*@__PURE__*/ S.suspend(() =>
   ListProjectTypeResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListProjectTypeResponse",
-}) as any as S.Schema<ListProjectTypeResponse>;
+).annotate({ identifier: "ListProjectTypeResponse" }) as any as S.Schema<ListProjectTypeResponse>;
 
 export interface ListReportTypeRequest {}
 export const ListReportTypeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/tag/report_type", code: 200 })),
-).annotate({
-  identifier: "ListReportTypeRequest",
-}) as any as S.Schema<ListReportTypeRequest>;
+).annotate({ identifier: "ListReportTypeRequest" }) as any as S.Schema<ListReportTypeRequest>;
 
 export type ListReportTypeResponseBodyList = Array<string>;
 export const ListReportTypeResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3074,16 +2895,12 @@ export const ListReportTypeResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListReportTypeResponse = ListReportTypeResponseBodyList;
 export const ListReportTypeResponse = /*@__PURE__*/ S.suspend(() =>
   ListReportTypeResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListReportTypeResponse",
-}) as any as S.Schema<ListReportTypeResponse>;
+).annotate({ identifier: "ListReportTypeResponse" }) as any as S.Schema<ListReportTypeResponse>;
 
 export interface ListSideTypeRequest {}
 export const ListSideTypeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/tag/side_type", code: 200 })),
-).annotate({
-  identifier: "ListSideTypeRequest",
-}) as any as S.Schema<ListSideTypeRequest>;
+).annotate({ identifier: "ListSideTypeRequest" }) as any as S.Schema<ListSideTypeRequest>;
 
 export type ListSideTypeResponseBodyList = Array<string>;
 export const ListSideTypeResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3093,16 +2910,12 @@ export const ListSideTypeResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSideTypeResponse = ListSideTypeResponseBodyList;
 export const ListSideTypeResponse = /*@__PURE__*/ S.suspend(() =>
   ListSideTypeResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSideTypeResponse",
-}) as any as S.Schema<ListSideTypeResponse>;
+).annotate({ identifier: "ListSideTypeResponse" }) as any as S.Schema<ListSideTypeResponse>;
 
 export interface ListVersionRequest {}
 export const ListVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/tag/game_version", code: 200 })),
-).annotate({
-  identifier: "ListVersionRequest",
-}) as any as S.Schema<ListVersionRequest>;
+).annotate({ identifier: "ListVersionRequest" }) as any as S.Schema<ListVersionRequest>;
 
 /** The type of the game version */
 export type GameVersionTagVersionType = "release" | "snapshot" | "alpha" | "beta";
@@ -3135,9 +2948,7 @@ export const ListVersionResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListVersionResponse = ListVersionResponseBodyList;
 export const ListVersionResponse = /*@__PURE__*/ S.suspend(() =>
   ListVersionResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListVersionResponse",
-}) as any as S.Schema<ListVersionResponse>;
+).annotate({ identifier: "ListVersionResponse" }) as any as S.Schema<ListVersionResponse>;
 
 export interface ModifyGalleryImageRequest {
   /** The ID or slug of the project */
@@ -3285,9 +3096,7 @@ export const ModifyProjectRequest = /*@__PURE__*/ S.suspend(() =>
     moderation_message: S.optional(S.NullOr(S.String)),
     moderation_message_body: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/project/{id_slug}", code: 200 })),
-).annotate({
-  identifier: "ModifyProjectRequest",
-}) as any as S.Schema<ModifyProjectRequest>;
+).annotate({ identifier: "ModifyProjectRequest" }) as any as S.Schema<ModifyProjectRequest>;
 
 export interface ModifyProjectResponse {}
 export const ModifyProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3308,9 +3117,7 @@ export const ModifyReportRequest = /*@__PURE__*/ S.suspend(() =>
     body: S.optional(S.String),
     closed: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PATCH", uri: "/report/{id}", code: 200 })),
-).annotate({
-  identifier: "ModifyReportRequest",
-}) as any as S.Schema<ModifyReportRequest>;
+).annotate({ identifier: "ModifyReportRequest" }) as any as S.Schema<ModifyReportRequest>;
 
 export interface ModifyReportResponse {}
 export const ModifyReportResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3338,16 +3145,8 @@ export const ModifyTeamMemberRequest = /*@__PURE__*/ S.suspend(() =>
     permissions: S.optional(S.Number),
     payouts_split: S.optional(S.Number),
     ordering: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/team/{id}/members/{id_username}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ModifyTeamMemberRequest",
-}) as any as S.Schema<ModifyTeamMemberRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/team/{id}/members/{id_username}", code: 200 })),
+).annotate({ identifier: "ModifyTeamMemberRequest" }) as any as S.Schema<ModifyTeamMemberRequest>;
 
 export interface ModifyTeamMemberResponse {}
 export const ModifyTeamMemberResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3376,9 +3175,7 @@ export const ModifyUserRequest = /*@__PURE__*/ S.suspend(() =>
     bio: S.optional(S.String),
     payout_data: S.optional(S.NullOr(UserPayoutData)),
   }).pipe(T.Http({ method: "PATCH", uri: "/user/{id_username}", code: 200 })),
-).annotate({
-  identifier: "ModifyUserRequest",
-}) as any as S.Schema<ModifyUserRequest>;
+).annotate({ identifier: "ModifyUserRequest" }) as any as S.Schema<ModifyUserRequest>;
 
 export interface ModifyUserResponse {}
 export const ModifyUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3473,9 +3270,7 @@ export const ModifyVersionRequest = /*@__PURE__*/ S.suspend(() =>
     primary_file: S.optional(ModifyVersionRequestPrimaryFileList),
     file_types: S.optional(ModifyVersionRequestFileTypesList),
   }).pipe(T.Http({ method: "PATCH", uri: "/version/{id}", code: 200 })),
-).annotate({
-  identifier: "ModifyVersionRequest",
-}) as any as S.Schema<ModifyVersionRequest>;
+).annotate({ identifier: "ModifyVersionRequest" }) as any as S.Schema<ModifyVersionRequest>;
 
 export interface ModifyVersionResponse {}
 export const ModifyVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3490,9 +3285,7 @@ export const RandomProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     count: S.Number.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/projects_random", code: 200 })),
-).annotate({
-  identifier: "RandomProjectsRequest",
-}) as any as S.Schema<RandomProjectsRequest>;
+).annotate({ identifier: "RandomProjectsRequest" }) as any as S.Schema<RandomProjectsRequest>;
 
 export type RandomProjectsResponseBodyList = Array<Project>;
 export const RandomProjectsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3502,9 +3295,7 @@ export const RandomProjectsResponseBodyList = /*@__PURE__*/ S.Array(
 export type RandomProjectsResponse = RandomProjectsResponseBodyList;
 export const RandomProjectsResponse = /*@__PURE__*/ S.suspend(() =>
   RandomProjectsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RandomProjectsResponse",
-}) as any as S.Schema<RandomProjectsResponse>;
+).annotate({ identifier: "RandomProjectsResponse" }) as any as S.Schema<RandomProjectsResponse>;
 
 export interface ReadNotificationRequest {
   /** The ID of the notification */
@@ -3514,9 +3305,7 @@ export const ReadNotificationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "PATCH", uri: "/notification/{id}", code: 200 })),
-).annotate({
-  identifier: "ReadNotificationRequest",
-}) as any as S.Schema<ReadNotificationRequest>;
+).annotate({ identifier: "ReadNotificationRequest" }) as any as S.Schema<ReadNotificationRequest>;
 
 export interface ReadNotificationResponse {}
 export const ReadNotificationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3531,9 +3320,7 @@ export const ReadNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ids: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "PATCH", uri: "/notifications", code: 200 })),
-).annotate({
-  identifier: "ReadNotificationsRequest",
-}) as any as S.Schema<ReadNotificationsRequest>;
+).annotate({ identifier: "ReadNotificationsRequest" }) as any as S.Schema<ReadNotificationsRequest>;
 
 export interface ReadNotificationsResponse {}
 export const ReadNotificationsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3562,9 +3349,7 @@ export const ScheduleProjectRequest = /*@__PURE__*/ S.suspend(() =>
     time: S.String,
     requested_status: ScheduleProjectRequestRequestedStatus,
   }).pipe(T.Http({ method: "POST", uri: "/project/{id_slug}/schedule", code: 200 })),
-).annotate({
-  identifier: "ScheduleProjectRequest",
-}) as any as S.Schema<ScheduleProjectRequest>;
+).annotate({ identifier: "ScheduleProjectRequest" }) as any as S.Schema<ScheduleProjectRequest>;
 
 export interface ScheduleProjectResponse {}
 export const ScheduleProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3593,9 +3378,7 @@ export const ScheduleVersionRequest = /*@__PURE__*/ S.suspend(() =>
     time: S.String,
     requested_status: ScheduleVersionRequestRequestedStatus,
   }).pipe(T.Http({ method: "POST", uri: "/version/{id}/schedule", code: 200 })),
-).annotate({
-  identifier: "ScheduleVersionRequest",
-}) as any as S.Schema<ScheduleVersionRequest>;
+).annotate({ identifier: "ScheduleVersionRequest" }) as any as S.Schema<ScheduleVersionRequest>;
 
 export interface ScheduleVersionResponse {}
 export const ScheduleVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3613,7 +3396,7 @@ export const SearchProjectsRequestIndex = S.String;
 export interface SearchProjectsRequest {
   /** The query to search for */
   query?: string;
-  /** Facets are an essential concept for understanding how to filter out results. These are the most commonly used facet types: - `project_type` - `all_project_types` (matches against every project type across all of the project's versions, not just the primary/version-specific type) - `categories` (loaders are lumped in with categories in search) - `versions` - `open_source` - `environment` (one of the following values) - `client_and_server` - `client_only` - `client_only_server_optional` - `singleplayer_only` - `server_only` - `server_only_client_optional` - `dedicated_server_only` - `client_or_server` - `client_or_server_prefers_both` - `unknown` - `disclosure_types` (list of any of the following values) - `ai_content` - `ai_content_code` - `ai_content_assets` - `ai_content_text` - `ai_content_functionality` - `advertisements` - `epilepsy_triggers` - `system_interactions` - `telemetry` - `telemetry_opt_in` - `telemetry_opt_out` - `telemetry_always_active` - `derivative_work` - `paid_features` - `archived` - `client_side` (deprecated - use `environment` instead) - `server_side` (deprecated - use `environment` instead) Several others are also available for use, though these should not be used outside very specific use cases. - `title` - `author` - `follows` - `project_id` - `license` - `downloads` - `created_timestamp` (uses Unix timestamp) - `modified_timestamp` (uses Unix timestamp) In order to then use these facets, you need a value to filter by, as well as an operation to perform on this value. The most common operation is `:` (same as `=`), though you can also use `!=`, `>=`, `>`, `<=`, and `<`. Join together the type, operation, and value, and you've got your string. ``` {type} {operation} {value} ``` Examples: ``` categories = adventure versions != 1.20.1 downloads <= 100 ``` You then join these strings together in arrays to signal `AND` and `OR` operators. ##### OR All elements in a single array are considered to be joined by OR statements. For example, the search `[["versions:1.16.5", "versions:1.17.1"]]` translates to `Projects that support 1.16.5 OR 1.17.1`. ##### AND Separate arrays are considered to be joined by AND statements. For example, the search `[["versions:1.16.5"], ["project_type:modpack"]]` translates to `Projects that support 1.16.5 AND are modpacks`. */
+  /** Facets are an essential concept for understanding how to filter out results. These are the most commonly used facet types: - `project_type` - `all_project_types` (matches against every project type across all of the project's versions, not just the primary/version-specific type) - `categories` (loaders are lumped in with categories in search) - `versions` - `open_source` - `environment` (one of the following values) - `client_and_server` - `client_only` - `client_only_server_optional` - `singleplayer_only` - `server_only` - `server_only_client_optional` - `dedicated_server_only` - `client_or_server` - `client_or_server_prefers_both` - `unknown` - `disclosure_types` (list of any of the following values) - `ai_content` - `ai_content_code` - `ai_content_assets` - `ai_content_text` - `ai_functionality` - `advertisements` - `epilepsy_triggers` - `system_interactions` - `telemetry` - `telemetry_opt_in` - `telemetry_opt_out` - `telemetry_always_active` - `derivative_work` - `paid_features` - `archived` - `client_side` (deprecated - use `environment` instead) - `server_side` (deprecated - use `environment` instead) Several others are also available for use, though these should not be used outside very specific use cases. - `title` - `author` - `follows` - `project_id` - `license` - `downloads` - `created_timestamp` (uses Unix timestamp) - `modified_timestamp` (uses Unix timestamp) In order to then use these facets, you need a value to filter by, as well as an operation to perform on this value. The most common operation is `:` (same as `=`), though you can also use `!=`, `>=`, `>`, `<=`, and `<`. Join together the type, operation, and value, and you've got your string. ``` {type} {operation} {value} ``` Examples: ``` categories = adventure versions != 1.20.1 downloads <= 100 ``` You then join these strings together in arrays to signal `AND` and `OR` operators. ##### OR All elements in a single array are considered to be joined by OR statements. For example, the search `[["versions:1.16.5", "versions:1.17.1"]]` translates to `Projects that support 1.16.5 OR 1.17.1`. ##### AND Separate arrays are considered to be joined by AND statements. For example, the search `[["versions:1.16.5"], ["project_type:modpack"]]` translates to `Projects that support 1.16.5 AND are modpacks`. */
   facets?: string;
   /** The sorting method used for sorting search results */
   index?: SearchProjectsRequestIndex | (string & {});
@@ -3630,9 +3413,7 @@ export const SearchProjectsRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/search", code: 200 })),
-).annotate({
-  identifier: "SearchProjectsRequest",
-}) as any as S.Schema<SearchProjectsRequest>;
+).annotate({ identifier: "SearchProjectsRequest" }) as any as S.Schema<SearchProjectsRequest>;
 
 /** The project type of the project */
 export type ProjectResultProjectType = "mod" | "modpack" | "resourcepack" | "shader";
@@ -3682,7 +3463,7 @@ export type DisclosureTypeEnum =
   | "ai_content_code"
   | "ai_content_assets"
   | "ai_content_text"
-  | "ai_content_functionality"
+  | "ai_functionality"
   | "advertisements"
   | "epilepsy_triggers"
   | "system_interactions"
@@ -3886,16 +3667,12 @@ export const SendThreadMessageRequest = /*@__PURE__*/ S.suspend(() =>
     old_status: S.optional(SendThreadMessageRequestOldStatus),
     new_status: S.optional(SendThreadMessageRequestNewStatus),
   }).pipe(T.Http({ method: "POST", uri: "/thread/{id}", code: 200 })),
-).annotate({
-  identifier: "SendThreadMessageRequest",
-}) as any as S.Schema<SendThreadMessageRequest>;
+).annotate({ identifier: "SendThreadMessageRequest" }) as any as S.Schema<SendThreadMessageRequest>;
 
 export interface Statistics2Request {}
 export const Statistics2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/statistics", code: 200 })),
-).annotate({
-  identifier: "Statistics2Request",
-}) as any as S.Schema<Statistics2Request>;
+).annotate({ identifier: "Statistics2Request" }) as any as S.Schema<Statistics2Request>;
 
 export interface Statistics {
   /** Number of projects on Modrinth */
@@ -3937,9 +3714,7 @@ export const SubmitReportRequest = /*@__PURE__*/ S.suspend(() =>
     item_type: SubmitReportRequestItemType,
     body: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/report", code: 200 })),
-).annotate({
-  identifier: "SubmitReportRequest",
-}) as any as S.Schema<SubmitReportRequest>;
+).annotate({ identifier: "SubmitReportRequest" }) as any as S.Schema<SubmitReportRequest>;
 
 /** The type of the item being reported */
 export type SubmitReportResponseItemType = "project" | "user" | "version";
@@ -3977,9 +3752,7 @@ export const SubmitReportResponse = /*@__PURE__*/ S.suspend(() =>
     closed: S.Boolean,
     thread_id: S.String,
   }),
-).annotate({
-  identifier: "SubmitReportResponse",
-}) as any as S.Schema<SubmitReportResponse>;
+).annotate({ identifier: "SubmitReportResponse" }) as any as S.Schema<SubmitReportResponse>;
 
 export interface TransferTeamOwnershipRequest {
   /** The ID of the team */
@@ -4008,9 +3781,7 @@ export const UnfollowProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_slug: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/project/{id_slug}/follow", code: 200 })),
-).annotate({
-  identifier: "UnfollowProjectRequest",
-}) as any as S.Schema<UnfollowProjectRequest>;
+).annotate({ identifier: "UnfollowProjectRequest" }) as any as S.Schema<UnfollowProjectRequest>;
 
 export interface UnfollowProjectResponse {}
 export const UnfollowProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4118,9 +3889,7 @@ export const UpdateProjectsRequest = /*@__PURE__*/ S.suspend(() =>
     wiki_url: S.optional(S.NullOr(S.String)),
     discord_url: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/projects", code: 200 })),
-).annotate({
-  identifier: "UpdateProjectsRequest",
-}) as any as S.Schema<UpdateProjectsRequest>;
+).annotate({ identifier: "UpdateProjectsRequest" }) as any as S.Schema<UpdateProjectsRequest>;
 
 export interface UpdateProjectsResponse {}
 export const UpdateProjectsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4144,9 +3913,7 @@ export const VersionFromHashRequest = /*@__PURE__*/ S.suspend(() =>
     algorithm: VersionFromHashRequestAlgorithm.pipe(T.Query()),
     multiple: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/version_file/{hash}", code: 200 })),
-).annotate({
-  identifier: "VersionFromHashRequest",
-}) as any as S.Schema<VersionFromHashRequest>;
+).annotate({ identifier: "VersionFromHashRequest" }) as any as S.Schema<VersionFromHashRequest>;
 
 /** A list of specific versions of projects that this version depends on */
 export type VersionFromHashResponseDependenciesList = Array<VersionDependency>;
@@ -4243,9 +4010,7 @@ export const VersionFromHashResponse = /*@__PURE__*/ S.suspend(() =>
     environment: EnvironmentEnum,
     files: VersionFromHashResponseFilesList,
   }),
-).annotate({
-  identifier: "VersionFromHashResponse",
-}) as any as S.Schema<VersionFromHashResponse>;
+).annotate({ identifier: "VersionFromHashResponse" }) as any as S.Schema<VersionFromHashResponse>;
 
 export type VersionsFromHashesRequestHashesList = Array<string>;
 export const VersionsFromHashesRequestHashesList = /*@__PURE__*/ S.Array(
@@ -4286,9 +4051,7 @@ export const WithdrawPayoutRequest = /*@__PURE__*/ S.suspend(() =>
     id_username: S.String.pipe(T.Label()),
     amount: S.Number.pipe(T.Query()),
   }).pipe(T.Http({ method: "POST", uri: "/user/{id_username}/payouts", code: 200 })),
-).annotate({
-  identifier: "WithdrawPayoutRequest",
-}) as any as S.Schema<WithdrawPayoutRequest>;
+).annotate({ identifier: "WithdrawPayoutRequest" }) as any as S.Schema<WithdrawPayoutRequest>;
 
 export interface WithdrawPayoutResponse {}
 export const WithdrawPayoutResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
