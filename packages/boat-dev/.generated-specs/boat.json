@@ -18,9 +18,80 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.boat.api#GetCurrentUserResponseUserConnectionMethod": {
+      "type": "enum",
+      "members": {
+        "GITHUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "github"
+          }
+        },
+        "GOOGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "google"
+          }
+        },
+        "EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email"
+          }
+        },
+        "SERVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "service"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The login method the account was created with."
+      }
+    },
+    "com.boat.api#GetCurrentUserResponseUserConnectionMethodsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every login method linked to the account."
+      }
+    },
+    "com.boat.api#GetCurrentUserResponseUserAccountStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "SUSPENDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "suspended"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.boat.api#GetCurrentUserResponseUser": {
       "type": "structure",
       "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your account id."
+          }
+        },
         "login": {
           "target": "smithy.api#String"
         },
@@ -28,6 +99,74 @@
           "target": "smithy.api#String",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String"
+        },
+        "connectionMethod": {
+          "target": "com.boat.api#GetCurrentUserResponseUserConnectionMethod",
+          "traits": {
+            "smithy.api#documentation": "The login method the account was created with."
+          }
+        },
+        "connectionMethods": {
+          "target": "com.boat.api#GetCurrentUserResponseUserConnectionMethodsList",
+          "traits": {
+            "smithy.api#documentation": "Every login method linked to the account."
+          }
+        },
+        "accountPlan": {
+          "target": "smithy.api#String"
+        },
+        "serviceAccount": {
+          "target": "smithy.api#Boolean"
+        },
+        "accountStatus": {
+          "target": "com.boat.api#GetCurrentUserResponseUserAccountStatus"
+        },
+        "suspended": {
+          "target": "smithy.api#Boolean"
+        },
+        "suspendedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "suspendedReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "closed": {
+          "target": "smithy.api#Boolean"
+        },
+        "closedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "purgeAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When a closed account's data is scheduled for deletion.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "purgedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When a closed account's data was deleted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "closureContactEmail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Address to contact about a suspended or closed account."
           }
         },
         "zeroDataRetention": {
@@ -89,6 +228,264 @@
         "smithy.api#documentation": "Get current Boat user\n\nReturns GitHub identity for the authenticated Boat account."
       }
     },
+    "com.boat.api#Org": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your account id for the personal row, `team_…` for an organization.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Accepted wherever an org is passed, like the id.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.boat.api#OrgType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "com.boat.api#OrgRole",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "memberCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subscriptionStatus": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stripe status of the organization's plan; absent on the personal row."
+          }
+        },
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The wallet new sandboxes bill when a request names none.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.boat.api#OrgType": {
+      "type": "enum",
+      "members": {
+        "PERSONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "personal"
+          }
+        },
+        "ORG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "org"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.boat.api#OrgRole": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "MEMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.boat.api#ListOrganizationsResponseOrgsList": {
+      "type": "list",
+      "member": {
+        "target": "com.boat.api#Org"
+      },
+      "traits": {}
+    },
+    "com.boat.api#ListOrganizationsResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable success envelope discriminator added by v1.",
+            "smithy.api#required": {}
+          }
+        },
+        "activeWalletChosen": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this account ever set its active wallet. `false` means personal by default, never a choice.",
+            "smithy.api#required": {}
+          }
+        },
+        "orgs": {
+          "target": "com.boat.api#ListOrganizationsResponseOrgsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.boat.api#ListOrganizations": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.boat.api#ListOrganizationsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/orgs",
+          "code": 200
+        },
+        "smithy.api#documentation": "List organizations\n\nThe wallets this account can bill: your personal account first, then every organization you belong to, each with its id and name. Either spelling works wherever an org is passed (`org`, `X-Boat-Org`, `teamId`). `active` marks the wallet new sandboxes bill when a request names none; change it with `PATCH /orgs/active`."
+      }
+    },
+    "com.boat.api#SetActiveOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization id or name you belong to; `personal`, your own id or `null` for personal.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.boat.api#SetActiveOrganizationResponseActiveType": {
+      "type": "enum",
+      "members": {
+        "PERSONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "personal"
+          }
+        },
+        "ORG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "org"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.boat.api#SetActiveOrganizationResponseActive": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.boat.api#SetActiveOrganizationResponseActiveType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.boat.api#SetActiveOrganizationResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable success envelope discriminator added by v1.",
+            "smithy.api#required": {}
+          }
+        },
+        "active": {
+          "target": "com.boat.api#SetActiveOrganizationResponseActive",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.boat.api#SetActiveOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.boat.api#SetActiveOrganizationRequest"
+      },
+      "output": {
+        "target": "com.boat.api#SetActiveOrganizationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.boat.api#BadRequest"
+        },
+        {
+          "target": "com.boat.api#Forbidden"
+        },
+        {
+          "target": "com.boat.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/orgs/active",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set the active organization\n\nSet the wallet new sandboxes bill when a request names none, for this account on every client: the API, the CLI (`boat org switch` sets the same value) and the dashboard. Pass an organization id or name you belong to, or `personal` (or `null`) for your own account. `GET /limits` follows it. Sandboxes already running keep the wallet they were created with; leaving or deleting the organization resets the account to personal."
+      }
+    },
     "com.boat.api#GetDataRetentionResponse": {
       "type": "structure",
       "members": {
@@ -129,6 +526,18 @@
           "traits": {
             "smithy.api#documentation": "Always true on updates. Disabling the policy does not cancel accepted deletion operations."
           }
+        },
+        "snapshotsOff": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, every new sandbox of this account is created with snapshots off."
+          }
+        },
+        "snapshotsOffAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
@@ -161,9 +570,12 @@
       "type": "structure",
       "members": {
         "enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "snapshotsOff": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Turn snapshots off for every sandbox created from now on. Existing sandboxes keep their setting. While on, a create or fork that passes `snapshots: true` is refused with 409 `snapshots_off_for_account`."
           }
         },
         "confirmation": {
@@ -216,6 +628,18 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Always true on updates. Disabling the policy does not cancel accepted deletion operations."
+          }
+        },
+        "snapshotsOff": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, every new sandbox of this account is created with snapshots off."
+          }
+        },
+        "snapshotsOffAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -298,6 +722,19 @@
           "target": "com.boat.api#DeletionOperationStatus",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "stage": {
+          "target": "com.boat.api#DeletionOperationStage",
+          "traits": {
+            "smithy.api#documentation": "What the background purge is doing. The target is already gone from every list, restore and fork once the operation exists. `waiting_for_uploads`: stored data is erased once the last upload URL issued for it expires (`expectedBy`). `kept_for_newer_snapshots`: a newer snapshot you kept is built on this one; its data goes when they go. `waiting_for_restore`: a sandbox is still restoring from it. `retrying`: a transient fault, retried automatically."
+          }
+        },
+        "expectedBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When `waiting_for_uploads` ends.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "attemptCount": {
@@ -394,6 +831,50 @@
       },
       "traits": {}
     },
+    "com.boat.api#DeletionOperationStage": {
+      "type": "enum",
+      "members": {
+        "REMOVING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "removing"
+          }
+        },
+        "WAITING_FOR_UPLOADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waiting_for_uploads"
+          }
+        },
+        "KEPT_FOR_NEWER_SNAPSHOTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kept_for_newer_snapshots"
+          }
+        },
+        "WAITING_FOR_RESTORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waiting_for_restore"
+          }
+        },
+        "RETRYING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "retrying"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What the background purge is doing. The target is already gone from every list, restore and fork once the operation exists. `waiting_for_uploads`: stored data is erased once the last upload URL issued for it expires (`expectedBy`). `kept_for_newer_snapshots`: a newer snapshot you kept is built on this one; its data goes when they go. `waiting_for_restore`: a sandbox is still restoring from it. `retrying`: a transient fault, retried automatically."
+      }
+    },
     "com.boat.api#GetDeletionOperationResponse": {
       "type": "structure",
       "members": {
@@ -450,7 +931,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "org",
-            "smithy.api#documentation": "Billing wallet for this request. A team id you belong to reads that team's limits / bills a create to that team. Your own account id is personal. Sandboxes, snapshots, and environments stay creator-private."
+            "smithy.api#documentation": "Billing wallet for this request: an organization you belong to, by id (`team_…`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes, snapshots, and environments stay creator-private."
           }
         },
         "teamId": {
@@ -634,6 +1115,87 @@
       },
       "traits": {}
     },
+    "com.boat.api#GetLimitsResponseSandboxPlanTiersItem": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "dollars": {
+          "target": "smithy.api#Double"
+        },
+        "displayPrice": {
+          "target": "smithy.api#String"
+        },
+        "maxActiveSandboxes": {
+          "target": "smithy.api#Integer"
+        },
+        "startsPerMinute": {
+          "target": "smithy.api#Integer"
+        },
+        "startsPerHour": {
+          "target": "smithy.api#Integer"
+        },
+        "startsPerDay": {
+          "target": "smithy.api#Integer"
+        },
+        "includedSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Machine time included each month."
+          }
+        },
+        "purchasable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this tier can be bought right now."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.boat.api#GetLimitsResponseSandboxPlanTiersList": {
+      "type": "list",
+      "member": {
+        "target": "com.boat.api#GetLimitsResponseSandboxPlanTiersItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every plan tier and its limits."
+      }
+    },
+    "com.boat.api#GetLimitsResponseGiftLimit": {
+      "type": "structure",
+      "members": {
+        "maxActiveSandboxes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxTtlSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The caps in one readable line.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The same text shown when a cap is hit."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Fair-use caps on a gifted account, or null when there are none."
+      }
+    },
     "com.boat.api#GetLimitsResponse": {
       "type": "structure",
       "members": {
@@ -776,6 +1338,83 @@
         "creditSecondsPerDollar": {
           "target": "smithy.api#Integer"
         },
+        "sandboxPlanKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current plan key, or `trial` before any payment."
+          }
+        },
+        "sandboxPlanDollars": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Monthly price of the current plan in dollars."
+          }
+        },
+        "sandboxPlanTiers": {
+          "target": "com.boat.api#GetLimitsResponseSandboxPlanTiersList",
+          "traits": {
+            "smithy.api#documentation": "Every plan tier and its limits."
+          }
+        },
+        "accountPlan": {
+          "target": "smithy.api#String"
+        },
+        "plan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "`service` for service accounts, otherwise null.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "planName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "`Service` for service accounts, otherwise null.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "serviceAccount": {
+          "target": "smithy.api#Boolean"
+        },
+        "unlimited": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the account has no machine-time or start limits."
+          }
+        },
+        "hasSeatPlan": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when an organization has an active per-seat plan."
+          }
+        },
+        "last24hUsageSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Machine time used in the last 24 hours, in seconds. Useful to estimate how long the balance lasts."
+          }
+        },
+        "trialComputeCapSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Lifetime machine-time allowance for a trial that never paid. Null once the account has paid or has a plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trialLine": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The trial limits in one readable line. Null on paid accounts.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "giftLimit": {
+          "target": "com.boat.api#GetLimitsResponseGiftLimit",
+          "traits": {
+            "smithy.api#documentation": "Fair-use caps on a gifted account, or null when there are none.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "billingStatus": {
           "target": "smithy.api#String",
           "traits": {
@@ -841,7 +1480,7 @@
           "uri": "/limits",
           "code": 200
         },
-        "smithy.api#documentation": "Get Boat limits\n\nCheck remaining machine starts, compute time, credits, access readiness, and concurrent-sandbox capacity for the authenticated account. Pass `org` / `X-Boat-Org` (or `teamId`) to read a team wallet you belong to."
+        "smithy.api#documentation": "Get Boat limits\n\nCheck remaining machine starts, compute time, credits, access readiness, and concurrent-sandbox capacity for the wallet a create would bill: the `org` / `X-Boat-Org` you pass (id or name), else the account's active wallet, else personal. The response carries `teamId` when an organization wallet was read."
       }
     },
     "com.boat.api#ListReposRequestSort": {
@@ -954,6 +1593,15 @@
         "fullName": {
           "target": "smithy.api#String"
         },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String"
+        },
         "private": {
           "target": "smithy.api#Boolean"
         },
@@ -963,6 +1611,13 @@
         "pushedAt": {
           "target": "smithy.api#String",
           "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lastUserCommitAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reserved; always null.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -1004,6 +1659,15 @@
         "fullName": {
           "target": "smithy.api#String"
         },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String"
+        },
         "private": {
           "target": "smithy.api#Boolean"
         },
@@ -1013,6 +1677,13 @@
         "pushedAt": {
           "target": "smithy.api#String",
           "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lastUserCommitAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reserved; always null.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1092,6 +1763,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "subenvironmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the default environment. `environmentId` is the id of its latest version.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "selectedRepositories": {
@@ -1181,6 +1859,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "subenvironmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the default environment. `environmentId` is the id of its new version.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "selectedRepositories": {
@@ -2360,6 +3045,18 @@
           "traits": {
             "smithy.api#enumValue": "sandbox.hydrated"
           }
+        },
+        "SANDBOX_DEGRADED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sandbox.degraded"
+          }
+        },
+        "SANDBOX_RECOVERED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sandbox.recovered"
+          }
         }
       },
       "traits": {}
@@ -2867,6 +3564,12 @@
             "smithy.api#required": {}
           }
         },
+        "subenvironmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the default environment. `environmentId` is the id of its latest version."
+          }
+        },
         "envContents": {
           "target": "smithy.api#String",
           "traits": {
@@ -2980,6 +3683,12 @@
             "smithy.api#required": {}
           }
         },
+        "subenvironmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the default environment. `environmentId` is the id of its latest version."
+          }
+        },
         "envContents": {
           "target": "smithy.api#String",
           "traits": {
@@ -3023,6 +3732,12 @@
     "com.boat.api#SandboxEnvironmentListResponse": {
       "type": "structure",
       "members": {
+        "ok": {
+          "target": "smithy.api#Boolean"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
         "environments": {
           "target": "com.boat.api#SandboxEnvironmentListResponseEnvironmentsList",
           "traits": {
@@ -3058,6 +3773,19 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "latestVersionNumber": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of the latest version, 0 when there is none."
+          }
+        },
+        "safetyAnsweredAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the owner last answered whether this environment is safe for third parties, or null if never asked.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -3472,10 +4200,28 @@
             "smithy.api#required": {}
           }
         },
+        "upgradedLive": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Running sandboxes that received the new configuration now."
+          }
+        },
+        "upgradedStopped": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Stopped sandboxes moved to the latest version; they pick it up when they next resume."
+          }
+        },
         "failed": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "latestVersionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the version the sandboxes were moved to."
           }
         }
       },
@@ -3838,6 +4584,13 @@
     "com.boat.api#ListSandboxesRequest": {
       "type": "structure",
       "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "org",
+            "smithy.api#documentation": "Billing wallet for this request: an organization you belong to, by id (`team_…`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes, snapshots, and environments stay creator-private."
+          }
+        },
         "limit": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -3865,6 +4618,13 @@
             "smithy.api#httpQuery": "state",
             "smithy.api#documentation": "Comma-separated sandbox state filter, for example `ready,idle,running`."
           }
+        },
+        "xBoatOrg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Boat-Org",
+            "smithy.api#documentation": "Same as the `org` query parameter. Query wins when both are set."
+          }
         }
       },
       "traits": {
@@ -3889,13 +4649,41 @@
         "state": {
           "target": "com.boat.api#SandboxState",
           "traits": {
+            "smithy.api#documentation": "`cancelled` is terminal: a create or fork that could not get a machine was removed. `GET /sandboxes/{sandboxId}` reports it once, with only `id`, `state` and `error`, then answers 404.",
             "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the sandbox is stopped, failed or cancelled, or null.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "health": {
+          "target": "com.boat.api#SandboxHealth",
+          "traits": {
+            "smithy.api#documentation": "`degraded` when the machine is alive but Boat cannot fully reach it (for example a firewall rule inside the sandbox blocks the tunnel). The sandbox keeps running."
+          }
+        },
+        "healthReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the sandbox is degraded, or null.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "degradedSince": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the sandbox became degraded, or null.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "type": {
           "target": "com.boat.api#SandboxType",
           "traits": {
-            "smithy.api#documentation": "Current machine size: what the sandbox was created with, or the size it was last resumed or forked onto. Legacy bare-metal sandboxes read as `default`."
+            "smithy.api#documentation": "Current machine size: what the sandbox was created with, or the size it was last resumed or forked onto."
           }
         },
         "vcpu": {
@@ -3913,7 +4701,14 @@
         "billingMultiplier": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Rate at which this sandbox consumes machine time. 0.5 for `small`, 1 for `default`, 2 for `large`, and 50/9 for `xlarge`."
+            "smithy.api#documentation": "Rate at which this sandbox consumes machine time. 0.5 for `small`, 1 for `default`, and 2 for `large`."
+          }
+        },
+        "machineProvider": {
+          "target": "com.boat.api#SandboxMachineProvider",
+          "traits": {
+            "smithy.api#documentation": "Machine provider of the machine the sandbox is on, or null when it has no machine.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "url": {
@@ -3927,6 +4722,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Machine IPv6 or IPv4 address when assigned.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sshEndpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public IPv4 `host:port` that forwards to the sandbox SSH server. Set only when the machine has no public IPv4 of its own; null otherwise. Connect with `ssh -p <port> user@<host>`.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -3962,6 +4764,12 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "snapshots": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "False when the sandbox was created with snapshots off."
+          }
+        },
         "snapshotAvailable": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -3973,6 +4781,52 @@
           "traits": {
             "smithy.api#documentation": "Timestamp of the most recent successfully completed snapshot, or null.",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "snapshotVerifiedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last time a snapshot confirmed the sandbox's saved state, including checks that found nothing new to save. Falls back to `snapshotCompletedAt`; null if never.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "team": {
+          "target": "com.boat.api#SandboxTeam",
+          "traits": {
+            "smithy.api#documentation": "The organization billed for this sandbox, or null when the owner is billed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name (or email) of the person who created the sandbox. Organization members see every sandbox the organization pays for, so this says whose it is.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "createdById": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account id of the person who created the sandbox.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "access": {
+          "target": "com.boat.api#SandboxAccess",
+          "traits": {
+            "smithy.api#documentation": "What you may do with this sandbox. `owner`: you created it. `use`: a teammate's organization sandbox that is `noEnv` (created with it, or shared and restarted), so you can open, run commands in, prompt, resume and stop it. `view`: a teammate's organization sandbox that still holds their personal logins, so you can see it and stop it until they share it (`POST /sandboxes/{sandboxId}/share`)."
+          }
+        },
+        "holdsCreatorLogins": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True while the sandbox still holds its creator's personal logins (GitHub token, model logins, secrets). Other members can only see such a sandbox."
+          }
+        },
+        "wipePendingUntilRestart": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True once the sandbox is shared but not restarted yet. Its creator's logins are wiped at its next start, and the organization can use it from then on."
           }
         },
         "subdomain": {
@@ -4089,9 +4943,37 @@
           "traits": {
             "smithy.api#enumValue": "error"
           }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "`cancelled` is terminal: a create or fork that could not get a machine was removed. `GET /sandboxes/{sandboxId}` reports it once, with only `id`, `state` and `error`, then answers 404."
+      }
+    },
+    "com.boat.api#SandboxHealth": {
+      "type": "enum",
+      "members": {
+        "OK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ok"
+          }
+        },
+        "DEGRADED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "degraded"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`degraded` when the machine is alive but Boat cannot fully reach it (for example a firewall rule inside the sandbox blocks the tunnel). The sandbox keeps running."
+      }
     },
     "com.boat.api#SandboxType": {
       "type": "enum",
@@ -4113,16 +4995,76 @@
           "traits": {
             "smithy.api#enumValue": "large"
           }
-        },
-        "XLARGE": {
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current machine size: what the sandbox was created with, or the size it was last resumed or forked onto."
+      }
+    },
+    "com.boat.api#SandboxMachineProvider": {
+      "type": "enum",
+      "members": {
+        "HETZNER": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "xlarge"
+            "smithy.api#enumValue": "hetzner"
+          }
+        },
+        "BAREMETAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "baremetal"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Current machine size: what the sandbox was created with, or the size it was last resumed or forked onto. Legacy bare-metal sandboxes read as `default`."
+        "smithy.api#documentation": "Machine provider of the machine the sandbox is on, or null when it has no machine."
+      }
+    },
+    "com.boat.api#SandboxTeam": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The organization billed for this sandbox, or null when the owner is billed."
+      }
+    },
+    "com.boat.api#SandboxAccess": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "USE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "use"
+          }
+        },
+        "VIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "view"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What you may do with this sandbox. `owner`: you created it. `use`: a teammate's organization sandbox that is `noEnv` (created with it, or shared and restarted), so you can open, run commands in, prompt, resume and stop it. `view`: a teammate's organization sandbox that still holds their personal logins, so you can see it and stop it until they share it (`POST /sandboxes/{sandboxId}/share`)."
       }
     },
     "com.boat.api#SandboxLastSnapshotStatus": {
@@ -4246,7 +5188,7 @@
           "uri": "/sandboxes",
           "code": 200
         },
-        "smithy.api#documentation": "List sandboxes"
+        "smithy.api#documentation": "List sandboxes\n\nYour sandboxes. In an organization's scope (the active wallet, `org`, or `X-Boat-Org`) the list also holds every sandbox that organization pays for, whoever created it; `createdBy` and `access` say whose it is and what you may do with it."
       }
     },
     "com.boat.api#CreateSandboxRequestType": {
@@ -4269,16 +5211,10 @@
           "traits": {
             "smithy.api#enumValue": "large"
           }
-        },
-        "XLARGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "xlarge"
-          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Machine size. `small` consumes machine time at half rate and `large` at twice the default rate (see the Billing guide). `xlarge` costs $0.20 per running hour, requires the effective $100 plan or higher, and requires an explicit bare-metal operator allocation. A fork inherits the source sandbox's type unless the fork request passes its own, and resume and fork can move a sandbox between sizes."
+        "smithy.api#documentation": "Machine size. `small` consumes machine time at half rate and `large` at twice the default rate (see the Billing guide). A fork inherits the source sandbox's type unless the fork request passes its own, and resume and fork can move a sandbox between sizes."
       }
     },
     "com.boat.api#CreateSandboxRequestEnvMap": {
@@ -4300,7 +5236,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "org",
-            "smithy.api#documentation": "Billing wallet for this request. A team id you belong to reads that team's limits / bills a create to that team. Your own account id is personal. Sandboxes, snapshots, and environments stay creator-private."
+            "smithy.api#documentation": "Billing wallet for this request: an organization you belong to, by id (`team_…`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes, snapshots, and environments stay creator-private."
           }
         },
         "idempotencyKey": {
@@ -4320,7 +5256,7 @@
         "type": {
           "target": "com.boat.api#CreateSandboxRequestType",
           "traits": {
-            "smithy.api#documentation": "Machine size. `small` consumes machine time at half rate and `large` at twice the default rate (see the Billing guide). `xlarge` costs $0.20 per running hour, requires the effective $100 plan or higher, and requires an explicit bare-metal operator allocation. A fork inherits the source sandbox's type unless the fork request passes its own, and resume and fork can move a sandbox between sizes."
+            "smithy.api#documentation": "Machine size. `small` consumes machine time at half rate and `large` at twice the default rate (see the Billing guide). A fork inherits the source sandbox's type unless the fork request passes its own, and resume and fork can move a sandbox between sizes."
           }
         },
         "ttlSeconds": {
@@ -4346,6 +5282,18 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Create a sandbox with none of the secrets attached to your account (no environment variables, secret files, or credentials), confined to itself so it cannot act on your account or other sandboxes. For sandboxes you give to your own users. SSH, SCP, desktop, snapshots, and public URLs still work; pass `env` to give the sandbox a secret of its own. A fork of a no-env sandbox is always no-env. Equivalent to attaching an environment marked \"safe for third parties\"."
+          }
+        },
+        "snapshots": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Pass `false` to never snapshot this sandbox. Nothing is captured in the background, so it pays no CPU or memory for it, and stopping it erases its disk the way zero data retention does. It cannot be resumed, forked, or saved as a named snapshot, and if its machine fails there is no backup to rebuild it from."
+          }
+        },
+        "failFast": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Pass `true` to get a sandbox only if a machine of this type is ready right now. The call answers within about 1.5 s: either the usual `202` with the sandbox, or `503` `no_ready_machine` with nothing created, billed, or counted against your start limits, so you can retry or fall back at once. Without it, a create waits for a machine to be built when none is ready. Works with `from`; fork and resume take it too."
           }
         },
         "setupScript": {
@@ -4379,9 +5327,17 @@
           "traits": {
             "smithy.api#enumValue": "provisioning"
           }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "`ready` only when an idempotent retry finds a sandbox that is already past provisioning."
+      }
     },
     "com.boat.api#CreateSandboxResponse": {
       "type": "structure",
@@ -4402,6 +5358,7 @@
         "status": {
           "target": "com.boat.api#CreateSandboxResponseStatus",
           "traits": {
+            "smithy.api#documentation": "`ready` only when an idempotent retry finds a sandbox that is already past provisioning.",
             "smithy.api#required": {}
           }
         },
@@ -4416,6 +5373,12 @@
           "target": "com.boat.api#Sandbox",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "giftLimitNotice": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Present when a fair-use cap on a gifted account shortened the requested auto-stop time."
           }
         }
       },
@@ -4481,6 +5444,12 @@
           "target": "com.boat.api#Sandbox",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "giftLimitNotice": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Present when a fair-use cap on a gifted account shortened the requested auto-stop time."
           }
         }
       },
@@ -4565,6 +5534,12 @@
           "target": "com.boat.api#Sandbox",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "giftLimitNotice": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Present when a fair-use cap on a gifted account shortened the requested auto-stop time."
           }
         }
       },
@@ -4731,6 +5706,18 @@
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "giftLimitNotice": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Present on resume or fork when a fair-use cap on a gifted account shortened the requested auto-stop time."
+          }
+        },
+        "conversationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "On interrupt, the conversation whose turn was interrupted."
+          }
         }
       },
       "traits": {
@@ -4762,6 +5749,70 @@
         "smithy.api#documentation": "Stop and archive sandbox\n\nStop active work and archive/snapshot the sandbox for later resume or fork.\n\nA stop always saves the sandbox's disk first. If that save is failing, the stop is\nrefused and the sandbox keeps running so your work is not discarded, we retry\nautomatically and email you. You are not billed for time spent in that state.\n\nSet `force: true` to stop anyway, accepting the loss of everything written since\nthe last successful snapshot. This is irreversible; only reach for it after a\nstop has already failed."
       }
     },
+    "com.boat.api#ShareSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Public Sandbox id returned by create/list/get sandbox calls."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.boat.api#ShareSandboxResponse": {
+      "type": "structure",
+      "members": {
+        "sandbox": {
+          "target": "com.boat.api#Sandbox"
+        },
+        "restartRequired": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the sandbox was running: what runs on it still holds your logins in memory, so it stays `view` for the organization until you stop and resume it."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.boat.api#ShareSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.boat.api#ShareSandboxRequest"
+      },
+      "output": {
+        "target": "com.boat.api#ShareSandboxResponse"
+      },
+      "errors": [
+        {
+          "target": "com.boat.api#BadRequest"
+        },
+        {
+          "target": "com.boat.api#Forbidden"
+        },
+        {
+          "target": "com.boat.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandboxes/{sandboxId}/share",
+          "code": 200
+        },
+        "smithy.api#documentation": "Share sandbox with the organization\n\nLet every member of the organization that pays for this sandbox use it.\n\nYour personal logins (GitHub token, Claude and Codex logins, environment secrets,\nthe sandbox's own CLI key) are never pushed to it again and are wiped off its disk\nat its next start, so a teammate never acts as you. Files you wrote stay. One-way:\nthe sandbox stays like a `noEnv` sandbox from then on. A running sandbox stays\n`view` for the organization until you stop and resume it (`restartRequired`).\n\nOnly the person who created the sandbox can share it, and only a sandbox billed to\nan organization. Sharing an already shared sandbox is a no-op."
+      }
+    },
     "com.boat.api#ResumeSandboxRequestType": {
       "type": "enum",
       "members": {
@@ -4782,16 +5833,10 @@
           "traits": {
             "smithy.api#enumValue": "large"
           }
-        },
-        "XLARGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "xlarge"
-          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Resume onto a different machine size. Omit to keep the sandbox's current type. A resume already restores onto a fresh machine, so changing size costs nothing extra. Shrinking is rejected with `type_too_small` when the sandbox's data would not fit the smaller disk. `xlarge` requires the effective $100 plan or higher and an explicit bare-metal operator allocation."
+        "smithy.api#documentation": "Resume onto a different machine size. Omit to keep the sandbox's current type. A resume already restores onto a fresh machine, so changing size costs nothing extra. Shrinking is rejected with `type_too_small` when the sandbox's data would not fit the smaller disk."
       }
     },
     "com.boat.api#ResumeSandboxRequestEnvMap": {
@@ -4817,10 +5862,16 @@
             "smithy.api#documentation": "Public Sandbox id returned by create/list/get sandbox calls."
           }
         },
+        "failFast": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Pass `true` to resume only if a machine is ready right now. Within about 1.5 s you get the usual `202`, or `503` `no_ready_machine` with the sandbox left stopped and nothing counted against your start limits."
+          }
+        },
         "type": {
           "target": "com.boat.api#ResumeSandboxRequestType",
           "traits": {
-            "smithy.api#documentation": "Resume onto a different machine size. Omit to keep the sandbox's current type. A resume already restores onto a fresh machine, so changing size costs nothing extra. Shrinking is rejected with `type_too_small` when the sandbox's data would not fit the smaller disk. `xlarge` requires the effective $100 plan or higher and an explicit bare-metal operator allocation."
+            "smithy.api#documentation": "Resume onto a different machine size. Omit to keep the sandbox's current type. A resume already restores onto a fresh machine, so changing size costs nothing extra. Shrinking is rejected with `type_too_small` when the sandbox's data would not fit the smaller disk."
           }
         },
         "env": {
@@ -4886,6 +5937,18 @@
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "giftLimitNotice": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Present on resume or fork when a fair-use cap on a gifted account shortened the requested auto-stop time."
+          }
+        },
+        "conversationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "On interrupt, the conversation whose turn was interrupted."
+          }
         }
       },
       "traits": {
@@ -4949,16 +6012,10 @@
           "traits": {
             "smithy.api#enumValue": "large"
           }
-        },
-        "XLARGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "xlarge"
-          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Machine size for the fork. Omit to inherit the source sandbox's type. The source sandbox is never modified. Shrinking is rejected with `type_too_small` when the source's data would not fit the smaller disk. `xlarge` requires the effective $100 plan or higher and an explicit bare-metal operator allocation."
+        "smithy.api#documentation": "Machine size for the fork. Omit to inherit the source sandbox's type. The source sandbox is never modified. Shrinking is rejected with `type_too_small` when the source's data would not fit the smaller disk."
       }
     },
     "com.boat.api#ForkSandboxRequest": {
@@ -4977,6 +6034,12 @@
           "traits": {
             "smithy.api#httpHeader": "Idempotency-Key",
             "smithy.api#documentation": "Optional exactly-once key for creating a sandbox. Send your own opaque, account-unique value (a UUID) to make `POST /sandboxes` safe to retry when the response is lost (network timeout, 5xx): the first request creates the sandbox and binds it to the key; every later request with the **same account, key, and request body** returns that same sandbox instead of creating a second, billable one. Behavior: keys are retained for **24 hours**; a concurrent or early retry while the first sandbox is still being minted returns `409` `idempotency_in_progress` (retry shortly, same key); reusing a key with a **different body** returns `409` `idempotency_key_reused`; timeouts and 5xx are safe to retry with the same key; a create that fails before the sandbox exists releases the key within ~2 minutes so a retry can create the sandbox. Omit the header to keep the default (non-idempotent) behavior."
+          }
+        },
+        "failFast": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Pass `true` to fork only if a machine is ready right now. Within about 1.5 s you get the usual `202`, or `503` `no_ready_machine` with no fork created and nothing counted against your start limits."
           }
         },
         "env": {
@@ -5000,7 +6063,7 @@
         "type": {
           "target": "com.boat.api#ForkSandboxRequestType",
           "traits": {
-            "smithy.api#documentation": "Machine size for the fork. Omit to inherit the source sandbox's type. The source sandbox is never modified. Shrinking is rejected with `type_too_small` when the source's data would not fit the smaller disk. `xlarge` requires the effective $100 plan or higher and an explicit bare-metal operator allocation."
+            "smithy.api#documentation": "Machine size for the fork. Omit to inherit the source sandbox's type. The source sandbox is never modified. Shrinking is rejected with `type_too_small` when the source's data would not fit the smaller disk."
           }
         },
         "ttlSeconds": {
@@ -5047,6 +6110,18 @@
           "target": "com.boat.api#Sandbox",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "giftLimitNotice": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Present on resume or fork when a fair-use cap on a gifted account shortened the requested auto-stop time."
+          }
+        },
+        "conversationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "On interrupt, the conversation whose turn was interrupted."
           }
         }
       },
@@ -5170,6 +6245,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "fast": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. `true` runs this prompt in fast mode. The model stays the same and gives output faster. The provider bills fast mode at its higher fast rate. Omit to use the choice saved on the Agents dashboard for that model. `false` forces standard speed. Only models with `fastMode` set to `true` in `GET /provider-models` accept `true`. Other models return 400 `fast_mode_not_supported`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "new": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -5243,6 +6325,13 @@
         "reasoningEffort": {
           "target": "smithy.api#String",
           "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fast": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The prompt runs in fast mode. `null` means no speed is set yet. The prompt waits without a speed choice, or it ended without running (`done` is true). The speed is set when the prompt starts, for the model that runs.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -5374,6 +6463,12 @@
           "target": "smithy.api#String",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fast": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The prompt runs in fast mode."
           }
         }
       },
@@ -6128,6 +7223,12 @@
           "traits": {
             "smithy.api#documentation": "Start the command in the background and return a process id immediately instead of waiting for it to finish. Output goes to a log file on the sandbox; poll the status endpoint for it."
           }
+        },
+        "stream": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Stream the output as the command writes it: the response is newline-delimited JSON (application/x-ndjson), one CommandStreamFrame per line. Ignored with detached."
+          }
         }
       },
       "traits": {
@@ -6167,6 +7268,12 @@
           "target": "smithy.api#String",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "oomKilled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the memory ceiling killed the command or one of its processes and the command failed."
           }
         },
         "stdout": {
@@ -6322,7 +7429,7 @@
           "uri": "/sandboxes/{sandboxId}/commands",
           "code": 200
         },
-        "smithy.api#documentation": "Execute a command in a sandbox\n\nRuns the command synchronously by default (timeout configurable via `timeoutSeconds`, 600s cap). With `detached: true` the command starts in the background and a process id is returned immediately; poll `/sandboxes/{sandboxId}/commands/{processId}` for status and logs. Returns 400 invalid_timeout when `timeoutSeconds` is not an integer in 1-600. Returns 409 boat_starting (retryable) while the sandbox is still provisioning -- wait until the sandbox state is ready before running commands. Command execution is never retried automatically: a 502 boat_direct_failed means the command may already be running on the sandbox."
+        "smithy.api#documentation": "Execute a command in a sandbox\n\nRuns the command synchronously by default (timeout configurable via `timeoutSeconds`, 600s cap). With `detached: true` the command starts in the background and a process id is returned immediately; poll `/sandboxes/{sandboxId}/commands/{processId}` for status and logs. With `stream: true` the output arrives as the command writes it, as newline-delimited JSON (`application/x-ndjson`): `{\"type\":\"started\"}`, then `{\"type\":\"stdout\"|\"stderr\",\"data\":\"...\"}` per chunk, and last `{\"type\":\"exit\",...}` (the synchronous result without stdout/stderr) or `{\"type\":\"error\",\"error\":\"...\",\"message\":\"...\"}`. Returns 400 invalid_timeout when `timeoutSeconds` is not an integer in 1-600. A command sent while the sandbox is still starting (right after a resume) waits up to 60s for it to be ready instead of failing; 409 boat_starting (retryable) is returned only if it is still not ready by then. A sandbox that is not starting (`error`, `stopped`) returns 409 sandbox_not_ready with `retryable: false` and its `state` at once: resume or recover it first. Command execution is never retried automatically: a 502 boat_direct_failed means the command may already be running on the sandbox."
       }
     },
     "com.boat.api#GetCommandStatusRequest": {
@@ -6348,7 +7455,7 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "tailBytes",
-            "smithy.api#documentation": "Cap each returned log to its last N bytes. Defaults to 524288 (512 KiB)."
+            "smithy.api#documentation": "Cap each returned log to its last N bytes. Defaults to 8388608 (8 MiB)."
           }
         }
       },
@@ -6443,6 +7550,12 @@
           "target": "smithy.api#String",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "oomKilled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the memory ceiling killed the command or one of its processes and the command failed."
           }
         },
         "command": {
@@ -6777,6 +7890,18 @@
           "target": "com.boat.api#Sandbox",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "giftLimitNotice": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Present on resume or fork when a fair-use cap on a gifted account shortened the requested auto-stop time."
+          }
+        },
+        "conversationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "On interrupt, the conversation whose turn was interrupted."
           }
         }
       },
@@ -7116,6 +8241,19 @@
         },
         "sshUser": {
           "target": "smithy.api#String"
+        },
+        "sshEndpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public IPv4 `host:port` that forwards to the sandbox SSH server, set only when the machine has no public IPv4 of its own. Connect with `ssh -p <port> user@<host>`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hostKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sandbox SSH server's public host key. Pin it in `known_hosts`."
+          }
         }
       },
       "traits": {
@@ -7239,6 +8377,64 @@
       },
       "traits": {}
     },
+    "com.boat.api#NamedSnapshotAllowance": {
+      "type": "structure",
+      "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization the numbers are for. null = personal.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "orgName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "That organization's name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "free": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Named snapshots kept for free."
+          }
+        },
+        "used": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Named snapshots this wallet keeps."
+          }
+        },
+        "extra": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Named snapshots above the free ones."
+          }
+        },
+        "extraMonthlyDollars": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "What the extra ones cost per month."
+          }
+        },
+        "extraDailyDollars": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Boat time the extra ones take per day, in dollars (the daily charge)."
+          }
+        },
+        "pricePerExtraMonthlyDollars": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Monthly price of one extra named snapshot."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What the request's wallet (your active organization, `?org=`, or personal) pays for named snapshots. 10 are free per wallet; each one above costs $1.70 a month, charged daily from usage. An organization's count includes every member's names billed to it."
+      }
+    },
     "com.boat.api#ListNamedSnapshotsResponse": {
       "type": "structure",
       "members": {
@@ -7260,6 +8456,9 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "allowance": {
+          "target": "com.boat.api#NamedSnapshotAllowance"
         }
       },
       "traits": {
@@ -7583,7 +8782,8 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Position in the incremental chain (0 = base).",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "chainId": {
@@ -7608,14 +8808,16 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Bytes this snapshot added (its delta), not the full restored size.",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "fileCount": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Inventory entries alive in the chain at this generation (includes base-image system entries).",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "contentSizeBytes": {
@@ -7843,6 +9045,92 @@
         "smithy.api#documentation": "List boat snapshots\n\nList visible completed snapshots for one sandbox with uncapped cursor pagination."
       }
     },
+    "com.boat.api#DeleteSandboxSnapshotsRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Public Sandbox id returned by create/list/get sandbox calls."
+          }
+        },
+        "xAsciiConfirmDelete": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Ascii-Confirm-Delete",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Must exactly equal the target `sandboxId` or `snapshotId`. A missing or mismatched value returns `409` without accepting deletion."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.boat.api#DeleteSandboxSnapshotsResponseOperationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.boat.api#DeletionOperation"
+      },
+      "traits": {}
+    },
+    "com.boat.api#DeleteSandboxSnapshotsResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable success envelope discriminator added by v1.",
+            "smithy.api#required": {}
+          }
+        },
+        "operations": {
+          "target": "com.boat.api#DeleteSandboxSnapshotsResponseOperationsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.boat.api#DeleteSandboxSnapshots": {
+      "type": "operation",
+      "input": {
+        "target": "com.boat.api#DeleteSandboxSnapshotsRequest"
+      },
+      "output": {
+        "target": "com.boat.api#DeleteSandboxSnapshotsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.boat.api#Forbidden"
+        },
+        {
+          "target": "com.boat.api#NotFound"
+        },
+        {
+          "target": "com.boat.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/sandboxes/{sandboxId}/snapshots",
+          "code": 200
+        },
+        "smithy.api#documentation": "Permanently delete all snapshots of a sandbox\n\nAccept irreversible deletion of every unpinned snapshot of this sandbox. The sandbox itself and its named snapshots stay. Snapshots disappear from lists, restores and forks immediately; their stored data is purged in the background. Set `X-Ascii-Confirm-Delete` to the sandbox id."
+      }
+    },
     "com.boat.api#GetLatestSandboxSnapshotRequest": {
       "type": "structure",
       "members": {
@@ -7959,12 +9247,6 @@
           "traits": {
             "smithy.api#enumValue": "large"
           }
-        },
-        "XLARGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "xlarge"
-          }
         }
       },
       "traits": {
@@ -8003,7 +9285,7 @@
         "billingMultiplier": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Rate at which this sandbox consumes machine time. 0.5 for `small`, 1 for `default`, 2 for `large`, and 50/9 for `xlarge`.",
+            "smithy.api#documentation": "Rate at which this sandbox consumes machine time. 0.5 for `small`, 1 for `default`, and 2 for `large`.",
             "smithy.api#required": {}
           }
         },
@@ -8155,7 +9437,7 @@
           "uri": "/snapshots/{snapshotId}",
           "code": 200
         },
-        "smithy.api#documentation": "Permanently delete snapshot data\n\nAccept irreversible background deletion of an unpinned snapshot owned by the authenticated account. Snapshots required by another incremental snapshot or active restore return `409`. Poll the returned operation until `completed`."
+        "smithy.api#documentation": "Permanently delete snapshot data\n\nAccept irreversible deletion of an unpinned snapshot owned by the authenticated account. Any such snapshot is accepted: it disappears from lists, restores and forks immediately, and its stored data is purged in the background once nothing still reads it (see the operation's `stage`). `409` only means `X-Ascii-Confirm-Delete` is missing or wrong."
       }
     },
     "com.boat.api#GetSnapshotTreeRequest": {
@@ -8470,13 +9752,15 @@
         "sizeBytes": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "sha256": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "signedUrl": {
@@ -8592,19 +9876,6 @@
         "smithy.api#documentation": "Get snapshot download\n\nReturn time-limited signed URLs for every chunk needed to reconstruct the sandbox filesystem at this snapshot (the full chain, base through this generation), plus the inventory. Download the chunks and reassemble them as described by `reconstruct`. The `boat snapshot pull` CLI command does this for you."
       }
     },
-    "com.boat.api#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
     "com.boat.api#BadRequest": {
       "type": "structure",
       "members": {},
@@ -8614,6 +9885,19 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 400
+          }
+        ]
+      }
+    },
+    "com.boat.api#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
           }
         ]
       }
@@ -8650,6 +9934,12 @@
       "operations": [
         {
           "target": "com.boat.api#GetCurrentUser"
+        },
+        {
+          "target": "com.boat.api#ListOrganizations"
+        },
+        {
+          "target": "com.boat.api#SetActiveOrganization"
         },
         {
           "target": "com.boat.api#GetDataRetention"
@@ -8760,6 +10050,9 @@
           "target": "com.boat.api#StopSandbox"
         },
         {
+          "target": "com.boat.api#ShareSandbox"
+        },
+        {
           "target": "com.boat.api#ResumeSandbox"
         },
         {
@@ -8824,6 +10117,9 @@
         },
         {
           "target": "com.boat.api#ListSandboxSnapshots"
+        },
+        {
+          "target": "com.boat.api#DeleteSandboxSnapshots"
         },
         {
           "target": "com.boat.api#GetLatestSandboxSnapshot"
