@@ -623,13 +623,7 @@ export const DeleteInternalApiserverV1alpha1StorageVersionRequest = /*@__PURE__*
 
 export interface GetInternalApiserverAPIGroupRequest {}
 export const GetInternalApiserverAPIGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/internal.apiserver.k8s.io/",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/apis/internal.apiserver.k8s.io/", code: 200 })),
 ).annotate({
   identifier: "GetInternalApiserverAPIGroupRequest",
 }) as any as S.Schema<GetInternalApiserverAPIGroupRequest>;
@@ -714,11 +708,7 @@ export const IoK8sApimachineryPkgApisMetaV1APIGroup = /*@__PURE__*/ S.suspend(()
 export interface GetInternalApiserverV1alpha1APIResourcesRequest {}
 export const GetInternalApiserverV1alpha1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/internal.apiserver.k8s.io/v1alpha1/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/internal.apiserver.k8s.io/v1alpha1/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetInternalApiserverV1alpha1APIResourcesRequest",

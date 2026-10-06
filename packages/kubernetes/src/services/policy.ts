@@ -684,9 +684,7 @@ export const DeletePolicyV1NamespacedPodDisruptionBudgetRequest = /*@__PURE__*/ 
 export interface GetPolicyAPIGroupRequest {}
 export const GetPolicyAPIGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/apis/policy/", code: 200 })),
-).annotate({
-  identifier: "GetPolicyAPIGroupRequest",
-}) as any as S.Schema<GetPolicyAPIGroupRequest>;
+).annotate({ identifier: "GetPolicyAPIGroupRequest" }) as any as S.Schema<GetPolicyAPIGroupRequest>;
 
 /** GroupVersion contains the "group/version" and "version" string of a version. It is made a struct to keep extensibility. */
 export interface IoK8sApimachineryPkgApisMetaV1GroupVersionForDiscovery {
@@ -982,13 +980,7 @@ export const ListPolicyV1PodDisruptionBudgetForAllNamespacesRequest = /*@__PURE_
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/policy/v1/poddisruptionbudgets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/policy/v1/poddisruptionbudgets", code: 200 })),
 ).annotate({
   identifier: "ListPolicyV1PodDisruptionBudgetForAllNamespacesRequest",
 }) as any as S.Schema<ListPolicyV1PodDisruptionBudgetForAllNamespacesRequest>;
@@ -1378,11 +1370,7 @@ export const WatchPolicyV1PodDisruptionBudgetListForAllNamespacesRequest = /*@__
       timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
       watch: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/apis/policy/v1/watch/poddisruptionbudgets",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/apis/policy/v1/watch/poddisruptionbudgets", code: 200 }),
     ),
 ).annotate({
   identifier: "WatchPolicyV1PodDisruptionBudgetListForAllNamespacesRequest",

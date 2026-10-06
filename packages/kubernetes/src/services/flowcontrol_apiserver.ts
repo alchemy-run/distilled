@@ -507,11 +507,7 @@ export const CreateFlowcontrolApiserverV1FlowSchemaRequest = /*@__PURE__*/ S.sus
     spec: IoK8sApiFlowcontrolV1FlowSchemaSpec,
     status: S.optional(IoK8sApiFlowcontrolV1FlowSchemaStatus),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apis/flowcontrol.apiserver.k8s.io/v1/flowschemas",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/apis/flowcontrol.apiserver.k8s.io/v1/flowschemas", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateFlowcontrolApiserverV1FlowSchemaRequest",
@@ -1104,11 +1100,7 @@ export const DeleteFlowcontrolApiserverV1PriorityLevelConfigurationRequest =
 export interface GetFlowcontrolApiserverAPIGroupRequest {}
 export const GetFlowcontrolApiserverAPIGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/flowcontrol.apiserver.k8s.io/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/flowcontrol.apiserver.k8s.io/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetFlowcontrolApiserverAPIGroupRequest",
@@ -1194,11 +1186,7 @@ export const IoK8sApimachineryPkgApisMetaV1APIGroup = /*@__PURE__*/ S.suspend(()
 export interface GetFlowcontrolApiserverV1APIResourcesRequest {}
 export const GetFlowcontrolApiserverV1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/flowcontrol.apiserver.k8s.io/v1/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/flowcontrol.apiserver.k8s.io/v1/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetFlowcontrolApiserverV1APIResourcesRequest",
@@ -1332,11 +1320,7 @@ export const ListFlowcontrolApiserverV1FlowSchemaRequest = /*@__PURE__*/ S.suspe
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/flowcontrol.apiserver.k8s.io/v1/flowschemas",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/flowcontrol.apiserver.k8s.io/v1/flowschemas", code: 200 }),
   ),
 ).annotate({
   identifier: "ListFlowcontrolApiserverV1FlowSchemaRequest",
