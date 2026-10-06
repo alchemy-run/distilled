@@ -61,16 +61,8 @@ export interface ArchiveContactRequest {
 export const ArchiveContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contact_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/contacts/{contact_id}/archive",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ArchiveContactRequest",
-}) as any as S.Schema<ArchiveContactRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/contacts/{contact_id}/archive", code: 200 })),
+).annotate({ identifier: "ArchiveContactRequest" }) as any as S.Schema<ArchiveContactRequest>;
 
 /** always contact */
 export type ArchiveContactResponseType = "contact";
@@ -93,9 +85,226 @@ export const ArchiveContactResponse = /*@__PURE__*/ S.suspend(() =>
     external_id: S.optional(S.NullOr(S.String)),
     archived: S.optional(S.Boolean),
   }),
+).annotate({ identifier: "ArchiveContactResponse" }) as any as S.Schema<ArchiveContactResponse>;
+
+/** The author that created the message. */
+export type FinAgentMessageAuthor = "user" | "agent" | "fin";
+export const FinAgentMessageAuthor = S.String;
+
+/** A message exchanged within a Fin Agent conversation. */
+export interface FinAgentMessage {
+  /** The author that created the message. */
+  author: FinAgentMessageAuthor | (string & {});
+  /** The body of the message. Accepts both plain text and HTML format. When sending a message to Fin, this should contain the user's message. Fin's response will be returned as HTML. */
+  body: string;
+  /** The timestamp when the message was created. Used to deduplicate messages sent within a 5 minute window. Ideally should include milliseconds for higher precision. */
+  timestamp: string;
+  /** The timestamp when the message was created, with millisecond precision. Only present in webhook event responses (fin_replied). */
+  timestamp_ms?: string;
+}
+export const FinAgentMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    author: FinAgentMessageAuthor,
+    body: S.String,
+    timestamp: S.String,
+    timestamp_ms: S.optional(S.String),
+  }),
+).annotate({ identifier: "FinAgentMessage" }) as any as S.Schema<FinAgentMessage>;
+
+/** A hash of attributes associated with the user. Attributes can be used by Fin to target content and responses. Limit to 10 attributes. */
+export type FinAgentUserAttributesMap = { [key: string]: unknown | undefined };
+export const FinAgentUserAttributesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<FinAgentUserAttributesMap>;
+
+/** A user object representing the user in a Fin Agent conversation. */
+export interface FinAgentUser {
+  /** The ID of the user. This value will be used to uniquely identify the user during a conversation with Fin. Maps to the user_id field on the Intercom User object. */
+  id: string;
+  /** The name of the user. */
+  name?: string;
+  /** The email of the user. */
+  email?: string;
+  /** A hash of attributes associated with the user. Attributes can be used by Fin to target content and responses. Limit to 10 attributes. */
+  attributes?: FinAgentUserAttributesMap;
+}
+export const FinAgentUser = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.optional(S.String),
+    email: S.optional(S.String),
+    attributes: S.optional(FinAgentUserAttributesMap),
+  }),
+).annotate({ identifier: "FinAgentUser" }) as any as S.Schema<FinAgentUser>;
+
+/** An array of previous messages in the conversation before Fin is initialized. This data provides context to Fin and helps generate a better answer. Limit to the last 10 messages. */
+export type FinAgentConversationMetadataHistoryList = Array<FinAgentMessage>;
+export const FinAgentConversationMetadataHistoryList = /*@__PURE__*/ S.Array(
+  FinAgentMessage,
+) as any as S.Schema<FinAgentConversationMetadataHistoryList>;
+
+/** A hash of attributes associated with the conversation. These attributes can be used by Fin to provide more contextual responses. Limit to 10 attributes. */
+export type FinAgentConversationMetadataAttributesMap = { [key: string]: unknown | undefined };
+export const FinAgentConversationMetadataAttributesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<FinAgentConversationMetadataAttributesMap>;
+
+/** Metadata about the conversation, including history and attributes. */
+export interface FinAgentConversationMetadata {
+  /** An array of previous messages in the conversation before Fin is initialized. This data provides context to Fin and helps generate a better answer. Limit to the last 10 messages. */
+  history?: FinAgentConversationMetadataHistoryList;
+  /** A hash of attributes associated with the conversation. These attributes can be used by Fin to provide more contextual responses. Limit to 10 attributes. */
+  attributes?: FinAgentConversationMetadataAttributesMap;
+}
+export const FinAgentConversationMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    history: S.optional(FinAgentConversationMetadataHistoryList),
+    attributes: S.optional(FinAgentConversationMetadataAttributesMap),
+  }),
 ).annotate({
-  identifier: "ArchiveContactResponse",
-}) as any as S.Schema<ArchiveContactResponse>;
+  identifier: "FinAgentConversationMetadata",
+}) as any as S.Schema<FinAgentConversationMetadata>;
+
+/** The type of attachment. */
+export type FinAgentAttachmentType = "url" | "file";
+export const FinAgentAttachmentType = S.String;
+
+/** An attachment object representing a file or URL attachment included with a message. Attachments can be used to provide additional context to Fin. Maximum of 10 attachments per request. */
+export interface FinAgentAttachment {
+  /** The type of attachment. */
+  type: FinAgentAttachmentType | (string & {});
+  /** The URL of the attachment. Required when type is 'url'. Must be publicly accessible. */
+  url?: string;
+  /** The name of the file. Required when type is 'file'. */
+  name?: string;
+  /** The MIME type of the file. Required when type is 'file'. */
+  content_type?: string;
+  /** Base64-encoded file data. Required when type is 'file'. */
+  data?: string;
+}
+export const FinAgentAttachment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: FinAgentAttachmentType,
+    url: S.optional(S.String),
+    name: S.optional(S.String),
+    content_type: S.optional(S.String),
+    data: S.optional(S.String),
+  }),
+).annotate({ identifier: "FinAgentAttachment" }) as any as S.Schema<FinAgentAttachment>;
+
+/** An array of attachments to include with the message. Maximum of 10 attachments. */
+export type AskFinRequestAttachmentsList = Array<FinAgentAttachment>;
+export const AskFinRequestAttachmentsList = /*@__PURE__*/ S.Array(
+  FinAgentAttachment,
+) as any as S.Schema<AskFinRequestAttachmentsList>;
+
+export interface AskFinRequest {
+  /** Your external conversation ID. Fin creates a conversation for this ID. If a conversation already exists for it, use `/fin/reply` instead. */
+  conversation_id: string;
+  message: FinAgentMessage;
+  user: FinAgentUser;
+  conversation_metadata?: FinAgentConversationMetadata;
+  /** An array of attachments to include with the message. Maximum of 10 attachments. */
+  attachments?: AskFinRequestAttachmentsList;
+}
+export const AskFinRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    conversation_id: S.String,
+    message: FinAgentMessage,
+    user: FinAgentUser,
+    conversation_metadata: S.optional(FinAgentConversationMetadata),
+    attachments: S.optional(AskFinRequestAttachmentsList),
+  }).pipe(T.Http({ method: "POST", uri: "/fin/ask", code: 200 })),
+).annotate({ identifier: "AskFinRequest" }) as any as S.Schema<AskFinRequest>;
+
+/** Fin's current status in the conversation workflow. */
+export type AskFinResponseStatus = "thinking" | "replying" | "resolved" | "complete";
+export const AskFinResponseStatus = S.String;
+
+/** Map of user attribute names to error messages. */
+export type FinAgentAttributeErrorsUserAttributesMap = { [key: string]: string | undefined };
+export const FinAgentAttributeErrorsUserAttributesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<FinAgentAttributeErrorsUserAttributesMap>;
+
+/** User-related attribute errors. */
+export interface FinAgentAttributeErrorsUser {
+  /** Map of user attribute names to error messages. */
+  attributes?: FinAgentAttributeErrorsUserAttributesMap;
+}
+export const FinAgentAttributeErrorsUser = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    attributes: S.optional(FinAgentAttributeErrorsUserAttributesMap),
+  }),
+).annotate({
+  identifier: "FinAgentAttributeErrorsUser",
+}) as any as S.Schema<FinAgentAttributeErrorsUser>;
+
+/** Map of conversation attribute names to error messages. */
+export type FinAgentAttributeErrorsConversationAttributesMap = {
+  [key: string]: string | undefined;
+};
+export const FinAgentAttributeErrorsConversationAttributesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<FinAgentAttributeErrorsConversationAttributesMap>;
+
+/** Conversation-related attribute errors. */
+export interface FinAgentAttributeErrorsConversation {
+  /** Map of conversation attribute names to error messages. */
+  attributes?: FinAgentAttributeErrorsConversationAttributesMap;
+}
+export const FinAgentAttributeErrorsConversation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    attributes: S.optional(FinAgentAttributeErrorsConversationAttributesMap),
+  }),
+).annotate({
+  identifier: "FinAgentAttributeErrorsConversation",
+}) as any as S.Schema<FinAgentAttributeErrorsConversation>;
+
+/** Contains error details if any user or conversation attribute updates failed. */
+export interface FinAgentAttributeErrors {
+  /** User-related attribute errors. */
+  user?: FinAgentAttributeErrorsUser;
+  /** Conversation-related attribute errors. */
+  conversation?: FinAgentAttributeErrorsConversation;
+}
+export const FinAgentAttributeErrors = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    user: S.optional(FinAgentAttributeErrorsUser),
+    conversation: S.optional(FinAgentAttributeErrorsConversation),
+  }),
+).annotate({ identifier: "FinAgentAttributeErrors" }) as any as S.Schema<FinAgentAttributeErrors>;
+
+export interface AskFinResponse {
+  /** The external ID of the conversation. */
+  conversation_id?: string;
+  /** The internal Intercom conversation ID, useful for matching this Agent API session to the conversation in Intercom. */
+  intercom_conversation_id?: string;
+  /** The ID of the user. */
+  user_id?: string;
+  /** Fin's current status in the conversation workflow. */
+  status?: AskFinResponseStatus;
+  /** The timestamp the response was created at, with millisecond precision. */
+  created_at_ms?: string;
+  errors?: FinAgentAttributeErrors;
+  /** Optional. A URL to subscribe to Server-Sent Events (SSE) for this conversation, if SSE is enabled. The access token is a JWT with a 3-minute TTL. The token is revoked when Fin sets the conversation to complete status. When CSAT is enabled and a survey will follow the resolution, `complete` revocation is deferred until the `csat_requested` event is delivered or the token expires. */
+  sse_subscription_url?: string;
+}
+export const AskFinResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    conversation_id: S.optional(S.String),
+    intercom_conversation_id: S.optional(S.String),
+    user_id: S.optional(S.String),
+    status: S.optional(AskFinResponseStatus),
+    created_at_ms: S.optional(S.String),
+    errors: S.optional(FinAgentAttributeErrors),
+    sse_subscription_url: S.optional(S.String),
+  }),
+).annotate({ identifier: "AskFinResponse" }) as any as S.Schema<AskFinResponse>;
 
 export interface AttachContactToACompanyRequest {
   /** The unique identifier for the contact which is given by Intercom */
@@ -107,13 +316,7 @@ export const AttachContactToACompanyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contact_id: S.String.pipe(T.Label()),
     id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/contacts/{contact_id}/companies",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/contacts/{contact_id}/companies", code: 200 })),
 ).annotate({
   identifier: "AttachContactToACompanyRequest",
 }) as any as S.Schema<AttachContactToACompanyRequest>;
@@ -241,9 +444,7 @@ export const CompanySegments = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(CompanySegmentsType),
     segments: S.optional(CompanySegmentsSegmentsList),
   }),
-).annotate({
-  identifier: "CompanySegments",
-}) as any as S.Schema<CompanySegments>;
+).annotate({ identifier: "CompanySegments" }) as any as S.Schema<CompanySegments>;
 
 /** The type of the object */
 export type CompanyNotesType = "note.list";
@@ -261,9 +462,7 @@ export const CompanyNoteCompany = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CompanyNoteCompany",
-}) as any as S.Schema<CompanyNoteCompany>;
+).annotate({ identifier: "CompanyNoteCompany" }) as any as S.Schema<CompanyNoteCompany>;
 
 /** This object represents the avatar associated with the admin. */
 export type AdminTeamIdsList = Array<number>;
@@ -295,9 +494,7 @@ export const TeamPriorityLevel = /*@__PURE__*/ S.suspend(() =>
     primary_team_ids: S.optional(S.NullOr(TeamPriorityLevelPrimaryTeamIdsList)),
     secondary_team_ids: S.optional(S.NullOr(TeamPriorityLevelSecondaryTeamIdsList)),
   }),
-).annotate({
-  identifier: "TeamPriorityLevel",
-}) as any as S.Schema<TeamPriorityLevel>;
+).annotate({ identifier: "TeamPriorityLevel" }) as any as S.Schema<TeamPriorityLevel>;
 
 /** The role assigned to this admin. Only present if the admin has a role assigned. */
 export interface AdminRole {
@@ -481,9 +678,7 @@ export const CustomerRequestCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     intercom_user_id: S.String,
   }),
-).annotate({
-  identifier: "CustomerRequestCase0",
-}) as any as S.Schema<CustomerRequestCase0>;
+).annotate({ identifier: "CustomerRequestCase0" }) as any as S.Schema<CustomerRequestCase0>;
 
 export interface CustomerRequestCase1 {
   /** The external_id you have defined for the contact who is being added as a participant. */
@@ -493,9 +688,7 @@ export const CustomerRequestCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user_id: S.String,
   }),
-).annotate({
-  identifier: "CustomerRequestCase1",
-}) as any as S.Schema<CustomerRequestCase1>;
+).annotate({ identifier: "CustomerRequestCase1" }) as any as S.Schema<CustomerRequestCase1>;
 
 export interface CustomerRequestCase2 {
   /** The email you have defined for the contact who is being added as a participant. */
@@ -505,9 +698,7 @@ export const CustomerRequestCase2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     email: S.String,
   }),
-).annotate({
-  identifier: "CustomerRequestCase2",
-}) as any as S.Schema<CustomerRequestCase2>;
+).annotate({ identifier: "CustomerRequestCase2" }) as any as S.Schema<CustomerRequestCase2>;
 
 export type CustomerRequest = CustomerRequestCase0 | CustomerRequestCase1 | CustomerRequestCase2;
 export const CustomerRequest = S.Unknown as any as S.Schema<CustomerRequest>;
@@ -573,1494 +764,45 @@ export const AttachContactToConversationRequest = /*@__PURE__*/ S.suspend(() =>
     conversation_id: S.String.pipe(T.Label()),
     admin_id: S.optional(S.String),
     customer: S.optional(AttachContactToConversationRequestCustomer),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/conversations/{conversation_id}/customers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/conversations/{conversation_id}/customers", code: 200 })),
 ).annotate({
   identifier: "AttachContactToConversationRequest",
 }) as any as S.Schema<AttachContactToConversationRequest>;
 
-/** Can be set to "open", "closed" or "snoozed". */
-export type ConversationState = "open" | "closed" | "snoozed";
-export const ConversationState = S.String;
-
-/** The priority level of the conversation. Returns one of none, low, medium, high, or urgent. */
-export type ConversationPriority = "none" | "low" | "medium" | "high" | "urgent";
-export const ConversationPriority = S.String;
-
-/** The type of the object */
-export type TagsType = "tag.list";
-export const TagsType = S.String;
-
-/** reference to another object */
-export interface Reference {
-  type?: string;
-  id?: string | null;
+export interface ConversationParticipantsResponseCustomersItem {
+  /** The role of the participant. Can be "user" or "lead" */
+  type: string;
+  /** The unique identifier for the participant */
+  id: string;
 }
-export const Reference = /*@__PURE__*/ S.suspend(() =>
+export const ConversationParticipantsResponseCustomersItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(S.String),
-    id: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({ identifier: "Reference" }) as any as S.Schema<Reference>;
-
-/** A tag allows you to label your contacts, companies, and conversations and list them using that tag. */
-export interface Tag {
-  /** value is "tag" */
-  type?: string;
-  /** The id of the tag */
-  id?: string;
-  /** The name of the tag */
-  name?: string;
-  /** The time when the tag was applied to the object. Only present when the tag is returned as part of a tagging operation on a contact, conversation, or ticket. */
-  applied_at?: number | null;
-  /** The admin who applied the tag. Only present when the tag is returned as part of a tagging operation on a contact, conversation, or ticket. */
-  applied_by?: Reference | null;
-}
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    applied_at: S.optional(S.NullOr(S.Number)),
-    applied_by: S.optional(S.NullOr(Reference)),
-  }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
-
-/** A list of tags objects associated with the conversation. */
-export type TagsTagsList = Array<Tag>;
-export const TagsTagsList = /*@__PURE__*/ S.Array(Tag) as any as S.Schema<TagsTagsList>;
-
-/** A list of tags objects associated with a conversation */
-export interface Tags {
-  /** The type of the object */
-  type?: TagsType;
-  /** A list of tags objects associated with the conversation. */
-  tags?: TagsTagsList;
-}
-export const Tags = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(TagsType),
-    tags: S.optional(TagsTagsList),
-  }),
-).annotate({ identifier: "Tags" }) as any as S.Schema<Tags>;
-
-/** always contact */
-export type ContactReferenceType = "contact";
-export const ContactReferenceType = S.String;
-
-/** reference to contact object */
-export interface ContactReference {
-  /** always contact */
-  type?: ContactReferenceType;
-  /** The unique identifier for the contact which is given by Intercom. */
-  id?: string;
-  /** The unique identifier for the contact which is provided by the Client. */
-  external_id?: string | null;
-}
-export const ContactReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(ContactReferenceType),
-    id: S.optional(S.String),
-    external_id: S.optional(S.NullOr(S.String)),
+    type: S.String,
+    id: S.String,
   }),
 ).annotate({
-  identifier: "ContactReference",
-}) as any as S.Schema<ContactReference>;
+  identifier: "ConversationParticipantsResponseCustomersItem",
+}) as any as S.Schema<ConversationParticipantsResponseCustomersItem>;
 
-/** The Conversation Rating object which contains information on the rating and/or remark added by a Contact and the Admin assigned to the conversation. */
-export interface ConversationRating {
-  /** The rating, between 1 and 5, for the conversation. */
-  rating?: number;
-  /** An optional field to add a remark to correspond to the number rating */
-  remark?: string;
-  /** The time the rating was requested in the conversation being rated. */
-  created_at?: number;
-  /** The time the rating was last updated. */
-  updated_at?: number;
-  contact?: ContactReference;
-  teammate?: Reference;
+/** The conversation participants after the change */
+export type ConversationParticipantsResponseCustomersList =
+  Array<ConversationParticipantsResponseCustomersItem>;
+export const ConversationParticipantsResponseCustomersList = /*@__PURE__*/ S.Array(
+  ConversationParticipantsResponseCustomersItem,
+) as any as S.Schema<ConversationParticipantsResponseCustomersList>;
+
+/** The participants of the conversation, returned after attaching or detaching a contact */
+export interface ConversationParticipantsResponse {
+  /** The conversation participants after the change */
+  customers: ConversationParticipantsResponseCustomersList;
 }
-export const ConversationRating = /*@__PURE__*/ S.suspend(() =>
+export const ConversationParticipantsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    rating: S.optional(S.Number),
-    remark: S.optional(S.String),
-    created_at: S.optional(S.Number),
-    updated_at: S.optional(S.Number),
-    contact: S.optional(ContactReference),
-    teammate: S.optional(Reference),
+    customers: ConversationParticipantsResponseCustomersList,
   }),
 ).annotate({
-  identifier: "ConversationRating",
-}) as any as S.Schema<ConversationRating>;
-
-export interface ConversationSourceRecipientsItem {
-  /** The recipient type. One of `to`, `cc`, or `bcc`. */
-  type?: string;
-  /** The recipient email address. */
-  email?: string;
-  /** The reason this recipient was dropped, if applicable. */
-  drop_reason?: string | null;
-}
-export const ConversationSourceRecipientsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    email: S.optional(S.String),
-    drop_reason: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "ConversationSourceRecipientsItem",
-}) as any as S.Schema<ConversationSourceRecipientsItem>;
-
-/** The recipients of the source message. Only present for email conversations. */
-export type ConversationSourceRecipientsList = Array<ConversationSourceRecipientsItem>;
-export const ConversationSourceRecipientsList = /*@__PURE__*/ S.Array(
-  ConversationSourceRecipientsItem,
-) as any as S.Schema<ConversationSourceRecipientsList>;
-
-export interface ConversationSourceReplyToItem {
-  /** The Reply-To email address. */
-  email?: string;
-  /** The display name associated with the Reply-To address. */
-  name?: string | null;
-}
-export const ConversationSourceReplyToItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    email: S.optional(S.String),
-    name: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "ConversationSourceReplyToItem",
-}) as any as S.Schema<ConversationSourceReplyToItem>;
-
-/** The Reply-To header addresses of the source message, where a reply will be routed. Can differ from the sender's From address. Only present for email conversations. */
-export type ConversationSourceReplyToList = Array<ConversationSourceReplyToItem>;
-export const ConversationSourceReplyToList = /*@__PURE__*/ S.Array(
-  ConversationSourceReplyToItem,
-) as any as S.Schema<ConversationSourceReplyToList>;
-
-/** The author who started the conversation. Can be a Contact, Admin, or Bot. */
-export interface ConversationSourceAuthor {
-  /** The type of the author. */
-  type?: string;
-  /** The id of the author. */
-  id?: string | null;
-  /** The name of the author. */
-  name?: string | null;
-  /** The email of the author. */
-  email?: string | null;
-}
-export const ConversationSourceAuthor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    id: S.optional(S.NullOr(S.String)),
-    name: S.optional(S.NullOr(S.String)),
-    email: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "ConversationSourceAuthor",
-}) as any as S.Schema<ConversationSourceAuthor>;
-
-/** The file attached to a part */
-export interface PartAttachment {
-  /** The type of attachment */
-  type?: string;
-  /** The name of the attachment */
-  name?: string;
-  /** The URL of the attachment */
-  url?: string;
-  /** The content type of the attachment */
-  content_type?: string;
-  /** The size of the attachment */
-  filesize?: number;
-  /** The width of the attachment */
-  width?: number;
-  /** The height of the attachment */
-  height?: number;
-}
-export const PartAttachment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    name: S.optional(S.String),
-    url: S.optional(S.String),
-    content_type: S.optional(S.String),
-    filesize: S.optional(S.Number),
-    width: S.optional(S.Number),
-    height: S.optional(S.Number),
-  }),
-).annotate({ identifier: "PartAttachment" }) as any as S.Schema<PartAttachment>;
-
-/** A list of attachments for the part. */
-export type ConversationSourceAttachmentsList = Array<PartAttachment>;
-export const ConversationSourceAttachmentsList = /*@__PURE__*/ S.Array(
-  PartAttachment,
-) as any as S.Schema<ConversationSourceAttachmentsList>;
-
-/** Contains data for an email address header for a conversation part that was sent as an email. */
-export interface EmailAddressHeader {
-  /** The type of email address header */
-  type?: string;
-  /** The email address */
-  email_address?: string;
-  /** The name associated with the email address */
-  name?: string | null;
-}
-export const EmailAddressHeader = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    email_address: S.optional(S.String),
-    name: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "EmailAddressHeader",
-}) as any as S.Schema<EmailAddressHeader>;
-
-/** A list of an email address headers. */
-export type SourceEmailMessageMetadataEmailAddressHeadersList = Array<EmailAddressHeader>;
-export const SourceEmailMessageMetadataEmailAddressHeadersList = /*@__PURE__*/ S.Array(
-  EmailAddressHeader,
-) as any as S.Schema<SourceEmailMessageMetadataEmailAddressHeadersList>;
-
-/** Contains metadata if the message was sent as an email */
-export interface SourceEmailMessageMetadata {
-  /** The unique identifier for the email message as specified in the Message-ID header */
-  message_id?: string | null;
-  /** The subject of the email */
-  subject?: string;
-  /** A list of an email address headers. */
-  email_address_headers?: SourceEmailMessageMetadataEmailAddressHeadersList;
-  /** The HTML content of any quoted or forwarded email history from the initial inbound message */
-  history?: string;
-}
-export const SourceEmailMessageMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message_id: S.optional(S.NullOr(S.String)),
-    subject: S.optional(S.String),
-    email_address_headers: S.optional(SourceEmailMessageMetadataEmailAddressHeadersList),
-    history: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SourceEmailMessageMetadata",
-}) as any as S.Schema<SourceEmailMessageMetadata>;
-
-/** The type of the conversation part that started this conversation. Can be Contact, Admin, Campaign, Automated or Operator initiated. */
-export interface ConversationSource {
-  /** The origin of this conversation. */
-  type?: string;
-  /** The id of the source message. */
-  id?: string | null;
-  /** How the conversation was initiated. */
-  delivered_as?: string;
-  /** The recipients of the source message. Only present for email conversations. */
-  recipients?: ConversationSourceRecipientsList | null;
-  /** The Reply-To header addresses of the source message, where a reply will be routed. Can differ from the sender's From address. Only present for email conversations. */
-  reply_to?: ConversationSourceReplyToList | null;
-  /** Optional. The message subject. For Twitter, this will show a generic message regarding why the subject is obscured. In webhook payloads for API version 2.15+, this field returns plain text. */
-  subject?: string;
-  /** The message body, which may contain HTML. For Twitter, this will show a generic message regarding why the body is obscured. In webhook payloads for API version 2.15+, this field returns plain text. */
-  body?: string;
-  author?: ConversationSourceAuthor;
-  /** A list of attachments for the part. */
-  attachments?: ConversationSourceAttachmentsList;
-  /** The URL where the conversation was started. For Twitter, Email, and Bots, this will be blank. */
-  url?: string | null;
-  /** Whether or not the source message has been redacted. Only applicable for contact initiated messages. */
-  redacted?: boolean;
-  email_message_metadata?: SourceEmailMessageMetadata;
-}
-export const ConversationSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    id: S.optional(S.NullOr(S.String)),
-    delivered_as: S.optional(S.String),
-    recipients: S.optional(S.NullOr(ConversationSourceRecipientsList)),
-    reply_to: S.optional(S.NullOr(ConversationSourceReplyToList)),
-    subject: S.optional(S.String),
-    body: S.optional(S.String),
-    author: S.optional(ConversationSourceAuthor),
-    attachments: S.optional(ConversationSourceAttachmentsList),
-    url: S.optional(S.NullOr(S.String)),
-    redacted: S.optional(S.Boolean),
-    email_message_metadata: S.optional(SourceEmailMessageMetadata),
-  }),
-).annotate({
-  identifier: "ConversationSource",
-}) as any as S.Schema<ConversationSource>;
-
-export type ConversationContactsType = "contact.list";
-export const ConversationContactsType = S.String;
-
-/** The list of contacts (users or leads) involved in this conversation. This will only contain one customer unless more were added via the group conversation feature. */
-export type ConversationContactsContactsList = Array<ContactReference>;
-export const ConversationContactsContactsList = /*@__PURE__*/ S.Array(
-  ContactReference,
-) as any as S.Schema<ConversationContactsContactsList>;
-
-/** The list of contacts (users or leads) involved in this conversation. This will only contain one customer unless more were added via the group conversation feature. */
-export interface ConversationContacts {
-  type?: ConversationContactsType;
-  /** The list of contacts (users or leads) involved in this conversation. This will only contain one customer unless more were added via the group conversation feature. */
-  contacts?: ConversationContactsContactsList;
-}
-export const ConversationContacts = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(ConversationContactsType),
-    contacts: S.optional(ConversationContactsContactsList),
-  }),
-).annotate({
-  identifier: "ConversationContacts",
-}) as any as S.Schema<ConversationContacts>;
-
-/** The list of teammates who participated in the conversation (wrote at least one conversation part). */
-export type ConversationTeammatesTeammatesList = Array<Reference>;
-export const ConversationTeammatesTeammatesList = /*@__PURE__*/ S.Array(
-  Reference,
-) as any as S.Schema<ConversationTeammatesTeammatesList>;
-
-/** The list of teammates who participated in the conversation (wrote at least one conversation part). */
-export interface ConversationTeammates {
-  /** The type of the object - `admin.list`. */
-  type?: string;
-  /** The list of teammates who participated in the conversation (wrote at least one conversation part). */
-  teammates?: ConversationTeammatesTeammatesList;
-}
-export const ConversationTeammates = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    teammates: S.optional(ConversationTeammatesTeammatesList),
-  }),
-).annotate({
-  identifier: "ConversationTeammates",
-}) as any as S.Schema<ConversationTeammates>;
-
-export type Datetime = string | number;
-export const Datetime = S.Unknown as any as S.Schema<Datetime>;
-
-/** The custom attributes you have set on the custom object instance. */
-export type CustomObjectInstanceCustomAttributesMap = {
-  [key: string]: string | undefined;
-};
-export const CustomObjectInstanceCustomAttributesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<CustomObjectInstanceCustomAttributesMap>;
-
-/** A Custom Object Instance represents an instance of a custom object type. This allows you to create and set custom attributes to store data about your customers that is not already captured by Intercom. The parent object includes recommended default attributes and you can add your own custom attributes. */
-export interface CustomObjectInstance {
-  /** The Intercom defined id representing the custom object instance. */
-  id?: string;
-  /** The id you have defined for the custom object instance. */
-  external_id?: string;
-  /** The time when the Custom Object instance was created in the external system it originated from. */
-  external_created_at?: number | null;
-  /** The time when the Custom Object instance was last updated in the external system it originated from. */
-  external_updated_at?: number | null;
-  /** The time the attribute was created as a UTC Unix timestamp */
-  created_at?: number;
-  /** The time the attribute was last updated as a UTC Unix timestamp */
-  updated_at?: number;
-  /** The identifier of the custom object type that defines the structure of the custom object instance. */
-  type?: string;
-  /** The custom attributes you have set on the custom object instance. */
-  custom_attributes?: CustomObjectInstanceCustomAttributesMap;
-}
-export const CustomObjectInstance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    external_id: S.optional(S.String),
-    external_created_at: S.optional(S.NullOr(S.Number)),
-    external_updated_at: S.optional(S.NullOr(S.Number)),
-    created_at: S.optional(S.Number),
-    updated_at: S.optional(S.Number),
-    type: S.optional(S.String),
-    custom_attributes: S.optional(CustomObjectInstanceCustomAttributesMap),
-  }),
-).annotate({
-  identifier: "CustomObjectInstance",
-}) as any as S.Schema<CustomObjectInstance>;
-
-/** The list of associated custom object instances for a given reference attribute on the parent object. */
-export type CustomObjectInstanceListInstancesList = Array<CustomObjectInstance>;
-export const CustomObjectInstanceListInstancesList = /*@__PURE__*/ S.Array(
-  CustomObjectInstance,
-) as any as S.Schema<CustomObjectInstanceListInstancesList>;
-
-/** The list of associated custom object instances for a given reference attribute on the parent object. */
-export interface CustomObjectInstanceList {
-  type?: string;
-  /** The list of associated custom object instances for a given reference attribute on the parent object. */
-  instances?: CustomObjectInstanceListInstancesList;
-}
-export const CustomObjectInstanceList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    instances: S.optional(CustomObjectInstanceListInstancesList),
-  }),
-).annotate({
-  identifier: "CustomObjectInstanceList",
-}) as any as S.Schema<CustomObjectInstanceList>;
-
-export type CustomAttributesValue = string | number | Datetime | CustomObjectInstanceList;
-export const CustomAttributesValue = S.Unknown as any as S.Schema<CustomAttributesValue>;
-
-/** An object containing the different custom attributes associated to the conversation as key-value pairs. For relationship attributes the value will be a list of custom object instance models. System-defined attributes such as "CX Score rating" and "CX Score explanation" may also be included. */
-export type CustomAttributes = {
-  [key: string]: CustomAttributesValue | undefined;
-};
-export const CustomAttributes = /*@__PURE__*/ S.Record(
-  S.String,
-  CustomAttributesValue,
-) as any as S.Schema<CustomAttributes>;
-
-/** An object containing information on the first users message. For a contact initiated message this will represent the users original message. */
-export interface ConversationFirstContactReply {
-  created_at?: number;
-  type?: string;
-  url?: string | null;
-}
-export const ConversationFirstContactReply = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    created_at: S.optional(S.Number),
-    type: S.optional(S.String),
-    url: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "ConversationFirstContactReply",
-}) as any as S.Schema<ConversationFirstContactReply>;
-
-/** SLA statuses: - `hit`: If there’s at least one hit event in the underlying sla_events table, and no “missed” or “canceled” events for the conversation. - `missed`: If there are any missed sla_events for the conversation and no canceled events. If there’s even a single missed sla event, the status will always be missed. A missed status is not applied when the SLA expires, only the next time a teammate replies. - `active`: An SLA has been applied to a conversation, but has not yet been fulfilled. SLA status is active only if there are no “hit, “missed”, or “canceled” events. */
-export type SlaAppliedSlaStatus = "hit" | "missed" | "cancelled" | "active";
-export const SlaAppliedSlaStatus = S.String;
-
-/** The SLA Applied object contains the details for which SLA has been applied to this conversation. Important: if there are any canceled sla_events for the conversation - meaning an SLA has been manually removed from a conversation, the sla_status will always be returned as null. */
-export interface SlaApplied {
-  /** object type */
-  type?: string;
-  /** The name of the SLA as given by the teammate when it was created. */
-  sla_name?: string;
-  /** SLA statuses: - `hit`: If there’s at least one hit event in the underlying sla_events table, and no “missed” or “canceled” events for the conversation. - `missed`: If there are any missed sla_events for the conversation and no canceled events. If there’s even a single missed sla event, the status will always be missed. A missed status is not applied when the SLA expires, only the next time a teammate replies. - `active`: An SLA has been applied to a conversation, but has not yet been fulfilled. SLA status is active only if there are no “hit, “missed”, or “canceled” events. */
-  sla_status?: SlaAppliedSlaStatus;
-}
-export const SlaApplied = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    sla_name: S.optional(S.String),
-    sla_status: S.optional(SlaAppliedSlaStatus),
-  }),
-).annotate({ identifier: "SlaApplied" }) as any as S.Schema<SlaApplied>;
-
-/** Details of first response time of assigned team in seconds. */
-export interface ConversationResponseTime {
-  /** Id of the assigned team. */
-  team_id?: number;
-  /** Name of the assigned Team, null if team does not exist, Unassigned if no team is assigned. */
-  team_name?: string;
-  /** First response time of assigned team in seconds. */
-  response_time?: number;
-}
-export const ConversationResponseTime = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    team_id: S.optional(S.Number),
-    team_name: S.optional(S.String),
-    response_time: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ConversationResponseTime",
-}) as any as S.Schema<ConversationResponseTime>;
-
-/** An array of conversation response time objects */
-export type ConversationStatisticsAssignedTeamFirstResponseTimeList =
-  Array<ConversationResponseTime>;
-export const ConversationStatisticsAssignedTeamFirstResponseTimeList = /*@__PURE__*/ S.Array(
-  ConversationResponseTime,
-) as any as S.Schema<ConversationStatisticsAssignedTeamFirstResponseTimeList>;
-
-/** An array of conversation response time objects within office hours */
-export type ConversationStatisticsAssignedTeamFirstResponseTimeInOfficeHoursList =
-  Array<ConversationResponseTime>;
-export const ConversationStatisticsAssignedTeamFirstResponseTimeInOfficeHoursList =
-  /*@__PURE__*/ S.Array(
-    ConversationResponseTime,
-  ) as any as S.Schema<ConversationStatisticsAssignedTeamFirstResponseTimeInOfficeHoursList>;
-
-/** A Statistics object containing all information required for reporting, with timestamps and calculated metrics. */
-export interface ConversationStatistics {
-  type?: string;
-  /** Duration until last assignment before first admin reply. In seconds. */
-  time_to_assignment?: number;
-  /** Duration until first admin reply. Subtracts out of business hours. In seconds. */
-  time_to_admin_reply?: number;
-  /** Duration until conversation was closed first time. Subtracts out of business hours. In seconds. */
-  time_to_first_close?: number;
-  /** Duration until conversation was closed last time. Subtracts out of business hours. In seconds. */
-  time_to_last_close?: number;
-  /** Median based on all admin replies after a contact reply. Subtracts out of business hours. In seconds. */
-  median_time_to_reply?: number;
-  /** Time of first text conversation part from a contact. */
-  first_contact_reply_at?: number;
-  /** Time of first assignment after first_contact_reply_at. */
-  first_assignment_at?: number;
-  /** Time of first admin reply after first_contact_reply_at. */
-  first_admin_reply_at?: number;
-  /** Time of first close after first_contact_reply_at. */
-  first_close_at?: number;
-  /** Time of last assignment after first_contact_reply_at. */
-  last_assignment_at?: number;
-  /** Time of first admin reply since most recent assignment. */
-  last_assignment_admin_reply_at?: number;
-  /** Time of the last conversation part from a contact. */
-  last_contact_reply_at?: number;
-  /** Time of the last conversation part from an admin. */
-  last_admin_reply_at?: number;
-  /** Time of the last conversation close. */
-  last_close_at?: number;
-  /** The last admin who closed the conversation. Returns a reference to an Admin object. */
-  last_closed_by_id?: string;
-  /** Number of reopens after first_contact_reply_at. */
-  count_reopens?: number;
-  /** Number of assignments after first_contact_reply_at. */
-  count_assignments?: number;
-  /** Total number of conversation parts. */
-  count_conversation_parts?: number;
-  /** An array of conversation response time objects */
-  assigned_team_first_response_time?: ConversationStatisticsAssignedTeamFirstResponseTimeList;
-  /** An array of conversation response time objects within office hours */
-  assigned_team_first_response_time_in_office_hours?: ConversationStatisticsAssignedTeamFirstResponseTimeInOfficeHoursList;
-  /** Time from conversation assignment to conversation close in seconds. */
-  handling_time?: number;
-  /** Adjusted handling time for conversation in seconds. This is the active handling time excluding idle periods when teammates are not actively working on the conversation. */
-  adjusted_handling_time?: number | null;
-}
-export const ConversationStatistics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    time_to_assignment: S.optional(S.Number),
-    time_to_admin_reply: S.optional(S.Number),
-    time_to_first_close: S.optional(S.Number),
-    time_to_last_close: S.optional(S.Number),
-    median_time_to_reply: S.optional(S.Number),
-    first_contact_reply_at: S.optional(S.Number),
-    first_assignment_at: S.optional(S.Number),
-    first_admin_reply_at: S.optional(S.Number),
-    first_close_at: S.optional(S.Number),
-    last_assignment_at: S.optional(S.Number),
-    last_assignment_admin_reply_at: S.optional(S.Number),
-    last_contact_reply_at: S.optional(S.Number),
-    last_admin_reply_at: S.optional(S.Number),
-    last_close_at: S.optional(S.Number),
-    last_closed_by_id: S.optional(S.String),
-    count_reopens: S.optional(S.Number),
-    count_assignments: S.optional(S.Number),
-    count_conversation_parts: S.optional(S.Number),
-    assigned_team_first_response_time: S.optional(
-      ConversationStatisticsAssignedTeamFirstResponseTimeList,
-    ),
-    assigned_team_first_response_time_in_office_hours: S.optional(
-      ConversationStatisticsAssignedTeamFirstResponseTimeInOfficeHoursList,
-    ),
-    handling_time: S.optional(S.Number),
-    adjusted_handling_time: S.optional(S.NullOr(S.Number)),
-  }),
-).annotate({
-  identifier: "ConversationStatistics",
-}) as any as S.Schema<ConversationStatistics>;
-
-export type ConversationPartsType = "conversation_part.list";
-export const ConversationPartsType = S.String;
-
-/** The object who initiated the conversation, which can be a Contact, Admin or Team. Bots and campaigns send messages on behalf of Admins or Teams. For Twitter, this will be blank. */
-export interface ConversationPartAuthor {
-  /** The type of the author */
-  type?: string;
-  /** The id of the author */
-  id?: string;
-  /** The name of the author */
-  name?: string | null;
-  /** The email of the author */
-  email?: string;
-  /** If this conversation part was sent by the AI Agent */
-  from_ai_agent?: boolean;
-  /** If this conversation part body was generated by the AI Agent */
-  is_ai_answer?: boolean;
-}
-export const ConversationPartAuthor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    id: S.optional(S.String),
-    name: S.optional(S.NullOr(S.String)),
-    email: S.optional(S.String),
-    from_ai_agent: S.optional(S.Boolean),
-    is_ai_answer: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ConversationPartAuthor",
-}) as any as S.Schema<ConversationPartAuthor>;
-
-/** A list of attachments for the part. */
-export type ConversationPartAttachmentsList = Array<PartAttachment>;
-export const ConversationPartAttachmentsList = /*@__PURE__*/ S.Array(
-  PartAttachment,
-) as any as S.Schema<ConversationPartAttachmentsList>;
-
-/** A list of an email address headers. */
-export type EmailMessageMetadataEmailAddressHeadersList = Array<EmailAddressHeader>;
-export const EmailMessageMetadataEmailAddressHeadersList = /*@__PURE__*/ S.Array(
-  EmailAddressHeader,
-) as any as S.Schema<EmailMessageMetadataEmailAddressHeadersList>;
-
-/** Contains metadata if the message was sent as an email */
-export interface EmailMessageMetadata {
-  /** The subject of the email */
-  subject?: string;
-  /** A list of an email address headers. */
-  email_address_headers?: EmailMessageMetadataEmailAddressHeadersList;
-  /** The unique identifier for the email message as specified in the Message-ID header */
-  message_id?: string | null;
-}
-export const EmailMessageMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subject: S.optional(S.String),
-    email_address_headers: S.optional(EmailMessageMetadataEmailAddressHeadersList),
-    message_id: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "EmailMessageMetadata",
-}) as any as S.Schema<EmailMessageMetadata>;
-
-export interface ConversationPartMetadataQuickReplyOptionsItem {
-  /** The text to display in this quick reply option. */
-  text: string;
-  /** A unique identifier for this quick reply option. This value will be available within the metadata of the comment conversation part that is created when a user clicks on this reply option. */
-  uuid: string;
-  /** The translations for the quick reply option. */
-  translations?: unknown | null;
-}
-export const ConversationPartMetadataQuickReplyOptionsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    text: S.String,
-    uuid: S.String,
-    translations: S.optional(S.NullOr(S.Unknown)),
-  }),
-).annotate({
-  identifier: "ConversationPartMetadataQuickReplyOptionsItem",
-}) as any as S.Schema<ConversationPartMetadataQuickReplyOptionsItem>;
-
-/** The quick reply options sent by the Admin or bot, presented in this conversation part. */
-export type ConversationPartMetadataQuickReplyOptionsList =
-  Array<ConversationPartMetadataQuickReplyOptionsItem>;
-export const ConversationPartMetadataQuickReplyOptionsList = /*@__PURE__*/ S.Array(
-  ConversationPartMetadataQuickReplyOptionsItem,
-) as any as S.Schema<ConversationPartMetadataQuickReplyOptionsList>;
-
-/** Metadata for a conversation part */
-export interface ConversationPartMetadata {
-  /** The quick reply options sent by the Admin or bot, presented in this conversation part. */
-  quick_reply_options?: ConversationPartMetadataQuickReplyOptionsList;
-  /** The unique identifier for the quick reply option that was clicked by the end user. */
-  quick_reply_uuid?: string;
-}
-export const ConversationPartMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    quick_reply_options: S.optional(ConversationPartMetadataQuickReplyOptionsList),
-    quick_reply_uuid: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConversationPartMetadata",
-}) as any as S.Schema<ConversationPartMetadata>;
-
-/** Indicates the current state of conversation when the conversation part was created. */
-export type ConversationPartState = "open" | "closed" | "snoozed";
-export const ConversationPartState = S.String;
-
-/** A list of tags objects associated with the conversation part. */
-export type ConversationPartTagsList = Array<TagBasic>;
-export const ConversationPartTagsList = /*@__PURE__*/ S.Array(
-  TagBasic,
-) as any as S.Schema<ConversationPartTagsList>;
-
-export interface ConversationAttributeUpdatedByWorkflowWorkflow {
-  /** Name of the workflow */
-  name?: string;
-}
-export const ConversationAttributeUpdatedByWorkflowWorkflow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConversationAttributeUpdatedByWorkflowWorkflow",
-}) as any as S.Schema<ConversationAttributeUpdatedByWorkflowWorkflow>;
-
-export interface ConversationAttributeUpdatedByWorkflowAttribute {
-  /** Name of the CDA updated */
-  name?: string;
-}
-export const ConversationAttributeUpdatedByWorkflowAttribute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConversationAttributeUpdatedByWorkflowAttribute",
-}) as any as S.Schema<ConversationAttributeUpdatedByWorkflowAttribute>;
-
-export interface ConversationAttributeUpdatedByWorkflowValue {
-  /** Value of the CDA updated */
-  name?: string;
-}
-export const ConversationAttributeUpdatedByWorkflowValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConversationAttributeUpdatedByWorkflowValue",
-}) as any as S.Schema<ConversationAttributeUpdatedByWorkflowValue>;
-
-/** Contains details about the workflow that was triggered and any Custom Data Attributes (CDAs) that were modified during the workflow execution for conversation part type <code>conversation_attribute_updated_by_workflow</code>. */
-export interface ConversationAttributeUpdatedByWorkflow {
-  workflow?: ConversationAttributeUpdatedByWorkflowWorkflow;
-  attribute?: ConversationAttributeUpdatedByWorkflowAttribute;
-  value?: ConversationAttributeUpdatedByWorkflowValue;
-}
-export const ConversationAttributeUpdatedByWorkflow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    workflow: S.optional(ConversationAttributeUpdatedByWorkflowWorkflow),
-    attribute: S.optional(ConversationAttributeUpdatedByWorkflowAttribute),
-    value: S.optional(ConversationAttributeUpdatedByWorkflowValue),
-  }),
-).annotate({
-  identifier: "ConversationAttributeUpdatedByWorkflow",
-}) as any as S.Schema<ConversationAttributeUpdatedByWorkflow>;
-
-export type ConversationAttributeUpdatedByAdminAttribute =
-  ConversationAttributeUpdatedByWorkflowAttribute;
-export const ConversationAttributeUpdatedByAdminAttribute =
-  ConversationAttributeUpdatedByWorkflowAttribute;
-
-export interface ConversationAttributeUpdatedByAdminValue {
-  /** Current value of the CDA updated */
-  name?: string;
-  /** Previous value of the CDA */
-  previous?: string | null;
-}
-export const ConversationAttributeUpdatedByAdminValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    previous: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "ConversationAttributeUpdatedByAdminValue",
-}) as any as S.Schema<ConversationAttributeUpdatedByAdminValue>;
-
-/** Contains details about Custom Data Attributes (CDAs) that were modified by an admin (operator) for conversation part type <code>conversation_attribute_updated_by_admin</code>. */
-export interface ConversationAttributeUpdatedByAdmin {
-  attribute?: ConversationAttributeUpdatedByWorkflowAttribute;
-  value?: ConversationAttributeUpdatedByAdminValue;
-}
-export const ConversationAttributeUpdatedByAdmin = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attribute: S.optional(ConversationAttributeUpdatedByWorkflowAttribute),
-    value: S.optional(ConversationAttributeUpdatedByAdminValue),
-  }),
-).annotate({
-  identifier: "ConversationAttributeUpdatedByAdmin",
-}) as any as S.Schema<ConversationAttributeUpdatedByAdmin>;
-
-export type ConversationAttributeUpdatedByUserAttribute =
-  ConversationAttributeUpdatedByWorkflowAttribute;
-export const ConversationAttributeUpdatedByUserAttribute =
-  ConversationAttributeUpdatedByWorkflowAttribute;
-
-export interface ConversationAttributeUpdatedByUserValue {
-  /** Current value of the CDA updated */
-  name?: string;
-  /** Previous value of the CDA (null for older events) */
-  previous?: string | null;
-}
-export const ConversationAttributeUpdatedByUserValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    previous: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "ConversationAttributeUpdatedByUserValue",
-}) as any as S.Schema<ConversationAttributeUpdatedByUserValue>;
-
-/** Contains details about Custom Data Attributes (CDAs) that were modified by a user for conversation part type <code>conversation_attribute_updated_by_user</code>. */
-export interface ConversationAttributeUpdatedByUser {
-  attribute?: ConversationAttributeUpdatedByWorkflowAttribute;
-  value?: ConversationAttributeUpdatedByUserValue;
-}
-export const ConversationAttributeUpdatedByUser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attribute: S.optional(ConversationAttributeUpdatedByWorkflowAttribute),
-    value: S.optional(ConversationAttributeUpdatedByUserValue),
-  }),
-).annotate({
-  identifier: "ConversationAttributeUpdatedByUser",
-}) as any as S.Schema<ConversationAttributeUpdatedByUser>;
-
-export interface CustomActionStartedAction {
-  /** Name of the action */
-  name?: string;
-}
-export const CustomActionStartedAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CustomActionStartedAction",
-}) as any as S.Schema<CustomActionStartedAction>;
-
-/** Contains details about name of the action that was initiated for conversation part type <code>custom_action_started</code>. */
-export interface CustomActionStarted {
-  action?: CustomActionStartedAction;
-}
-export const CustomActionStarted = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    action: S.optional(CustomActionStartedAction),
-  }),
-).annotate({
-  identifier: "CustomActionStarted",
-}) as any as S.Schema<CustomActionStarted>;
-
-/** Status of the action */
-export type CustomActionFinishedActionResult = "success" | "failed";
-export const CustomActionFinishedActionResult = S.String;
-
-export interface CustomActionFinishedAction {
-  /** Name of the action */
-  name?: string;
-  /** Status of the action */
-  result?: CustomActionFinishedActionResult;
-}
-export const CustomActionFinishedAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    result: S.optional(CustomActionFinishedActionResult),
-  }),
-).annotate({
-  identifier: "CustomActionFinishedAction",
-}) as any as S.Schema<CustomActionFinishedAction>;
-
-/** Contains details about final status of the completed action for conversation part type <code>custom_action_finished</code>. */
-export interface CustomActionFinished {
-  action?: CustomActionFinishedAction;
-}
-export const CustomActionFinished = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    action: S.optional(CustomActionFinishedAction),
-  }),
-).annotate({
-  identifier: "CustomActionFinished",
-}) as any as S.Schema<CustomActionFinished>;
-
-export interface OperatorWorkflowEventWorkflow {
-  /** The name of the workflow */
-  name?: string;
-}
-export const OperatorWorkflowEventWorkflow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "OperatorWorkflowEventWorkflow",
-}) as any as S.Schema<OperatorWorkflowEventWorkflow>;
-
-export interface OperatorWorkflowEventEvent {
-  /** Type of the workflow event initiated */
-  type?: string;
-  /** Result of the workflow event */
-  result?: string;
-}
-export const OperatorWorkflowEventEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    result: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "OperatorWorkflowEventEvent",
-}) as any as S.Schema<OperatorWorkflowEventEvent>;
-
-/** Contains details about name of the workflow for conversation part type <code>operator_workflow_event</code>. */
-export interface OperatorWorkflowEvent {
-  workflow?: OperatorWorkflowEventWorkflow;
-  event?: OperatorWorkflowEventEvent;
-}
-export const OperatorWorkflowEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    workflow: S.optional(OperatorWorkflowEventWorkflow),
-    event: S.optional(OperatorWorkflowEventEvent),
-  }),
-).annotate({
-  identifier: "OperatorWorkflowEvent",
-}) as any as S.Schema<OperatorWorkflowEvent>;
-
-export type EventDetails =
-  | ConversationAttributeUpdatedByWorkflow
-  | ConversationAttributeUpdatedByAdmin
-  | ConversationAttributeUpdatedByUser
-  | CustomActionStarted
-  | CustomActionFinished
-  | OperatorWorkflowEvent;
-export const EventDetails = S.Unknown as any as S.Schema<EventDetails>;
-
-/** A Conversation Part represents a message in the conversation. */
-export interface ConversationPart {
-  /** Always conversation_part */
-  type?: string;
-  /** The id representing the conversation part. */
-  id?: string;
-  /** The type of conversation part. */
-  part_type?: string;
-  /** The message body, which may contain HTML. For Twitter, this will show a generic message regarding why the body is obscured. In webhook payloads for API version 2.15+, this field returns plain text. */
-  body?: string | null;
-  /** The time the conversation part was created. */
-  created_at?: number;
-  /** The last time the conversation part was updated. */
-  updated_at?: number;
-  /** The time the user was notified with the conversation part. */
-  notified_at?: number;
-  /** The assignee this conversation_part assigned the conversation to, as a reference whose `type` is `admin`, `team` or `bot`. When the part unassigned the conversation, `type` is `nobody_admin` and `id` is `null`. Null when the part did not change the assignment, or when the assignee has since been deleted. */
-  assigned_to?: Reference | null;
-  author?: ConversationPartAuthor;
-  /** A list of attachments for the part. */
-  attachments?: ConversationPartAttachmentsList;
-  /** The external id of the conversation part */
-  external_id?: string | null;
-  /** Whether or not the conversation part has been redacted. */
-  redacted?: boolean;
-  email_message_metadata?: EmailMessageMetadata | null;
-  metadata?: ConversationPartMetadata | null;
-  /** Indicates the current state of conversation when the conversation part was created. */
-  state?: ConversationPartState;
-  /** A list of tags objects associated with the conversation part. */
-  tags?: ConversationPartTagsList | null;
-  event_details?: EventDetails | null;
-  /** The app package code if this part was created via API. null if the part was not created via API. */
-  app_package_code?: string | null;
-}
-export const ConversationPart = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    id: S.optional(S.String),
-    part_type: S.optional(S.String),
-    body: S.optional(S.NullOr(S.String)),
-    created_at: S.optional(S.Number),
-    updated_at: S.optional(S.Number),
-    notified_at: S.optional(S.Number),
-    assigned_to: S.optional(S.NullOr(Reference)),
-    author: S.optional(ConversationPartAuthor),
-    attachments: S.optional(ConversationPartAttachmentsList),
-    external_id: S.optional(S.NullOr(S.String)),
-    redacted: S.optional(S.Boolean),
-    email_message_metadata: S.optional(S.NullOr(EmailMessageMetadata)),
-    metadata: S.optional(S.NullOr(ConversationPartMetadata)),
-    state: S.optional(ConversationPartState),
-    tags: S.optional(S.NullOr(ConversationPartTagsList)),
-    event_details: S.optional(S.NullOr(EventDetails)),
-    app_package_code: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "ConversationPart",
-}) as any as S.Schema<ConversationPart>;
-
-/** A list of Conversation Part objects for each part message in the conversation. This is only returned when Retrieving a Conversation, and ignored when Listing all Conversations. There is a limit of 500 parts. */
-export type ConversationPartsConversationPartsList = Array<ConversationPart>;
-export const ConversationPartsConversationPartsList = /*@__PURE__*/ S.Array(
-  ConversationPart,
-) as any as S.Schema<ConversationPartsConversationPartsList>;
-
-/** A list of Conversation Part objects for each part message in the conversation. This is only returned when Retrieving a Conversation, and ignored when Listing all Conversations. There is a limit of 500 parts. */
-export interface ConversationParts {
-  type?: ConversationPartsType;
-  /** A list of Conversation Part objects for each part message in the conversation. This is only returned when Retrieving a Conversation, and ignored when Listing all Conversations. There is a limit of 500 parts. */
-  conversation_parts?: ConversationPartsConversationPartsList;
-  total_count?: number;
-}
-export const ConversationParts = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(ConversationPartsType),
-    conversation_parts: S.optional(ConversationPartsConversationPartsList),
-    total_count: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ConversationParts",
-}) as any as S.Schema<ConversationParts>;
-
-/** Always list. */
-export type LinkedObjectListType = "list";
-export const LinkedObjectListType = S.String;
-
-/** ticket or conversation */
-export type LinkedObjectType = "ticket" | "conversation";
-export const LinkedObjectType = S.String;
-
-/** A linked conversation or ticket. */
-export interface LinkedObject {
-  /** ticket or conversation */
-  type?: LinkedObjectType;
-  /** The ID of the linked object */
-  id?: string;
-  /** Category of the Linked Ticket Object. */
-  category?: unknown;
-}
-export const LinkedObject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(LinkedObjectType),
-    id: S.optional(S.String),
-    category: S.optional(S.Unknown),
-  }),
-).annotate({ identifier: "LinkedObject" }) as any as S.Schema<LinkedObject>;
-
-/** An array containing the linked conversations and linked tickets. */
-export type LinkedObjectListDataList = Array<LinkedObject>;
-export const LinkedObjectListDataList = /*@__PURE__*/ S.Array(
-  LinkedObject,
-) as any as S.Schema<LinkedObjectListDataList>;
-
-/** An object containing metadata about linked conversations and linked tickets. Up to 1000 can be returned. */
-export interface LinkedObjectList {
-  /** Always list. */
-  type?: LinkedObjectListType;
-  /** The total number of linked objects. */
-  total_count?: number;
-  /** Whether or not there are more linked objects than returned. */
-  has_more?: boolean;
-  /** An array containing the linked conversations and linked tickets. */
-  data?: LinkedObjectListDataList;
-}
-export const LinkedObjectList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(LinkedObjectListType),
-    total_count: S.optional(S.Number),
-    has_more: S.optional(S.Boolean),
-    data: S.optional(LinkedObjectListDataList),
-  }),
-).annotate({
-  identifier: "LinkedObjectList",
-}) as any as S.Schema<LinkedObjectList>;
-
-/** The type of the source that triggered AI Agent involvement in the conversation. */
-export type AiAgentSourceType =
-  | "essentials_plan_setup"
-  | "profile"
-  | "workflow"
-  | "workflow_preview"
-  | "fin_preview";
-export const AiAgentSourceType = S.String;
-
-/** The type of the last answer delivered by AI Agent. If no answer was delivered then this will return `null` */
-export type AiAgentLastAnswerType = "ai_answer" | "custom_answer";
-export const AiAgentLastAnswerType = S.String;
-
-export type ContentSourcesListType = "content_source.list";
-export const ContentSourcesListType = S.String;
-
-/** The type of the content source. */
-export type ContentSourceContentType =
-  | "file"
-  | "article"
-  | "external_content"
-  | "content_snippet"
-  | "workflow_connector_action";
-export const ContentSourceContentType = S.String;
-
-/** The content source used by AI Agent in the conversation. */
-export interface ContentSource {
-  /** The type of the content source. */
-  content_type?: ContentSourceContentType;
-  /** The internal URL linking to the content source for teammates. */
-  url?: string;
-  /** The title of the content source. */
-  title?: string;
-  /** The ISO 639 language code of the content source. */
-  locale?: string;
-}
-export const ContentSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    content_type: S.optional(ContentSourceContentType),
-    url: S.optional(S.String),
-    title: S.optional(S.String),
-    locale: S.optional(S.String),
-  }),
-).annotate({ identifier: "ContentSource" }) as any as S.Schema<ContentSource>;
-
-/** The content sources used by AI Agent in the conversation. */
-export type ContentSourcesListContentSourcesList = Array<ContentSource>;
-export const ContentSourcesListContentSourcesList = /*@__PURE__*/ S.Array(
-  ContentSource,
-) as any as S.Schema<ContentSourcesListContentSourcesList>;
-
-export interface ContentSourcesList {
-  type?: ContentSourcesListType;
-  /** The total number of content sources used by AI Agent in the conversation. */
-  total_count?: number;
-  /** The content sources used by AI Agent in the conversation. */
-  content_sources?: ContentSourcesListContentSourcesList;
-}
-export const ContentSourcesList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(ContentSourcesListType),
-    total_count: S.optional(S.Number),
-    content_sources: S.optional(ContentSourcesListContentSourcesList),
-  }),
-).annotate({
-  identifier: "ContentSourcesList",
-}) as any as S.Schema<ContentSourcesList>;
-
-/** Data related to AI Agent involvement in the conversation. */
-export interface AiAgent {
-  /** The type of the source that triggered AI Agent involvement in the conversation. */
-  source_type?: AiAgentSourceType | null;
-  /** The title of the source that triggered AI Agent involvement in the conversation. If this is `essentials_plan_setup` then it will return `null`. */
-  source_title?: string | null;
-  /** The type of the last answer delivered by AI Agent. If no answer was delivered then this will return `null` */
-  last_answer_type?: AiAgentLastAnswerType | null;
-  /** The resolution state of AI Agent. If no AI or custom answer has been delivered then this will return `null`. */
-  resolution_state?: unknown;
-  /** The customer satisfaction rating given to AI Agent, from 1-5. */
-  rating?: number | null;
-  /** The customer satisfaction rating remark given to AI Agent. */
-  rating_remark?: string | null;
-  /** The time when the AI agent rating was created. */
-  created_at?: number | null;
-  /** The time when the AI agent rating was last updated. */
-  updated_at?: number | null;
-  content_sources?: ContentSourcesList;
-}
-export const AiAgent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    source_type: S.optional(S.NullOr(AiAgentSourceType)),
-    source_title: S.optional(S.NullOr(S.String)),
-    last_answer_type: S.optional(S.NullOr(AiAgentLastAnswerType)),
-    resolution_state: S.optional(S.Unknown),
-    rating: S.optional(S.NullOr(S.Number)),
-    rating_remark: S.optional(S.NullOr(S.String)),
-    created_at: S.optional(S.NullOr(S.Number)),
-    updated_at: S.optional(S.NullOr(S.Number)),
-    content_sources: S.optional(ContentSourcesList),
-  }),
-).annotate({ identifier: "AiAgent" }) as any as S.Schema<AiAgent>;
-
-/** The fixed outcome of the sales agent interaction, used for billing and tracking. */
-export type SalesAgentOutcome =
-  | "qualified"
-  | "disqualified"
-  | "product_discovery"
-  | "escalated_to_support"
-  | "spam";
-export const SalesAgentOutcome = S.String;
-
-/** A flat key-value map of memory fields collected by the sales agent during the conversation. */
-export type SalesAgentCollectedDataMap = { [key: string]: string | undefined };
-export const SalesAgentCollectedDataMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<SalesAgentCollectedDataMap>;
-
-/** Data related to Sales Agent involvement in the conversation. */
-export interface SalesAgent {
-  /** The fixed outcome of the sales agent interaction, used for billing and tracking. */
-  outcome?: SalesAgentOutcome | null;
-  /** The identifier of the user-defined routing outcome selected by the sales agent. */
-  routing_outcome?: string | null;
-  /** A flat key-value map of memory fields collected by the sales agent during the conversation. */
-  collected_data?: SalesAgentCollectedDataMap | null;
-}
-export const SalesAgent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    outcome: S.optional(S.NullOr(SalesAgentOutcome)),
-    routing_outcome: S.optional(S.NullOr(S.String)),
-    collected_data: S.optional(S.NullOr(SalesAgentCollectedDataMap)),
-  }),
-).annotate({ identifier: "SalesAgent" }) as any as S.Schema<SalesAgent>;
-
-/** The channel through which a conversation was originally initiated and its current channel. */
-export interface ConversationChannel {
-  /** The channel through which the conversation was originally initiated. Possible values include `messenger`, `zendesk_sunshine`, `zendesk_ticket`, `twitter`, `email`. Returns `null` if channel data is unavailable. */
-  initial?: string | null;
-  /** The current channel of the conversation. May differ from `initial` if the conversation was migrated between channels. Returns `null` if channel data is unavailable. */
-  current?: string | null;
-}
-export const ConversationChannel = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    initial: S.optional(S.NullOr(S.String)),
-    current: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "ConversationChannel",
-}) as any as S.Schema<ConversationChannel>;
-
-/** A reference linking a conversation to a record in an external helpdesk or CRM system, surfaced for Fin Standalone workspaces. */
-export interface ConversationExternalReference {
-  /** The type of external system the reference points to. Possible values include `zendesk_ticket`, `zendesk_sunshine_conversation`, `salesforce_case`, `salesforce_in_app_message_conversation`, `freshdesk_ticket`, `freshchat_conversation`, `hubspot_conversation`, `custom_helpdesk_conversation`, `api_conversation`. */
-  type?: string;
-  /** The identifier of the record in the external system. Always serialized as a string, since some external IDs exceed 32-bit integer range. */
-  id?: string;
-}
-export const ConversationExternalReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    id: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConversationExternalReference",
-}) as any as S.Schema<ConversationExternalReference>;
-
-/** References linking this conversation to records in an external helpdesk or CRM system. Populated for Fin Standalone workspaces synced from an external platform; an empty array otherwise. Sorted alphabetically by `type` and capped at 20 entries. */
-export type ConversationExternalReferencesList = Array<ConversationExternalReference>;
-export const ConversationExternalReferencesList = /*@__PURE__*/ S.Array(
-  ConversationExternalReference,
-) as any as S.Schema<ConversationExternalReferencesList>;
-
-/** A QA monitor evaluation that flagged this conversation. Returned in the `monitor_evaluations` array on conversation responses when `include_monitors=true` is passed. */
-export interface ConversationMonitorEvaluation {
-  /** The unique identifier of the monitor that produced this evaluation. */
-  monitor_id?: string;
-  /** The name of the monitor at the time of evaluation. Null if the monitor has since been deleted. */
-  monitor_name?: string | null;
-  /** The type of the monitor. Null if the monitor has since been deleted. */
-  monitor_type?: string | null;
-  /** The evaluation outcome reported by the monitor. */
-  result?: string;
-  /** The reasoning provided by the monitor for its result. May be null if no reasoning was generated. */
-  explanation?: string | null;
-  /** The time the monitor evaluated this conversation. Null in the rare case the underlying record's timestamp is not yet set. */
-  evaluated_at?: number | null;
-}
-export const ConversationMonitorEvaluation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monitor_id: S.optional(S.String),
-    monitor_name: S.optional(S.NullOr(S.String)),
-    monitor_type: S.optional(S.NullOr(S.String)),
-    result: S.optional(S.String),
-    explanation: S.optional(S.NullOr(S.String)),
-    evaluated_at: S.optional(S.NullOr(S.Number)),
-  }),
-).annotate({
-  identifier: "ConversationMonitorEvaluation",
-}) as any as S.Schema<ConversationMonitorEvaluation>;
-
-/** QA monitor evaluations that flagged this conversation. Only included when `include_monitors=true` is passed as a query parameter. */
-export type ConversationMonitorEvaluationsList = Array<ConversationMonitorEvaluation>;
-export const ConversationMonitorEvaluationsList = /*@__PURE__*/ S.Array(
-  ConversationMonitorEvaluation,
-) as any as S.Schema<ConversationMonitorEvaluationsList>;
-
-/** The kind of reviewee. `ai` if the conversation was handled by Fin or scored without a specific teammate; `admin` if a specific teammate was reviewed. */
-export type ConversationScorecardReviewedTeammateType = "ai" | "admin";
-export const ConversationScorecardReviewedTeammateType = S.String;
-
-/** The teammate (or AI agent) whose handling of the conversation was reviewed by this scorecard. */
-export interface ConversationScorecardReviewedTeammate {
-  /** The kind of reviewee. `ai` if the conversation was handled by Fin or scored without a specific teammate; `admin` if a specific teammate was reviewed. */
-  type?: ConversationScorecardReviewedTeammateType;
-  /** The id of the admin who was reviewed. Present only when `type` is `admin`. */
-  admin_id?: string | null;
-}
-export const ConversationScorecardReviewedTeammate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(ConversationScorecardReviewedTeammateType),
-    admin_id: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "ConversationScorecardReviewedTeammate",
-}) as any as S.Schema<ConversationScorecardReviewedTeammate>;
-
-/** Identifiers for structured reasons assigned to the result, if any. */
-export type ConversationScorecardEvaluatorResultReasonIdsList = Array<string>;
-export const ConversationScorecardEvaluatorResultReasonIdsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ConversationScorecardEvaluatorResultReasonIdsList>;
-
-/** The outcome of a single evaluator within a scorecard. */
-export interface ConversationScorecardEvaluatorResult {
-  /** The evaluator's selected value (typically a label such as `pass`, `fail`, or a category identifier). */
-  value?: string | null;
-  /** The origin of the result (for example, `ai` or `human`). */
-  source?: string | null;
-  /** A free-text explanation of the result. */
-  reasoning?: string | null;
-  /** Identifiers for structured reasons assigned to the result, if any. */
-  reason_ids?: ConversationScorecardEvaluatorResultReasonIdsList | null;
-  /** Free-text entered by the reviewer to supplement or stand in for the structured `reason_ids` — typically captured when the reviewer selects an "Other" option or adds a custom note. Null when not provided. */
-  other_text?: string | null;
-}
-export const ConversationScorecardEvaluatorResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.NullOr(S.String)),
-    source: S.optional(S.NullOr(S.String)),
-    reasoning: S.optional(S.NullOr(S.String)),
-    reason_ids: S.optional(S.NullOr(ConversationScorecardEvaluatorResultReasonIdsList)),
-    other_text: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "ConversationScorecardEvaluatorResult",
-}) as any as S.Schema<ConversationScorecardEvaluatorResult>;
-
-/** A single evaluator within a scorecard, including its result for this conversation. */
-export interface ConversationScorecardEvaluator {
-  /** The unique identifier of the evaluator (criterion) within the scorecard. */
-  evaluator_id?: string;
-  /** The evaluator's result for this conversation. Null if the evaluator was not scored. */
-  result?: ConversationScorecardEvaluatorResult | null;
-}
-export const ConversationScorecardEvaluator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    evaluator_id: S.optional(S.String),
-    result: S.optional(S.NullOr(ConversationScorecardEvaluatorResult)),
-  }),
-).annotate({
-  identifier: "ConversationScorecardEvaluator",
-}) as any as S.Schema<ConversationScorecardEvaluator>;
-
-/** Per-evaluator results within this scorecard. */
-export type ConversationScorecardEvaluatorsList = Array<ConversationScorecardEvaluator>;
-export const ConversationScorecardEvaluatorsList = /*@__PURE__*/ S.Array(
-  ConversationScorecardEvaluator,
-) as any as S.Schema<ConversationScorecardEvaluatorsList>;
-
-/** A QA scorecard result for this conversation. Returned in the `scorecards` array on conversation responses when `include_scorecards=true` is passed. */
-export interface ConversationScorecard {
-  /** The unique identifier of the scorecard definition. */
-  scorecard_id?: string;
-  /** The unique identifier of the specific scorecard version that produced this result. */
-  scorecard_version_id?: string;
-  /** The name of the scorecard. */
-  name?: string;
-  /** The type of scorecard. */
-  scorecard_type?: string;
-  /** Whether the conversation passed the scorecard. Null when the scorecard has not been scored. */
-  passed?: boolean | null;
-  /** The numeric score for the scorecard. Null when the scorecard has not been scored. */
-  score?: number | null;
-  /** The numeric score produced by AI evaluation, if applicable. Null when not AI-scored. */
-  ai_score?: number | null;
-  /** The time the scorecard was last evaluated. Null in the rare case the underlying record's timestamp is not yet set. */
-  evaluated_at?: number | null;
-  reviewed_teammate?: ConversationScorecardReviewedTeammate;
-  /** Per-evaluator results within this scorecard. */
-  evaluators?: ConversationScorecardEvaluatorsList;
-}
-export const ConversationScorecard = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scorecard_id: S.optional(S.String),
-    scorecard_version_id: S.optional(S.String),
-    name: S.optional(S.String),
-    scorecard_type: S.optional(S.String),
-    passed: S.optional(S.NullOr(S.Boolean)),
-    score: S.optional(S.NullOr(S.Number)),
-    ai_score: S.optional(S.NullOr(S.Number)),
-    evaluated_at: S.optional(S.NullOr(S.Number)),
-    reviewed_teammate: S.optional(ConversationScorecardReviewedTeammate),
-    evaluators: S.optional(ConversationScorecardEvaluatorsList),
-  }),
-).annotate({
-  identifier: "ConversationScorecard",
-}) as any as S.Schema<ConversationScorecard>;
-
-/** QA scorecard results for this conversation. Only included when `include_scorecards=true` is passed as a query parameter. */
-export type ConversationScorecardsList = Array<ConversationScorecard>;
-export const ConversationScorecardsList = /*@__PURE__*/ S.Array(
-  ConversationScorecard,
-) as any as S.Schema<ConversationScorecardsList>;
-
-/** Conversations are how you can communicate with users in Intercom. They are created when a contact replies to an outbound message, or when one admin directly sends a message to a single contact. */
-export interface Conversation {
-  /** Always conversation. */
-  type?: string;
-  /** The id representing the conversation. */
-  id?: string;
-  /** The title given to the conversation. */
-  title?: string | null;
-  /** The time the conversation was created. */
-  created_at?: number;
-  /** The last time the conversation was updated. */
-  updated_at?: number;
-  /** The last time a Contact responded to an Admin. In other words, the time a customer started waiting for a response. Set to null if last reply is from an Admin. */
-  waiting_since?: number | null;
-  /** If set this is the time in the future when this conversation will be marked as open. i.e. it will be in a snoozed state until this time. i.e. it will be in a snoozed state until this time. */
-  snoozed_until?: number | null;
-  /** Indicates whether a conversation is open (true) or closed (false). */
-  open?: boolean;
-  /** Can be set to "open", "closed" or "snoozed". */
-  state?: ConversationState;
-  /** Indicates whether a conversation has been read. */
-  read?: boolean;
-  /** The priority level of the conversation. Returns one of none, low, medium, high, or urgent. */
-  priority?: ConversationPriority;
-  /** The id of the admin assigned to the conversation. If it's not assigned to an admin it will return 0. */
-  admin_assignee_id?: number;
-  /** The id of the team assigned to the conversation. If it's not assigned to a team it will return 0. */
-  team_assignee_id?: number;
-  /** The company associated with the conversation. */
-  company?: Company | null;
-  tags?: Tags;
-  conversation_rating?: ConversationRating | null;
-  source?: ConversationSource;
-  contacts?: ConversationContacts;
-  teammates?: ConversationTeammates | null;
-  custom_attributes?: CustomAttributes;
-  first_contact_reply?: ConversationFirstContactReply | null;
-  sla_applied?: SlaApplied | null;
-  statistics?: ConversationStatistics | null;
-  conversation_parts?: ConversationParts;
-  linked_objects?: LinkedObjectList;
-  /** Indicates whether the AI Agent participated in the conversation. */
-  ai_agent_participated?: boolean;
-  ai_agent?: AiAgent | null;
-  /** Indicates whether the Sales Agent participated in the conversation. */
-  sales_agent_participated?: boolean;
-  sales_agent?: SalesAgent | null;
-  /** The channel through which the conversation was initiated and its current channel. */
-  channel?: ConversationChannel | null;
-  /** References linking this conversation to records in an external helpdesk or CRM system. Populated for Fin Standalone workspaces synced from an external platform; an empty array otherwise. Sorted alphabetically by `type` and capped at 20 entries. */
-  external_references?: ConversationExternalReferencesList;
-  /** QA monitor evaluations that flagged this conversation. Only included when `include_monitors=true` is passed as a query parameter. */
-  monitor_evaluations?: ConversationMonitorEvaluationsList;
-  /** QA scorecard results for this conversation. Only included when `include_scorecards=true` is passed as a query parameter. */
-  scorecards?: ConversationScorecardsList;
-}
-export const Conversation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    id: S.optional(S.String),
-    title: S.optional(S.NullOr(S.String)),
-    created_at: S.optional(S.Number),
-    updated_at: S.optional(S.Number),
-    waiting_since: S.optional(S.NullOr(S.Number)),
-    snoozed_until: S.optional(S.NullOr(S.Number)),
-    open: S.optional(S.Boolean),
-    state: S.optional(ConversationState),
-    read: S.optional(S.Boolean),
-    priority: S.optional(ConversationPriority),
-    admin_assignee_id: S.optional(S.Number),
-    team_assignee_id: S.optional(S.Number),
-    company: S.optional(S.NullOr(Company)),
-    tags: S.optional(Tags),
-    conversation_rating: S.optional(S.NullOr(ConversationRating)),
-    source: S.optional(ConversationSource),
-    contacts: S.optional(ConversationContacts),
-    teammates: S.optional(S.NullOr(ConversationTeammates)),
-    custom_attributes: S.optional(CustomAttributes),
-    first_contact_reply: S.optional(S.NullOr(ConversationFirstContactReply)),
-    sla_applied: S.optional(S.NullOr(SlaApplied)),
-    statistics: S.optional(S.NullOr(ConversationStatistics)),
-    conversation_parts: S.optional(ConversationParts),
-    linked_objects: S.optional(LinkedObjectList),
-    ai_agent_participated: S.optional(S.Boolean),
-    ai_agent: S.optional(S.NullOr(AiAgent)),
-    sales_agent_participated: S.optional(S.Boolean),
-    sales_agent: S.optional(S.NullOr(SalesAgent)),
-    channel: S.optional(S.NullOr(ConversationChannel)),
-    external_references: S.optional(ConversationExternalReferencesList),
-    monitor_evaluations: S.optional(ConversationMonitorEvaluationsList),
-    scorecards: S.optional(ConversationScorecardsList),
-  }),
-).annotate({ identifier: "Conversation" }) as any as S.Schema<Conversation>;
+  identifier: "ConversationParticipantsResponse",
+}) as any as S.Schema<ConversationParticipantsResponse>;
 
 export interface AttachSubscriptionTypeToContactRequest {
   /** The unique identifier for the contact which is given by Intercom */
@@ -2075,13 +817,7 @@ export const AttachSubscriptionTypeToContactRequest = /*@__PURE__*/ S.suspend(()
     contact_id: S.String.pipe(T.Label()),
     id: S.String,
     consent_type: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/contacts/{contact_id}/subscriptions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/contacts/{contact_id}/subscriptions", code: 200 })),
 ).annotate({
   identifier: "AttachSubscriptionTypeToContactRequest",
 }) as any as S.Schema<AttachSubscriptionTypeToContactRequest>;
@@ -2152,9 +888,7 @@ export const SubscriptionType = /*@__PURE__*/ S.suspend(() =>
     consent_type: S.optional(SubscriptionTypeConsentType),
     content_types: S.optional(SubscriptionTypeContentTypesList),
   }),
-).annotate({
-  identifier: "SubscriptionType",
-}) as any as S.Schema<SubscriptionType>;
+).annotate({ identifier: "SubscriptionType" }) as any as S.Schema<SubscriptionType>;
 
 export interface AttachTagToArticleRequest {
   /** The unique identifier for the article which is given by Intercom. */
@@ -2173,6 +907,41 @@ export const AttachTagToArticleRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AttachTagToArticleRequest",
 }) as any as S.Schema<AttachTagToArticleRequest>;
+
+/** reference to another object */
+export interface Reference {
+  type?: string;
+  id?: string | null;
+}
+export const Reference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    id: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "Reference" }) as any as S.Schema<Reference>;
+
+/** A tag allows you to label your contacts, companies, and conversations and list them using that tag. */
+export interface Tag {
+  /** value is "tag" */
+  type?: string;
+  /** The id of the tag */
+  id?: string;
+  /** The name of the tag */
+  name?: string;
+  /** The time when the tag was applied to the object. Only present when the tag is returned as part of a tagging operation on a contact, conversation, or ticket. */
+  applied_at?: number | null;
+  /** The admin who applied the tag. Only present when the tag is returned as part of a tagging operation on a contact, conversation, or ticket. */
+  applied_by?: Reference | null;
+}
+export const Tag = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    applied_at: S.optional(S.NullOr(S.Number)),
+    applied_by: S.optional(S.NullOr(Reference)),
+  }),
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 
 export interface AttachTagToContactRequest {
   /** The unique identifier for the contact which is given by Intercom */
@@ -2203,11 +972,7 @@ export const AttachTagToContentSnippetRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     admin_id: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/content_snippets/{content_snippet_id}/tags",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/content_snippets/{content_snippet_id}/tags", code: 200 }),
   ),
 ).annotate({
   identifier: "AttachTagToContentSnippetRequest",
@@ -2226,13 +991,7 @@ export const AttachTagToConversationRequest = /*@__PURE__*/ S.suspend(() =>
     conversation_id: S.String.pipe(T.Label()),
     id: S.String,
     admin_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/conversations/{conversation_id}/tags",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/conversations/{conversation_id}/tags", code: 200 })),
 ).annotate({
   identifier: "AttachTagToConversationRequest",
 }) as any as S.Schema<AttachTagToConversationRequest>;
@@ -2251,11 +1010,7 @@ export const AttachTagToInternalArticleRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     admin_id: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/internal_articles/{internal_article_id}/tags",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/internal_articles/{internal_article_id}/tags", code: 200 }),
   ),
 ).annotate({
   identifier: "AttachTagToInternalArticleRequest",
@@ -2275,9 +1030,7 @@ export const AttachTagToTicketRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     admin_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/tickets/{ticket_id}/tags", code: 200 })),
-).annotate({
-  identifier: "AttachTagToTicketRequest",
-}) as any as S.Schema<AttachTagToTicketRequest>;
+).annotate({ identifier: "AttachTagToTicketRequest" }) as any as S.Schema<AttachTagToTicketRequest>;
 
 export interface BlockContactRequest {
   /** contact_id */
@@ -2287,9 +1040,7 @@ export const BlockContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contact_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/contacts/{contact_id}/block", code: 200 })),
-).annotate({
-  identifier: "BlockContactRequest",
-}) as any as S.Schema<BlockContactRequest>;
+).annotate({ identifier: "BlockContactRequest" }) as any as S.Schema<BlockContactRequest>;
 
 /** always contact */
 export type BlockContactResponseType = "contact";
@@ -2312,9 +1063,7 @@ export const BlockContactResponse = /*@__PURE__*/ S.suspend(() =>
     external_id: S.optional(S.NullOr(S.String)),
     blocked: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "BlockContactResponse",
-}) as any as S.Schema<BlockContactResponse>;
+).annotate({ identifier: "BlockContactResponse" }) as any as S.Schema<BlockContactResponse>;
 
 /** The bulk action to perform. Allowed `content_ids[].type` values vary per action: * `publish`, `unpublish`: `article_content` * `delete`: `article_content`, `content_snippet`, `file_source_content`, `internal_article` * `set_availability`, `set_audience`: `article_content`, `content_snippet`, `external_content`, `file_source_content`, `internal_article` * `update_tags`: `article` (the parent Article id, not `article_content`), `content_snippet`, `external_content`, `file_source_content`, `internal_article` */
 export type BulkContentActionsRequestAction =
@@ -2469,16 +1218,8 @@ export interface CancelDataExportRequest {
 export const CancelDataExportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     job_identifier: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/export/cancel/{job_identifier}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CancelDataExportRequest",
-}) as any as S.Schema<CancelDataExportRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/export/cancel/{job_identifier}", code: 200 })),
+).annotate({ identifier: "CancelDataExportRequest" }) as any as S.Schema<CancelDataExportRequest>;
 
 /** The current state of your job. */
 export type DataExportStatus =
@@ -2526,16 +1267,8 @@ export const ChangeTicketTypeRequest = /*@__PURE__*/ S.suspend(() =>
     ticket_type_id: S.String,
     ticket_state_id: S.String,
     ticket_attributes: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/tickets/{ticket_id}/change_type",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ChangeTicketTypeRequest",
-}) as any as S.Schema<ChangeTicketTypeRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/tickets/{ticket_id}/change_type", code: 200 })),
+).annotate({ identifier: "ChangeTicketTypeRequest" }) as any as S.Schema<ChangeTicketTypeRequest>;
 
 /** Always ticket */
 export type TicketType = "ticket";
@@ -2588,9 +1321,7 @@ export const TicketCustomAttributesValue =
   S.Unknown as any as S.Schema<TicketCustomAttributesValue>;
 
 /** An object containing the different attributes associated to the ticket as key-value pairs. For the default title and description attributes, the keys are `_default_title_` and `_default_description_`. */
-export type TicketCustomAttributes = {
-  [key: string]: TicketCustomAttributesValue | undefined;
-};
+export type TicketCustomAttributes = { [key: string]: TicketCustomAttributesValue | undefined };
 export const TicketCustomAttributes = /*@__PURE__*/ S.Record(
   S.String,
   TicketCustomAttributesValue,
@@ -2684,14 +1415,12 @@ export const TicketTypeAttribute = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.Number),
     updated_at: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TicketTypeAttribute",
-}) as any as S.Schema<TicketTypeAttribute>;
+).annotate({ identifier: "TicketTypeAttribute" }) as any as S.Schema<TicketTypeAttribute>;
 
 /** A list of ticket type attributes associated with a given ticket type. */
-export type TicketTypeAttributeListTicketTypeAttributesList = Array<TicketTypeAttribute>;
+export type TicketTypeAttributeListTicketTypeAttributesList = Array<TicketTypeAttribute | null>;
 export const TicketTypeAttributeListTicketTypeAttributesList = /*@__PURE__*/ S.Array(
-  TicketTypeAttribute,
+  S.NullOr(TicketTypeAttribute),
 ) as any as S.Schema<TicketTypeAttributeListTicketTypeAttributesList>;
 
 /** A list of attributes associated with a given ticket type. */
@@ -2706,14 +1435,12 @@ export const TicketTypeAttributeList = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     ticket_type_attributes: S.optional(TicketTypeAttributeListTicketTypeAttributesList),
   }),
-).annotate({
-  identifier: "TicketTypeAttributeList",
-}) as any as S.Schema<TicketTypeAttributeList>;
+).annotate({ identifier: "TicketTypeAttributeList" }) as any as S.Schema<TicketTypeAttributeList>;
 
 /** A list of ticket states associated with a given ticket type. */
-export type TicketTypeTicketStatesDataList = Array<TicketState>;
+export type TicketTypeTicketStatesDataList = Array<TicketState | null>;
 export const TicketTypeTicketStatesDataList = /*@__PURE__*/ S.Array(
-  TicketState,
+  S.NullOr(TicketState),
 ) as any as S.Schema<TicketTypeTicketStatesDataList>;
 
 /** A list of ticket states associated with a given ticket type. */
@@ -2728,9 +1455,7 @@ export const TicketTypeTicketStates = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     data: S.optional(TicketTypeTicketStatesDataList),
   }),
-).annotate({
-  identifier: "TicketTypeTicketStates",
-}) as any as S.Schema<TicketTypeTicketStates>;
+).annotate({ identifier: "TicketTypeTicketStates" }) as any as S.Schema<TicketTypeTicketStates>;
 
 /** A ticket type, used to define the data fields to be captured in a ticket. */
 export interface TicketType2 {
@@ -2779,6 +1504,27 @@ export const TicketType2 = /*@__PURE__*/ S.suspend(() =>
 export type TicketContactsType = "contact.list";
 export const TicketContactsType = S.String;
 
+/** always contact */
+export type ContactReferenceType = "contact";
+export const ContactReferenceType = S.String;
+
+/** reference to contact object */
+export interface ContactReference {
+  /** always contact */
+  type?: ContactReferenceType;
+  /** The unique identifier for the contact which is given by Intercom. */
+  id?: string;
+  /** The unique identifier for the contact which is provided by the Client. */
+  external_id?: string | null;
+}
+export const ContactReference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ContactReferenceType),
+    id: S.optional(S.String),
+    external_id: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "ContactReference" }) as any as S.Schema<ContactReference>;
+
 /** The list of contacts affected by this ticket. */
 export type TicketContactsContactsList = Array<ContactReference>;
 export const TicketContactsContactsList = /*@__PURE__*/ S.Array(
@@ -2798,6 +1544,61 @@ export const TicketContacts = /*@__PURE__*/ S.suspend(() =>
     contacts: S.optional(TicketContactsContactsList),
   }),
 ).annotate({ identifier: "TicketContacts" }) as any as S.Schema<TicketContacts>;
+
+/** Always list. */
+export type LinkedObjectListType = "list";
+export const LinkedObjectListType = S.String;
+
+/** ticket or conversation */
+export type LinkedObjectType = "ticket" | "conversation";
+export const LinkedObjectType = S.String;
+
+/** Category of the Linked Ticket Object. */
+export type LinkedObjectCategory = "Customer" | "Back-office" | "Tracker";
+export const LinkedObjectCategory = S.String;
+
+/** A linked conversation or ticket. */
+export interface LinkedObject {
+  /** ticket or conversation */
+  type?: LinkedObjectType;
+  /** The ID of the linked object */
+  id?: string;
+  /** Category of the Linked Ticket Object. */
+  category?: LinkedObjectCategory | null;
+}
+export const LinkedObject = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(LinkedObjectType),
+    id: S.optional(S.String),
+    category: S.optional(S.NullOr(LinkedObjectCategory)),
+  }),
+).annotate({ identifier: "LinkedObject" }) as any as S.Schema<LinkedObject>;
+
+/** An array containing the linked conversations and linked tickets. */
+export type LinkedObjectListDataList = Array<LinkedObject>;
+export const LinkedObjectListDataList = /*@__PURE__*/ S.Array(
+  LinkedObject,
+) as any as S.Schema<LinkedObjectListDataList>;
+
+/** An object containing metadata about linked conversations and linked tickets. Up to 1000 can be returned. */
+export interface LinkedObjectList {
+  /** Always list. */
+  type?: LinkedObjectListType;
+  /** The total number of linked objects. */
+  total_count?: number;
+  /** Whether or not there are more linked objects than returned. */
+  has_more?: boolean;
+  /** An array containing the linked conversations and linked tickets. */
+  data?: LinkedObjectListDataList;
+}
+export const LinkedObjectList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(LinkedObjectListType),
+    total_count: S.optional(S.Number),
+    has_more: S.optional(S.Boolean),
+    data: S.optional(LinkedObjectListDataList),
+  }),
+).annotate({ identifier: "LinkedObjectList" }) as any as S.Schema<LinkedObjectList>;
 
 export type TicketPartsType = "ticket_part.list";
 export const TicketPartsType = S.String;
@@ -2840,15 +1641,53 @@ export const TicketPartAuthor = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     email: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TicketPartAuthor",
-}) as any as S.Schema<TicketPartAuthor>;
+).annotate({ identifier: "TicketPartAuthor" }) as any as S.Schema<TicketPartAuthor>;
+
+/** The file attached to a part */
+export interface PartAttachment {
+  /** The type of attachment */
+  type?: string;
+  /** The name of the attachment */
+  name?: string;
+  /** The URL of the attachment */
+  url?: string;
+  /** The content type of the attachment */
+  content_type?: string;
+  /** The size of the attachment */
+  filesize?: number;
+  /** The width of the attachment */
+  width?: number;
+  /** The height of the attachment */
+  height?: number;
+}
+export const PartAttachment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    name: S.optional(S.String),
+    url: S.optional(S.String),
+    content_type: S.optional(S.String),
+    filesize: S.optional(S.Number),
+    width: S.optional(S.Number),
+    height: S.optional(S.Number),
+  }),
+).annotate({ identifier: "PartAttachment" }) as any as S.Schema<PartAttachment>;
 
 /** A list of attachments for the part. */
 export type TicketPartAttachmentsList = Array<PartAttachment>;
 export const TicketPartAttachmentsList = /*@__PURE__*/ S.Array(
   PartAttachment,
 ) as any as S.Schema<TicketPartAttachmentsList>;
+
+/** A map of the reply text keyed by locale code. Backs the `ticket.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale. */
+export interface TicketPartTranslations {
+  /** The locale code identifying the language the reply was originally written in. */
+  original: string;
+}
+export const TicketPartTranslations = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    original: S.String,
+  }),
+).annotate({ identifier: "TicketPartTranslations" }) as any as S.Schema<TicketPartTranslations>;
 
 /** The type of the object. Always 'attribute'. */
 export type TicketPartUpdatedAttributeDataAttributeType = "attribute";
@@ -2963,6 +1802,8 @@ export interface TicketPart {
   redacted?: boolean;
   /** The app package code if this part was created via API. Note this field won't show if the part was not created via API. */
   app_package_code?: string;
+  /** A map of the reply text keyed by locale code. Backs the `ticket.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale. */
+  translations?: TicketPartTranslations | null;
   /** The updated attribute data of the ticket part. Only present for attribute update parts. */
   updated_attribute_data?: TicketPartUpdatedAttributeData | null;
 }
@@ -2982,6 +1823,7 @@ export const TicketPart = /*@__PURE__*/ S.suspend(() =>
     external_id: S.optional(S.NullOr(S.String)),
     redacted: S.optional(S.Boolean),
     app_package_code: S.optional(S.String),
+    translations: S.optional(S.NullOr(TicketPartTranslations)),
     updated_attribute_data: S.optional(S.NullOr(TicketPartUpdatedAttributeData)),
   }),
 ).annotate({ identifier: "TicketPart" }) as any as S.Schema<TicketPart>;
@@ -3070,13 +1912,7 @@ export interface CollectFinVoiceCallByExternalIdRequest {
 export const CollectFinVoiceCallByExternalIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     external_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/fin_voice/external_id/{external_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/fin_voice/external_id/{external_id}", code: 200 })),
 ).annotate({
   identifier: "CollectFinVoiceCallByExternalIdRequest",
 }) as any as S.Schema<CollectFinVoiceCallByExternalIdRequest>;
@@ -3150,13 +1986,7 @@ export interface CollectFinVoiceCallByPhoneNumberRequest {
 export const CollectFinVoiceCallByPhoneNumberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     phone_number: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/fin_voice/phone_number/{phone_number}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/fin_voice/phone_number/{phone_number}", code: 200 })),
 ).annotate({
   identifier: "CollectFinVoiceCallByPhoneNumberRequest",
 }) as any as S.Schema<CollectFinVoiceCallByPhoneNumberRequest>;
@@ -3175,13 +2005,7 @@ export interface CollectFinVoiceCallsByConversationIdRequest {
 export const CollectFinVoiceCallsByConversationIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     conversation_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/fin_voice/conversation/{conversation_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/fin_voice/conversation/{conversation_id}", code: 200 })),
 ).annotate({
   identifier: "CollectFinVoiceCallsByConversationIdRequest",
 }) as any as S.Schema<CollectFinVoiceCallsByConversationIdRequest>;
@@ -3236,13 +2060,7 @@ export const ConvertConversationToTicketRequest = /*@__PURE__*/ S.suspend(() =>
     ticket_type_id: S.String,
     ticket_state_id: S.optional(S.String),
     attributes: S.optional(TicketRequestCustomAttributes),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/conversations/{conversation_id}/convert",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/conversations/{conversation_id}/convert", code: 200 })),
 ).annotate({
   identifier: "ConvertConversationToTicketRequest",
 }) as any as S.Schema<ConvertConversationToTicketRequest>;
@@ -3261,9 +2079,7 @@ export const ConvertVisitorRequest = /*@__PURE__*/ S.suspend(() =>
     user: S.Unknown,
     visitor: S.Unknown,
   }).pipe(T.Http({ method: "POST", uri: "/visitors/convert", code: 200 })),
-).annotate({
-  identifier: "ConvertVisitorRequest",
-}) as any as S.Schema<ConvertVisitorRequest>;
+).annotate({ identifier: "ConvertVisitorRequest" }) as any as S.Schema<ConvertVisitorRequest>;
 
 export interface ContactAvatar {
   /** The type of object */
@@ -3293,9 +2109,7 @@ export const AddressableList = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AddressableList",
-}) as any as S.Schema<AddressableList>;
+).annotate({ identifier: "AddressableList" }) as any as S.Schema<AddressableList>;
 
 /** This object represents the tags attached to a contact. */
 export type ContactTagsDataList = Array<AddressableList>;
@@ -3394,9 +2208,7 @@ export const ContactCompanies = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     has_more: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ContactCompanies",
-}) as any as S.Schema<ContactCompanies>;
+).annotate({ identifier: "ContactCompanies" }) as any as S.Schema<ContactCompanies>;
 
 /** An object containing location meta data about a Intercom contact. */
 export interface ContactLocation {
@@ -3416,9 +2228,7 @@ export const ContactLocation = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.NullOr(S.String)),
     city: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ContactLocation",
-}) as any as S.Schema<ContactLocation>;
+).annotate({ identifier: "ContactLocation" }) as any as S.Schema<ContactLocation>;
 
 /** A Social Profile allows you to label your contacts, companies, and conversations and list them using that Social Profile. */
 export interface SocialProfile {
@@ -3452,9 +2262,7 @@ export const ContactSocialProfiles = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ContactSocialProfilesDataList),
   }),
-).annotate({
-  identifier: "ContactSocialProfiles",
-}) as any as S.Schema<ContactSocialProfiles>;
+).annotate({ identifier: "ContactSocialProfiles" }) as any as S.Schema<ContactSocialProfiles>;
 
 /** The role of the contact that was merged in. */
 export type MergeHistoryItemSourceContactRole = "lead" | "user";
@@ -3478,9 +2286,7 @@ export const MergeHistoryItem = /*@__PURE__*/ S.suspend(() =>
     source_contact_role: S.optional(MergeHistoryItemSourceContactRole),
     merged_at: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "MergeHistoryItem",
-}) as any as S.Schema<MergeHistoryItem>;
+).annotate({ identifier: "MergeHistoryItem" }) as any as S.Schema<MergeHistoryItem>;
 
 /** A list of contacts that were merged into this contact. Only included in the response when `include_merge_history=true` is passed as a query parameter. Only available for contacts with a `user` role. */
 export type ContactMergeHistoryList = Array<MergeHistoryItem>;
@@ -3704,9 +2510,7 @@ export const ArticleContentInput = /*@__PURE__*/ S.suspend(() =>
     ai_copilot_availability: S.optional(S.Boolean),
     ai_sales_agent_availability: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ArticleContentInput",
-}) as any as S.Schema<ArticleContentInput>;
+).annotate({ identifier: "ArticleContentInput" }) as any as S.Schema<ArticleContentInput>;
 
 /** The Translated Content of an Article. The keys are the locale codes and the values are the translated content of the article. */
 export interface ArticleTranslatedContentInput {
@@ -3887,9 +2691,7 @@ export const CreateArticleRequest = /*@__PURE__*/ S.suspend(() =>
     scheduled_publish_at: S.optional(S.NullOr(S.String)),
     scheduled_unpublish_at: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/articles", code: 200 })),
-).annotate({
-  identifier: "CreateArticleRequest",
-}) as any as S.Schema<CreateArticleRequest>;
+).annotate({ identifier: "CreateArticleRequest" }) as any as S.Schema<CreateArticleRequest>;
 
 /** The type of object - `article`. */
 export type CreateArticleResponseType = "article";
@@ -4115,9 +2917,29 @@ export const ArticleTranslatedContent = /*@__PURE__*/ S.suspend(() =>
     zh_CN: S.optional(S.NullOr(ArticleContent).pipe(T.Body("zh-CN"))),
     zh_TW: S.optional(S.NullOr(ArticleContent).pipe(T.Body("zh-TW"))),
   }),
-).annotate({
-  identifier: "ArticleTranslatedContent",
-}) as any as S.Schema<ArticleTranslatedContent>;
+).annotate({ identifier: "ArticleTranslatedContent" }) as any as S.Schema<ArticleTranslatedContent>;
+
+/** The type of the object */
+export type TagsType = "tag.list";
+export const TagsType = S.String;
+
+/** A list of tags objects associated with the conversation. */
+export type TagsTagsList = Array<Tag>;
+export const TagsTagsList = /*@__PURE__*/ S.Array(Tag) as any as S.Schema<TagsTagsList>;
+
+/** A list of tags objects associated with a conversation */
+export interface Tags {
+  /** The type of the object */
+  type?: TagsType;
+  /** A list of tags objects associated with the conversation. */
+  tags?: TagsTagsList;
+}
+export const Tags = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(TagsType),
+    tags: S.optional(TagsTagsList),
+  }),
+).annotate({ identifier: "Tags" }) as any as S.Schema<Tags>;
 
 /** The type of object - `article_statistics`. */
 export type ArticleStatisticsType = "article_statistics";
@@ -4159,9 +2981,7 @@ export const ArticleStatistics = /*@__PURE__*/ S.suspend(() =>
     fin_resolutions: S.optional(S.Number),
     fin_resolution_rate: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ArticleStatistics",
-}) as any as S.Schema<ArticleStatistics>;
+).annotate({ identifier: "ArticleStatistics" }) as any as S.Schema<ArticleStatistics>;
 
 export interface CreateArticleResponse {
   /** The type of object - `article`. */
@@ -4249,9 +3069,7 @@ export const CreateArticleResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
     statistics: S.optional(S.NullOr(ArticleStatistics)),
   }),
-).annotate({
-  identifier: "CreateArticleResponse",
-}) as any as S.Schema<CreateArticleResponse>;
+).annotate({ identifier: "CreateArticleResponse" }) as any as S.Schema<CreateArticleResponse>;
 
 /** A condition used to filter contacts in an audience. */
 export interface Predicate {
@@ -4299,9 +3117,7 @@ export const CreateAudienceRequest = /*@__PURE__*/ S.suspend(() =>
     predicates: S.optional(CreateAudienceRequestPredicatesList),
     role_predicates: S.optional(CreateAudienceRequestRolePredicatesList),
   }).pipe(T.Http({ method: "POST", uri: "/audiences", code: 200 })),
-).annotate({
-  identifier: "CreateAudienceRequest",
-}) as any as S.Schema<CreateAudienceRequest>;
+).annotate({ identifier: "CreateAudienceRequest" }) as any as S.Schema<CreateAudienceRequest>;
 
 /** The type of object. */
 export type AudienceType = "audience";
@@ -4493,9 +3309,7 @@ export const GroupTranslatedContent = /*@__PURE__*/ S.suspend(() =>
     zh_CN: S.optional(S.NullOr(GroupContent).pipe(T.Body("zh-CN"))),
     zh_TW: S.optional(S.NullOr(GroupContent).pipe(T.Body("zh-TW"))),
   }),
-).annotate({
-  identifier: "GroupTranslatedContent",
-}) as any as S.Schema<GroupTranslatedContent>;
+).annotate({ identifier: "GroupTranslatedContent" }) as any as S.Schema<GroupTranslatedContent>;
 
 export interface CreateCollectionRequest {
   /** The name of the collection. For multilingual collections, this will be the name of the default language's content. */
@@ -4516,9 +3330,7 @@ export const CreateCollectionRequest = /*@__PURE__*/ S.suspend(() =>
     parent_id: S.optional(S.NullOr(S.String)),
     help_center_id: S.optional(S.NullOr(S.Number)),
   }).pipe(T.Http({ method: "POST", uri: "/help_center/collections", code: 200 })),
-).annotate({
-  identifier: "CreateCollectionRequest",
-}) as any as S.Schema<CreateCollectionRequest>;
+).annotate({ identifier: "CreateCollectionRequest" }) as any as S.Schema<CreateCollectionRequest>;
 
 /** Collections are top level containers for Articles within the Help Center. */
 export interface Collection {
@@ -4580,9 +3392,7 @@ export const CreateCompanyNoteRequest = /*@__PURE__*/ S.suspend(() =>
     body: S.String,
     admin_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/companies/{company_id}/notes", code: 200 })),
-).annotate({
-  identifier: "CreateCompanyNoteRequest",
-}) as any as S.Schema<CreateCompanyNoteRequest>;
+).annotate({ identifier: "CreateCompanyNoteRequest" }) as any as S.Schema<CreateCompanyNoteRequest>;
 
 /** Represents the contact that the note was created about. */
 export interface NoteContact {
@@ -4634,9 +3444,7 @@ export const Note = /*@__PURE__*/ S.suspend(() =>
 export interface CreateContactRequest {}
 export const CreateContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/contacts", code: 200 })),
-).annotate({
-  identifier: "CreateContactRequest",
-}) as any as S.Schema<CreateContactRequest>;
+).annotate({ identifier: "CreateContactRequest" }) as any as S.Schema<CreateContactRequest>;
 
 export type CreateContactResponseAvatar = ContactAvatar;
 export const CreateContactResponseAvatar = ContactAvatar;
@@ -4787,9 +3595,7 @@ export const CreateContactResponse = /*@__PURE__*/ S.suspend(() =>
     merge_history: S.optional(S.NullOr(CreateContactResponseMergeHistoryList)),
     enabled_push_messaging: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "CreateContactResponse",
-}) as any as S.Schema<CreateContactResponse>;
+).annotate({ identifier: "CreateContactResponse" }) as any as S.Schema<CreateContactResponse>;
 
 /** If you intend to create or update External Pages via the API, this should be set to `api`. */
 export type CreateContentImportSourceRequestSyncBehavior = "api";
@@ -4883,9 +3689,7 @@ export const ContentImportSource = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.Number,
     audience_ids: S.optional(S.NullOr(ContentImportSourceAudienceIdsList)),
   }),
-).annotate({
-  identifier: "ContentImportSource",
-}) as any as S.Schema<ContentImportSource>;
+).annotate({ identifier: "ContentImportSource" }) as any as S.Schema<ContentImportSource>;
 
 /** The content blocks that make up the body of the snippet. Mutually exclusive with `body_markdown`. */
 export type CreateContentSnippetRequestJsonBlocksList = Array<unknown>;
@@ -6086,13 +4890,7 @@ export const CreateConversationAttributeOptionRequest2 = /*@__PURE__*/ S.suspend
   S.Struct({
     id: S.Number.pipe(T.Label()),
     label: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/conversations/attributes/{id}/options",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/conversations/attributes/{id}/options", code: 200 })),
 ).annotate({
   identifier: "CreateConversationAttributeOptionRequest2",
 }) as any as S.Schema<CreateConversationAttributeOptionRequest2>;
@@ -6142,6 +4940,45 @@ export const CreateCustomObjectInstancesRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateCustomObjectInstancesRequest",
 }) as any as S.Schema<CreateCustomObjectInstancesRequest>;
+
+/** The custom attributes you have set on the custom object instance. */
+export type CustomObjectInstanceCustomAttributesMap = { [key: string]: string | undefined };
+export const CustomObjectInstanceCustomAttributesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<CustomObjectInstanceCustomAttributesMap>;
+
+/** A Custom Object Instance represents an instance of a custom object type. This allows you to create and set custom attributes to store data about your customers that is not already captured by Intercom. The parent object includes recommended default attributes and you can add your own custom attributes. */
+export interface CustomObjectInstance {
+  /** The Intercom defined id representing the custom object instance. */
+  id?: string;
+  /** The id you have defined for the custom object instance. */
+  external_id?: string;
+  /** The time when the Custom Object instance was created in the external system it originated from. */
+  external_created_at?: number | null;
+  /** The time when the Custom Object instance was last updated in the external system it originated from. */
+  external_updated_at?: number | null;
+  /** The time the attribute was created as a UTC Unix timestamp */
+  created_at?: number;
+  /** The time the attribute was last updated as a UTC Unix timestamp */
+  updated_at?: number;
+  /** The identifier of the custom object type that defines the structure of the custom object instance. */
+  type?: string;
+  /** The custom attributes you have set on the custom object instance. */
+  custom_attributes?: CustomObjectInstanceCustomAttributesMap;
+}
+export const CustomObjectInstance = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    external_id: S.optional(S.String),
+    external_created_at: S.optional(S.NullOr(S.Number)),
+    external_updated_at: S.optional(S.NullOr(S.Number)),
+    created_at: S.optional(S.Number),
+    updated_at: S.optional(S.Number),
+    type: S.optional(S.String),
+    custom_attributes: S.optional(CustomObjectInstanceCustomAttributesMap),
+  }),
+).annotate({ identifier: "CustomObjectInstance" }) as any as S.Schema<CustomObjectInstance>;
 
 /** The model that the data attribute belongs to. */
 export type CreateDataAttributeRequestModel = "contact" | "company";
@@ -6686,14 +5523,10 @@ export const DataConnectorDetail = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     execution_results_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataConnectorDetail",
-}) as any as S.Schema<DataConnectorDetail>;
+).annotate({ identifier: "DataConnectorDetail" }) as any as S.Schema<DataConnectorDetail>;
 
 /** Optional metadata about the event. */
-export type CreateDataEventRequestMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type CreateDataEventRequestMetadataMap = { [key: string]: string | undefined };
 export const CreateDataEventRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6722,9 +5555,7 @@ export const CreateDataEventRequest = /*@__PURE__*/ S.suspend(() =>
     email: S.optional(S.String),
     metadata: S.optional(CreateDataEventRequestMetadataMap),
   }).pipe(T.Http({ method: "POST", uri: "/events", code: 200 })),
-).annotate({
-  identifier: "CreateDataEventRequest",
-}) as any as S.Schema<CreateDataEventRequest>;
+).annotate({ identifier: "CreateDataEventRequest" }) as any as S.Schema<CreateDataEventRequest>;
 
 export interface CreateDataEventResponse {}
 export const CreateDataEventResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6742,9 +5573,7 @@ export const CreateDataExportRequest = /*@__PURE__*/ S.suspend(() =>
     created_at_after: S.Number,
     created_at_before: S.Number,
   }).pipe(T.Http({ method: "POST", uri: "/export/content/data", code: 200 })),
-).annotate({
-  identifier: "CreateDataExportRequest",
-}) as any as S.Schema<CreateDataExportRequest>;
+).annotate({ identifier: "CreateDataExportRequest" }) as any as S.Schema<CreateDataExportRequest>;
 
 export type CreateExportReportingDataEnqueueRequestAttributeIdsList = Array<string>;
 export const CreateExportReportingDataEnqueueRequestAttributeIdsList = /*@__PURE__*/ S.Array(
@@ -6763,13 +5592,7 @@ export const CreateExportReportingDataEnqueueRequest = /*@__PURE__*/ S.suspend((
     attribute_ids: CreateExportReportingDataEnqueueRequestAttributeIdsList,
     start_time: S.Number,
     end_time: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/export/reporting_data/enqueue",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/export/reporting_data/enqueue", code: 200 })),
 ).annotate({
   identifier: "CreateExportReportingDataEnqueueRequest",
 }) as any as S.Schema<CreateExportReportingDataEnqueueRequest>;
@@ -6964,9 +5787,7 @@ export const HelpCenterRedirect = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.Number),
     updated_at: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "HelpCenterRedirect",
-}) as any as S.Schema<HelpCenterRedirect>;
+).annotate({ identifier: "HelpCenterRedirect" }) as any as S.Schema<HelpCenterRedirect>;
 
 /** The list of audience IDs to target this internal article to for Fin AI Agent. Pass an empty array or omit the field for no audience targeting. Unknown audience IDs return a `404` error with no partial commit. */
 export type CreateInternalArticleRequestAudienceIdsList = Array<number>;
@@ -7091,9 +5912,7 @@ export const CreateMessageRequestFrom = /*@__PURE__*/ S.suspend(() =>
     type: CreateMessageRequestFromType,
     id: S.Number,
   }),
-).annotate({
-  identifier: "CreateMessageRequestFrom",
-}) as any as S.Schema<CreateMessageRequestFrom>;
+).annotate({ identifier: "CreateMessageRequestFrom" }) as any as S.Schema<CreateMessageRequestFrom>;
 
 /** The role associated to the contact - `user` or `lead`. */
 export type RecipientType = "user" | "lead";
@@ -7172,9 +5991,7 @@ export const CreateMessageRequest = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.Number),
     create_conversation_without_contact_reply: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/messages", code: 200 })),
-).annotate({
-  identifier: "CreateMessageRequest",
-}) as any as S.Schema<CreateMessageRequest>;
+).annotate({ identifier: "CreateMessageRequest" }) as any as S.Schema<CreateMessageRequest>;
 
 /** The type of message that was sent. Can be email, inapp, facebook or twitter. */
 export type MessageMessageType = "email" | "inapp" | "facebook" | "twitter";
@@ -7220,9 +6037,9 @@ export const CreateNewsItemRequestLabelsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateNewsItemRequestLabelsList>;
 
 /** Ordered list of emoji reactions to the news item. When empty, reactions are disabled. */
-export type CreateNewsItemRequestReactionsList = Array<string>;
+export type CreateNewsItemRequestReactionsList = Array<string | null>;
 export const CreateNewsItemRequestReactionsList = /*@__PURE__*/ S.Array(
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<CreateNewsItemRequestReactionsList>;
 
 /** Assigns a news item to a newsfeed. */
@@ -7237,9 +6054,7 @@ export const NewsfeedAssignment = /*@__PURE__*/ S.suspend(() =>
     newsfeed_id: S.optional(S.Number),
     published_at: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NewsfeedAssignment",
-}) as any as S.Schema<NewsfeedAssignment>;
+).annotate({ identifier: "NewsfeedAssignment" }) as any as S.Schema<NewsfeedAssignment>;
 
 /** A list of newsfeed_assignments to assign to the specified newsfeed. */
 export type CreateNewsItemRequestNewsfeedAssignmentsList = Array<NewsfeedAssignment>;
@@ -7276,9 +6091,7 @@ export const CreateNewsItemRequest = /*@__PURE__*/ S.suspend(() =>
     reactions: S.optional(CreateNewsItemRequestReactionsList),
     newsfeed_assignments: S.optional(CreateNewsItemRequestNewsfeedAssignmentsList),
   }).pipe(T.Http({ method: "POST", uri: "/news/news_items", code: 200 })),
-).annotate({
-  identifier: "CreateNewsItemRequest",
-}) as any as S.Schema<CreateNewsItemRequest>;
+).annotate({ identifier: "CreateNewsItemRequest" }) as any as S.Schema<CreateNewsItemRequest>;
 
 /** The type of object. */
 export type NewsItemType = "news-item";
@@ -7295,15 +6108,15 @@ export const NewsItemNewsfeedAssignmentsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<NewsItemNewsfeedAssignmentsList>;
 
 /** Label names displayed to users to categorize the news item. */
-export type NewsItemLabelsList = Array<string>;
+export type NewsItemLabelsList = Array<string | null>;
 export const NewsItemLabelsList = /*@__PURE__*/ S.Array(
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<NewsItemLabelsList>;
 
 /** Ordered list of emoji reactions to the news item. When empty, reactions are disabled. */
-export type NewsItemReactionsList = Array<string>;
+export type NewsItemReactionsList = Array<string | null>;
 export const NewsItemReactionsList = /*@__PURE__*/ S.Array(
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<NewsItemReactionsList>;
 
 /** A News Item is a content type in Intercom enabling you to announce product updates, company news, promotions, events and more with your customers. */
@@ -7370,9 +6183,7 @@ export const CreateNoteRequest = /*@__PURE__*/ S.suspend(() =>
     body: S.String,
     admin_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/contacts/{contact_id}/notes", code: 200 })),
-).annotate({
-  identifier: "CreateNoteRequest",
-}) as any as S.Schema<CreateNoteRequest>;
+).annotate({ identifier: "CreateNoteRequest" }) as any as S.Schema<CreateNoteRequest>;
 
 /** The type of exception. */
 export type CreateOfficeHoursExceptionRequestExceptionType = "closed" | "custom_hours";
@@ -7453,9 +6264,7 @@ export const OfficeHoursTimeInterval = /*@__PURE__*/ S.suspend(() =>
     end_minute: S.optional(S.Number),
     day_of_week: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "OfficeHoursTimeInterval",
-}) as any as S.Schema<OfficeHoursTimeInterval>;
+).annotate({ identifier: "OfficeHoursTimeInterval" }) as any as S.Schema<OfficeHoursTimeInterval>;
 
 /** The open intervals for the exception date. `null` when `exception_type` is `closed`. */
 export type OfficeHoursExceptionTimeIntervalsList = Array<OfficeHoursTimeInterval>;
@@ -7499,9 +6308,7 @@ export const OfficeHoursException = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.Number),
     updated_at: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "OfficeHoursException",
-}) as any as S.Schema<OfficeHoursException>;
+).annotate({ identifier: "OfficeHoursException" }) as any as S.Schema<OfficeHoursException>;
 
 /** The open intervals for the schedule. `start_minute` and `end_minute` must be on a 15-minute boundary. */
 export type CreateOfficeHoursScheduleRequestTimeIntervalsList = Array<OfficeHoursTimeIntervalInput>;
@@ -7563,14 +6370,10 @@ export const OfficeHoursSchedule = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.Number),
     updated_at: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "OfficeHoursSchedule",
-}) as any as S.Schema<OfficeHoursSchedule>;
+).annotate({ identifier: "OfficeHoursSchedule" }) as any as S.Schema<OfficeHoursSchedule>;
 
 /** A hash of key/value pairs containing any other data about the company you want Intercom to store. */
-export type CreateOrUpdateCompanyRequestCustomAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type CreateOrUpdateCompanyRequestCustomAttributesMap = { [key: string]: string | undefined };
 export const CreateOrUpdateCompanyRequestCustomAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7615,6 +6418,38 @@ export const CreateOrUpdateCompanyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateOrUpdateCompanyRequest",
 }) as any as S.Schema<CreateOrUpdateCompanyRequest>;
 
+export type Datetime = string | number;
+export const Datetime = S.Unknown as any as S.Schema<Datetime>;
+
+/** The list of associated custom object instances for a given reference attribute on the parent object. */
+export type CustomObjectInstanceListInstancesList = Array<CustomObjectInstance | null>;
+export const CustomObjectInstanceListInstancesList = /*@__PURE__*/ S.Array(
+  S.NullOr(CustomObjectInstance),
+) as any as S.Schema<CustomObjectInstanceListInstancesList>;
+
+/** The list of associated custom object instances for a given reference attribute on the parent object. */
+export interface CustomObjectInstanceList {
+  type?: string;
+  /** The list of associated custom object instances for a given reference attribute on the parent object. */
+  instances?: CustomObjectInstanceListInstancesList;
+}
+export const CustomObjectInstanceList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    instances: S.optional(CustomObjectInstanceListInstancesList),
+  }),
+).annotate({ identifier: "CustomObjectInstanceList" }) as any as S.Schema<CustomObjectInstanceList>;
+
+export type CustomAttributesValue = string | number | Datetime | CustomObjectInstanceList;
+export const CustomAttributesValue = S.Unknown as any as S.Schema<CustomAttributesValue>;
+
+/** An object containing the different custom attributes associated to the conversation as key-value pairs. For relationship attributes the value will be a list of custom object instance models. System-defined attributes such as "CX Score rating" and "CX Score explanation" may also be included. */
+export type CustomAttributes = { [key: string]: CustomAttributesValue | undefined };
+export const CustomAttributes = /*@__PURE__*/ S.Record(
+  S.String,
+  CustomAttributesValue,
+) as any as S.Schema<CustomAttributes>;
+
 export interface CreatePhoneSwitchRequest {
   /** Phone number in E.164 format, that will receive the SMS to continue the conversation in the Messenger. */
   phone: string;
@@ -7625,9 +6460,7 @@ export const CreatePhoneSwitchRequest = /*@__PURE__*/ S.suspend(() =>
     phone: S.String,
     custom_attributes: S.optional(CustomAttributes),
   }).pipe(T.Http({ method: "POST", uri: "/phone_call_redirects", code: 200 })),
-).annotate({
-  identifier: "CreatePhoneSwitchRequest",
-}) as any as S.Schema<CreatePhoneSwitchRequest>;
+).annotate({ identifier: "CreatePhoneSwitchRequest" }) as any as S.Schema<CreatePhoneSwitchRequest>;
 
 export type PhoneSwitchType = "phone_call_redirect";
 export const PhoneSwitchType = S.String;
@@ -7657,9 +6490,7 @@ export const CreateOrUpdateTagRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateOrUpdateTagRequest",
-}) as any as S.Schema<CreateOrUpdateTagRequest>;
+).annotate({ identifier: "CreateOrUpdateTagRequest" }) as any as S.Schema<CreateOrUpdateTagRequest>;
 
 export interface TagCompanyRequestCompaniesItem {
   /** The Intercom defined id representing the company. */
@@ -7694,9 +6525,7 @@ export const TagCompanyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     companies: TagCompanyRequestCompaniesList,
   }),
-).annotate({
-  identifier: "TagCompanyRequest",
-}) as any as S.Schema<TagCompanyRequest>;
+).annotate({ identifier: "TagCompanyRequest" }) as any as S.Schema<TagCompanyRequest>;
 
 export interface UntagCompanyRequestCompaniesItem {
   /** The Intercom defined id representing the company. */
@@ -7734,9 +6563,7 @@ export const UntagCompanyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     companies: UntagCompanyRequestCompaniesList,
   }),
-).annotate({
-  identifier: "UntagCompanyRequest",
-}) as any as S.Schema<UntagCompanyRequest>;
+).annotate({ identifier: "UntagCompanyRequest" }) as any as S.Schema<UntagCompanyRequest>;
 
 export interface TagMultipleUsersRequestUsersItem {
   /** The Intercom defined id representing the user. */
@@ -7766,9 +6593,7 @@ export const TagMultipleUsersRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     users: TagMultipleUsersRequestUsersList,
   }),
-).annotate({
-  identifier: "TagMultipleUsersRequest",
-}) as any as S.Schema<TagMultipleUsersRequest>;
+).annotate({ identifier: "TagMultipleUsersRequest" }) as any as S.Schema<TagMultipleUsersRequest>;
 
 export type CreateTagRequestBody =
   | CreateOrUpdateTagRequest
@@ -7784,9 +6609,7 @@ export const CreateTagRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: S.optional(CreateTagRequestBody.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "POST", uri: "/tags", code: 200 })),
-).annotate({
-  identifier: "CreateTagRequest",
-}) as any as S.Schema<CreateTagRequest>;
+).annotate({ identifier: "CreateTagRequest" }) as any as S.Schema<CreateTagRequest>;
 
 export interface CreateTagResponseUsersItem {
   /** The Intercom ID of the user. */
@@ -7850,9 +6673,7 @@ export const CreateTagResponse = /*@__PURE__*/ S.suspend(() =>
     users: S.optional(S.NullOr(CreateTagResponseUsersList)),
     companies: S.optional(S.NullOr(CreateTagResponseCompaniesList)),
   }),
-).annotate({
-  identifier: "CreateTagResponse",
-}) as any as S.Schema<CreateTagResponse>;
+).annotate({ identifier: "CreateTagResponse" }) as any as S.Schema<CreateTagResponse>;
 
 export interface CreateTicketRequestContactsItemCase0 {
   /** The identifier for the contact as given by Intercom. */
@@ -7945,9 +6766,7 @@ export const CreateTicketRequest = /*@__PURE__*/ S.suspend(() =>
     assignment: S.optional(CreateTicketRequestAssignment),
     skip_notifications: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/tickets", code: 200 })),
-).annotate({
-  identifier: "CreateTicketRequest",
-}) as any as S.Schema<CreateTicketRequest>;
+).annotate({ identifier: "CreateTicketRequest" }) as any as S.Schema<CreateTicketRequest>;
 
 /** Category of the Ticket Type. */
 export type CreateTicketTypeRequestCategory = "Customer" | "Back-office" | "Tracker";
@@ -7973,9 +6792,7 @@ export const CreateTicketTypeRequest = /*@__PURE__*/ S.suspend(() =>
     icon: S.optional(S.String),
     is_internal: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/ticket_types", code: 200 })),
-).annotate({
-  identifier: "CreateTicketTypeRequest",
-}) as any as S.Schema<CreateTicketTypeRequest>;
+).annotate({ identifier: "CreateTicketTypeRequest" }) as any as S.Schema<CreateTicketTypeRequest>;
 
 /** The data type of the attribute */
 export type CreateTicketTypeAttributeRequestDataType =
@@ -8025,13 +6842,7 @@ export const CreateTicketTypeAttributeRequest = /*@__PURE__*/ S.suspend(() =>
     multiline: S.optional(S.Boolean),
     list_items: S.optional(S.String),
     allow_multiple_values: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ticket_types/{ticket_type_id}/attributes",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/ticket_types/{ticket_type_id}/attributes", code: 200 })),
 ).annotate({
   identifier: "CreateTicketTypeAttributeRequest",
 }) as any as S.Schema<CreateTicketTypeAttributeRequest>;
@@ -8086,9 +6897,7 @@ export const DeleteArticleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     article_id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/articles/{article_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteArticleRequest",
-}) as any as S.Schema<DeleteArticleRequest>;
+).annotate({ identifier: "DeleteArticleRequest" }) as any as S.Schema<DeleteArticleRequest>;
 
 /** The type of object which was deleted. - article */
 export type DeletedArticleObjectObject = "article";
@@ -8109,9 +6918,7 @@ export const DeletedArticleObject = /*@__PURE__*/ S.suspend(() =>
     object: S.optional(DeletedArticleObjectObject),
     deleted: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DeletedArticleObject",
-}) as any as S.Schema<DeletedArticleObject>;
+).annotate({ identifier: "DeletedArticleObject" }) as any as S.Schema<DeletedArticleObject>;
 
 export interface DeleteAudienceRequest {
   /** The unique identifier for the audience. */
@@ -8121,9 +6928,7 @@ export const DeleteAudienceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/audiences/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteAudienceRequest",
-}) as any as S.Schema<DeleteAudienceRequest>;
+).annotate({ identifier: "DeleteAudienceRequest" }) as any as S.Schema<DeleteAudienceRequest>;
 
 export interface DeleteAudienceResponse {}
 export const DeleteAudienceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8137,16 +6942,8 @@ export interface DeleteCollectionRequest {
 export const DeleteCollectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     collection_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/help_center/collections/{collection_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteCollectionRequest",
-}) as any as S.Schema<DeleteCollectionRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/help_center/collections/{collection_id}", code: 200 })),
+).annotate({ identifier: "DeleteCollectionRequest" }) as any as S.Schema<DeleteCollectionRequest>;
 
 /** The type of object which was deleted. - `collection` */
 export type DeletedCollectionObjectObject = "collection";
@@ -8167,9 +6964,7 @@ export const DeletedCollectionObject = /*@__PURE__*/ S.suspend(() =>
     object: S.optional(DeletedCollectionObjectObject),
     deleted: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DeletedCollectionObject",
-}) as any as S.Schema<DeletedCollectionObject>;
+).annotate({ identifier: "DeletedCollectionObject" }) as any as S.Schema<DeletedCollectionObject>;
 
 export interface DeleteCompanyRequest {
   /** The unique identifier for the company which is given by Intercom */
@@ -8179,9 +6974,7 @@ export const DeleteCompanyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/companies/{company_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteCompanyRequest",
-}) as any as S.Schema<DeleteCompanyRequest>;
+).annotate({ identifier: "DeleteCompanyRequest" }) as any as S.Schema<DeleteCompanyRequest>;
 
 /** The type of object which was deleted. - `company` */
 export type DeletedCompanyObjectObject = "company";
@@ -8202,9 +6995,7 @@ export const DeletedCompanyObject = /*@__PURE__*/ S.suspend(() =>
     object: S.optional(DeletedCompanyObjectObject),
     deleted: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DeletedCompanyObject",
-}) as any as S.Schema<DeletedCompanyObject>;
+).annotate({ identifier: "DeletedCompanyObject" }) as any as S.Schema<DeletedCompanyObject>;
 
 export interface DeleteContactRequest {
   /** contact_id */
@@ -8214,9 +7005,7 @@ export const DeleteContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contact_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/contacts/{contact_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteContactRequest",
-}) as any as S.Schema<DeleteContactRequest>;
+).annotate({ identifier: "DeleteContactRequest" }) as any as S.Schema<DeleteContactRequest>;
 
 /** always contact */
 export type DeleteContactResponseType = "contact";
@@ -8239,9 +7028,7 @@ export const DeleteContactResponse = /*@__PURE__*/ S.suspend(() =>
     external_id: S.optional(S.NullOr(S.String)),
     deleted: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DeleteContactResponse",
-}) as any as S.Schema<DeleteContactResponse>;
+).annotate({ identifier: "DeleteContactResponse" }) as any as S.Schema<DeleteContactResponse>;
 
 export interface DeleteContentImportSourceRequest {
   /** The unique identifier for the content import source which is given by Intercom. */
@@ -8250,13 +7037,7 @@ export interface DeleteContentImportSourceRequest {
 export const DeleteContentImportSourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     source_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/ai/content_import_sources/{source_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/ai/content_import_sources/{source_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteContentImportSourceRequest",
 }) as any as S.Schema<DeleteContentImportSourceRequest>;
@@ -8295,13 +7076,7 @@ export const DeleteConversationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     conversation_id: S.Number.pipe(T.Label()),
     retain_metrics: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/conversations/{conversation_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/conversations/{conversation_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteConversationRequest",
 }) as any as S.Schema<DeleteConversationRequest>;
@@ -8325,9 +7100,7 @@ export const ConversationDeleted = /*@__PURE__*/ S.suspend(() =>
     object: S.optional(ConversationDeletedObject),
     deleted: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ConversationDeleted",
-}) as any as S.Schema<ConversationDeleted>;
+).annotate({ identifier: "ConversationDeleted" }) as any as S.Schema<ConversationDeleted>;
 
 export interface DeleteConversationAttributeRequest {
   /** The conversation attribute id */
@@ -8336,13 +7109,7 @@ export interface DeleteConversationAttributeRequest {
 export const DeleteConversationAttributeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/conversations/attributes/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/conversations/attributes/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteConversationAttributeRequest",
 }) as any as S.Schema<DeleteConversationAttributeRequest>;
@@ -8496,13 +7263,7 @@ export interface DeleteExternalPageRequest {
 export const DeleteExternalPageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     page_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/ai/external_pages/{page_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/ai/external_pages/{page_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteExternalPageRequest",
 }) as any as S.Schema<DeleteExternalPageRequest>;
@@ -8558,13 +7319,7 @@ export interface DeleteInternalArticleRequest {
 export const DeleteInternalArticleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     internal_article_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/internal_articles/{internal_article_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/internal_articles/{internal_article_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteInternalArticleRequest",
 }) as any as S.Schema<DeleteInternalArticleRequest>;
@@ -8599,16 +7354,8 @@ export interface DeleteNewsItemRequest {
 export const DeleteNewsItemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     news_item_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/news/news_items/{news_item_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteNewsItemRequest",
-}) as any as S.Schema<DeleteNewsItemRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/news/news_items/{news_item_id}", code: 200 })),
+).annotate({ identifier: "DeleteNewsItemRequest" }) as any as S.Schema<DeleteNewsItemRequest>;
 
 /** The type of object which was deleted - news-item. */
 export type DeletedObjectObject = "news-item";
@@ -8674,13 +7421,7 @@ export interface DeleteOfficeHoursScheduleRequest {
 export const DeleteOfficeHoursScheduleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/office_hours_schedules/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/office_hours_schedules/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteOfficeHoursScheduleRequest",
 }) as any as S.Schema<DeleteOfficeHoursScheduleRequest>;
@@ -8708,9 +7449,7 @@ export const DeleteTagRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tag_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/tags/{tag_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteTagRequest",
-}) as any as S.Schema<DeleteTagRequest>;
+).annotate({ identifier: "DeleteTagRequest" }) as any as S.Schema<DeleteTagRequest>;
 
 export interface DeleteTagResponse {}
 export const DeleteTagResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8725,9 +7464,7 @@ export const DeleteTicketRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ticket_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/tickets/{ticket_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteTicketRequest",
-}) as any as S.Schema<DeleteTicketRequest>;
+).annotate({ identifier: "DeleteTicketRequest" }) as any as S.Schema<DeleteTicketRequest>;
 
 /** always ticket */
 export type TicketDeletedObject = "ticket";
@@ -8761,11 +7498,7 @@ export const DetachContactFromACompanyRequest = /*@__PURE__*/ S.suspend(() =>
     contact_id: S.String.pipe(T.Label()),
     company_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/contacts/{contact_id}/companies/{company_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/contacts/{contact_id}/companies/{company_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DetachContactFromACompanyRequest",
@@ -8826,13 +7559,7 @@ export const DetachTagFromArticleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     article_id: S.Number.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/articles/{article_id}/tags/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/articles/{article_id}/tags/{id}", code: 200 })),
 ).annotate({
   identifier: "DetachTagFromArticleRequest",
 }) as any as S.Schema<DetachTagFromArticleRequest>;
@@ -8847,13 +7574,7 @@ export const DetachTagFromContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contact_id: S.String.pipe(T.Label()),
     tag_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/contacts/{contact_id}/tags/{tag_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/contacts/{contact_id}/tags/{tag_id}", code: 200 })),
 ).annotate({
   identifier: "DetachTagFromContactRequest",
 }) as any as S.Schema<DetachTagFromContactRequest>;
@@ -8893,11 +7614,7 @@ export const DetachTagFromConversationRequest = /*@__PURE__*/ S.suspend(() =>
     tag_id: S.String.pipe(T.Label()),
     admin_id: S.String,
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/conversations/{conversation_id}/tags/{tag_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/conversations/{conversation_id}/tags/{tag_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DetachTagFromConversationRequest",
@@ -8937,13 +7654,7 @@ export const DetachTagFromTicketRequest = /*@__PURE__*/ S.suspend(() =>
     ticket_id: S.String.pipe(T.Label()),
     tag_id: S.String.pipe(T.Label()),
     admin_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/tickets/{ticket_id}/tags/{tag_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/tickets/{ticket_id}/tags/{tag_id}", code: 200 })),
 ).annotate({
   identifier: "DetachTagFromTicketRequest",
 }) as any as S.Schema<DetachTagFromTicketRequest>;
@@ -8958,13 +7669,7 @@ export const DismissContactBannerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     view_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/contacts/{id}/banners/{view_id}/dismiss",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/contacts/{id}/banners/{view_id}/dismiss", code: 200 })),
 ).annotate({
   identifier: "DismissContactBannerRequest",
 }) as any as S.Schema<DismissContactBannerRequest>;
@@ -8993,13 +7698,7 @@ export interface DownloadDataExportRequest {
 export const DownloadDataExportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     job_identifier: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/download/content/data/{job_identifier}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/download/content/data/{job_identifier}", code: 200 })),
 ).annotate({
   identifier: "DownloadDataExportRequest",
 }) as any as S.Schema<DownloadDataExportRequest>;
@@ -9102,6 +7801,78 @@ export const Jobs = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Jobs" }) as any as S.Schema<Jobs>;
 
+/** A hash of attributes associated with the user. Attributes can be used by Fin to target content and responses. Limit to 10 attributes. */
+export type EscalateFinConversationRequestUserAttributesMap = {
+  [key: string]: unknown | undefined;
+};
+export const EscalateFinConversationRequestUserAttributesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<EscalateFinConversationRequestUserAttributesMap>;
+
+export interface EscalateFinConversationRequestUser {
+  /** The ID of the user. This value will be used to uniquely identify the user during a conversation with Fin. Maps to the user_id field on the Intercom User object. */
+  id: string;
+  /** The name of the user. */
+  name?: string;
+  /** The email of the user. */
+  email?: string;
+  /** A hash of attributes associated with the user. Attributes can be used by Fin to target content and responses. Limit to 10 attributes. */
+  attributes?: EscalateFinConversationRequestUserAttributesMap;
+}
+export const EscalateFinConversationRequestUser = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.optional(S.String),
+    email: S.optional(S.String),
+    attributes: S.optional(EscalateFinConversationRequestUserAttributesMap),
+  }),
+).annotate({
+  identifier: "EscalateFinConversationRequestUser",
+}) as any as S.Schema<EscalateFinConversationRequestUser>;
+
+export interface EscalateFinConversationRequest {
+  /** The external ID of the conversation to escalate. Provide this or `user`. Required on Fin for Platforms, where `user` is not supported. */
+  conversation_id?: string;
+  user?: EscalateFinConversationRequestUser;
+  /** Optional background for the receiving teammate, valid with either `conversation_id` or `user`. On the Intercom Helpdesk, it appears above the summary in the internal note of the new conversation the teammate picks up, and is never shown to the end user. Not surfaced on Fin for Platforms. Avoid including credentials or unnecessary personal data — it is visible to any teammate with access to the conversation. */
+  context?: string;
+}
+export const EscalateFinConversationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    conversation_id: S.optional(S.String),
+    user: S.optional(EscalateFinConversationRequestUser),
+    context: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/fin/escalate", code: 200 })),
+).annotate({
+  identifier: "EscalateFinConversationRequest",
+}) as any as S.Schema<EscalateFinConversationRequest>;
+
+/** The resulting status of the conversation. */
+export type EscalateFinConversationResponseStatus = "escalated";
+export const EscalateFinConversationResponseStatus = S.String;
+
+export interface EscalateFinConversationResponse {
+  /** The external ID of the conversation. Returned when you escalate an existing conversation by `conversation_id` (echoed back). When you escalate a `user`, a new conversation is created and only `intercom_conversation_id` is returned. */
+  conversation_id?: string;
+  /** The internal Intercom conversation ID. Returned when a new conversation was created for the escalation. */
+  intercom_conversation_id?: string;
+  /** Optional. A URL to subscribe to Server-Sent Events (SSE) for this conversation, if SSE is enabled. The access token is a JWT with a 3-minute TTL. The token is revoked when Fin sets the conversation to complete status. When CSAT is enabled and a survey will follow the resolution, `complete` revocation is deferred until the `csat_requested` event is delivered or the token expires. Includes a `rewind` window so a subscriber that connects after the escalation is processed can still receive the `escalated` and `complete` events. */
+  sse_subscription_url?: string;
+  /** The resulting status of the conversation. */
+  status?: EscalateFinConversationResponseStatus;
+}
+export const EscalateFinConversationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    conversation_id: S.optional(S.String),
+    intercom_conversation_id: S.optional(S.String),
+    sse_subscription_url: S.optional(S.String),
+    status: S.optional(EscalateFinConversationResponseStatus),
+  }),
+).annotate({
+  identifier: "EscalateFinConversationResponse",
+}) as any as S.Schema<EscalateFinConversationResponse>;
+
 export interface ExportWorkflowRequest {
   /** The unique identifier for the workflow */
   id: string;
@@ -9110,9 +7881,7 @@ export const ExportWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/export/workflows/{id}", code: 200 })),
-).annotate({
-  identifier: "ExportWorkflowRequest",
-}) as any as S.Schema<ExportWorkflowRequest>;
+).annotate({ identifier: "ExportWorkflowRequest" }) as any as S.Schema<ExportWorkflowRequest>;
 
 /** The current state of the workflow. */
 export type WorkflowExportWorkflowState = "live" | "draft" | "paused";
@@ -9187,9 +7956,7 @@ export const WorkflowExportWorkflow = /*@__PURE__*/ S.suspend(() =>
     attributes: S.optional(WorkflowExportWorkflowAttributesList),
     embedded_rules: S.optional(WorkflowExportWorkflowEmbeddedRulesList),
   }),
-).annotate({
-  identifier: "WorkflowExportWorkflow",
-}) as any as S.Schema<WorkflowExportWorkflow>;
+).annotate({ identifier: "WorkflowExportWorkflow" }) as any as S.Schema<WorkflowExportWorkflow>;
 
 /** A workflow export containing the complete workflow configuration. */
 export interface WorkflowExport {
@@ -9229,9 +7996,7 @@ export const GetACompanyByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/companies/{company_id}", code: 200 })),
-).annotate({
-  identifier: "GetACompanyByIdRequest",
-}) as any as S.Schema<GetACompanyByIdRequest>;
+).annotate({ identifier: "GetACompanyByIdRequest" }) as any as S.Schema<GetACompanyByIdRequest>;
 
 export interface GetAdminRequest {
   /** The unique identifier of a given admin */
@@ -9241,9 +8006,7 @@ export const GetAdminRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     admin_id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/admins/{admin_id}", code: 200 })),
-).annotate({
-  identifier: "GetAdminRequest",
-}) as any as S.Schema<GetAdminRequest>;
+).annotate({ identifier: "GetAdminRequest" }) as any as S.Schema<GetAdminRequest>;
 
 export interface GetArticleRequest {
   /** The unique identifier for the article which is given by Intercom. */
@@ -9253,9 +8016,7 @@ export const GetArticleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     article_id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/articles/{article_id}", code: 200 })),
-).annotate({
-  identifier: "GetArticleRequest",
-}) as any as S.Schema<GetArticleRequest>;
+).annotate({ identifier: "GetArticleRequest" }) as any as S.Schema<GetArticleRequest>;
 
 /** The type of object - `article`. */
 export type GetArticleResponseType = "article";
@@ -9367,9 +8128,7 @@ export const GetArticleResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
     statistics: S.optional(S.NullOr(ArticleStatistics)),
   }),
-).annotate({
-  identifier: "GetArticleResponse",
-}) as any as S.Schema<GetArticleResponse>;
+).annotate({ identifier: "GetArticleResponse" }) as any as S.Schema<GetArticleResponse>;
 
 export interface GetArticleDraftRequest {
   /** The unique identifier for the article which is given by Intercom. */
@@ -9379,9 +8138,7 @@ export const GetArticleDraftRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/articles/{id}/draft", code: 200 })),
-).annotate({
-  identifier: "GetArticleDraftRequest",
-}) as any as S.Schema<GetArticleDraftRequest>;
+).annotate({ identifier: "GetArticleDraftRequest" }) as any as S.Schema<GetArticleDraftRequest>;
 
 /** The type of object - `article`. */
 export type GetArticleDraftResponseType = "article";
@@ -9493,9 +8250,7 @@ export const GetArticleDraftResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
     statistics: S.optional(S.NullOr(ArticleStatistics)),
   }),
-).annotate({
-  identifier: "GetArticleDraftResponse",
-}) as any as S.Schema<GetArticleDraftResponse>;
+).annotate({ identifier: "GetArticleDraftResponse" }) as any as S.Schema<GetArticleDraftResponse>;
 
 export interface GetArticleVersionRequest {
   /** The unique identifier for the article. */
@@ -9510,16 +8265,8 @@ export const GetArticleVersionRequest = /*@__PURE__*/ S.suspend(() =>
     article_id: S.Number.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
     locale: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/articles/{article_id}/versions/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetArticleVersionRequest",
-}) as any as S.Schema<GetArticleVersionRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/articles/{article_id}/versions/{id}", code: 200 })),
+).annotate({ identifier: "GetArticleVersionRequest" }) as any as S.Schema<GetArticleVersionRequest>;
 
 /** String representing the object's type. Always has the value `article_version`. */
 export type ArticleVersionType = "article_version";
@@ -9587,9 +8334,7 @@ export const GetAudienceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/audiences/{id}", code: 200 })),
-).annotate({
-  identifier: "GetAudienceRequest",
-}) as any as S.Schema<GetAudienceRequest>;
+).annotate({ identifier: "GetAudienceRequest" }) as any as S.Schema<GetAudienceRequest>;
 
 export interface GetBrandRequest {
   /** The unique identifier of the brand */
@@ -9599,9 +8344,7 @@ export const GetBrandRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/brands/{id}", code: 200 })),
-).annotate({
-  identifier: "GetBrandRequest",
-}) as any as S.Schema<GetBrandRequest>;
+).annotate({ identifier: "GetBrandRequest" }) as any as S.Schema<GetBrandRequest>;
 
 /** Represents a branding configuration for the workspace */
 export interface Brand {
@@ -9713,9 +8456,7 @@ export const GetCallRecordingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     call_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/calls/{call_id}/recording", code: 200 })),
-).annotate({
-  identifier: "GetCallRecordingRequest",
-}) as any as S.Schema<GetCallRecordingRequest>;
+).annotate({ identifier: "GetCallRecordingRequest" }) as any as S.Schema<GetCallRecordingRequest>;
 
 export interface GetCallRecordingResponse {}
 export const GetCallRecordingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -9730,9 +8471,7 @@ export const GetCallTranscriptRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     call_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/calls/{call_id}/transcript", code: 200 })),
-).annotate({
-  identifier: "GetCallTranscriptRequest",
-}) as any as S.Schema<GetCallTranscriptRequest>;
+).annotate({ identifier: "GetCallTranscriptRequest" }) as any as S.Schema<GetCallTranscriptRequest>;
 
 export interface GetCallTranscriptResponse {}
 export const GetCallTranscriptResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -9746,16 +8485,8 @@ export interface GetCollectionRequest {
 export const GetCollectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     collection_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/help_center/collections/{collection_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetCollectionRequest",
-}) as any as S.Schema<GetCollectionRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/help_center/collections/{collection_id}", code: 200 })),
+).annotate({ identifier: "GetCollectionRequest" }) as any as S.Schema<GetCollectionRequest>;
 
 export interface GetCompanyRequest {
   /** The `name` of the company to filter by. */
@@ -9780,9 +8511,7 @@ export const GetCompanyRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/companies", code: 200 })),
-).annotate({
-  identifier: "GetCompanyRequest",
-}) as any as S.Schema<GetCompanyRequest>;
+).annotate({ identifier: "GetCompanyRequest" }) as any as S.Schema<GetCompanyRequest>;
 
 /** The type of object - `list`. */
 export type CompanyListType = "list";
@@ -9803,9 +8532,7 @@ export const StartingAfterPaging = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number),
     starting_after: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "StartingAfterPaging",
-}) as any as S.Schema<StartingAfterPaging>;
+).annotate({ identifier: "StartingAfterPaging" }) as any as S.Schema<StartingAfterPaging>;
 
 /** Cursor-based pagination is a technique used in the Intercom API to navigate through large amounts of data. A "cursor" or pointer is used to keep track of the current position in the result set, allowing the API to return the data in small chunks or "pages" as needed. */
 export interface CursorPages {
@@ -9865,9 +8592,7 @@ export const GetContactRequest = /*@__PURE__*/ S.suspend(() =>
     contact_id: S.String.pipe(T.Label()),
     include_merge_history: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/contacts/{contact_id}", code: 200 })),
-).annotate({
-  identifier: "GetContactRequest",
-}) as any as S.Schema<GetContactRequest>;
+).annotate({ identifier: "GetContactRequest" }) as any as S.Schema<GetContactRequest>;
 
 export type GetContactResponseAvatar = ContactAvatar;
 export const GetContactResponseAvatar = ContactAvatar;
@@ -10018,9 +8743,7 @@ export const GetContactResponse = /*@__PURE__*/ S.suspend(() =>
     merge_history: S.optional(S.NullOr(GetContactResponseMergeHistoryList)),
     enabled_push_messaging: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "GetContactResponse",
-}) as any as S.Schema<GetContactResponse>;
+).annotate({ identifier: "GetContactResponse" }) as any as S.Schema<GetContactResponse>;
 
 export interface GetContactByExternalIdRequest {
   /** The external ID of the user that you want to retrieve */
@@ -10032,13 +8755,7 @@ export const GetContactByExternalIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     external_id: S.String.pipe(T.Label()),
     include_merge_history: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/contacts/find_by_external_id/{external_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/contacts/find_by_external_id/{external_id}", code: 200 })),
 ).annotate({
   identifier: "GetContactByExternalIdRequest",
 }) as any as S.Schema<GetContactByExternalIdRequest>;
@@ -10203,13 +8920,7 @@ export interface GetContentImportSourceRequest {
 export const GetContentImportSourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     source_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ai/content_import_sources/{source_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ai/content_import_sources/{source_id}", code: 200 })),
 ).annotate({
   identifier: "GetContentImportSourceRequest",
 }) as any as S.Schema<GetContentImportSourceRequest>;
@@ -10222,9 +8933,7 @@ export const GetContentSnippetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/content_snippets/{id}", code: 200 })),
-).annotate({
-  identifier: "GetContentSnippetRequest",
-}) as any as S.Schema<GetContentSnippetRequest>;
+).annotate({ identifier: "GetContentSnippetRequest" }) as any as S.Schema<GetContentSnippetRequest>;
 
 export interface GetConversationRequest {
   /** The id of the conversation to target */
@@ -10239,16 +8948,1223 @@ export const GetConversationRequest = /*@__PURE__*/ S.suspend(() =>
     conversation_id: S.Number.pipe(T.Label()),
     display_as: S.optional(S.String.pipe(T.Query())),
     include_translations: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/conversations/{conversation_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/conversations/{conversation_id}", code: 200 })),
+).annotate({ identifier: "GetConversationRequest" }) as any as S.Schema<GetConversationRequest>;
+
+/** Can be set to "open", "closed" or "snoozed". */
+export type ConversationState = "open" | "closed" | "snoozed";
+export const ConversationState = S.String;
+
+/** The priority level of the conversation. Returns one of none, low, medium, high, or urgent. */
+export type ConversationPriority = "none" | "low" | "medium" | "high" | "urgent";
+export const ConversationPriority = S.String;
+
+/** The Conversation Rating object which contains information on the rating and/or remark added by a Contact and the Admin assigned to the conversation. */
+export interface ConversationRating {
+  /** The rating, between 1 and 5, for the conversation. */
+  rating?: number;
+  /** An optional field to add a remark to correspond to the number rating */
+  remark?: string;
+  /** The time the rating was requested in the conversation being rated. */
+  created_at?: number;
+  /** The time the rating was last updated. */
+  updated_at?: number;
+  contact?: ContactReference;
+  teammate?: Reference;
+}
+export const ConversationRating = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rating: S.optional(S.Number),
+    remark: S.optional(S.String),
+    created_at: S.optional(S.Number),
+    updated_at: S.optional(S.Number),
+    contact: S.optional(ContactReference),
+    teammate: S.optional(Reference),
+  }),
+).annotate({ identifier: "ConversationRating" }) as any as S.Schema<ConversationRating>;
+
+export interface ConversationSourceRecipientsItem {
+  /** The recipient type. One of `to`, `cc`, or `bcc`. */
+  type?: string;
+  /** The recipient email address. */
+  email?: string;
+  /** The reason this recipient was dropped, if applicable. */
+  drop_reason?: string | null;
+}
+export const ConversationSourceRecipientsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    email: S.optional(S.String),
+    drop_reason: S.optional(S.NullOr(S.String)),
+  }),
 ).annotate({
-  identifier: "GetConversationRequest",
-}) as any as S.Schema<GetConversationRequest>;
+  identifier: "ConversationSourceRecipientsItem",
+}) as any as S.Schema<ConversationSourceRecipientsItem>;
+
+/** The recipients of the source message. Only present for email conversations. */
+export type ConversationSourceRecipientsList = Array<ConversationSourceRecipientsItem>;
+export const ConversationSourceRecipientsList = /*@__PURE__*/ S.Array(
+  ConversationSourceRecipientsItem,
+) as any as S.Schema<ConversationSourceRecipientsList>;
+
+export interface ConversationSourceReplyToItem {
+  /** The Reply-To email address. */
+  email?: string;
+  /** The display name associated with the Reply-To address. */
+  name?: string | null;
+}
+export const ConversationSourceReplyToItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    email: S.optional(S.String),
+    name: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "ConversationSourceReplyToItem",
+}) as any as S.Schema<ConversationSourceReplyToItem>;
+
+/** The Reply-To header addresses of the source message, where a reply will be routed. Can differ from the sender's From address. Only present for email conversations. */
+export type ConversationSourceReplyToList = Array<ConversationSourceReplyToItem>;
+export const ConversationSourceReplyToList = /*@__PURE__*/ S.Array(
+  ConversationSourceReplyToItem,
+) as any as S.Schema<ConversationSourceReplyToList>;
+
+/** The author who started the conversation. Can be a Contact, Admin, or Bot. */
+export interface ConversationSourceAuthor {
+  /** The type of the author. */
+  type?: string;
+  /** The id of the author. */
+  id?: string | null;
+  /** The name of the author. */
+  name?: string | null;
+  /** The email of the author. */
+  email?: string | null;
+}
+export const ConversationSourceAuthor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    id: S.optional(S.NullOr(S.String)),
+    name: S.optional(S.NullOr(S.String)),
+    email: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "ConversationSourceAuthor" }) as any as S.Schema<ConversationSourceAuthor>;
+
+/** A list of attachments for the part. */
+export type ConversationSourceAttachmentsList = Array<PartAttachment>;
+export const ConversationSourceAttachmentsList = /*@__PURE__*/ S.Array(
+  PartAttachment,
+) as any as S.Schema<ConversationSourceAttachmentsList>;
+
+/** Contains data for an email address header for a conversation part that was sent as an email. */
+export interface EmailAddressHeader {
+  /** The type of email address header */
+  type?: string;
+  /** The email address */
+  email_address?: string;
+  /** The name associated with the email address */
+  name?: string | null;
+}
+export const EmailAddressHeader = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    email_address: S.optional(S.String),
+    name: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "EmailAddressHeader" }) as any as S.Schema<EmailAddressHeader>;
+
+/** A list of an email address headers. */
+export type SourceEmailMessageMetadataEmailAddressHeadersList = Array<EmailAddressHeader>;
+export const SourceEmailMessageMetadataEmailAddressHeadersList = /*@__PURE__*/ S.Array(
+  EmailAddressHeader,
+) as any as S.Schema<SourceEmailMessageMetadataEmailAddressHeadersList>;
+
+/** Contains metadata if the message was sent as an email */
+export interface SourceEmailMessageMetadata {
+  /** The unique identifier for the email message as specified in the Message-ID header */
+  message_id?: string | null;
+  /** The subject of the email */
+  subject?: string;
+  /** A list of an email address headers. */
+  email_address_headers?: SourceEmailMessageMetadataEmailAddressHeadersList;
+  /** The HTML content of any quoted or forwarded email history from the initial inbound message */
+  history?: string;
+}
+export const SourceEmailMessageMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message_id: S.optional(S.NullOr(S.String)),
+    subject: S.optional(S.String),
+    email_address_headers: S.optional(SourceEmailMessageMetadataEmailAddressHeadersList),
+    history: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SourceEmailMessageMetadata",
+}) as any as S.Schema<SourceEmailMessageMetadata>;
+
+/** The type of the conversation part that started this conversation. Can be Contact, Admin, Campaign, Automated or Operator initiated. */
+export interface ConversationSource {
+  /** The origin of this conversation. */
+  type?: string;
+  /** The id of the source message. */
+  id?: string | null;
+  /** How the conversation was initiated. */
+  delivered_as?: string;
+  /** The recipients of the source message. Only present for email conversations. */
+  recipients?: ConversationSourceRecipientsList | null;
+  /** The Reply-To header addresses of the source message, where a reply will be routed. Can differ from the sender's From address. Only present for email conversations. */
+  reply_to?: ConversationSourceReplyToList | null;
+  /** Optional. The message subject. For Twitter, this will show a generic message regarding why the subject is obscured. In webhook payloads for API version 2.15+, this field returns plain text. */
+  subject?: string;
+  /** The message body, which may contain HTML. For Twitter, this will show a generic message regarding why the body is obscured. In webhook payloads for API version 2.15+, this field returns plain text. */
+  body?: string;
+  author?: ConversationSourceAuthor;
+  /** A list of attachments for the part. */
+  attachments?: ConversationSourceAttachmentsList;
+  /** The URL where the conversation was started. For Twitter, Email, and Bots, this will be blank. */
+  url?: string | null;
+  /** Whether or not the source message has been redacted. Only applicable for contact initiated messages. */
+  redacted?: boolean;
+  email_message_metadata?: SourceEmailMessageMetadata;
+}
+export const ConversationSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    id: S.optional(S.NullOr(S.String)),
+    delivered_as: S.optional(S.String),
+    recipients: S.optional(S.NullOr(ConversationSourceRecipientsList)),
+    reply_to: S.optional(S.NullOr(ConversationSourceReplyToList)),
+    subject: S.optional(S.String),
+    body: S.optional(S.String),
+    author: S.optional(ConversationSourceAuthor),
+    attachments: S.optional(ConversationSourceAttachmentsList),
+    url: S.optional(S.NullOr(S.String)),
+    redacted: S.optional(S.Boolean),
+    email_message_metadata: S.optional(SourceEmailMessageMetadata),
+  }),
+).annotate({ identifier: "ConversationSource" }) as any as S.Schema<ConversationSource>;
+
+export type ConversationContactsType = "contact.list";
+export const ConversationContactsType = S.String;
+
+/** The list of contacts (users or leads) involved in this conversation. This will only contain one customer unless more were added via the group conversation feature. */
+export type ConversationContactsContactsList = Array<ContactReference>;
+export const ConversationContactsContactsList = /*@__PURE__*/ S.Array(
+  ContactReference,
+) as any as S.Schema<ConversationContactsContactsList>;
+
+/** The list of contacts (users or leads) involved in this conversation. This will only contain one customer unless more were added via the group conversation feature. */
+export interface ConversationContacts {
+  type?: ConversationContactsType;
+  /** The list of contacts (users or leads) involved in this conversation. This will only contain one customer unless more were added via the group conversation feature. */
+  contacts?: ConversationContactsContactsList;
+}
+export const ConversationContacts = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ConversationContactsType),
+    contacts: S.optional(ConversationContactsContactsList),
+  }),
+).annotate({ identifier: "ConversationContacts" }) as any as S.Schema<ConversationContacts>;
+
+/** The list of teammates who participated in the conversation (wrote at least one conversation part). */
+export type ConversationTeammatesTeammatesList = Array<Reference>;
+export const ConversationTeammatesTeammatesList = /*@__PURE__*/ S.Array(
+  Reference,
+) as any as S.Schema<ConversationTeammatesTeammatesList>;
+
+/** The list of teammates who participated in the conversation (wrote at least one conversation part). */
+export interface ConversationTeammates {
+  /** The type of the object - `admin.list`. */
+  type?: string;
+  /** The list of teammates who participated in the conversation (wrote at least one conversation part). */
+  teammates?: ConversationTeammatesTeammatesList;
+}
+export const ConversationTeammates = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    teammates: S.optional(ConversationTeammatesTeammatesList),
+  }),
+).annotate({ identifier: "ConversationTeammates" }) as any as S.Schema<ConversationTeammates>;
+
+/** An object containing information on the first users message. For a contact initiated message this will represent the users original message. */
+export interface ConversationFirstContactReply {
+  created_at?: number;
+  type?: string;
+  url?: string | null;
+}
+export const ConversationFirstContactReply = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    created_at: S.optional(S.Number),
+    type: S.optional(S.String),
+    url: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "ConversationFirstContactReply",
+}) as any as S.Schema<ConversationFirstContactReply>;
+
+/** SLA statuses: - `hit`: If there’s at least one hit event in the underlying sla_events table, and no “missed” or “canceled” events for the conversation. - `missed`: If there are any missed sla_events for the conversation and no canceled events. If there’s even a single missed sla event, the status will always be missed. A missed status is not applied when the SLA expires, only the next time a teammate replies. - `active`: An SLA has been applied to a conversation, but has not yet been fulfilled. SLA status is active only if there are no “hit, “missed”, or “canceled” events. */
+export type SlaAppliedSlaStatus = "hit" | "missed" | "cancelled" | "active";
+export const SlaAppliedSlaStatus = S.String;
+
+/** The SLA Applied object contains the details for which SLA has been applied to this conversation. Important: if there are any canceled sla_events for the conversation - meaning an SLA has been manually removed from a conversation, the sla_status will always be returned as null. */
+export interface SlaApplied {
+  /** object type */
+  type?: string;
+  /** The name of the SLA as given by the teammate when it was created. */
+  sla_name?: string;
+  /** SLA statuses: - `hit`: If there’s at least one hit event in the underlying sla_events table, and no “missed” or “canceled” events for the conversation. - `missed`: If there are any missed sla_events for the conversation and no canceled events. If there’s even a single missed sla event, the status will always be missed. A missed status is not applied when the SLA expires, only the next time a teammate replies. - `active`: An SLA has been applied to a conversation, but has not yet been fulfilled. SLA status is active only if there are no “hit, “missed”, or “canceled” events. */
+  sla_status?: SlaAppliedSlaStatus;
+}
+export const SlaApplied = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    sla_name: S.optional(S.String),
+    sla_status: S.optional(SlaAppliedSlaStatus),
+  }),
+).annotate({ identifier: "SlaApplied" }) as any as S.Schema<SlaApplied>;
+
+/** Details of first response time of assigned team in seconds. */
+export interface ConversationResponseTime {
+  /** Id of the assigned team. */
+  team_id?: number;
+  /** Name of the assigned Team, null if team does not exist, Unassigned if no team is assigned. */
+  team_name?: string;
+  /** First response time of assigned team in seconds. */
+  response_time?: number;
+}
+export const ConversationResponseTime = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    team_id: S.optional(S.Number),
+    team_name: S.optional(S.String),
+    response_time: S.optional(S.Number),
+  }),
+).annotate({ identifier: "ConversationResponseTime" }) as any as S.Schema<ConversationResponseTime>;
+
+/** An array of conversation response time objects */
+export type ConversationStatisticsAssignedTeamFirstResponseTimeList =
+  Array<ConversationResponseTime>;
+export const ConversationStatisticsAssignedTeamFirstResponseTimeList = /*@__PURE__*/ S.Array(
+  ConversationResponseTime,
+) as any as S.Schema<ConversationStatisticsAssignedTeamFirstResponseTimeList>;
+
+/** An array of conversation response time objects within office hours */
+export type ConversationStatisticsAssignedTeamFirstResponseTimeInOfficeHoursList =
+  Array<ConversationResponseTime>;
+export const ConversationStatisticsAssignedTeamFirstResponseTimeInOfficeHoursList =
+  /*@__PURE__*/ S.Array(
+    ConversationResponseTime,
+  ) as any as S.Schema<ConversationStatisticsAssignedTeamFirstResponseTimeInOfficeHoursList>;
+
+/** A Statistics object containing all information required for reporting, with timestamps and calculated metrics. */
+export interface ConversationStatistics {
+  type?: string;
+  /** Duration until last assignment before first admin reply. In seconds. */
+  time_to_assignment?: number;
+  /** Duration until first admin reply. Subtracts out of business hours. In seconds. */
+  time_to_admin_reply?: number;
+  /** Duration until conversation was closed first time. Subtracts out of business hours. In seconds. */
+  time_to_first_close?: number;
+  /** Duration until conversation was closed last time. Subtracts out of business hours. In seconds. */
+  time_to_last_close?: number;
+  /** Median based on all admin replies after a contact reply. Subtracts out of business hours. In seconds. */
+  median_time_to_reply?: number;
+  /** Time of first text conversation part from a contact. */
+  first_contact_reply_at?: number;
+  /** Time of first assignment after first_contact_reply_at. */
+  first_assignment_at?: number;
+  /** Time of first admin reply after first_contact_reply_at. */
+  first_admin_reply_at?: number;
+  /** Time of first close after first_contact_reply_at. */
+  first_close_at?: number;
+  /** Time of last assignment after first_contact_reply_at. */
+  last_assignment_at?: number;
+  /** Time of first admin reply since most recent assignment. */
+  last_assignment_admin_reply_at?: number;
+  /** Time of the last conversation part from a contact. */
+  last_contact_reply_at?: number;
+  /** Time of the last conversation part from an admin. */
+  last_admin_reply_at?: number;
+  /** Time of the last conversation close. */
+  last_close_at?: number;
+  /** The last admin who closed the conversation. Returns a reference to an Admin object. */
+  last_closed_by_id?: string;
+  /** Number of reopens after first_contact_reply_at. */
+  count_reopens?: number;
+  /** Number of assignments after first_contact_reply_at. */
+  count_assignments?: number;
+  /** Total number of conversation parts. */
+  count_conversation_parts?: number;
+  /** An array of conversation response time objects */
+  assigned_team_first_response_time?: ConversationStatisticsAssignedTeamFirstResponseTimeList;
+  /** An array of conversation response time objects within office hours */
+  assigned_team_first_response_time_in_office_hours?: ConversationStatisticsAssignedTeamFirstResponseTimeInOfficeHoursList;
+  /** Time from conversation assignment to conversation close in seconds. */
+  handling_time?: number;
+  /** Adjusted handling time for conversation in seconds. This is the active handling time excluding idle periods when teammates are not actively working on the conversation. */
+  adjusted_handling_time?: number | null;
+}
+export const ConversationStatistics = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    time_to_assignment: S.optional(S.Number),
+    time_to_admin_reply: S.optional(S.Number),
+    time_to_first_close: S.optional(S.Number),
+    time_to_last_close: S.optional(S.Number),
+    median_time_to_reply: S.optional(S.Number),
+    first_contact_reply_at: S.optional(S.Number),
+    first_assignment_at: S.optional(S.Number),
+    first_admin_reply_at: S.optional(S.Number),
+    first_close_at: S.optional(S.Number),
+    last_assignment_at: S.optional(S.Number),
+    last_assignment_admin_reply_at: S.optional(S.Number),
+    last_contact_reply_at: S.optional(S.Number),
+    last_admin_reply_at: S.optional(S.Number),
+    last_close_at: S.optional(S.Number),
+    last_closed_by_id: S.optional(S.String),
+    count_reopens: S.optional(S.Number),
+    count_assignments: S.optional(S.Number),
+    count_conversation_parts: S.optional(S.Number),
+    assigned_team_first_response_time: S.optional(
+      ConversationStatisticsAssignedTeamFirstResponseTimeList,
+    ),
+    assigned_team_first_response_time_in_office_hours: S.optional(
+      ConversationStatisticsAssignedTeamFirstResponseTimeInOfficeHoursList,
+    ),
+    handling_time: S.optional(S.Number),
+    adjusted_handling_time: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "ConversationStatistics" }) as any as S.Schema<ConversationStatistics>;
+
+export type ConversationPartsType = "conversation_part.list";
+export const ConversationPartsType = S.String;
+
+/** The object who initiated the conversation, which can be a Contact, Admin or Team. Bots and campaigns send messages on behalf of Admins or Teams. For Twitter, this will be blank. */
+export interface ConversationPartAuthor {
+  /** The type of the author */
+  type?: string;
+  /** The id of the author */
+  id?: string;
+  /** The name of the author */
+  name?: string | null;
+  /** The email of the author */
+  email?: string;
+  /** If this conversation part was sent by the AI Agent */
+  from_ai_agent?: boolean;
+  /** If this conversation part body was generated by the AI Agent */
+  is_ai_answer?: boolean;
+}
+export const ConversationPartAuthor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    id: S.optional(S.String),
+    name: S.optional(S.NullOr(S.String)),
+    email: S.optional(S.String),
+    from_ai_agent: S.optional(S.Boolean),
+    is_ai_answer: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "ConversationPartAuthor" }) as any as S.Schema<ConversationPartAuthor>;
+
+/** A list of attachments for the part. */
+export type ConversationPartAttachmentsList = Array<PartAttachment>;
+export const ConversationPartAttachmentsList = /*@__PURE__*/ S.Array(
+  PartAttachment,
+) as any as S.Schema<ConversationPartAttachmentsList>;
+
+/** A list of an email address headers. */
+export type EmailMessageMetadataEmailAddressHeadersList = Array<EmailAddressHeader>;
+export const EmailMessageMetadataEmailAddressHeadersList = /*@__PURE__*/ S.Array(
+  EmailAddressHeader,
+) as any as S.Schema<EmailMessageMetadataEmailAddressHeadersList>;
+
+/** Contains metadata if the message was sent as an email */
+export interface EmailMessageMetadata {
+  /** The subject of the email */
+  subject?: string;
+  /** A list of an email address headers. */
+  email_address_headers?: EmailMessageMetadataEmailAddressHeadersList;
+  /** The unique identifier for the email message as specified in the Message-ID header */
+  message_id?: string | null;
+}
+export const EmailMessageMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subject: S.optional(S.String),
+    email_address_headers: S.optional(EmailMessageMetadataEmailAddressHeadersList),
+    message_id: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "EmailMessageMetadata" }) as any as S.Schema<EmailMessageMetadata>;
+
+export interface ConversationPartMetadataQuickReplyOptionsItem {
+  /** The text to display in this quick reply option. */
+  text: string;
+  /** A unique identifier for this quick reply option. This value will be available within the metadata of the comment conversation part that is created when a user clicks on this reply option. */
+  uuid: string;
+  /** The translations for the quick reply option. */
+  translations?: unknown | null;
+}
+export const ConversationPartMetadataQuickReplyOptionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    text: S.String,
+    uuid: S.String,
+    translations: S.optional(S.NullOr(S.Unknown)),
+  }),
+).annotate({
+  identifier: "ConversationPartMetadataQuickReplyOptionsItem",
+}) as any as S.Schema<ConversationPartMetadataQuickReplyOptionsItem>;
+
+/** The quick reply options sent by the Admin or bot, presented in this conversation part. */
+export type ConversationPartMetadataQuickReplyOptionsList =
+  Array<ConversationPartMetadataQuickReplyOptionsItem>;
+export const ConversationPartMetadataQuickReplyOptionsList = /*@__PURE__*/ S.Array(
+  ConversationPartMetadataQuickReplyOptionsItem,
+) as any as S.Schema<ConversationPartMetadataQuickReplyOptionsList>;
+
+/** Metadata for a conversation part */
+export interface ConversationPartMetadata {
+  /** The quick reply options sent by the Admin or bot, presented in this conversation part. */
+  quick_reply_options?: ConversationPartMetadataQuickReplyOptionsList;
+  /** The unique identifier for the quick reply option that was clicked by the end user. */
+  quick_reply_uuid?: string;
+}
+export const ConversationPartMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    quick_reply_options: S.optional(ConversationPartMetadataQuickReplyOptionsList),
+    quick_reply_uuid: S.optional(S.String),
+  }),
+).annotate({ identifier: "ConversationPartMetadata" }) as any as S.Schema<ConversationPartMetadata>;
+
+/** Indicates the current state of conversation when the conversation part was created. */
+export type ConversationPartState = "open" | "closed" | "snoozed";
+export const ConversationPartState = S.String;
+
+/** A list of tags objects associated with the conversation part. */
+export type ConversationPartTagsList = Array<TagBasic>;
+export const ConversationPartTagsList = /*@__PURE__*/ S.Array(
+  TagBasic,
+) as any as S.Schema<ConversationPartTagsList>;
+
+export interface ConversationAttributeUpdatedByWorkflowWorkflow {
+  /** Name of the workflow */
+  name?: string;
+}
+export const ConversationAttributeUpdatedByWorkflowWorkflow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ConversationAttributeUpdatedByWorkflowWorkflow",
+}) as any as S.Schema<ConversationAttributeUpdatedByWorkflowWorkflow>;
+
+export interface ConversationAttributeUpdatedByWorkflowAttribute {
+  /** Name of the CDA updated */
+  name?: string;
+}
+export const ConversationAttributeUpdatedByWorkflowAttribute = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ConversationAttributeUpdatedByWorkflowAttribute",
+}) as any as S.Schema<ConversationAttributeUpdatedByWorkflowAttribute>;
+
+export interface ConversationAttributeUpdatedByWorkflowValue {
+  /** Value of the CDA updated */
+  name?: string;
+}
+export const ConversationAttributeUpdatedByWorkflowValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ConversationAttributeUpdatedByWorkflowValue",
+}) as any as S.Schema<ConversationAttributeUpdatedByWorkflowValue>;
+
+/** Contains details about the workflow that was triggered and any Custom Data Attributes (CDAs) that were modified during the workflow execution for conversation part type <code>conversation_attribute_updated_by_workflow</code>. */
+export interface ConversationAttributeUpdatedByWorkflow {
+  workflow?: ConversationAttributeUpdatedByWorkflowWorkflow;
+  attribute?: ConversationAttributeUpdatedByWorkflowAttribute;
+  value?: ConversationAttributeUpdatedByWorkflowValue;
+}
+export const ConversationAttributeUpdatedByWorkflow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workflow: S.optional(ConversationAttributeUpdatedByWorkflowWorkflow),
+    attribute: S.optional(ConversationAttributeUpdatedByWorkflowAttribute),
+    value: S.optional(ConversationAttributeUpdatedByWorkflowValue),
+  }),
+).annotate({
+  identifier: "ConversationAttributeUpdatedByWorkflow",
+}) as any as S.Schema<ConversationAttributeUpdatedByWorkflow>;
+
+export type ConversationAttributeUpdatedByAdminAttribute =
+  ConversationAttributeUpdatedByWorkflowAttribute;
+export const ConversationAttributeUpdatedByAdminAttribute =
+  ConversationAttributeUpdatedByWorkflowAttribute;
+
+export interface ConversationAttributeUpdatedByAdminValue {
+  /** Current value of the CDA updated */
+  name?: string;
+  /** Previous value of the CDA */
+  previous?: string | null;
+}
+export const ConversationAttributeUpdatedByAdminValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    previous: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "ConversationAttributeUpdatedByAdminValue",
+}) as any as S.Schema<ConversationAttributeUpdatedByAdminValue>;
+
+/** Contains details about Custom Data Attributes (CDAs) that were modified by an admin (operator) for conversation part type <code>conversation_attribute_updated_by_admin</code>. */
+export interface ConversationAttributeUpdatedByAdmin {
+  attribute?: ConversationAttributeUpdatedByWorkflowAttribute;
+  value?: ConversationAttributeUpdatedByAdminValue;
+}
+export const ConversationAttributeUpdatedByAdmin = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    attribute: S.optional(ConversationAttributeUpdatedByWorkflowAttribute),
+    value: S.optional(ConversationAttributeUpdatedByAdminValue),
+  }),
+).annotate({
+  identifier: "ConversationAttributeUpdatedByAdmin",
+}) as any as S.Schema<ConversationAttributeUpdatedByAdmin>;
+
+export type ConversationAttributeUpdatedByUserAttribute =
+  ConversationAttributeUpdatedByWorkflowAttribute;
+export const ConversationAttributeUpdatedByUserAttribute =
+  ConversationAttributeUpdatedByWorkflowAttribute;
+
+export interface ConversationAttributeUpdatedByUserValue {
+  /** Current value of the CDA updated */
+  name?: string;
+  /** Previous value of the CDA (null for older events) */
+  previous?: string | null;
+}
+export const ConversationAttributeUpdatedByUserValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    previous: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "ConversationAttributeUpdatedByUserValue",
+}) as any as S.Schema<ConversationAttributeUpdatedByUserValue>;
+
+/** Contains details about Custom Data Attributes (CDAs) that were modified by a user for conversation part type <code>conversation_attribute_updated_by_user</code>. */
+export interface ConversationAttributeUpdatedByUser {
+  attribute?: ConversationAttributeUpdatedByWorkflowAttribute;
+  value?: ConversationAttributeUpdatedByUserValue;
+}
+export const ConversationAttributeUpdatedByUser = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    attribute: S.optional(ConversationAttributeUpdatedByWorkflowAttribute),
+    value: S.optional(ConversationAttributeUpdatedByUserValue),
+  }),
+).annotate({
+  identifier: "ConversationAttributeUpdatedByUser",
+}) as any as S.Schema<ConversationAttributeUpdatedByUser>;
+
+export interface CustomActionStartedAction {
+  /** Name of the action */
+  name?: string;
+}
+export const CustomActionStartedAction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CustomActionStartedAction",
+}) as any as S.Schema<CustomActionStartedAction>;
+
+/** Contains details about name of the action that was initiated for conversation part type <code>custom_action_started</code>. */
+export interface CustomActionStarted {
+  action?: CustomActionStartedAction;
+}
+export const CustomActionStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: S.optional(CustomActionStartedAction),
+  }),
+).annotate({ identifier: "CustomActionStarted" }) as any as S.Schema<CustomActionStarted>;
+
+/** Status of the action */
+export type CustomActionFinishedActionResult = "success" | "failed";
+export const CustomActionFinishedActionResult = S.String;
+
+export interface CustomActionFinishedAction {
+  /** Name of the action */
+  name?: string;
+  /** Status of the action */
+  result?: CustomActionFinishedActionResult;
+}
+export const CustomActionFinishedAction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    result: S.optional(CustomActionFinishedActionResult),
+  }),
+).annotate({
+  identifier: "CustomActionFinishedAction",
+}) as any as S.Schema<CustomActionFinishedAction>;
+
+/** Contains details about final status of the completed action for conversation part type <code>custom_action_finished</code>. */
+export interface CustomActionFinished {
+  action?: CustomActionFinishedAction;
+}
+export const CustomActionFinished = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: S.optional(CustomActionFinishedAction),
+  }),
+).annotate({ identifier: "CustomActionFinished" }) as any as S.Schema<CustomActionFinished>;
+
+export interface OperatorWorkflowEventWorkflow {
+  /** The name of the workflow */
+  name?: string;
+}
+export const OperatorWorkflowEventWorkflow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "OperatorWorkflowEventWorkflow",
+}) as any as S.Schema<OperatorWorkflowEventWorkflow>;
+
+export interface OperatorWorkflowEventEvent {
+  /** Type of the workflow event initiated */
+  type?: string;
+  /** Result of the workflow event */
+  result?: string;
+}
+export const OperatorWorkflowEventEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    result: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "OperatorWorkflowEventEvent",
+}) as any as S.Schema<OperatorWorkflowEventEvent>;
+
+/** Contains details about name of the workflow for conversation part type <code>operator_workflow_event</code>. */
+export interface OperatorWorkflowEvent {
+  workflow?: OperatorWorkflowEventWorkflow;
+  event?: OperatorWorkflowEventEvent;
+}
+export const OperatorWorkflowEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workflow: S.optional(OperatorWorkflowEventWorkflow),
+    event: S.optional(OperatorWorkflowEventEvent),
+  }),
+).annotate({ identifier: "OperatorWorkflowEvent" }) as any as S.Schema<OperatorWorkflowEvent>;
+
+export type EventDetails =
+  | ConversationAttributeUpdatedByWorkflow
+  | ConversationAttributeUpdatedByAdmin
+  | ConversationAttributeUpdatedByUser
+  | CustomActionStarted
+  | CustomActionFinished
+  | OperatorWorkflowEvent;
+export const EventDetails = S.Unknown as any as S.Schema<EventDetails>;
+
+/** A map of the reply text keyed by locale code. Backs the `conversation.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale. */
+export type ConversationPartTranslations = TicketPartTranslations;
+export const ConversationPartTranslations = TicketPartTranslations;
+
+/** A Conversation Part represents a message in the conversation. */
+export interface ConversationPart {
+  /** Always conversation_part */
+  type?: string;
+  /** The id representing the conversation part. */
+  id?: string;
+  /** The type of conversation part. */
+  part_type?: string;
+  /** The message body, which may contain HTML. For Twitter, this will show a generic message regarding why the body is obscured. In webhook payloads for API version 2.15+, this field returns plain text. */
+  body?: string | null;
+  /** The time the conversation part was created. */
+  created_at?: number;
+  /** The last time the conversation part was updated. */
+  updated_at?: number;
+  /** The time the user was notified with the conversation part. */
+  notified_at?: number;
+  /** The assignee this conversation_part assigned the conversation to, as a reference whose `type` is `admin`, `team` or `bot`. When the part unassigned the conversation, `type` is `nobody_admin` and `id` is `null`. Null when the part did not change the assignment, or when the assignee has since been deleted. */
+  assigned_to?: Reference | null;
+  author?: ConversationPartAuthor;
+  /** A list of attachments for the part. */
+  attachments?: ConversationPartAttachmentsList;
+  /** The external id of the conversation part */
+  external_id?: string | null;
+  /** Whether or not the conversation part has been redacted. */
+  redacted?: boolean;
+  email_message_metadata?: EmailMessageMetadata | null;
+  metadata?: ConversationPartMetadata | null;
+  /** Indicates the current state of conversation when the conversation part was created. */
+  state?: ConversationPartState;
+  /** A list of tags objects associated with the conversation part. */
+  tags?: ConversationPartTagsList | null;
+  event_details?: EventDetails | null;
+  /** The app package code if this part was created via API. null if the part was not created via API. */
+  app_package_code?: string | null;
+  /** A map of the reply text keyed by locale code. Backs the `conversation.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale. */
+  translations?: TicketPartTranslations | null;
+}
+export const ConversationPart = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    id: S.optional(S.String),
+    part_type: S.optional(S.String),
+    body: S.optional(S.NullOr(S.String)),
+    created_at: S.optional(S.Number),
+    updated_at: S.optional(S.Number),
+    notified_at: S.optional(S.Number),
+    assigned_to: S.optional(S.NullOr(Reference)),
+    author: S.optional(ConversationPartAuthor),
+    attachments: S.optional(ConversationPartAttachmentsList),
+    external_id: S.optional(S.NullOr(S.String)),
+    redacted: S.optional(S.Boolean),
+    email_message_metadata: S.optional(S.NullOr(EmailMessageMetadata)),
+    metadata: S.optional(S.NullOr(ConversationPartMetadata)),
+    state: S.optional(ConversationPartState),
+    tags: S.optional(S.NullOr(ConversationPartTagsList)),
+    event_details: S.optional(S.NullOr(EventDetails)),
+    app_package_code: S.optional(S.NullOr(S.String)),
+    translations: S.optional(S.NullOr(TicketPartTranslations)),
+  }),
+).annotate({ identifier: "ConversationPart" }) as any as S.Schema<ConversationPart>;
+
+/** A list of Conversation Part objects for each part message in the conversation. This is only returned when Retrieving a Conversation, and ignored when Listing all Conversations. There is a limit of 500 parts. */
+export type ConversationPartsConversationPartsList = Array<ConversationPart>;
+export const ConversationPartsConversationPartsList = /*@__PURE__*/ S.Array(
+  ConversationPart,
+) as any as S.Schema<ConversationPartsConversationPartsList>;
+
+/** A list of Conversation Part objects for each part message in the conversation. This is only returned when Retrieving a Conversation, and ignored when Listing all Conversations. There is a limit of 500 parts. */
+export interface ConversationParts {
+  type?: ConversationPartsType;
+  /** A list of Conversation Part objects for each part message in the conversation. This is only returned when Retrieving a Conversation, and ignored when Listing all Conversations. There is a limit of 500 parts. */
+  conversation_parts?: ConversationPartsConversationPartsList;
+  total_count?: number;
+}
+export const ConversationParts = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ConversationPartsType),
+    conversation_parts: S.optional(ConversationPartsConversationPartsList),
+    total_count: S.optional(S.Number),
+  }),
+).annotate({ identifier: "ConversationParts" }) as any as S.Schema<ConversationParts>;
+
+/** The type of the source that triggered AI Agent involvement in the conversation. */
+export type AiAgentSourceType =
+  | "essentials_plan_setup"
+  | "profile"
+  | "workflow"
+  | "workflow_preview"
+  | "fin_preview";
+export const AiAgentSourceType = S.String;
+
+/** The type of the last answer delivered by AI Agent. If no answer was delivered then this will return `null` */
+export type AiAgentLastAnswerType = "ai_answer" | "custom_answer";
+export const AiAgentLastAnswerType = S.String;
+
+/** The resolution state of AI Agent. If no AI or custom answer has been delivered then this will return `null`. */
+export type AiAgentResolutionState =
+  | "assumed_resolution"
+  | "confirmed_resolution"
+  | "escalated"
+  | "negative_feedback"
+  | "procedure_handoff";
+export const AiAgentResolutionState = S.String;
+
+export type ContentSourcesListType = "content_source.list";
+export const ContentSourcesListType = S.String;
+
+/** The type of the content source. */
+export type ContentSourceContentType =
+  | "file"
+  | "article"
+  | "external_content"
+  | "content_snippet"
+  | "workflow_connector_action";
+export const ContentSourceContentType = S.String;
+
+/** The content source used by AI Agent in the conversation. */
+export interface ContentSource {
+  /** The type of the content source. */
+  content_type?: ContentSourceContentType;
+  /** The internal URL linking to the content source for teammates. */
+  url?: string;
+  /** The title of the content source. */
+  title?: string;
+  /** The ISO 639 language code of the content source. */
+  locale?: string;
+}
+export const ContentSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    content_type: S.optional(ContentSourceContentType),
+    url: S.optional(S.String),
+    title: S.optional(S.String),
+    locale: S.optional(S.String),
+  }),
+).annotate({ identifier: "ContentSource" }) as any as S.Schema<ContentSource>;
+
+/** The content sources used by AI Agent in the conversation. */
+export type ContentSourcesListContentSourcesList = Array<ContentSource>;
+export const ContentSourcesListContentSourcesList = /*@__PURE__*/ S.Array(
+  ContentSource,
+) as any as S.Schema<ContentSourcesListContentSourcesList>;
+
+export interface ContentSourcesList {
+  type?: ContentSourcesListType;
+  /** The total number of content sources used by AI Agent in the conversation. */
+  total_count?: number;
+  /** The content sources used by AI Agent in the conversation. */
+  content_sources?: ContentSourcesListContentSourcesList;
+}
+export const ContentSourcesList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ContentSourcesListType),
+    total_count: S.optional(S.Number),
+    content_sources: S.optional(ContentSourcesListContentSourcesList),
+  }),
+).annotate({ identifier: "ContentSourcesList" }) as any as S.Schema<ContentSourcesList>;
+
+/** Data related to AI Agent involvement in the conversation. */
+export interface AiAgent {
+  /** The type of the source that triggered AI Agent involvement in the conversation. */
+  source_type?: AiAgentSourceType | null;
+  /** The title of the source that triggered AI Agent involvement in the conversation. If this is `essentials_plan_setup` then it will return `null`. */
+  source_title?: string | null;
+  /** The type of the last answer delivered by AI Agent. If no answer was delivered then this will return `null` */
+  last_answer_type?: AiAgentLastAnswerType | null;
+  /** The resolution state of AI Agent. If no AI or custom answer has been delivered then this will return `null`. */
+  resolution_state?: AiAgentResolutionState | null;
+  /** The customer satisfaction rating given to AI Agent, from 1-5. */
+  rating?: number | null;
+  /** The customer satisfaction rating remark given to AI Agent. */
+  rating_remark?: string | null;
+  /** The time when the AI agent rating was created. */
+  created_at?: number | null;
+  /** The time when the AI agent rating was last updated. */
+  updated_at?: number | null;
+  content_sources?: ContentSourcesList;
+}
+export const AiAgent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    source_type: S.optional(S.NullOr(AiAgentSourceType)),
+    source_title: S.optional(S.NullOr(S.String)),
+    last_answer_type: S.optional(S.NullOr(AiAgentLastAnswerType)),
+    resolution_state: S.optional(S.NullOr(AiAgentResolutionState)),
+    rating: S.optional(S.NullOr(S.Number)),
+    rating_remark: S.optional(S.NullOr(S.String)),
+    created_at: S.optional(S.NullOr(S.Number)),
+    updated_at: S.optional(S.NullOr(S.Number)),
+    content_sources: S.optional(ContentSourcesList),
+  }),
+).annotate({ identifier: "AiAgent" }) as any as S.Schema<AiAgent>;
+
+/** The fixed outcome of the sales agent interaction, used for billing and tracking. */
+export type SalesAgentOutcome =
+  | "qualified"
+  | "disqualified"
+  | "product_discovery"
+  | "escalated_to_support"
+  | "spam";
+export const SalesAgentOutcome = S.String;
+
+/** A flat key-value map of memory fields collected by the sales agent during the conversation. */
+export type SalesAgentCollectedDataMap = { [key: string]: string | undefined };
+export const SalesAgentCollectedDataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<SalesAgentCollectedDataMap>;
+
+/** Data related to Sales Agent involvement in the conversation. */
+export interface SalesAgent {
+  /** The fixed outcome of the sales agent interaction, used for billing and tracking. */
+  outcome?: SalesAgentOutcome | null;
+  /** The identifier of the user-defined routing outcome selected by the sales agent. */
+  routing_outcome?: string | null;
+  /** A flat key-value map of memory fields collected by the sales agent during the conversation. */
+  collected_data?: SalesAgentCollectedDataMap | null;
+}
+export const SalesAgent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    outcome: S.optional(S.NullOr(SalesAgentOutcome)),
+    routing_outcome: S.optional(S.NullOr(S.String)),
+    collected_data: S.optional(S.NullOr(SalesAgentCollectedDataMap)),
+  }),
+).annotate({ identifier: "SalesAgent" }) as any as S.Schema<SalesAgent>;
+
+/** The channel through which a conversation was originally initiated and its current channel. */
+export interface ConversationChannel {
+  /** The channel through which the conversation was originally initiated. Possible values include `messenger`, `zendesk_sunshine`, `zendesk_ticket`, `twitter`, `email`. Returns `null` if channel data is unavailable. */
+  initial?: string | null;
+  /** The current channel of the conversation. May differ from `initial` if the conversation was migrated between channels. Returns `null` if channel data is unavailable. */
+  current?: string | null;
+}
+export const ConversationChannel = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    initial: S.optional(S.NullOr(S.String)),
+    current: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "ConversationChannel" }) as any as S.Schema<ConversationChannel>;
+
+/** A reference linking a conversation to a record in an external helpdesk or CRM system, surfaced for Fin Standalone workspaces. */
+export interface ConversationExternalReference {
+  /** The type of external system the reference points to. Possible values include `zendesk_ticket`, `zendesk_sunshine_conversation`, `salesforce_case`, `salesforce_in_app_message_conversation`, `freshdesk_ticket`, `freshchat_conversation`, `hubspot_conversation`, `custom_helpdesk_conversation`, `api_conversation`. */
+  type?: string;
+  /** The identifier of the record in the external system. Always serialized as a string, since some external IDs exceed 32-bit integer range. */
+  id?: string;
+}
+export const ConversationExternalReference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    id: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ConversationExternalReference",
+}) as any as S.Schema<ConversationExternalReference>;
+
+/** References linking this conversation to records in an external helpdesk or CRM system. Populated for Fin Standalone workspaces synced from an external platform; an empty array otherwise. Sorted alphabetically by `type` and capped at 20 entries. */
+export type ConversationExternalReferencesList = Array<ConversationExternalReference>;
+export const ConversationExternalReferencesList = /*@__PURE__*/ S.Array(
+  ConversationExternalReference,
+) as any as S.Schema<ConversationExternalReferencesList>;
+
+/** A QA monitor evaluation that flagged this conversation. Returned in the `monitor_evaluations` array on conversation responses when `include_monitors=true` is passed. */
+export interface ConversationMonitorEvaluation {
+  /** The unique identifier of the monitor that produced this evaluation. */
+  monitor_id?: string;
+  /** The name of the monitor at the time of evaluation. Null if the monitor has since been deleted. */
+  monitor_name?: string | null;
+  /** The type of the monitor. Null if the monitor has since been deleted. */
+  monitor_type?: string | null;
+  /** The evaluation outcome reported by the monitor. */
+  result?: string;
+  /** The reasoning provided by the monitor for its result. May be null if no reasoning was generated. */
+  explanation?: string | null;
+  /** The time the monitor evaluated this conversation. Null in the rare case the underlying record's timestamp is not yet set. */
+  evaluated_at?: number | null;
+}
+export const ConversationMonitorEvaluation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    monitor_id: S.optional(S.String),
+    monitor_name: S.optional(S.NullOr(S.String)),
+    monitor_type: S.optional(S.NullOr(S.String)),
+    result: S.optional(S.String),
+    explanation: S.optional(S.NullOr(S.String)),
+    evaluated_at: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({
+  identifier: "ConversationMonitorEvaluation",
+}) as any as S.Schema<ConversationMonitorEvaluation>;
+
+/** QA monitor evaluations that flagged this conversation. Only included when `include_monitors=true` is passed as a query parameter. */
+export type ConversationMonitorEvaluationsList = Array<ConversationMonitorEvaluation>;
+export const ConversationMonitorEvaluationsList = /*@__PURE__*/ S.Array(
+  ConversationMonitorEvaluation,
+) as any as S.Schema<ConversationMonitorEvaluationsList>;
+
+/** The kind of reviewee. `ai` if the conversation was handled by Fin or scored without a specific teammate; `admin` if a specific teammate was reviewed. */
+export type ConversationScorecardReviewedTeammateType = "ai" | "admin";
+export const ConversationScorecardReviewedTeammateType = S.String;
+
+/** The teammate (or AI agent) whose handling of the conversation was reviewed by this scorecard. */
+export interface ConversationScorecardReviewedTeammate {
+  /** The kind of reviewee. `ai` if the conversation was handled by Fin or scored without a specific teammate; `admin` if a specific teammate was reviewed. */
+  type?: ConversationScorecardReviewedTeammateType;
+  /** The id of the admin who was reviewed. Present only when `type` is `admin`. */
+  admin_id?: string | null;
+}
+export const ConversationScorecardReviewedTeammate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ConversationScorecardReviewedTeammateType),
+    admin_id: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "ConversationScorecardReviewedTeammate",
+}) as any as S.Schema<ConversationScorecardReviewedTeammate>;
+
+/** Identifiers for structured reasons assigned to the result, if any. */
+export type ConversationScorecardEvaluatorResultReasonIdsList = Array<string>;
+export const ConversationScorecardEvaluatorResultReasonIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ConversationScorecardEvaluatorResultReasonIdsList>;
+
+/** The outcome of a single evaluator within a scorecard. */
+export interface ConversationScorecardEvaluatorResult {
+  /** The evaluator's selected value (typically a label such as `pass`, `fail`, or a category identifier). */
+  value?: string | null;
+  /** The origin of the result (for example, `ai` or `human`). */
+  source?: string | null;
+  /** A free-text explanation of the result. */
+  reasoning?: string | null;
+  /** Identifiers for structured reasons assigned to the result, if any. */
+  reason_ids?: ConversationScorecardEvaluatorResultReasonIdsList | null;
+  /** Free-text entered by the reviewer to supplement or stand in for the structured `reason_ids` — typically captured when the reviewer selects an "Other" option or adds a custom note. Null when not provided. */
+  other_text?: string | null;
+}
+export const ConversationScorecardEvaluatorResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.NullOr(S.String)),
+    source: S.optional(S.NullOr(S.String)),
+    reasoning: S.optional(S.NullOr(S.String)),
+    reason_ids: S.optional(S.NullOr(ConversationScorecardEvaluatorResultReasonIdsList)),
+    other_text: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "ConversationScorecardEvaluatorResult",
+}) as any as S.Schema<ConversationScorecardEvaluatorResult>;
+
+/** A single evaluator within a scorecard, including its result for this conversation. */
+export interface ConversationScorecardEvaluator {
+  /** The unique identifier of the evaluator (criterion) within the scorecard. */
+  evaluator_id?: string;
+  /** The evaluator's result for this conversation. Null if the evaluator was not scored. */
+  result?: ConversationScorecardEvaluatorResult | null;
+}
+export const ConversationScorecardEvaluator = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    evaluator_id: S.optional(S.String),
+    result: S.optional(S.NullOr(ConversationScorecardEvaluatorResult)),
+  }),
+).annotate({
+  identifier: "ConversationScorecardEvaluator",
+}) as any as S.Schema<ConversationScorecardEvaluator>;
+
+/** Per-evaluator results within this scorecard. */
+export type ConversationScorecardEvaluatorsList = Array<ConversationScorecardEvaluator>;
+export const ConversationScorecardEvaluatorsList = /*@__PURE__*/ S.Array(
+  ConversationScorecardEvaluator,
+) as any as S.Schema<ConversationScorecardEvaluatorsList>;
+
+/** A QA scorecard result for this conversation. Returned in the `scorecards` array on conversation responses when `include_scorecards=true` is passed. */
+export interface ConversationScorecard {
+  /** The unique identifier of the scorecard definition. */
+  scorecard_id?: string;
+  /** The unique identifier of the specific scorecard version that produced this result. */
+  scorecard_version_id?: string;
+  /** The name of the scorecard. */
+  name?: string;
+  /** The type of scorecard. */
+  scorecard_type?: string;
+  /** Whether the conversation passed the scorecard. Null when the scorecard has not been scored. */
+  passed?: boolean | null;
+  /** The numeric score for the scorecard. Null when the scorecard has not been scored. */
+  score?: number | null;
+  /** The numeric score produced by AI evaluation, if applicable. Null when not AI-scored. */
+  ai_score?: number | null;
+  /** The time the scorecard was last evaluated. Null in the rare case the underlying record's timestamp is not yet set. */
+  evaluated_at?: number | null;
+  reviewed_teammate?: ConversationScorecardReviewedTeammate;
+  /** Per-evaluator results within this scorecard. */
+  evaluators?: ConversationScorecardEvaluatorsList;
+}
+export const ConversationScorecard = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scorecard_id: S.optional(S.String),
+    scorecard_version_id: S.optional(S.String),
+    name: S.optional(S.String),
+    scorecard_type: S.optional(S.String),
+    passed: S.optional(S.NullOr(S.Boolean)),
+    score: S.optional(S.NullOr(S.Number)),
+    ai_score: S.optional(S.NullOr(S.Number)),
+    evaluated_at: S.optional(S.NullOr(S.Number)),
+    reviewed_teammate: S.optional(ConversationScorecardReviewedTeammate),
+    evaluators: S.optional(ConversationScorecardEvaluatorsList),
+  }),
+).annotate({ identifier: "ConversationScorecard" }) as any as S.Schema<ConversationScorecard>;
+
+/** QA scorecard results for this conversation. Only included when `include_scorecards=true` is passed as a query parameter. */
+export type ConversationScorecardsList = Array<ConversationScorecard>;
+export const ConversationScorecardsList = /*@__PURE__*/ S.Array(
+  ConversationScorecard,
+) as any as S.Schema<ConversationScorecardsList>;
+
+/** Conversations are how you can communicate with users in Intercom. They are created when a contact replies to an outbound message, or when one admin directly sends a message to a single contact. */
+export interface Conversation {
+  /** Always conversation. */
+  type?: string;
+  /** The id representing the conversation. */
+  id?: string;
+  /** The title given to the conversation. */
+  title?: string | null;
+  /** The time the conversation was created. */
+  created_at?: number;
+  /** The last time the conversation was updated. */
+  updated_at?: number;
+  /** The last time a Contact responded to an Admin. In other words, the time a customer started waiting for a response. Set to null if last reply is from an Admin. */
+  waiting_since?: number | null;
+  /** If set this is the time in the future when this conversation will be marked as open. i.e. it will be in a snoozed state until this time. i.e. it will be in a snoozed state until this time. */
+  snoozed_until?: number | null;
+  /** Indicates whether a conversation is open (true) or closed (false). */
+  open?: boolean;
+  /** Can be set to "open", "closed" or "snoozed". */
+  state?: ConversationState;
+  /** Indicates whether a conversation has been read. */
+  read?: boolean;
+  /** The priority level of the conversation. Returns one of none, low, medium, high, or urgent. */
+  priority?: ConversationPriority;
+  /** The id of the admin assigned to the conversation. If it's not assigned to an admin it will return 0. */
+  admin_assignee_id?: number;
+  /** The id of the team assigned to the conversation. If it's not assigned to a team it will return 0. */
+  team_assignee_id?: number;
+  /** The company associated with the conversation. */
+  company?: Company | null;
+  tags?: Tags;
+  conversation_rating?: ConversationRating | null;
+  source?: ConversationSource;
+  contacts?: ConversationContacts;
+  teammates?: ConversationTeammates | null;
+  custom_attributes?: CustomAttributes;
+  first_contact_reply?: ConversationFirstContactReply | null;
+  sla_applied?: SlaApplied | null;
+  statistics?: ConversationStatistics | null;
+  conversation_parts?: ConversationParts;
+  linked_objects?: LinkedObjectList;
+  /** Indicates whether the AI Agent participated in the conversation. */
+  ai_agent_participated?: boolean;
+  ai_agent?: AiAgent | null;
+  /** Indicates whether the Sales Agent participated in the conversation. */
+  sales_agent_participated?: boolean;
+  sales_agent?: SalesAgent | null;
+  /** The channel through which the conversation was initiated and its current channel. */
+  channel?: ConversationChannel | null;
+  /** References linking this conversation to records in an external helpdesk or CRM system. Populated for Fin Standalone workspaces synced from an external platform; an empty array otherwise. Sorted alphabetically by `type` and capped at 20 entries. */
+  external_references?: ConversationExternalReferencesList;
+  /** QA monitor evaluations that flagged this conversation. Only included when `include_monitors=true` is passed as a query parameter. */
+  monitor_evaluations?: ConversationMonitorEvaluationsList;
+  /** QA scorecard results for this conversation. Only included when `include_scorecards=true` is passed as a query parameter. */
+  scorecards?: ConversationScorecardsList;
+}
+export const Conversation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    id: S.optional(S.String),
+    title: S.optional(S.NullOr(S.String)),
+    created_at: S.optional(S.Number),
+    updated_at: S.optional(S.Number),
+    waiting_since: S.optional(S.NullOr(S.Number)),
+    snoozed_until: S.optional(S.NullOr(S.Number)),
+    open: S.optional(S.Boolean),
+    state: S.optional(ConversationState),
+    read: S.optional(S.Boolean),
+    priority: S.optional(ConversationPriority),
+    admin_assignee_id: S.optional(S.Number),
+    team_assignee_id: S.optional(S.Number),
+    company: S.optional(S.NullOr(Company)),
+    tags: S.optional(Tags),
+    conversation_rating: S.optional(S.NullOr(ConversationRating)),
+    source: S.optional(ConversationSource),
+    contacts: S.optional(ConversationContacts),
+    teammates: S.optional(S.NullOr(ConversationTeammates)),
+    custom_attributes: S.optional(CustomAttributes),
+    first_contact_reply: S.optional(S.NullOr(ConversationFirstContactReply)),
+    sla_applied: S.optional(S.NullOr(SlaApplied)),
+    statistics: S.optional(S.NullOr(ConversationStatistics)),
+    conversation_parts: S.optional(ConversationParts),
+    linked_objects: S.optional(LinkedObjectList),
+    ai_agent_participated: S.optional(S.Boolean),
+    ai_agent: S.optional(S.NullOr(AiAgent)),
+    sales_agent_participated: S.optional(S.Boolean),
+    sales_agent: S.optional(S.NullOr(SalesAgent)),
+    channel: S.optional(S.NullOr(ConversationChannel)),
+    external_references: S.optional(ConversationExternalReferencesList),
+    monitor_evaluations: S.optional(ConversationMonitorEvaluationsList),
+    scorecards: S.optional(ConversationScorecardsList),
+  }),
+).annotate({ identifier: "Conversation" }) as any as S.Schema<Conversation>;
 
 export interface GetConversationAttributeRequest {
   /** The conversation attribute id */
@@ -10304,9 +10220,7 @@ export const GetDataConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     state_version: S.optional(GetDataConnectorRequestStateVersion.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/data_connectors/{id}", code: 200 })),
-).annotate({
-  identifier: "GetDataConnectorRequest",
-}) as any as S.Schema<GetDataConnectorRequest>;
+).annotate({ identifier: "GetDataConnectorRequest" }) as any as S.Schema<GetDataConnectorRequest>;
 
 export interface GetDataConnectorExecutionResultRequest {
   /** The unique identifier for the data connector. */
@@ -10433,16 +10347,8 @@ export interface GetDataExportRequest {
 export const GetDataExportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     job_identifier: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/export/content/data/{job_identifier}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDataExportRequest",
-}) as any as S.Schema<GetDataExportRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/export/content/data/{job_identifier}", code: 200 })),
+).annotate({ identifier: "GetDataExportRequest" }) as any as S.Schema<GetDataExportRequest>;
 
 export interface GetDownloadReportingDataRequest {
   job_identifier: string;
@@ -10452,13 +10358,7 @@ export const GetDownloadReportingDataRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     job_identifier: S.String.pipe(T.Label()),
     app_id: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/download/reporting_data/{job_identifier}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/download/reporting_data/{job_identifier}", code: 200 })),
 ).annotate({
   identifier: "GetDownloadReportingDataRequest",
 }) as any as S.Schema<GetDownloadReportingDataRequest>;
@@ -10478,9 +10378,7 @@ export const GetEmailRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/emails/{id}", code: 200 })),
-).annotate({
-  identifier: "GetEmailRequest",
-}) as any as S.Schema<GetEmailRequest>;
+).annotate({ identifier: "GetEmailRequest" }) as any as S.Schema<GetEmailRequest>;
 
 /** Represents a sender email address configuration */
 export interface EmailSetting {
@@ -10531,13 +10429,7 @@ export const GetExportReportingDataRequest = /*@__PURE__*/ S.suspend(() =>
     job_identifier: S.String.pipe(T.Label()),
     app_id: S.String.pipe(T.Query()),
     client_id: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/export/reporting_data/{job_identifier}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/export/reporting_data/{job_identifier}", code: 200 })),
 ).annotate({
   identifier: "GetExportReportingDataRequest",
 }) as any as S.Schema<GetExportReportingDataRequest>;
@@ -10567,9 +10459,7 @@ export const GetExternalPageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     page_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/ai/external_pages/{page_id}", code: 200 })),
-).annotate({
-  identifier: "GetExternalPageRequest",
-}) as any as S.Schema<GetExternalPageRequest>;
+).annotate({ identifier: "GetExternalPageRequest" }) as any as S.Schema<GetExternalPageRequest>;
 
 export interface GetHelpCenterRequest {
   /** The unique identifier for the collection which is given by Intercom. */
@@ -10578,16 +10468,8 @@ export interface GetHelpCenterRequest {
 export const GetHelpCenterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     help_center_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/help_center/help_centers/{help_center_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetHelpCenterRequest",
-}) as any as S.Schema<GetHelpCenterRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/help_center/help_centers/{help_center_id}", code: 200 })),
+).annotate({ identifier: "GetHelpCenterRequest" }) as any as S.Schema<GetHelpCenterRequest>;
 
 /** The locales in which the help center is available. */
 export type HelpCenterLocalesList = Array<string>;
@@ -10664,13 +10546,7 @@ export interface GetInternalArticleRequest {
 export const GetInternalArticleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     internal_article_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/internal_articles/{internal_article_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/internal_articles/{internal_article_id}", code: 200 })),
 ).annotate({
   identifier: "GetInternalArticleRequest",
 }) as any as S.Schema<GetInternalArticleRequest>;
@@ -10739,9 +10615,7 @@ export const GetInternalArticleResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetIpAllowlistRequest {}
 export const GetIpAllowlistRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/ip_allowlist", code: 200 })),
-).annotate({
-  identifier: "GetIpAllowlistRequest",
-}) as any as S.Schema<GetIpAllowlistRequest>;
+).annotate({ identifier: "GetIpAllowlistRequest" }) as any as S.Schema<GetIpAllowlistRequest>;
 
 /** List of allowed IP addresses and/or IP ranges in CIDR notation. Examples: - Single IP: `192.168.0.1` - IP range: `192.168.0.1/24` (allows 192.168.0.0 - 192.168.0.255) */
 export type IpAllowlistIpAllowlistList = Array<string>;
@@ -10774,9 +10648,7 @@ export const GetMacroRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/macros/{id}", code: 200 })),
-).annotate({
-  identifier: "GetMacroRequest",
-}) as any as S.Schema<GetMacroRequest>;
+).annotate({ identifier: "GetMacroRequest" }) as any as S.Schema<GetMacroRequest>;
 
 /** String representing the object's type. Always has the value `macro`. */
 export type MacroType = "macro";
@@ -10847,9 +10719,7 @@ export const GetNewsfeedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     newsfeed_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/news/newsfeeds/{newsfeed_id}", code: 200 })),
-).annotate({
-  identifier: "GetNewsfeedRequest",
-}) as any as S.Schema<GetNewsfeedRequest>;
+).annotate({ identifier: "GetNewsfeedRequest" }) as any as S.Schema<GetNewsfeedRequest>;
 
 /** The type of object. */
 export type NewsfeedType = "newsfeed";
@@ -10885,16 +10755,8 @@ export interface GetNewsItemRequest {
 export const GetNewsItemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     news_item_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/news/news_items/{news_item_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetNewsItemRequest",
-}) as any as S.Schema<GetNewsItemRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/news/news_items/{news_item_id}", code: 200 })),
+).annotate({ identifier: "GetNewsItemRequest" }) as any as S.Schema<GetNewsItemRequest>;
 
 export interface GetNoteRequest {
   /** The unique identifier of a given note */
@@ -10947,9 +10809,7 @@ export const GetSegmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     segment_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/segments/{segment_id}", code: 200 })),
-).annotate({
-  identifier: "GetSegmentRequest",
-}) as any as S.Schema<GetSegmentRequest>;
+).annotate({ identifier: "GetSegmentRequest" }) as any as S.Schema<GetSegmentRequest>;
 
 export interface GetTeamRequest {
   /** The unique identifier of a given team. */
@@ -10991,9 +10851,7 @@ export const AdminPriorityLevel = /*@__PURE__*/ S.suspend(() =>
     primary_admin_ids: S.optional(S.NullOr(AdminPriorityLevelPrimaryAdminIdsList)),
     secondary_admin_ids: S.optional(S.NullOr(AdminPriorityLevelSecondaryAdminIdsList)),
   }),
-).annotate({
-  identifier: "AdminPriorityLevel",
-}) as any as S.Schema<AdminPriorityLevel>;
+).annotate({ identifier: "AdminPriorityLevel" }) as any as S.Schema<AdminPriorityLevel>;
 
 /** Teams are groups of admins in Intercom. */
 export interface Team {
@@ -11034,9 +10892,7 @@ export const GetTeamMetricsRequest = /*@__PURE__*/ S.suspend(() =>
     team_id: S.String.pipe(T.Label()),
     idle_threshold: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/teams/{team_id}/metrics", code: 200 })),
-).annotate({
-  identifier: "GetTeamMetricsRequest",
-}) as any as S.Schema<GetTeamMetricsRequest>;
+).annotate({ identifier: "GetTeamMetricsRequest" }) as any as S.Schema<GetTeamMetricsRequest>;
 
 /** Per-admin activity metrics within a team. */
 export interface TeamMetric {
@@ -11085,9 +10941,7 @@ export const GetTicketRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ticket_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/tickets/{ticket_id}", code: 200 })),
-).annotate({
-  identifier: "GetTicketRequest",
-}) as any as S.Schema<GetTicketRequest>;
+).annotate({ identifier: "GetTicketRequest" }) as any as S.Schema<GetTicketRequest>;
 
 export interface GetTicketTypeRequest {
   /** The unique identifier for the ticket type which is given by Intercom. */
@@ -11097,9 +10951,7 @@ export const GetTicketTypeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ticket_type_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/ticket_types/{ticket_type_id}", code: 200 })),
-).annotate({
-  identifier: "GetTicketTypeRequest",
-}) as any as S.Schema<GetTicketTypeRequest>;
+).annotate({ identifier: "GetTicketTypeRequest" }) as any as S.Schema<GetTicketTypeRequest>;
 
 export interface GetVisitorWithUserIdRequest {
   /** The user_id of the Visitor you want to retrieve. */
@@ -11144,9 +10996,7 @@ export const VisitorCompanies = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(VisitorCompaniesType),
     companies: S.optional(VisitorCompaniesCompaniesList),
   }),
-).annotate({
-  identifier: "VisitorCompanies",
-}) as any as S.Schema<VisitorCompanies>;
+).annotate({ identifier: "VisitorCompanies" }) as any as S.Schema<VisitorCompanies>;
 
 export interface VisitorLocationData {
   type?: string;
@@ -11176,9 +11026,7 @@ export const VisitorLocationData = /*@__PURE__*/ S.suspend(() =>
     region_name: S.optional(S.String),
     timezone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VisitorLocationData",
-}) as any as S.Schema<VisitorLocationData>;
+).annotate({ identifier: "VisitorLocationData" }) as any as S.Schema<VisitorLocationData>;
 
 /** The type of the object */
 export type VisitorSocialProfilesType = "social_profile.list";
@@ -11199,9 +11047,7 @@ export const VisitorSocialProfiles = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(VisitorSocialProfilesType),
     social_profiles: S.optional(VisitorSocialProfilesSocialProfilesList),
   }),
-).annotate({
-  identifier: "VisitorSocialProfiles",
-}) as any as S.Schema<VisitorSocialProfiles>;
+).annotate({ identifier: "VisitorSocialProfiles" }) as any as S.Schema<VisitorSocialProfiles>;
 
 /** The type of the object */
 export type VisitorTagsType = "tag.list";
@@ -11225,9 +11071,7 @@ export const VisitorTagsTagsItem = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VisitorTagsTagsItem",
-}) as any as S.Schema<VisitorTagsTagsItem>;
+).annotate({ identifier: "VisitorTagsTagsItem" }) as any as S.Schema<VisitorTagsTagsItem>;
 
 export type VisitorTagsTagsList = Array<VisitorTagsTagsItem>;
 export const VisitorTagsTagsList = /*@__PURE__*/ S.Array(
@@ -11265,9 +11109,7 @@ export const VisitorSegments = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(VisitorSegmentsType),
     segments: S.optional(VisitorSegmentsSegmentsList),
   }),
-).annotate({
-  identifier: "VisitorSegments",
-}) as any as S.Schema<VisitorSegments>;
+).annotate({ identifier: "VisitorSegments" }) as any as S.Schema<VisitorSegments>;
 
 /** The custom attributes you have set on the Visitor. */
 export type VisitorCustomAttributesMap = { [key: string]: string | undefined };
@@ -11439,9 +11281,7 @@ export const WhatsappMessageStatus = /*@__PURE__*/ S.suspend(() =>
     message_id: S.optional(S.String),
     error: S.optional(S.NullOr(WhatsappMessageStatusError)),
   }),
-).annotate({
-  identifier: "WhatsappMessageStatus",
-}) as any as S.Schema<WhatsappMessageStatus>;
+).annotate({ identifier: "WhatsappMessageStatus" }) as any as S.Schema<WhatsappMessageStatus>;
 
 export interface GetWhatsAppMessageStatusRequest2 {
   /** The unique identifier for the set of messages to check status for */
@@ -11570,9 +11410,7 @@ export const WhatsappMessageStatusList = /*@__PURE__*/ S.suspend(() =>
 export interface IdentifyAdminRequest {}
 export const IdentifyAdminRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me", code: 200 })),
-).annotate({
-  identifier: "IdentifyAdminRequest",
-}) as any as S.Schema<IdentifyAdminRequest>;
+).annotate({ identifier: "IdentifyAdminRequest" }) as any as S.Schema<IdentifyAdminRequest>;
 
 /** This is a list of ids of the teams that this admin is part of. */
 export type AdminWithAppTeamIdsList = Array<number>;
@@ -11592,9 +11430,7 @@ export const AdminWithAppAvatar = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     image_url: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "AdminWithAppAvatar",
-}) as any as S.Schema<AdminWithAppAvatar>;
+).annotate({ identifier: "AdminWithAppAvatar" }) as any as S.Schema<AdminWithAppAvatar>;
 
 /** App is a workspace on Intercom */
 export interface App {
@@ -11676,9 +11512,7 @@ export const JobsStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     job_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/jobs/status/{job_id}", code: 200 })),
-).annotate({
-  identifier: "JobsStatusRequest",
-}) as any as S.Schema<JobsStatusRequest>;
+).annotate({ identifier: "JobsStatusRequest" }) as any as S.Schema<JobsStatusRequest>;
 
 export interface LinkConversationToTicketRequest {
   /** The unique identifier for the tracker ticket which is given by Intercom. */
@@ -11690,13 +11524,7 @@ export const LinkConversationToTicketRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ticket_id: S.String.pipe(T.Label()),
     conversation_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/tickets/{ticket_id}/linked_conversations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/tickets/{ticket_id}/linked_conversations", code: 200 })),
 ).annotate({
   identifier: "LinkConversationToTicketRequest",
 }) as any as S.Schema<LinkConversationToTicketRequest>;
@@ -11715,9 +11543,7 @@ export const LisDataAttributesRequest = /*@__PURE__*/ S.suspend(() =>
     model: S.optional(LisDataAttributesRequestModel.pipe(T.Query())),
     include_archived: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/data_attributes", code: 200 })),
-).annotate({
-  identifier: "LisDataAttributesRequest",
-}) as any as S.Schema<LisDataAttributesRequest>;
+).annotate({ identifier: "LisDataAttributesRequest" }) as any as S.Schema<LisDataAttributesRequest>;
 
 /** The type of the object */
 export type DataAttributeListType = "list";
@@ -11741,9 +11567,7 @@ export const DataAttributeList = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(DataAttributeListType),
     data: S.optional(DataAttributeListDataList),
   }),
-).annotate({
-  identifier: "DataAttributeList",
-}) as any as S.Schema<DataAttributeList>;
+).annotate({ identifier: "DataAttributeList" }) as any as S.Schema<DataAttributeList>;
 
 export interface LisDataEventsRequestFilterCase0 {
   user_id: string;
@@ -11797,9 +11621,7 @@ export const LisDataEventsRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.String.pipe(T.Query()),
     summary: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/events", code: 200 })),
-).annotate({
-  identifier: "LisDataEventsRequest",
-}) as any as S.Schema<LisDataEventsRequest>;
+).annotate({ identifier: "LisDataEventsRequest" }) as any as S.Schema<LisDataEventsRequest>;
 
 /** The type of the object */
 export type DataEventSummaryType = "event.summary";
@@ -11826,14 +11648,12 @@ export const DataEventSummaryItem = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataEventSummaryItem",
-}) as any as S.Schema<DataEventSummaryItem>;
+).annotate({ identifier: "DataEventSummaryItem" }) as any as S.Schema<DataEventSummaryItem>;
 
 /** A summary of data events */
-export type DataEventSummaryEventsList = Array<DataEventSummaryItem>;
+export type DataEventSummaryEventsList = Array<DataEventSummaryItem | null>;
 export const DataEventSummaryEventsList = /*@__PURE__*/ S.Array(
-  DataEventSummaryItem,
+  S.NullOr(DataEventSummaryItem),
 ) as any as S.Schema<DataEventSummaryEventsList>;
 
 /** This will return a summary of data events for the App. */
@@ -11857,19 +11677,11 @@ export const DataEventSummary = /*@__PURE__*/ S.suspend(() =>
     user_id: S.optional(S.String),
     events: S.optional(DataEventSummaryEventsList),
   }),
-).annotate({
-  identifier: "DataEventSummary",
-}) as any as S.Schema<DataEventSummary>;
+).annotate({ identifier: "DataEventSummary" }) as any as S.Schema<DataEventSummary>;
 
 export interface ListActivityLogEventTypesRequest {}
 export const ListActivityLogEventTypesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/admins/activity_log_event_types",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/admins/activity_log_event_types", code: 200 })),
 ).annotate({
   identifier: "ListActivityLogEventTypesRequest",
 }) as any as S.Schema<ListActivityLogEventTypesRequest>;
@@ -11892,9 +11704,7 @@ export const ActivityLogEventTypeList = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     event_types: S.optional(ActivityLogEventTypeListEventTypesList),
   }),
-).annotate({
-  identifier: "ActivityLogEventTypeList",
-}) as any as S.Schema<ActivityLogEventTypeList>;
+).annotate({ identifier: "ActivityLogEventTypeList" }) as any as S.Schema<ActivityLogEventTypeList>;
 
 export interface ListActivityLogsRequest {
   /** The start date that you request data for. It must be formatted as a UNIX timestamp. */
@@ -11907,9 +11717,7 @@ export const ListActivityLogsRequest = /*@__PURE__*/ S.suspend(() =>
     created_at_after: S.String.pipe(T.Query()),
     created_at_before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/admins/activity_logs", code: 200 })),
-).annotate({
-  identifier: "ListActivityLogsRequest",
-}) as any as S.Schema<ListActivityLogsRequest>;
+).annotate({ identifier: "ListActivityLogsRequest" }) as any as S.Schema<ListActivityLogsRequest>;
 
 /** Details about the Admin involved in the activity. */
 export interface ActivityLogPerformedBy {
@@ -11929,9 +11737,7 @@ export const ActivityLogPerformedBy = /*@__PURE__*/ S.suspend(() =>
     email: S.optional(S.String),
     ip: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ActivityLogPerformedBy",
-}) as any as S.Schema<ActivityLogPerformedBy>;
+).annotate({ identifier: "ActivityLogPerformedBy" }) as any as S.Schema<ActivityLogPerformedBy>;
 
 export interface ActivityLogMetadataChangesValue {
   /** The value before the change. */
@@ -11969,9 +11775,7 @@ export const ActivityLogMetadataTeam = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ActivityLogMetadataTeam",
-}) as any as S.Schema<ActivityLogMetadataTeam>;
+).annotate({ identifier: "ActivityLogMetadataTeam" }) as any as S.Schema<ActivityLogMetadataTeam>;
 
 /** Additional data provided about Admin activity. */
 export interface ActivityLogMetadata {
@@ -12057,9 +11861,7 @@ export const ActivityLogMetadata = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.NullOr(S.Unknown)),
     after: S.optional(S.NullOr(S.Unknown)),
   }),
-).annotate({
-  identifier: "ActivityLogMetadata",
-}) as any as S.Schema<ActivityLogMetadata>;
+).annotate({ identifier: "ActivityLogMetadata" }) as any as S.Schema<ActivityLogMetadata>;
 
 export type ActivityLogActivityType =
   | "admin_conversation_assignment_limit_change"
@@ -12203,9 +12005,9 @@ export const ActivityLog = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ActivityLog" }) as any as S.Schema<ActivityLog>;
 
 /** An array of activity logs */
-export type ActivityLogListActivityLogsList = Array<ActivityLog>;
+export type ActivityLogListActivityLogsList = Array<ActivityLog | null>;
 export const ActivityLogListActivityLogsList = /*@__PURE__*/ S.Array(
-  ActivityLog,
+  S.NullOr(ActivityLog),
 ) as any as S.Schema<ActivityLogListActivityLogsList>;
 
 /** A paginated list of activity logs. */
@@ -12222,9 +12024,7 @@ export const ActivityLogList = /*@__PURE__*/ S.suspend(() =>
     pages: S.optional(S.NullOr(CursorPages)),
     activity_logs: S.optional(ActivityLogListActivityLogsList),
   }),
-).annotate({
-  identifier: "ActivityLogList",
-}) as any as S.Schema<ActivityLogList>;
+).annotate({ identifier: "ActivityLogList" }) as any as S.Schema<ActivityLogList>;
 
 export interface ListAdminsRequest {
   /** If set to true, the response will include the admin's avatar object containing the image URL. Defaults to false. */
@@ -12234,14 +12034,12 @@ export const ListAdminsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     display_avatar: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/admins", code: 200 })),
-).annotate({
-  identifier: "ListAdminsRequest",
-}) as any as S.Schema<ListAdminsRequest>;
+).annotate({ identifier: "ListAdminsRequest" }) as any as S.Schema<ListAdminsRequest>;
 
 /** A list of admins associated with a given workspace. */
-export type AdminListAdminsList = Array<Admin>;
+export type AdminListAdminsList = Array<Admin | null>;
 export const AdminListAdminsList = /*@__PURE__*/ S.Array(
-  Admin,
+  S.NullOr(Admin),
 ) as any as S.Schema<AdminListAdminsList>;
 
 /** A list of admins associated with a given workspace. */
@@ -12308,16 +12106,12 @@ export const ListAllCompaniesRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     order: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/companies/list", code: 200 })),
-).annotate({
-  identifier: "ListAllCompaniesRequest",
-}) as any as S.Schema<ListAllCompaniesRequest>;
+).annotate({ identifier: "ListAllCompaniesRequest" }) as any as S.Schema<ListAllCompaniesRequest>;
 
 export interface ListArticlesRequest {}
 export const ListArticlesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/articles", code: 200 })),
-).annotate({
-  identifier: "ListArticlesRequest",
-}) as any as S.Schema<ListArticlesRequest>;
+).annotate({ identifier: "ListArticlesRequest" }) as any as S.Schema<ListArticlesRequest>;
 
 /** The type of the object - `list`. */
 export type ArticleListType = "list";
@@ -12432,9 +12226,7 @@ export const ArticleListItem = /*@__PURE__*/ S.suspend(() =>
     translated_content: S.optional(S.NullOr(ArticleTranslatedContent)),
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "ArticleListItem",
-}) as any as S.Schema<ArticleListItem>;
+).annotate({ identifier: "ArticleListItem" }) as any as S.Schema<ArticleListItem>;
 
 /** An array of Article objects */
 export type ArticleListDataList = Array<ArticleListItem>;
@@ -12477,13 +12269,7 @@ export const ListArticleVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
     locale: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/articles/{article_id}/versions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/articles/{article_id}/versions", code: 200 })),
 ).annotate({
   identifier: "ListArticleVersionsRequest",
 }) as any as S.Schema<ListArticleVersionsRequest>;
@@ -12539,9 +12325,7 @@ export const ArticleVersionSummary = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(ArticleVersionSummaryState),
     created_at: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ArticleVersionSummary",
-}) as any as S.Schema<ArticleVersionSummary>;
+).annotate({ identifier: "ArticleVersionSummary" }) as any as S.Schema<ArticleVersionSummary>;
 
 /** An array of Article version summary objects. */
 export type ArticleVersionListDataList = Array<ArticleVersionSummary>;
@@ -12566,9 +12350,7 @@ export const ArticleVersionList = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     data: S.optional(ArticleVersionListDataList),
   }),
-).annotate({
-  identifier: "ArticleVersionList",
-}) as any as S.Schema<ArticleVersionList>;
+).annotate({ identifier: "ArticleVersionList" }) as any as S.Schema<ArticleVersionList>;
 
 export interface ListAttachedContactsRequest {
   /** The unique identifier for the company which is given by Intercom */
@@ -12577,13 +12359,7 @@ export interface ListAttachedContactsRequest {
 export const ListAttachedContactsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/companies/{company_id}/contacts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/companies/{company_id}/contacts", code: 200 })),
 ).annotate({
   identifier: "ListAttachedContactsRequest",
 }) as any as S.Schema<ListAttachedContactsRequest>;
@@ -12615,9 +12391,7 @@ export const CompanyAttachedContacts = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     pages: S.optional(S.NullOr(CursorPages)),
   }),
-).annotate({
-  identifier: "CompanyAttachedContacts",
-}) as any as S.Schema<CompanyAttachedContacts>;
+).annotate({ identifier: "CompanyAttachedContacts" }) as any as S.Schema<CompanyAttachedContacts>;
 
 export interface ListAttachedSegmentsForCompaniesRequest {
   /** The unique identifier for the company which is given by Intercom */
@@ -12626,13 +12400,7 @@ export interface ListAttachedSegmentsForCompaniesRequest {
 export const ListAttachedSegmentsForCompaniesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/companies/{company_id}/segments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/companies/{company_id}/segments", code: 200 })),
 ).annotate({
   identifier: "ListAttachedSegmentsForCompaniesRequest",
 }) as any as S.Schema<ListAttachedSegmentsForCompaniesRequest>;
@@ -12659,9 +12427,7 @@ export const CompanyAttachedSegments = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(CompanyAttachedSegmentsType),
     data: S.optional(CompanyAttachedSegmentsDataList),
   }),
-).annotate({
-  identifier: "CompanyAttachedSegments",
-}) as any as S.Schema<CompanyAttachedSegments>;
+).annotate({ identifier: "CompanyAttachedSegments" }) as any as S.Schema<CompanyAttachedSegments>;
 
 export interface ListAudiencesRequest {
   /** The page of results to fetch. Defaults to first page. */
@@ -12674,9 +12440,7 @@ export const ListAudiencesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/audiences", code: 200 })),
-).annotate({
-  identifier: "ListAudiencesRequest",
-}) as any as S.Schema<ListAudiencesRequest>;
+).annotate({ identifier: "ListAudiencesRequest" }) as any as S.Schema<ListAudiencesRequest>;
 
 /** The type of the object. */
 export type AudienceListType = "list";
@@ -12753,9 +12517,7 @@ export const AwayStatusReason = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.Number),
     updated_at: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AwayStatusReason",
-}) as any as S.Schema<AwayStatusReason>;
+).annotate({ identifier: "AwayStatusReason" }) as any as S.Schema<AwayStatusReason>;
 
 /** A list of away status reason objects. */
 export type AwayStatusReasonListDataList = Array<AwayStatusReason>;
@@ -12775,16 +12537,12 @@ export const AwayStatusReasonList = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(AwayStatusReasonListType),
     data: S.optional(AwayStatusReasonListDataList),
   }),
-).annotate({
-  identifier: "AwayStatusReasonList",
-}) as any as S.Schema<AwayStatusReasonList>;
+).annotate({ identifier: "AwayStatusReasonList" }) as any as S.Schema<AwayStatusReasonList>;
 
 export interface ListBrandsRequest {}
 export const ListBrandsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/brands", code: 200 })),
-).annotate({
-  identifier: "ListBrandsRequest",
-}) as any as S.Schema<ListBrandsRequest>;
+).annotate({ identifier: "ListBrandsRequest" }) as any as S.Schema<ListBrandsRequest>;
 
 export type BrandListDataList = Array<Brand>;
 export const BrandListDataList = /*@__PURE__*/ S.Array(Brand) as any as S.Schema<BrandListDataList>;
@@ -12813,9 +12571,7 @@ export const ListCallsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/calls", code: 200 })),
-).annotate({
-  identifier: "ListCallsRequest",
-}) as any as S.Schema<ListCallsRequest>;
+).annotate({ identifier: "ListCallsRequest" }) as any as S.Schema<ListCallsRequest>;
 
 /** A list of calls. */
 export type CallListDataList = Array<Call>;
@@ -12966,13 +12722,7 @@ export interface ListCompaniesForAContactRequest {
 export const ListCompaniesForAContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contact_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/contacts/{contact_id}/companies",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/contacts/{contact_id}/companies", code: 200 })),
 ).annotate({
   identifier: "ListCompaniesForAContactRequest",
 }) as any as S.Schema<ListCompaniesForAContactRequest>;
@@ -13026,9 +12776,7 @@ export const ContactAttachedCompanies = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     pages: S.optional(PagesLink),
   }),
-).annotate({
-  identifier: "ContactAttachedCompanies",
-}) as any as S.Schema<ContactAttachedCompanies>;
+).annotate({ identifier: "ContactAttachedCompanies" }) as any as S.Schema<ContactAttachedCompanies>;
 
 export interface ListCompanyNotesRequest {
   /** The unique identifier for the company which is given by Intercom */
@@ -13038,9 +12786,7 @@ export const ListCompanyNotesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/companies/{company_id}/notes", code: 200 })),
-).annotate({
-  identifier: "ListCompanyNotesRequest",
-}) as any as S.Schema<ListCompanyNotesRequest>;
+).annotate({ identifier: "ListCompanyNotesRequest" }) as any as S.Schema<ListCompanyNotesRequest>;
 
 /** An array of notes. */
 export type NoteListDataList = Array<Note>;
@@ -13243,9 +12989,7 @@ export const MergeHistoryList = /*@__PURE__*/ S.suspend(() =>
     next_cursor: S.optional(S.NullOr(S.String)),
     has_more: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MergeHistoryList",
-}) as any as S.Schema<MergeHistoryList>;
+).annotate({ identifier: "MergeHistoryList" }) as any as S.Schema<MergeHistoryList>;
 
 export interface ListContactsRequest {
   /** Pass `true` to include a `merge_history` array on each contact in the response. Only returned for contacts with a `user` role. */
@@ -13255,9 +12999,7 @@ export const ListContactsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     include_merge_history: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/contacts", code: 200 })),
-).annotate({
-  identifier: "ListContactsRequest",
-}) as any as S.Schema<ListContactsRequest>;
+).annotate({ identifier: "ListContactsRequest" }) as any as S.Schema<ListContactsRequest>;
 
 /** Always list */
 export type ContactListType = "list";
@@ -13322,9 +13064,7 @@ export const ContentImportSourcesList = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     data: S.optional(ContentImportSourcesListDataList),
   }),
-).annotate({
-  identifier: "ContentImportSourcesList",
-}) as any as S.Schema<ContentImportSourcesList>;
+).annotate({ identifier: "ContentImportSourcesList" }) as any as S.Schema<ContentImportSourcesList>;
 
 export interface ListContentSnippetsRequest {
   /** The page of results to fetch. */
@@ -13373,9 +13113,7 @@ export const ContentSnippetList = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number),
     total_pages: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ContentSnippetList",
-}) as any as S.Schema<ContentSnippetList>;
+).annotate({ identifier: "ContentSnippetList" }) as any as S.Schema<ContentSnippetList>;
 
 export interface ListConversationAttributesRequest {
   /** Include archived attributes in the list. Default `false`. */
@@ -13426,9 +13164,7 @@ export const ListConversationsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     starting_after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/conversations", code: 200 })),
-).annotate({
-  identifier: "ListConversationsRequest",
-}) as any as S.Schema<ListConversationsRequest>;
+).annotate({ identifier: "ListConversationsRequest" }) as any as S.Schema<ListConversationsRequest>;
 
 /** Always conversation.list */
 export type ConversationListType = "conversation.list";
@@ -13550,9 +13286,7 @@ export const ConversationListItem = /*@__PURE__*/ S.suspend(() =>
     monitor_evaluations: S.optional(ConversationListItemMonitorEvaluationsList),
     scorecards: S.optional(ConversationListItemScorecardsList),
   }),
-).annotate({
-  identifier: "ConversationListItem",
-}) as any as S.Schema<ConversationListItem>;
+).annotate({ identifier: "ConversationListItem" }) as any as S.Schema<ConversationListItem>;
 
 /** The list of conversation objects */
 export type ConversationListConversationsList = Array<ConversationListItem>;
@@ -13577,9 +13311,7 @@ export const ConversationList = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     pages: S.optional(S.NullOr(CursorPages)),
   }),
-).annotate({
-  identifier: "ConversationList",
-}) as any as S.Schema<ConversationList>;
+).annotate({ identifier: "ConversationList" }) as any as S.Schema<ConversationList>;
 
 export interface ListCustomObjectInstancesRequest {
   /** The unique identifier of the custom object type that defines the structure of the custom object instance. */
@@ -13619,9 +13351,9 @@ export type CustomObjectInstancesPaginatedListType = "list";
 export const CustomObjectInstancesPaginatedListType = S.String;
 
 /** An array of Custom Object Instance objects. */
-export type CustomObjectInstancesPaginatedListDataList = Array<CustomObjectInstance>;
+export type CustomObjectInstancesPaginatedListDataList = Array<CustomObjectInstance | null>;
 export const CustomObjectInstancesPaginatedListDataList = /*@__PURE__*/ S.Array(
-  CustomObjectInstance,
+  S.NullOr(CustomObjectInstance),
 ) as any as S.Schema<CustomObjectInstancesPaginatedListDataList>;
 
 /** A paginated list of custom object instances. */
@@ -13863,9 +13595,7 @@ export const DataConnectorListPages = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number),
     next: S.optional(S.NullOr(DataConnectorExecutionResultListPagesNext)),
   }),
-).annotate({
-  identifier: "DataConnectorListPages",
-}) as any as S.Schema<DataConnectorListPages>;
+).annotate({ identifier: "DataConnectorListPages" }) as any as S.Schema<DataConnectorListPages>;
 
 /** A paginated list of data connectors. */
 export interface DataConnectorList {
@@ -13882,9 +13612,7 @@ export const DataConnectorList = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(DataConnectorListDataList),
     pages: S.optional(DataConnectorListPages),
   }),
-).annotate({
-  identifier: "DataConnectorList",
-}) as any as S.Schema<DataConnectorList>;
+).annotate({ identifier: "DataConnectorList" }) as any as S.Schema<DataConnectorList>;
 
 export interface ListDeletedConversationIdsRequest {
   /** The page of results to fetch. Defaults to first page */
@@ -13922,9 +13650,7 @@ export const DeletedConversationItem = /*@__PURE__*/ S.suspend(() =>
     metrics_retained: S.optional(S.Boolean),
     deleted_at: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DeletedConversationItem",
-}) as any as S.Schema<DeletedConversationItem>;
+).annotate({ identifier: "DeletedConversationItem" }) as any as S.Schema<DeletedConversationItem>;
 
 /** The list of deleted conversation IDs. */
 export type DeletedConversationListConversationsList = Array<DeletedConversationItem>;
@@ -13949,16 +13675,12 @@ export const DeletedConversationList = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     pages: S.optional(PagesLink),
   }),
-).annotate({
-  identifier: "DeletedConversationList",
-}) as any as S.Schema<DeletedConversationList>;
+).annotate({ identifier: "DeletedConversationList" }) as any as S.Schema<DeletedConversationList>;
 
 export interface ListEmailsRequest {}
 export const ListEmailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/emails", code: 200 })),
-).annotate({
-  identifier: "ListEmailsRequest",
-}) as any as S.Schema<ListEmailsRequest>;
+).annotate({ identifier: "ListEmailsRequest" }) as any as S.Schema<ListEmailsRequest>;
 
 export type EmailListDataList = Array<EmailSetting>;
 export const EmailListDataList = /*@__PURE__*/ S.Array(
@@ -13981,11 +13703,7 @@ export const EmailList = /*@__PURE__*/ S.suspend(() =>
 export interface ListExportReportingDataGetDatasetsRequest {}
 export const ListExportReportingDataGetDatasetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/export/reporting_data/get_datasets",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/export/reporting_data/get_datasets", code: 200 }),
   ),
 ).annotate({
   identifier: "ListExportReportingDataGetDatasetsRequest",
@@ -14057,9 +13775,7 @@ export const ListExportReportingDataGetDatasetsResponse = /*@__PURE__*/ S.suspen
 export interface ListExternalPagesRequest {}
 export const ListExternalPagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/ai/external_pages", code: 200 })),
-).annotate({
-  identifier: "ListExternalPagesRequest",
-}) as any as S.Schema<ListExternalPagesRequest>;
+).annotate({ identifier: "ListExternalPagesRequest" }) as any as S.Schema<ListExternalPagesRequest>;
 
 /** The type of the object - `list`. */
 export type ExternalPagesListType = "list";
@@ -14088,9 +13804,95 @@ export const ExternalPagesList = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     data: S.optional(ExternalPagesListDataList),
   }),
+).annotate({ identifier: "ExternalPagesList" }) as any as S.Schema<ExternalPagesList>;
+
+/** A hash of attributes associated with the user. Attributes can be used by Fin to target content and responses. Limit to 10 attributes. */
+export type ListFinCapabilitiesRequestUserAttributesMap = { [key: string]: unknown | undefined };
+export const ListFinCapabilitiesRequestUserAttributesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ListFinCapabilitiesRequestUserAttributesMap>;
+
+export interface ListFinCapabilitiesRequestUser {
+  /** The ID of the user. This value will be used to uniquely identify the user during a conversation with Fin. Maps to the user_id field on the Intercom User object. */
+  id: string;
+  /** The name of the user. */
+  name?: string;
+  /** The email of the user. */
+  email?: string;
+  /** A hash of attributes associated with the user. Attributes can be used by Fin to target content and responses. Limit to 10 attributes. */
+  attributes?: ListFinCapabilitiesRequestUserAttributesMap;
+}
+export const ListFinCapabilitiesRequestUser = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.optional(S.String),
+    email: S.optional(S.String),
+    attributes: S.optional(ListFinCapabilitiesRequestUserAttributesMap),
+  }),
 ).annotate({
-  identifier: "ExternalPagesList",
-}) as any as S.Schema<ExternalPagesList>;
+  identifier: "ListFinCapabilitiesRequestUser",
+}) as any as S.Schema<ListFinCapabilitiesRequestUser>;
+
+export interface ListFinCapabilitiesRequest {
+  user: ListFinCapabilitiesRequestUser;
+}
+export const ListFinCapabilitiesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    user: ListFinCapabilitiesRequestUser,
+  }).pipe(T.Http({ method: "POST", uri: "/fin/capabilities", code: 200 })),
+).annotate({
+  identifier: "ListFinCapabilitiesRequest",
+}) as any as S.Schema<ListFinCapabilitiesRequest>;
+
+export interface ListFinCapabilitiesResponseCapabilitiesItem {
+  /** The kind of capability — `procedure` for a runnable procedure, or a static action such as `reply`, `ask`, or `escalate`. */
+  type?: string;
+  /** The procedure ID. Present only when `type` is `procedure`. */
+  id?: string;
+  /** The procedure name. Present only when `type` is `procedure`. */
+  name?: string;
+  /** A human-readable description of the capability. */
+  description?: string;
+  /** The endpoint path to call to use this capability. */
+  endpoint?: string;
+  /** The HTTP method to use. */
+  method?: string;
+}
+export const ListFinCapabilitiesResponseCapabilitiesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    endpoint: S.optional(S.String),
+    method: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListFinCapabilitiesResponseCapabilitiesItem",
+}) as any as S.Schema<ListFinCapabilitiesResponseCapabilitiesItem>;
+
+/** The list of capabilities available to this user. */
+export type ListFinCapabilitiesResponseCapabilitiesList =
+  Array<ListFinCapabilitiesResponseCapabilitiesItem>;
+export const ListFinCapabilitiesResponseCapabilitiesList = /*@__PURE__*/ S.Array(
+  ListFinCapabilitiesResponseCapabilitiesItem,
+) as any as S.Schema<ListFinCapabilitiesResponseCapabilitiesList>;
+
+export interface ListFinCapabilitiesResponse {
+  /** The API version the capabilities document was generated for. */
+  version?: string;
+  /** The list of capabilities available to this user. */
+  capabilities?: ListFinCapabilitiesResponseCapabilitiesList;
+}
+export const ListFinCapabilitiesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    version: S.optional(S.String),
+    capabilities: S.optional(ListFinCapabilitiesResponseCapabilitiesList),
+  }),
+).annotate({
+  identifier: "ListFinCapabilitiesResponse",
+}) as any as S.Schema<ListFinCapabilitiesResponse>;
 
 export interface ListHandlingEventsRequest {
   /** The identifier for the conversation as given by Intercom. */
@@ -14099,13 +13901,7 @@ export interface ListHandlingEventsRequest {
 export const ListHandlingEventsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/conversations/{id}/handling_events",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/conversations/{id}/handling_events", code: 200 })),
 ).annotate({
   identifier: "ListHandlingEventsRequest",
 }) as any as S.Schema<ListHandlingEventsRequest>;
@@ -14132,9 +13928,7 @@ export const TeammateReference = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     email: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TeammateReference",
-}) as any as S.Schema<TeammateReference>;
+).annotate({ identifier: "TeammateReference" }) as any as S.Schema<TeammateReference>;
 
 /** The type of handling event */
 export type HandlingEventType = "paused" | "resumed";
@@ -14174,9 +13968,7 @@ export const HandlingEventList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     handling_events: S.optional(HandlingEventListHandlingEventsList),
   }),
-).annotate({
-  identifier: "HandlingEventList",
-}) as any as S.Schema<HandlingEventList>;
+).annotate({ identifier: "HandlingEventList" }) as any as S.Schema<HandlingEventList>;
 
 export interface ListHelpCenterRedirectsRequest {
   /** The unique identifier for the help center. */
@@ -14229,16 +14021,12 @@ export const HelpCenterRedirectList = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     data: S.optional(HelpCenterRedirectListDataList),
   }),
-).annotate({
-  identifier: "HelpCenterRedirectList",
-}) as any as S.Schema<HelpCenterRedirectList>;
+).annotate({ identifier: "HelpCenterRedirectList" }) as any as S.Schema<HelpCenterRedirectList>;
 
 export interface ListHelpCentersRequest {}
 export const ListHelpCentersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/help_center/help_centers", code: 200 })),
-).annotate({
-  identifier: "ListHelpCentersRequest",
-}) as any as S.Schema<ListHelpCentersRequest>;
+).annotate({ identifier: "ListHelpCentersRequest" }) as any as S.Schema<ListHelpCentersRequest>;
 
 /** The type of the object - `list`. */
 export type HelpCenterListType = "list";
@@ -14333,9 +14121,7 @@ export const InternalArticleListItem = /*@__PURE__*/ S.suspend(() =>
     ai_copilot_availability: S.optional(S.Boolean),
     ai_sales_agent_availability: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "InternalArticleListItem",
-}) as any as S.Schema<InternalArticleListItem>;
+).annotate({ identifier: "InternalArticleListItem" }) as any as S.Schema<InternalArticleListItem>;
 
 /** An array of Internal Article objects */
 export type InternalArticleListDataList = Array<InternalArticleListItem>;
@@ -14360,9 +14146,7 @@ export const InternalArticleList = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     data: S.optional(InternalArticleListDataList),
   }),
-).annotate({
-  identifier: "InternalArticleList",
-}) as any as S.Schema<InternalArticleList>;
+).annotate({ identifier: "InternalArticleList" }) as any as S.Schema<InternalArticleList>;
 
 export interface ListLiveNewsfeedItemsRequest {
   /** The unique identifier for the news feed item which is given by Intercom. */
@@ -14371,13 +14155,7 @@ export interface ListLiveNewsfeedItemsRequest {
 export const ListLiveNewsfeedItemsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     newsfeed_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/news/newsfeeds/{newsfeed_id}/items",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/news/newsfeeds/{newsfeed_id}/items", code: 200 })),
 ).annotate({
   identifier: "ListLiveNewsfeedItemsRequest",
 }) as any as S.Schema<ListLiveNewsfeedItemsRequest>;
@@ -14412,9 +14190,7 @@ export const PaginatedResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     data: S.optional(PaginatedResponseDataList),
   }),
-).annotate({
-  identifier: "PaginatedResponse",
-}) as any as S.Schema<PaginatedResponse>;
+).annotate({ identifier: "PaginatedResponse" }) as any as S.Schema<PaginatedResponse>;
 
 export interface ListMacrosRequest {
   /** The number of results per page */
@@ -14430,17 +14206,17 @@ export const ListMacrosRequest = /*@__PURE__*/ S.suspend(() =>
     starting_after: S.optional(S.String.pipe(T.Query())),
     updated_since: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/macros", code: 200 })),
-).annotate({
-  identifier: "ListMacrosRequest",
-}) as any as S.Schema<ListMacrosRequest>;
+).annotate({ identifier: "ListMacrosRequest" }) as any as S.Schema<ListMacrosRequest>;
 
 /** Always list */
 export type MacroListType = "list";
 export const MacroListType = S.String;
 
 /** The list of macro objects */
-export type MacroListDataList = Array<Macro>;
-export const MacroListDataList = /*@__PURE__*/ S.Array(Macro) as any as S.Schema<MacroListDataList>;
+export type MacroListDataList = Array<Macro | null>;
+export const MacroListDataList = /*@__PURE__*/ S.Array(
+  S.NullOr(Macro),
+) as any as S.Schema<MacroListDataList>;
 
 /** The type of pagination */
 export type MacroListPagesType = "pages";
@@ -14455,9 +14231,7 @@ export const MacroListPagesNext = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     starting_after: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MacroListPagesNext",
-}) as any as S.Schema<MacroListPagesNext>;
+).annotate({ identifier: "MacroListPagesNext" }) as any as S.Schema<MacroListPagesNext>;
 
 /** Pagination information */
 export interface MacroListPages {
@@ -14496,16 +14270,12 @@ export const MacroList = /*@__PURE__*/ S.suspend(() =>
 export interface ListNewsfeedsRequest {}
 export const ListNewsfeedsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/news/newsfeeds", code: 200 })),
-).annotate({
-  identifier: "ListNewsfeedsRequest",
-}) as any as S.Schema<ListNewsfeedsRequest>;
+).annotate({ identifier: "ListNewsfeedsRequest" }) as any as S.Schema<ListNewsfeedsRequest>;
 
 export interface ListNewsItemsRequest {}
 export const ListNewsItemsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/news/news_items", code: 200 })),
-).annotate({
-  identifier: "ListNewsItemsRequest",
-}) as any as S.Schema<ListNewsItemsRequest>;
+).annotate({ identifier: "ListNewsItemsRequest" }) as any as S.Schema<ListNewsItemsRequest>;
 
 export interface ListNotesRequest {
   /** The unique identifier of a contact. */
@@ -14515,9 +14285,7 @@ export const ListNotesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contact_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/contacts/{contact_id}/notes", code: 200 })),
-).annotate({
-  identifier: "ListNotesRequest",
-}) as any as S.Schema<ListNotesRequest>;
+).annotate({ identifier: "ListNotesRequest" }) as any as S.Schema<ListNotesRequest>;
 
 export interface ListOfficeHoursExceptionsRequest {
   /** The unique identifier for the office hours schedule. */
@@ -14555,9 +14323,7 @@ export const OfficeHoursExceptionList = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     data: S.optional(OfficeHoursExceptionListDataList),
   }),
-).annotate({
-  identifier: "OfficeHoursExceptionList",
-}) as any as S.Schema<OfficeHoursExceptionList>;
+).annotate({ identifier: "OfficeHoursExceptionList" }) as any as S.Schema<OfficeHoursExceptionList>;
 
 export interface ListOfficeHoursSchedulesRequest {}
 export const ListOfficeHoursSchedulesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -14584,9 +14350,7 @@ export const OfficeHoursScheduleList = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     data: S.optional(OfficeHoursScheduleListDataList),
   }),
-).annotate({
-  identifier: "OfficeHoursScheduleList",
-}) as any as S.Schema<OfficeHoursScheduleList>;
+).annotate({ identifier: "OfficeHoursScheduleList" }) as any as S.Schema<OfficeHoursScheduleList>;
 
 export interface ListSegmentsRequest {
   /** It includes the count of contacts that belong to each segment. */
@@ -14596,9 +14360,7 @@ export const ListSegmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     include_count: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/segments", code: 200 })),
-).annotate({
-  identifier: "ListSegmentsRequest",
-}) as any as S.Schema<ListSegmentsRequest>;
+).annotate({ identifier: "ListSegmentsRequest" }) as any as S.Schema<ListSegmentsRequest>;
 
 /** The type of the object */
 export type SegmentListType = "segment.list";
@@ -14634,13 +14396,7 @@ export interface ListSegmentsForAContactRequest {
 export const ListSegmentsForAContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contact_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/contacts/{contact_id}/segments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/contacts/{contact_id}/segments", code: 200 })),
 ).annotate({
   identifier: "ListSegmentsForAContactRequest",
 }) as any as S.Schema<ListSegmentsForAContactRequest>;
@@ -14667,9 +14423,7 @@ export const ContactSegments = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ContactSegmentsType),
     data: S.optional(ContactSegmentsDataList),
   }),
-).annotate({
-  identifier: "ContactSegments",
-}) as any as S.Schema<ContactSegments>;
+).annotate({ identifier: "ContactSegments" }) as any as S.Schema<ContactSegments>;
 
 export interface ListSideConversationsRequest {
   /** The identifier for the conversation as given by Intercom. */
@@ -14684,13 +14438,7 @@ export const ListSideConversationsRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/conversations/{id}/side_conversations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/conversations/{id}/side_conversations", code: 200 })),
 ).annotate({
   identifier: "ListSideConversationsRequest",
 }) as any as S.Schema<ListSideConversationsRequest>;
@@ -14720,9 +14468,7 @@ export const SideConversationSummary = /*@__PURE__*/ S.suspend(() =>
     conversation_parts: S.optional(SideConversationSummaryConversationPartsList),
     total_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SideConversationSummary",
-}) as any as S.Schema<SideConversationSummary>;
+).annotate({ identifier: "SideConversationSummary" }) as any as S.Schema<SideConversationSummary>;
 
 /** An array of side conversation objects. */
 export type SideConversationListSideConversationsList = Array<SideConversationSummary>;
@@ -14772,9 +14518,7 @@ export const SideConversationList = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     pages: S.optional(SideConversationListPages),
   }),
-).annotate({
-  identifier: "SideConversationList",
-}) as any as S.Schema<SideConversationList>;
+).annotate({ identifier: "SideConversationList" }) as any as S.Schema<SideConversationList>;
 
 export interface ListSubscriptionsForAContactRequest {
   /** The unique identifier for the contact which is given by Intercom */
@@ -14783,13 +14527,7 @@ export interface ListSubscriptionsForAContactRequest {
 export const ListSubscriptionsForAContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contact_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/contacts/{contact_id}/subscriptions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/contacts/{contact_id}/subscriptions", code: 200 })),
 ).annotate({
   identifier: "ListSubscriptionsForAContactRequest",
 }) as any as S.Schema<ListSubscriptionsForAContactRequest>;
@@ -14816,9 +14554,7 @@ export const SubscriptionTypeList = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(SubscriptionTypeListType),
     data: S.optional(SubscriptionTypeListDataList),
   }),
-).annotate({
-  identifier: "SubscriptionTypeList",
-}) as any as S.Schema<SubscriptionTypeList>;
+).annotate({ identifier: "SubscriptionTypeList" }) as any as S.Schema<SubscriptionTypeList>;
 
 export interface ListSubscriptionTypesRequest {}
 export const ListSubscriptionTypesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -14830,9 +14566,7 @@ export const ListSubscriptionTypesRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ListTagsRequest {}
 export const ListTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/tags", code: 200 })),
-).annotate({
-  identifier: "ListTagsRequest",
-}) as any as S.Schema<ListTagsRequest>;
+).annotate({ identifier: "ListTagsRequest" }) as any as S.Schema<ListTagsRequest>;
 
 /** The type of the object */
 export type TagListType = "list";
@@ -14871,9 +14605,7 @@ export const ListTagsForAContactRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ListTeamsRequest {}
 export const ListTeamsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/teams", code: 200 })),
-).annotate({
-  identifier: "ListTeamsRequest",
-}) as any as S.Schema<ListTeamsRequest>;
+).annotate({ identifier: "ListTeamsRequest" }) as any as S.Schema<ListTeamsRequest>;
 
 /** The type of the object */
 export type TeamListType = "team.list";
@@ -14900,9 +14632,7 @@ export const TeamList = /*@__PURE__*/ S.suspend(() =>
 export interface ListTicketStatesRequest {}
 export const ListTicketStatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/ticket_states", code: 200 })),
-).annotate({
-  identifier: "ListTicketStatesRequest",
-}) as any as S.Schema<ListTicketStatesRequest>;
+).annotate({ identifier: "ListTicketStatesRequest" }) as any as S.Schema<ListTicketStatesRequest>;
 
 /** The category of the ticket state */
 export type TicketStateDetailedCategory =
@@ -14913,9 +14643,9 @@ export type TicketStateDetailedCategory =
 export const TicketStateDetailedCategory = S.String;
 
 /** A list of ticket type attributes associated with a given ticket type. */
-export type TicketStateDetailedTicketTypesDataList = Array<TicketType2>;
+export type TicketStateDetailedTicketTypesDataList = Array<TicketType2 | null>;
 export const TicketStateDetailedTicketTypesDataList = /*@__PURE__*/ S.Array(
-  TicketType2,
+  S.NullOr(TicketType2),
 ) as any as S.Schema<TicketStateDetailedTicketTypesDataList>;
 
 /** A list of ticket types associated with a given ticket state. */
@@ -14961,14 +14691,12 @@ export const TicketStateDetailed = /*@__PURE__*/ S.suspend(() =>
     archived: S.optional(S.Boolean),
     ticket_types: S.optional(TicketStateDetailedTicketTypes),
   }),
-).annotate({
-  identifier: "TicketStateDetailed",
-}) as any as S.Schema<TicketStateDetailed>;
+).annotate({ identifier: "TicketStateDetailed" }) as any as S.Schema<TicketStateDetailed>;
 
 /** A list of ticket states associated with a given ticket type. */
-export type TicketStateListDataList = Array<TicketStateDetailed>;
+export type TicketStateListDataList = Array<TicketStateDetailed | null>;
 export const TicketStateListDataList = /*@__PURE__*/ S.Array(
-  TicketStateDetailed,
+  S.NullOr(TicketStateDetailed),
 ) as any as S.Schema<TicketStateListDataList>;
 
 /** A list of ticket states associated with a given ticket type. */
@@ -14983,21 +14711,17 @@ export const TicketStateList = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     data: S.optional(TicketStateListDataList),
   }),
-).annotate({
-  identifier: "TicketStateList",
-}) as any as S.Schema<TicketStateList>;
+).annotate({ identifier: "TicketStateList" }) as any as S.Schema<TicketStateList>;
 
 export interface ListTicketTypesRequest {}
 export const ListTicketTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/ticket_types", code: 200 })),
-).annotate({
-  identifier: "ListTicketTypesRequest",
-}) as any as S.Schema<ListTicketTypesRequest>;
+).annotate({ identifier: "ListTicketTypesRequest" }) as any as S.Schema<ListTicketTypesRequest>;
 
 /** A list of ticket_types associated with a given workspace. */
-export type TicketTypeListDataList = Array<TicketType2>;
+export type TicketTypeListDataList = Array<TicketType2 | null>;
 export const TicketTypeListDataList = /*@__PURE__*/ S.Array(
-  TicketType2,
+  S.NullOr(TicketType2),
 ) as any as S.Schema<TicketTypeListDataList>;
 
 /** A list of ticket types associated with a given workspace. */
@@ -15036,9 +14760,7 @@ export const CloseConversationRequest = /*@__PURE__*/ S.suspend(() =>
     admin_id: S.String,
     body: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloseConversationRequest",
-}) as any as S.Schema<CloseConversationRequest>;
+).annotate({ identifier: "CloseConversationRequest" }) as any as S.Schema<CloseConversationRequest>;
 
 export type SnoozeConversationRequestMessageType = "snoozed";
 export const SnoozeConversationRequestMessageType = S.String;
@@ -15075,9 +14797,7 @@ export const OpenConversationRequest = /*@__PURE__*/ S.suspend(() =>
     message_type: OpenConversationRequestMessageType,
     admin_id: S.String,
   }),
-).annotate({
-  identifier: "OpenConversationRequest",
-}) as any as S.Schema<OpenConversationRequest>;
+).annotate({ identifier: "OpenConversationRequest" }) as any as S.Schema<OpenConversationRequest>;
 
 export type AssignConversationRequestMessageType = "assignment";
 export const AssignConversationRequestMessageType = S.String;
@@ -15125,13 +14845,7 @@ export const ManageConversationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     conversation_id: S.String.pipe(T.Label()),
     body: S.optional(ManageConversationRequestBody.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/conversations/{conversation_id}/parts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/conversations/{conversation_id}/parts", code: 200 })),
 ).annotate({
   identifier: "ManageConversationRequest",
 }) as any as S.Schema<ManageConversationRequest>;
@@ -15153,9 +14867,7 @@ export const MergeContactRequest = /*@__PURE__*/ S.suspend(() =>
     into: S.String,
     skip_duplicate_validation: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/contacts/merge", code: 200 })),
-).annotate({
-  identifier: "MergeContactRequest",
-}) as any as S.Schema<MergeContactRequest>;
+).annotate({ identifier: "MergeContactRequest" }) as any as S.Schema<MergeContactRequest>;
 
 export type MergeContactResponseAvatar = ContactAvatar;
 export const MergeContactResponseAvatar = ContactAvatar;
@@ -15306,9 +15018,7 @@ export const MergeContactResponse = /*@__PURE__*/ S.suspend(() =>
     merge_history: S.optional(S.NullOr(MergeContactResponseMergeHistoryList)),
     enabled_push_messaging: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "MergeContactResponse",
-}) as any as S.Schema<MergeContactResponse>;
+).annotate({ identifier: "MergeContactResponse" }) as any as S.Schema<MergeContactResponse>;
 
 export interface MergeConversationRequest {
   /** The identifier for the secondary (source) conversation to merge away. */
@@ -15321,9 +15031,7 @@ export const MergeConversationRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     merge_into_conversation_id: S.Number,
   }).pipe(T.Http({ method: "POST", uri: "/conversations/{id}/merge", code: 200 })),
-).annotate({
-  identifier: "MergeConversationRequest",
-}) as any as S.Schema<MergeConversationRequest>;
+).annotate({ identifier: "MergeConversationRequest" }) as any as S.Schema<MergeConversationRequest>;
 
 /** The locales whose staged drafts should be published. Required on multilingual workspaces; each locale must have a pending draft. */
 export type PublishArticleDraftRequestLocalesList = Array<string>;
@@ -15697,9 +15405,7 @@ export const ContactReplyEmailRequest = /*@__PURE__*/ S.suspend(() =>
     email: S.String,
     attachment_files: S.optional(ContactReplyEmailRequestAttachmentFilesList),
   }),
-).annotate({
-  identifier: "ContactReplyEmailRequest",
-}) as any as S.Schema<ContactReplyEmailRequest>;
+).annotate({ identifier: "ContactReplyEmailRequest" }) as any as S.Schema<ContactReplyEmailRequest>;
 
 export type ContactReplyUserIdRequestMessageType = "comment";
 export const ContactReplyUserIdRequestMessageType = S.String;
@@ -15787,9 +15493,7 @@ export const QuickReplyOption = /*@__PURE__*/ S.suspend(() =>
     text: S.String,
     uuid: S.String,
   }),
-).annotate({
-  identifier: "QuickReplyOption",
-}) as any as S.Schema<QuickReplyOption>;
+).annotate({ identifier: "QuickReplyOption" }) as any as S.Schema<QuickReplyOption>;
 
 /** The quick reply options to display to the end user. Must be present for quick_reply message types. */
 export type AdminReplyConversationRequestReplyOptionsList = Array<QuickReplyOption>;
@@ -15858,13 +15562,7 @@ export const ReplyConversationRequest2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     conversation_id: S.String.pipe(T.Label()),
     body: S.optional(ReplyConversationRequest.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/conversations/{conversation_id}/reply",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/conversations/{conversation_id}/reply", code: 200 })),
 ).annotate({
   identifier: "ReplyConversationRequest2",
 }) as any as S.Schema<ReplyConversationRequest2>;
@@ -15879,9 +15577,7 @@ export const ReplyTicketRequest = /*@__PURE__*/ S.suspend(() =>
     ticket_id: S.String.pipe(T.Label()),
     skip_notifications: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/tickets/{ticket_id}/reply", code: 200 })),
-).annotate({
-  identifier: "ReplyTicketRequest",
-}) as any as S.Schema<ReplyTicketRequest>;
+).annotate({ identifier: "ReplyTicketRequest" }) as any as S.Schema<ReplyTicketRequest>;
 
 /** Always ticket_part */
 export type TicketReplyType = "ticket_part";
@@ -15896,6 +15592,10 @@ export type TicketReplyAttachmentsList = Array<PartAttachment>;
 export const TicketReplyAttachmentsList = /*@__PURE__*/ S.Array(
   PartAttachment,
 ) as any as S.Schema<TicketReplyAttachmentsList>;
+
+/** A map of the reply text keyed by locale code. Backs the `ticket.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale. */
+export type TicketReplyTranslations = TicketPartTranslations;
+export const TicketReplyTranslations = TicketPartTranslations;
 
 /** A Ticket Part representing a note, comment, or quick_reply on a ticket */
 export interface TicketReply {
@@ -15916,6 +15616,8 @@ export interface TicketReply {
   attachments?: TicketReplyAttachmentsList;
   /** Whether or not the ticket part has been redacted. */
   redacted?: boolean;
+  /** A map of the reply text keyed by locale code. Backs the `ticket.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale. */
+  translations?: TicketPartTranslations | null;
 }
 export const TicketReply = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15928,90 +15630,9 @@ export const TicketReply = /*@__PURE__*/ S.suspend(() =>
     author: S.optional(TicketPartAuthor),
     attachments: S.optional(TicketReplyAttachmentsList),
     redacted: S.optional(S.Boolean),
+    translations: S.optional(S.NullOr(TicketPartTranslations)),
   }),
 ).annotate({ identifier: "TicketReply" }) as any as S.Schema<TicketReply>;
-
-/** The author that created the message. */
-export type FinAgentMessageAuthor = "user" | "agent" | "fin";
-export const FinAgentMessageAuthor = S.String;
-
-/** A message exchanged within a Fin Agent conversation. */
-export interface FinAgentMessage {
-  /** The author that created the message. */
-  author: FinAgentMessageAuthor | (string & {});
-  /** The body of the message. Accepts both plain text and HTML format. When sending a message to Fin, this should contain the user's message. Fin's response will be returned as HTML. */
-  body: string;
-  /** The timestamp when the message was created. Used to deduplicate messages sent within a 5 minute window. Ideally should include milliseconds for higher precision. */
-  timestamp: string;
-  /** The timestamp when the message was created, with millisecond precision. Only present in webhook event responses (fin_replied). */
-  timestamp_ms?: string;
-}
-export const FinAgentMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    author: FinAgentMessageAuthor,
-    body: S.String,
-    timestamp: S.String,
-    timestamp_ms: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FinAgentMessage",
-}) as any as S.Schema<FinAgentMessage>;
-
-/** A hash of attributes associated with the user. Attributes can be used by Fin to target content and responses. Limit to 10 attributes. */
-export type FinAgentUserAttributesMap = { [key: string]: unknown | undefined };
-export const FinAgentUserAttributesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<FinAgentUserAttributesMap>;
-
-/** A user object representing the user in a Fin Agent conversation. */
-export interface FinAgentUser {
-  /** The ID of the user. This value will be used to uniquely identify the user during a conversation with Fin. Maps to the user_id field on the Intercom User object. */
-  id: string;
-  /** The name of the user. */
-  name?: string;
-  /** The email of the user. */
-  email?: string;
-  /** A hash of attributes associated with the user. Attributes can be used by Fin to target content and responses. Limit to 10 attributes. */
-  attributes?: FinAgentUserAttributesMap;
-}
-export const FinAgentUser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: S.optional(S.String),
-    email: S.optional(S.String),
-    attributes: S.optional(FinAgentUserAttributesMap),
-  }),
-).annotate({ identifier: "FinAgentUser" }) as any as S.Schema<FinAgentUser>;
-
-/** The type of attachment. */
-export type FinAgentAttachmentType = "url" | "file";
-export const FinAgentAttachmentType = S.String;
-
-/** An attachment object representing a file or URL attachment included with a message. Attachments can be used to provide additional context to Fin. Maximum of 10 attachments per request. */
-export interface FinAgentAttachment {
-  /** The type of attachment. */
-  type: FinAgentAttachmentType | (string & {});
-  /** The URL of the attachment. Required when type is 'url'. Must be publicly accessible. */
-  url?: string;
-  /** The name of the file. Required when type is 'file'. */
-  name?: string;
-  /** The MIME type of the file. Required when type is 'file'. */
-  content_type?: string;
-  /** Base64-encoded file data. Required when type is 'file'. */
-  data?: string;
-}
-export const FinAgentAttachment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: FinAgentAttachmentType,
-    url: S.optional(S.String),
-    name: S.optional(S.String),
-    content_type: S.optional(S.String),
-    data: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FinAgentAttachment",
-}) as any as S.Schema<FinAgentAttachment>;
 
 /** An array of attachments to include with the message. Maximum of 10 attachments. */
 export type ReplyToFinRequestAttachmentsList = Array<FinAgentAttachment>;
@@ -16034,9 +15655,7 @@ export const ReplyToFinRequest = /*@__PURE__*/ S.suspend(() =>
     user: FinAgentUser,
     attachments: S.optional(ReplyToFinRequestAttachmentsList),
   }).pipe(T.Http({ method: "POST", uri: "/fin/reply", code: 200 })),
-).annotate({
-  identifier: "ReplyToFinRequest",
-}) as any as S.Schema<ReplyToFinRequest>;
+).annotate({ identifier: "ReplyToFinRequest" }) as any as S.Schema<ReplyToFinRequest>;
 
 /** Fin's current status in the conversation workflow. */
 export type ReplyToFinResponseStatus =
@@ -16048,69 +15667,11 @@ export type ReplyToFinResponseStatus =
   | "complete";
 export const ReplyToFinResponseStatus = S.String;
 
-/** Map of user attribute names to error messages. */
-export type FinAgentAttributeErrorsUserAttributesMap = {
-  [key: string]: string | undefined;
-};
-export const FinAgentAttributeErrorsUserAttributesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<FinAgentAttributeErrorsUserAttributesMap>;
-
-/** User-related attribute errors. */
-export interface FinAgentAttributeErrorsUser {
-  /** Map of user attribute names to error messages. */
-  attributes?: FinAgentAttributeErrorsUserAttributesMap;
-}
-export const FinAgentAttributeErrorsUser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributes: S.optional(FinAgentAttributeErrorsUserAttributesMap),
-  }),
-).annotate({
-  identifier: "FinAgentAttributeErrorsUser",
-}) as any as S.Schema<FinAgentAttributeErrorsUser>;
-
-/** Map of conversation attribute names to error messages. */
-export type FinAgentAttributeErrorsConversationAttributesMap = {
-  [key: string]: string | undefined;
-};
-export const FinAgentAttributeErrorsConversationAttributesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<FinAgentAttributeErrorsConversationAttributesMap>;
-
-/** Conversation-related attribute errors. */
-export interface FinAgentAttributeErrorsConversation {
-  /** Map of conversation attribute names to error messages. */
-  attributes?: FinAgentAttributeErrorsConversationAttributesMap;
-}
-export const FinAgentAttributeErrorsConversation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributes: S.optional(FinAgentAttributeErrorsConversationAttributesMap),
-  }),
-).annotate({
-  identifier: "FinAgentAttributeErrorsConversation",
-}) as any as S.Schema<FinAgentAttributeErrorsConversation>;
-
-/** Contains error details if any user or conversation attribute updates failed. */
-export interface FinAgentAttributeErrors {
-  /** User-related attribute errors. */
-  user?: FinAgentAttributeErrorsUser;
-  /** Conversation-related attribute errors. */
-  conversation?: FinAgentAttributeErrorsConversation;
-}
-export const FinAgentAttributeErrors = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    user: S.optional(FinAgentAttributeErrorsUser),
-    conversation: S.optional(FinAgentAttributeErrorsConversation),
-  }),
-).annotate({
-  identifier: "FinAgentAttributeErrors",
-}) as any as S.Schema<FinAgentAttributeErrors>;
-
 export interface ReplyToFinResponse {
   /** The ID of the conversation. */
   conversation_id?: string;
+  /** The internal Intercom conversation ID, useful for matching this Agent API session to the conversation in Intercom. */
+  intercom_conversation_id?: string;
   /** The ID of the user. */
   user_id?: string;
   /** Fin's current status in the conversation workflow. */
@@ -16124,15 +15685,96 @@ export interface ReplyToFinResponse {
 export const ReplyToFinResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     conversation_id: S.optional(S.String),
+    intercom_conversation_id: S.optional(S.String),
     user_id: S.optional(S.String),
     status: S.optional(ReplyToFinResponseStatus),
     created_at_ms: S.optional(S.String),
     errors: S.optional(FinAgentAttributeErrors),
     sse_subscription_url: S.optional(S.String),
   }),
+).annotate({ identifier: "ReplyToFinResponse" }) as any as S.Schema<ReplyToFinResponse>;
+
+/** A hash of conversation attributes. Limit to 10 attributes. */
+export type RunFinProcedureRequestConversationMetadataAttributesMap = {
+  [key: string]: unknown | undefined;
+};
+export const RunFinProcedureRequestConversationMetadataAttributesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<RunFinProcedureRequestConversationMetadataAttributesMap>;
+
+/** Metadata about the conversation. Only attributes are accepted (no history). */
+export interface RunFinProcedureRequestConversationMetadata {
+  /** A hash of conversation attributes. Limit to 10 attributes. */
+  attributes?: RunFinProcedureRequestConversationMetadataAttributesMap;
+}
+export const RunFinProcedureRequestConversationMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    attributes: S.optional(RunFinProcedureRequestConversationMetadataAttributesMap),
+  }),
 ).annotate({
-  identifier: "ReplyToFinResponse",
-}) as any as S.Schema<ReplyToFinResponse>;
+  identifier: "RunFinProcedureRequestConversationMetadata",
+}) as any as S.Schema<RunFinProcedureRequestConversationMetadata>;
+
+export interface RunFinProcedureRequest {
+  /** The ID of the procedure to run. */
+  procedure_id: string;
+  /** Your external conversation ID. Fin creates a conversation for this ID. If a conversation already exists for it, use `/fin/reply` instead. */
+  conversation_id: string;
+  user: FinAgentUser;
+  message?: FinAgentMessage;
+  /** Metadata about the conversation. Only attributes are accepted (no history). */
+  conversation_metadata?: RunFinProcedureRequestConversationMetadata;
+}
+export const RunFinProcedureRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    procedure_id: S.String.pipe(T.Label()),
+    conversation_id: S.String,
+    user: FinAgentUser,
+    message: S.optional(FinAgentMessage),
+    conversation_metadata: S.optional(RunFinProcedureRequestConversationMetadata),
+  }).pipe(T.Http({ method: "POST", uri: "/fin/procedures/{procedure_id}/run", code: 200 })),
+).annotate({ identifier: "RunFinProcedureRequest" }) as any as S.Schema<RunFinProcedureRequest>;
+
+/** Fin's current status in the conversation workflow. */
+export type RunFinProcedureResponseStatus =
+  | "thinking"
+  | "replying"
+  | "awaiting_user_reply"
+  | "escalated"
+  | "resolved"
+  | "complete";
+export const RunFinProcedureResponseStatus = S.String;
+
+export interface RunFinProcedureResponse {
+  /** The ID of the conversation. */
+  conversation_id?: string;
+  /** The internal Intercom conversation ID, useful for matching this Agent API session to the conversation in Intercom. */
+  intercom_conversation_id?: string;
+  /** The ID of the user. */
+  user_id?: string;
+  /** The ID of the procedure that was run. */
+  procedure_id?: string;
+  /** Fin's current status in the conversation workflow. */
+  status?: RunFinProcedureResponseStatus;
+  /** The timestamp the response was created at, with millisecond precision. */
+  created_at_ms?: string;
+  errors?: FinAgentAttributeErrors;
+  /** Optional. A URL to subscribe to Server-Sent Events (SSE) for this conversation, if SSE is enabled. The access token is a JWT with a 3-minute TTL. The token is revoked when Fin sets the conversation to awaiting_user_reply or complete status. When CSAT is enabled and a survey will follow the resolution, `complete` revocation is deferred until the `csat_requested` event is delivered or the token expires. */
+  sse_subscription_url?: string;
+}
+export const RunFinProcedureResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    conversation_id: S.optional(S.String),
+    intercom_conversation_id: S.optional(S.String),
+    user_id: S.optional(S.String),
+    procedure_id: S.optional(S.String),
+    status: S.optional(RunFinProcedureResponseStatus),
+    created_at_ms: S.optional(S.String),
+    errors: S.optional(FinAgentAttributeErrors),
+    sse_subscription_url: S.optional(S.String),
+  }),
+).annotate({ identifier: "RunFinProcedureResponse" }) as any as S.Schema<RunFinProcedureResponse>;
 
 export interface ScrollOverAllCompaniesRequest {
   scroll_param?: string;
@@ -16222,9 +15864,7 @@ export const SearchArticlesRequest = /*@__PURE__*/ S.suspend(() =>
     help_center_id: S.optional(S.Number.pipe(T.Query())),
     highlight: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/articles/search", code: 200 })),
-).annotate({
-  identifier: "SearchArticlesRequest",
-}) as any as S.Schema<SearchArticlesRequest>;
+).annotate({ identifier: "SearchArticlesRequest" }) as any as S.Schema<SearchArticlesRequest>;
 
 /** The type of the object - `list`. */
 export type ArticleSearchResponseType = "list";
@@ -16425,9 +16065,7 @@ export const ArticleSearchHighlights = /*@__PURE__*/ S.suspend(() =>
     highlighted_title: S.optional(ArticleSearchHighlightsHighlightedTitleList),
     highlighted_summary: S.optional(ArticleSearchHighlightsHighlightedSummaryList),
   }),
-).annotate({
-  identifier: "ArticleSearchHighlights",
-}) as any as S.Schema<ArticleSearchHighlights>;
+).annotate({ identifier: "ArticleSearchHighlights" }) as any as S.Schema<ArticleSearchHighlights>;
 
 /** A corresponding array of highlighted Article content */
 export type ArticleSearchResponseDataHighlightsList = Array<ArticleSearchHighlights>;
@@ -16468,9 +16106,7 @@ export const ArticleSearchResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(ArticleSearchResponseData),
     pages: S.optional(S.NullOr(CursorPages)),
   }),
-).annotate({
-  identifier: "ArticleSearchResponse",
-}) as any as S.Schema<ArticleSearchResponse>;
+).annotate({ identifier: "ArticleSearchResponse" }) as any as S.Schema<ArticleSearchResponse>;
 
 /** The accepted operators you can use to define how you want to search for the value. Operator support depends on the field's data type. The breakdown below is for Contacts search; the other search endpoints that share this schema accept a different set per field: - `string` fields: `=`, `!=`, `IN`, `NIN`, `~`, `!~`, `^`, `$` - `tag_id`: `=` and `!=` only. Every other operator returns an error. - `boolean` fields: `=`, `!=`, `IN`, `NIN` - `integer` fields: `=`, `!=`, `IN`, `NIN`, `<`, `>`, `<=`, `>=` - `date` fields (all standard timestamp attributes and date custom attributes): `=`, `<`, `>` only. `!=`, `<=`, `>=`, `IN`, and `NIN` are not supported and return an error. */
 export type SingleFilterSearchRequestOperator =
@@ -16601,9 +16237,7 @@ export const SearchContactsRequest = /*@__PURE__*/ S.suspend(() =>
     pagination: S.optional(S.NullOr(StartingAfterPaging)),
     sort: S.optional(SearchContactsRequestSort),
   }).pipe(T.Http({ method: "POST", uri: "/contacts/search", code: 200 })),
-).annotate({
-  identifier: "SearchContactsRequest",
-}) as any as S.Schema<SearchContactsRequest>;
+).annotate({ identifier: "SearchContactsRequest" }) as any as S.Schema<SearchContactsRequest>;
 
 export type SearchContentRequestStatesItem = "published" | "draft";
 export const SearchContentRequestStatesItem = S.String;
@@ -16738,9 +16372,7 @@ export const SearchContentRequest = /*@__PURE__*/ S.suspend(() =>
     updated_at_after: S.optional(S.Number.pipe(T.Query())),
     updated_at_before: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/content/search", code: 200 })),
-).annotate({
-  identifier: "SearchContentRequest",
-}) as any as S.Schema<SearchContentRequest>;
+).annotate({ identifier: "SearchContentRequest" }) as any as S.Schema<SearchContentRequest>;
 
 /** Always `list`. */
 export type ContentSearchResponseType = "list";
@@ -16799,9 +16431,7 @@ export const ContentSearchDefaultItem = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     title: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ContentSearchDefaultItem",
-}) as any as S.Schema<ContentSearchDefaultItem>;
+).annotate({ identifier: "ContentSearchDefaultItem" }) as any as S.Schema<ContentSearchDefaultItem>;
 
 /** Always `article`. */
 export type ContentSearchArticleItemType = "article";
@@ -16857,9 +16487,7 @@ export const ContentSearchArticleItem = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     contents: S.optional(ContentSearchArticleItemContentsList),
   }),
-).annotate({
-  identifier: "ContentSearchArticleItem",
-}) as any as S.Schema<ContentSearchArticleItem>;
+).annotate({ identifier: "ContentSearchArticleItem" }) as any as S.Schema<ContentSearchArticleItem>;
 
 /** A single search result. The `type` field discriminates between the flat shape used for snippets, external pages, files, and internal articles, and the nested shape used for help center articles. */
 export type ContentSearchResult = ContentSearchDefaultItem | ContentSearchArticleItem;
@@ -16889,9 +16517,7 @@ export const ContentSearchResponse = /*@__PURE__*/ S.suspend(() =>
     pages: S.optional(ContentSearchResponsePages),
     data: S.optional(ContentSearchResponseDataList),
   }),
-).annotate({
-  identifier: "ContentSearchResponse",
-}) as any as S.Schema<ContentSearchResponse>;
+).annotate({ identifier: "ContentSearchResponse" }) as any as S.Schema<ContentSearchResponse>;
 
 export type SearchConversationsRequestQuery =
   | SingleFilterSearchRequest
@@ -16986,18 +16612,16 @@ export const SearchTicketsRequest = /*@__PURE__*/ S.suspend(() =>
     query: SearchTicketsRequestQuery,
     pagination: S.optional(S.NullOr(StartingAfterPaging)),
   }).pipe(T.Http({ method: "POST", uri: "/tickets/search", code: 200 })),
-).annotate({
-  identifier: "SearchTicketsRequest",
-}) as any as S.Schema<SearchTicketsRequest>;
+).annotate({ identifier: "SearchTicketsRequest" }) as any as S.Schema<SearchTicketsRequest>;
 
 /** Always ticket.list */
 export type TicketListType = "ticket.list";
 export const TicketListType = S.String;
 
 /** The list of ticket objects */
-export type TicketListTicketsList = Array<Ticket>;
+export type TicketListTicketsList = Array<Ticket | null>;
 export const TicketListTicketsList = /*@__PURE__*/ S.Array(
-  Ticket,
+  S.NullOr(Ticket),
 ) as any as S.Schema<TicketListTicketsList>;
 
 /** Tickets are how you track requests from your users. */
@@ -17036,9 +16660,7 @@ export const SetAwayAdminRequest = /*@__PURE__*/ S.suspend(() =>
     away_mode_reassign: S.Boolean,
     away_status_reason_id: S.optional(S.Number),
   }).pipe(T.Http({ method: "PUT", uri: "/admins/{admin_id}/away", code: 200 })),
-).annotate({
-  identifier: "SetAwayAdminRequest",
-}) as any as S.Schema<SetAwayAdminRequest>;
+).annotate({ identifier: "SetAwayAdminRequest" }) as any as S.Schema<SetAwayAdminRequest>;
 
 /** Whether the article will be `published` or will be a `draft`. Omitting this field leaves the publish state unchanged, so a draft stays a draft and an edit to a published article goes live immediately unless that article already has a pending draft or a scheduled publish time is set in the same request. The `PUT /articles/{id}/draft` endpoint ignores this field and always stages a draft. For multilingual articles, this will be the state of the default language's content. */
 export type StageArticleDraftRequestState = "published" | "draft";
@@ -17102,9 +16724,7 @@ export const StageArticleDraftRequest = /*@__PURE__*/ S.suspend(() =>
     scheduled_publish_at: S.optional(S.NullOr(S.String)),
     scheduled_unpublish_at: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PUT", uri: "/articles/{id}/draft", code: 200 })),
-).annotate({
-  identifier: "StageArticleDraftRequest",
-}) as any as S.Schema<StageArticleDraftRequest>;
+).annotate({ identifier: "StageArticleDraftRequest" }) as any as S.Schema<StageArticleDraftRequest>;
 
 /** The type of object - `article`. */
 export type StageArticleDraftResponseType = "article";
@@ -17226,37 +16846,6 @@ export const StartFinConversationRequestAttachmentsList = /*@__PURE__*/ S.Array(
   FinAgentAttachment,
 ) as any as S.Schema<StartFinConversationRequestAttachmentsList>;
 
-/** An array of previous messages in the conversation before Fin is initialized. This data provides context to Fin and helps generate a better answer. Limit to the last 10 messages. */
-export type FinAgentConversationMetadataHistoryList = Array<FinAgentMessage>;
-export const FinAgentConversationMetadataHistoryList = /*@__PURE__*/ S.Array(
-  FinAgentMessage,
-) as any as S.Schema<FinAgentConversationMetadataHistoryList>;
-
-/** A hash of attributes associated with the conversation. These attributes can be used by Fin to provide more contextual responses. Limit to 10 attributes. */
-export type FinAgentConversationMetadataAttributesMap = {
-  [key: string]: unknown | undefined;
-};
-export const FinAgentConversationMetadataAttributesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<FinAgentConversationMetadataAttributesMap>;
-
-/** Metadata about the conversation, including history and attributes. */
-export interface FinAgentConversationMetadata {
-  /** An array of previous messages in the conversation before Fin is initialized. This data provides context to Fin and helps generate a better answer. Limit to the last 10 messages. */
-  history?: FinAgentConversationMetadataHistoryList;
-  /** A hash of attributes associated with the conversation. These attributes can be used by Fin to provide more contextual responses. Limit to 10 attributes. */
-  attributes?: FinAgentConversationMetadataAttributesMap;
-}
-export const FinAgentConversationMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    history: S.optional(FinAgentConversationMetadataHistoryList),
-    attributes: S.optional(FinAgentConversationMetadataAttributesMap),
-  }),
-).annotate({
-  identifier: "FinAgentConversationMetadata",
-}) as any as S.Schema<FinAgentConversationMetadata>;
-
 export interface StartFinConversationRequest {
   /** The ID of the conversation that is calling Fin via this API. */
   conversation_id: string;
@@ -17291,6 +16880,8 @@ export const StartFinConversationResponseStatus = S.String;
 export interface StartFinConversationResponse {
   /** The ID of the conversation. */
   conversation_id?: string;
+  /** The internal Intercom conversation ID, useful for matching this Agent API session to the conversation in Intercom. */
+  intercom_conversation_id?: string;
   /** The ID of the user. */
   user_id?: string;
   /** Fin's current status in the conversation workflow. */
@@ -17304,6 +16895,7 @@ export interface StartFinConversationResponse {
 export const StartFinConversationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     conversation_id: S.optional(S.String),
+    intercom_conversation_id: S.optional(S.String),
     user_id: S.optional(S.String),
     status: S.optional(StartFinConversationResponseStatus),
     created_at_ms: S.optional(S.String),
@@ -17332,9 +16924,7 @@ export const SubmitFinCsatRequest = /*@__PURE__*/ S.suspend(() =>
     rating: SubmitFinCsatRequestRating,
     remark: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/fin/csat", code: 200 })),
-).annotate({
-  identifier: "SubmitFinCsatRequest",
-}) as any as S.Schema<SubmitFinCsatRequest>;
+).annotate({ identifier: "SubmitFinCsatRequest" }) as any as S.Schema<SubmitFinCsatRequest>;
 
 /** The rating now recorded on the conversation. */
 export type SubmitFinCsatResponseRating = "terrible" | "bad" | "ok" | "good" | "amazing";
@@ -17358,9 +16948,7 @@ export const SubmitFinCsatResponse = /*@__PURE__*/ S.suspend(() =>
     rating: S.optional(SubmitFinCsatResponseRating),
     status: S.optional(SubmitFinCsatResponseStatus),
   }),
-).annotate({
-  identifier: "SubmitFinCsatResponse",
-}) as any as S.Schema<SubmitFinCsatResponse>;
+).annotate({ identifier: "SubmitFinCsatResponse" }) as any as S.Schema<SubmitFinCsatResponse>;
 
 export interface UnarchiveContactRequest {
   /** contact_id */
@@ -17369,16 +16957,8 @@ export interface UnarchiveContactRequest {
 export const UnarchiveContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contact_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/contacts/{contact_id}/unarchive",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UnarchiveContactRequest",
-}) as any as S.Schema<UnarchiveContactRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/contacts/{contact_id}/unarchive", code: 200 })),
+).annotate({ identifier: "UnarchiveContactRequest" }) as any as S.Schema<UnarchiveContactRequest>;
 
 /** always contact */
 export type UnarchiveContactResponseType = "contact";
@@ -17401,9 +16981,7 @@ export const UnarchiveContactResponse = /*@__PURE__*/ S.suspend(() =>
     external_id: S.optional(S.NullOr(S.String)),
     archived: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "UnarchiveContactResponse",
-}) as any as S.Schema<UnarchiveContactResponse>;
+).annotate({ identifier: "UnarchiveContactResponse" }) as any as S.Schema<UnarchiveContactResponse>;
 
 export interface UnlinkConversationFromTicketRequest {
   /** The unique identifier for the tracker ticket which is given by Intercom. */
@@ -17416,11 +16994,7 @@ export const UnlinkConversationFromTicketRequest = /*@__PURE__*/ S.suspend(() =>
     ticket_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/tickets/{ticket_id}/linked_conversations/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/tickets/{ticket_id}/linked_conversations/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "UnlinkConversationFromTicketRequest",
@@ -17488,9 +17062,7 @@ export const UpdateArticleRequest = /*@__PURE__*/ S.suspend(() =>
     scheduled_publish_at: S.optional(S.NullOr(S.String)),
     scheduled_unpublish_at: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PUT", uri: "/articles/{article_id}", code: 200 })),
-).annotate({
-  identifier: "UpdateArticleRequest",
-}) as any as S.Schema<UpdateArticleRequest>;
+).annotate({ identifier: "UpdateArticleRequest" }) as any as S.Schema<UpdateArticleRequest>;
 
 /** The type of object - `article`. */
 export type UpdateArticleResponseType = "article";
@@ -17602,9 +17174,7 @@ export const UpdateArticleResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
     statistics: S.optional(S.NullOr(ArticleStatistics)),
   }),
-).annotate({
-  identifier: "UpdateArticleResponse",
-}) as any as S.Schema<UpdateArticleResponse>;
+).annotate({ identifier: "UpdateArticleResponse" }) as any as S.Schema<UpdateArticleResponse>;
 
 /** The predicates that define which contacts belong to the audience. */
 export type UpdateAudienceRequestPredicatesList = Array<Predicate>;
@@ -17635,9 +17205,7 @@ export const UpdateAudienceRequest = /*@__PURE__*/ S.suspend(() =>
     predicates: S.optional(UpdateAudienceRequestPredicatesList),
     role_predicates: S.optional(UpdateAudienceRequestRolePredicatesList),
   }).pipe(T.Http({ method: "PUT", uri: "/audiences/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateAudienceRequest",
-}) as any as S.Schema<UpdateAudienceRequest>;
+).annotate({ identifier: "UpdateAudienceRequest" }) as any as S.Schema<UpdateAudienceRequest>;
 
 export interface UpdateCollectionRequest {
   /** The unique identifier for the collection which is given by Intercom. */
@@ -17657,21 +17225,11 @@ export const UpdateCollectionRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     translated_content: S.optional(S.NullOr(GroupTranslatedContent)),
     parent_id: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/help_center/collections/{collection_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateCollectionRequest",
-}) as any as S.Schema<UpdateCollectionRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/help_center/collections/{collection_id}", code: 200 })),
+).annotate({ identifier: "UpdateCollectionRequest" }) as any as S.Schema<UpdateCollectionRequest>;
 
 /** A hash of key/value pairs containing any other data about the company you want Intercom to store. */
-export type UpdateCompanyRequestCustomAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCompanyRequestCustomAttributesMap = { [key: string]: string | undefined };
 export const UpdateCompanyRequestCustomAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17706,9 +17264,7 @@ export const UpdateCompanyRequest = /*@__PURE__*/ S.suspend(() =>
     custom_attributes: S.optional(UpdateCompanyRequestCustomAttributesMap),
     monthly_spend: S.optional(S.Number),
   }).pipe(T.Http({ method: "PUT", uri: "/companies/{company_id}", code: 200 })),
-).annotate({
-  identifier: "UpdateCompanyRequest",
-}) as any as S.Schema<UpdateCompanyRequest>;
+).annotate({ identifier: "UpdateCompanyRequest" }) as any as S.Schema<UpdateCompanyRequest>;
 
 /** You can update a contact */
 export interface UpdateContactRequest {
@@ -17718,7 +17274,7 @@ export interface UpdateContactRequest {
   external_id?: string;
   /** The contacts email */
   email?: string;
-  /** Whether the contact's email address has been verified. Set to true to indicate you have verified the contact owns this email address, or false to mark it as unverified. Must be supplied together with an email in the same request; sending it without an email returns a 400. */
+  /** Whether the contact has proved they own this email address, for example through a confirmation link or one-time code you sent. Send it together with `email`. `email_verified` without `email` is rejected. Changing a contact's email resets it to not verified. Intercom reuses leads with a verified email when an inbound email, conversation or ticket matches the address. */
   email_verified?: boolean | null;
   /** The contacts phone */
   phone?: string | null;
@@ -17752,9 +17308,7 @@ export const UpdateContactRequest = /*@__PURE__*/ S.suspend(() =>
     unsubscribed_from_emails: S.optional(S.NullOr(S.Boolean)),
     custom_attributes: S.optional(S.NullOr(S.Unknown)),
   }),
-).annotate({
-  identifier: "UpdateContactRequest",
-}) as any as S.Schema<UpdateContactRequest>;
+).annotate({ identifier: "UpdateContactRequest" }) as any as S.Schema<UpdateContactRequest>;
 
 export interface UpdateContactRequest2 {
   /** id */
@@ -17769,9 +17323,7 @@ export const UpdateContactRequest2 = /*@__PURE__*/ S.suspend(() =>
     include_merge_history: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(UpdateContactRequest.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "PUT", uri: "/contacts/{contact_id}", code: 200 })),
-).annotate({
-  identifier: "UpdateContactRequest2",
-}) as any as S.Schema<UpdateContactRequest2>;
+).annotate({ identifier: "UpdateContactRequest2" }) as any as S.Schema<UpdateContactRequest2>;
 
 export type UpdateContactResponseAvatar = ContactAvatar;
 export const UpdateContactResponseAvatar = ContactAvatar;
@@ -17922,9 +17474,7 @@ export const UpdateContactResponse = /*@__PURE__*/ S.suspend(() =>
     merge_history: S.optional(S.NullOr(UpdateContactResponseMergeHistoryList)),
     enabled_push_messaging: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "UpdateContactResponse",
-}) as any as S.Schema<UpdateContactResponse>;
+).annotate({ identifier: "UpdateContactResponse" }) as any as S.Schema<UpdateContactResponse>;
 
 /** If you intend to create or update External Pages via the API, this should be set to `api`. You can not change the value to or from api. */
 export type UpdateContentImportSourceRequestSyncBehavior = "api" | "automated" | "manual";
@@ -17968,13 +17518,7 @@ export const UpdateContentImportSourceRequest = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     audience_ids: S.optional(S.NullOr(UpdateContentImportSourceRequestAudienceIds)),
     apply_audience_to_existing_content: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/ai/content_import_sources/{source_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/ai/content_import_sources/{source_id}", code: 200 })),
 ).annotate({
   identifier: "UpdateContentImportSourceRequest",
 }) as any as S.Schema<UpdateContentImportSourceRequest>;
@@ -18048,13 +17592,7 @@ export const UpdateConversationRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     custom_attributes: S.optional(CustomAttributes),
     company_id: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/conversations/{conversation_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/conversations/{conversation_id}", code: 200 })),
 ).annotate({
   identifier: "UpdateConversationRequest",
 }) as any as S.Schema<UpdateConversationRequest>;
@@ -18136,11 +17674,7 @@ export const UpdateConversationAttributeOptionRequest = /*@__PURE__*/ S.suspend(
     option_id: S.String.pipe(T.Label()),
     label: S.String,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/conversations/attributes/{id}/options/{option_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/conversations/attributes/{id}/options/{option_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateConversationAttributeOptionRequest",
@@ -18169,13 +17703,7 @@ export const UpdateDataAttributeRequest = /*@__PURE__*/ S.suspend(() =>
     archived: S.optional(S.Boolean),
     description: S.optional(S.String),
     messenger_writable: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/data_attributes/{data_attribute_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/data_attributes/{data_attribute_id}", code: 200 })),
 ).annotate({
   identifier: "UpdateDataAttributeRequest",
 }) as any as S.Schema<UpdateDataAttributeRequest>;
@@ -18387,13 +17915,7 @@ export const UpdateInternalArticleRequest = /*@__PURE__*/ S.suspend(() =>
     ai_chatbot_availability: S.optional(S.Boolean),
     ai_copilot_availability: S.optional(S.Boolean),
     ai_sales_agent_availability: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/internal_articles/{internal_article_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/internal_articles/{internal_article_id}", code: 200 })),
 ).annotate({
   identifier: "UpdateInternalArticleRequest",
 }) as any as S.Schema<UpdateInternalArticleRequest>;
@@ -18479,9 +18001,7 @@ export const UpdateIpAllowlistRequest = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     ip_allowlist: S.optional(UpdateIpAllowlistRequestIpAllowlistList),
   }).pipe(T.Http({ method: "PUT", uri: "/ip_allowlist", code: 200 })),
-).annotate({
-  identifier: "UpdateIpAllowlistRequest",
-}) as any as S.Schema<UpdateIpAllowlistRequest>;
+).annotate({ identifier: "UpdateIpAllowlistRequest" }) as any as S.Schema<UpdateIpAllowlistRequest>;
 
 /** News items will not be visible to your users in the assigned newsfeeds until they are set live. */
 export type UpdateNewsItemRequestState = "draft" | "live";
@@ -18494,9 +18014,9 @@ export const UpdateNewsItemRequestLabelsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<UpdateNewsItemRequestLabelsList>;
 
 /** Ordered list of emoji reactions to the news item. When empty, reactions are disabled. */
-export type UpdateNewsItemRequestReactionsList = Array<string>;
+export type UpdateNewsItemRequestReactionsList = Array<string | null>;
 export const UpdateNewsItemRequestReactionsList = /*@__PURE__*/ S.Array(
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<UpdateNewsItemRequestReactionsList>;
 
 /** A list of newsfeed_assignments to assign to the specified newsfeed. */
@@ -18536,16 +18056,8 @@ export const UpdateNewsItemRequest = /*@__PURE__*/ S.suspend(() =>
     labels: S.optional(UpdateNewsItemRequestLabelsList),
     reactions: S.optional(UpdateNewsItemRequestReactionsList),
     newsfeed_assignments: S.optional(UpdateNewsItemRequestNewsfeedAssignmentsList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/news/news_items/{news_item_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateNewsItemRequest",
-}) as any as S.Schema<UpdateNewsItemRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/news/news_items/{news_item_id}", code: 200 })),
+).annotate({ identifier: "UpdateNewsItemRequest" }) as any as S.Schema<UpdateNewsItemRequest>;
 
 /** The type of exception. */
 export type UpdateOfficeHoursExceptionRequestExceptionType = "closed" | "custom_hours";
@@ -18656,9 +18168,7 @@ export const UpdateTicketRequest = /*@__PURE__*/ S.suspend(() =>
     assignee_id: S.optional(S.String),
     skip_notifications: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/tickets/{ticket_id}", code: 200 })),
-).annotate({
-  identifier: "UpdateTicketRequest",
-}) as any as S.Schema<UpdateTicketRequest>;
+).annotate({ identifier: "UpdateTicketRequest" }) as any as S.Schema<UpdateTicketRequest>;
 
 /** Category of the Ticket Type. */
 export type UpdateTicketTypeRequestCategory = "Customer" | "Back-office" | "Tracker";
@@ -18690,9 +18200,7 @@ export const UpdateTicketTypeRequest = /*@__PURE__*/ S.suspend(() =>
     archived: S.optional(S.Boolean),
     is_internal: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/ticket_types/{ticket_type_id}", code: 200 })),
-).annotate({
-  identifier: "UpdateTicketTypeRequest",
-}) as any as S.Schema<UpdateTicketTypeRequest>;
+).annotate({ identifier: "UpdateTicketTypeRequest" }) as any as S.Schema<UpdateTicketTypeRequest>;
 
 export interface UpdateTicketTypeAttributeRequest {
   /** The unique identifier for the ticket type which is given by Intercom. */
@@ -18746,9 +18254,7 @@ export const UpdateTicketTypeAttributeRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateTicketTypeAttributeRequest>;
 
 /** The custom attributes which are set for the visitor. */
-export type UpdateVisitorRequestCustomAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVisitorRequestCustomAttributesMap = { [key: string]: string | undefined };
 export const UpdateVisitorRequestCustomAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18771,9 +18277,7 @@ export const UpdateVisitorRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     custom_attributes: S.optional(UpdateVisitorRequestCustomAttributesMap),
   }).pipe(T.Http({ method: "PUT", uri: "/visitors", code: 200 })),
-).annotate({
-  identifier: "UpdateVisitorRequest",
-}) as any as S.Schema<UpdateVisitorRequest>;
+).annotate({ identifier: "UpdateVisitorRequest" }) as any as S.Schema<UpdateVisitorRequest>;
 
 export type ArchiveContactError = IntercomOpError;
 /** Archive contact You can archive a single contact. */
@@ -18786,6 +18290,21 @@ export const archiveContact: API.OperationMethod<
   input: ArchiveContactRequest,
   output: ArchiveContactResponse,
   errors: [UnknownIntercomError],
+  protocol: IntercomProtocol,
+  retry: Retry.Retry,
+}));
+
+export type AskFinError = BadRequest | IntercomOpError;
+/** Ask Fin Ask Fin a single, self-contained question and receive one informational answer. Unlike a conversation, `/fin/ask` is non-conversational: Fin will not ask follow-up questions, will not run procedures, and will not escalate to a human on its own. You can still escalate one yourself with `POST /fin/escalate`; the ask conversation is already closed after its one-shot answer, and escalation leaves it closed while routing the handoff separately. Fin's answer is delivered asynchronously via the `fin_replied` event. The conversation ends with a `complete` status — there is no `awaiting_user_reply` cycle. {% admonition type="warning" %} To request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A). {% /admonition %} */
+export const askFin: API.OperationMethod<
+  AskFinRequest,
+  AskFinResponse,
+  AskFinError,
+  IntercomOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AskFinRequest,
+  output: AskFinResponse,
+  errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
 }));
@@ -18809,12 +18328,12 @@ export type AttachContactToConversationError = Forbidden | NotFound | IntercomOp
 /** Attach a contact to a conversation You can add participants who are contacts to a conversation, on behalf of either another contact or an admin. {% admonition type="warning" name="Contacts without an email" %} If you add a contact via the email parameter and there is no user/lead found on that workspace with he given email, then we will create a new contact with `role` set to `lead`. {% /admonition %} */
 export const attachContactToConversation: API.OperationMethod<
   AttachContactToConversationRequest,
-  Conversation,
+  ConversationParticipantsResponse,
   AttachContactToConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: AttachContactToConversationRequest,
-  output: Conversation,
+  output: ConversationParticipantsResponse,
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -19594,7 +19113,7 @@ export const deleteCollection: API.OperationMethod<
 }));
 
 export type DeleteCompanyError = NotFound | IntercomOpError;
-/** Delete a company Delete a single company. This endpoint does not permanently remove the company. It archives the company record and detaches any contacts attached to it; the contacts themselves are not deleted. A `company.deleted` webhook is sent once archival completes. The endpoint returns `200` with `"deleted": true` as soon as the request is accepted — archival is processed asynchronously. {% admonition type="warning" %} Third-party integrations that sync companies into Intercom (for example, Salesforce or Chargebee) will recreate any company deleted through this endpoint on their next sync. To prevent recreation, remove or filter the company at the source integration before deleting it via the API. {% /admonition %} */
+/** Delete a company Delete a single company. The company record is kept in your workspace, but all contacts are detached. The contacts themselves are not deleted. Detaching contacts is permanent and can't be reversed. A `company.deleted` webhook is sent when the company is deleted. These changes may take some time to be reflected in your workspace. {% admonition type="warning" %} Third-party integrations that sync companies into Intercom (for example, Salesforce or Chargebee) will recreate any company deleted through this endpoint on their next sync. To prevent recreation, remove or filter the company at the source integration before deleting it via the API. {% /admonition %} */
 export const deleteCompany: API.OperationMethod<
   DeleteCompanyRequest,
   DeletedCompanyObject,
@@ -19889,12 +19408,12 @@ export type DetachContactFromConversationError =
 /** Detach a contact from a group conversation You can remove participants who are contacts from a group conversation, on behalf of an admin. {% admonition type="warning" name="Removing the last participant" %} You cannot remove the last remaining contact from a conversation. {% /admonition %} */
 export const detachContactFromConversation: API.OperationMethod<
   DetachContactFromConversationRequest,
-  Conversation,
+  ConversationParticipantsResponse,
   DetachContactFromConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: DetachContactFromConversationRequest,
-  output: Conversation,
+  output: ConversationParticipantsResponse,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -20045,6 +19564,21 @@ export const enqueueCreateTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: EnqueueCreateTicketRequest,
   output: Jobs,
+  errors: [BadRequest, UnknownIntercomError],
+  protocol: IntercomProtocol,
+  retry: Retry.Retry,
+}));
+
+export type EscalateFinConversationError = BadRequest | IntercomOpError;
+/** Escalate to a human Hand a conversation off to a human teammate. If you use the Intercom Helpdesk, the handoff lands in your team inbox. Provide either `conversation_id` or `user`: - `conversation_id` — escalate an existing agent conversation, including one started with `/fin/ask`. On the Intercom Helpdesk, Fin by default summarises the conversation and opens a new Helpdesk conversation that carries the summary as an internal note. Escalation does not change the original agent conversation's assignment or open/closed state. Configure an escalation Operator Workflow to change this default. - `user` — escalate on behalf of a user with no prior agent conversation. On the Intercom Helpdesk, a new Helpdesk conversation is created for the teammate. Not supported on Fin for Platforms — see below. In both cases, pass the optional `context` to give the receiving teammate background your orchestrating agent has and Fin does not. On the Intercom Helpdesk, it appears above the summary in the internal note of the new conversation the teammate picks up. It is never shown to the end user. Escalating an existing conversation also sets its AI Agent resolution state to `escalated`, readable as `ai_agent.resolution_state` on the Conversations API. This is a resolution state, not a billable resolution. On Fin for Platforms, `conversation_id` is required — `user` is not supported and is rejected, because there is no Intercom Helpdesk in which to create a conversation. There is no Intercom inbox either, so an escalation that no workflow handles does not open a Helpdesk conversation for a teammate. `context` is not surfaced, and the conversation is left open for your platform to hand off and continue driving. You are notified over the existing webhook or SSE channel with an `escalated` status followed by `complete`. The `complete` status signals that Fin is done; it does not close the conversation. On the Intercom Helpdesk, the new human conversation remains open; on Fin for Platforms, the conversation remains open for whoever handles it on your platform. {% admonition type="warning" %} To request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A). {% /admonition %} */
+export const escalateFinConversation: API.OperationMethod<
+  EscalateFinConversationRequest,
+  EscalateFinConversationResponse,
+  EscalateFinConversationError,
+  IntercomOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EscalateFinConversationRequest,
+  output: EscalateFinConversationResponse,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -21253,6 +20787,21 @@ export const listExternalPages: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListFinCapabilitiesError = BadRequest | IntercomOpError;
+/** Discover Fin's capabilities Return a machine-readable, per-user list of what Fin can do for a given end user, so an orchestrating agent can decide which endpoint to call. The response is audience-matched to the supplied user: each live, API-triggerable procedure is checked against that user before being included, alongside the static `reply` and `ask` actions. {% admonition type="warning" %} To request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A). {% /admonition %} */
+export const listFinCapabilities: API.OperationMethod<
+  ListFinCapabilitiesRequest,
+  ListFinCapabilitiesResponse,
+  ListFinCapabilitiesError,
+  IntercomOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListFinCapabilitiesRequest,
+  output: ListFinCapabilitiesResponse,
+  errors: [BadRequest, UnknownIntercomError],
+  protocol: IntercomProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListHandlingEventsError = NotFound | IntercomOpError;
 /** List handling events List all pause/resume events for a conversation. These events track when teammates paused or resumed handling a conversation. Requires the `read_conversations` OAuth scope. */
 export const listHandlingEvents: API.OperationMethod<
@@ -21569,7 +21118,7 @@ export const listTicketTypes: API.OperationMethod<
 }));
 
 export type ManageConversationError = Forbidden | NotFound | IntercomOpError;
-/** Manage a conversation For managing conversations you can: - Close a conversation - Snooze a conversation to reopen on a future date - Open a conversation which is `snoozed` or `closed` - Assign a conversation to an admin and/or team. */
+/** Manage a conversation For managing conversations you can: - Close a conversation - Snooze a conversation to reopen on a future date - Open a conversation which is `snoozed` or `closed` - Assign a conversation to an admin and/or team. {% admonition type="info" name="Sending messages" %} To send a comment, note or quick reply, use [Reply to a conversation](/docs/references/rest-api/api.intercom.io/conversations/replyconversation). {% /admonition %} */
 export const manageConversation: API.OperationMethod<
   ManageConversationRequest,
   Conversation,
@@ -21659,7 +21208,7 @@ export const registerFinVoiceCall: API.OperationMethod<
 }));
 
 export type ReplyConversationError = Forbidden | NotFound | IntercomOpError;
-/** Reply to a conversation You can reply to a conversation with a message from an admin or on behalf of a contact, or with a note for admins. {% admonition type="warning" name="Bot replies to inbound email" %} By default, bot or Operator replies to an inbound email conversation aren't sent to your customer. The reply is stored as an unnotifiable bot comment, and no `seen` receipt is generated until an email is actually delivered. To send these replies as outbound emails, reach out to your accounts team to enable the email-reply feature flag for your workspace. {% /admonition %} */
+/** Reply to a conversation You can reply to a conversation with a message from an admin or on behalf of a contact, or with a note for admins. {% admonition type="warning" name="Bot replies to inbound email" %} By default, bot or Operator replies to an inbound email conversation aren't sent to your customer. The reply is stored as an unnotifiable bot comment, and no `seen` receipt is generated until an email is actually delivered. To send these replies as outbound emails, reach out to your accounts team to enable the email-reply feature flag for your workspace. {% /admonition %} {% admonition type="info" name="Managing a conversation" %} To close, open, snooze or assign a conversation, use [Manage a conversation](/docs/references/rest-api/api.intercom.io/conversations/manageconversation). {% /admonition %} */
 export const replyConversation: API.OperationMethod<
   ReplyConversationRequest2,
   Conversation,
@@ -21689,7 +21238,7 @@ export const replyTicket: API.OperationMethod<
 }));
 
 export type ReplyToFinError = BadRequest | IntercomOpError;
-/** Reply to Fin Once Fin has returned a response to a user's message, its status will be `awaiting_user_reply`. If a user replies, use this endpoint to send this response to Fin. {% admonition type="warning" %} Please reach out to your accounts team to discuss access. {% /admonition %} */
+/** Reply to Fin Once Fin has returned a response to a user's message, its status will be `awaiting_user_reply`. If a user replies, use this endpoint to send this response to Fin. {% admonition type="warning" %} To request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A). {% /admonition %} */
 export const replyToFin: API.OperationMethod<
   ReplyToFinRequest,
   ReplyToFinResponse,
@@ -21698,6 +21247,21 @@ export const replyToFin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ReplyToFinRequest,
   output: ReplyToFinResponse,
+  errors: [BadRequest, UnknownIntercomError],
+  protocol: IntercomProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RunFinProcedureError = BadRequest | IntercomOpError;
+/** Run a Fin procedure Deterministically run a specific procedure on a new conversation. Calling this endpoint guarantees that the named procedure runs — there is no non-deterministic routing. Fin's progress is delivered asynchronously via events or Server-Sent Events. If the procedure pauses for user input, the conversation status becomes `awaiting_user_reply` — send the user's response with [`/fin/reply`](/docs/references/rest-api/api.intercom.io/fin-agent/replytofin). {% admonition type="warning" %} To request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A). {% /admonition %} */
+export const runFinProcedure: API.OperationMethod<
+  RunFinProcedureRequest,
+  RunFinProcedureResponse,
+  RunFinProcedureError,
+  IntercomOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RunFinProcedureRequest,
+  output: RunFinProcedureResponse,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -21854,7 +21418,7 @@ export const stageArticleDraft: API.OperationMethod<
 }));
 
 export type StartFinConversationError = BadRequest | IntercomOpError;
-/** Start a conversation with Fin Initialize Fin by passing it the user's message along with conversation history and user details. These additional pieces of context will be used by Fin to provide a better and more contextual answer to the user. {% admonition type="warning" %} Please reach out to your accounts team to discuss access. {% /admonition %} Once Fin is initialized, it progresses through a series of statuses such as *thinking*, *replying*, *awaiting_user_reply*, or *resolved* before ending with a status of *complete*. During this workflow, the client should allow Fin to continue uninterrupted until a final *complete* status is returned via webhook, at which point control of the conversation passes back to the client. */
+/** Start a conversation with Fin Initialize Fin by passing it the user's message along with conversation history and user details. These additional pieces of context will be used by Fin to provide a better and more contextual answer to the user. {% admonition type="warning" %} To request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A). {% /admonition %} Once Fin is initialized, it progresses through a series of statuses such as *thinking*, *replying*, *awaiting_user_reply*, or *resolved* before ending with a status of *complete*. During this workflow, the client should allow Fin to continue uninterrupted until a final *complete* status is returned via webhook, at which point control of the conversation passes back to the client. */
 export const startFinConversation: API.OperationMethod<
   StartFinConversationRequest,
   StartFinConversationResponse,
@@ -21869,7 +21433,7 @@ export const startFinConversation: API.OperationMethod<
 }));
 
 export type SubmitFinCsatError = UnprocessableEntity | IntercomOpError;
-/** Submit a CSAT rating Record a customer's satisfaction rating for a conversation, with an optional free-text remark. Fin decides *when* to ask for a rating — this reuses the CSAT settings on your Fin workflow, not this API. When Fin asks, it fires a `csat_requested` event over webhooks or SSE carrying the rating options to show the user. Present those options, then submit the user's choice here. Submitting the same rating again, with no new remark, is a no-op and stays successful, so an at-least-once client can safely retry. Submitting a *different* rating updates the stored rating while the update window is still open, and a first remark can be added to an already-rated survey. Once a remark has been recorded the rating is locked and can no longer be changed. {% admonition type="warning" %} Please reach out to your accounts team to discuss access. {% /admonition %} */
+/** Submit a CSAT rating Record a customer's satisfaction rating for a conversation, with an optional free-text remark. Fin decides *when* to ask for a rating — this reuses the CSAT settings on your Fin workflow, not this API. When Fin asks, it fires a `csat_requested` event over webhooks or SSE carrying the rating options to show the user. Present those options, then submit the user's choice here. Submitting the same rating again, with no new remark, is a no-op and stays successful, so an at-least-once client can safely retry. Submitting a *different* rating updates the stored rating while the update window is still open, and a first remark can be added to an already-rated survey. Once a remark has been recorded the rating is locked and can no longer be changed. {% admonition type="warning" %} To request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A). {% /admonition %} */
 export const submitFinCsat: API.OperationMethod<
   SubmitFinCsatRequest,
   SubmitFinCsatResponse,
