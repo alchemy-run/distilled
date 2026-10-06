@@ -176,9 +176,7 @@ export const MinimalRepositoryLicense = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     node_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MinimalRepositoryLicense",
-}) as any as S.Schema<MinimalRepositoryLicense>;
+).annotate({ identifier: "MinimalRepositoryLicense" }) as any as S.Schema<MinimalRepositoryLicense>;
 
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 export const SecurityAndAnalysisAdvancedSecurityStatus = S.String;
@@ -397,14 +395,10 @@ export const SecurityAndAnalysis = /*@__PURE__*/ S.suspend(() =>
       SecurityAndAnalysisSecretScanningDelegatedBypassOptions,
     ),
   }),
-).annotate({
-  identifier: "SecurityAndAnalysis",
-}) as any as S.Schema<SecurityAndAnalysis>;
+).annotate({ identifier: "SecurityAndAnalysis" }) as any as S.Schema<SecurityAndAnalysis>;
 
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-export type MinimalRepositoryCustomPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
 export const MinimalRepositoryCustomPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -599,9 +593,7 @@ export const MinimalRepository = /*@__PURE__*/ S.suspend(() =>
     security_and_analysis: S.optional(S.NullOr(SecurityAndAnalysis)),
     custom_properties: S.optional(MinimalRepositoryCustomPropertiesMap),
   }),
-).annotate({
-  identifier: "MinimalRepository",
-}) as any as S.Schema<MinimalRepository>;
+).annotate({ identifier: "MinimalRepository" }) as any as S.Schema<MinimalRepository>;
 
 export type CodeSearchResultItemLineNumbersList = Array<string>;
 export const CodeSearchResultItemLineNumbersList = /*@__PURE__*/ S.Array(
@@ -687,9 +679,7 @@ export const CodeSearchResultItem = /*@__PURE__*/ S.suspend(() =>
     line_numbers: S.optional(CodeSearchResultItemLineNumbersList),
     text_matches: S.optional(SearchResultTextMatches),
   }),
-).annotate({
-  identifier: "CodeSearchResultItem",
-}) as any as S.Schema<CodeSearchResultItem>;
+).annotate({ identifier: "CodeSearchResultItem" }) as any as S.Schema<CodeSearchResultItem>;
 
 export type CodeResponseItemsList = Array<CodeSearchResultItem>;
 export const CodeResponseItemsList = /*@__PURE__*/ S.Array(
@@ -764,9 +754,7 @@ export const NullableGitUser = /*@__PURE__*/ S.suspend(() =>
     email: S.optional(S.String),
     date: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableGitUser",
-}) as any as S.Schema<NullableGitUser>;
+).annotate({ identifier: "NullableGitUser" }) as any as S.Schema<NullableGitUser>;
 
 export interface CommitSearchResultItemCommitTree {
   sha: string;
@@ -875,9 +863,7 @@ export const CommitSearchResultItem = /*@__PURE__*/ S.suspend(() =>
     node_id: S.String,
     text_matches: S.optional(SearchResultTextMatches),
   }),
-).annotate({
-  identifier: "CommitSearchResultItem",
-}) as any as S.Schema<CommitSearchResultItem>;
+).annotate({ identifier: "CommitSearchResultItem" }) as any as S.Schema<CommitSearchResultItem>;
 
 export type CommitsResponseItemsList = Array<CommitSearchResultItem>;
 export const CommitsResponseItemsList = /*@__PURE__*/ S.Array(
@@ -895,9 +881,7 @@ export const CommitsResponse = /*@__PURE__*/ S.suspend(() =>
     incomplete_results: S.Boolean,
     items: CommitsResponseItemsList,
   }),
-).annotate({
-  identifier: "CommitsResponse",
-}) as any as S.Schema<CommitsResponse>;
+).annotate({ identifier: "CommitsResponse" }) as any as S.Schema<CommitsResponse>;
 
 export type IssuesAndPullRequestsRequestSort =
   | "comments"
@@ -962,6 +946,10 @@ export interface IssueSearchResultItemLabelsItem {
   color?: string;
   default?: boolean;
   description?: string | null;
+  /** Timestamp indicating when the label was archived, or `null` if it has not been archived. */
+  archived_at?: string | null;
+  /** The user who archived the label, or `null` if it has not been archived. */
+  archived_by?: SimpleUser | null;
 }
 export const IssueSearchResultItemLabelsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -972,6 +960,8 @@ export const IssueSearchResultItemLabelsItem = /*@__PURE__*/ S.suspend(() =>
     color: S.optional(S.String),
     default: S.optional(S.Boolean),
     description: S.optional(S.NullOr(S.String)),
+    archived_at: S.optional(S.NullOr(S.String)),
+    archived_by: S.optional(S.NullOr(SimpleUser)),
   }),
 ).annotate({
   identifier: "IssueSearchResultItemLabelsItem",
@@ -993,9 +983,7 @@ export const SubIssuesSummary = /*@__PURE__*/ S.suspend(() =>
     completed: S.Number,
     percent_completed: S.Number,
   }),
-).annotate({
-  identifier: "SubIssuesSummary",
-}) as any as S.Schema<SubIssuesSummary>;
+).annotate({ identifier: "SubIssuesSummary" }) as any as S.Schema<SubIssuesSummary>;
 
 export interface IssueDependenciesSummary {
   blocked_by: number;
@@ -1010,9 +998,7 @@ export const IssueDependenciesSummary = /*@__PURE__*/ S.suspend(() =>
     total_blocked_by: S.Number,
     total_blocking: S.Number,
   }),
-).annotate({
-  identifier: "IssueDependenciesSummary",
-}) as any as S.Schema<IssueDependenciesSummary>;
+).annotate({ identifier: "IssueDependenciesSummary" }) as any as S.Schema<IssueDependenciesSummary>;
 
 /** The data type of the issue field */
 export type IssueFieldValueDataType = "text" | "single_select" | "multi_select" | "number" | "date";
@@ -1076,9 +1062,7 @@ export const IssueFieldValue = /*@__PURE__*/ S.suspend(() =>
     single_select_option: S.optional(S.NullOr(IssueFieldValueSingleSelectOption)),
     multi_select_options: S.optional(S.NullOr(IssueFieldValueMultiSelectOptionsList)),
   }),
-).annotate({
-  identifier: "IssueFieldValue",
-}) as any as S.Schema<IssueFieldValue>;
+).annotate({ identifier: "IssueFieldValue" }) as any as S.Schema<IssueFieldValue>;
 
 export type IssueSearchResultItemIssueFieldValuesList = Array<IssueFieldValue>;
 export const IssueSearchResultItemIssueFieldValuesList = /*@__PURE__*/ S.Array(
@@ -1130,9 +1114,7 @@ export const NullableMilestone = /*@__PURE__*/ S.suspend(() =>
     closed_at: S.NullOr(S.String),
     due_on: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "NullableMilestone",
-}) as any as S.Schema<NullableMilestone>;
+).annotate({ identifier: "NullableMilestone" }) as any as S.Schema<NullableMilestone>;
 
 export interface IssueSearchResultItemPullRequest {
   merged_at?: string | null;
@@ -1183,9 +1165,7 @@ export const NullableLicenseSimple = /*@__PURE__*/ S.suspend(() =>
     node_id: S.String,
     html_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableLicenseSimple",
-}) as any as S.Schema<NullableLicenseSimple>;
+).annotate({ identifier: "NullableLicenseSimple" }) as any as S.Schema<NullableLicenseSimple>;
 
 export interface RepositoryPermissions {
   admin: boolean;
@@ -1202,9 +1182,7 @@ export const RepositoryPermissions = /*@__PURE__*/ S.suspend(() =>
     push: S.Boolean,
     maintain: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RepositoryPermissions",
-}) as any as S.Schema<RepositoryPermissions>;
+).annotate({ identifier: "RepositoryPermissions" }) as any as S.Schema<RepositoryPermissions>;
 
 export type RepositoryTopicsList = Array<string>;
 export const RepositoryTopicsList = /*@__PURE__*/ S.Array(
@@ -1626,9 +1604,7 @@ export const NullableIntegration = /*@__PURE__*/ S.suspend(() =>
     events: NullableIntegrationEventsList,
     installations_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NullableIntegration",
-}) as any as S.Schema<NullableIntegration>;
+).annotate({ identifier: "NullableIntegration" }) as any as S.Schema<NullableIntegration>;
 
 export interface ReactionRollup {
   url: string;
@@ -1725,9 +1701,7 @@ export const NullableIssueComment = /*@__PURE__*/ S.suspend(() =>
     pin: S.optional(S.NullOr(NullablePinnedIssueComment)),
     minimized: S.optional(S.NullOr(NullableIssueCommentMinimized)),
   }),
-).annotate({
-  identifier: "NullableIssueComment",
-}) as any as S.Schema<NullableIssueComment>;
+).annotate({ identifier: "NullableIssueComment" }) as any as S.Schema<NullableIssueComment>;
 
 /** Issue Search Result Item */
 export interface IssueSearchResultItem {
@@ -1815,9 +1789,7 @@ export const IssueSearchResultItem = /*@__PURE__*/ S.suspend(() =>
     pinned_comment: S.optional(S.NullOr(NullableIssueComment)),
     reactions: S.optional(ReactionRollup),
   }),
-).annotate({
-  identifier: "IssueSearchResultItem",
-}) as any as S.Schema<IssueSearchResultItem>;
+).annotate({ identifier: "IssueSearchResultItem" }) as any as S.Schema<IssueSearchResultItem>;
 
 export type IssuesAndPullRequestsResponseItemsList = Array<IssueSearchResultItem>;
 export const IssuesAndPullRequestsResponseItemsList = /*@__PURE__*/ S.Array(
@@ -1907,6 +1879,10 @@ export interface LabelSearchResultItem {
   color: string;
   default: boolean;
   description: string | null;
+  /** Timestamp indicating when the label was archived, or `null` if it has not been archived. */
+  archived_at: string | null;
+  /** The user who archived the label, or `null` if it has not been archived. */
+  archived_by: SimpleUser | null;
   score: number;
   text_matches?: SearchResultTextMatches;
 }
@@ -1919,12 +1895,12 @@ export const LabelSearchResultItem = /*@__PURE__*/ S.suspend(() =>
     color: S.String,
     default: S.Boolean,
     description: S.NullOr(S.String),
+    archived_at: S.NullOr(S.String),
+    archived_by: S.NullOr(SimpleUser),
     score: S.Number,
     text_matches: S.optional(SearchResultTextMatches),
   }),
-).annotate({
-  identifier: "LabelSearchResultItem",
-}) as any as S.Schema<LabelSearchResultItem>;
+).annotate({ identifier: "LabelSearchResultItem" }) as any as S.Schema<LabelSearchResultItem>;
 
 export type LabelsResponseItemsList = Array<LabelSearchResultItem>;
 export const LabelsResponseItemsList = /*@__PURE__*/ S.Array(
@@ -2191,9 +2167,7 @@ export const RepoSearchResultItem = /*@__PURE__*/ S.suspend(() =>
     is_template: S.optional(S.Boolean),
     web_commit_signoff_required: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RepoSearchResultItem",
-}) as any as S.Schema<RepoSearchResultItem>;
+).annotate({ identifier: "RepoSearchResultItem" }) as any as S.Schema<RepoSearchResultItem>;
 
 export type ReposResponseItemsList = Array<RepoSearchResultItem>;
 export const ReposResponseItemsList = /*@__PURE__*/ S.Array(
@@ -2313,9 +2287,7 @@ export const TopicSearchResultItem = /*@__PURE__*/ S.suspend(() =>
     related: S.optional(S.NullOr(TopicSearchResultItemRelatedList)),
     aliases: S.optional(S.NullOr(TopicSearchResultItemAliasesList)),
   }),
-).annotate({
-  identifier: "TopicSearchResultItem",
-}) as any as S.Schema<TopicSearchResultItem>;
+).annotate({ identifier: "TopicSearchResultItem" }) as any as S.Schema<TopicSearchResultItem>;
 
 export type TopicsResponseItemsList = Array<TopicSearchResultItem>;
 export const TopicsResponseItemsList = /*@__PURE__*/ S.Array(
@@ -2439,9 +2411,7 @@ export const UserSearchResultItem = /*@__PURE__*/ S.suspend(() =>
     suspended_at: S.optional(S.NullOr(S.String)),
     user_view_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserSearchResultItem",
-}) as any as S.Schema<UserSearchResultItem>;
+).annotate({ identifier: "UserSearchResultItem" }) as any as S.Schema<UserSearchResultItem>;
 
 export type UsersResponseItemsList = Array<UserSearchResultItem>;
 export const UsersResponseItemsList = /*@__PURE__*/ S.Array(

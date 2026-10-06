@@ -110,11 +110,7 @@ export const AddOrUpdateRepoPermissionsInOrgRequest = /*@__PURE__*/ S.suspend(()
     repo: S.String.pipe(T.Label()),
     permission: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}", code: 200 }),
   ),
 ).annotate({
   identifier: "AddOrUpdateRepoPermissionsInOrgRequest",
@@ -144,11 +140,7 @@ export const CheckPermissionsForRepoInOrgRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}", code: 200 }),
   ),
 ).annotate({
   identifier: "CheckPermissionsForRepoInOrgRequest",
@@ -172,9 +164,7 @@ export const NullableLicenseSimple = /*@__PURE__*/ S.suspend(() =>
     node_id: S.String,
     html_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableLicenseSimple",
-}) as any as S.Schema<NullableLicenseSimple>;
+).annotate({ identifier: "NullableLicenseSimple" }) as any as S.Schema<NullableLicenseSimple>;
 
 export interface TeamRepositoryPermissions {
   admin: boolean;
@@ -245,9 +235,7 @@ export const NullableSimpleUser = /*@__PURE__*/ S.suspend(() =>
     starred_at: S.optional(S.String),
     user_view_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableSimpleUser",
-}) as any as S.Schema<NullableSimpleUser>;
+).annotate({ identifier: "NullableSimpleUser" }) as any as S.Schema<NullableSimpleUser>;
 
 export type TeamRepositoryTopicsList = Array<string>;
 export const TeamRepositoryTopicsList = /*@__PURE__*/ S.Array(
@@ -581,9 +569,7 @@ export const NullableTeamSimple = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.optional(S.Number),
     enterprise_id: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NullableTeamSimple",
-}) as any as S.Schema<NullableTeamSimple>;
+).annotate({ identifier: "NullableTeamSimple" }) as any as S.Schema<NullableTeamSimple>;
 
 export interface TeamOrganizationPlan {
   name: string;
@@ -600,9 +586,7 @@ export const TeamOrganizationPlan = /*@__PURE__*/ S.suspend(() =>
     filled_seats: S.optional(S.Number),
     seats: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TeamOrganizationPlan",
-}) as any as S.Schema<TeamOrganizationPlan>;
+).annotate({ identifier: "TeamOrganizationPlan" }) as any as S.Schema<TeamOrganizationPlan>;
 
 /** Team Organization */
 export interface TeamOrganization {
@@ -708,9 +692,7 @@ export const TeamOrganization = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.String,
     archived_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "TeamOrganization",
-}) as any as S.Schema<TeamOrganization>;
+).annotate({ identifier: "TeamOrganization" }) as any as S.Schema<TeamOrganization>;
 
 /** The ownership type of the team */
 export type TeamFullType = "enterprise" | "organization";
@@ -787,16 +769,8 @@ export const DeleteInOrgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     team_slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/teams/{team_slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteInOrgRequest",
-}) as any as S.Schema<DeleteInOrgRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/teams/{team_slug}", code: 200 })),
+).annotate({ identifier: "DeleteInOrgRequest" }) as any as S.Schema<DeleteInOrgRequest>;
 
 export interface DeleteInOrgResponse {}
 export const DeleteInOrgResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -814,9 +788,7 @@ export const GetByNameRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     team_slug: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/teams/{team_slug}", code: 200 })),
-).annotate({
-  identifier: "GetByNameRequest",
-}) as any as S.Schema<GetByNameRequest>;
+).annotate({ identifier: "GetByNameRequest" }) as any as S.Schema<GetByNameRequest>;
 
 export interface GetMembershipForUserInOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -879,9 +851,7 @@ export const TeamPermissions = /*@__PURE__*/ S.suspend(() =>
     maintain: S.Boolean,
     admin: S.Boolean,
   }),
-).annotate({
-  identifier: "TeamPermissions",
-}) as any as S.Schema<TeamPermissions>;
+).annotate({ identifier: "TeamPermissions" }) as any as S.Schema<TeamPermissions>;
 
 /** The ownership type of the team */
 export type TeamType = "enterprise" | "organization";
@@ -965,16 +935,8 @@ export const ListChildInOrgRequest = /*@__PURE__*/ S.suspend(() =>
     team_slug: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/teams/{team_slug}/teams",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListChildInOrgRequest",
-}) as any as S.Schema<ListChildInOrgRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/teams/{team_slug}/teams", code: 200 })),
+).annotate({ identifier: "ListChildInOrgRequest" }) as any as S.Schema<ListChildInOrgRequest>;
 
 export type ListChildInOrgResponseBodyList = Array<Team>;
 export const ListChildInOrgResponseBodyList = /*@__PURE__*/ S.Array(
@@ -984,9 +946,7 @@ export const ListChildInOrgResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListChildInOrgResponse = ListChildInOrgResponseBodyList;
 export const ListChildInOrgResponse = /*@__PURE__*/ S.suspend(() =>
   ListChildInOrgResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListChildInOrgResponse",
-}) as any as S.Schema<ListChildInOrgResponse>;
+).annotate({ identifier: "ListChildInOrgResponse" }) as any as S.Schema<ListChildInOrgResponse>;
 
 export interface ListForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
@@ -1037,16 +997,8 @@ export const ListMembersInOrgRequest = /*@__PURE__*/ S.suspend(() =>
     role: S.optional(ListMembersInOrgRequestRole.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/teams/{team_slug}/members",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListMembersInOrgRequest",
-}) as any as S.Schema<ListMembersInOrgRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/teams/{team_slug}/members", code: 200 })),
+).annotate({ identifier: "ListMembersInOrgRequest" }) as any as S.Schema<ListMembersInOrgRequest>;
 
 /** The member's role on the team. Only present on the `List team members` endpoint, and only when the feature is enabled for the organization. */
 export type TeamMemberRole = "member" | "maintainer";
@@ -1118,9 +1070,7 @@ export const ListMembersInOrgResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMembersInOrgResponse = ListMembersInOrgResponseBodyList;
 export const ListMembersInOrgResponse = /*@__PURE__*/ S.suspend(() =>
   ListMembersInOrgResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMembersInOrgResponse",
-}) as any as S.Schema<ListMembersInOrgResponse>;
+).annotate({ identifier: "ListMembersInOrgResponse" }) as any as S.Schema<ListMembersInOrgResponse>;
 
 export interface ListPendingInvitationsInOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1138,13 +1088,7 @@ export const ListPendingInvitationsInOrgRequest = /*@__PURE__*/ S.suspend(() =>
     team_slug: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/teams/{team_slug}/invitations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/teams/{team_slug}/invitations", code: 200 })),
 ).annotate({
   identifier: "ListPendingInvitationsInOrgRequest",
 }) as any as S.Schema<ListPendingInvitationsInOrgRequest>;
@@ -1183,9 +1127,7 @@ export const OrganizationInvitation = /*@__PURE__*/ S.suspend(() =>
     invitation_teams_url: S.String,
     invitation_source: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OrganizationInvitation",
-}) as any as S.Schema<OrganizationInvitation>;
+).annotate({ identifier: "OrganizationInvitation" }) as any as S.Schema<OrganizationInvitation>;
 
 export type ListPendingInvitationsInOrgResponseBodyList = Array<OrganizationInvitation>;
 export const ListPendingInvitationsInOrgResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1215,16 +1157,8 @@ export const ListReposInOrgRequest = /*@__PURE__*/ S.suspend(() =>
     team_slug: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/teams/{team_slug}/repos",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListReposInOrgRequest",
-}) as any as S.Schema<ListReposInOrgRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/teams/{team_slug}/repos", code: 200 })),
+).annotate({ identifier: "ListReposInOrgRequest" }) as any as S.Schema<ListReposInOrgRequest>;
 
 export type MinimalRepositoryTopicsList = Array<string>;
 export const MinimalRepositoryTopicsList = /*@__PURE__*/ S.Array(
@@ -1287,9 +1221,7 @@ export const MinimalRepositoryLicense = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     node_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MinimalRepositoryLicense",
-}) as any as S.Schema<MinimalRepositoryLicense>;
+).annotate({ identifier: "MinimalRepositoryLicense" }) as any as S.Schema<MinimalRepositoryLicense>;
 
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 export const SecurityAndAnalysisAdvancedSecurityStatus = S.String;
@@ -1508,14 +1440,10 @@ export const SecurityAndAnalysis = /*@__PURE__*/ S.suspend(() =>
       SecurityAndAnalysisSecretScanningDelegatedBypassOptions,
     ),
   }),
-).annotate({
-  identifier: "SecurityAndAnalysis",
-}) as any as S.Schema<SecurityAndAnalysis>;
+).annotate({ identifier: "SecurityAndAnalysis" }) as any as S.Schema<SecurityAndAnalysis>;
 
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-export type MinimalRepositoryCustomPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
 export const MinimalRepositoryCustomPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1710,9 +1638,7 @@ export const MinimalRepository = /*@__PURE__*/ S.suspend(() =>
     security_and_analysis: S.optional(S.NullOr(SecurityAndAnalysis)),
     custom_properties: S.optional(MinimalRepositoryCustomPropertiesMap),
   }),
-).annotate({
-  identifier: "MinimalRepository",
-}) as any as S.Schema<MinimalRepository>;
+).annotate({ identifier: "MinimalRepository" }) as any as S.Schema<MinimalRepository>;
 
 export type ListReposInOrgResponseBodyList = Array<MinimalRepository>;
 export const ListReposInOrgResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1722,9 +1648,7 @@ export const ListReposInOrgResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListReposInOrgResponse = ListReposInOrgResponseBodyList;
 export const ListReposInOrgResponse = /*@__PURE__*/ S.suspend(() =>
   ListReposInOrgResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListReposInOrgResponse",
-}) as any as S.Schema<ListReposInOrgResponse>;
+).annotate({ identifier: "ListReposInOrgResponse" }) as any as S.Schema<ListReposInOrgResponse>;
 
 export interface RemoveMembershipForUserInOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1780,9 +1704,7 @@ export const RemoveRepoInOrgRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RemoveRepoInOrgRequest",
-}) as any as S.Schema<RemoveRepoInOrgRequest>;
+).annotate({ identifier: "RemoveRepoInOrgRequest" }) as any as S.Schema<RemoveRepoInOrgRequest>;
 
 export interface RemoveRepoInOrgResponse {}
 export const RemoveRepoInOrgResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1834,16 +1756,8 @@ export const UpdateInOrgRequest = /*@__PURE__*/ S.suspend(() =>
     permission: S.optional(UpdateInOrgRequestPermission),
     parent_team_id: S.optional(S.NullOr(S.Number)),
     parent_team_slug: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/orgs/{org}/teams/{team_slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateInOrgRequest",
-}) as any as S.Schema<UpdateInOrgRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/orgs/{org}/teams/{team_slug}", code: 200 })),
+).annotate({ identifier: "UpdateInOrgRequest" }) as any as S.Schema<UpdateInOrgRequest>;
 
 export type AddOrUpdateMembershipForUserInOrgError =
   | Forbidden

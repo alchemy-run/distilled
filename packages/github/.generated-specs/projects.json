@@ -1069,6 +1069,13 @@
         },
         "default": {
           "target": "smithy.api#Boolean"
+        },
+        "archived_by": {
+          "target": "com.github.projects#SimpleUser",
+          "traits": {
+            "smithy.api#documentation": "The user who archived the label, or `null` if it has not been archived.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -3174,6 +3181,14 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "archived_by": {
+          "target": "com.github.projects#SimpleUser",
+          "traits": {
+            "smithy.api#documentation": "The user who archived the label, or `null` if it has not been archived.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         }
       },

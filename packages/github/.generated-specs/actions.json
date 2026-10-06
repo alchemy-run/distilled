@@ -2239,7 +2239,7 @@
         "days": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The number of days artifacts and logs are retained",
+            "smithy.api#documentation": "The number of days checks, workflow runs, commit statuses, artifacts, and logs are retained",
             "smithy.api#required": {}
           }
         },
@@ -2275,7 +2275,7 @@
           "uri": "/orgs/{org}/actions/permissions/artifact-and-log-retention",
           "code": 200
         },
-        "smithy.api#documentation": "Get artifact and log retention settings for an organization\n\nGets artifact and log retention settings for an organization.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope or the \"Actions policies\" fine-grained permission to use this endpoint."
+        "smithy.api#documentation": "Get artifact and log retention settings for an organization\n\nGets retention settings for checks, workflow runs, commit statuses, artifacts, and logs for an organization.\n\nChecks include check suites, check runs, and check annotations. These settings also apply to checks and commit statuses created by third-party integrations, and are not limited to data created by GitHub Actions.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope or the \"Actions policies\" fine-grained permission to use this endpoint."
       }
     },
     "com.github.actions#SetArtifactAndLogRetentionSettingsOrganizationRequest": {
@@ -2292,7 +2292,7 @@
         "days": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The number of days to retain artifacts and logs",
+            "smithy.api#documentation": "The number of days to retain checks, workflow runs, commit statuses, artifacts, and logs",
             "smithy.api#required": {}
           }
         }
@@ -2329,7 +2329,7 @@
           "uri": "/orgs/{org}/actions/permissions/artifact-and-log-retention",
           "code": 200
         },
-        "smithy.api#documentation": "Set artifact and log retention settings for an organization\n\nSets artifact and log retention settings for an organization.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope or the \"Actions policies\" fine-grained permission to use this endpoint."
+        "smithy.api#documentation": "Set artifact and log retention settings for an organization\n\nSets retention settings for checks, workflow runs, commit statuses, artifacts, and logs for an organization.\n\nChecks include check suites, check runs, and check annotations. These settings also apply to checks and commit statuses created by third-party integrations, and are not limited to data created by GitHub Actions.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope or the \"Actions policies\" fine-grained permission to use this endpoint."
       }
     },
     "com.github.actions#GetForkPrContributorApprovalPermissionsOrganizationRequest": {
@@ -4419,6 +4419,2192 @@
           "code": 200
         },
         "smithy.api#documentation": "Set default workflow permissions for an organization\n\nSets the default workflow permissions granted to the `GITHUB_TOKEN` when running workflows in an organization, and sets if GitHub Actions\ncan submit approving pull request reviews. For more information, see\n\"[Setting the permissions of the GITHUB_TOKEN for your organization](https://docs.github.com/organizations/managing-organization-settings/disabling-or-limiting-github-actions-for-your-organization#setting-the-permissions-of-the-github_token-for-your-organization).\"\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint."
+      }
+    },
+    "com.github.actions#GetOrgActionsPoliciesRequest": {
+      "type": "structure",
+      "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The organization name. The name is not case sensitive."
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "per_page",
+            "smithy.api#documentation": "The number of results per page (max 100). For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\""
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "The page number of the results to fetch. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\""
+          }
+        },
+        "has_parents": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "has_parents",
+            "smithy.api#documentation": "Include policies configured at higher levels that apply to this organization"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.actions#ActionsPolicy": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The ID of the policy",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the policy",
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "com.github.actions#ActionsPolicyTarget",
+          "traits": {
+            "smithy.api#documentation": "The target of the policy",
+            "smithy.api#required": {}
+          }
+        },
+        "source_type": {
+          "target": "com.github.actions#ActionsPolicySourceType",
+          "traits": {
+            "smithy.api#documentation": "The type of the source of the policy",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the source",
+            "smithy.api#required": {}
+          }
+        },
+        "enforcement": {
+          "target": "com.github.actions#RepositoryRuleEnforcement",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conditions": {
+          "target": "com.github.actions#ActionsPolicyConditions",
+          "traits": {
+            "smithy.api#documentation": "When workflow path targeting is available, detailed responses represent an omitted stored\nworkflow condition as `workflow_path` with `include` set to `[\"~ALL\"]` and `exclude` set to `[]`.\nWhen workflow path targeting is unavailable, an omitted stored condition remains omitted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rules": {
+          "target": "com.github.actions#ActionsPolicyRulesList",
+          "traits": {
+            "smithy.api#documentation": "An array of rules within the policy"
+          }
+        },
+        "node_id": {
+          "target": "smithy.api#String"
+        },
+        "_links": {
+          "target": "com.github.actions#ActionsPolicyLinks"
+        },
+        "created_at": {
+          "target": "smithy.api#String"
+        },
+        "updated_at": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An Actions policy defines rules for workflow execution protection."
+      }
+    },
+    "com.github.actions#ActionsPolicyTarget": {
+      "type": "enum",
+      "members": {
+        "ACTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "actions"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The target of the policy"
+      }
+    },
+    "com.github.actions#ActionsPolicySourceType": {
+      "type": "enum",
+      "members": {
+        "REPOSITORY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Repository"
+          }
+        },
+        "ORGANIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Organization"
+          }
+        },
+        "ENTERPRISE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Enterprise"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the source of the policy"
+      }
+    },
+    "com.github.actions#RepositoryRuleEnforcement": {
+      "type": "enum",
+      "members": {
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "EVALUATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "evaluate"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The enforcement level of the ruleset. `evaluate` allows admins to test rules before enforcing them. Admins can view insights on the Rule Insights page (`evaluate` is only available with GitHub Enterprise)."
+      }
+    },
+    "com.github.actions#ActionsPolicyRepoConditions": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Document"
+        },
+        "Case1": {
+          "target": "com.github.actions#ActionsPolicyWorkflowPathCondition"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Conditions for a repository Actions policy. The object may be empty to preserve or use the\ndefault workflow targeting, or contain only `workflow_path`."
+      }
+    },
+    "com.github.actions#ActionsPolicyWorkflowPathCondition": {
+      "type": "structure",
+      "members": {
+        "workflow_path": {
+          "target": "com.github.actions#ActionsPolicyWorkflowPathConditionWorkflowPath"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Parameters for an Actions policy workflow path condition. Omitting `workflow_path` when creating\na policy targets all workflows without storing an explicit condition. Omitting it when updating a\npolicy preserves the existing workflow targeting. For new or changed workflow conditions, the API\nrequires at least one included or excluded pattern. This is validated server-side rather than by\nthis schema, which can also describe existing stored conditions."
+      }
+    },
+    "com.github.actions#ActionsPolicyWorkflowPathConditionWorkflowPathIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns."
+      }
+    },
+    "com.github.actions#ActionsPolicyWorkflowPathConditionWorkflowPathExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array."
+      }
+    },
+    "com.github.actions#ActionsPolicyWorkflowPathConditionWorkflowPath": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyWorkflowPathConditionWorkflowPathIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns.",
+            "smithy.api#required": {}
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyWorkflowPathConditionWorkflowPathExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyOrgConditions": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase0"
+        },
+        "Case1": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase1"
+        },
+        "Case2": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase2"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Conditions for an organization Actions policy. The conditions object should contain one of\n`repository_name`, `repository_id`, or `repository_property`, and may also contain `workflow_path`."
+      }
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase0RepositoryNameIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories."
+      }
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase0RepositoryNameExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match."
+      }
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase0RepositoryName": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase0RepositoryNameIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories."
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase0RepositoryNameExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match."
+          }
+        },
+        "protected": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether renaming of target repositories is prevented."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase0WorkflowPathIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns."
+      }
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase0WorkflowPathExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array."
+      }
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase0WorkflowPath": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase0WorkflowPathIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns.",
+            "smithy.api#required": {}
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase0WorkflowPathExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase0": {
+      "type": "structure",
+      "members": {
+        "repository_name": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase0RepositoryName",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workflow_path": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase0WorkflowPath"
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase1RepositoryIdRepositoryIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "The repository IDs that the ruleset applies to. One of these IDs must match for the condition to pass."
+      }
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase1RepositoryId": {
+      "type": "structure",
+      "members": {
+        "repository_ids": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase1RepositoryIdRepositoryIdsList",
+          "traits": {
+            "smithy.api#documentation": "The repository IDs that the ruleset applies to. One of these IDs must match for the condition to pass."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase1WorkflowPathIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns."
+      }
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase1WorkflowPathExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array."
+      }
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase1WorkflowPath": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase1WorkflowPathIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns.",
+            "smithy.api#required": {}
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase1WorkflowPathExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase1": {
+      "type": "structure",
+      "members": {
+        "repository_id": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase1RepositoryId",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workflow_path": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase1WorkflowPath"
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#RepositoryRulesetConditionsRepositoryPropertySpec": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the repository property to target",
+            "smithy.api#required": {}
+          }
+        },
+        "property_values": {
+          "target": "com.github.actions#RepositoryRulesetConditionsRepositoryPropertySpecPropertyValuesList",
+          "traits": {
+            "smithy.api#documentation": "The values to match for the repository property",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.github.actions#RepositoryRulesetConditionsRepositoryPropertySpecSource",
+          "traits": {
+            "smithy.api#documentation": "The source of the repository property. Defaults to 'custom' if not specified."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Parameters for a targeting a repository property"
+      }
+    },
+    "com.github.actions#RepositoryRulesetConditionsRepositoryPropertySpecPropertyValuesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The values to match for the repository property"
+      }
+    },
+    "com.github.actions#RepositoryRulesetConditionsRepositoryPropertySpecSource": {
+      "type": "enum",
+      "members": {
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The source of the repository property. Defaults to 'custom' if not specified."
+      }
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase2RepositoryPropertyIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#RepositoryRulesetConditionsRepositoryPropertySpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "The repository properties and values to include. All of these properties must match for the condition to pass."
+      }
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase2RepositoryPropertyExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#RepositoryRulesetConditionsRepositoryPropertySpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "The repository properties and values to exclude. The condition will not pass if any of these properties match."
+      }
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase2RepositoryProperty": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase2RepositoryPropertyIncludeList",
+          "traits": {
+            "smithy.api#documentation": "The repository properties and values to include. All of these properties must match for the condition to pass."
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase2RepositoryPropertyExcludeList",
+          "traits": {
+            "smithy.api#documentation": "The repository properties and values to exclude. The condition will not pass if any of these properties match."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase2WorkflowPathIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns."
+      }
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase2WorkflowPathExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array."
+      }
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase2WorkflowPath": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase2WorkflowPathIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns.",
+            "smithy.api#required": {}
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase2WorkflowPathExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyOrgConditionsCase2": {
+      "type": "structure",
+      "members": {
+        "repository_property": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase2RepositoryProperty",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workflow_path": {
+          "target": "com.github.actions#ActionsPolicyOrgConditionsCase2WorkflowPath"
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditions": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase0"
+        },
+        "Case1": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase1"
+        },
+        "Case2": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase2"
+        },
+        "Case3": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase3"
+        },
+        "Case4": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase4"
+        },
+        "Case5": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase5"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Conditions for an enterprise Actions policy. The conditions object supports one organization\ntarget (`organization_name`, `organization_id`, or `organization_property`) combined with one\nrepository target (`repository_name` or `repository_property`), and may also contain `workflow_path`."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase0OrganizationNameIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of organization names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all organizations and ~EMUS to target all enterprise managed user accounts."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase0OrganizationNameExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of organization names or patterns to exclude. The condition will not pass if any of these patterns match."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase0OrganizationName": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase0OrganizationNameIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of organization names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all organizations and ~EMUS to target all enterprise managed user accounts."
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase0OrganizationNameExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of organization names or patterns to exclude. The condition will not pass if any of these patterns match."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase0RepositoryNameIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase0RepositoryNameExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase0RepositoryName": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase0RepositoryNameIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories."
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase0RepositoryNameExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match."
+          }
+        },
+        "protected": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether renaming of target repositories is prevented."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase0WorkflowPathIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase0WorkflowPathExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase0WorkflowPath": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase0WorkflowPathIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns.",
+            "smithy.api#required": {}
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase0WorkflowPathExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase0": {
+      "type": "structure",
+      "members": {
+        "organization_name": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase0OrganizationName",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repository_name": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase0RepositoryName",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workflow_path": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase0WorkflowPath"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Conditions to target organizations by name and repositories by name"
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase1OrganizationNameIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of organization names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all organizations and ~EMUS to target all enterprise managed user accounts."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase1OrganizationNameExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of organization names or patterns to exclude. The condition will not pass if any of these patterns match."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase1OrganizationName": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase1OrganizationNameIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of organization names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all organizations and ~EMUS to target all enterprise managed user accounts."
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase1OrganizationNameExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of organization names or patterns to exclude. The condition will not pass if any of these patterns match."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#RepositoryRulesetConditionsRepositoryPropertySpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "The repository properties and values to include. All of these properties must match for the condition to pass."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#RepositoryRulesetConditionsRepositoryPropertySpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "The repository properties and values to exclude. The condition will not pass if any of these properties match."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase1RepositoryProperty": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyIncludeList",
+          "traits": {
+            "smithy.api#documentation": "The repository properties and values to include. All of these properties must match for the condition to pass."
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyExcludeList",
+          "traits": {
+            "smithy.api#documentation": "The repository properties and values to exclude. The condition will not pass if any of these properties match."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase1WorkflowPathIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase1WorkflowPathExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase1WorkflowPath": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase1WorkflowPathIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns.",
+            "smithy.api#required": {}
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase1WorkflowPathExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase1": {
+      "type": "structure",
+      "members": {
+        "organization_name": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase1OrganizationName",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repository_property": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase1RepositoryProperty",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workflow_path": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase1WorkflowPath"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Conditions to target organizations by name and repositories by property"
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase2OrganizationIdOrganizationIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "The organization IDs that the ruleset applies to. One of these IDs must match for the condition to pass."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase2OrganizationId": {
+      "type": "structure",
+      "members": {
+        "organization_ids": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase2OrganizationIdOrganizationIdsList",
+          "traits": {
+            "smithy.api#documentation": "The organization IDs that the ruleset applies to. One of these IDs must match for the condition to pass."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase2RepositoryNameIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase2RepositoryNameExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase2RepositoryName": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase2RepositoryNameIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories."
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase2RepositoryNameExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match."
+          }
+        },
+        "protected": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether renaming of target repositories is prevented."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase2WorkflowPathIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase2WorkflowPathExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase2WorkflowPath": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase2WorkflowPathIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns.",
+            "smithy.api#required": {}
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase2WorkflowPathExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase2": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase2OrganizationId",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repository_name": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase2RepositoryName",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workflow_path": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase2WorkflowPath"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Conditions to target organizations by id and repositories by name"
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase3OrganizationIdOrganizationIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "The organization IDs that the ruleset applies to. One of these IDs must match for the condition to pass."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase3OrganizationId": {
+      "type": "structure",
+      "members": {
+        "organization_ids": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase3OrganizationIdOrganizationIdsList",
+          "traits": {
+            "smithy.api#documentation": "The organization IDs that the ruleset applies to. One of these IDs must match for the condition to pass."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#RepositoryRulesetConditionsRepositoryPropertySpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "The repository properties and values to include. All of these properties must match for the condition to pass."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#RepositoryRulesetConditionsRepositoryPropertySpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "The repository properties and values to exclude. The condition will not pass if any of these properties match."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase3RepositoryProperty": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyIncludeList",
+          "traits": {
+            "smithy.api#documentation": "The repository properties and values to include. All of these properties must match for the condition to pass."
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyExcludeList",
+          "traits": {
+            "smithy.api#documentation": "The repository properties and values to exclude. The condition will not pass if any of these properties match."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase3WorkflowPathIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase3WorkflowPathExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase3WorkflowPath": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase3WorkflowPathIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns.",
+            "smithy.api#required": {}
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase3WorkflowPathExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase3": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase3OrganizationId",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repository_property": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase3RepositoryProperty",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workflow_path": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase3WorkflowPath"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Conditions to target organizations by id and repositories by property"
+      }
+    },
+    "com.github.actions#EnterpriseRulesetConditionsOrganizationPropertySpec": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the organization property to target",
+            "smithy.api#required": {}
+          }
+        },
+        "property_values": {
+          "target": "com.github.actions#EnterpriseRulesetConditionsOrganizationPropertySpecPropertyValuesList",
+          "traits": {
+            "smithy.api#documentation": "The values to match for the organization property",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Parameters for a targeting a organization property"
+      }
+    },
+    "com.github.actions#EnterpriseRulesetConditionsOrganizationPropertySpecPropertyValuesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The values to match for the organization property"
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#EnterpriseRulesetConditionsOrganizationPropertySpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "The organization properties and values to include. All of these properties must match for the condition to pass."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#EnterpriseRulesetConditionsOrganizationPropertySpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "The organization properties and values to exclude. The condition will not pass if any of these properties match."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase4OrganizationProperty": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyIncludeList",
+          "traits": {
+            "smithy.api#documentation": "The organization properties and values to include. All of these properties must match for the condition to pass."
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyExcludeList",
+          "traits": {
+            "smithy.api#documentation": "The organization properties and values to exclude. The condition will not pass if any of these properties match."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase4RepositoryNameIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase4RepositoryNameExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase4RepositoryName": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase4RepositoryNameIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories."
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase4RepositoryNameExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match."
+          }
+        },
+        "protected": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether renaming of target repositories is prevented."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase4WorkflowPathIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase4WorkflowPathExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase4WorkflowPath": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase4WorkflowPathIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns.",
+            "smithy.api#required": {}
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase4WorkflowPathExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase4": {
+      "type": "structure",
+      "members": {
+        "organization_property": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase4OrganizationProperty",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repository_name": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase4RepositoryName",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workflow_path": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase4WorkflowPath"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Conditions to target organizations by property and repositories by name"
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#EnterpriseRulesetConditionsOrganizationPropertySpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "The organization properties and values to include. All of these properties must match for the condition to pass."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#EnterpriseRulesetConditionsOrganizationPropertySpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "The organization properties and values to exclude. The condition will not pass if any of these properties match."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase5OrganizationProperty": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyIncludeList",
+          "traits": {
+            "smithy.api#documentation": "The organization properties and values to include. All of these properties must match for the condition to pass."
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyExcludeList",
+          "traits": {
+            "smithy.api#documentation": "The organization properties and values to exclude. The condition will not pass if any of these properties match."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#RepositoryRulesetConditionsRepositoryPropertySpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "The repository properties and values to include. All of these properties must match for the condition to pass."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#RepositoryRulesetConditionsRepositoryPropertySpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "The repository properties and values to exclude. The condition will not pass if any of these properties match."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase5RepositoryProperty": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyIncludeList",
+          "traits": {
+            "smithy.api#documentation": "The repository properties and values to include. All of these properties must match for the condition to pass."
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyExcludeList",
+          "traits": {
+            "smithy.api#documentation": "The repository properties and values to exclude. The condition will not pass if any of these properties match."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase5WorkflowPathIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase5WorkflowPathExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array."
+      }
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase5WorkflowPath": {
+      "type": "structure",
+      "members": {
+        "include": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase5WorkflowPathIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to include. An empty array includes all\nworkflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows.\n`~ALL` cannot be combined with other included patterns.",
+            "smithy.api#required": {}
+          }
+        },
+        "exclude": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase5WorkflowPathExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Array of workflow file paths or glob patterns to exclude. The condition will not pass\nif any of these patterns match. `~ALL` is not allowed in this array.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyEnterpriseConditionsCase5": {
+      "type": "structure",
+      "members": {
+        "organization_property": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase5OrganizationProperty",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repository_property": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase5RepositoryProperty",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workflow_path": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditionsCase5WorkflowPath"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Conditions to target organizations by property and repositories by property"
+      }
+    },
+    "com.github.actions#ActionsPolicyConditions": {
+      "type": "union",
+      "members": {
+        "ActionsPolicyRepoConditions": {
+          "target": "com.github.actions#ActionsPolicyRepoConditions"
+        },
+        "ActionsPolicyOrgConditions": {
+          "target": "com.github.actions#ActionsPolicyOrgConditions"
+        },
+        "ActionsPolicyEnterpriseConditions": {
+          "target": "com.github.actions#ActionsPolicyEnterpriseConditions"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "When workflow path targeting is available, detailed responses represent an omitted stored\nworkflow condition as `workflow_path` with `include` set to `[\"~ALL\"]` and `exclude` set to `[]`.\nWhen workflow path targeting is unavailable, an omitted stored condition remains omitted."
+      }
+    },
+    "com.github.actions#ActionsRule": {
+      "type": "union",
+      "members": {
+        "ActionsRuleRestrictActionsActors": {
+          "target": "com.github.actions#ActionsRuleRestrictActionsActors"
+        },
+        "ActionsRuleRestrictActionEvents": {
+          "target": "com.github.actions#ActionsRuleRestrictActionEvents"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An actions rule."
+      }
+    },
+    "com.github.actions#ActionsRuleRestrictActionsActors": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.github.actions#ActionsRuleRestrictActionsActorsType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parameters": {
+          "target": "com.github.actions#ActionsRuleRestrictActionsActorsParameters"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Choose specific actors that are authorized to trigger Actions workflows."
+      }
+    },
+    "com.github.actions#ActionsRuleRestrictActionsActorsType": {
+      "type": "enum",
+      "members": {
+        "RESTRICT_ACTIONS_ACTORS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restrict_actions_actors"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsRuleParamsActor": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "ID of the actor authorized to trigger Actions workflows.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.github.actions#ActionsRuleParamsActorType",
+          "traits": {
+            "smithy.api#documentation": "The type of the actor",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An actor authorized to trigger Actions workflows"
+      }
+    },
+    "com.github.actions#ActionsRuleParamsActorType": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "User"
+          }
+        },
+        "BOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Bot"
+          }
+        },
+        "TEAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Team"
+          }
+        },
+        "BUSINESSTEAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BusinessTeam"
+          }
+        },
+        "ENTERPRISETEAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EnterpriseTeam"
+          }
+        },
+        "INTEGRATIONINSTALLATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IntegrationInstallation"
+          }
+        },
+        "APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "App"
+          }
+        },
+        "REPOSITORYROLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RepositoryRole"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the actor"
+      }
+    },
+    "com.github.actions#ActionsRuleRestrictActionsActorsParametersAllowedActorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#ActionsRuleParamsActor"
+      },
+      "traits": {
+        "smithy.api#documentation": "Select the actors who can run Actions workflows."
+      }
+    },
+    "com.github.actions#ActionsRuleRestrictActionsActorsParameters": {
+      "type": "structure",
+      "members": {
+        "allowed_actors": {
+          "target": "com.github.actions#ActionsRuleRestrictActionsActorsParametersAllowedActorsList",
+          "traits": {
+            "smithy.api#documentation": "Select the actors who can run Actions workflows.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsRuleRestrictActionEvents": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.github.actions#ActionsRuleRestrictActionEventsType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parameters": {
+          "target": "com.github.actions#ActionsRuleRestrictActionEventsParameters"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Choose specific GitHub events that will trigger Actions workflows."
+      }
+    },
+    "com.github.actions#ActionsRuleRestrictActionEventsType": {
+      "type": "enum",
+      "members": {
+        "RESTRICT_ACTION_EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restrict_action_events"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsRuleRestrictActionEventsParametersAllowedEventsItem": {
+      "type": "enum",
+      "members": {
+        "BRANCH_PROTECTION_RULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "branch_protection_rule"
+          }
+        },
+        "CHECK_RUN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "check_run"
+          }
+        },
+        "CHECK_SUITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "check_suite"
+          }
+        },
+        "CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create"
+          }
+        },
+        "DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete"
+          }
+        },
+        "DEPLOYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment"
+          }
+        },
+        "DEPLOYMENT_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment_status"
+          }
+        },
+        "DISCUSSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "discussion"
+          }
+        },
+        "DISCUSSION_COMMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "discussion_comment"
+          }
+        },
+        "FORK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fork"
+          }
+        },
+        "GOLLUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gollum"
+          }
+        },
+        "IMAGE_VERSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image_version"
+          }
+        },
+        "ISSUE_COMMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "issue_comment"
+          }
+        },
+        "ISSUES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "issues"
+          }
+        },
+        "LABEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "label"
+          }
+        },
+        "MERGE_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "merge_group"
+          }
+        },
+        "MILESTONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "milestone"
+          }
+        },
+        "PAGE_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "page_build"
+          }
+        },
+        "PROJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project"
+          }
+        },
+        "PROJECT_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project_card"
+          }
+        },
+        "PROJECT_COLUMN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project_column"
+          }
+        },
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        },
+        "PULL_REQUEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pull_request"
+          }
+        },
+        "PULL_REQUEST_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pull_request_review"
+          }
+        },
+        "PULL_REQUEST_REVIEW_COMMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pull_request_review_comment"
+          }
+        },
+        "PULL_REQUEST_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pull_request_target"
+          }
+        },
+        "PUSH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "push"
+          }
+        },
+        "REGISTRY_PACKAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "registry_package"
+          }
+        },
+        "RELEASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "release"
+          }
+        },
+        "REPOSITORY_DISPATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "repository_dispatch"
+          }
+        },
+        "SCHEDULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule"
+          }
+        },
+        "STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status"
+          }
+        },
+        "WATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "watch"
+          }
+        },
+        "WORKFLOW_CALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workflow_call"
+          }
+        },
+        "WORKFLOW_DISPATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workflow_dispatch"
+          }
+        },
+        "WORKFLOW_RUN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workflow_run"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsRuleRestrictActionEventsParametersAllowedEventsList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#ActionsRuleRestrictActionEventsParametersAllowedEventsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Select the events that can trigger Actions workflows."
+      }
+    },
+    "com.github.actions#ActionsRuleRestrictActionEventsParameters": {
+      "type": "structure",
+      "members": {
+        "allowed_events": {
+          "target": "com.github.actions#ActionsRuleRestrictActionEventsParametersAllowedEventsList",
+          "traits": {
+            "smithy.api#documentation": "Select the events that can trigger Actions workflows.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#ActionsRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of rules within the policy"
+      }
+    },
+    "com.github.actions#ActionsPolicyLinksSelf": {
+      "type": "structure",
+      "members": {
+        "href": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the policy"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyLinksHtml": {
+      "type": "structure",
+      "members": {
+        "href": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The html URL of the policy"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#ActionsPolicyLinks": {
+      "type": "structure",
+      "members": {
+        "self": {
+          "target": "com.github.actions#ActionsPolicyLinksSelf"
+        },
+        "html": {
+          "target": "com.github.actions#ActionsPolicyLinksHtml"
+        }
+      },
+      "traits": {}
+    },
+    "com.github.actions#GetOrgActionsPoliciesResponsePoliciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#ActionsPolicy"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of Actions policies."
+      }
+    },
+    "com.github.actions#GetOrgActionsPoliciesResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of Actions policies.",
+            "smithy.api#required": {}
+          }
+        },
+        "policies": {
+          "target": "com.github.actions#GetOrgActionsPoliciesResponsePoliciesList",
+          "traits": {
+            "smithy.api#documentation": "An array of Actions policies.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.github.actions#GetOrgActionsPolicies": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.actions#GetOrgActionsPoliciesRequest"
+      },
+      "output": {
+        "target": "com.github.actions#GetOrgActionsPoliciesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.github.actions#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/orgs/{org}/actions/policies",
+          "code": 200
+        },
+        "smithy.api#documentation": "List organization Actions policies\n\nList all Actions policies for an organization."
+      }
+    },
+    "com.github.actions#CreateOrgActionsPolicyRequestRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#ActionsRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of rules within the policy."
+      }
+    },
+    "com.github.actions#CreateOrgActionsPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The organization name. The name is not case sensitive."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the policy.",
+            "smithy.api#required": {}
+          }
+        },
+        "enforcement": {
+          "target": "com.github.actions#RepositoryRuleEnforcement",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conditions": {
+          "target": "com.github.actions#ActionsPolicyOrgConditions"
+        },
+        "rules": {
+          "target": "com.github.actions#CreateOrgActionsPolicyRequestRulesList",
+          "traits": {
+            "smithy.api#documentation": "An array of rules within the policy."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.actions#CreateOrgActionsPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.actions#CreateOrgActionsPolicyRequest"
+      },
+      "output": {
+        "target": "com.github.actions#ActionsPolicy"
+      },
+      "errors": [
+        {
+          "target": "com.github.actions#NotFound"
+        },
+        {
+          "target": "com.github.actions#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/orgs/{org}/actions/policies",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create an organization Actions policy\n\nCreate an Actions policy for an organization.\nOmitting `workflow_path` targets all workflows without storing an explicit condition."
+      }
+    },
+    "com.github.actions#GetOrgActionsPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The organization name. The name is not case sensitive."
+          }
+        },
+        "policy_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the policy."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.actions#GetOrgActionsPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.actions#GetOrgActionsPolicyRequest"
+      },
+      "output": {
+        "target": "com.github.actions#ActionsPolicy"
+      },
+      "errors": [
+        {
+          "target": "com.github.actions#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/orgs/{org}/actions/policies/{policy_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get an organization Actions policy\n\nGet a specific Actions policy for an organization."
+      }
+    },
+    "com.github.actions#UpdateOrgActionsPolicyRequestRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#ActionsRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of rules within the policy."
+      }
+    },
+    "com.github.actions#UpdateOrgActionsPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The organization name. The name is not case sensitive."
+          }
+        },
+        "policy_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the policy."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the policy."
+          }
+        },
+        "enforcement": {
+          "target": "com.github.actions#RepositoryRuleEnforcement"
+        },
+        "conditions": {
+          "target": "com.github.actions#ActionsPolicyOrgConditions"
+        },
+        "rules": {
+          "target": "com.github.actions#UpdateOrgActionsPolicyRequestRulesList",
+          "traits": {
+            "smithy.api#documentation": "An array of rules within the policy."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.actions#UpdateOrgActionsPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.actions#UpdateOrgActionsPolicyRequest"
+      },
+      "output": {
+        "target": "com.github.actions#ActionsPolicy"
+      },
+      "errors": [
+        {
+          "target": "com.github.actions#NotFound"
+        },
+        {
+          "target": "com.github.actions#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/orgs/{org}/actions/policies/{policy_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update an organization Actions policy\n\nUpdate an Actions policy for an organization.\nOmitting `workflow_path` preserves the policy's existing workflow targeting."
+      }
+    },
+    "com.github.actions#DeleteOrgActionsPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The organization name. The name is not case sensitive."
+          }
+        },
+        "policy_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the policy."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.actions#DeleteOrgActionsPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.actions#DeleteOrgActionsPolicyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.github.actions#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/orgs/{org}/actions/policies/{policy_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete an organization Actions policy\n\nDelete an Actions policy for an organization."
       }
     },
     "com.github.actions#ListSelfHostedRunnerGroupsForOrgRequest": {
@@ -10649,6 +12835,63 @@
         "smithy.api#documentation": "Re-run a job from a workflow run\n\nRe-run a job and its dependent jobs in a workflow run.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
       }
     },
+    "com.github.actions#DownloadStepLogsForWorkflowRunJobRequest": {
+      "type": "structure",
+      "members": {
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The account owner of the repository. The name is not case sensitive."
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the repository without the `.git` extension. The name is not case sensitive."
+          }
+        },
+        "job_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the job."
+          }
+        },
+        "step_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The zero-based position number of the step in the job."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.actions#DownloadStepLogsForWorkflowRunJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.actions#DownloadStepLogsForWorkflowRunJobRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/repos/{owner}/{repo}/actions/jobs/{job_id}/steps/{step_number}/logs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Download step logs for a workflow run job\n\nGets a redirect URL to download a plain text file of logs for a specific step of a workflow job. This link expires after\n1 minute. Look for `Location:` in the response header to find the URL for the download.\n\nThis endpoint is intended for selective retrieval of one step. To download complete job logs, use the\n[job logs endpoint](https://docs.github.com/rest/actions/workflow-jobs#download-job-logs-for-a-workflow-run).\n\nAnyone with read access to the repository can use this endpoint.\n\nIf the repository is private, OAuth tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+      }
+    },
     "com.github.actions#GetCustomOidcSubClaimForRepoRequest": {
       "type": "structure",
       "members": {
@@ -11372,7 +13615,7 @@
           "uri": "/repos/{owner}/{repo}/actions/permissions/artifact-and-log-retention",
           "code": 200
         },
-        "smithy.api#documentation": "Get artifact and log retention settings for a repository\n\nGets artifact and log retention settings for a repository.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+        "smithy.api#documentation": "Get artifact and log retention settings for a repository\n\nGets retention settings for checks, workflow runs, commit statuses, artifacts, and logs for a repository.\n\nChecks include check suites, check runs, and check annotations. These settings also apply to checks and commit statuses created by third-party integrations, and are not limited to data created by GitHub Actions.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
       }
     },
     "com.github.actions#SetArtifactAndLogRetentionSettingsRepositoryRequest": {
@@ -11397,7 +13640,7 @@
         "days": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The number of days to retain artifacts and logs",
+            "smithy.api#documentation": "The number of days to retain checks, workflow runs, commit statuses, artifacts, and logs",
             "smithy.api#required": {}
           }
         }
@@ -11428,7 +13671,7 @@
           "uri": "/repos/{owner}/{repo}/actions/permissions/artifact-and-log-retention",
           "code": 200
         },
-        "smithy.api#documentation": "Set artifact and log retention settings for a repository\n\nSets artifact and log retention settings for a repository.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+        "smithy.api#documentation": "Set artifact and log retention settings for a repository\n\nSets retention settings for checks, workflow runs, commit statuses, artifacts, and logs for a repository.\n\nChecks include check suites, check runs, and check annotations. These settings also apply to checks and commit statuses created by third-party integrations, and are not limited to data created by GitHub Actions.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
       }
     },
     "com.github.actions#GetForkPrContributorApprovalPermissionsRepositoryRequest": {
@@ -11882,6 +14125,376 @@
           "code": 200
         },
         "smithy.api#documentation": "Set default workflow permissions for a repository\n\nSets the default workflow permissions granted to the `GITHUB_TOKEN` when running workflows in a repository, and sets if GitHub Actions\ncan submit approving pull request reviews.\nFor more information, see \"[Setting the permissions of the GITHUB_TOKEN for your repository](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#setting-the-permissions-of-the-github_token-for-your-repository).\"\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+      }
+    },
+    "com.github.actions#GetRepoActionsPoliciesRequest": {
+      "type": "structure",
+      "members": {
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The account owner of the repository. The name is not case sensitive."
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the repository without the `.git` extension. The name is not case sensitive."
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "per_page",
+            "smithy.api#documentation": "The number of results per page (max 100). For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\""
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "The page number of the results to fetch. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\""
+          }
+        },
+        "has_parents": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "has_parents",
+            "smithy.api#documentation": "Include policies configured at higher levels that apply to this repository"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.actions#GetRepoActionsPoliciesResponsePoliciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#ActionsPolicy"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of Actions policies."
+      }
+    },
+    "com.github.actions#GetRepoActionsPoliciesResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of Actions policies.",
+            "smithy.api#required": {}
+          }
+        },
+        "policies": {
+          "target": "com.github.actions#GetRepoActionsPoliciesResponsePoliciesList",
+          "traits": {
+            "smithy.api#documentation": "An array of Actions policies.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.github.actions#GetRepoActionsPolicies": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.actions#GetRepoActionsPoliciesRequest"
+      },
+      "output": {
+        "target": "com.github.actions#GetRepoActionsPoliciesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.github.actions#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/repos/{owner}/{repo}/actions/policies",
+          "code": 200
+        },
+        "smithy.api#documentation": "List repository Actions policies\n\nList all Actions policies for a repository."
+      }
+    },
+    "com.github.actions#CreateRepoActionsPolicyRequestRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#ActionsRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of rules within the policy."
+      }
+    },
+    "com.github.actions#CreateRepoActionsPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The account owner of the repository. The name is not case sensitive."
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the repository without the `.git` extension. The name is not case sensitive."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the policy.",
+            "smithy.api#required": {}
+          }
+        },
+        "enforcement": {
+          "target": "com.github.actions#RepositoryRuleEnforcement",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conditions": {
+          "target": "com.github.actions#ActionsPolicyRepoConditions"
+        },
+        "rules": {
+          "target": "com.github.actions#CreateRepoActionsPolicyRequestRulesList",
+          "traits": {
+            "smithy.api#documentation": "An array of rules within the policy."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.actions#CreateRepoActionsPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.actions#CreateRepoActionsPolicyRequest"
+      },
+      "output": {
+        "target": "com.github.actions#ActionsPolicy"
+      },
+      "errors": [
+        {
+          "target": "com.github.actions#NotFound"
+        },
+        {
+          "target": "com.github.actions#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/repos/{owner}/{repo}/actions/policies",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a repository Actions policy\n\nCreate an Actions policy for a repository.\nOmitting `workflow_path` targets all workflows without storing an explicit condition."
+      }
+    },
+    "com.github.actions#GetRepoActionsPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The account owner of the repository. The name is not case sensitive."
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the repository without the `.git` extension. The name is not case sensitive."
+          }
+        },
+        "policy_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the policy."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.actions#GetRepoActionsPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.actions#GetRepoActionsPolicyRequest"
+      },
+      "output": {
+        "target": "com.github.actions#ActionsPolicy"
+      },
+      "errors": [
+        {
+          "target": "com.github.actions#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/repos/{owner}/{repo}/actions/policies/{policy_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a repository Actions policy\n\nGet a specific Actions policy for a repository."
+      }
+    },
+    "com.github.actions#UpdateRepoActionsPolicyRequestRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.actions#ActionsRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of rules within the policy."
+      }
+    },
+    "com.github.actions#UpdateRepoActionsPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The account owner of the repository. The name is not case sensitive."
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the repository without the `.git` extension. The name is not case sensitive."
+          }
+        },
+        "policy_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the policy."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the policy."
+          }
+        },
+        "enforcement": {
+          "target": "com.github.actions#RepositoryRuleEnforcement"
+        },
+        "conditions": {
+          "target": "com.github.actions#ActionsPolicyRepoConditions"
+        },
+        "rules": {
+          "target": "com.github.actions#UpdateRepoActionsPolicyRequestRulesList",
+          "traits": {
+            "smithy.api#documentation": "An array of rules within the policy."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.actions#UpdateRepoActionsPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.actions#UpdateRepoActionsPolicyRequest"
+      },
+      "output": {
+        "target": "com.github.actions#ActionsPolicy"
+      },
+      "errors": [
+        {
+          "target": "com.github.actions#NotFound"
+        },
+        {
+          "target": "com.github.actions#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/repos/{owner}/{repo}/actions/policies/{policy_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update a repository Actions policy\n\nUpdate an Actions policy for a repository.\nOmitting `workflow_path` preserves the policy's existing workflow targeting."
+      }
+    },
+    "com.github.actions#DeleteRepoActionsPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The account owner of the repository. The name is not case sensitive."
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the repository without the `.git` extension. The name is not case sensitive."
+          }
+        },
+        "policy_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the policy."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.actions#DeleteRepoActionsPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.actions#DeleteRepoActionsPolicyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.github.actions#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/repos/{owner}/{repo}/actions/policies/{policy_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a repository Actions policy\n\nDelete an Actions policy for a repository."
       }
     },
     "com.github.actions#ListSelfHostedRunnersForRepoRequest": {
@@ -18786,6 +21399,21 @@
           "target": "com.github.actions#SetGithubActionsDefaultWorkflowPermissionsOrganization"
         },
         {
+          "target": "com.github.actions#GetOrgActionsPolicies"
+        },
+        {
+          "target": "com.github.actions#CreateOrgActionsPolicy"
+        },
+        {
+          "target": "com.github.actions#GetOrgActionsPolicy"
+        },
+        {
+          "target": "com.github.actions#UpdateOrgActionsPolicy"
+        },
+        {
+          "target": "com.github.actions#DeleteOrgActionsPolicy"
+        },
+        {
           "target": "com.github.actions#ListSelfHostedRunnerGroupsForOrg"
         },
         {
@@ -18972,6 +21600,9 @@
           "target": "com.github.actions#RunReRunJobForWorkflow"
         },
         {
+          "target": "com.github.actions#DownloadStepLogsForWorkflowRunJob"
+        },
+        {
           "target": "com.github.actions#GetCustomOidcSubClaimForRepo"
         },
         {
@@ -19024,6 +21655,21 @@
         },
         {
           "target": "com.github.actions#SetGithubActionsDefaultWorkflowPermissionsRepository"
+        },
+        {
+          "target": "com.github.actions#GetRepoActionsPolicies"
+        },
+        {
+          "target": "com.github.actions#CreateRepoActionsPolicy"
+        },
+        {
+          "target": "com.github.actions#GetRepoActionsPolicy"
+        },
+        {
+          "target": "com.github.actions#UpdateRepoActionsPolicy"
+        },
+        {
+          "target": "com.github.actions#DeleteRepoActionsPolicy"
         },
         {
           "target": "com.github.actions#ListSelfHostedRunnersForRepo"

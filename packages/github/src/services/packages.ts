@@ -55,11 +55,7 @@ export const DeletePackageForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(
     package_type: DeletePackageForAuthenticatedUserRequestPackageType.pipe(T.Label()),
     package_name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/user/packages/{package_type}/{package_name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/user/packages/{package_type}/{package_name}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeletePackageForAuthenticatedUserRequest",
@@ -377,9 +373,7 @@ export const PackageVersionMetadata = /*@__PURE__*/ S.suspend(() =>
     container: S.optional(PackageVersionMetadataContainer),
     docker: S.optional(PackageVersionMetadataDocker),
   }),
-).annotate({
-  identifier: "PackageVersionMetadata",
-}) as any as S.Schema<PackageVersionMetadata>;
+).annotate({ identifier: "PackageVersionMetadata" }) as any as S.Schema<PackageVersionMetadata>;
 
 /** A version of a software package */
 export interface PackageVersion {
@@ -555,11 +549,7 @@ export const GetPackageForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() 
     package_type: GetPackageForAuthenticatedUserRequestPackageType.pipe(T.Label()),
     package_name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/user/packages/{package_type}/{package_name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/user/packages/{package_type}/{package_name}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetPackageForAuthenticatedUserRequest",
@@ -621,9 +611,7 @@ export const NullableSimpleUser = /*@__PURE__*/ S.suspend(() =>
     starred_at: S.optional(S.String),
     user_view_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableSimpleUser",
-}) as any as S.Schema<NullableSimpleUser>;
+).annotate({ identifier: "NullableSimpleUser" }) as any as S.Schema<NullableSimpleUser>;
 
 /** A GitHub user. */
 export type SimpleUser = NullableSimpleUser;
@@ -911,14 +899,10 @@ export const SecurityAndAnalysis = /*@__PURE__*/ S.suspend(() =>
       SecurityAndAnalysisSecretScanningDelegatedBypassOptions,
     ),
   }),
-).annotate({
-  identifier: "SecurityAndAnalysis",
-}) as any as S.Schema<SecurityAndAnalysis>;
+).annotate({ identifier: "SecurityAndAnalysis" }) as any as S.Schema<SecurityAndAnalysis>;
 
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-export type NullableMinimalRepositoryCustomPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type NullableMinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
 export const NullableMinimalRepositoryCustomPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1173,11 +1157,7 @@ export const GetPackageForOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
     package_type: GetPackageForOrganizationRequestPackageType.pipe(T.Label()),
     package_name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/packages/{package_type}/{package_name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/packages/{package_type}/{package_name}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetPackageForOrganizationRequest",
@@ -1212,9 +1192,7 @@ export const GetPackageForUserRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetPackageForUserRequest",
-}) as any as S.Schema<GetPackageForUserRequest>;
+).annotate({ identifier: "GetPackageForUserRequest" }) as any as S.Schema<GetPackageForUserRequest>;
 
 export type GetPackageVersionForAuthenticatedUserRequestPackageType =
   | "npm"
@@ -1382,13 +1360,7 @@ export interface ListDockerMigrationConflictingPackagesForUserRequest {
 export const ListDockerMigrationConflictingPackagesForUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{username}/docker/conflicts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/users/{username}/docker/conflicts", code: 200 })),
 ).annotate({
   identifier: "ListDockerMigrationConflictingPackagesForUserRequest",
 }) as any as S.Schema<ListDockerMigrationConflictingPackagesForUserRequest>;

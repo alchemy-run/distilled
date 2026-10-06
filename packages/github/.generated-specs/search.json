@@ -2299,6 +2299,20 @@
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "archived_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp indicating when the label was archived, or `null` if it has not been archived.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "archived_by": {
+          "target": "com.github.search#SimpleUser",
+          "traits": {
+            "smithy.api#documentation": "The user who archived the label, or `null` if it has not been archived.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -4401,6 +4415,22 @@
         "description": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "archived_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp indicating when the label was archived, or `null` if it has not been archived.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "archived_by": {
+          "target": "com.github.search#SimpleUser",
+          "traits": {
+            "smithy.api#documentation": "The user who archived the label, or `null` if it has not been archived.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }

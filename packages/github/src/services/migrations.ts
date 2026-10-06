@@ -42,13 +42,7 @@ export interface DeleteArchiveForAuthenticatedUserRequest {
 export const DeleteArchiveForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     migration_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/user/migrations/{migration_id}/archive",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/user/migrations/{migration_id}/archive", code: 200 })),
 ).annotate({
   identifier: "DeleteArchiveForAuthenticatedUserRequest",
 }) as any as S.Schema<DeleteArchiveForAuthenticatedUserRequest>;
@@ -71,11 +65,7 @@ export const DeleteArchiveForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     migration_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/migrations/{migration_id}/archive",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/orgs/{org}/migrations/{migration_id}/archive", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteArchiveForOrgRequest",
@@ -97,11 +87,7 @@ export const DownloadArchiveForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     migration_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/migrations/{migration_id}/archive",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/migrations/{migration_id}/archive", code: 200 }),
   ),
 ).annotate({
   identifier: "DownloadArchiveForOrgRequest",
@@ -119,13 +105,7 @@ export interface GetArchiveForAuthenticatedUserRequest {
 export const GetArchiveForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     migration_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/user/migrations/{migration_id}/archive",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/user/migrations/{migration_id}/archive", code: 200 })),
 ).annotate({
   identifier: "GetArchiveForAuthenticatedUserRequest",
 }) as any as S.Schema<GetArchiveForAuthenticatedUserRequest>;
@@ -151,13 +131,7 @@ export const GetStatusForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     migration_id: S.Number.pipe(T.Label()),
     exclude: S.optional(GetStatusForAuthenticatedUserRequestExcludeList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/user/migrations/{migration_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/user/migrations/{migration_id}", code: 200 })),
 ).annotate({
   identifier: "GetStatusForAuthenticatedUserRequest",
 }) as any as S.Schema<GetStatusForAuthenticatedUserRequest>;
@@ -212,9 +186,7 @@ export const NullableSimpleUser = /*@__PURE__*/ S.suspend(() =>
     starred_at: S.optional(S.String),
     user_view_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableSimpleUser",
-}) as any as S.Schema<NullableSimpleUser>;
+).annotate({ identifier: "NullableSimpleUser" }) as any as S.Schema<NullableSimpleUser>;
 
 /** License Simple */
 export interface NullableLicenseSimple {
@@ -234,9 +206,7 @@ export const NullableLicenseSimple = /*@__PURE__*/ S.suspend(() =>
     node_id: S.String,
     html_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableLicenseSimple",
-}) as any as S.Schema<NullableLicenseSimple>;
+).annotate({ identifier: "NullableLicenseSimple" }) as any as S.Schema<NullableLicenseSimple>;
 
 export interface RepositoryPermissions {
   admin: boolean;
@@ -253,9 +223,7 @@ export const RepositoryPermissions = /*@__PURE__*/ S.suspend(() =>
     push: S.Boolean,
     maintain: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RepositoryPermissions",
-}) as any as S.Schema<RepositoryPermissions>;
+).annotate({ identifier: "RepositoryPermissions" }) as any as S.Schema<RepositoryPermissions>;
 
 /** A GitHub user. */
 export type SimpleUser = NullableSimpleUser;
@@ -617,16 +585,8 @@ export const GetStatusForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     migration_id: S.Number.pipe(T.Label()),
     exclude: S.optional(GetStatusForOrgRequestExcludeList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/migrations/{migration_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetStatusForOrgRequest",
-}) as any as S.Schema<GetStatusForOrgRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/migrations/{migration_id}", code: 200 })),
+).annotate({ identifier: "GetStatusForOrgRequest" }) as any as S.Schema<GetStatusForOrgRequest>;
 
 export interface ListForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
@@ -681,9 +641,7 @@ export const ListForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     exclude: S.optional(ListForOrgRequestExcludeList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/migrations", code: 200 })),
-).annotate({
-  identifier: "ListForOrgRequest",
-}) as any as S.Schema<ListForOrgRequest>;
+).annotate({ identifier: "ListForOrgRequest" }) as any as S.Schema<ListForOrgRequest>;
 
 export type ListForOrgResponseBodyList = Array<Migration>;
 export const ListForOrgResponseBodyList = /*@__PURE__*/ S.Array(
@@ -693,9 +651,7 @@ export const ListForOrgResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListForOrgResponse = ListForOrgResponseBodyList;
 export const ListForOrgResponse = /*@__PURE__*/ S.suspend(() =>
   ListForOrgResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListForOrgResponse",
-}) as any as S.Schema<ListForOrgResponse>;
+).annotate({ identifier: "ListForOrgResponse" }) as any as S.Schema<ListForOrgResponse>;
 
 export interface ListReposForAuthenticatedUserRequest {
   /** The unique identifier of the migration. */
@@ -711,11 +667,7 @@ export const ListReposForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/user/migrations/{migration_id}/repositories",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/user/migrations/{migration_id}/repositories", code: 200 }),
   ),
 ).annotate({
   identifier: "ListReposForAuthenticatedUserRequest",
@@ -782,9 +734,7 @@ export const MinimalRepositoryLicense = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     node_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MinimalRepositoryLicense",
-}) as any as S.Schema<MinimalRepositoryLicense>;
+).annotate({ identifier: "MinimalRepositoryLicense" }) as any as S.Schema<MinimalRepositoryLicense>;
 
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 export const SecurityAndAnalysisAdvancedSecurityStatus = S.String;
@@ -1003,14 +953,10 @@ export const SecurityAndAnalysis = /*@__PURE__*/ S.suspend(() =>
       SecurityAndAnalysisSecretScanningDelegatedBypassOptions,
     ),
   }),
-).annotate({
-  identifier: "SecurityAndAnalysis",
-}) as any as S.Schema<SecurityAndAnalysis>;
+).annotate({ identifier: "SecurityAndAnalysis" }) as any as S.Schema<SecurityAndAnalysis>;
 
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-export type MinimalRepositoryCustomPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
 export const MinimalRepositoryCustomPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1205,9 +1151,7 @@ export const MinimalRepository = /*@__PURE__*/ S.suspend(() =>
     security_and_analysis: S.optional(S.NullOr(SecurityAndAnalysis)),
     custom_properties: S.optional(MinimalRepositoryCustomPropertiesMap),
   }),
-).annotate({
-  identifier: "MinimalRepository",
-}) as any as S.Schema<MinimalRepository>;
+).annotate({ identifier: "MinimalRepository" }) as any as S.Schema<MinimalRepository>;
 
 export type ListReposForAuthenticatedUserResponseBodyList = Array<MinimalRepository>;
 export const ListReposForAuthenticatedUserResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1238,15 +1182,9 @@ export const ListReposForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/migrations/{migration_id}/repositories",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/migrations/{migration_id}/repositories", code: 200 }),
   ),
-).annotate({
-  identifier: "ListReposForOrgRequest",
-}) as any as S.Schema<ListReposForOrgRequest>;
+).annotate({ identifier: "ListReposForOrgRequest" }) as any as S.Schema<ListReposForOrgRequest>;
 
 export type ListReposForOrgResponseBodyList = Array<MinimalRepository>;
 export const ListReposForOrgResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1256,9 +1194,7 @@ export const ListReposForOrgResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListReposForOrgResponse = ListReposForOrgResponseBodyList;
 export const ListReposForOrgResponse = /*@__PURE__*/ S.suspend(() =>
   ListReposForOrgResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListReposForOrgResponse",
-}) as any as S.Schema<ListReposForOrgResponse>;
+).annotate({ identifier: "ListReposForOrgResponse" }) as any as S.Schema<ListReposForOrgResponse>;
 
 /** Allowed values that can be passed to the exclude param. */
 export type StartForAuthenticatedUserRequestExcludeItem = "repositories";
@@ -1362,9 +1298,7 @@ export const StartForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     org_metadata_only: S.optional(S.Boolean),
     exclude: S.optional(StartForOrgRequestExcludeList),
   }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/migrations", code: 200 })),
-).annotate({
-  identifier: "StartForOrgRequest",
-}) as any as S.Schema<StartForOrgRequest>;
+).annotate({ identifier: "StartForOrgRequest" }) as any as S.Schema<StartForOrgRequest>;
 
 export interface UnlockRepoForAuthenticatedUserRequest {
   /** The unique identifier of the migration. */
@@ -1414,9 +1348,7 @@ export const UnlockRepoForOrgRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UnlockRepoForOrgRequest",
-}) as any as S.Schema<UnlockRepoForOrgRequest>;
+).annotate({ identifier: "UnlockRepoForOrgRequest" }) as any as S.Schema<UnlockRepoForOrgRequest>;
 
 export interface UnlockRepoForOrgResponse {}
 export const UnlockRepoForOrgResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

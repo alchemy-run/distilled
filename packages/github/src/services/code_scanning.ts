@@ -79,9 +79,7 @@ export const CommitAutofixRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CommitAutofixRequest",
-}) as any as S.Schema<CommitAutofixRequest>;
+).annotate({ identifier: "CommitAutofixRequest" }) as any as S.Schema<CommitAutofixRequest>;
 
 export interface CodeScanningAutofixCommitsResponse {
   /** The Git reference of target branch for the commit. For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation. */
@@ -118,9 +116,7 @@ export const CreateAutofixRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateAutofixRequest",
-}) as any as S.Schema<CreateAutofixRequest>;
+).annotate({ identifier: "CreateAutofixRequest" }) as any as S.Schema<CreateAutofixRequest>;
 
 /** The status of an autofix. */
 export type CodeScanningAutofixStatus = "pending" | "error" | "success" | "outdated";
@@ -137,9 +133,7 @@ export const CodeScanningAutofix = /*@__PURE__*/ S.suspend(() =>
     description: S.NullOr(S.String),
     started_at: S.String,
   }),
-).annotate({
-  identifier: "CodeScanningAutofix",
-}) as any as S.Schema<CodeScanningAutofix>;
+).annotate({ identifier: "CodeScanningAutofix" }) as any as S.Schema<CodeScanningAutofix>;
 
 /** The language targeted by the CodeQL query */
 export type CodeScanningVariantAnalysisLanguage =
@@ -403,9 +397,7 @@ export const SimpleRepository = /*@__PURE__*/ S.suspend(() =>
     trees_url: S.String,
     hooks_url: S.String,
   }),
-).annotate({
-  identifier: "SimpleRepository",
-}) as any as S.Schema<SimpleRepository>;
+).annotate({ identifier: "SimpleRepository" }) as any as S.Schema<SimpleRepository>;
 
 export type CodeScanningVariantAnalysisStatus =
   | "in_progress"
@@ -617,9 +609,7 @@ export const DeleteAnalysisRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteAnalysisRequest",
-}) as any as S.Schema<DeleteAnalysisRequest>;
+).annotate({ identifier: "DeleteAnalysisRequest" }) as any as S.Schema<DeleteAnalysisRequest>;
 
 /** Successful deletion of a code scanning analysis */
 export interface CodeScanningAnalysisDeletion {
@@ -666,6 +656,67 @@ export const DeleteCodeqlDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Stru
   identifier: "DeleteCodeqlDatabaseResponse",
 }) as any as S.Schema<DeleteCodeqlDatabaseResponse>;
 
+export interface GetAiScanEnablementRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+}
+export const GetAiScanEnablementRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/code-scanning/ai-scan", code: 200 })),
+).annotate({
+  identifier: "GetAiScanEnablementRequest",
+}) as any as S.Schema<GetAiScanEnablementRequest>;
+
+/** Whether AI Scan is enabled for the repository. */
+export type CodeScanningAiScanEnablementPrScan = "enabled" | "disabled";
+export const CodeScanningAiScanEnablementPrScan = S.String;
+
+/** AI Scan enablement for a repository. */
+export interface CodeScanningAiScanEnablement {
+  /** Whether AI Scan is enabled for the repository. */
+  pr_scan: CodeScanningAiScanEnablementPrScan;
+}
+export const CodeScanningAiScanEnablement = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pr_scan: CodeScanningAiScanEnablementPrScan,
+  }),
+).annotate({
+  identifier: "CodeScanningAiScanEnablement",
+}) as any as S.Schema<CodeScanningAiScanEnablement>;
+
+export interface GetAiScanEnablementForOrgRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+}
+export const GetAiScanEnablementForOrgRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    org: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/code-scanning/ai-scan", code: 200 })),
+).annotate({
+  identifier: "GetAiScanEnablementForOrgRequest",
+}) as any as S.Schema<GetAiScanEnablementForOrgRequest>;
+
+/** Whether AI Scan on pull requests is enabled for the organization. The organization setting respects enterprise policy, and repositories inherit it: when disabled, repositories cannot enable AI Scan; when enabled, repositories can still opt out. */
+export type CodeScanningAiScanOrgSettingsPrScan = "enabled" | "disabled";
+export const CodeScanningAiScanOrgSettingsPrScan = S.String;
+
+/** The AI Scan organization setting */
+export interface CodeScanningAiScanOrgSettings {
+  /** Whether AI Scan on pull requests is enabled for the organization. The organization setting respects enterprise policy, and repositories inherit it: when disabled, repositories cannot enable AI Scan; when enabled, repositories can still opt out. */
+  pr_scan: CodeScanningAiScanOrgSettingsPrScan;
+}
+export const CodeScanningAiScanOrgSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pr_scan: CodeScanningAiScanOrgSettingsPrScan,
+  }),
+).annotate({
+  identifier: "CodeScanningAiScanOrgSettings",
+}) as any as S.Schema<CodeScanningAiScanOrgSettings>;
+
 export interface GetAlertRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -686,9 +737,7 @@ export const GetAlertRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetAlertRequest",
-}) as any as S.Schema<GetAlertRequest>;
+).annotate({ identifier: "GetAlertRequest" }) as any as S.Schema<GetAlertRequest>;
 
 /** State of a code scanning alert. */
 export type CodeScanningAlertState = "open" | "dismissed" | "fixed";
@@ -752,9 +801,7 @@ export const CodeScanningAlertRule = /*@__PURE__*/ S.suspend(() =>
     help: S.optional(S.NullOr(S.String)),
     help_uri: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CodeScanningAlertRule",
-}) as any as S.Schema<CodeScanningAlertRule>;
+).annotate({ identifier: "CodeScanningAlertRule" }) as any as S.Schema<CodeScanningAlertRule>;
 
 export interface CodeScanningAnalysisTool {
   name?: string;
@@ -767,9 +814,7 @@ export const CodeScanningAnalysisTool = /*@__PURE__*/ S.suspend(() =>
     version: S.optional(S.NullOr(S.String)),
     guid: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CodeScanningAnalysisTool",
-}) as any as S.Schema<CodeScanningAnalysisTool>;
+).annotate({ identifier: "CodeScanningAnalysisTool" }) as any as S.Schema<CodeScanningAnalysisTool>;
 
 export interface CodeScanningAlertInstanceMessage {
   text?: string;
@@ -859,6 +904,8 @@ export interface PullRequestSimpleLabelsItem {
   description: string;
   color: string;
   default: boolean;
+  /** The user who archived the label, or `null` if it has not been archived. */
+  archived_by: SimpleUser | null;
 }
 export const PullRequestSimpleLabelsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -869,6 +916,7 @@ export const PullRequestSimpleLabelsItem = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     color: S.String,
     default: S.Boolean,
+    archived_by: S.NullOr(SimpleUser),
   }),
 ).annotate({
   identifier: "PullRequestSimpleLabelsItem",
@@ -924,9 +972,7 @@ export const NullableMilestone = /*@__PURE__*/ S.suspend(() =>
     closed_at: S.NullOr(S.String),
     due_on: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "NullableMilestone",
-}) as any as S.Schema<NullableMilestone>;
+).annotate({ identifier: "NullableMilestone" }) as any as S.Schema<NullableMilestone>;
 
 export type PullRequestSimpleAssigneesList = Array<SimpleUser>;
 export const PullRequestSimpleAssigneesList = /*@__PURE__*/ S.Array(
@@ -953,9 +999,7 @@ export const TeamPermissions = /*@__PURE__*/ S.suspend(() =>
     maintain: S.Boolean,
     admin: S.Boolean,
   }),
-).annotate({
-  identifier: "TeamPermissions",
-}) as any as S.Schema<TeamPermissions>;
+).annotate({ identifier: "TeamPermissions" }) as any as S.Schema<TeamPermissions>;
 
 /** The ownership type of the team */
 export type TeamType = "enterprise" | "organization";
@@ -1018,9 +1062,7 @@ export const NullableTeamSimple = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.optional(S.Number),
     enterprise_id: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NullableTeamSimple",
-}) as any as S.Schema<NullableTeamSimple>;
+).annotate({ identifier: "NullableTeamSimple" }) as any as S.Schema<NullableTeamSimple>;
 
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -1093,9 +1135,7 @@ export const NullableLicenseSimple = /*@__PURE__*/ S.suspend(() =>
     node_id: S.String,
     html_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableLicenseSimple",
-}) as any as S.Schema<NullableLicenseSimple>;
+).annotate({ identifier: "NullableLicenseSimple" }) as any as S.Schema<NullableLicenseSimple>;
 
 export interface RepositoryPermissions {
   admin: boolean;
@@ -1112,9 +1152,7 @@ export const RepositoryPermissions = /*@__PURE__*/ S.suspend(() =>
     push: S.Boolean,
     maintain: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RepositoryPermissions",
-}) as any as S.Schema<RepositoryPermissions>;
+).annotate({ identifier: "RepositoryPermissions" }) as any as S.Schema<RepositoryPermissions>;
 
 export type RepositoryTopicsList = Array<string>;
 export const RepositoryTopicsList = /*@__PURE__*/ S.Array(
@@ -1405,9 +1443,7 @@ export const PullRequestSimpleHead = /*@__PURE__*/ S.suspend(() =>
     sha: S.String,
     user: S.NullOr(SimpleUser),
   }),
-).annotate({
-  identifier: "PullRequestSimpleHead",
-}) as any as S.Schema<PullRequestSimpleHead>;
+).annotate({ identifier: "PullRequestSimpleHead" }) as any as S.Schema<PullRequestSimpleHead>;
 
 export type PullRequestSimpleBase = PullRequestSimpleHead;
 export const PullRequestSimpleBase = PullRequestSimpleHead;
@@ -1443,9 +1479,7 @@ export const PullRequestSimpleLinks = /*@__PURE__*/ S.suspend(() =>
     review_comment: Link,
     self: Link,
   }),
-).annotate({
-  identifier: "PullRequestSimpleLinks",
-}) as any as S.Schema<PullRequestSimpleLinks>;
+).annotate({ identifier: "PullRequestSimpleLinks" }) as any as S.Schema<PullRequestSimpleLinks>;
 
 /** How the author is associated with the repository. */
 export type AuthorAssociation =
@@ -1493,9 +1527,7 @@ export const PullRequestStackBase = /*@__PURE__*/ S.suspend(() =>
     ref: S.String,
     sha: S.String,
   }),
-).annotate({
-  identifier: "PullRequestStackBase",
-}) as any as S.Schema<PullRequestStackBase>;
+).annotate({ identifier: "PullRequestStackBase" }) as any as S.Schema<PullRequestStackBase>;
 
 /** The stack information associated with a pull request. */
 export interface PullRequestStack {
@@ -1517,9 +1549,7 @@ export const PullRequestStack = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     number: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PullRequestStack",
-}) as any as S.Schema<PullRequestStack>;
+).annotate({ identifier: "PullRequestStack" }) as any as S.Schema<PullRequestStack>;
 
 /** Pull Request Simple */
 export interface PullRequestSimple {
@@ -1602,9 +1632,7 @@ export const PullRequestSimple = /*@__PURE__*/ S.suspend(() =>
     stack: S.optional(S.NullOr(PullRequestStack)),
     draft: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "PullRequestSimple",
-}) as any as S.Schema<PullRequestSimple>;
+).annotate({ identifier: "PullRequestSimple" }) as any as S.Schema<PullRequestSimple>;
 
 /** Pull requests linked to this alert. */
 export type CodeScanningAlertLinkedPullRequestsList = Array<PullRequestSimple>;
@@ -1654,9 +1682,7 @@ export const CodeScanningAlert = /*@__PURE__*/ S.suspend(() =>
     assignees: S.optional(CodeScanningAlertAssigneesList),
     linked_pull_requests: S.optional(CodeScanningAlertLinkedPullRequestsList),
   }),
-).annotate({
-  identifier: "CodeScanningAlert",
-}) as any as S.Schema<CodeScanningAlert>;
+).annotate({ identifier: "CodeScanningAlert" }) as any as S.Schema<CodeScanningAlert>;
 
 export interface GetAnalysisRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1678,9 +1704,7 @@ export const GetAnalysisRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetAnalysisRequest",
-}) as any as S.Schema<GetAnalysisRequest>;
+).annotate({ identifier: "GetAnalysisRequest" }) as any as S.Schema<GetAnalysisRequest>;
 
 export interface CodeScanningAnalysis {
   ref: string;
@@ -1721,9 +1745,7 @@ export const CodeScanningAnalysis = /*@__PURE__*/ S.suspend(() =>
     deletable: S.Boolean,
     warning: S.String,
   }),
-).annotate({
-  identifier: "CodeScanningAnalysis",
-}) as any as S.Schema<CodeScanningAnalysis>;
+).annotate({ identifier: "CodeScanningAnalysis" }) as any as S.Schema<CodeScanningAnalysis>;
 
 export interface GetAutofixRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1745,9 +1767,7 @@ export const GetAutofixRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetAutofixRequest",
-}) as any as S.Schema<GetAutofixRequest>;
+).annotate({ identifier: "GetAutofixRequest" }) as any as S.Schema<GetAutofixRequest>;
 
 export interface GetCodeqlDatabaseRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1769,9 +1789,7 @@ export const GetCodeqlDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetCodeqlDatabaseRequest",
-}) as any as S.Schema<GetCodeqlDatabaseRequest>;
+).annotate({ identifier: "GetCodeqlDatabaseRequest" }) as any as S.Schema<GetCodeqlDatabaseRequest>;
 
 /** A CodeQL database. */
 export interface CodeScanningCodeqlDatabase {
@@ -1823,15 +1841,9 @@ export const GetDefaultSetupRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/code-scanning/default-setup",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/code-scanning/default-setup", code: 200 }),
   ),
-).annotate({
-  identifier: "GetDefaultSetupRequest",
-}) as any as S.Schema<GetDefaultSetupRequest>;
+).annotate({ identifier: "GetDefaultSetupRequest" }) as any as S.Schema<GetDefaultSetupRequest>;
 
 /** Code scanning default setup has been configured or not. */
 export type CodeScanningDefaultSetupState = "configured" | "not-configured";
@@ -1903,9 +1915,7 @@ export const CodeScanningDefaultSetup = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.NullOr(S.String)),
     schedule: S.optional(S.NullOr(CodeScanningDefaultSetupSchedule)),
   }),
-).annotate({
-  identifier: "CodeScanningDefaultSetup",
-}) as any as S.Schema<CodeScanningDefaultSetup>;
+).annotate({ identifier: "CodeScanningDefaultSetup" }) as any as S.Schema<CodeScanningDefaultSetup>;
 
 export interface GetSarifRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1927,9 +1937,7 @@ export const GetSarifRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetSarifRequest",
-}) as any as S.Schema<GetSarifRequest>;
+).annotate({ identifier: "GetSarifRequest" }) as any as S.Schema<GetSarifRequest>;
 
 /** `pending` files have not yet been processed, while `complete` means results from the SARIF have been stored. `failed` files have either not been processed at all, or could only be partially processed. */
 export type CodeScanningSarifsStatusProcessingStatus = "pending" | "complete" | "failed";
@@ -1955,9 +1963,7 @@ export const CodeScanningSarifsStatus = /*@__PURE__*/ S.suspend(() =>
     analyses_url: S.optional(S.NullOr(S.String)),
     errors: S.optional(S.NullOr(CodeScanningSarifsStatusErrorsList)),
   }),
-).annotate({
-  identifier: "CodeScanningSarifsStatus",
-}) as any as S.Schema<CodeScanningSarifsStatus>;
+).annotate({ identifier: "CodeScanningSarifsStatus" }) as any as S.Schema<CodeScanningSarifsStatus>;
 
 export interface GetVariantAnalysisRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2205,16 +2211,8 @@ export const ListAlertsForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     sort: S.optional(ListAlertsForOrgRequestSort.pipe(T.Query())),
     severity: S.optional(CodeScanningAlertSeverity.pipe(T.Query())),
     assignees: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/code-scanning/alerts",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListAlertsForOrgRequest",
-}) as any as S.Schema<ListAlertsForOrgRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/code-scanning/alerts", code: 200 })),
+).annotate({ identifier: "ListAlertsForOrgRequest" }) as any as S.Schema<ListAlertsForOrgRequest>;
 
 /** The severity of the alert. */
 export type CodeScanningAlertRuleSummarySeverity = "none" | "note" | "warning" | "error";
@@ -2330,9 +2328,7 @@ export const ListAlertsForOrgResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListAlertsForOrgResponse = ListAlertsForOrgResponseBodyList;
 export const ListAlertsForOrgResponse = /*@__PURE__*/ S.suspend(() =>
   ListAlertsForOrgResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListAlertsForOrgResponse",
-}) as any as S.Schema<ListAlertsForOrgResponse>;
+).annotate({ identifier: "ListAlertsForOrgResponse" }) as any as S.Schema<ListAlertsForOrgResponse>;
 
 export type ListAlertsForRepoRequestDirection = "asc" | "desc";
 export const ListAlertsForRepoRequestDirection = S.String;
@@ -2389,16 +2385,8 @@ export const ListAlertsForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(CodeScanningAlertStateQuery.pipe(T.Query())),
     severity: S.optional(CodeScanningAlertSeverity.pipe(T.Query())),
     assignees: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/code-scanning/alerts",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListAlertsForRepoRequest",
-}) as any as S.Schema<ListAlertsForRepoRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/code-scanning/alerts", code: 200 })),
+).annotate({ identifier: "ListAlertsForRepoRequest" }) as any as S.Schema<ListAlertsForRepoRequest>;
 
 export type CodeScanningAlertItemsAssigneesList = Array<SimpleUser>;
 export const CodeScanningAlertItemsAssigneesList = /*@__PURE__*/ S.Array(
@@ -2444,9 +2432,7 @@ export const CodeScanningAlertItems = /*@__PURE__*/ S.suspend(() =>
     dismissal_approved_by: S.optional(S.NullOr(SimpleUser)),
     assignees: S.optional(CodeScanningAlertItemsAssigneesList),
   }),
-).annotate({
-  identifier: "CodeScanningAlertItems",
-}) as any as S.Schema<CodeScanningAlertItems>;
+).annotate({ identifier: "CodeScanningAlertItems" }) as any as S.Schema<CodeScanningAlertItems>;
 
 export type ListAlertsForRepoResponseBodyList = Array<CodeScanningAlertItems>;
 export const ListAlertsForRepoResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2537,11 +2523,7 @@ export const ListRecentAnalysesRequest = /*@__PURE__*/ S.suspend(() =>
     direction: S.optional(ListRecentAnalysesRequestDirection.pipe(T.Query())),
     sort: S.optional(ListRecentAnalysesRequestSort.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/code-scanning/analyses",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/code-scanning/analyses", code: 200 }),
   ),
 ).annotate({
   identifier: "ListRecentAnalysesRequest",
@@ -2558,6 +2540,49 @@ export const ListRecentAnalysesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListRecentAnalysesResponse",
 }) as any as S.Schema<ListRecentAnalysesResponse>;
+
+/** Whether to enable or disable AI Scan for the repository. */
+export type UpdateAiScanEnablementRequestPrScan = "enabled" | "disabled";
+export const UpdateAiScanEnablementRequestPrScan = S.String;
+
+export interface UpdateAiScanEnablementRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** Whether to enable or disable AI Scan for the repository. */
+  pr_scan?: UpdateAiScanEnablementRequestPrScan | (string & {});
+}
+export const UpdateAiScanEnablementRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    pr_scan: S.optional(UpdateAiScanEnablementRequestPrScan),
+  }).pipe(
+    T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/code-scanning/ai-scan", code: 200 }),
+  ),
+).annotate({
+  identifier: "UpdateAiScanEnablementRequest",
+}) as any as S.Schema<UpdateAiScanEnablementRequest>;
+
+/** Whether AI Scan is enabled for the organization. Organization respects enterprise policy. Disabled organizations prevent repositories from enabling AI Scan. Enabled organizations enable AI Scan for their repositories, but individual repositories can opt out. */
+export type UpdateAiScanEnablementForOrgRequestPrScan = "enabled" | "disabled";
+export const UpdateAiScanEnablementForOrgRequestPrScan = S.String;
+
+export interface UpdateAiScanEnablementForOrgRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** Whether AI Scan is enabled for the organization. Organization respects enterprise policy. Disabled organizations prevent repositories from enabling AI Scan. Enabled organizations enable AI Scan for their repositories, but individual repositories can opt out. */
+  pr_scan?: UpdateAiScanEnablementForOrgRequestPrScan | (string & {});
+}
+export const UpdateAiScanEnablementForOrgRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    org: S.String.pipe(T.Label()),
+    pr_scan: S.optional(UpdateAiScanEnablementForOrgRequestPrScan),
+  }).pipe(T.Http({ method: "PATCH", uri: "/orgs/{org}/code-scanning/ai-scan", code: 200 })),
+).annotate({
+  identifier: "UpdateAiScanEnablementForOrgRequest",
+}) as any as S.Schema<UpdateAiScanEnablementForOrgRequest>;
 
 /** Sets the state of the code scanning alert. You must provide `dismissed_reason` when you set the state to `dismissed`. */
 export type CodeScanningAlertSetState = "open" | "dismissed";
@@ -2599,9 +2624,7 @@ export const UpdateAlertRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateAlertRequest",
-}) as any as S.Schema<UpdateAlertRequest>;
+).annotate({ identifier: "UpdateAlertRequest" }) as any as S.Schema<UpdateAlertRequest>;
 
 /** The desired state of code scanning default setup. */
 export type UpdateDefaultSetupRequestState = "configured" | "not-configured";
@@ -2713,16 +2736,8 @@ export const UploadSarifRequest = /*@__PURE__*/ S.suspend(() =>
     started_at: S.optional(S.String),
     tool_name: S.optional(S.String),
     validate: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/code-scanning/sarifs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UploadSarifRequest",
-}) as any as S.Schema<UploadSarifRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/code-scanning/sarifs", code: 200 })),
+).annotate({ identifier: "UploadSarifRequest" }) as any as S.Schema<UploadSarifRequest>;
 
 export interface UploadSarifResponse {}
 export const UploadSarifResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2809,6 +2824,36 @@ export const deleteCodeqlDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteCodeqlDatabaseRequest,
   output: DeleteCodeqlDatabaseResponse,
+  errors: [Forbidden, NotFound],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAiScanEnablementError = Forbidden | NotFound | GithubOpError;
+/** Get AI Scan enablement for a repository Gets whether AI Scan is enabled for a repository. OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories. */
+export const getAiScanEnablement: API.OperationMethod<
+  GetAiScanEnablementRequest,
+  CodeScanningAiScanEnablement,
+  GetAiScanEnablementError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAiScanEnablementRequest,
+  output: CodeScanningAiScanEnablement,
+  errors: [Forbidden, NotFound],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAiScanEnablementForOrgError = Forbidden | NotFound | GithubOpError;
+/** Get the AI Scan setting for an organization Gets the AI Scan setting stored on an organization. The response reports the value stored on the organization. Organization respects enterprise policy. The authenticated user must be an owner or security manager for the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `admin:org`, `repo`, or `write:org` scope to use this endpoint. Organization owners can use `admin:org` or `repo`; security managers need `write:org`. */
+export const getAiScanEnablementForOrg: API.OperationMethod<
+  GetAiScanEnablementForOrgRequest,
+  CodeScanningAiScanOrgSettings,
+  GetAiScanEnablementForOrgError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAiScanEnablementForOrgRequest,
+  output: CodeScanningAiScanOrgSettings,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3005,6 +3050,44 @@ export const listRecentAnalyses: API.OperationMethod<
   input: ListRecentAnalysesRequest,
   output: ListRecentAnalysesResponse,
   errors: [Forbidden, NotFound],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateAiScanEnablementError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | GithubOpError;
+/** Update AI Scan enablement for a repository Updates whether AI Scan is enabled for a repository. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories. */
+export const updateAiScanEnablement: API.OperationMethod<
+  UpdateAiScanEnablementRequest,
+  CodeScanningAiScanEnablement,
+  UpdateAiScanEnablementError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateAiScanEnablementRequest,
+  output: CodeScanningAiScanEnablement,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateAiScanEnablementForOrgError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | GithubOpError;
+/** Update the AI Scan setting for an organization Updates the AI Scan setting stored on an organization. The organization respects the enterprise policy, so enabling is rejected when the enterprise disallows AI Scan. OAuth app tokens and personal access tokens (classic) need the `admin:org`, `repo`, or `write:org` scope to use this endpoint. Organization owners can use `admin:org` or `repo`; security managers need `write:org`. */
+export const updateAiScanEnablementForOrg: API.OperationMethod<
+  UpdateAiScanEnablementForOrgRequest,
+  CodeScanningAiScanOrgSettings,
+  UpdateAiScanEnablementForOrgError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateAiScanEnablementForOrgRequest,
+  output: CodeScanningAiScanOrgSettings,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));

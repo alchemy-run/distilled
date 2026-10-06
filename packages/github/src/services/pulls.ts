@@ -76,11 +76,7 @@ export const AddPullRequestStackRequest = /*@__PURE__*/ S.suspend(() =>
     stack_number: S.Number.pipe(T.Label()),
     pull_requests: AddPullRequestStackRequestPullRequestsList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/stacks/{stack_number}/add",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/stacks/{stack_number}/add", code: 200 }),
   ),
 ).annotate({
   identifier: "AddPullRequestStackRequest",
@@ -186,9 +182,7 @@ export const NullableSimpleUser = /*@__PURE__*/ S.suspend(() =>
     starred_at: S.optional(S.String),
     user_view_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableSimpleUser",
-}) as any as S.Schema<NullableSimpleUser>;
+).annotate({ identifier: "NullableSimpleUser" }) as any as S.Schema<NullableSimpleUser>;
 
 export interface PullRequestStackPullRequest {
   id: number;
@@ -268,15 +262,9 @@ export const CheckIfMergedRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     pull_number: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/pulls/{pull_number}/merge",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/{pull_number}/merge", code: 200 }),
   ),
-).annotate({
-  identifier: "CheckIfMergedRequest",
-}) as any as S.Schema<CheckIfMergedRequest>;
+).annotate({ identifier: "CheckIfMergedRequest" }) as any as S.Schema<CheckIfMergedRequest>;
 
 export interface CheckIfMergedResponse {}
 export const CheckIfMergedResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -336,6 +324,8 @@ export interface PullRequestLabelsItem {
   description: string | null;
   color: string;
   default: boolean;
+  /** The user who archived the label, or `null` if it has not been archived. */
+  archived_by: NullableSimpleUser | null;
 }
 export const PullRequestLabelsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -346,10 +336,9 @@ export const PullRequestLabelsItem = /*@__PURE__*/ S.suspend(() =>
     description: S.NullOr(S.String),
     color: S.String,
     default: S.Boolean,
+    archived_by: S.NullOr(NullableSimpleUser),
   }),
-).annotate({
-  identifier: "PullRequestLabelsItem",
-}) as any as S.Schema<PullRequestLabelsItem>;
+).annotate({ identifier: "PullRequestLabelsItem" }) as any as S.Schema<PullRequestLabelsItem>;
 
 export type PullRequestLabelsList = Array<PullRequestLabelsItem>;
 export const PullRequestLabelsList = /*@__PURE__*/ S.Array(
@@ -401,9 +390,7 @@ export const NullableMilestone = /*@__PURE__*/ S.suspend(() =>
     closed_at: S.NullOr(S.String),
     due_on: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "NullableMilestone",
-}) as any as S.Schema<NullableMilestone>;
+).annotate({ identifier: "NullableMilestone" }) as any as S.Schema<NullableMilestone>;
 
 export type PullRequestAssigneesList = Array<NullableSimpleUser>;
 export const PullRequestAssigneesList = /*@__PURE__*/ S.Array(
@@ -493,9 +480,7 @@ export const NullableLicenseSimple = /*@__PURE__*/ S.suspend(() =>
     node_id: S.String,
     html_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableLicenseSimple",
-}) as any as S.Schema<NullableLicenseSimple>;
+).annotate({ identifier: "NullableLicenseSimple" }) as any as S.Schema<NullableLicenseSimple>;
 
 export interface RepositoryPermissions {
   admin: boolean;
@@ -512,9 +497,7 @@ export const RepositoryPermissions = /*@__PURE__*/ S.suspend(() =>
     push: S.Boolean,
     maintain: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RepositoryPermissions",
-}) as any as S.Schema<RepositoryPermissions>;
+).annotate({ identifier: "RepositoryPermissions" }) as any as S.Schema<RepositoryPermissions>;
 
 export type RepositoryTopicsList = Array<string>;
 export const RepositoryTopicsList = /*@__PURE__*/ S.Array(
@@ -805,9 +788,7 @@ export const PullRequestHead = /*@__PURE__*/ S.suspend(() =>
     sha: S.String,
     user: NullableSimpleUser,
   }),
-).annotate({
-  identifier: "PullRequestHead",
-}) as any as S.Schema<PullRequestHead>;
+).annotate({ identifier: "PullRequestHead" }) as any as S.Schema<PullRequestHead>;
 
 export type PullRequestBase = PullRequestHead;
 export const PullRequestBase = PullRequestHead;
@@ -843,9 +824,7 @@ export const PullRequestLinks = /*@__PURE__*/ S.suspend(() =>
     review_comment: Link,
     self: Link,
   }),
-).annotate({
-  identifier: "PullRequestLinks",
-}) as any as S.Schema<PullRequestLinks>;
+).annotate({ identifier: "PullRequestLinks" }) as any as S.Schema<PullRequestLinks>;
 
 /** How the author is associated with the repository. */
 export type AuthorAssociation =
@@ -893,9 +872,7 @@ export const PullRequestStackBase = /*@__PURE__*/ S.suspend(() =>
     ref: S.String,
     sha: S.String,
   }),
-).annotate({
-  identifier: "PullRequestStackBase",
-}) as any as S.Schema<PullRequestStackBase>;
+).annotate({ identifier: "PullRequestStackBase" }) as any as S.Schema<PullRequestStackBase>;
 
 /** The stack information associated with a pull request. */
 export interface PullRequestStack {
@@ -917,9 +894,7 @@ export const PullRequestStack = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     number: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PullRequestStack",
-}) as any as S.Schema<PullRequestStack>;
+).annotate({ identifier: "PullRequestStack" }) as any as S.Schema<PullRequestStack>;
 
 /** Pull requests let you tell others about changes you've pushed to a repository on GitHub. Once a pull request is sent, interested parties can review the set of changes, discuss potential modifications, and even push follow-up commits if necessary. */
 export interface PullRequest {
@@ -1268,9 +1243,7 @@ export const PullRequestReviewComment = /*@__PURE__*/ S.suspend(() =>
     body_html: S.optional(S.String),
     body_text: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PullRequestReviewComment",
-}) as any as S.Schema<PullRequestReviewComment>;
+).annotate({ identifier: "PullRequestReviewComment" }) as any as S.Schema<PullRequestReviewComment>;
 
 /** The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`. By leaving this blank, you set the review action state to `PENDING`, which means you will need to [submit the pull request review](https://docs.github.com/rest/pulls/reviews#submit-a-review-for-a-pull-request) when you are ready. */
 export type CreateReviewRequestEvent = "APPROVE" | "REQUEST_CHANGES" | "COMMENT";
@@ -1334,15 +1307,9 @@ export const CreateReviewRequest = /*@__PURE__*/ S.suspend(() =>
     event: S.optional(CreateReviewRequestEvent),
     comments: S.optional(CreateReviewRequestCommentsList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/pulls/{pull_number}/reviews",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/pulls/{pull_number}/reviews", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateReviewRequest",
-}) as any as S.Schema<CreateReviewRequest>;
+).annotate({ identifier: "CreateReviewRequest" }) as any as S.Schema<CreateReviewRequest>;
 
 export type PullRequestReviewLinksHtml = Link;
 export const PullRequestReviewLinksHtml = Link;
@@ -1359,9 +1326,7 @@ export const PullRequestReviewLinks = /*@__PURE__*/ S.suspend(() =>
     html: Link,
     pull_request: Link,
   }),
-).annotate({
-  identifier: "PullRequestReviewLinks",
-}) as any as S.Schema<PullRequestReviewLinks>;
+).annotate({ identifier: "PullRequestReviewLinks" }) as any as S.Schema<PullRequestReviewLinks>;
 
 /** Pull Request Reviews are reviews on pull requests. */
 export interface PullRequestReview {
@@ -1398,9 +1363,7 @@ export const PullRequestReview = /*@__PURE__*/ S.suspend(() =>
     body_text: S.optional(S.String),
     author_association: AuthorAssociation,
   }),
-).annotate({
-  identifier: "PullRequestReview",
-}) as any as S.Schema<PullRequestReview>;
+).annotate({ identifier: "PullRequestReview" }) as any as S.Schema<PullRequestReview>;
 
 /** In a split diff view, the side of the diff that the pull request's changes appear on. Can be `LEFT` or `RIGHT`. Use `LEFT` for deletions that appear in red. Use `RIGHT` for additions that appear in green or unchanged lines that appear in white and are shown for context. For a multi-line comment, side represents whether the last line of the comment range is a deletion or addition. For more information, see "[Diff view options](https://docs.github.com/articles/about-comparing-branches-in-pull-requests#diff-view-options)" in the GitHub Help documentation. */
 export type CreateReviewCommentRequestSide = "LEFT" | "RIGHT";
@@ -1555,9 +1518,7 @@ export const DismissReviewRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DismissReviewRequest",
-}) as any as S.Schema<DismissReviewRequest>;
+).annotate({ identifier: "DismissReviewRequest" }) as any as S.Schema<DismissReviewRequest>;
 
 export interface GetRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1572,13 +1533,7 @@ export const GetRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     pull_number: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/pulls/{pull_number}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/{pull_number}", code: 200 })),
 ).annotate({ identifier: "GetRequest" }) as any as S.Schema<GetRequest>;
 
 export interface GetMergeAsyncResultRequest {
@@ -1624,7 +1579,7 @@ export type PullRequestMergeAsyncResultDetailsCase0MergeAction =
   | "direct_merge";
 export const PullRequestMergeAsyncResultDetailsCase0MergeAction = S.String;
 
-/** When an asynchronous merge request was created or already existed */
+/** When the asynchronous merge request is pending */
 export interface PullRequestMergeAsyncResultDetailsCase0 {
   message: string;
   uuid: string;
@@ -1632,6 +1587,8 @@ export interface PullRequestMergeAsyncResultDetailsCase0 {
   merge_action: PullRequestMergeAsyncResultDetailsCase0MergeAction;
   /** SHA that the pull request head must match for the enqueued merge to proceed. */
   expected_head_sha: string;
+  /** Whether the asynchronous merge request will attempt to bypass repository rules that the authenticated actor is permitted to bypass. */
+  bypass_rules?: boolean;
 }
 export const PullRequestMergeAsyncResultDetailsCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1640,12 +1597,13 @@ export const PullRequestMergeAsyncResultDetailsCase0 = /*@__PURE__*/ S.suspend((
     merge_method: PullRequestMergeAsyncResultDetailsCase0MergeMethod,
     merge_action: PullRequestMergeAsyncResultDetailsCase0MergeAction,
     expected_head_sha: S.String,
+    bypass_rules: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "PullRequestMergeAsyncResultDetailsCase0",
 }) as any as S.Schema<PullRequestMergeAsyncResultDetailsCase0>;
 
-/** When the pull request cannot be merged */
+/** When the pull request is in a merge queue */
 export interface PullRequestMergeAsyncResultDetailsCase1 {
   message: string;
 }
@@ -1657,24 +1615,29 @@ export const PullRequestMergeAsyncResultDetailsCase1 = /*@__PURE__*/ S.suspend((
   identifier: "PullRequestMergeAsyncResultDetailsCase1",
 }) as any as S.Schema<PullRequestMergeAsyncResultDetailsCase1>;
 
-/** When the pull request is already merged */
-export interface PullRequestMergeAsyncResultDetailsCase2 {
+/** When the asynchronous merge request failed */
+export type PullRequestMergeAsyncResultDetailsCase2 = PullRequestMergeAsyncResultDetailsCase1;
+export const PullRequestMergeAsyncResultDetailsCase2 = PullRequestMergeAsyncResultDetailsCase1;
+
+/** When the pull request has been merged */
+export interface PullRequestMergeAsyncResultDetailsCase3 {
   message: string;
   sha: string;
 }
-export const PullRequestMergeAsyncResultDetailsCase2 = /*@__PURE__*/ S.suspend(() =>
+export const PullRequestMergeAsyncResultDetailsCase3 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.String,
     sha: S.String,
   }),
 ).annotate({
-  identifier: "PullRequestMergeAsyncResultDetailsCase2",
-}) as any as S.Schema<PullRequestMergeAsyncResultDetailsCase2>;
+  identifier: "PullRequestMergeAsyncResultDetailsCase3",
+}) as any as S.Schema<PullRequestMergeAsyncResultDetailsCase3>;
 
 export type PullRequestMergeAsyncResultDetails =
   | PullRequestMergeAsyncResultDetailsCase0
   | PullRequestMergeAsyncResultDetailsCase1
-  | PullRequestMergeAsyncResultDetailsCase2;
+  | PullRequestMergeAsyncResultDetailsCase1
+  | PullRequestMergeAsyncResultDetailsCase3;
 export const PullRequestMergeAsyncResultDetails =
   S.Unknown as any as S.Schema<PullRequestMergeAsyncResultDetails>;
 
@@ -1705,13 +1668,7 @@ export const GetPullRequestStackRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     stack_number: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/stacks/{stack_number}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/stacks/{stack_number}", code: 200 })),
 ).annotate({
   identifier: "GetPullRequestStackRequest",
 }) as any as S.Schema<GetPullRequestStackRequest>;
@@ -1773,9 +1730,7 @@ export const GetReviewRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetReviewRequest",
-}) as any as S.Schema<GetReviewRequest>;
+).annotate({ identifier: "GetReviewRequest" }) as any as S.Schema<GetReviewRequest>;
 
 export interface GetReviewCommentRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1791,15 +1746,9 @@ export const GetReviewCommentRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     comment_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/pulls/comments/{comment_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/comments/{comment_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetReviewCommentRequest",
-}) as any as S.Schema<GetReviewCommentRequest>;
+).annotate({ identifier: "GetReviewCommentRequest" }) as any as S.Schema<GetReviewCommentRequest>;
 
 export type ListRequestState = "open" | "closed" | "all";
 export const ListRequestState = S.String;
@@ -1852,6 +1801,8 @@ export interface PullRequestSimpleLabelsItem {
   description: string;
   color: string;
   default: boolean;
+  /** The user who archived the label, or `null` if it has not been archived. */
+  archived_by: NullableSimpleUser | null;
 }
 export const PullRequestSimpleLabelsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1862,6 +1813,7 @@ export const PullRequestSimpleLabelsItem = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     color: S.String,
     default: S.Boolean,
+    archived_by: S.NullOr(NullableSimpleUser),
   }),
 ).annotate({
   identifier: "PullRequestSimpleLabelsItem",
@@ -1897,9 +1849,7 @@ export const TeamPermissions = /*@__PURE__*/ S.suspend(() =>
     maintain: S.Boolean,
     admin: S.Boolean,
   }),
-).annotate({
-  identifier: "TeamPermissions",
-}) as any as S.Schema<TeamPermissions>;
+).annotate({ identifier: "TeamPermissions" }) as any as S.Schema<TeamPermissions>;
 
 /** The ownership type of the team */
 export type TeamType = "enterprise" | "organization";
@@ -1962,9 +1912,7 @@ export const NullableTeamSimple = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.optional(S.Number),
     enterprise_id: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NullableTeamSimple",
-}) as any as S.Schema<NullableTeamSimple>;
+).annotate({ identifier: "NullableTeamSimple" }) as any as S.Schema<NullableTeamSimple>;
 
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -2034,9 +1982,7 @@ export const PullRequestSimpleHead = /*@__PURE__*/ S.suspend(() =>
     sha: S.String,
     user: S.NullOr(NullableSimpleUser),
   }),
-).annotate({
-  identifier: "PullRequestSimpleHead",
-}) as any as S.Schema<PullRequestSimpleHead>;
+).annotate({ identifier: "PullRequestSimpleHead" }) as any as S.Schema<PullRequestSimpleHead>;
 
 export type PullRequestSimpleBase = PullRequestSimpleHead;
 export const PullRequestSimpleBase = PullRequestSimpleHead;
@@ -2125,9 +2071,7 @@ export const PullRequestSimple = /*@__PURE__*/ S.suspend(() =>
     stack: S.optional(S.NullOr(PullRequestStack)),
     draft: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "PullRequestSimple",
-}) as any as S.Schema<PullRequestSimple>;
+).annotate({ identifier: "PullRequestSimple" }) as any as S.Schema<PullRequestSimple>;
 
 export type ListResponseBodyList = Array<PullRequestSimple>;
 export const ListResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2292,15 +2236,9 @@ export const ListCommitsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/pulls/{pull_number}/commits",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/{pull_number}/commits", code: 200 }),
   ),
-).annotate({
-  identifier: "ListCommitsRequest",
-}) as any as S.Schema<ListCommitsRequest>;
+).annotate({ identifier: "ListCommitsRequest" }) as any as S.Schema<ListCommitsRequest>;
 
 /** Metaproperties for Git author/committer information. */
 export interface NullableGitUser {
@@ -2314,9 +2252,7 @@ export const NullableGitUser = /*@__PURE__*/ S.suspend(() =>
     email: S.optional(S.String),
     date: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableGitUser",
-}) as any as S.Schema<NullableGitUser>;
+).annotate({ identifier: "NullableGitUser" }) as any as S.Schema<NullableGitUser>;
 
 export interface CommitCommitTree {
   sha: string;
@@ -2327,9 +2263,7 @@ export const CommitCommitTree = /*@__PURE__*/ S.suspend(() =>
     sha: S.String,
     url: S.String,
   }),
-).annotate({
-  identifier: "CommitCommitTree",
-}) as any as S.Schema<CommitCommitTree>;
+).annotate({ identifier: "CommitCommitTree" }) as any as S.Schema<CommitCommitTree>;
 
 export interface Verification {
   verified: boolean;
@@ -2386,9 +2320,7 @@ export const CommitParentsItem = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     html_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommitParentsItem",
-}) as any as S.Schema<CommitParentsItem>;
+).annotate({ identifier: "CommitParentsItem" }) as any as S.Schema<CommitParentsItem>;
 
 export type CommitParentsList = Array<CommitParentsItem>;
 export const CommitParentsList = /*@__PURE__*/ S.Array(
@@ -2489,9 +2421,7 @@ export const ListCommitsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListCommitsResponse = ListCommitsResponseBodyList;
 export const ListCommitsResponse = /*@__PURE__*/ S.suspend(() =>
   ListCommitsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListCommitsResponse",
-}) as any as S.Schema<ListCommitsResponse>;
+).annotate({ identifier: "ListCommitsResponse" }) as any as S.Schema<ListCommitsResponse>;
 
 export interface ListFilesRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2513,15 +2443,9 @@ export const ListFilesRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/pulls/{pull_number}/files",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/{pull_number}/files", code: 200 }),
   ),
-).annotate({
-  identifier: "ListFilesRequest",
-}) as any as S.Schema<ListFilesRequest>;
+).annotate({ identifier: "ListFilesRequest" }) as any as S.Schema<ListFilesRequest>;
 
 export type ListFilesResponseBodyList = Array<DiffEntry>;
 export const ListFilesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2531,9 +2455,7 @@ export const ListFilesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListFilesResponse = ListFilesResponseBodyList;
 export const ListFilesResponse = /*@__PURE__*/ S.suspend(() =>
   ListFilesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListFilesResponse",
-}) as any as S.Schema<ListFilesResponse>;
+).annotate({ identifier: "ListFilesResponse" }) as any as S.Schema<ListFilesResponse>;
 
 export interface ListPullRequestStacksRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2625,9 +2547,7 @@ export const PullRequestStackMinimal = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     pull_requests: PullRequestStackMinimalPullRequestsList,
   }),
-).annotate({
-  identifier: "PullRequestStackMinimal",
-}) as any as S.Schema<PullRequestStackMinimal>;
+).annotate({ identifier: "PullRequestStackMinimal" }) as any as S.Schema<PullRequestStackMinimal>;
 
 export type ListPullRequestStacksResponseBodyList = Array<PullRequestStackMinimal>;
 export const ListPullRequestStacksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2685,9 +2605,7 @@ export const PullRequestReviewRequest = /*@__PURE__*/ S.suspend(() =>
     users: PullRequestReviewRequestUsersList,
     teams: PullRequestReviewRequestTeamsList,
   }),
-).annotate({
-  identifier: "PullRequestReviewRequest",
-}) as any as S.Schema<PullRequestReviewRequest>;
+).annotate({ identifier: "PullRequestReviewRequest" }) as any as S.Schema<PullRequestReviewRequest>;
 
 export type ListReviewCommentsRequestSort = "created" | "updated";
 export const ListReviewCommentsRequestSort = S.String;
@@ -2724,11 +2642,7 @@ export const ListReviewCommentsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/pulls/{pull_number}/comments",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/{pull_number}/comments", code: 200 }),
   ),
 ).annotate({
   identifier: "ListReviewCommentsRequest",
@@ -2776,13 +2690,7 @@ export const ListReviewCommentsForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     since: S.optional(S.String.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/pulls/comments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/comments", code: 200 })),
 ).annotate({
   identifier: "ListReviewCommentsForRepoRequest",
 }) as any as S.Schema<ListReviewCommentsForRepoRequest>;
@@ -2819,15 +2727,9 @@ export const ListReviewsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/pulls/{pull_number}/reviews",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/{pull_number}/reviews", code: 200 }),
   ),
-).annotate({
-  identifier: "ListReviewsRequest",
-}) as any as S.Schema<ListReviewsRequest>;
+).annotate({ identifier: "ListReviewsRequest" }) as any as S.Schema<ListReviewsRequest>;
 
 export type ListReviewsResponseBodyList = Array<PullRequestReview>;
 export const ListReviewsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2837,9 +2739,7 @@ export const ListReviewsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListReviewsResponse = ListReviewsResponseBodyList;
 export const ListReviewsResponse = /*@__PURE__*/ S.suspend(() =>
   ListReviewsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListReviewsResponse",
-}) as any as S.Schema<ListReviewsResponse>;
+).annotate({ identifier: "ListReviewsResponse" }) as any as S.Schema<ListReviewsResponse>;
 
 /** The merge method to use. */
 export type MergeRequestMergeMethod = "merge" | "squash" | "rebase";
@@ -2871,11 +2771,7 @@ export const MergeRequest = /*@__PURE__*/ S.suspend(() =>
     sha: S.optional(S.String),
     merge_method: S.optional(MergeRequestMergeMethod),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/pulls/{pull_number}/merge",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/pulls/{pull_number}/merge", code: 200 }),
   ),
 ).annotate({ identifier: "MergeRequest" }) as any as S.Schema<MergeRequest>;
 
@@ -2891,15 +2787,13 @@ export const PullRequestMergeResult = /*@__PURE__*/ S.suspend(() =>
     merged: S.Boolean,
     message: S.String,
   }),
-).annotate({
-  identifier: "PullRequestMergeResult",
-}) as any as S.Schema<PullRequestMergeResult>;
+).annotate({ identifier: "PullRequestMergeResult" }) as any as S.Schema<PullRequestMergeResult>;
 
-/** The merge method to use. */
+/** The merge method to use for a direct merge. Only supported for direct merges. */
 export type MergeAsyncRequestMergeMethod = "merge" | "squash" | "rebase";
 export const MergeAsyncRequestMergeMethod = S.String;
 
-/** The action that will be taken to merge the pull request. `direct_merge` merges the pull request directly without using a merge queue; `merge_queue` adds the pull request to a merge queue; `default` selects the most appropriate option. */
+/** The action that will be taken to merge the pull request. `direct_merge` merges the pull request directly without using a merge queue; `merge_queue` adds the pull request to a merge queue; `default` uses a merge queue if one is configured for the target branch, or merges directly otherwise. If omitted, defaults to `default`. */
 export type MergeAsyncRequestMergeAction = "default" | "direct_merge" | "merge_queue";
 export const MergeAsyncRequestMergeAction = S.String;
 
@@ -2910,16 +2804,18 @@ export interface MergeAsyncRequest {
   repo: string;
   /** The number that identifies the pull request. */
   pull_number: number;
-  /** Title for the automatic commit message. */
+  /** Title for the automatic commit message. Only supported for direct merges. */
   commit_title?: string;
-  /** Extra detail to append to automatic commit message. */
+  /** Extra detail to append to automatic commit message. Only supported for direct merges. */
   commit_message?: string;
   /** SHA that pull request head must match to allow merge. If not provided, the current head of the PR at the time of the request will be used; if the PR is pushed in between the merge being requested and being executed, the merge will be cancelled. */
   sha?: string;
-  /** The merge method to use. */
+  /** The merge method to use for a direct merge. Only supported for direct merges. */
   merge_method?: MergeAsyncRequestMergeMethod | (string & {});
-  /** The action that will be taken to merge the pull request. `direct_merge` merges the pull request directly without using a merge queue; `merge_queue` adds the pull request to a merge queue; `default` selects the most appropriate option. */
+  /** The action that will be taken to merge the pull request. `direct_merge` merges the pull request directly without using a merge queue; `merge_queue` adds the pull request to a merge queue; `default` uses a merge queue if one is configured for the target branch, or merges directly otherwise. If omitted, defaults to `default`. */
   merge_action?: MergeAsyncRequestMergeAction | (string & {});
+  /** Whether to bypass repository rules that the authenticated actor is permitted to bypass. */
+  bypass_rules?: boolean;
 }
 export const MergeAsyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2931,6 +2827,7 @@ export const MergeAsyncRequest = /*@__PURE__*/ S.suspend(() =>
     sha: S.optional(S.String),
     merge_method: S.optional(MergeAsyncRequestMergeMethod),
     merge_action: S.optional(MergeAsyncRequestMergeAction),
+    bypass_rules: S.optional(S.Boolean),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -2938,9 +2835,7 @@ export const MergeAsyncRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "MergeAsyncRequest",
-}) as any as S.Schema<MergeAsyncRequest>;
+).annotate({ identifier: "MergeAsyncRequest" }) as any as S.Schema<MergeAsyncRequest>;
 
 export interface PullRequestStacksUnstackRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -3080,9 +2975,49 @@ export const RequestReviewersRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
+).annotate({ identifier: "RequestReviewersRequest" }) as any as S.Schema<RequestReviewersRequest>;
+
+/** An array of user `login`s whose reviews will be rerequested. */
+export type RerequestReviewersRequestReviewersList = Array<string>;
+export const RerequestReviewersRequestReviewersList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<RerequestReviewersRequestReviewersList>;
+
+/** An array of team `slug`s whose reviews will be rerequested. */
+export type RerequestReviewersRequestTeamReviewersList = Array<string>;
+export const RerequestReviewersRequestTeamReviewersList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<RerequestReviewersRequestTeamReviewersList>;
+
+export interface RerequestReviewersRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the pull request. */
+  pull_number: number;
+  /** An array of user `login`s whose reviews will be rerequested. */
+  reviewers?: RerequestReviewersRequestReviewersList;
+  /** An array of team `slug`s whose reviews will be rerequested. */
+  team_reviewers?: RerequestReviewersRequestTeamReviewersList;
+}
+export const RerequestReviewersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    pull_number: S.Number.pipe(T.Label()),
+    reviewers: S.optional(RerequestReviewersRequestReviewersList),
+    team_reviewers: S.optional(RerequestReviewersRequestTeamReviewersList),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers/rerequest",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "RequestReviewersRequest",
-}) as any as S.Schema<RequestReviewersRequest>;
+  identifier: "RerequestReviewersRequest",
+}) as any as S.Schema<RerequestReviewersRequest>;
 
 /** The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`. When you leave this blank, the API returns _HTTP 422 (Unrecognizable entity)_ and sets the review action state to `PENDING`, which means you will need to re-submit the pull request review using a review action. */
 export type SubmitReviewRequestEvent = "APPROVE" | "REQUEST_CHANGES" | "COMMENT";
@@ -3117,9 +3052,7 @@ export const SubmitReviewRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "SubmitReviewRequest",
-}) as any as S.Schema<SubmitReviewRequest>;
+).annotate({ identifier: "SubmitReviewRequest" }) as any as S.Schema<SubmitReviewRequest>;
 
 /** State of this Pull Request. Either `open` or `closed`. */
 export type UpdateRequestState = "open" | "closed";
@@ -3153,13 +3086,7 @@ export const UpdateRequest = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(UpdateRequestState),
     base: S.optional(S.String),
     maintainer_can_modify: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/pulls/{pull_number}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/pulls/{pull_number}", code: 200 })),
 ).annotate({ identifier: "UpdateRequest" }) as any as S.Schema<UpdateRequest>;
 
 export interface UpdateBranchRequest {
@@ -3185,9 +3112,7 @@ export const UpdateBranchRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateBranchRequest",
-}) as any as S.Schema<UpdateBranchRequest>;
+).annotate({ identifier: "UpdateBranchRequest" }) as any as S.Schema<UpdateBranchRequest>;
 
 export interface UpdateBranchResponse {}
 export const UpdateBranchResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3220,9 +3145,7 @@ export const UpdateReviewRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateReviewRequest",
-}) as any as S.Schema<UpdateReviewRequest>;
+).annotate({ identifier: "UpdateReviewRequest" }) as any as S.Schema<UpdateReviewRequest>;
 
 export interface UpdateReviewCommentRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -3397,19 +3320,19 @@ export const dismissReview: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetError = NotFound | GithubOpError;
+export type GetError = NotFound | UnprocessableEntity | GithubOpError;
 /** Get a pull request Draft pull requests are available in public repositories with GitHub Free and GitHub Free for organizations, GitHub Pro, and legacy per-repository billing plans, and in public and private repositories with GitHub Team and GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation. Lists details of a pull request by providing its number. When you get, [create](https://docs.github.com/rest/pulls/pulls/#create-a-pull-request), or [edit](https://docs.github.com/rest/pulls/pulls#update-a-pull-request) a pull request, GitHub creates a merge commit to test whether the pull request can be automatically merged into the base branch. This test commit is not added to the base branch or the head branch. You can review the status of the test commit using the `mergeable` key. For more information, see "[Checking mergeability of pull requests](https://docs.github.com/rest/guides/getting-started-with-the-git-database-api#checking-mergeability-of-pull-requests)". The value of the `mergeable` attribute can be `true`, `false`, or `null`. If the value is `null`, then GitHub has started a background job to compute the mergeability. After giving the job time to complete, resubmit the request. When the job finishes, you will see a non-`null` value for the `mergeable` attribute in the response. If `mergeable` is `true`, then `merge_commit_sha` will be the SHA of the _test_ merge commit. The value of the `merge_commit_sha` attribute changes depending on the state of the pull request. Before merging a pull request, the `merge_commit_sha` attribute holds the SHA of the _test_ merge commit. After merging a pull request, the `merge_commit_sha` attribute changes depending on how you merged the pull request: * If merged as a [merge commit](https://docs.github.com/articles/about-merge-methods-on-github/), `merge_commit_sha` represents the SHA of the merge commit. * If merged via a [squash](https://docs.github.com/articles/about-merge-methods-on-github/#squashing-your-merge-commits), `merge_commit_sha` represents the SHA of the squashed commit on the base branch. * If [rebased](https://docs.github.com/articles/about-merge-methods-on-github/#rebasing-and-merging-your-commits), `merge_commit_sha` represents the commit that the base branch was updated to. Pass the appropriate [media type](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types) to fetch diff and patch formats. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. - **`application/vnd.github.diff`**: For more information, see "[git-diff](https://git-scm.com/docs/git-diff)" in the Git documentation. If a diff is corrupt, contact us through the [GitHub Support portal](https://support.github.com/). Include the repository name and pull request ID in your message. */
 export const get: API.OperationMethod<GetRequest, PullRequest, GetError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: GetRequest,
     output: PullRequest,
-    errors: [NotFound],
+    errors: [NotFound, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
   }));
 
 export type GetMergeAsyncResultError = Forbidden | NotFound | GithubOpError;
-/** Get the result of an asynchronous merge Fetches the current result of an asynchronous merge request, identified by the UUID that was returned when the merge was requested. While the merge is still queued, the response includes the UUID, merge method, and expected head SHA of the request. Once the merge has completed, the response reports whether it was merged, including the merge commit OID on success or a message describing why it could not be merged on failure. The result of an asynchronous merge request is retained for 24 hours after its most recent update. After this window the request expires and this endpoint returns a `404` response for its UUID. */
+/** Get the result of an asynchronous merge Fetches the current result of an asynchronous merge request, identified by the UUID that was returned when the merge was requested. While the request's status is `pending`, the response includes the UUID, merge method, merge action, and expected head SHA of the request. Once the asynchronous request completes, its status is one of: - `merged`: The pull request was merged into the base branch. The response includes the merge commit OID. - `enqueued`: The pull request was added to a merge queue. - `failed`: The request failed. The response includes a message describing the failure. An `enqueued` result is final for the merge queue requests and does not mean the pull request has merged. This result does not change when the merge queue later merges the pull request. To get the eventual merge status, [check if a pull request has been merged](https://docs.github.com/rest/pulls/pulls#check-if-a-pull-request-has-been-merged). The result of an asynchronous merge request is retained for 24 hours after its most recent update. After this window the request expires and this endpoint returns a `404` response for its UUID. */
 export const getMergeAsyncResult: API.OperationMethod<
   GetMergeAsyncResultRequest,
   PullRequestMergeAsyncResult,
@@ -3600,7 +3523,7 @@ export const listReviews: API.OperationMethod<
 }));
 
 export type MergeError = Forbidden | NotFound | Conflict | UnprocessableEntity | GithubOpError;
-/** Merge a pull request Merges a pull request into the base branch. This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)." */
+/** Merge a pull request > [!NOTE] > We recommend using the [asynchronous merge API](https://docs.github.com/rest/pulls/pulls#merge-a-pull-request-asynchronously) instead. This endpoint does not support stacked pull requests or merging with a merge queue. Merges a pull request into the base branch. This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)." */
 export const merge: API.OperationMethod<
   MergeRequest,
   PullRequestMergeResult,
@@ -3621,7 +3544,7 @@ export type MergeAsyncError =
   | Conflict
   | UnprocessableEntity
   | GithubOpError;
-/** Merge a pull request asynchronously Merges a pull request into the base branch in the background. Merging in this way allows certain types of errors to be retried, and avoids the risk of timeouts for particularly complex merges. This is the required method for merging stacked PRs, but also supports unstacked PRs. When using this endpoint to merge a stacked pull request, all pull requests in the stack up to and including the requested PR will be merged into the base branch. The response includes a UUID that can be used to fetch the result of the merge. If another asynchronous merge request has already been made for this pull request, the UUID of that request will be returned instead with a 409 response status to indicate that the merge options may be different from those that were requested. If there isn't an existing asynchronous merge request, a 202 response status is used. If the pull request is already merged, the merge commit OID will be returned immediately with a 200 status. If the pull request cannot be merged (e.g. because it is closed, or still a draft) this result will be returned immediately with a 400 response status. Branch protection rules and repository rules are not run at this stage, only basic pull request state checks are performed. */
+/** Merge a pull request asynchronously Merges a pull request into the base branch in the background or adds it to a merge queue. Background processing allows certain types of errors to be retried and reduces the risk of timeouts for complex merges. This is the required API for merging stacked pull requests. For a stacked pull request, the operation includes all open downstack pull requests. A new asynchronous merge request returns a `202` response with a UUID that can be used to [fetch the result of the merge](https://docs.github.com/rest/pulls/pulls#get-the-result-of-an-asynchronous-merge). If another asynchronous merge request is already pending for this pull request, a `409` response returns that request's UUID and merge options instead. If the pull request is already merged or already in a merge queue, a `200` response is returned immediately. A `merged` result includes the merge commit OID. An `enqueued` result means the pull request was added to the merge queue, not that it has merged. If the pull request cannot be merged (e.g. because it is closed, or still a draft) this result will be returned immediately with a `400` response status. Branch protection rules and repository rules are not run at this stage, only basic pull request state checks are performed. */
 export const mergeAsync: API.OperationMethod<
   MergeAsyncRequest,
   PullRequestMergeAsyncResult,
@@ -3678,6 +3601,21 @@ export const requestReviewers: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: RequestReviewersRequest,
+  output: PullRequestSimple,
+  errors: [Forbidden, UnprocessableEntity],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RerequestReviewersError = Forbidden | UnprocessableEntity | GithubOpError;
+/** Rerequest reviewers for a pull request Rerequests reviews for a pull request from a given set of users and/or teams. This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)." */
+export const rerequestReviewers: API.OperationMethod<
+  RerequestReviewersRequest,
+  PullRequestSimple,
+  RerequestReviewersError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RerequestReviewersRequest,
   output: PullRequestSimple,
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,

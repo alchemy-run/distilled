@@ -64,9 +64,7 @@ export const CreateForkRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateForkRequest",
-}) as any as S.Schema<CreateForkRequest>;
+).annotate({ identifier: "CreateForkRequest" }) as any as S.Schema<CreateForkRequest>;
 
 export interface CreateForkResponse {}
 export const CreateForkResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -193,11 +191,7 @@ export const CreatePrivateVulnerabilityReportRequest = /*@__PURE__*/ S.suspend((
     cvss_vector_string: S.optional(S.NullOr(S.String)),
     start_private_fork: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/security-advisories/reports",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/security-advisories/reports", code: 200 }),
   ),
 ).annotate({
   identifier: "CreatePrivateVulnerabilityReportRequest",
@@ -358,9 +352,7 @@ export const RepositoryAdvisoryCvss = /*@__PURE__*/ S.suspend(() =>
     vector_string: S.NullOr(S.String),
     score: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "RepositoryAdvisoryCvss",
-}) as any as S.Schema<RepositoryAdvisoryCvss>;
+).annotate({ identifier: "RepositoryAdvisoryCvss" }) as any as S.Schema<RepositoryAdvisoryCvss>;
 
 export interface CvssSeveritiesCvssV3 {
   /** The CVSS 3 vector string. */
@@ -373,9 +365,7 @@ export const CvssSeveritiesCvssV3 = /*@__PURE__*/ S.suspend(() =>
     vector_string: S.NullOr(S.String),
     score: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "CvssSeveritiesCvssV3",
-}) as any as S.Schema<CvssSeveritiesCvssV3>;
+).annotate({ identifier: "CvssSeveritiesCvssV3" }) as any as S.Schema<CvssSeveritiesCvssV3>;
 
 export interface CvssSeveritiesCvssV4 {
   /** The CVSS 4 vector string. */
@@ -388,9 +378,7 @@ export const CvssSeveritiesCvssV4 = /*@__PURE__*/ S.suspend(() =>
     vector_string: S.NullOr(S.String),
     score: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "CvssSeveritiesCvssV4",
-}) as any as S.Schema<CvssSeveritiesCvssV4>;
+).annotate({ identifier: "CvssSeveritiesCvssV4" }) as any as S.Schema<CvssSeveritiesCvssV4>;
 
 export interface CvssSeverities {
   cvss_v3?: CvssSeveritiesCvssV3 | null;
@@ -479,9 +467,7 @@ export const RepositoryAdvisoryCredit = /*@__PURE__*/ S.suspend(() =>
     type: SecurityAdvisoryCreditTypes,
     state: RepositoryAdvisoryCreditState,
   }),
-).annotate({
-  identifier: "RepositoryAdvisoryCredit",
-}) as any as S.Schema<RepositoryAdvisoryCredit>;
+).annotate({ identifier: "RepositoryAdvisoryCredit" }) as any as S.Schema<RepositoryAdvisoryCredit>;
 
 export type RepositoryAdvisoryCreditsDetailedList = Array<RepositoryAdvisoryCredit>;
 export const RepositoryAdvisoryCreditsDetailedList = /*@__PURE__*/ S.Array(
@@ -509,9 +495,7 @@ export const TeamPermissions = /*@__PURE__*/ S.suspend(() =>
     maintain: S.Boolean,
     admin: S.Boolean,
   }),
-).annotate({
-  identifier: "TeamPermissions",
-}) as any as S.Schema<TeamPermissions>;
+).annotate({ identifier: "TeamPermissions" }) as any as S.Schema<TeamPermissions>;
 
 /** The ownership type of the team */
 export type TeamType = "enterprise" | "organization";
@@ -574,9 +558,7 @@ export const NullableTeamSimple = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.optional(S.Number),
     enterprise_id: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NullableTeamSimple",
-}) as any as S.Schema<NullableTeamSimple>;
+).annotate({ identifier: "NullableTeamSimple" }) as any as S.Schema<NullableTeamSimple>;
 
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -775,9 +757,7 @@ export const SimpleRepository = /*@__PURE__*/ S.suspend(() =>
     trees_url: S.String,
     hooks_url: S.String,
   }),
-).annotate({
-  identifier: "SimpleRepository",
-}) as any as S.Schema<SimpleRepository>;
+).annotate({ identifier: "SimpleRepository" }) as any as S.Schema<SimpleRepository>;
 
 /** A repository security advisory. */
 export interface RepositoryAdvisory {
@@ -858,9 +838,7 @@ export const RepositoryAdvisory = /*@__PURE__*/ S.suspend(() =>
     collaborating_teams: S.NullOr(RepositoryAdvisoryCollaboratingTeamsList),
     private_fork: S.NullOr(SimpleRepository),
   }),
-).annotate({
-  identifier: "RepositoryAdvisory",
-}) as any as S.Schema<RepositoryAdvisory>;
+).annotate({ identifier: "RepositoryAdvisory" }) as any as S.Schema<RepositoryAdvisory>;
 
 /** The name of the package affected by the vulnerability. */
 export type CreateRepositoryAdvisoryRequestVulnerabilitiesItemPackage =
@@ -974,13 +952,7 @@ export const CreateRepositoryAdvisoryRequest = /*@__PURE__*/ S.suspend(() =>
     severity: S.optional(S.NullOr(CreateRepositoryAdvisoryRequestSeverity)),
     cvss_vector_string: S.optional(S.NullOr(S.String)),
     start_private_fork: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/security-advisories",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/security-advisories", code: 200 })),
 ).annotate({
   identifier: "CreateRepositoryAdvisoryRequest",
 }) as any as S.Schema<CreateRepositoryAdvisoryRequest>;
@@ -1024,9 +996,7 @@ export const GetGlobalAdvisoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ghsa_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/advisories/{ghsa_id}", code: 200 })),
-).annotate({
-  identifier: "GetGlobalAdvisoryRequest",
-}) as any as S.Schema<GetGlobalAdvisoryRequest>;
+).annotate({ identifier: "GetGlobalAdvisoryRequest" }) as any as S.Schema<GetGlobalAdvisoryRequest>;
 
 /** The type of advisory. */
 export type GlobalAdvisoryType = "reviewed" | "unreviewed" | "malware";
@@ -1114,9 +1084,7 @@ export const SecurityAdvisoryEpss = /*@__PURE__*/ S.suspend(() =>
     percentage: S.optional(S.Number),
     percentile: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SecurityAdvisoryEpss",
-}) as any as S.Schema<SecurityAdvisoryEpss>;
+).annotate({ identifier: "SecurityAdvisoryEpss" }) as any as S.Schema<SecurityAdvisoryEpss>;
 
 export type GlobalAdvisoryCwesItem = RepositoryAdvisoryCwesItem;
 export const GlobalAdvisoryCwesItem = RepositoryAdvisoryCwesItem;
@@ -1390,13 +1358,7 @@ export const ListOrgRepositoryAdvisoriesRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
     state: S.optional(ListOrgRepositoryAdvisoriesRequestState.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/security-advisories",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/security-advisories", code: 200 })),
 ).annotate({
   identifier: "ListOrgRepositoryAdvisoriesRequest",
 }) as any as S.Schema<ListOrgRepositoryAdvisoriesRequest>;
@@ -1450,13 +1412,7 @@ export const ListRepositoryAdvisoriesRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
     state: S.optional(ListRepositoryAdvisoriesRequestState.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/security-advisories",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/security-advisories", code: 200 })),
 ).annotate({
   identifier: "ListRepositoryAdvisoriesRequest",
 }) as any as S.Schema<ListRepositoryAdvisoriesRequest>;

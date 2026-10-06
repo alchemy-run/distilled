@@ -82,11 +82,7 @@ export const AddCustomLabelsToSelfHostedRunnerForOrgRequest = /*@__PURE__*/ S.su
     runner_id: S.Number.pipe(T.Label()),
     labels: AddCustomLabelsToSelfHostedRunnerForOrgRequestLabelsList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/actions/runners/{runner_id}/labels",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/orgs/{org}/actions/runners/{runner_id}/labels", code: 200 }),
   ),
 ).annotate({
   identifier: "AddCustomLabelsToSelfHostedRunnerForOrgRequest",
@@ -355,9 +351,7 @@ export const CancelWorkflowRunRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CancelWorkflowRunRequest",
-}) as any as S.Schema<CancelWorkflowRunRequest>;
+).annotate({ identifier: "CancelWorkflowRunRequest" }) as any as S.Schema<CancelWorkflowRunRequest>;
 
 export interface CancelWorkflowRunResponse {}
 export const CancelWorkflowRunResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -452,13 +446,7 @@ export const CreateHostedRunnerForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     maximum_runners: S.optional(S.Number),
     enable_static_ip: S.optional(S.Boolean),
     image_gen: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/actions/hosted-runners",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/actions/hosted-runners", code: 200 })),
 ).annotate({
   identifier: "CreateHostedRunnerForOrgRequest",
 }) as any as S.Schema<CreateHostedRunnerForOrgRequest>;
@@ -586,9 +574,1198 @@ export const ActionsHostedRunner = /*@__PURE__*/ S.suspend(() =>
     last_active_on: S.optional(S.NullOr(S.String)),
     image_gen: S.optional(S.Boolean),
   }),
+).annotate({ identifier: "ActionsHostedRunner" }) as any as S.Schema<ActionsHostedRunner>;
+
+/** The enforcement level of the ruleset. `evaluate` allows admins to test rules before enforcing them. Admins can view insights on the Rule Insights page (`evaluate` is only available with GitHub Enterprise). */
+export type RepositoryRuleEnforcement = "disabled" | "active" | "evaluate";
+export const RepositoryRuleEnforcement = S.String;
+
+/** Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
+export type ActionsPolicyOrgConditionsCase0RepositoryNameIncludeList = Array<string>;
+export const ActionsPolicyOrgConditionsCase0RepositoryNameIncludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyOrgConditionsCase0RepositoryNameIncludeList>;
+
+/** Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match. */
+export type ActionsPolicyOrgConditionsCase0RepositoryNameExcludeList = Array<string>;
+export const ActionsPolicyOrgConditionsCase0RepositoryNameExcludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyOrgConditionsCase0RepositoryNameExcludeList>;
+
+export interface ActionsPolicyOrgConditionsCase0RepositoryName {
+  /** Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
+  include?: ActionsPolicyOrgConditionsCase0RepositoryNameIncludeList;
+  /** Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match. */
+  exclude?: ActionsPolicyOrgConditionsCase0RepositoryNameExcludeList;
+  /** Whether renaming of target repositories is prevented. */
+  protected?: boolean;
+}
+export const ActionsPolicyOrgConditionsCase0RepositoryName = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    include: S.optional(ActionsPolicyOrgConditionsCase0RepositoryNameIncludeList),
+    exclude: S.optional(ActionsPolicyOrgConditionsCase0RepositoryNameExcludeList),
+    protected: S.optional(S.Boolean),
+  }),
 ).annotate({
-  identifier: "ActionsHostedRunner",
-}) as any as S.Schema<ActionsHostedRunner>;
+  identifier: "ActionsPolicyOrgConditionsCase0RepositoryName",
+}) as any as S.Schema<ActionsPolicyOrgConditionsCase0RepositoryName>;
+
+/** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+export type ActionsPolicyOrgConditionsCase0WorkflowPathIncludeList = Array<string>;
+export const ActionsPolicyOrgConditionsCase0WorkflowPathIncludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyOrgConditionsCase0WorkflowPathIncludeList>;
+
+/** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+export type ActionsPolicyOrgConditionsCase0WorkflowPathExcludeList = Array<string>;
+export const ActionsPolicyOrgConditionsCase0WorkflowPathExcludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyOrgConditionsCase0WorkflowPathExcludeList>;
+
+export interface ActionsPolicyOrgConditionsCase0WorkflowPath {
+  /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+  include: ActionsPolicyOrgConditionsCase0WorkflowPathIncludeList;
+  /** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+  exclude: ActionsPolicyOrgConditionsCase0WorkflowPathExcludeList;
+}
+export const ActionsPolicyOrgConditionsCase0WorkflowPath = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    include: ActionsPolicyOrgConditionsCase0WorkflowPathIncludeList,
+    exclude: ActionsPolicyOrgConditionsCase0WorkflowPathExcludeList,
+  }),
+).annotate({
+  identifier: "ActionsPolicyOrgConditionsCase0WorkflowPath",
+}) as any as S.Schema<ActionsPolicyOrgConditionsCase0WorkflowPath>;
+
+export interface ActionsPolicyOrgConditionsCase0 {
+  repository_name: ActionsPolicyOrgConditionsCase0RepositoryName;
+  workflow_path?: ActionsPolicyOrgConditionsCase0WorkflowPath;
+}
+export const ActionsPolicyOrgConditionsCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repository_name: ActionsPolicyOrgConditionsCase0RepositoryName,
+    workflow_path: S.optional(ActionsPolicyOrgConditionsCase0WorkflowPath),
+  }),
+).annotate({
+  identifier: "ActionsPolicyOrgConditionsCase0",
+}) as any as S.Schema<ActionsPolicyOrgConditionsCase0>;
+
+/** The repository IDs that the ruleset applies to. One of these IDs must match for the condition to pass. */
+export type ActionsPolicyOrgConditionsCase1RepositoryIdRepositoryIdsList = Array<number>;
+export const ActionsPolicyOrgConditionsCase1RepositoryIdRepositoryIdsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<ActionsPolicyOrgConditionsCase1RepositoryIdRepositoryIdsList>;
+
+export interface ActionsPolicyOrgConditionsCase1RepositoryId {
+  /** The repository IDs that the ruleset applies to. One of these IDs must match for the condition to pass. */
+  repository_ids?: ActionsPolicyOrgConditionsCase1RepositoryIdRepositoryIdsList;
+}
+export const ActionsPolicyOrgConditionsCase1RepositoryId = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repository_ids: S.optional(ActionsPolicyOrgConditionsCase1RepositoryIdRepositoryIdsList),
+  }),
+).annotate({
+  identifier: "ActionsPolicyOrgConditionsCase1RepositoryId",
+}) as any as S.Schema<ActionsPolicyOrgConditionsCase1RepositoryId>;
+
+/** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+export type ActionsPolicyOrgConditionsCase1WorkflowPathIncludeList = Array<string>;
+export const ActionsPolicyOrgConditionsCase1WorkflowPathIncludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyOrgConditionsCase1WorkflowPathIncludeList>;
+
+/** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+export type ActionsPolicyOrgConditionsCase1WorkflowPathExcludeList = Array<string>;
+export const ActionsPolicyOrgConditionsCase1WorkflowPathExcludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyOrgConditionsCase1WorkflowPathExcludeList>;
+
+export interface ActionsPolicyOrgConditionsCase1WorkflowPath {
+  /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+  include: ActionsPolicyOrgConditionsCase1WorkflowPathIncludeList;
+  /** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+  exclude: ActionsPolicyOrgConditionsCase1WorkflowPathExcludeList;
+}
+export const ActionsPolicyOrgConditionsCase1WorkflowPath = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    include: ActionsPolicyOrgConditionsCase1WorkflowPathIncludeList,
+    exclude: ActionsPolicyOrgConditionsCase1WorkflowPathExcludeList,
+  }),
+).annotate({
+  identifier: "ActionsPolicyOrgConditionsCase1WorkflowPath",
+}) as any as S.Schema<ActionsPolicyOrgConditionsCase1WorkflowPath>;
+
+export interface ActionsPolicyOrgConditionsCase1 {
+  repository_id: ActionsPolicyOrgConditionsCase1RepositoryId;
+  workflow_path?: ActionsPolicyOrgConditionsCase1WorkflowPath;
+}
+export const ActionsPolicyOrgConditionsCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repository_id: ActionsPolicyOrgConditionsCase1RepositoryId,
+    workflow_path: S.optional(ActionsPolicyOrgConditionsCase1WorkflowPath),
+  }),
+).annotate({
+  identifier: "ActionsPolicyOrgConditionsCase1",
+}) as any as S.Schema<ActionsPolicyOrgConditionsCase1>;
+
+/** The values to match for the repository property */
+export type RepositoryRulesetConditionsRepositoryPropertySpecPropertyValuesList = Array<string>;
+export const RepositoryRulesetConditionsRepositoryPropertySpecPropertyValuesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<RepositoryRulesetConditionsRepositoryPropertySpecPropertyValuesList>;
+
+/** The source of the repository property. Defaults to 'custom' if not specified. */
+export type RepositoryRulesetConditionsRepositoryPropertySpecSource = "custom" | "system";
+export const RepositoryRulesetConditionsRepositoryPropertySpecSource = S.String;
+
+/** Parameters for a targeting a repository property */
+export interface RepositoryRulesetConditionsRepositoryPropertySpec {
+  /** The name of the repository property to target */
+  name: string;
+  /** The values to match for the repository property */
+  property_values: RepositoryRulesetConditionsRepositoryPropertySpecPropertyValuesList;
+  /** The source of the repository property. Defaults to 'custom' if not specified. */
+  source?: RepositoryRulesetConditionsRepositoryPropertySpecSource | (string & {});
+}
+export const RepositoryRulesetConditionsRepositoryPropertySpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    property_values: RepositoryRulesetConditionsRepositoryPropertySpecPropertyValuesList,
+    source: S.optional(RepositoryRulesetConditionsRepositoryPropertySpecSource),
+  }),
+).annotate({
+  identifier: "RepositoryRulesetConditionsRepositoryPropertySpec",
+}) as any as S.Schema<RepositoryRulesetConditionsRepositoryPropertySpec>;
+
+/** The repository properties and values to include. All of these properties must match for the condition to pass. */
+export type ActionsPolicyOrgConditionsCase2RepositoryPropertyIncludeList =
+  Array<RepositoryRulesetConditionsRepositoryPropertySpec>;
+export const ActionsPolicyOrgConditionsCase2RepositoryPropertyIncludeList = /*@__PURE__*/ S.Array(
+  RepositoryRulesetConditionsRepositoryPropertySpec,
+) as any as S.Schema<ActionsPolicyOrgConditionsCase2RepositoryPropertyIncludeList>;
+
+/** The repository properties and values to exclude. The condition will not pass if any of these properties match. */
+export type ActionsPolicyOrgConditionsCase2RepositoryPropertyExcludeList =
+  Array<RepositoryRulesetConditionsRepositoryPropertySpec>;
+export const ActionsPolicyOrgConditionsCase2RepositoryPropertyExcludeList = /*@__PURE__*/ S.Array(
+  RepositoryRulesetConditionsRepositoryPropertySpec,
+) as any as S.Schema<ActionsPolicyOrgConditionsCase2RepositoryPropertyExcludeList>;
+
+export interface ActionsPolicyOrgConditionsCase2RepositoryProperty {
+  /** The repository properties and values to include. All of these properties must match for the condition to pass. */
+  include?: ActionsPolicyOrgConditionsCase2RepositoryPropertyIncludeList;
+  /** The repository properties and values to exclude. The condition will not pass if any of these properties match. */
+  exclude?: ActionsPolicyOrgConditionsCase2RepositoryPropertyExcludeList;
+}
+export const ActionsPolicyOrgConditionsCase2RepositoryProperty = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    include: S.optional(ActionsPolicyOrgConditionsCase2RepositoryPropertyIncludeList),
+    exclude: S.optional(ActionsPolicyOrgConditionsCase2RepositoryPropertyExcludeList),
+  }),
+).annotate({
+  identifier: "ActionsPolicyOrgConditionsCase2RepositoryProperty",
+}) as any as S.Schema<ActionsPolicyOrgConditionsCase2RepositoryProperty>;
+
+/** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+export type ActionsPolicyOrgConditionsCase2WorkflowPathIncludeList = Array<string>;
+export const ActionsPolicyOrgConditionsCase2WorkflowPathIncludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyOrgConditionsCase2WorkflowPathIncludeList>;
+
+/** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+export type ActionsPolicyOrgConditionsCase2WorkflowPathExcludeList = Array<string>;
+export const ActionsPolicyOrgConditionsCase2WorkflowPathExcludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyOrgConditionsCase2WorkflowPathExcludeList>;
+
+export interface ActionsPolicyOrgConditionsCase2WorkflowPath {
+  /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+  include: ActionsPolicyOrgConditionsCase2WorkflowPathIncludeList;
+  /** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+  exclude: ActionsPolicyOrgConditionsCase2WorkflowPathExcludeList;
+}
+export const ActionsPolicyOrgConditionsCase2WorkflowPath = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    include: ActionsPolicyOrgConditionsCase2WorkflowPathIncludeList,
+    exclude: ActionsPolicyOrgConditionsCase2WorkflowPathExcludeList,
+  }),
+).annotate({
+  identifier: "ActionsPolicyOrgConditionsCase2WorkflowPath",
+}) as any as S.Schema<ActionsPolicyOrgConditionsCase2WorkflowPath>;
+
+export interface ActionsPolicyOrgConditionsCase2 {
+  repository_property: ActionsPolicyOrgConditionsCase2RepositoryProperty;
+  workflow_path?: ActionsPolicyOrgConditionsCase2WorkflowPath;
+}
+export const ActionsPolicyOrgConditionsCase2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repository_property: ActionsPolicyOrgConditionsCase2RepositoryProperty,
+    workflow_path: S.optional(ActionsPolicyOrgConditionsCase2WorkflowPath),
+  }),
+).annotate({
+  identifier: "ActionsPolicyOrgConditionsCase2",
+}) as any as S.Schema<ActionsPolicyOrgConditionsCase2>;
+
+/** Conditions for an organization Actions policy. The conditions object should contain one of `repository_name`, `repository_id`, or `repository_property`, and may also contain `workflow_path`. */
+export type ActionsPolicyOrgConditions =
+  | ActionsPolicyOrgConditionsCase0
+  | ActionsPolicyOrgConditionsCase1
+  | ActionsPolicyOrgConditionsCase2;
+export const ActionsPolicyOrgConditions = S.Unknown as any as S.Schema<ActionsPolicyOrgConditions>;
+
+export type ActionsRuleRestrictActionsActorsType = "restrict_actions_actors";
+export const ActionsRuleRestrictActionsActorsType = S.String;
+
+/** The type of the actor */
+export type ActionsRuleParamsActorType =
+  | "User"
+  | "Bot"
+  | "Team"
+  | "BusinessTeam"
+  | "EnterpriseTeam"
+  | "IntegrationInstallation"
+  | "App"
+  | "RepositoryRole";
+export const ActionsRuleParamsActorType = S.String;
+
+/** An actor authorized to trigger Actions workflows */
+export interface ActionsRuleParamsActor {
+  /** ID of the actor authorized to trigger Actions workflows. */
+  id: number;
+  /** The type of the actor */
+  type: ActionsRuleParamsActorType | (string & {});
+}
+export const ActionsRuleParamsActor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    type: ActionsRuleParamsActorType,
+  }),
+).annotate({ identifier: "ActionsRuleParamsActor" }) as any as S.Schema<ActionsRuleParamsActor>;
+
+/** Select the actors who can run Actions workflows. */
+export type ActionsRuleRestrictActionsActorsParametersAllowedActorsList =
+  Array<ActionsRuleParamsActor>;
+export const ActionsRuleRestrictActionsActorsParametersAllowedActorsList = /*@__PURE__*/ S.Array(
+  ActionsRuleParamsActor,
+) as any as S.Schema<ActionsRuleRestrictActionsActorsParametersAllowedActorsList>;
+
+export interface ActionsRuleRestrictActionsActorsParameters {
+  /** Select the actors who can run Actions workflows. */
+  allowed_actors: ActionsRuleRestrictActionsActorsParametersAllowedActorsList;
+}
+export const ActionsRuleRestrictActionsActorsParameters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowed_actors: ActionsRuleRestrictActionsActorsParametersAllowedActorsList,
+  }),
+).annotate({
+  identifier: "ActionsRuleRestrictActionsActorsParameters",
+}) as any as S.Schema<ActionsRuleRestrictActionsActorsParameters>;
+
+/** Choose specific actors that are authorized to trigger Actions workflows. */
+export interface ActionsRuleRestrictActionsActors {
+  type: ActionsRuleRestrictActionsActorsType;
+  parameters?: ActionsRuleRestrictActionsActorsParameters;
+}
+export const ActionsRuleRestrictActionsActors = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: ActionsRuleRestrictActionsActorsType,
+    parameters: S.optional(ActionsRuleRestrictActionsActorsParameters),
+  }),
+).annotate({
+  identifier: "ActionsRuleRestrictActionsActors",
+}) as any as S.Schema<ActionsRuleRestrictActionsActors>;
+
+export type ActionsRuleRestrictActionEventsType = "restrict_action_events";
+export const ActionsRuleRestrictActionEventsType = S.String;
+
+export type ActionsRuleRestrictActionEventsParametersAllowedEventsItem =
+  | "branch_protection_rule"
+  | "check_run"
+  | "check_suite"
+  | "create"
+  | "delete"
+  | "deployment"
+  | "deployment_status"
+  | "discussion"
+  | "discussion_comment"
+  | "fork"
+  | "gollum"
+  | "image_version"
+  | "issue_comment"
+  | "issues"
+  | "label"
+  | "merge_group"
+  | "milestone"
+  | "page_build"
+  | "project"
+  | "project_card"
+  | "project_column"
+  | "public"
+  | "pull_request"
+  | "pull_request_review"
+  | "pull_request_review_comment"
+  | "pull_request_target"
+  | "push"
+  | "registry_package"
+  | "release"
+  | "repository_dispatch"
+  | "schedule"
+  | "status"
+  | "watch"
+  | "workflow_call"
+  | "workflow_dispatch"
+  | "workflow_run";
+export const ActionsRuleRestrictActionEventsParametersAllowedEventsItem = S.String;
+
+/** Select the events that can trigger Actions workflows. */
+export type ActionsRuleRestrictActionEventsParametersAllowedEventsList = Array<
+  ActionsRuleRestrictActionEventsParametersAllowedEventsItem | (string & {})
+>;
+export const ActionsRuleRestrictActionEventsParametersAllowedEventsList = /*@__PURE__*/ S.Array(
+  ActionsRuleRestrictActionEventsParametersAllowedEventsItem,
+) as any as S.Schema<ActionsRuleRestrictActionEventsParametersAllowedEventsList>;
+
+export interface ActionsRuleRestrictActionEventsParameters {
+  /** Select the events that can trigger Actions workflows. */
+  allowed_events: ActionsRuleRestrictActionEventsParametersAllowedEventsList;
+}
+export const ActionsRuleRestrictActionEventsParameters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowed_events: ActionsRuleRestrictActionEventsParametersAllowedEventsList,
+  }),
+).annotate({
+  identifier: "ActionsRuleRestrictActionEventsParameters",
+}) as any as S.Schema<ActionsRuleRestrictActionEventsParameters>;
+
+/** Choose specific GitHub events that will trigger Actions workflows. */
+export interface ActionsRuleRestrictActionEvents {
+  type: ActionsRuleRestrictActionEventsType;
+  parameters?: ActionsRuleRestrictActionEventsParameters;
+}
+export const ActionsRuleRestrictActionEvents = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: ActionsRuleRestrictActionEventsType,
+    parameters: S.optional(ActionsRuleRestrictActionEventsParameters),
+  }),
+).annotate({
+  identifier: "ActionsRuleRestrictActionEvents",
+}) as any as S.Schema<ActionsRuleRestrictActionEvents>;
+
+/** An actions rule. */
+export type ActionsRule = ActionsRuleRestrictActionsActors | ActionsRuleRestrictActionEvents;
+export const ActionsRule = S.Unknown as any as S.Schema<ActionsRule>;
+
+/** An array of rules within the policy. */
+export type CreateOrgActionsPolicyRequestRulesList = Array<ActionsRule>;
+export const CreateOrgActionsPolicyRequestRulesList = /*@__PURE__*/ S.Array(
+  ActionsRule,
+) as any as S.Schema<CreateOrgActionsPolicyRequestRulesList>;
+
+export interface CreateOrgActionsPolicyRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The name of the policy. */
+  name: string;
+  enforcement: RepositoryRuleEnforcement | (string & {});
+  conditions?: ActionsPolicyOrgConditions;
+  /** An array of rules within the policy. */
+  rules?: CreateOrgActionsPolicyRequestRulesList;
+}
+export const CreateOrgActionsPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    org: S.String.pipe(T.Label()),
+    name: S.String,
+    enforcement: RepositoryRuleEnforcement,
+    conditions: S.optional(ActionsPolicyOrgConditions),
+    rules: S.optional(CreateOrgActionsPolicyRequestRulesList),
+  }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/actions/policies", code: 200 })),
+).annotate({
+  identifier: "CreateOrgActionsPolicyRequest",
+}) as any as S.Schema<CreateOrgActionsPolicyRequest>;
+
+/** The target of the policy */
+export type ActionsPolicyTarget = "actions";
+export const ActionsPolicyTarget = S.String;
+
+/** The type of the source of the policy */
+export type ActionsPolicySourceType = "Repository" | "Organization" | "Enterprise";
+export const ActionsPolicySourceType = S.String;
+
+/** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+export type ActionsPolicyWorkflowPathConditionWorkflowPathIncludeList = Array<string>;
+export const ActionsPolicyWorkflowPathConditionWorkflowPathIncludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyWorkflowPathConditionWorkflowPathIncludeList>;
+
+/** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+export type ActionsPolicyWorkflowPathConditionWorkflowPathExcludeList = Array<string>;
+export const ActionsPolicyWorkflowPathConditionWorkflowPathExcludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyWorkflowPathConditionWorkflowPathExcludeList>;
+
+export interface ActionsPolicyWorkflowPathConditionWorkflowPath {
+  /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+  include: ActionsPolicyWorkflowPathConditionWorkflowPathIncludeList;
+  /** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+  exclude: ActionsPolicyWorkflowPathConditionWorkflowPathExcludeList;
+}
+export const ActionsPolicyWorkflowPathConditionWorkflowPath = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    include: ActionsPolicyWorkflowPathConditionWorkflowPathIncludeList,
+    exclude: ActionsPolicyWorkflowPathConditionWorkflowPathExcludeList,
+  }),
+).annotate({
+  identifier: "ActionsPolicyWorkflowPathConditionWorkflowPath",
+}) as any as S.Schema<ActionsPolicyWorkflowPathConditionWorkflowPath>;
+
+/** Parameters for an Actions policy workflow path condition. Omitting `workflow_path` when creating a policy targets all workflows without storing an explicit condition. Omitting it when updating a policy preserves the existing workflow targeting. For new or changed workflow conditions, the API requires at least one included or excluded pattern. This is validated server-side rather than by this schema, which can also describe existing stored conditions. */
+export interface ActionsPolicyWorkflowPathCondition {
+  workflow_path?: ActionsPolicyWorkflowPathConditionWorkflowPath;
+}
+export const ActionsPolicyWorkflowPathCondition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workflow_path: S.optional(ActionsPolicyWorkflowPathConditionWorkflowPath),
+  }),
+).annotate({
+  identifier: "ActionsPolicyWorkflowPathCondition",
+}) as any as S.Schema<ActionsPolicyWorkflowPathCondition>;
+
+/** Conditions for a repository Actions policy. The object may be empty to preserve or use the default workflow targeting, or contain only `workflow_path`. */
+export type ActionsPolicyRepoConditions = unknown | ActionsPolicyWorkflowPathCondition;
+export const ActionsPolicyRepoConditions =
+  S.Unknown as any as S.Schema<ActionsPolicyRepoConditions>;
+
+/** Array of organization names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all organizations and ~EMUS to target all enterprise managed user accounts. */
+export type ActionsPolicyEnterpriseConditionsCase0OrganizationNameIncludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase0OrganizationNameIncludeList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase0OrganizationNameIncludeList>;
+
+/** Array of organization names or patterns to exclude. The condition will not pass if any of these patterns match. */
+export type ActionsPolicyEnterpriseConditionsCase0OrganizationNameExcludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase0OrganizationNameExcludeList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase0OrganizationNameExcludeList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase0OrganizationName {
+  /** Array of organization names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all organizations and ~EMUS to target all enterprise managed user accounts. */
+  include?: ActionsPolicyEnterpriseConditionsCase0OrganizationNameIncludeList;
+  /** Array of organization names or patterns to exclude. The condition will not pass if any of these patterns match. */
+  exclude?: ActionsPolicyEnterpriseConditionsCase0OrganizationNameExcludeList;
+}
+export const ActionsPolicyEnterpriseConditionsCase0OrganizationName = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    include: S.optional(ActionsPolicyEnterpriseConditionsCase0OrganizationNameIncludeList),
+    exclude: S.optional(ActionsPolicyEnterpriseConditionsCase0OrganizationNameExcludeList),
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase0OrganizationName",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase0OrganizationName>;
+
+/** Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
+export type ActionsPolicyEnterpriseConditionsCase0RepositoryNameIncludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase0RepositoryNameIncludeList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase0RepositoryNameIncludeList>;
+
+/** Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match. */
+export type ActionsPolicyEnterpriseConditionsCase0RepositoryNameExcludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase0RepositoryNameExcludeList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase0RepositoryNameExcludeList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase0RepositoryName {
+  /** Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
+  include?: ActionsPolicyEnterpriseConditionsCase0RepositoryNameIncludeList;
+  /** Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match. */
+  exclude?: ActionsPolicyEnterpriseConditionsCase0RepositoryNameExcludeList;
+  /** Whether renaming of target repositories is prevented. */
+  protected?: boolean;
+}
+export const ActionsPolicyEnterpriseConditionsCase0RepositoryName = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    include: S.optional(ActionsPolicyEnterpriseConditionsCase0RepositoryNameIncludeList),
+    exclude: S.optional(ActionsPolicyEnterpriseConditionsCase0RepositoryNameExcludeList),
+    protected: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase0RepositoryName",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase0RepositoryName>;
+
+/** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+export type ActionsPolicyEnterpriseConditionsCase0WorkflowPathIncludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase0WorkflowPathIncludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase0WorkflowPathIncludeList>;
+
+/** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+export type ActionsPolicyEnterpriseConditionsCase0WorkflowPathExcludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase0WorkflowPathExcludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase0WorkflowPathExcludeList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase0WorkflowPath {
+  /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+  include: ActionsPolicyEnterpriseConditionsCase0WorkflowPathIncludeList;
+  /** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+  exclude: ActionsPolicyEnterpriseConditionsCase0WorkflowPathExcludeList;
+}
+export const ActionsPolicyEnterpriseConditionsCase0WorkflowPath = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    include: ActionsPolicyEnterpriseConditionsCase0WorkflowPathIncludeList,
+    exclude: ActionsPolicyEnterpriseConditionsCase0WorkflowPathExcludeList,
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase0WorkflowPath",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase0WorkflowPath>;
+
+/** Conditions to target organizations by name and repositories by name */
+export interface ActionsPolicyEnterpriseConditionsCase0 {
+  organization_name: ActionsPolicyEnterpriseConditionsCase0OrganizationName;
+  repository_name: ActionsPolicyEnterpriseConditionsCase0RepositoryName;
+  workflow_path?: ActionsPolicyEnterpriseConditionsCase0WorkflowPath;
+}
+export const ActionsPolicyEnterpriseConditionsCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_name: ActionsPolicyEnterpriseConditionsCase0OrganizationName,
+    repository_name: ActionsPolicyEnterpriseConditionsCase0RepositoryName,
+    workflow_path: S.optional(ActionsPolicyEnterpriseConditionsCase0WorkflowPath),
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase0",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase0>;
+
+/** Array of organization names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all organizations and ~EMUS to target all enterprise managed user accounts. */
+export type ActionsPolicyEnterpriseConditionsCase1OrganizationNameIncludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase1OrganizationNameIncludeList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase1OrganizationNameIncludeList>;
+
+/** Array of organization names or patterns to exclude. The condition will not pass if any of these patterns match. */
+export type ActionsPolicyEnterpriseConditionsCase1OrganizationNameExcludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase1OrganizationNameExcludeList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase1OrganizationNameExcludeList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase1OrganizationName {
+  /** Array of organization names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all organizations and ~EMUS to target all enterprise managed user accounts. */
+  include?: ActionsPolicyEnterpriseConditionsCase1OrganizationNameIncludeList;
+  /** Array of organization names or patterns to exclude. The condition will not pass if any of these patterns match. */
+  exclude?: ActionsPolicyEnterpriseConditionsCase1OrganizationNameExcludeList;
+}
+export const ActionsPolicyEnterpriseConditionsCase1OrganizationName = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    include: S.optional(ActionsPolicyEnterpriseConditionsCase1OrganizationNameIncludeList),
+    exclude: S.optional(ActionsPolicyEnterpriseConditionsCase1OrganizationNameExcludeList),
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase1OrganizationName",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase1OrganizationName>;
+
+/** The repository properties and values to include. All of these properties must match for the condition to pass. */
+export type ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyIncludeList =
+  Array<RepositoryRulesetConditionsRepositoryPropertySpec>;
+export const ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyIncludeList =
+  /*@__PURE__*/ S.Array(
+    RepositoryRulesetConditionsRepositoryPropertySpec,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyIncludeList>;
+
+/** The repository properties and values to exclude. The condition will not pass if any of these properties match. */
+export type ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyExcludeList =
+  Array<RepositoryRulesetConditionsRepositoryPropertySpec>;
+export const ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyExcludeList =
+  /*@__PURE__*/ S.Array(
+    RepositoryRulesetConditionsRepositoryPropertySpec,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyExcludeList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase1RepositoryProperty {
+  /** The repository properties and values to include. All of these properties must match for the condition to pass. */
+  include?: ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyIncludeList;
+  /** The repository properties and values to exclude. The condition will not pass if any of these properties match. */
+  exclude?: ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyExcludeList;
+}
+export const ActionsPolicyEnterpriseConditionsCase1RepositoryProperty = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      include: S.optional(ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyIncludeList),
+      exclude: S.optional(ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyExcludeList),
+    }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase1RepositoryProperty",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase1RepositoryProperty>;
+
+/** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+export type ActionsPolicyEnterpriseConditionsCase1WorkflowPathIncludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase1WorkflowPathIncludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase1WorkflowPathIncludeList>;
+
+/** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+export type ActionsPolicyEnterpriseConditionsCase1WorkflowPathExcludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase1WorkflowPathExcludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase1WorkflowPathExcludeList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase1WorkflowPath {
+  /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+  include: ActionsPolicyEnterpriseConditionsCase1WorkflowPathIncludeList;
+  /** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+  exclude: ActionsPolicyEnterpriseConditionsCase1WorkflowPathExcludeList;
+}
+export const ActionsPolicyEnterpriseConditionsCase1WorkflowPath = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    include: ActionsPolicyEnterpriseConditionsCase1WorkflowPathIncludeList,
+    exclude: ActionsPolicyEnterpriseConditionsCase1WorkflowPathExcludeList,
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase1WorkflowPath",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase1WorkflowPath>;
+
+/** Conditions to target organizations by name and repositories by property */
+export interface ActionsPolicyEnterpriseConditionsCase1 {
+  organization_name: ActionsPolicyEnterpriseConditionsCase1OrganizationName;
+  repository_property: ActionsPolicyEnterpriseConditionsCase1RepositoryProperty;
+  workflow_path?: ActionsPolicyEnterpriseConditionsCase1WorkflowPath;
+}
+export const ActionsPolicyEnterpriseConditionsCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_name: ActionsPolicyEnterpriseConditionsCase1OrganizationName,
+    repository_property: ActionsPolicyEnterpriseConditionsCase1RepositoryProperty,
+    workflow_path: S.optional(ActionsPolicyEnterpriseConditionsCase1WorkflowPath),
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase1",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase1>;
+
+/** The organization IDs that the ruleset applies to. One of these IDs must match for the condition to pass. */
+export type ActionsPolicyEnterpriseConditionsCase2OrganizationIdOrganizationIdsList = Array<number>;
+export const ActionsPolicyEnterpriseConditionsCase2OrganizationIdOrganizationIdsList =
+  /*@__PURE__*/ S.Array(
+    S.Number,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase2OrganizationIdOrganizationIdsList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase2OrganizationId {
+  /** The organization IDs that the ruleset applies to. One of these IDs must match for the condition to pass. */
+  organization_ids?: ActionsPolicyEnterpriseConditionsCase2OrganizationIdOrganizationIdsList;
+}
+export const ActionsPolicyEnterpriseConditionsCase2OrganizationId = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_ids: S.optional(
+      ActionsPolicyEnterpriseConditionsCase2OrganizationIdOrganizationIdsList,
+    ),
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase2OrganizationId",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase2OrganizationId>;
+
+/** Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
+export type ActionsPolicyEnterpriseConditionsCase2RepositoryNameIncludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase2RepositoryNameIncludeList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase2RepositoryNameIncludeList>;
+
+/** Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match. */
+export type ActionsPolicyEnterpriseConditionsCase2RepositoryNameExcludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase2RepositoryNameExcludeList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase2RepositoryNameExcludeList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase2RepositoryName {
+  /** Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
+  include?: ActionsPolicyEnterpriseConditionsCase2RepositoryNameIncludeList;
+  /** Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match. */
+  exclude?: ActionsPolicyEnterpriseConditionsCase2RepositoryNameExcludeList;
+  /** Whether renaming of target repositories is prevented. */
+  protected?: boolean;
+}
+export const ActionsPolicyEnterpriseConditionsCase2RepositoryName = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    include: S.optional(ActionsPolicyEnterpriseConditionsCase2RepositoryNameIncludeList),
+    exclude: S.optional(ActionsPolicyEnterpriseConditionsCase2RepositoryNameExcludeList),
+    protected: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase2RepositoryName",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase2RepositoryName>;
+
+/** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+export type ActionsPolicyEnterpriseConditionsCase2WorkflowPathIncludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase2WorkflowPathIncludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase2WorkflowPathIncludeList>;
+
+/** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+export type ActionsPolicyEnterpriseConditionsCase2WorkflowPathExcludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase2WorkflowPathExcludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase2WorkflowPathExcludeList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase2WorkflowPath {
+  /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+  include: ActionsPolicyEnterpriseConditionsCase2WorkflowPathIncludeList;
+  /** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+  exclude: ActionsPolicyEnterpriseConditionsCase2WorkflowPathExcludeList;
+}
+export const ActionsPolicyEnterpriseConditionsCase2WorkflowPath = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    include: ActionsPolicyEnterpriseConditionsCase2WorkflowPathIncludeList,
+    exclude: ActionsPolicyEnterpriseConditionsCase2WorkflowPathExcludeList,
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase2WorkflowPath",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase2WorkflowPath>;
+
+/** Conditions to target organizations by id and repositories by name */
+export interface ActionsPolicyEnterpriseConditionsCase2 {
+  organization_id: ActionsPolicyEnterpriseConditionsCase2OrganizationId;
+  repository_name: ActionsPolicyEnterpriseConditionsCase2RepositoryName;
+  workflow_path?: ActionsPolicyEnterpriseConditionsCase2WorkflowPath;
+}
+export const ActionsPolicyEnterpriseConditionsCase2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: ActionsPolicyEnterpriseConditionsCase2OrganizationId,
+    repository_name: ActionsPolicyEnterpriseConditionsCase2RepositoryName,
+    workflow_path: S.optional(ActionsPolicyEnterpriseConditionsCase2WorkflowPath),
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase2",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase2>;
+
+/** The organization IDs that the ruleset applies to. One of these IDs must match for the condition to pass. */
+export type ActionsPolicyEnterpriseConditionsCase3OrganizationIdOrganizationIdsList = Array<number>;
+export const ActionsPolicyEnterpriseConditionsCase3OrganizationIdOrganizationIdsList =
+  /*@__PURE__*/ S.Array(
+    S.Number,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase3OrganizationIdOrganizationIdsList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase3OrganizationId {
+  /** The organization IDs that the ruleset applies to. One of these IDs must match for the condition to pass. */
+  organization_ids?: ActionsPolicyEnterpriseConditionsCase3OrganizationIdOrganizationIdsList;
+}
+export const ActionsPolicyEnterpriseConditionsCase3OrganizationId = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_ids: S.optional(
+      ActionsPolicyEnterpriseConditionsCase3OrganizationIdOrganizationIdsList,
+    ),
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase3OrganizationId",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase3OrganizationId>;
+
+/** The repository properties and values to include. All of these properties must match for the condition to pass. */
+export type ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyIncludeList =
+  Array<RepositoryRulesetConditionsRepositoryPropertySpec>;
+export const ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyIncludeList =
+  /*@__PURE__*/ S.Array(
+    RepositoryRulesetConditionsRepositoryPropertySpec,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyIncludeList>;
+
+/** The repository properties and values to exclude. The condition will not pass if any of these properties match. */
+export type ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyExcludeList =
+  Array<RepositoryRulesetConditionsRepositoryPropertySpec>;
+export const ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyExcludeList =
+  /*@__PURE__*/ S.Array(
+    RepositoryRulesetConditionsRepositoryPropertySpec,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyExcludeList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase3RepositoryProperty {
+  /** The repository properties and values to include. All of these properties must match for the condition to pass. */
+  include?: ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyIncludeList;
+  /** The repository properties and values to exclude. The condition will not pass if any of these properties match. */
+  exclude?: ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyExcludeList;
+}
+export const ActionsPolicyEnterpriseConditionsCase3RepositoryProperty = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      include: S.optional(ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyIncludeList),
+      exclude: S.optional(ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyExcludeList),
+    }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase3RepositoryProperty",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase3RepositoryProperty>;
+
+/** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+export type ActionsPolicyEnterpriseConditionsCase3WorkflowPathIncludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase3WorkflowPathIncludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase3WorkflowPathIncludeList>;
+
+/** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+export type ActionsPolicyEnterpriseConditionsCase3WorkflowPathExcludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase3WorkflowPathExcludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase3WorkflowPathExcludeList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase3WorkflowPath {
+  /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+  include: ActionsPolicyEnterpriseConditionsCase3WorkflowPathIncludeList;
+  /** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+  exclude: ActionsPolicyEnterpriseConditionsCase3WorkflowPathExcludeList;
+}
+export const ActionsPolicyEnterpriseConditionsCase3WorkflowPath = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    include: ActionsPolicyEnterpriseConditionsCase3WorkflowPathIncludeList,
+    exclude: ActionsPolicyEnterpriseConditionsCase3WorkflowPathExcludeList,
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase3WorkflowPath",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase3WorkflowPath>;
+
+/** Conditions to target organizations by id and repositories by property */
+export interface ActionsPolicyEnterpriseConditionsCase3 {
+  organization_id: ActionsPolicyEnterpriseConditionsCase3OrganizationId;
+  repository_property: ActionsPolicyEnterpriseConditionsCase3RepositoryProperty;
+  workflow_path?: ActionsPolicyEnterpriseConditionsCase3WorkflowPath;
+}
+export const ActionsPolicyEnterpriseConditionsCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: ActionsPolicyEnterpriseConditionsCase3OrganizationId,
+    repository_property: ActionsPolicyEnterpriseConditionsCase3RepositoryProperty,
+    workflow_path: S.optional(ActionsPolicyEnterpriseConditionsCase3WorkflowPath),
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase3",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase3>;
+
+/** The values to match for the organization property */
+export type EnterpriseRulesetConditionsOrganizationPropertySpecPropertyValuesList = Array<string>;
+export const EnterpriseRulesetConditionsOrganizationPropertySpecPropertyValuesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<EnterpriseRulesetConditionsOrganizationPropertySpecPropertyValuesList>;
+
+/** Parameters for a targeting a organization property */
+export interface EnterpriseRulesetConditionsOrganizationPropertySpec {
+  /** The name of the organization property to target */
+  name: string;
+  /** The values to match for the organization property */
+  property_values: EnterpriseRulesetConditionsOrganizationPropertySpecPropertyValuesList;
+}
+export const EnterpriseRulesetConditionsOrganizationPropertySpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    property_values: EnterpriseRulesetConditionsOrganizationPropertySpecPropertyValuesList,
+  }),
+).annotate({
+  identifier: "EnterpriseRulesetConditionsOrganizationPropertySpec",
+}) as any as S.Schema<EnterpriseRulesetConditionsOrganizationPropertySpec>;
+
+/** The organization properties and values to include. All of these properties must match for the condition to pass. */
+export type ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyIncludeList =
+  Array<EnterpriseRulesetConditionsOrganizationPropertySpec>;
+export const ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyIncludeList =
+  /*@__PURE__*/ S.Array(
+    EnterpriseRulesetConditionsOrganizationPropertySpec,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyIncludeList>;
+
+/** The organization properties and values to exclude. The condition will not pass if any of these properties match. */
+export type ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyExcludeList =
+  Array<EnterpriseRulesetConditionsOrganizationPropertySpec>;
+export const ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyExcludeList =
+  /*@__PURE__*/ S.Array(
+    EnterpriseRulesetConditionsOrganizationPropertySpec,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyExcludeList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase4OrganizationProperty {
+  /** The organization properties and values to include. All of these properties must match for the condition to pass. */
+  include?: ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyIncludeList;
+  /** The organization properties and values to exclude. The condition will not pass if any of these properties match. */
+  exclude?: ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyExcludeList;
+}
+export const ActionsPolicyEnterpriseConditionsCase4OrganizationProperty = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      include: S.optional(ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyIncludeList),
+      exclude: S.optional(ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyExcludeList),
+    }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase4OrganizationProperty",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase4OrganizationProperty>;
+
+/** Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
+export type ActionsPolicyEnterpriseConditionsCase4RepositoryNameIncludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase4RepositoryNameIncludeList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase4RepositoryNameIncludeList>;
+
+/** Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match. */
+export type ActionsPolicyEnterpriseConditionsCase4RepositoryNameExcludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase4RepositoryNameExcludeList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase4RepositoryNameExcludeList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase4RepositoryName {
+  /** Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
+  include?: ActionsPolicyEnterpriseConditionsCase4RepositoryNameIncludeList;
+  /** Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match. */
+  exclude?: ActionsPolicyEnterpriseConditionsCase4RepositoryNameExcludeList;
+  /** Whether renaming of target repositories is prevented. */
+  protected?: boolean;
+}
+export const ActionsPolicyEnterpriseConditionsCase4RepositoryName = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    include: S.optional(ActionsPolicyEnterpriseConditionsCase4RepositoryNameIncludeList),
+    exclude: S.optional(ActionsPolicyEnterpriseConditionsCase4RepositoryNameExcludeList),
+    protected: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase4RepositoryName",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase4RepositoryName>;
+
+/** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+export type ActionsPolicyEnterpriseConditionsCase4WorkflowPathIncludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase4WorkflowPathIncludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase4WorkflowPathIncludeList>;
+
+/** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+export type ActionsPolicyEnterpriseConditionsCase4WorkflowPathExcludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase4WorkflowPathExcludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase4WorkflowPathExcludeList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase4WorkflowPath {
+  /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+  include: ActionsPolicyEnterpriseConditionsCase4WorkflowPathIncludeList;
+  /** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+  exclude: ActionsPolicyEnterpriseConditionsCase4WorkflowPathExcludeList;
+}
+export const ActionsPolicyEnterpriseConditionsCase4WorkflowPath = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    include: ActionsPolicyEnterpriseConditionsCase4WorkflowPathIncludeList,
+    exclude: ActionsPolicyEnterpriseConditionsCase4WorkflowPathExcludeList,
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase4WorkflowPath",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase4WorkflowPath>;
+
+/** Conditions to target organizations by property and repositories by name */
+export interface ActionsPolicyEnterpriseConditionsCase4 {
+  organization_property: ActionsPolicyEnterpriseConditionsCase4OrganizationProperty;
+  repository_name: ActionsPolicyEnterpriseConditionsCase4RepositoryName;
+  workflow_path?: ActionsPolicyEnterpriseConditionsCase4WorkflowPath;
+}
+export const ActionsPolicyEnterpriseConditionsCase4 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_property: ActionsPolicyEnterpriseConditionsCase4OrganizationProperty,
+    repository_name: ActionsPolicyEnterpriseConditionsCase4RepositoryName,
+    workflow_path: S.optional(ActionsPolicyEnterpriseConditionsCase4WorkflowPath),
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase4",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase4>;
+
+/** The organization properties and values to include. All of these properties must match for the condition to pass. */
+export type ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyIncludeList =
+  Array<EnterpriseRulesetConditionsOrganizationPropertySpec>;
+export const ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyIncludeList =
+  /*@__PURE__*/ S.Array(
+    EnterpriseRulesetConditionsOrganizationPropertySpec,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyIncludeList>;
+
+/** The organization properties and values to exclude. The condition will not pass if any of these properties match. */
+export type ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyExcludeList =
+  Array<EnterpriseRulesetConditionsOrganizationPropertySpec>;
+export const ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyExcludeList =
+  /*@__PURE__*/ S.Array(
+    EnterpriseRulesetConditionsOrganizationPropertySpec,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyExcludeList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase5OrganizationProperty {
+  /** The organization properties and values to include. All of these properties must match for the condition to pass. */
+  include?: ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyIncludeList;
+  /** The organization properties and values to exclude. The condition will not pass if any of these properties match. */
+  exclude?: ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyExcludeList;
+}
+export const ActionsPolicyEnterpriseConditionsCase5OrganizationProperty = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      include: S.optional(ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyIncludeList),
+      exclude: S.optional(ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyExcludeList),
+    }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase5OrganizationProperty",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase5OrganizationProperty>;
+
+/** The repository properties and values to include. All of these properties must match for the condition to pass. */
+export type ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyIncludeList =
+  Array<RepositoryRulesetConditionsRepositoryPropertySpec>;
+export const ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyIncludeList =
+  /*@__PURE__*/ S.Array(
+    RepositoryRulesetConditionsRepositoryPropertySpec,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyIncludeList>;
+
+/** The repository properties and values to exclude. The condition will not pass if any of these properties match. */
+export type ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyExcludeList =
+  Array<RepositoryRulesetConditionsRepositoryPropertySpec>;
+export const ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyExcludeList =
+  /*@__PURE__*/ S.Array(
+    RepositoryRulesetConditionsRepositoryPropertySpec,
+  ) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyExcludeList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase5RepositoryProperty {
+  /** The repository properties and values to include. All of these properties must match for the condition to pass. */
+  include?: ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyIncludeList;
+  /** The repository properties and values to exclude. The condition will not pass if any of these properties match. */
+  exclude?: ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyExcludeList;
+}
+export const ActionsPolicyEnterpriseConditionsCase5RepositoryProperty = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      include: S.optional(ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyIncludeList),
+      exclude: S.optional(ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyExcludeList),
+    }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase5RepositoryProperty",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase5RepositoryProperty>;
+
+/** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+export type ActionsPolicyEnterpriseConditionsCase5WorkflowPathIncludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase5WorkflowPathIncludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase5WorkflowPathIncludeList>;
+
+/** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+export type ActionsPolicyEnterpriseConditionsCase5WorkflowPathExcludeList = Array<string>;
+export const ActionsPolicyEnterpriseConditionsCase5WorkflowPathExcludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase5WorkflowPathExcludeList>;
+
+export interface ActionsPolicyEnterpriseConditionsCase5WorkflowPath {
+  /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
+  include: ActionsPolicyEnterpriseConditionsCase5WorkflowPathIncludeList;
+  /** Array of workflow file paths or glob patterns to exclude. The condition will not pass if any of these patterns match. `~ALL` is not allowed in this array. */
+  exclude: ActionsPolicyEnterpriseConditionsCase5WorkflowPathExcludeList;
+}
+export const ActionsPolicyEnterpriseConditionsCase5WorkflowPath = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    include: ActionsPolicyEnterpriseConditionsCase5WorkflowPathIncludeList,
+    exclude: ActionsPolicyEnterpriseConditionsCase5WorkflowPathExcludeList,
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase5WorkflowPath",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase5WorkflowPath>;
+
+/** Conditions to target organizations by property and repositories by property */
+export interface ActionsPolicyEnterpriseConditionsCase5 {
+  organization_property: ActionsPolicyEnterpriseConditionsCase5OrganizationProperty;
+  repository_property: ActionsPolicyEnterpriseConditionsCase5RepositoryProperty;
+  workflow_path?: ActionsPolicyEnterpriseConditionsCase5WorkflowPath;
+}
+export const ActionsPolicyEnterpriseConditionsCase5 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_property: ActionsPolicyEnterpriseConditionsCase5OrganizationProperty,
+    repository_property: ActionsPolicyEnterpriseConditionsCase5RepositoryProperty,
+    workflow_path: S.optional(ActionsPolicyEnterpriseConditionsCase5WorkflowPath),
+  }),
+).annotate({
+  identifier: "ActionsPolicyEnterpriseConditionsCase5",
+}) as any as S.Schema<ActionsPolicyEnterpriseConditionsCase5>;
+
+/** Conditions for an enterprise Actions policy. The conditions object supports one organization target (`organization_name`, `organization_id`, or `organization_property`) combined with one repository target (`repository_name` or `repository_property`), and may also contain `workflow_path`. */
+export type ActionsPolicyEnterpriseConditions =
+  | ActionsPolicyEnterpriseConditionsCase0
+  | ActionsPolicyEnterpriseConditionsCase1
+  | ActionsPolicyEnterpriseConditionsCase2
+  | ActionsPolicyEnterpriseConditionsCase3
+  | ActionsPolicyEnterpriseConditionsCase4
+  | ActionsPolicyEnterpriseConditionsCase5;
+export const ActionsPolicyEnterpriseConditions =
+  S.Unknown as any as S.Schema<ActionsPolicyEnterpriseConditions>;
+
+/** When workflow path targeting is available, detailed responses represent an omitted stored workflow condition as `workflow_path` with `include` set to `["~ALL"]` and `exclude` set to `[]`. When workflow path targeting is unavailable, an omitted stored condition remains omitted. */
+export type ActionsPolicyConditions =
+  | ActionsPolicyRepoConditions
+  | ActionsPolicyOrgConditions
+  | ActionsPolicyEnterpriseConditions;
+export const ActionsPolicyConditions = S.Unknown as any as S.Schema<ActionsPolicyConditions>;
+
+/** An array of rules within the policy */
+export type ActionsPolicyRulesList = Array<ActionsRule>;
+export const ActionsPolicyRulesList = /*@__PURE__*/ S.Array(
+  ActionsRule,
+) as any as S.Schema<ActionsPolicyRulesList>;
+
+export interface ActionsPolicyLinksSelf {
+  /** The URL of the policy */
+  href?: string;
+}
+export const ActionsPolicyLinksSelf = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    href: S.optional(S.String),
+  }),
+).annotate({ identifier: "ActionsPolicyLinksSelf" }) as any as S.Schema<ActionsPolicyLinksSelf>;
+
+export interface ActionsPolicyLinksHtml {
+  /** The html URL of the policy */
+  href?: string;
+}
+export const ActionsPolicyLinksHtml = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    href: S.optional(S.String),
+  }),
+).annotate({ identifier: "ActionsPolicyLinksHtml" }) as any as S.Schema<ActionsPolicyLinksHtml>;
+
+export interface ActionsPolicyLinks {
+  self?: ActionsPolicyLinksSelf;
+  html?: ActionsPolicyLinksHtml;
+}
+export const ActionsPolicyLinks = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    self: S.optional(ActionsPolicyLinksSelf),
+    html: S.optional(ActionsPolicyLinksHtml),
+  }),
+).annotate({ identifier: "ActionsPolicyLinks" }) as any as S.Schema<ActionsPolicyLinks>;
+
+/** An Actions policy defines rules for workflow execution protection. */
+export interface ActionsPolicy {
+  /** The ID of the policy */
+  id: number;
+  /** The name of the policy */
+  name: string;
+  /** The target of the policy */
+  target: ActionsPolicyTarget;
+  /** The type of the source of the policy */
+  source_type: ActionsPolicySourceType;
+  /** The name of the source */
+  source: string;
+  enforcement: RepositoryRuleEnforcement;
+  /** When workflow path targeting is available, detailed responses represent an omitted stored workflow condition as `workflow_path` with `include` set to `["~ALL"]` and `exclude` set to `[]`. When workflow path targeting is unavailable, an omitted stored condition remains omitted. */
+  conditions?: ActionsPolicyConditions | null;
+  /** An array of rules within the policy */
+  rules?: ActionsPolicyRulesList;
+  node_id?: string;
+  _links?: ActionsPolicyLinks;
+  created_at?: string;
+  updated_at?: string;
+}
+export const ActionsPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    name: S.String,
+    target: ActionsPolicyTarget,
+    source_type: ActionsPolicySourceType,
+    source: S.String,
+    enforcement: RepositoryRuleEnforcement,
+    conditions: S.optional(S.NullOr(ActionsPolicyConditions)),
+    rules: S.optional(ActionsPolicyRulesList),
+    node_id: S.optional(S.String),
+    _links: S.optional(ActionsPolicyLinks),
+    created_at: S.optional(S.String),
+    updated_at: S.optional(S.String),
+  }),
+).annotate({ identifier: "ActionsPolicy" }) as any as S.Schema<ActionsPolicy>;
 
 /** The type of repositories in the organization that can access the variable. `selected` means only the repositories specified by `selected_repository_ids` can access the variable. */
 export type CreateOrgVariableRequestVisibility = "all" | "private" | "selected";
@@ -620,9 +1797,7 @@ export const CreateOrgVariableRequest = /*@__PURE__*/ S.suspend(() =>
     visibility: CreateOrgVariableRequestVisibility,
     selected_repository_ids: S.optional(CreateOrgVariableRequestSelectedRepositoryIdsList),
   }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/actions/variables", code: 200 })),
-).annotate({
-  identifier: "CreateOrgVariableRequest",
-}) as any as S.Schema<CreateOrgVariableRequest>;
+).annotate({ identifier: "CreateOrgVariableRequest" }) as any as S.Schema<CreateOrgVariableRequest>;
 
 export type CreateOrgVariableResponse = unknown;
 export const CreateOrgVariableResponse = /*@__PURE__*/ S.suspend(() =>
@@ -703,13 +1878,7 @@ export const CreateOrUpdateOrgSecretRequest = /*@__PURE__*/ S.suspend(() =>
     key_id: S.String,
     visibility: CreateOrUpdateOrgSecretRequestVisibility,
     selected_repository_ids: S.optional(CreateOrUpdateOrgSecretRequestSelectedRepositoryIdsList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/actions/secrets/{secret_name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/actions/secrets/{secret_name}", code: 200 })),
 ).annotate({
   identifier: "CreateOrUpdateOrgSecretRequest",
 }) as any as S.Schema<CreateOrUpdateOrgSecretRequest>;
@@ -766,11 +1935,7 @@ export const CreateRegistrationTokenForOrgRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/actions/runners/registration-token",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/orgs/{org}/actions/runners/registration-token", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateRegistrationTokenForOrgRequest",
@@ -794,9 +1959,7 @@ export const NullableLicenseSimple = /*@__PURE__*/ S.suspend(() =>
     node_id: S.String,
     html_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableLicenseSimple",
-}) as any as S.Schema<NullableLicenseSimple>;
+).annotate({ identifier: "NullableLicenseSimple" }) as any as S.Schema<NullableLicenseSimple>;
 
 export interface RepositoryPermissions {
   admin: boolean;
@@ -813,9 +1976,7 @@ export const RepositoryPermissions = /*@__PURE__*/ S.suspend(() =>
     push: S.Boolean,
     maintain: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RepositoryPermissions",
-}) as any as S.Schema<RepositoryPermissions>;
+).annotate({ identifier: "RepositoryPermissions" }) as any as S.Schema<RepositoryPermissions>;
 
 /** A GitHub user. */
 export interface SimpleUser {
@@ -1175,9 +2336,7 @@ export const AuthenticationToken = /*@__PURE__*/ S.suspend(() =>
     single_file: S.optional(S.NullOr(S.String)),
     repository_selection: S.optional(AuthenticationTokenRepositorySelection),
   }),
-).annotate({
-  identifier: "AuthenticationToken",
-}) as any as S.Schema<AuthenticationToken>;
+).annotate({ identifier: "AuthenticationToken" }) as any as S.Schema<AuthenticationToken>;
 
 export interface CreateRegistrationTokenForRepoRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1207,13 +2366,7 @@ export interface CreateRemoveTokenForOrgRequest {
 export const CreateRemoveTokenForOrgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/actions/runners/remove-token",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/actions/runners/remove-token", code: 200 })),
 ).annotate({
   identifier: "CreateRemoveTokenForOrgRequest",
 }) as any as S.Schema<CreateRemoveTokenForOrgRequest>;
@@ -1239,6 +2392,37 @@ export const CreateRemoveTokenForRepoRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateRemoveTokenForRepoRequest",
 }) as any as S.Schema<CreateRemoveTokenForRepoRequest>;
 
+/** An array of rules within the policy. */
+export type CreateRepoActionsPolicyRequestRulesList = Array<ActionsRule>;
+export const CreateRepoActionsPolicyRequestRulesList = /*@__PURE__*/ S.Array(
+  ActionsRule,
+) as any as S.Schema<CreateRepoActionsPolicyRequestRulesList>;
+
+export interface CreateRepoActionsPolicyRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The name of the policy. */
+  name: string;
+  enforcement: RepositoryRuleEnforcement | (string & {});
+  conditions?: ActionsPolicyRepoConditions;
+  /** An array of rules within the policy. */
+  rules?: CreateRepoActionsPolicyRequestRulesList;
+}
+export const CreateRepoActionsPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    name: S.String,
+    enforcement: RepositoryRuleEnforcement,
+    conditions: S.optional(ActionsPolicyRepoConditions),
+    rules: S.optional(CreateRepoActionsPolicyRequestRulesList),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/actions/policies", code: 200 })),
+).annotate({
+  identifier: "CreateRepoActionsPolicyRequest",
+}) as any as S.Schema<CreateRepoActionsPolicyRequest>;
+
 export interface CreateRepoVariableRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1255,13 +2439,7 @@ export const CreateRepoVariableRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     name: S.String,
     value: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/actions/variables",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/actions/variables", code: 200 })),
 ).annotate({
   identifier: "CreateRepoVariableRequest",
 }) as any as S.Schema<CreateRepoVariableRequest>;
@@ -1329,13 +2507,7 @@ export const CreateSelfHostedRunnerGroupForOrgRequest = /*@__PURE__*/ S.suspend(
     restricted_to_workflows: S.optional(S.Boolean),
     selected_workflows: S.optional(CreateSelfHostedRunnerGroupForOrgRequestSelectedWorkflowsList),
     network_configuration_id: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/actions/runner-groups",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/actions/runner-groups", code: 200 })),
 ).annotate({
   identifier: "CreateSelfHostedRunnerGroupForOrgRequest",
 }) as any as S.Schema<CreateSelfHostedRunnerGroupForOrgRequest>;
@@ -1384,14 +2556,10 @@ export const RunnerGroupsOrg = /*@__PURE__*/ S.suspend(() =>
     restricted_to_workflows: S.optional(S.Boolean),
     selected_workflows: S.optional(RunnerGroupsOrgSelectedWorkflowsList),
   }),
-).annotate({
-  identifier: "RunnerGroupsOrg",
-}) as any as S.Schema<RunnerGroupsOrg>;
+).annotate({ identifier: "RunnerGroupsOrg" }) as any as S.Schema<RunnerGroupsOrg>;
 
 /** Input keys and values configured in the workflow file. The maximum number of properties is 25. Any default properties configured in the workflow file will be used when `inputs` are omitted. */
-export type CreateWorkflowDispatchRequestInputsMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateWorkflowDispatchRequestInputsMap = { [key: string]: unknown | undefined };
 export const CreateWorkflowDispatchRequestInputsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1443,9 +2611,7 @@ export const WorkflowDispatchResponse = /*@__PURE__*/ S.suspend(() =>
     run_url: S.String,
     html_url: S.String,
   }),
-).annotate({
-  identifier: "WorkflowDispatchResponse",
-}) as any as S.Schema<WorkflowDispatchResponse>;
+).annotate({ identifier: "WorkflowDispatchResponse" }) as any as S.Schema<WorkflowDispatchResponse>;
 
 export interface DeleteActionsCacheByIdRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1461,11 +2627,7 @@ export const DeleteActionsCacheByIdRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     cache_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/actions/caches/{cache_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/actions/caches/{cache_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteActionsCacheByIdRequest",
@@ -1492,13 +2654,7 @@ export const DeleteActionsCacheByKeyRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     key: S.String.pipe(T.Query()),
     ref: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/actions/caches",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/actions/caches", code: 200 })),
 ).annotate({
   identifier: "DeleteActionsCacheByKeyRequest",
 }) as any as S.Schema<DeleteActionsCacheByKeyRequest>;
@@ -1544,9 +2700,7 @@ export const ActionsCacheList = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     actions_caches: ActionsCacheListActionsCachesList,
   }),
-).annotate({
-  identifier: "ActionsCacheList",
-}) as any as S.Schema<ActionsCacheList>;
+).annotate({ identifier: "ActionsCacheList" }) as any as S.Schema<ActionsCacheList>;
 
 export interface DeleteArtifactRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1568,9 +2722,7 @@ export const DeleteArtifactRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteArtifactRequest",
-}) as any as S.Schema<DeleteArtifactRequest>;
+).annotate({ identifier: "DeleteArtifactRequest" }) as any as S.Schema<DeleteArtifactRequest>;
 
 export interface DeleteArtifactResponse {}
 export const DeleteArtifactResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1665,9 +2817,7 @@ export const DeleteEnvironmentSecretRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteEnvironmentSecretResponse {}
 export const DeleteEnvironmentSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteEnvironmentSecretResponse",
-  },
+  { identifier: "DeleteEnvironmentSecretResponse" },
 ) as any as S.Schema<DeleteEnvironmentSecretResponse>;
 
 export interface DeleteEnvironmentVariableRequest {
@@ -1732,6 +2882,26 @@ export const DeleteHostedRunnerForOrgResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteHostedRunnerForOrgResponse",
 }) as any as S.Schema<DeleteHostedRunnerForOrgResponse>;
 
+export interface DeleteOrgActionsPolicyRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The ID of the policy. */
+  policy_id: number;
+}
+export const DeleteOrgActionsPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    org: S.String.pipe(T.Label()),
+    policy_id: S.Number.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/actions/policies/{policy_id}", code: 200 })),
+).annotate({
+  identifier: "DeleteOrgActionsPolicyRequest",
+}) as any as S.Schema<DeleteOrgActionsPolicyRequest>;
+
+export interface DeleteOrgActionsPolicyResponse {}
+export const DeleteOrgActionsPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteOrgActionsPolicyResponse",
+}) as any as S.Schema<DeleteOrgActionsPolicyResponse>;
+
 export interface DeleteOrgSecretRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -1743,15 +2913,9 @@ export const DeleteOrgSecretRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     secret_name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/actions/secrets/{secret_name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/orgs/{org}/actions/secrets/{secret_name}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteOrgSecretRequest",
-}) as any as S.Schema<DeleteOrgSecretRequest>;
+).annotate({ identifier: "DeleteOrgSecretRequest" }) as any as S.Schema<DeleteOrgSecretRequest>;
 
 export interface DeleteOrgSecretResponse {}
 export const DeleteOrgSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1768,21 +2932,42 @@ export const DeleteOrgVariableRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/actions/variables/{name}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteOrgVariableRequest",
-}) as any as S.Schema<DeleteOrgVariableRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/actions/variables/{name}", code: 200 })),
+).annotate({ identifier: "DeleteOrgVariableRequest" }) as any as S.Schema<DeleteOrgVariableRequest>;
 
 export interface DeleteOrgVariableResponse {}
 export const DeleteOrgVariableResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteOrgVariableResponse",
 }) as any as S.Schema<DeleteOrgVariableResponse>;
+
+export interface DeleteRepoActionsPolicyRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The ID of the policy. */
+  policy_id: number;
+}
+export const DeleteRepoActionsPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    policy_id: S.Number.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/repos/{owner}/{repo}/actions/policies/{policy_id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteRepoActionsPolicyRequest",
+}) as any as S.Schema<DeleteRepoActionsPolicyRequest>;
+
+export interface DeleteRepoActionsPolicyResponse {}
+export const DeleteRepoActionsPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  { identifier: "DeleteRepoActionsPolicyResponse" },
+) as any as S.Schema<DeleteRepoActionsPolicyResponse>;
 
 export interface DeleteRepoSecretRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1804,9 +2989,7 @@ export const DeleteRepoSecretRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteRepoSecretRequest",
-}) as any as S.Schema<DeleteRepoSecretRequest>;
+).annotate({ identifier: "DeleteRepoSecretRequest" }) as any as S.Schema<DeleteRepoSecretRequest>;
 
 export interface DeleteRepoSecretResponse {}
 export const DeleteRepoSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1827,11 +3010,7 @@ export const DeleteRepoVariableRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/actions/variables/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/actions/variables/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteRepoVariableRequest",
@@ -1852,13 +3031,7 @@ export const DeleteSelfHostedRunnerFromOrgRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     org: S.String.pipe(T.Label()),
     runner_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/actions/runners/{runner_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/actions/runners/{runner_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteSelfHostedRunnerFromOrgRequest",
 }) as any as S.Schema<DeleteSelfHostedRunnerFromOrgRequest>;
@@ -1943,15 +3116,9 @@ export const DeleteWorkflowRunRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     run_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/actions/runs/{run_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/actions/runs/{run_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteWorkflowRunRequest",
-}) as any as S.Schema<DeleteWorkflowRunRequest>;
+).annotate({ identifier: "DeleteWorkflowRunRequest" }) as any as S.Schema<DeleteWorkflowRunRequest>;
 
 export interface DeleteWorkflowRunResponse {}
 export const DeleteWorkflowRunResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2064,9 +3231,7 @@ export const DisableWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DisableWorkflowRequest",
-}) as any as S.Schema<DisableWorkflowRequest>;
+).annotate({ identifier: "DisableWorkflowRequest" }) as any as S.Schema<DisableWorkflowRequest>;
 
 export interface DisableWorkflowResponse {}
 export const DisableWorkflowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2095,9 +3260,7 @@ export const DownloadArtifactRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DownloadArtifactRequest",
-}) as any as S.Schema<DownloadArtifactRequest>;
+).annotate({ identifier: "DownloadArtifactRequest" }) as any as S.Schema<DownloadArtifactRequest>;
 
 export interface DownloadArtifactResponse {}
 export const DownloadArtifactResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2118,11 +3281,7 @@ export const DownloadJobLogsForWorkflowRunRequest = /*@__PURE__*/ S.suspend(() =
     repo: S.String.pipe(T.Label()),
     job_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/jobs/{job_id}/logs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/jobs/{job_id}/logs", code: 200 }),
   ),
 ).annotate({
   identifier: "DownloadJobLogsForWorkflowRunRequest",
@@ -2134,6 +3293,40 @@ export const DownloadJobLogsForWorkflowRunResponse = /*@__PURE__*/ S.suspend(() 
 ).annotate({
   identifier: "DownloadJobLogsForWorkflowRunResponse",
 }) as any as S.Schema<DownloadJobLogsForWorkflowRunResponse>;
+
+export interface DownloadStepLogsForWorkflowRunJobRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The unique identifier of the job. */
+  job_id: number;
+  /** The zero-based position number of the step in the job. */
+  step_number: number;
+}
+export const DownloadStepLogsForWorkflowRunJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    job_id: S.Number.pipe(T.Label()),
+    step_number: S.Number.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/repos/{owner}/{repo}/actions/jobs/{job_id}/steps/{step_number}/logs",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DownloadStepLogsForWorkflowRunJobRequest",
+}) as any as S.Schema<DownloadStepLogsForWorkflowRunJobRequest>;
+
+export interface DownloadStepLogsForWorkflowRunJobResponse {}
+export const DownloadStepLogsForWorkflowRunJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DownloadStepLogsForWorkflowRunJobResponse",
+}) as any as S.Schema<DownloadStepLogsForWorkflowRunJobResponse>;
 
 export interface DownloadWorkflowRunAttemptLogsRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2183,11 +3376,7 @@ export const DownloadWorkflowRunLogsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     run_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/runs/{run_id}/logs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/runs/{run_id}/logs", code: 200 }),
   ),
 ).annotate({
   identifier: "DownloadWorkflowRunLogsRequest",
@@ -2195,9 +3384,7 @@ export const DownloadWorkflowRunLogsRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DownloadWorkflowRunLogsResponse {}
 export const DownloadWorkflowRunLogsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DownloadWorkflowRunLogsResponse",
-  },
+  { identifier: "DownloadWorkflowRunLogsResponse" },
 ) as any as S.Schema<DownloadWorkflowRunLogsResponse>;
 
 export interface EnableSelectedRepositoryGithubActionsOrganizationRequest {
@@ -2277,9 +3464,7 @@ export const EnableWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "EnableWorkflowRequest",
-}) as any as S.Schema<EnableWorkflowRequest>;
+).annotate({ identifier: "EnableWorkflowRequest" }) as any as S.Schema<EnableWorkflowRequest>;
 
 export interface EnableWorkflowResponse {}
 export const EnableWorkflowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2341,11 +3526,7 @@ export const GenerateRunnerJitconfigForOrgRequest = /*@__PURE__*/ S.suspend(() =
     labels: GenerateRunnerJitconfigForOrgRequestLabelsList,
     work_folder: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/actions/runners/generate-jitconfig",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/orgs/{org}/actions/runners/generate-jitconfig", code: 200 }),
   ),
 ).annotate({
   identifier: "GenerateRunnerJitconfigForOrgRequest",
@@ -2489,13 +3670,7 @@ export const GetActionsCacheListRequest = /*@__PURE__*/ S.suspend(() =>
     key: S.optional(S.String.pipe(T.Query())),
     sort: S.optional(GetActionsCacheListRequestSort.pipe(T.Query())),
     direction: S.optional(GetActionsCacheListRequestDirection.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/caches",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/caches", code: 200 })),
 ).annotate({
   identifier: "GetActionsCacheListRequest",
 }) as any as S.Schema<GetActionsCacheListRequest>;
@@ -2539,11 +3714,7 @@ export const GetActionsCacheRetentionLimitForOrganizationRequest = /*@__PURE__*/
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{org}/actions/cache/retention-limit",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/organizations/{org}/actions/cache/retention-limit", code: 200 }),
   ),
 ).annotate({
   identifier: "GetActionsCacheRetentionLimitForOrganizationRequest",
@@ -2635,11 +3806,7 @@ export const GetActionsCacheStorageLimitForOrganizationRequest = /*@__PURE__*/ S
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{org}/actions/cache/storage-limit",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/organizations/{org}/actions/cache/storage-limit", code: 200 }),
   ),
 ).annotate({
   identifier: "GetActionsCacheStorageLimitForOrganizationRequest",
@@ -2669,11 +3836,7 @@ export const GetActionsCacheStorageLimitForRepositoryRequest = /*@__PURE__*/ S.s
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/cache/storage-limit",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/cache/storage-limit", code: 200 }),
   ),
 ).annotate({
   identifier: "GetActionsCacheStorageLimitForRepositoryRequest",
@@ -2702,13 +3865,7 @@ export const GetActionsCacheUsageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/cache/usage",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/cache/usage", code: 200 })),
 ).annotate({
   identifier: "GetActionsCacheUsageRequest",
 }) as any as S.Schema<GetActionsCacheUsageRequest>;
@@ -2746,11 +3903,7 @@ export const GetActionsCacheUsageByRepoForOrgRequest = /*@__PURE__*/ S.suspend((
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/cache/usage-by-repository",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/actions/cache/usage-by-repository", code: 200 }),
   ),
 ).annotate({
   identifier: "GetActionsCacheUsageByRepoForOrgRequest",
@@ -2783,13 +3936,7 @@ export interface GetActionsCacheUsageForOrgRequest {
 export const GetActionsCacheUsageForOrgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/cache/usage",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/cache/usage", code: 200 })),
 ).annotate({
   identifier: "GetActionsCacheUsageForOrgRequest",
 }) as any as S.Schema<GetActionsCacheUsageForOrgRequest>;
@@ -2817,11 +3964,7 @@ export const GetAllowedActionsOrganizationRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/permissions/selected-actions",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/actions/permissions/selected-actions", code: 200 }),
   ),
 ).annotate({
   identifier: "GetAllowedActionsOrganizationRequest",
@@ -2847,9 +3990,7 @@ export const SelectedActions = /*@__PURE__*/ S.suspend(() =>
     verified_allowed: S.optional(S.Boolean),
     patterns_allowed: S.optional(SelectedActionsPatternsAllowedList),
   }),
-).annotate({
-  identifier: "SelectedActions",
-}) as any as S.Schema<SelectedActions>;
+).annotate({ identifier: "SelectedActions" }) as any as S.Schema<SelectedActions>;
 
 export interface GetAllowedActionsRepositoryRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2892,9 +4033,7 @@ export const GetArtifactRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetArtifactRequest",
-}) as any as S.Schema<GetArtifactRequest>;
+).annotate({ identifier: "GetArtifactRequest" }) as any as S.Schema<GetArtifactRequest>;
 
 export interface ArtifactWorkflowRun {
   id?: number;
@@ -2911,9 +4050,7 @@ export const ArtifactWorkflowRun = /*@__PURE__*/ S.suspend(() =>
     head_branch: S.optional(S.String),
     head_sha: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ArtifactWorkflowRun",
-}) as any as S.Schema<ArtifactWorkflowRun>;
+).annotate({ identifier: "ArtifactWorkflowRun" }) as any as S.Schema<ArtifactWorkflowRun>;
 
 /** An artifact */
 export interface Artifact {
@@ -2970,7 +4107,7 @@ export const GetArtifactAndLogRetentionSettingsOrganizationRequest = /*@__PURE__
 }) as any as S.Schema<GetArtifactAndLogRetentionSettingsOrganizationRequest>;
 
 export interface ActionsArtifactAndLogRetentionResponse {
-  /** The number of days artifacts and logs are retained */
+  /** The number of days checks, workflow runs, commit statuses, artifacts, and logs are retained */
   days: number;
   /** The maximum number of days that can be configured */
   maximum_allowed_days: number;
@@ -3094,9 +4231,7 @@ export const ConcurrencyGroup = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     group_members: ConcurrencyGroupGroupMembersList,
   }),
-).annotate({
-  identifier: "ConcurrencyGroup",
-}) as any as S.Schema<ConcurrencyGroup>;
+).annotate({ identifier: "ConcurrencyGroup" }) as any as S.Schema<ConcurrencyGroup>;
 
 export interface GetCustomImageForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -3247,9 +4382,7 @@ export const OidcCustomSubRepo = /*@__PURE__*/ S.suspend(() =>
     use_immutable_subject: S.optional(S.Boolean),
     sub_claim_prefix: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OidcCustomSubRepo",
-}) as any as S.Schema<OidcCustomSubRepo>;
+).annotate({ identifier: "OidcCustomSubRepo" }) as any as S.Schema<OidcCustomSubRepo>;
 
 export interface GetEnvironmentPublicKeyRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -3295,9 +4428,7 @@ export const ActionsPublicKey = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     created_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ActionsPublicKey",
-}) as any as S.Schema<ActionsPublicKey>;
+).annotate({ identifier: "ActionsPublicKey" }) as any as S.Schema<ActionsPublicKey>;
 
 export interface GetEnvironmentSecretRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -3385,9 +4516,7 @@ export const ActionsVariable = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "ActionsVariable",
-}) as any as S.Schema<ActionsVariable>;
+).annotate({ identifier: "ActionsVariable" }) as any as S.Schema<ActionsVariable>;
 
 export interface GetForkPrContributorApprovalPermissionsOrganizationRequest {
   /** The organization name. The name is not case sensitive. */
@@ -3457,13 +4586,7 @@ export const GetGithubActionsDefaultWorkflowPermissionsOrganizationRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       org: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/orgs/{org}/actions/permissions/workflow",
-        code: 200,
-      }),
-    ),
+    }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/permissions/workflow", code: 200 })),
   ).annotate({
     identifier: "GetGithubActionsDefaultWorkflowPermissionsOrganizationRequest",
   }) as any as S.Schema<GetGithubActionsDefaultWorkflowPermissionsOrganizationRequest>;
@@ -3514,13 +4637,7 @@ export interface GetGithubActionsPermissionsOrganizationRequest {
 export const GetGithubActionsPermissionsOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/permissions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/permissions", code: 200 })),
 ).annotate({
   identifier: "GetGithubActionsPermissionsOrganizationRequest",
 }) as any as S.Schema<GetGithubActionsPermissionsOrganizationRequest>;
@@ -3563,13 +4680,7 @@ export const GetGithubActionsPermissionsRepositoryRequest = /*@__PURE__*/ S.susp
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/permissions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/permissions", code: 200 })),
 ).annotate({
   identifier: "GetGithubActionsPermissionsRepositoryRequest",
 }) as any as S.Schema<GetGithubActionsPermissionsRepositoryRequest>;
@@ -3685,13 +4796,7 @@ export interface GetHostedRunnersLimitsForOrgRequest {
 export const GetHostedRunnersLimitsForOrgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/hosted-runners/limits",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/hosted-runners/limits", code: 200 })),
 ).annotate({
   identifier: "GetHostedRunnersLimitsForOrgRequest",
 }) as any as S.Schema<GetHostedRunnersLimitsForOrgRequest>;
@@ -3732,11 +4837,7 @@ export const GetHostedRunnersMachineSpecsForOrgRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/hosted-runners/machine-sizes",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/actions/hosted-runners/machine-sizes", code: 200 }),
   ),
 ).annotate({
   identifier: "GetHostedRunnersMachineSpecsForOrgRequest",
@@ -3769,11 +4870,7 @@ export const GetHostedRunnersPartnerImagesForOrgRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/hosted-runners/images/partner",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/actions/hosted-runners/images/partner", code: 200 }),
   ),
 ).annotate({
   identifier: "GetHostedRunnersPartnerImagesForOrgRequest",
@@ -3806,11 +4903,7 @@ export const GetHostedRunnersPlatformsForOrgRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/hosted-runners/platforms",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/actions/hosted-runners/platforms", code: 200 }),
   ),
 ).annotate({
   identifier: "GetHostedRunnersPlatformsForOrgRequest",
@@ -3847,13 +4940,7 @@ export const GetJobForWorkflowRunRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     job_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/jobs/{job_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/jobs/{job_id}", code: 200 })),
 ).annotate({
   identifier: "GetJobForWorkflowRunRequest",
 }) as any as S.Schema<GetJobForWorkflowRunRequest>;
@@ -3987,6 +5074,63 @@ export const Job = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Job" }) as any as S.Schema<Job>;
 
+export interface GetOrgActionsPoliciesRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  per_page?: number;
+  /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  page?: number;
+  /** Include policies configured at higher levels that apply to this organization */
+  has_parents?: boolean;
+}
+export const GetOrgActionsPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    org: S.String.pipe(T.Label()),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    has_parents: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/policies", code: 200 })),
+).annotate({
+  identifier: "GetOrgActionsPoliciesRequest",
+}) as any as S.Schema<GetOrgActionsPoliciesRequest>;
+
+/** An array of Actions policies. */
+export type GetOrgActionsPoliciesResponsePoliciesList = Array<ActionsPolicy>;
+export const GetOrgActionsPoliciesResponsePoliciesList = /*@__PURE__*/ S.Array(
+  ActionsPolicy,
+) as any as S.Schema<GetOrgActionsPoliciesResponsePoliciesList>;
+
+export interface GetOrgActionsPoliciesResponse {
+  /** The total number of Actions policies. */
+  total_count: number;
+  /** An array of Actions policies. */
+  policies: GetOrgActionsPoliciesResponsePoliciesList;
+}
+export const GetOrgActionsPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    total_count: S.Number,
+    policies: GetOrgActionsPoliciesResponsePoliciesList,
+  }),
+).annotate({
+  identifier: "GetOrgActionsPoliciesResponse",
+}) as any as S.Schema<GetOrgActionsPoliciesResponse>;
+
+export interface GetOrgActionsPolicyRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The ID of the policy. */
+  policy_id: number;
+}
+export const GetOrgActionsPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    org: S.String.pipe(T.Label()),
+    policy_id: S.Number.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/policies/{policy_id}", code: 200 })),
+).annotate({
+  identifier: "GetOrgActionsPolicyRequest",
+}) as any as S.Schema<GetOrgActionsPolicyRequest>;
+
 export interface GetOrgPublicKeyRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -3994,16 +5138,8 @@ export interface GetOrgPublicKeyRequest {
 export const GetOrgPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/secrets/public-key",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetOrgPublicKeyRequest",
-}) as any as S.Schema<GetOrgPublicKeyRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/secrets/public-key", code: 200 })),
+).annotate({ identifier: "GetOrgPublicKeyRequest" }) as any as S.Schema<GetOrgPublicKeyRequest>;
 
 export interface GetOrgSecretRequest {
   /** The organization name. The name is not case sensitive. */
@@ -4015,16 +5151,8 @@ export const GetOrgSecretRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     secret_name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/secrets/{secret_name}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetOrgSecretRequest",
-}) as any as S.Schema<GetOrgSecretRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/secrets/{secret_name}", code: 200 })),
+).annotate({ identifier: "GetOrgSecretRequest" }) as any as S.Schema<GetOrgSecretRequest>;
 
 /** Visibility of a secret */
 export type OrganizationActionsSecretVisibility = "all" | "private" | "selected";
@@ -4062,16 +5190,8 @@ export const GetOrgVariableRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/variables/{name}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetOrgVariableRequest",
-}) as any as S.Schema<GetOrgVariableRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/variables/{name}", code: 200 })),
+).annotate({ identifier: "GetOrgVariableRequest" }) as any as S.Schema<GetOrgVariableRequest>;
 
 /** Visibility of a variable */
 export type OrganizationActionsVariableVisibility = "all" | "private" | "selected";
@@ -4168,9 +5288,7 @@ export const TeamPermissions = /*@__PURE__*/ S.suspend(() =>
     maintain: S.Boolean,
     admin: S.Boolean,
   }),
-).annotate({
-  identifier: "TeamPermissions",
-}) as any as S.Schema<TeamPermissions>;
+).annotate({ identifier: "TeamPermissions" }) as any as S.Schema<TeamPermissions>;
 
 /** The ownership type of the team */
 export type TeamType = "enterprise" | "organization";
@@ -4233,9 +5351,7 @@ export const NullableTeamSimple = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.optional(S.Number),
     enterprise_id: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NullableTeamSimple",
-}) as any as S.Schema<NullableTeamSimple>;
+).annotate({ identifier: "NullableTeamSimple" }) as any as S.Schema<NullableTeamSimple>;
 
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -4328,9 +5444,7 @@ export const PendingDeployment = /*@__PURE__*/ S.suspend(() =>
     current_user_can_approve: S.Boolean,
     reviewers: PendingDeploymentReviewersList,
   }),
-).annotate({
-  identifier: "PendingDeployment",
-}) as any as S.Schema<PendingDeployment>;
+).annotate({ identifier: "PendingDeployment" }) as any as S.Schema<PendingDeployment>;
 
 export type GetPendingDeploymentsForRunResponseBodyList = Array<PendingDeployment>;
 export const GetPendingDeploymentsForRunResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4405,6 +5519,71 @@ export const GetPrivateRepoForkPrWorkflowsSettingsRepositoryRequest = /*@__PURE_
   identifier: "GetPrivateRepoForkPrWorkflowsSettingsRepositoryRequest",
 }) as any as S.Schema<GetPrivateRepoForkPrWorkflowsSettingsRepositoryRequest>;
 
+export interface GetRepoActionsPoliciesRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  per_page?: number;
+  /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  page?: number;
+  /** Include policies configured at higher levels that apply to this repository */
+  has_parents?: boolean;
+}
+export const GetRepoActionsPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    has_parents: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/policies", code: 200 })),
+).annotate({
+  identifier: "GetRepoActionsPoliciesRequest",
+}) as any as S.Schema<GetRepoActionsPoliciesRequest>;
+
+/** An array of Actions policies. */
+export type GetRepoActionsPoliciesResponsePoliciesList = Array<ActionsPolicy>;
+export const GetRepoActionsPoliciesResponsePoliciesList = /*@__PURE__*/ S.Array(
+  ActionsPolicy,
+) as any as S.Schema<GetRepoActionsPoliciesResponsePoliciesList>;
+
+export interface GetRepoActionsPoliciesResponse {
+  /** The total number of Actions policies. */
+  total_count: number;
+  /** An array of Actions policies. */
+  policies: GetRepoActionsPoliciesResponsePoliciesList;
+}
+export const GetRepoActionsPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    total_count: S.Number,
+    policies: GetRepoActionsPoliciesResponsePoliciesList,
+  }),
+).annotate({
+  identifier: "GetRepoActionsPoliciesResponse",
+}) as any as S.Schema<GetRepoActionsPoliciesResponse>;
+
+export interface GetRepoActionsPolicyRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The ID of the policy. */
+  policy_id: number;
+}
+export const GetRepoActionsPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    policy_id: S.Number.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/policies/{policy_id}", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetRepoActionsPolicyRequest",
+}) as any as S.Schema<GetRepoActionsPolicyRequest>;
+
 export interface GetRepoPublicKeyRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -4416,15 +5595,9 @@ export const GetRepoPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/secrets/public-key",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/secrets/public-key", code: 200 }),
   ),
-).annotate({
-  identifier: "GetRepoPublicKeyRequest",
-}) as any as S.Schema<GetRepoPublicKeyRequest>;
+).annotate({ identifier: "GetRepoPublicKeyRequest" }) as any as S.Schema<GetRepoPublicKeyRequest>;
 
 export interface GetRepoSecretRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -4446,9 +5619,7 @@ export const GetRepoSecretRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetRepoSecretRequest",
-}) as any as S.Schema<GetRepoSecretRequest>;
+).annotate({ identifier: "GetRepoSecretRequest" }) as any as S.Schema<GetRepoSecretRequest>;
 
 export interface GetRepoVariableRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -4464,15 +5635,9 @@ export const GetRepoVariableRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/variables/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/variables/{name}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetRepoVariableRequest",
-}) as any as S.Schema<GetRepoVariableRequest>;
+).annotate({ identifier: "GetRepoVariableRequest" }) as any as S.Schema<GetRepoVariableRequest>;
 
 export interface GetReviewsForRunRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -4494,9 +5659,7 @@ export const GetReviewsForRunRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetReviewsForRunRequest",
-}) as any as S.Schema<GetReviewsForRunRequest>;
+).annotate({ identifier: "GetReviewsForRunRequest" }) as any as S.Schema<GetReviewsForRunRequest>;
 
 export interface EnvironmentApprovalsEnvironmentsItem {
   /** The id of the environment. */
@@ -4552,9 +5715,7 @@ export const EnvironmentApprovals = /*@__PURE__*/ S.suspend(() =>
     user: SimpleUser,
     comment: S.String,
   }),
-).annotate({
-  identifier: "EnvironmentApprovals",
-}) as any as S.Schema<EnvironmentApprovals>;
+).annotate({ identifier: "EnvironmentApprovals" }) as any as S.Schema<EnvironmentApprovals>;
 
 export type GetReviewsForRunResponseBodyList = Array<EnvironmentApprovals>;
 export const GetReviewsForRunResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4564,9 +5725,7 @@ export const GetReviewsForRunResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetReviewsForRunResponse = GetReviewsForRunResponseBodyList;
 export const GetReviewsForRunResponse = /*@__PURE__*/ S.suspend(() =>
   GetReviewsForRunResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetReviewsForRunResponse",
-}) as any as S.Schema<GetReviewsForRunResponse>;
+).annotate({ identifier: "GetReviewsForRunResponse" }) as any as S.Schema<GetReviewsForRunResponse>;
 
 export interface GetRunnerVersionDeprecationForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -4579,11 +5738,7 @@ export const GetRunnerVersionDeprecationForOrgRequest = /*@__PURE__*/ S.suspend(
     org: S.String.pipe(T.Label()),
     version: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/runners/deprecations/{version}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/actions/runners/deprecations/{version}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetRunnerVersionDeprecationForOrgRequest",
@@ -4659,13 +5814,7 @@ export const GetSelfHostedRunnerForOrgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     runner_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/runners/{runner_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/runners/{runner_id}", code: 200 })),
 ).annotate({
   identifier: "GetSelfHostedRunnerForOrgRequest",
 }) as any as S.Schema<GetSelfHostedRunnerForOrgRequest>;
@@ -4684,11 +5833,7 @@ export const GetSelfHostedRunnerForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     runner_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/runners/{runner_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/runners/{runner_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetSelfHostedRunnerForRepoRequest",
@@ -4772,9 +5917,7 @@ export const GetWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetWorkflowRequest",
-}) as any as S.Schema<GetWorkflowRequest>;
+).annotate({ identifier: "GetWorkflowRequest" }) as any as S.Schema<GetWorkflowRequest>;
 
 export type WorkflowState =
   | "active"
@@ -4825,11 +5968,7 @@ export const GetWorkflowAccessToRepositoryRequest = /*@__PURE__*/ S.suspend(() =
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/permissions/access",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/permissions/access", code: 200 }),
   ),
 ).annotate({
   identifier: "GetWorkflowAccessToRepositoryRequest",
@@ -4867,16 +6006,8 @@ export const GetWorkflowRunRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     run_id: S.Number.pipe(T.Label()),
     exclude_pull_requests: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/runs/{run_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetWorkflowRunRequest",
-}) as any as S.Schema<GetWorkflowRunRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/runs/{run_id}", code: 200 })),
+).annotate({ identifier: "GetWorkflowRunRequest" }) as any as S.Schema<GetWorkflowRunRequest>;
 
 /** A workflow referenced/reused by the initial caller workflow */
 export interface ReferencedWorkflow {
@@ -4890,9 +6021,7 @@ export const ReferencedWorkflow = /*@__PURE__*/ S.suspend(() =>
     sha: S.String,
     ref: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReferencedWorkflow",
-}) as any as S.Schema<ReferencedWorkflow>;
+).annotate({ identifier: "ReferencedWorkflow" }) as any as S.Schema<ReferencedWorkflow>;
 
 export type WorkflowRunReferencedWorkflowsList = Array<ReferencedWorkflow>;
 export const WorkflowRunReferencedWorkflowsList = /*@__PURE__*/ S.Array(
@@ -4925,9 +6054,7 @@ export const PullRequestMinimalHead = /*@__PURE__*/ S.suspend(() =>
     sha: S.String,
     repo: PullRequestMinimalHeadRepo,
   }),
-).annotate({
-  identifier: "PullRequestMinimalHead",
-}) as any as S.Schema<PullRequestMinimalHead>;
+).annotate({ identifier: "PullRequestMinimalHead" }) as any as S.Schema<PullRequestMinimalHead>;
 
 export type PullRequestMinimalBaseRepo = PullRequestMinimalHeadRepo;
 export const PullRequestMinimalBaseRepo = PullRequestMinimalHeadRepo;
@@ -4950,9 +6077,7 @@ export const PullRequestMinimal = /*@__PURE__*/ S.suspend(() =>
     head: PullRequestMinimalHead,
     base: PullRequestMinimalHead,
   }),
-).annotate({
-  identifier: "PullRequestMinimal",
-}) as any as S.Schema<PullRequestMinimal>;
+).annotate({ identifier: "PullRequestMinimal" }) as any as S.Schema<PullRequestMinimal>;
 
 /** Pull requests that are open with a `head_sha` or `head_branch` that matches the workflow run. The returned pull requests do not necessarily indicate pull requests that triggered the run. */
 export type WorkflowRunPullRequestsList = Array<PullRequestMinimal>;
@@ -5016,9 +6141,7 @@ export const NullableSimpleCommit = /*@__PURE__*/ S.suspend(() =>
     author: S.NullOr(NullableSimpleCommitAuthor),
     committer: S.NullOr(NullableSimpleCommitCommitter),
   }),
-).annotate({
-  identifier: "NullableSimpleCommit",
-}) as any as S.Schema<NullableSimpleCommit>;
+).annotate({ identifier: "NullableSimpleCommit" }) as any as S.Schema<NullableSimpleCommit>;
 
 export type MinimalRepositoryTopicsList = Array<string>;
 export const MinimalRepositoryTopicsList = /*@__PURE__*/ S.Array(
@@ -5081,9 +6204,7 @@ export const MinimalRepositoryLicense = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     node_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MinimalRepositoryLicense",
-}) as any as S.Schema<MinimalRepositoryLicense>;
+).annotate({ identifier: "MinimalRepositoryLicense" }) as any as S.Schema<MinimalRepositoryLicense>;
 
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 export const SecurityAndAnalysisAdvancedSecurityStatus = S.String;
@@ -5302,14 +6423,10 @@ export const SecurityAndAnalysis = /*@__PURE__*/ S.suspend(() =>
       SecurityAndAnalysisSecretScanningDelegatedBypassOptions,
     ),
   }),
-).annotate({
-  identifier: "SecurityAndAnalysis",
-}) as any as S.Schema<SecurityAndAnalysis>;
+).annotate({ identifier: "SecurityAndAnalysis" }) as any as S.Schema<SecurityAndAnalysis>;
 
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-export type MinimalRepositoryCustomPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
 export const MinimalRepositoryCustomPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5504,9 +6621,7 @@ export const MinimalRepository = /*@__PURE__*/ S.suspend(() =>
     security_and_analysis: S.optional(S.NullOr(SecurityAndAnalysis)),
     custom_properties: S.optional(MinimalRepositoryCustomPropertiesMap),
   }),
-).annotate({
-  identifier: "MinimalRepository",
-}) as any as S.Schema<MinimalRepository>;
+).annotate({ identifier: "MinimalRepository" }) as any as S.Schema<MinimalRepository>;
 
 /** An invocation of a workflow */
 export interface WorkflowRun {
@@ -5653,11 +6768,7 @@ export const GetWorkflowRunUsageRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     run_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/runs/{run_id}/timing",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/runs/{run_id}/timing", code: 200 }),
   ),
 ).annotate({
   identifier: "GetWorkflowRunUsageRequest",
@@ -5756,9 +6867,7 @@ export const WorkflowRunUsageBillable = /*@__PURE__*/ S.suspend(() =>
     MACOS: S.optional(WorkflowRunUsageBillableMACOS),
     WINDOWS: S.optional(WorkflowRunUsageBillableWINDOWS),
   }),
-).annotate({
-  identifier: "WorkflowRunUsageBillable",
-}) as any as S.Schema<WorkflowRunUsageBillable>;
+).annotate({ identifier: "WorkflowRunUsageBillable" }) as any as S.Schema<WorkflowRunUsageBillable>;
 
 /** Workflow Run Usage */
 export interface WorkflowRunUsage {
@@ -5770,9 +6879,7 @@ export const WorkflowRunUsage = /*@__PURE__*/ S.suspend(() =>
     billable: WorkflowRunUsageBillable,
     run_duration_ms: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "WorkflowRunUsage",
-}) as any as S.Schema<WorkflowRunUsage>;
+).annotate({ identifier: "WorkflowRunUsage" }) as any as S.Schema<WorkflowRunUsage>;
 
 export interface GetWorkflowUsageRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -5794,9 +6901,7 @@ export const GetWorkflowUsageRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetWorkflowUsageRequest",
-}) as any as S.Schema<GetWorkflowUsageRequest>;
+).annotate({ identifier: "GetWorkflowUsageRequest" }) as any as S.Schema<GetWorkflowUsageRequest>;
 
 export interface WorkflowUsageBillableUBUNTU {
   total_ms?: number;
@@ -5826,9 +6931,7 @@ export const WorkflowUsageBillable = /*@__PURE__*/ S.suspend(() =>
     MACOS: S.optional(WorkflowUsageBillableUBUNTU),
     WINDOWS: S.optional(WorkflowUsageBillableUBUNTU),
   }),
-).annotate({
-  identifier: "WorkflowUsageBillable",
-}) as any as S.Schema<WorkflowUsageBillable>;
+).annotate({ identifier: "WorkflowUsageBillable" }) as any as S.Schema<WorkflowUsageBillable>;
 
 /** Workflow Usage */
 export interface WorkflowUsage {
@@ -5859,13 +6962,7 @@ export const ListArtifactsForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     name: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/artifacts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/artifacts", code: 200 })),
 ).annotate({
   identifier: "ListArtifactsForRepoRequest",
 }) as any as S.Schema<ListArtifactsForRepoRequest>;
@@ -5905,11 +7002,7 @@ export const ListConcurrencyGroupsForRepositoryRequest = /*@__PURE__*/ S.suspend
     per_page: S.optional(S.Number.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/concurrency_groups",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/concurrency_groups", code: 200 }),
   ),
 ).annotate({
   identifier: "ListConcurrencyGroupsForRepositoryRequest",
@@ -5948,9 +7041,7 @@ export const ConcurrencyGroupList = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     concurrency_groups: ConcurrencyGroupListConcurrencyGroupsList,
   }),
-).annotate({
-  identifier: "ConcurrencyGroupList",
-}) as any as S.Schema<ConcurrencyGroupList>;
+).annotate({ identifier: "ConcurrencyGroupList" }) as any as S.Schema<ConcurrencyGroupList>;
 
 export interface ListConcurrencyGroupsForWorkflowRunRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -6074,9 +7165,7 @@ export const ConcurrencyGroupRunList = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     concurrency_groups: ConcurrencyGroupRunListConcurrencyGroupsList,
   }),
-).annotate({
-  identifier: "ConcurrencyGroupRunList",
-}) as any as S.Schema<ConcurrencyGroupRunList>;
+).annotate({ identifier: "ConcurrencyGroupRunList" }) as any as S.Schema<ConcurrencyGroupRunList>;
 
 export interface ListCustomImagesForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -6086,11 +7175,7 @@ export const ListCustomImagesForOrgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/hosted-runners/images/custom",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/actions/hosted-runners/images/custom", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCustomImagesForOrgRequest",
@@ -6308,13 +7393,7 @@ export const ListHostedRunnersForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/hosted-runners",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/hosted-runners", code: 200 })),
 ).annotate({
   identifier: "ListHostedRunnersForOrgRequest",
 }) as any as S.Schema<ListHostedRunnersForOrgRequest>;
@@ -6363,11 +7442,7 @@ export const ListJobsForWorkflowRunRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/runs/{run_id}/jobs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/runs/{run_id}/jobs", code: 200 }),
   ),
 ).annotate({
   identifier: "ListJobsForWorkflowRunRequest",
@@ -6453,11 +7528,7 @@ export const ListLabelsForSelfHostedRunnerForOrgRequest = /*@__PURE__*/ S.suspen
     org: S.String.pipe(T.Label()),
     runner_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/runners/{runner_id}/labels",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/actions/runners/{runner_id}/labels", code: 200 }),
   ),
 ).annotate({
   identifier: "ListLabelsForSelfHostedRunnerForOrgRequest",
@@ -6537,9 +7608,7 @@ export const ListOrgSecretsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/secrets", code: 200 })),
-).annotate({
-  identifier: "ListOrgSecretsRequest",
-}) as any as S.Schema<ListOrgSecretsRequest>;
+).annotate({ identifier: "ListOrgSecretsRequest" }) as any as S.Schema<ListOrgSecretsRequest>;
 
 export type ListOrgSecretsResponseSecretsList = Array<OrganizationActionsSecret>;
 export const ListOrgSecretsResponseSecretsList = /*@__PURE__*/ S.Array(
@@ -6555,9 +7624,7 @@ export const ListOrgSecretsResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     secrets: ListOrgSecretsResponseSecretsList,
   }),
-).annotate({
-  identifier: "ListOrgSecretsResponse",
-}) as any as S.Schema<ListOrgSecretsResponse>;
+).annotate({ identifier: "ListOrgSecretsResponse" }) as any as S.Schema<ListOrgSecretsResponse>;
 
 export interface ListOrgVariablesRequest {
   /** The organization name. The name is not case sensitive. */
@@ -6573,9 +7640,7 @@ export const ListOrgVariablesRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/variables", code: 200 })),
-).annotate({
-  identifier: "ListOrgVariablesRequest",
-}) as any as S.Schema<ListOrgVariablesRequest>;
+).annotate({ identifier: "ListOrgVariablesRequest" }) as any as S.Schema<ListOrgVariablesRequest>;
 
 export type ListOrgVariablesResponseVariablesList = Array<OrganizationActionsVariable>;
 export const ListOrgVariablesResponseVariablesList = /*@__PURE__*/ S.Array(
@@ -6591,9 +7656,7 @@ export const ListOrgVariablesResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     variables: ListOrgVariablesResponseVariablesList,
   }),
-).annotate({
-  identifier: "ListOrgVariablesResponse",
-}) as any as S.Schema<ListOrgVariablesResponse>;
+).annotate({ identifier: "ListOrgVariablesResponse" }) as any as S.Schema<ListOrgVariablesResponse>;
 
 export interface ListRepoAccessToSelfHostedRunnerGroupInOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -6659,11 +7722,7 @@ export const ListRepoOrganizationSecretsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/organization-secrets",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/organization-secrets", code: 200 }),
   ),
 ).annotate({
   identifier: "ListRepoOrganizationSecretsRequest",
@@ -6748,16 +7807,8 @@ export const ListRepoSecretsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/secrets",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListRepoSecretsRequest",
-}) as any as S.Schema<ListRepoSecretsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/secrets", code: 200 })),
+).annotate({ identifier: "ListRepoSecretsRequest" }) as any as S.Schema<ListRepoSecretsRequest>;
 
 export type ListRepoSecretsResponseSecretsList = Array<ActionsSecret>;
 export const ListRepoSecretsResponseSecretsList = /*@__PURE__*/ S.Array(
@@ -6773,9 +7824,7 @@ export const ListRepoSecretsResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     secrets: ListRepoSecretsResponseSecretsList,
   }),
-).annotate({
-  identifier: "ListRepoSecretsResponse",
-}) as any as S.Schema<ListRepoSecretsResponse>;
+).annotate({ identifier: "ListRepoSecretsResponse" }) as any as S.Schema<ListRepoSecretsResponse>;
 
 export interface ListRepoVariablesRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -6793,16 +7842,8 @@ export const ListRepoVariablesRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/variables",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListRepoVariablesRequest",
-}) as any as S.Schema<ListRepoVariablesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/variables", code: 200 })),
+).annotate({ identifier: "ListRepoVariablesRequest" }) as any as S.Schema<ListRepoVariablesRequest>;
 
 export type ListRepoVariablesResponseVariablesList = Array<ActionsVariable>;
 export const ListRepoVariablesResponseVariablesList = /*@__PURE__*/ S.Array(
@@ -6838,16 +7879,8 @@ export const ListRepoWorkflowsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/workflows",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListRepoWorkflowsRequest",
-}) as any as S.Schema<ListRepoWorkflowsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/workflows", code: 200 })),
+).annotate({ identifier: "ListRepoWorkflowsRequest" }) as any as S.Schema<ListRepoWorkflowsRequest>;
 
 export type ListRepoWorkflowsResponseWorkflowsList = Array<Workflow>;
 export const ListRepoWorkflowsResponseWorkflowsList = /*@__PURE__*/ S.Array(
@@ -6874,13 +7907,7 @@ export interface ListRunnerApplicationsForOrgRequest {
 export const ListRunnerApplicationsForOrgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/runners/downloads",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/runners/downloads", code: 200 })),
 ).annotate({
   identifier: "ListRunnerApplicationsForOrgRequest",
 }) as any as S.Schema<ListRunnerApplicationsForOrgRequest>;
@@ -6904,9 +7931,7 @@ export const RunnerApplication = /*@__PURE__*/ S.suspend(() =>
     temp_download_token: S.optional(S.String),
     sha256_checksum: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RunnerApplication",
-}) as any as S.Schema<RunnerApplication>;
+).annotate({ identifier: "RunnerApplication" }) as any as S.Schema<RunnerApplication>;
 
 export type ListRunnerApplicationsForOrgResponseBodyList = Array<RunnerApplication>;
 export const ListRunnerApplicationsForOrgResponseBodyList = /*@__PURE__*/ S.Array(
@@ -6931,11 +7956,7 @@ export const ListRunnerApplicationsForRepoRequest = /*@__PURE__*/ S.suspend(() =
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/runners/downloads",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/runners/downloads", code: 200 }),
   ),
 ).annotate({
   identifier: "ListRunnerApplicationsForRepoRequest",
@@ -7015,11 +8036,7 @@ export const ListSelectedReposForOrgVariableRequest = /*@__PURE__*/ S.suspend(()
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/variables/{name}/repositories",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/actions/variables/{name}/repositories", code: 200 }),
   ),
 ).annotate({
   identifier: "ListSelectedReposForOrgVariableRequest",
@@ -7058,11 +8075,7 @@ export const ListSelectedRepositoriesEnabledGithubActionsOrganizationRequest =
       per_page: S.optional(S.Number.pipe(T.Query())),
       page: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/orgs/{org}/actions/permissions/repositories",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/orgs/{org}/actions/permissions/repositories", code: 200 }),
     ),
   ).annotate({
     identifier: "ListSelectedRepositoriesEnabledGithubActionsOrganizationRequest",
@@ -7154,13 +8167,7 @@ export const ListSelfHostedRunnerGroupsForOrgRequest = /*@__PURE__*/ S.suspend((
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     visible_to_repository: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/runner-groups",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/runner-groups", code: 200 })),
 ).annotate({
   identifier: "ListSelfHostedRunnerGroupsForOrgRequest",
 }) as any as S.Schema<ListSelfHostedRunnerGroupsForOrgRequest>;
@@ -7241,13 +8248,7 @@ export const ListSelfHostedRunnersForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/runners",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/runners", code: 200 })),
 ).annotate({
   identifier: "ListSelfHostedRunnersForRepoRequest",
 }) as any as S.Schema<ListSelfHostedRunnersForRepoRequest>;
@@ -7439,9 +8440,7 @@ export const ListWorkflowRunsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListWorkflowRunsRequest",
-}) as any as S.Schema<ListWorkflowRunsRequest>;
+).annotate({ identifier: "ListWorkflowRunsRequest" }) as any as S.Schema<ListWorkflowRunsRequest>;
 
 export type ListWorkflowRunsResponseWorkflowRunsList = Array<WorkflowRun>;
 export const ListWorkflowRunsResponseWorkflowRunsList = /*@__PURE__*/ S.Array(
@@ -7457,9 +8456,7 @@ export const ListWorkflowRunsResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     workflow_runs: ListWorkflowRunsResponseWorkflowRunsList,
   }),
-).annotate({
-  identifier: "ListWorkflowRunsResponse",
-}) as any as S.Schema<ListWorkflowRunsResponse>;
+).annotate({ identifier: "ListWorkflowRunsResponse" }) as any as S.Schema<ListWorkflowRunsResponse>;
 
 export type ListWorkflowRunsForRepoRequestStatus =
   | "completed"
@@ -7518,13 +8515,7 @@ export const ListWorkflowRunsForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     exclude_pull_requests: S.optional(S.Boolean.pipe(T.Query())),
     check_suite_id: S.optional(S.Number.pipe(T.Query())),
     head_sha: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/runs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/runs", code: 200 })),
 ).annotate({
   identifier: "ListWorkflowRunsForRepoRequest",
 }) as any as S.Schema<ListWorkflowRunsForRepoRequest>;
@@ -7558,11 +8549,7 @@ export const RemoveAllCustomLabelsFromSelfHostedRunnerForOrgRequest = /*@__PURE_
     org: S.String.pipe(T.Label()),
     runner_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/actions/runners/{runner_id}/labels",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/orgs/{org}/actions/runners/{runner_id}/labels", code: 200 }),
   ),
 ).annotate({
   identifier: "RemoveAllCustomLabelsFromSelfHostedRunnerForOrgRequest",
@@ -7857,22 +8844,14 @@ export const ReRunWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
     run_id: S.Number.pipe(T.Label()),
     enable_debug_logging: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/actions/runs/{run_id}/rerun",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/actions/runs/{run_id}/rerun", code: 200 }),
   ),
-).annotate({
-  identifier: "ReRunWorkflowRequest",
-}) as any as S.Schema<ReRunWorkflowRequest>;
+).annotate({ identifier: "ReRunWorkflowRequest" }) as any as S.Schema<ReRunWorkflowRequest>;
 
 export type ReRunWorkflowResponse = unknown;
 export const ReRunWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ReRunWorkflowResponse",
-}) as any as S.Schema<ReRunWorkflowResponse>;
+).annotate({ identifier: "ReRunWorkflowResponse" }) as any as S.Schema<ReRunWorkflowResponse>;
 
 export interface ReRunWorkflowFailedJobsRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -7979,9 +8958,7 @@ export const ReviewCustomGatesForRunRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface ReviewCustomGatesForRunResponse {}
 export const ReviewCustomGatesForRunResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "ReviewCustomGatesForRunResponse",
-  },
+  { identifier: "ReviewCustomGatesForRunResponse" },
 ) as any as S.Schema<ReviewCustomGatesForRunResponse>;
 
 /** The list of environment ids to approve or reject */
@@ -8142,9 +9119,7 @@ export const NullableIntegration = /*@__PURE__*/ S.suspend(() =>
     events: NullableIntegrationEventsList,
     installations_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NullableIntegration",
-}) as any as S.Schema<NullableIntegration>;
+).annotate({ identifier: "NullableIntegration" }) as any as S.Schema<NullableIntegration>;
 
 /** A request for a specific ref(branch,sha,tag) to be deployed */
 export interface Deployment {
@@ -8228,11 +9203,7 @@ export const RunReRunJobForWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
     enable_debug_logging: S.optional(S.Boolean),
     enable_debugger: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/actions/jobs/{job_id}/rerun",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/actions/jobs/{job_id}/rerun", code: 200 }),
   ),
 ).annotate({
   identifier: "RunReRunJobForWorkflowRequest",
@@ -8284,11 +9255,7 @@ export const SetActionsCacheRetentionLimitForOrganizationRequest = /*@__PURE__*/
     org: S.String.pipe(T.Label()),
     max_cache_retention_days: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/organizations/{org}/actions/cache/retention-limit",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/organizations/{org}/actions/cache/retention-limit", code: 200 }),
   ),
 ).annotate({
   identifier: "SetActionsCacheRetentionLimitForOrganizationRequest",
@@ -8371,11 +9338,7 @@ export const SetActionsCacheStorageLimitForOrganizationRequest = /*@__PURE__*/ S
     org: S.String.pipe(T.Label()),
     max_cache_size_gb: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/organizations/{org}/actions/cache/storage-limit",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/organizations/{org}/actions/cache/storage-limit", code: 200 }),
   ),
 ).annotate({
   identifier: "SetActionsCacheStorageLimitForOrganizationRequest",
@@ -8402,11 +9365,7 @@ export const SetActionsCacheStorageLimitForRepositoryRequest = /*@__PURE__*/ S.s
     repo: S.String.pipe(T.Label()),
     max_cache_size_gb: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/actions/cache/storage-limit",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/actions/cache/storage-limit", code: 200 }),
   ),
 ).annotate({
   identifier: "SetActionsCacheStorageLimitForRepositoryRequest",
@@ -8442,11 +9401,7 @@ export const SetAllowedActionsOrganizationRequest = /*@__PURE__*/ S.suspend(() =
     verified_allowed: S.optional(S.Boolean),
     patterns_allowed: S.optional(SetAllowedActionsOrganizationRequestPatternsAllowedList),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/actions/permissions/selected-actions",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/orgs/{org}/actions/permissions/selected-actions", code: 200 }),
   ),
 ).annotate({
   identifier: "SetAllowedActionsOrganizationRequest",
@@ -8505,7 +9460,7 @@ export const SetAllowedActionsRepositoryResponse = /*@__PURE__*/ S.suspend(() =>
 export interface SetArtifactAndLogRetentionSettingsOrganizationRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
-  /** The number of days to retain artifacts and logs */
+  /** The number of days to retain checks, workflow runs, commit statuses, artifacts, and logs */
   days: number;
 }
 export const SetArtifactAndLogRetentionSettingsOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
@@ -8535,7 +9490,7 @@ export interface SetArtifactAndLogRetentionSettingsRepositoryRequest {
   owner: string;
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
-  /** The number of days to retain artifacts and logs */
+  /** The number of days to retain checks, workflow runs, commit statuses, artifacts, and logs */
   days: number;
 }
 export const SetArtifactAndLogRetentionSettingsRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
@@ -8581,11 +9536,7 @@ export const SetCustomLabelsForSelfHostedRunnerForOrgRequest = /*@__PURE__*/ S.s
     runner_id: S.Number.pipe(T.Label()),
     labels: SetCustomLabelsForSelfHostedRunnerForOrgRequestLabelsList,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/actions/runners/{runner_id}/labels",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/orgs/{org}/actions/runners/{runner_id}/labels", code: 200 }),
   ),
 ).annotate({
   identifier: "SetCustomLabelsForSelfHostedRunnerForOrgRequest",
@@ -8794,13 +9745,7 @@ export const SetGithubActionsDefaultWorkflowPermissionsOrganizationRequest =
       org: S.String.pipe(T.Label()),
       default_workflow_permissions: S.optional(ActionsDefaultWorkflowPermissions),
       can_approve_pull_request_reviews: S.optional(S.Boolean),
-    }).pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/orgs/{org}/actions/permissions/workflow",
-        code: 200,
-      }),
-    ),
+    }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/actions/permissions/workflow", code: 200 })),
   ).annotate({
     identifier: "SetGithubActionsDefaultWorkflowPermissionsOrganizationRequest",
   }) as any as S.Schema<SetGithubActionsDefaultWorkflowPermissionsOrganizationRequest>;
@@ -8857,13 +9802,7 @@ export const SetGithubActionsPermissionsOrganizationRequest = /*@__PURE__*/ S.su
     enabled_repositories: EnabledRepositories,
     allowed_actions: S.optional(AllowedActions),
     sha_pinning_required: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/actions/permissions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/actions/permissions", code: 200 })),
 ).annotate({
   identifier: "SetGithubActionsPermissionsOrganizationRequest",
 }) as any as S.Schema<SetGithubActionsPermissionsOrganizationRequest>;
@@ -8891,13 +9830,7 @@ export const SetGithubActionsPermissionsRepositoryRequest = /*@__PURE__*/ S.susp
     enabled: S.Boolean,
     allowed_actions: S.optional(AllowedActions),
     sha_pinning_required: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/actions/permissions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/actions/permissions", code: 200 })),
 ).annotate({
   identifier: "SetGithubActionsPermissionsRepositoryRequest",
 }) as any as S.Schema<SetGithubActionsPermissionsRepositoryRequest>;
@@ -9084,11 +10017,7 @@ export const SetSelectedReposForOrgVariableRequest = /*@__PURE__*/ S.suspend(() 
     name: S.String.pipe(T.Label()),
     selected_repository_ids: SetSelectedReposForOrgVariableRequestSelectedRepositoryIdsList,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/actions/variables/{name}/repositories",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/orgs/{org}/actions/variables/{name}/repositories", code: 200 }),
   ),
 ).annotate({
   identifier: "SetSelectedReposForOrgVariableRequest",
@@ -9122,11 +10051,7 @@ export const SetSelectedRepositoriesEnabledGithubActionsOrganizationRequest =
       selected_repository_ids:
         SetSelectedRepositoriesEnabledGithubActionsOrganizationRequestSelectedRepositoryIdsList,
     }).pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/orgs/{org}/actions/permissions/repositories",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/orgs/{org}/actions/permissions/repositories", code: 200 }),
     ),
   ).annotate({
     identifier: "SetSelectedRepositoriesEnabledGithubActionsOrganizationRequest",
@@ -9268,11 +10193,7 @@ export const SetWorkflowAccessToRepositoryRequest = /*@__PURE__*/ S.suspend(() =
     repo: S.String.pipe(T.Label()),
     access_level: SetWorkflowAccessToRepositoryRequestAccessLevel,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/actions/permissions/access",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/actions/permissions/access", code: 200 }),
   ),
 ).annotate({
   identifier: "SetWorkflowAccessToRepositoryRequest",
@@ -9374,6 +10295,37 @@ export const UpdateHostedRunnerForOrgRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateHostedRunnerForOrgRequest",
 }) as any as S.Schema<UpdateHostedRunnerForOrgRequest>;
 
+/** An array of rules within the policy. */
+export type UpdateOrgActionsPolicyRequestRulesList = Array<ActionsRule>;
+export const UpdateOrgActionsPolicyRequestRulesList = /*@__PURE__*/ S.Array(
+  ActionsRule,
+) as any as S.Schema<UpdateOrgActionsPolicyRequestRulesList>;
+
+export interface UpdateOrgActionsPolicyRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The ID of the policy. */
+  policy_id: number;
+  /** The name of the policy. */
+  name?: string;
+  enforcement?: RepositoryRuleEnforcement | (string & {});
+  conditions?: ActionsPolicyOrgConditions;
+  /** An array of rules within the policy. */
+  rules?: UpdateOrgActionsPolicyRequestRulesList;
+}
+export const UpdateOrgActionsPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    org: S.String.pipe(T.Label()),
+    policy_id: S.Number.pipe(T.Label()),
+    name: S.optional(S.String),
+    enforcement: S.optional(RepositoryRuleEnforcement),
+    conditions: S.optional(ActionsPolicyOrgConditions),
+    rules: S.optional(UpdateOrgActionsPolicyRequestRulesList),
+  }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/actions/policies/{policy_id}", code: 200 })),
+).annotate({
+  identifier: "UpdateOrgActionsPolicyRequest",
+}) as any as S.Schema<UpdateOrgActionsPolicyRequest>;
+
 /** The type of repositories in the organization that can access the variable. `selected` means only the repositories specified by `selected_repository_ids` can access the variable. */
 export type UpdateOrgVariableRequestVisibility = "all" | "private" | "selected";
 export const UpdateOrgVariableRequestVisibility = S.String;
@@ -9403,21 +10355,49 @@ export const UpdateOrgVariableRequest = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     visibility: S.optional(UpdateOrgVariableRequestVisibility),
     selected_repository_ids: S.optional(UpdateOrgVariableRequestSelectedRepositoryIdsList),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/orgs/{org}/actions/variables/{name}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateOrgVariableRequest",
-}) as any as S.Schema<UpdateOrgVariableRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/orgs/{org}/actions/variables/{name}", code: 200 })),
+).annotate({ identifier: "UpdateOrgVariableRequest" }) as any as S.Schema<UpdateOrgVariableRequest>;
 
 export interface UpdateOrgVariableResponse {}
 export const UpdateOrgVariableResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateOrgVariableResponse",
 }) as any as S.Schema<UpdateOrgVariableResponse>;
+
+/** An array of rules within the policy. */
+export type UpdateRepoActionsPolicyRequestRulesList = Array<ActionsRule>;
+export const UpdateRepoActionsPolicyRequestRulesList = /*@__PURE__*/ S.Array(
+  ActionsRule,
+) as any as S.Schema<UpdateRepoActionsPolicyRequestRulesList>;
+
+export interface UpdateRepoActionsPolicyRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The ID of the policy. */
+  policy_id: number;
+  /** The name of the policy. */
+  name?: string;
+  enforcement?: RepositoryRuleEnforcement | (string & {});
+  conditions?: ActionsPolicyRepoConditions;
+  /** An array of rules within the policy. */
+  rules?: UpdateRepoActionsPolicyRequestRulesList;
+}
+export const UpdateRepoActionsPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    policy_id: S.Number.pipe(T.Label()),
+    name: S.optional(S.String),
+    enforcement: S.optional(RepositoryRuleEnforcement),
+    conditions: S.optional(ActionsPolicyRepoConditions),
+    rules: S.optional(UpdateRepoActionsPolicyRequestRulesList),
+  }).pipe(
+    T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/actions/policies/{policy_id}", code: 200 }),
+  ),
+).annotate({
+  identifier: "UpdateRepoActionsPolicyRequest",
+}) as any as S.Schema<UpdateRepoActionsPolicyRequest>;
 
 export interface UpdateRepoVariableRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -9436,11 +10416,7 @@ export const UpdateRepoVariableRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     value: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/actions/variables/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/actions/variables/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateRepoVariableRequest",
@@ -9656,6 +10632,21 @@ export const createHostedRunnerForOrg: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateOrgActionsPolicyError = NotFound | UnprocessableEntity | GithubOpError;
+/** Create an organization Actions policy Create an Actions policy for an organization. Omitting `workflow_path` targets all workflows without storing an explicit condition. */
+export const createOrgActionsPolicy: API.OperationMethod<
+  CreateOrgActionsPolicyRequest,
+  ActionsPolicy,
+  CreateOrgActionsPolicyError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateOrgActionsPolicyRequest,
+  output: ActionsPolicy,
+  errors: [NotFound, UnprocessableEntity],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateOrgVariableError = GithubOpError;
 /** Create an organization variable Creates an organization variable that you can reference in a GitHub Actions workflow. Authenticated users must have collaborator access to a repository to create, update, or read variables. OAuth tokens and personal access tokens (classic) need the`admin:org` scope to use this endpoint. If the repository is private, OAuth tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
 export const createOrgVariable: API.OperationMethod<
@@ -9772,6 +10763,21 @@ export const createRemoveTokenForRepo: API.OperationMethod<
   input: CreateRemoveTokenForRepoRequest,
   output: AuthenticationToken,
   errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateRepoActionsPolicyError = NotFound | UnprocessableEntity | GithubOpError;
+/** Create a repository Actions policy Create an Actions policy for a repository. Omitting `workflow_path` targets all workflows without storing an explicit condition. */
+export const createRepoActionsPolicy: API.OperationMethod<
+  CreateRepoActionsPolicyRequest,
+  ActionsPolicy,
+  CreateRepoActionsPolicyError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateRepoActionsPolicyRequest,
+  output: ActionsPolicy,
+  errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -9941,6 +10947,21 @@ export const deleteHostedRunnerForOrg: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteOrgActionsPolicyError = NotFound | GithubOpError;
+/** Delete an organization Actions policy Delete an Actions policy for an organization. */
+export const deleteOrgActionsPolicy: API.OperationMethod<
+  DeleteOrgActionsPolicyRequest,
+  DeleteOrgActionsPolicyResponse,
+  DeleteOrgActionsPolicyError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteOrgActionsPolicyRequest,
+  output: DeleteOrgActionsPolicyResponse,
+  errors: [NotFound],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteOrgSecretError = GithubOpError;
 /** Delete an organization secret Deletes a secret in an organization using the secret name. Authenticated users must have collaborator access to a repository to create, update, or read secrets. OAuth tokens and personal access tokens (classic) need the`admin:org` scope to use this endpoint. If the repository is private, OAuth tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
 export const deleteOrgSecret: API.OperationMethod<
@@ -9967,6 +10988,21 @@ export const deleteOrgVariable: API.OperationMethod<
   input: DeleteOrgVariableRequest,
   output: DeleteOrgVariableResponse,
   errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteRepoActionsPolicyError = NotFound | GithubOpError;
+/** Delete a repository Actions policy Delete an Actions policy for a repository. */
+export const deleteRepoActionsPolicy: API.OperationMethod<
+  DeleteRepoActionsPolicyRequest,
+  DeleteRepoActionsPolicyResponse,
+  DeleteRepoActionsPolicyError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteRepoActionsPolicyRequest,
+  output: DeleteRepoActionsPolicyResponse,
+  errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -10151,6 +11187,21 @@ export const downloadJobLogsForWorkflowRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DownloadJobLogsForWorkflowRunRequest,
   output: DownloadJobLogsForWorkflowRunResponse,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DownloadStepLogsForWorkflowRunJobError = GithubOpError;
+/** Download step logs for a workflow run job Gets a redirect URL to download a plain text file of logs for a specific step of a workflow job. This link expires after 1 minute. Look for `Location:` in the response header to find the URL for the download. This endpoint is intended for selective retrieval of one step. To download complete job logs, use the [job logs endpoint](https://docs.github.com/rest/actions/workflow-jobs#download-job-logs-for-a-workflow-run). Anyone with read access to the repository can use this endpoint. If the repository is private, OAuth tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
+export const downloadStepLogsForWorkflowRunJob: API.OperationMethod<
+  DownloadStepLogsForWorkflowRunJobRequest,
+  DownloadStepLogsForWorkflowRunJobResponse,
+  DownloadStepLogsForWorkflowRunJobError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DownloadStepLogsForWorkflowRunJobRequest,
+  output: DownloadStepLogsForWorkflowRunJobResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -10491,7 +11542,7 @@ export type GetArtifactAndLogRetentionSettingsOrganizationError =
   | Forbidden
   | NotFound
   | GithubOpError;
-/** Get artifact and log retention settings for an organization Gets artifact and log retention settings for an organization. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope or the "Actions policies" fine-grained permission to use this endpoint. */
+/** Get artifact and log retention settings for an organization Gets retention settings for checks, workflow runs, commit statuses, artifacts, and logs for an organization. Checks include check suites, check runs, and check annotations. These settings also apply to checks and commit statuses created by third-party integrations, and are not limited to data created by GitHub Actions. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope or the "Actions policies" fine-grained permission to use this endpoint. */
 export const getArtifactAndLogRetentionSettingsOrganization: API.OperationMethod<
   GetArtifactAndLogRetentionSettingsOrganizationRequest,
   ActionsArtifactAndLogRetentionResponse,
@@ -10506,7 +11557,7 @@ export const getArtifactAndLogRetentionSettingsOrganization: API.OperationMethod
 }));
 
 export type GetArtifactAndLogRetentionSettingsRepositoryError = NotFound | GithubOpError;
-/** Get artifact and log retention settings for a repository Gets artifact and log retention settings for a repository. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
+/** Get artifact and log retention settings for a repository Gets retention settings for checks, workflow runs, commit statuses, artifacts, and logs for a repository. Checks include check suites, check runs, and check annotations. These settings also apply to checks and commit statuses created by third-party integrations, and are not limited to data created by GitHub Actions. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
 export const getArtifactAndLogRetentionSettingsRepository: API.OperationMethod<
   GetArtifactAndLogRetentionSettingsRepositoryRequest,
   ActionsArtifactAndLogRetentionResponse,
@@ -10820,6 +11871,36 @@ export const getJobForWorkflowRun: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetOrgActionsPoliciesError = NotFound | GithubOpError;
+/** List organization Actions policies List all Actions policies for an organization. */
+export const getOrgActionsPolicies: API.OperationMethod<
+  GetOrgActionsPoliciesRequest,
+  GetOrgActionsPoliciesResponse,
+  GetOrgActionsPoliciesError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrgActionsPoliciesRequest,
+  output: GetOrgActionsPoliciesResponse,
+  errors: [NotFound],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetOrgActionsPolicyError = NotFound | GithubOpError;
+/** Get an organization Actions policy Get a specific Actions policy for an organization. */
+export const getOrgActionsPolicy: API.OperationMethod<
+  GetOrgActionsPolicyRequest,
+  ActionsPolicy,
+  GetOrgActionsPolicyError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrgActionsPolicyRequest,
+  output: ActionsPolicy,
+  errors: [NotFound],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetOrgPublicKeyError = GithubOpError;
 /** Get an organization public key Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets. The authenticated user must have collaborator access to a repository to create, update, or read secrets. OAuth tokens and personal access tokens (classic) need the`admin:org` scope to use this endpoint. If the repository is private, OAuth tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
 export const getOrgPublicKey: API.OperationMethod<
@@ -10912,6 +11993,36 @@ export const getPrivateRepoForkPrWorkflowsSettingsRepository: API.OperationMetho
   input: GetPrivateRepoForkPrWorkflowsSettingsRepositoryRequest,
   output: ActionsForkPrWorkflowsPrivateRepos,
   errors: [Forbidden, NotFound],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetRepoActionsPoliciesError = NotFound | GithubOpError;
+/** List repository Actions policies List all Actions policies for a repository. */
+export const getRepoActionsPolicies: API.OperationMethod<
+  GetRepoActionsPoliciesRequest,
+  GetRepoActionsPoliciesResponse,
+  GetRepoActionsPoliciesError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetRepoActionsPoliciesRequest,
+  output: GetRepoActionsPoliciesResponse,
+  errors: [NotFound],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetRepoActionsPolicyError = NotFound | GithubOpError;
+/** Get a repository Actions policy Get a specific Actions policy for a repository. */
+export const getRepoActionsPolicy: API.OperationMethod<
+  GetRepoActionsPolicyRequest,
+  ActionsPolicy,
+  GetRepoActionsPolicyError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetRepoActionsPolicyRequest,
+  output: ActionsPolicy,
+  errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -12023,7 +13134,7 @@ export type SetArtifactAndLogRetentionSettingsOrganizationError =
   | Conflict
   | UnprocessableEntity
   | GithubOpError;
-/** Set artifact and log retention settings for an organization Sets artifact and log retention settings for an organization. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope or the "Actions policies" fine-grained permission to use this endpoint. */
+/** Set artifact and log retention settings for an organization Sets retention settings for checks, workflow runs, commit statuses, artifacts, and logs for an organization. Checks include check suites, check runs, and check annotations. These settings also apply to checks and commit statuses created by third-party integrations, and are not limited to data created by GitHub Actions. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope or the "Actions policies" fine-grained permission to use this endpoint. */
 export const setArtifactAndLogRetentionSettingsOrganization: API.OperationMethod<
   SetArtifactAndLogRetentionSettingsOrganizationRequest,
   SetArtifactAndLogRetentionSettingsOrganizationResponse,
@@ -12041,7 +13152,7 @@ export type SetArtifactAndLogRetentionSettingsRepositoryError =
   | NotFound
   | UnprocessableEntity
   | GithubOpError;
-/** Set artifact and log retention settings for a repository Sets artifact and log retention settings for a repository. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
+/** Set artifact and log retention settings for a repository Sets retention settings for checks, workflow runs, commit statuses, artifacts, and logs for a repository. Checks include check suites, check runs, and check annotations. These settings also apply to checks and commit statuses created by third-party integrations, and are not limited to data created by GitHub Actions. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
 export const setArtifactAndLogRetentionSettingsRepository: API.OperationMethod<
   SetArtifactAndLogRetentionSettingsRepositoryRequest,
   SetArtifactAndLogRetentionSettingsRepositoryResponse,
@@ -12402,6 +13513,21 @@ export const updateHostedRunnerForOrg: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type UpdateOrgActionsPolicyError = NotFound | UnprocessableEntity | GithubOpError;
+/** Update an organization Actions policy Update an Actions policy for an organization. Omitting `workflow_path` preserves the policy's existing workflow targeting. */
+export const updateOrgActionsPolicy: API.OperationMethod<
+  UpdateOrgActionsPolicyRequest,
+  ActionsPolicy,
+  UpdateOrgActionsPolicyError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateOrgActionsPolicyRequest,
+  output: ActionsPolicy,
+  errors: [NotFound, UnprocessableEntity],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UpdateOrgVariableError = GithubOpError;
 /** Update an organization variable Updates an organization variable that you can reference in a GitHub Actions workflow. Authenticated users must have collaborator access to a repository to create, update, or read variables. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required. */
 export const updateOrgVariable: API.OperationMethod<
@@ -12413,6 +13539,21 @@ export const updateOrgVariable: API.OperationMethod<
   input: UpdateOrgVariableRequest,
   output: UpdateOrgVariableResponse,
   errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateRepoActionsPolicyError = NotFound | UnprocessableEntity | GithubOpError;
+/** Update a repository Actions policy Update an Actions policy for a repository. Omitting `workflow_path` preserves the policy's existing workflow targeting. */
+export const updateRepoActionsPolicy: API.OperationMethod<
+  UpdateRepoActionsPolicyRequest,
+  ActionsPolicy,
+  UpdateRepoActionsPolicyError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateRepoActionsPolicyRequest,
+  output: ActionsPolicy,
+  errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));

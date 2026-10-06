@@ -94,7 +94,7 @@ export const SecretScanningCustomPatternToCreate = /*@__PURE__*/ S.suspend(() =>
   identifier: "SecretScanningCustomPatternToCreate",
 }) as any as S.Schema<SecretScanningCustomPatternToCreate>;
 
-/** The list of custom patterns to create. */
+/** The list of custom patterns to create (maximum 100). */
 export type BulkCreateOrgCustomPatternsRequestPatternsList =
   Array<SecretScanningCustomPatternToCreate>;
 export const BulkCreateOrgCustomPatternsRequestPatternsList = /*@__PURE__*/ S.Array(
@@ -104,7 +104,7 @@ export const BulkCreateOrgCustomPatternsRequestPatternsList = /*@__PURE__*/ S.Ar
 export interface BulkCreateOrgCustomPatternsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
-  /** The list of custom patterns to create. */
+  /** The list of custom patterns to create (maximum 100). */
   patterns: BulkCreateOrgCustomPatternsRequestPatternsList;
 }
 export const BulkCreateOrgCustomPatternsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -112,11 +112,7 @@ export const BulkCreateOrgCustomPatternsRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     patterns: BulkCreateOrgCustomPatternsRequestPatternsList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/secret-scanning/custom-patterns",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/orgs/{org}/secret-scanning/custom-patterns", code: 200 }),
   ),
 ).annotate({
   identifier: "BulkCreateOrgCustomPatternsRequest",
@@ -205,7 +201,7 @@ export const BulkCreateOrgCustomPatternsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "BulkCreateOrgCustomPatternsResponse",
 }) as any as S.Schema<BulkCreateOrgCustomPatternsResponse>;
 
-/** The list of custom patterns to create. */
+/** The list of custom patterns to create (maximum 100). */
 export type BulkCreateRepoCustomPatternsRequestPatternsList =
   Array<SecretScanningCustomPatternToCreate>;
 export const BulkCreateRepoCustomPatternsRequestPatternsList = /*@__PURE__*/ S.Array(
@@ -217,7 +213,7 @@ export interface BulkCreateRepoCustomPatternsRequest {
   owner: string;
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
-  /** The list of custom patterns to create. */
+  /** The list of custom patterns to create (maximum 100). */
   patterns: BulkCreateRepoCustomPatternsRequestPatternsList;
 }
 export const BulkCreateRepoCustomPatternsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -295,11 +291,7 @@ export const BulkDeleteOrgCustomPatternsRequest = /*@__PURE__*/ S.suspend(() =>
     patterns: BulkDeleteOrgCustomPatternsRequestPatternsList,
     post_delete_action: S.optional(BulkDeleteOrgCustomPatternsRequestPostDeleteAction),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/secret-scanning/custom-patterns",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/orgs/{org}/secret-scanning/custom-patterns", code: 200 }),
   ),
 ).annotate({
   identifier: "BulkDeleteOrgCustomPatternsRequest",
@@ -431,9 +423,7 @@ export const GetAlertRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetAlertRequest",
-}) as any as S.Schema<GetAlertRequest>;
+).annotate({ identifier: "GetAlertRequest" }) as any as S.Schema<GetAlertRequest>;
 
 /** Sets the state of the secret scanning alert. You must provide `resolution` when you set the state to `resolved`. */
 export type SecretScanningAlertState = "open" | "resolved";
@@ -497,9 +487,7 @@ export const NullableSimpleUser = /*@__PURE__*/ S.suspend(() =>
     starred_at: S.optional(S.String),
     user_view_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableSimpleUser",
-}) as any as S.Schema<NullableSimpleUser>;
+).annotate({ identifier: "NullableSimpleUser" }) as any as S.Schema<NullableSimpleUser>;
 
 /** The token status as of the latest validity check. */
 export type SecretScanningAlertWithMetadataValidity = "active" | "inactive" | "unknown";
@@ -896,15 +884,9 @@ export const GetScanHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/secret-scanning/scan-history",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/secret-scanning/scan-history", code: 200 }),
   ),
-).annotate({
-  identifier: "GetScanHistoryRequest",
-}) as any as S.Schema<GetScanHistoryRequest>;
+).annotate({ identifier: "GetScanHistoryRequest" }) as any as S.Schema<GetScanHistoryRequest>;
 
 /** Information on a single scan performed by secret scanning on the repository */
 export interface SecretScanningScan {
@@ -924,9 +906,7 @@ export const SecretScanningScan = /*@__PURE__*/ S.suspend(() =>
     completed_at: S.optional(S.NullOr(S.String)),
     started_at: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "SecretScanningScan",
-}) as any as S.Schema<SecretScanningScan>;
+).annotate({ identifier: "SecretScanningScan" }) as any as S.Schema<SecretScanningScan>;
 
 export type SecretScanningScanHistoryIncrementalScansList = Array<SecretScanningScan>;
 export const SecretScanningScanHistoryIncrementalScansList = /*@__PURE__*/ S.Array(
@@ -1080,16 +1060,8 @@ export const ListAlertsForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     is_bypassed: S.optional(S.Boolean.pipe(T.Query())),
     included_metadata: S.optional(S.String.pipe(T.Query())),
     owner_email_hash: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/secret-scanning/alerts",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListAlertsForOrgRequest",
-}) as any as S.Schema<ListAlertsForOrgRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/secret-scanning/alerts", code: 200 })),
+).annotate({ identifier: "ListAlertsForOrgRequest" }) as any as S.Schema<ListAlertsForOrgRequest>;
 
 /** A GitHub user. */
 export type SimpleUser = NullableSimpleUser;
@@ -1238,9 +1210,7 @@ export const SimpleRepository = /*@__PURE__*/ S.suspend(() =>
     trees_url: S.String,
     hooks_url: S.String,
   }),
-).annotate({
-  identifier: "SimpleRepository",
-}) as any as S.Schema<SimpleRepository>;
+).annotate({ identifier: "SimpleRepository" }) as any as S.Schema<SimpleRepository>;
 
 /** The token status as of the latest validity check. */
 export type OrganizationSecretScanningAlertValidity = "active" | "inactive" | "unknown";
@@ -1351,9 +1321,7 @@ export const ListAlertsForOrgResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListAlertsForOrgResponse = ListAlertsForOrgResponseBodyList;
 export const ListAlertsForOrgResponse = /*@__PURE__*/ S.suspend(() =>
   ListAlertsForOrgResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListAlertsForOrgResponse",
-}) as any as S.Schema<ListAlertsForOrgResponse>;
+).annotate({ identifier: "ListAlertsForOrgResponse" }) as any as S.Schema<ListAlertsForOrgResponse>;
 
 export type ListAlertsForRepoRequestState = "open" | "resolved";
 export const ListAlertsForRepoRequestState = S.String;
@@ -1435,15 +1403,9 @@ export const ListAlertsForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     included_metadata: S.optional(S.String.pipe(T.Query())),
     owner_email_hash: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/secret-scanning/alerts",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/secret-scanning/alerts", code: 200 }),
   ),
-).annotate({
-  identifier: "ListAlertsForRepoRequest",
-}) as any as S.Schema<ListAlertsForRepoRequest>;
+).annotate({ identifier: "ListAlertsForRepoRequest" }) as any as S.Schema<ListAlertsForRepoRequest>;
 
 /** The token status as of the latest validity check. */
 export type SecretScanningAlertValidity = "active" | "inactive" | "unknown";
@@ -1540,9 +1502,7 @@ export const SecretScanningAlert = /*@__PURE__*/ S.suspend(() =>
     closure_request_reviewer_comment: S.optional(S.NullOr(S.String)),
     closure_request_reviewer: S.optional(S.NullOr(NullableSimpleUser)),
   }),
-).annotate({
-  identifier: "SecretScanningAlert",
-}) as any as S.Schema<SecretScanningAlert>;
+).annotate({ identifier: "SecretScanningAlert" }) as any as S.Schema<SecretScanningAlert>;
 
 export type ListAlertsForRepoResponseBodyList = Array<SecretScanningAlert>;
 export const ListAlertsForRepoResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1630,9 +1590,7 @@ export const SecretScanningLocation = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(SecretScanningLocationType),
     details: S.optional(SecretScanningLocationDetails),
   }),
-).annotate({
-  identifier: "SecretScanningLocation",
-}) as any as S.Schema<SecretScanningLocation>;
+).annotate({ identifier: "SecretScanningLocation" }) as any as S.Schema<SecretScanningLocation>;
 
 /** List of locations where the secret was detected */
 export type ListLocationsForAlertResponseBodyList = Array<SecretScanningLocation>;
@@ -1684,13 +1642,7 @@ export const ListOrgCustomPatternsRequest = /*@__PURE__*/ S.suspend(() =>
     direction: S.optional(ListOrgCustomPatternsRequestDirection.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/secret-scanning/custom-patterns",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/secret-scanning/custom-patterns", code: 200 })),
 ).annotate({
   identifier: "ListOrgCustomPatternsRequest",
 }) as any as S.Schema<ListOrgCustomPatternsRequest>;
@@ -1715,11 +1667,7 @@ export const ListOrgPatternConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/secret-scanning/pattern-configurations",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/secret-scanning/pattern-configurations", code: 200 }),
   ),
 ).annotate({
   identifier: "ListOrgPatternConfigsRequest",
@@ -1916,9 +1864,7 @@ export const UpdateAlertRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateAlertRequest",
-}) as any as S.Schema<UpdateAlertRequest>;
+).annotate({ identifier: "UpdateAlertRequest" }) as any as S.Schema<UpdateAlertRequest>;
 
 /** Updated list of regexes that the secret must match. */
 export type UpdateOrgCustomPatternRequestMustMatchList = Array<string>;
@@ -2159,7 +2105,7 @@ export type BulkCreateRepoCustomPatternsError =
   | NotFound
   | UnprocessableEntity
   | GithubOpError;
-/** Bulk create repository custom patterns Bulk creates secret scanning custom patterns for a repository. OAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. */
+/** Bulk create repository custom patterns Bulk creates secret scanning custom patterns for a repository. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. Fine-grained access tokens require the `administration:write` repository permission. */
 export const bulkCreateRepoCustomPatterns: API.OperationMethod<
   BulkCreateRepoCustomPatternsRequest,
   BulkCreateRepoCustomPatternsResponse,
@@ -2189,7 +2135,7 @@ export const bulkDeleteOrgCustomPatterns: API.OperationMethod<
 }));
 
 export type BulkDeleteRepoCustomPatternsError = BadRequest | Forbidden | NotFound | GithubOpError;
-/** Bulk delete repository custom patterns Bulk deletes secret scanning custom patterns for a repository. OAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. */
+/** Bulk delete repository custom patterns Bulk deletes secret scanning custom patterns for a repository. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. Fine-grained access tokens require the `administration:write` repository permission. */
 export const bulkDeleteRepoCustomPatterns: API.OperationMethod<
   BulkDeleteRepoCustomPatternsRequest,
   BulkDeleteRepoCustomPatternsResponse,
@@ -2328,7 +2274,7 @@ export const listOrgPatternConfigs: API.OperationMethod<
 }));
 
 export type ListRepoCustomPatternsError = Forbidden | NotFound | GithubOpError;
-/** List repository custom patterns Lists secret scanning custom patterns for a repository. OAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. */
+/** List repository custom patterns Lists secret scanning custom patterns for a repository. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. Fine-grained access tokens require the `administration:write` repository permission. */
 export const listRepoCustomPatterns: API.OperationMethod<
   ListRepoCustomPatternsRequest,
   ListRepoCustomPatternsResponse,
@@ -2409,7 +2355,7 @@ export type UpdateRepoCustomPatternError =
   | NotFound
   | UnprocessableEntity
   | GithubOpError;
-/** Update a repository custom pattern Updates a secret scanning custom pattern for a repository. OAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. */
+/** Update a repository custom pattern Updates a secret scanning custom pattern for a repository. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. Fine-grained access tokens require the `administration:write` repository permission. */
 export const updateRepoCustomPattern: API.OperationMethod<
   UpdateRepoCustomPatternRequest,
   SecretScanningCustomPattern,

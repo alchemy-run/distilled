@@ -373,7 +373,7 @@
         "has_next_page": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Indicates if there are more pages of results available (maps to hasNextPage from billing platform)"
+            "smithy.api#documentation": "Indicates if there are more pages of results available"
           }
         },
         "total_count": {
@@ -1131,6 +1131,12 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "consumed_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The current usage amount counted toward the budget. How usage is calculated may vary by budget type."
+          }
         }
       },
       "traits": {}
@@ -1305,103 +1311,6 @@
       },
       "traits": {}
     },
-    "com.github.billing#UpdateBudgetOrgRequestBudgetScope": {
-      "type": "enum",
-      "members": {
-        "ENTERPRISE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "enterprise"
-          }
-        },
-        "ORGANIZATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "organization"
-          }
-        },
-        "REPOSITORY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "repository"
-          }
-        },
-        "COST_CENTER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "cost_center"
-          }
-        },
-        "MULTI_USER_CUSTOMER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "multi_user_customer"
-          }
-        },
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "user"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The scope of the budget for this organization.\n\n- `organization`: Apply the budget to the organization.\n- `repository`: Apply the budget to a specific repository in the organization.\n- `multi_user_customer`: Apply a universal budget to all users in the organization.\n- `user`: Apply the budget to a single user in the organization."
-      }
-    },
-    "com.github.billing#UpdateBudgetOrgRequestBudgetTypeCase0": {
-      "type": "enum",
-      "members": {
-        "BUNDLEPRICING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "BundlePricing"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.github.billing#UpdateBudgetOrgRequestBudgetTypeCase1": {
-      "type": "enum",
-      "members": {
-        "PRODUCTPRICING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ProductPricing"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.github.billing#UpdateBudgetOrgRequestBudgetTypeCase2": {
-      "type": "enum",
-      "members": {
-        "SKUPRICING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SkuPricing"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.github.billing#UpdateBudgetOrgRequestBudgetType": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "com.github.billing#UpdateBudgetOrgRequestBudgetTypeCase0"
-        },
-        "Case1": {
-          "target": "com.github.billing#UpdateBudgetOrgRequestBudgetTypeCase1"
-        },
-        "Case2": {
-          "target": "com.github.billing#UpdateBudgetOrgRequestBudgetTypeCase2"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of pricing model used by the budget. Determines how `budget_product_sku` is interpreted.\n\n- `BundlePricing`: Covers all AI credit SKUs. Set `budget_product_sku` to `ai_credits`.\n- `ProductPricing`: Covers all SKUs that belong to a product. Set `budget_product_sku` to a product such as `actions` or `packages`.\n- `SkuPricing`: Covers a single, specific SKU. Set `budget_product_sku` to a SKU such as `actions_linux`."
-      }
-    },
     "com.github.billing#UpdateBudgetOrgRequestExpiresAtCase1": {
       "type": "intEnum",
       "members": {
@@ -1425,7 +1334,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted.\nIf not set, the budget will not expire. Setting to `null` or `0` will remove the expiration date from a budget if set.\n\nOnly supported for budgets with `budget_scope` of `user`"
+        "smithy.api#documentation": "The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted.\nIf not set, the budget will not expire. Setting to `null` or `0` will remove the expiration date from a budget if set.\n\nOnly supported for existing user-scoped budgets."
       }
     },
     "com.github.billing#UpdateBudgetOrgRequest": {
@@ -1462,40 +1371,10 @@
         "budget_alerting": {
           "target": "com.github.billing#UpdateBudgetOrgRequestBudgetAlerting"
         },
-        "budget_scope": {
-          "target": "com.github.billing#UpdateBudgetOrgRequestBudgetScope",
-          "traits": {
-            "smithy.api#documentation": "The scope of the budget for this organization.\n\n- `organization`: Apply the budget to the organization.\n- `repository`: Apply the budget to a specific repository in the organization.\n- `multi_user_customer`: Apply a universal budget to all users in the organization.\n- `user`: Apply the budget to a single user in the organization."
-          }
-        },
-        "budget_entity_name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the entity to apply the budget to"
-          }
-        },
-        "budget_type": {
-          "target": "com.github.billing#UpdateBudgetOrgRequestBudgetType",
-          "traits": {
-            "smithy.api#documentation": "The type of pricing model used by the budget. Determines how `budget_product_sku` is interpreted.\n\n- `BundlePricing`: Covers all AI credit SKUs. Set `budget_product_sku` to `ai_credits`.\n- `ProductPricing`: Covers all SKUs that belong to a product. Set `budget_product_sku` to a product such as `actions` or `packages`.\n- `SkuPricing`: Covers a single, specific SKU. Set `budget_product_sku` to a SKU such as `actions_linux`."
-          }
-        },
-        "budget_product_sku": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A single product or SKU that will be covered in the budget"
-          }
-        },
-        "user": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The username of the user for `user` scope budgets."
-          }
-        },
         "expires_at": {
           "target": "com.github.billing#UpdateBudgetOrgRequestExpiresAt",
           "traits": {
-            "smithy.api#documentation": "The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted.\nIf not set, the budget will not expire. Setting to `null` or `0` will remove the expiration date from a budget if set.\n\nOnly supported for budgets with `budget_scope` of `user`"
+            "smithy.api#documentation": "The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted.\nIf not set, the budget will not expire. Setting to `null` or `0` will remove the expiration date from a budget if set.\n\nOnly supported for existing user-scoped budgets."
           }
         }
       },

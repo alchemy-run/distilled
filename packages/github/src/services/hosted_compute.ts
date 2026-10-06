@@ -49,11 +49,7 @@ export const CreateNetworkConfigurationForOrgRequest = /*@__PURE__*/ S.suspend((
     ),
     failover_network_enabled: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/settings/network-configurations",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/orgs/{org}/settings/network-configurations", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateNetworkConfigurationForOrgRequest",
@@ -102,9 +98,7 @@ export const NetworkConfiguration = /*@__PURE__*/ S.suspend(() =>
     failover_network_enabled: S.optional(S.Boolean),
     created_on: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "NetworkConfiguration",
-}) as any as S.Schema<NetworkConfiguration>;
+).annotate({ identifier: "NetworkConfiguration" }) as any as S.Schema<NetworkConfiguration>;
 
 export interface DeleteNetworkConfigurationFromOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -197,9 +191,7 @@ export const NetworkSettings = /*@__PURE__*/ S.suspend(() =>
     subnet_id: S.String,
     region: S.String,
   }),
-).annotate({
-  identifier: "NetworkSettings",
-}) as any as S.Schema<NetworkSettings>;
+).annotate({ identifier: "NetworkSettings" }) as any as S.Schema<NetworkSettings>;
 
 export interface ListNetworkConfigurationsForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -214,13 +206,7 @@ export const ListNetworkConfigurationsForOrgRequest = /*@__PURE__*/ S.suspend(()
     org: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/settings/network-configurations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/settings/network-configurations", code: 200 })),
 ).annotate({
   identifier: "ListNetworkConfigurationsForOrgRequest",
 }) as any as S.Schema<ListNetworkConfigurationsForOrgRequest>;

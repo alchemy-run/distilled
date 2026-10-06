@@ -280,6 +280,12 @@
             "smithy.api#documentation": "The maximum number of open pull requests a user can have at one time",
             "smithy.api#required": {}
           }
+        },
+        "include_drafts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether draft pull requests count toward the pull request creation cap"
+          }
         }
       },
       "traits": {
@@ -334,6 +340,12 @@
           "traits": {
             "smithy.api#documentation": "The maximum number of open pull requests a user can have at one time"
           }
+        },
+        "include_drafts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether draft pull requests count toward the pull request creation cap"
+          }
         }
       },
       "traits": {
@@ -355,6 +367,12 @@
           "traits": {
             "smithy.api#documentation": "The maximum number of open pull requests a user can have at one time",
             "smithy.api#required": {}
+          }
+        },
+        "include_drafts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether draft pull requests count toward the pull request creation cap"
           }
         }
       },
@@ -941,6 +959,12 @@
             "smithy.api#documentation": "The maximum number of open pull requests a user can have at one time",
             "smithy.api#required": {}
           }
+        },
+        "include_drafts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether draft pull requests count toward the pull request creation cap"
+          }
         }
       },
       "traits": {
@@ -1003,6 +1027,12 @@
           "traits": {
             "smithy.api#documentation": "The maximum number of open pull requests a user can have at one time"
           }
+        },
+        "include_drafts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether draft pull requests count toward the pull request creation cap"
+          }
         }
       },
       "traits": {
@@ -1024,6 +1054,12 @@
           "traits": {
             "smithy.api#documentation": "The maximum number of open pull requests a user can have at one time",
             "smithy.api#required": {}
+          }
+        },
+        "include_drafts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether draft pull requests count toward the pull request creation cap"
           }
         }
       },

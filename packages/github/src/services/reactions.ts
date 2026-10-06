@@ -124,9 +124,7 @@ export const NullableSimpleUser = /*@__PURE__*/ S.suspend(() =>
     starred_at: S.optional(S.String),
     user_view_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableSimpleUser",
-}) as any as S.Schema<NullableSimpleUser>;
+).annotate({ identifier: "NullableSimpleUser" }) as any as S.Schema<NullableSimpleUser>;
 
 /** The reaction to use */
 export type ReactionContent =
@@ -194,9 +192,7 @@ export const CreateForIssueRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateForIssueRequest",
-}) as any as S.Schema<CreateForIssueRequest>;
+).annotate({ identifier: "CreateForIssueRequest" }) as any as S.Schema<CreateForIssueRequest>;
 
 /** The [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions) to add to the issue comment. */
 export type CreateForIssueCommentRequestContent =
@@ -309,9 +305,7 @@ export const CreateForReleaseRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateForReleaseRequest",
-}) as any as S.Schema<CreateForReleaseRequest>;
+).annotate({ identifier: "CreateForReleaseRequest" }) as any as S.Schema<CreateForReleaseRequest>;
 
 export interface DeleteForCommitCommentRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -368,9 +362,7 @@ export const DeleteForIssueRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteForIssueRequest",
-}) as any as S.Schema<DeleteForIssueRequest>;
+).annotate({ identifier: "DeleteForIssueRequest" }) as any as S.Schema<DeleteForIssueRequest>;
 
 export interface DeleteForIssueResponse {}
 export const DeleteForIssueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -466,9 +458,7 @@ export const DeleteForReleaseRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteForReleaseRequest",
-}) as any as S.Schema<DeleteForReleaseRequest>;
+).annotate({ identifier: "DeleteForReleaseRequest" }) as any as S.Schema<DeleteForReleaseRequest>;
 
 export interface DeleteForReleaseResponse {}
 export const DeleteForReleaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -571,9 +561,7 @@ export const ListForIssueRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListForIssueRequest",
-}) as any as S.Schema<ListForIssueRequest>;
+).annotate({ identifier: "ListForIssueRequest" }) as any as S.Schema<ListForIssueRequest>;
 
 export type ListForIssueResponseBodyList = Array<Reaction>;
 export const ListForIssueResponseBodyList = /*@__PURE__*/ S.Array(
@@ -583,9 +571,7 @@ export const ListForIssueResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListForIssueResponse = ListForIssueResponseBodyList;
 export const ListForIssueResponse = /*@__PURE__*/ S.suspend(() =>
   ListForIssueResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListForIssueResponse",
-}) as any as S.Schema<ListForIssueResponse>;
+).annotate({ identifier: "ListForIssueResponse" }) as any as S.Schema<ListForIssueResponse>;
 
 export type ListForIssueCommentRequestContent =
   | "+1"
@@ -732,9 +718,7 @@ export const ListForReleaseRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListForReleaseRequest",
-}) as any as S.Schema<ListForReleaseRequest>;
+).annotate({ identifier: "ListForReleaseRequest" }) as any as S.Schema<ListForReleaseRequest>;
 
 export type ListForReleaseResponseBodyList = Array<Reaction>;
 export const ListForReleaseResponseBodyList = /*@__PURE__*/ S.Array(
@@ -744,9 +728,7 @@ export const ListForReleaseResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListForReleaseResponse = ListForReleaseResponseBodyList;
 export const ListForReleaseResponse = /*@__PURE__*/ S.suspend(() =>
   ListForReleaseResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListForReleaseResponse",
-}) as any as S.Schema<ListForReleaseResponse>;
+).annotate({ identifier: "ListForReleaseResponse" }) as any as S.Schema<ListForReleaseResponse>;
 
 export type CreateForCommitCommentError = UnprocessableEntity | GithubOpError;
 /** Create reaction for a commit comment Create a reaction to a [commit comment](https://docs.github.com/rest/commits/comments#get-a-commit-comment). A response with an HTTP `200` status means that you already added the reaction type to this commit comment. */
