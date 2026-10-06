@@ -44,11 +44,7 @@ export const CancelOverTheBoxResiliationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/overTheBox/{serviceName}/cancelResiliation",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/overTheBox/{serviceName}/cancelResiliation", code: 200 }),
   ),
 ).annotate({
   identifier: "CancelOverTheBoxResiliationRequest",
@@ -77,13 +73,7 @@ export const CreateOverTheBoxChangeContactRequest = /*@__PURE__*/ S.suspend(() =
     contactAdmin: S.optional(S.String),
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/overTheBox/{serviceName}/changeContact",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/overTheBox/{serviceName}/changeContact", code: 200 })),
 ).annotate({
   identifier: "CreateOverTheBoxChangeContactRequest",
 }) as any as S.Schema<CreateOverTheBoxChangeContactRequest>;
@@ -147,13 +137,7 @@ export const CreateOverTheBoxDeviceActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/overTheBox/{serviceName}/device/actions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/overTheBox/{serviceName}/device/actions", code: 200 })),
 ).annotate({
   identifier: "CreateOverTheBoxDeviceActionRequest",
 }) as any as S.Schema<CreateOverTheBoxDeviceActionRequest>;
@@ -189,9 +173,7 @@ export const OverTheBoxDeviceAction = /*@__PURE__*/ S.suspend(() =>
     todoDate: S.optional(S.String),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OverTheBoxDeviceAction",
-}) as any as S.Schema<OverTheBoxDeviceAction>;
+).annotate({ identifier: "OverTheBoxDeviceAction" }) as any as S.Schema<OverTheBoxDeviceAction>;
 
 export interface CreateOverTheBoxDeviceBackupRequest {
   /** The internal name of your overTheBox offer */
@@ -200,13 +182,7 @@ export interface CreateOverTheBoxDeviceBackupRequest {
 export const CreateOverTheBoxDeviceBackupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/overTheBox/{serviceName}/device/backup",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/overTheBox/{serviceName}/device/backup", code: 200 })),
 ).annotate({
   identifier: "CreateOverTheBoxDeviceBackupRequest",
 }) as any as S.Schema<CreateOverTheBoxDeviceBackupRequest>;
@@ -218,13 +194,7 @@ export interface CreateOverTheBoxDeviceLogRequest {
 export const CreateOverTheBoxDeviceLogRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/overTheBox/{serviceName}/device/logs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/overTheBox/{serviceName}/device/logs", code: 200 })),
 ).annotate({
   identifier: "CreateOverTheBoxDeviceLogRequest",
 }) as any as S.Schema<CreateOverTheBoxDeviceLogRequest>;
@@ -255,13 +225,7 @@ export const CreateOverTheBoxLinkDeviceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     deviceId: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/overTheBox/{serviceName}/linkDevice",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/overTheBox/{serviceName}/linkDevice", code: 200 })),
 ).annotate({
   identifier: "CreateOverTheBoxLinkDeviceRequest",
 }) as any as S.Schema<CreateOverTheBoxLinkDeviceRequest>;
@@ -283,13 +247,7 @@ export const CreateOverTheBoxLinkHardwareRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     hardwareName: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/overTheBox/{serviceName}/linkHardware",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/overTheBox/{serviceName}/linkHardware", code: 200 })),
 ).annotate({
   identifier: "CreateOverTheBoxLinkHardwareRequest",
 }) as any as S.Schema<CreateOverTheBoxLinkHardwareRequest>;
@@ -318,11 +276,7 @@ export const CreateOverTheBoxMigrationChangeOfferRequest = /*@__PURE__*/ S.suspe
     offer: S.String,
     shippingContactID: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/overTheBox/{serviceName}/migration/changeOffers",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/overTheBox/{serviceName}/migration/changeOffers", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateOverTheBoxMigrationChangeOfferRequest",
@@ -340,9 +294,7 @@ export const OverTheBoxOrderMigration = /*@__PURE__*/ S.suspend(() =>
     orderId: S.optional(S.String),
     orderUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OverTheBoxOrderMigration",
-}) as any as S.Schema<OverTheBoxOrderMigration>;
+).annotate({ identifier: "OverTheBoxOrderMigration" }) as any as S.Schema<OverTheBoxOrderMigration>;
 
 export interface CreateOverTheBoxRemoteAccessRequest {
   /** The internal name of your overTheBox offer */
@@ -363,13 +315,7 @@ export const CreateOverTheBoxRemoteAccessRequest = /*@__PURE__*/ S.suspend(() =>
     expirationDate: S.optional(S.String),
     exposedPort: S.Number,
     publicKey: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/overTheBox/{serviceName}/remoteAccesses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/overTheBox/{serviceName}/remoteAccesses", code: 200 })),
 ).annotate({
   identifier: "CreateOverTheBoxRemoteAccessRequest",
 }) as any as S.Schema<CreateOverTheBoxRemoteAccessRequest>;
@@ -460,9 +406,7 @@ export const OverTheBoxRemoteAccess = /*@__PURE__*/ S.suspend(() =>
     remoteUserInfos: S.optional(OverTheBoxRemoteAccessUserInfos),
     status: S.optional(OverTheBoxRemoteAccessStatusEnum),
   }),
-).annotate({
-  identifier: "OverTheBoxRemoteAccess",
-}) as any as S.Schema<OverTheBoxRemoteAccess>;
+).annotate({ identifier: "OverTheBoxRemoteAccess" }) as any as S.Schema<OverTheBoxRemoteAccess>;
 
 export interface DeleteOverTheBoxRequest {
   /** The internal name of your overTheBox offer */
@@ -472,9 +416,7 @@ export const DeleteOverTheBoxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/overTheBox/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "DeleteOverTheBoxRequest",
-}) as any as S.Schema<DeleteOverTheBoxRequest>;
+).annotate({ identifier: "DeleteOverTheBoxRequest" }) as any as S.Schema<DeleteOverTheBoxRequest>;
 
 export interface DeleteOverTheBoxResponse {}
 export const DeleteOverTheBoxResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -492,11 +434,7 @@ export const DeleteOverTheBoxBackupRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     backupId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/overTheBox/{serviceName}/backups/{backupId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/overTheBox/{serviceName}/backups/{backupId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteOverTheBoxBackupRequest",
@@ -514,13 +452,7 @@ export interface DeleteOverTheBoxDeviceRequest {
 export const DeleteOverTheBoxDeviceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/overTheBox/{serviceName}/device",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/overTheBox/{serviceName}/device", code: 200 })),
 ).annotate({
   identifier: "DeleteOverTheBoxDeviceRequest",
 }) as any as S.Schema<DeleteOverTheBoxDeviceRequest>;
@@ -566,9 +498,7 @@ export const GetOverTheBoxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/overTheBox/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "GetOverTheBoxRequest",
-}) as any as S.Schema<GetOverTheBoxRequest>;
+).annotate({ identifier: "GetOverTheBoxRequest" }) as any as S.Schema<GetOverTheBoxRequest>;
 
 /** Status of the service */
 export type OverTheBoxAvailableStatusEnum = "disabled" | "enabled";
@@ -593,9 +523,7 @@ export const OverTheBoxGraphEndpoint = /*@__PURE__*/ S.suspend(() =>
     readToken: S.optional(S.String),
     readTokenID: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OverTheBoxGraphEndpoint",
-}) as any as S.Schema<OverTheBoxGraphEndpoint>;
+).annotate({ identifier: "OverTheBoxGraphEndpoint" }) as any as S.Schema<OverTheBoxGraphEndpoint>;
 
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
 export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
@@ -622,9 +550,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** Status of the service. */
 export type OverTheBoxServiceStatusEnum =
@@ -691,9 +617,7 @@ export const OverTheBoxServiceWithIAM = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(OverTheBoxServiceStatusEnum),
     tunnelMode: S.optional(OverTheBoxTunnelModeEnum),
   }),
-).annotate({
-  identifier: "OverTheBoxServiceWithIAM",
-}) as any as S.Schema<OverTheBoxServiceWithIAM>;
+).annotate({ identifier: "OverTheBoxServiceWithIAM" }) as any as S.Schema<OverTheBoxServiceWithIAM>;
 
 export interface GetOverTheBoxBackupRequest {
   /** The internal name of your overTheBox offer */
@@ -706,11 +630,7 @@ export const GetOverTheBoxBackupRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     backupId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/overTheBox/{serviceName}/backups/{backupId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/overTheBox/{serviceName}/backups/{backupId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetOverTheBoxBackupRequest",
@@ -731,9 +651,7 @@ export const OverTheBoxBackup = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.String),
     deviceActionId: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "OverTheBoxBackup",
-}) as any as S.Schema<OverTheBoxBackup>;
+).annotate({ identifier: "OverTheBoxBackup" }) as any as S.Schema<OverTheBoxBackup>;
 
 export interface GetOverTheBoxDeviceRequest {
   /** The internal name of your overTheBox offer */
@@ -742,13 +660,7 @@ export interface GetOverTheBoxDeviceRequest {
 export const GetOverTheBoxDeviceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/overTheBox/{serviceName}/device",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/overTheBox/{serviceName}/device", code: 200 })),
 ).annotate({
   identifier: "GetOverTheBoxDeviceRequest",
 }) as any as S.Schema<GetOverTheBoxDeviceRequest>;
@@ -833,9 +745,7 @@ export const OverTheBoxDeviceSystem = /*@__PURE__*/ S.suspend(() =>
     offerName: S.optional(S.NullOr(S.String)),
     ovhName: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "OverTheBoxDeviceSystem",
-}) as any as S.Schema<OverTheBoxDeviceSystem>;
+).annotate({ identifier: "OverTheBoxDeviceSystem" }) as any as S.Schema<OverTheBoxDeviceSystem>;
 
 /** Device */
 export interface OverTheBoxDevice {
@@ -870,9 +780,7 @@ export const OverTheBoxDevice = /*@__PURE__*/ S.suspend(() =>
     systemVersion: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OverTheBoxDevice",
-}) as any as S.Schema<OverTheBoxDevice>;
+).annotate({ identifier: "OverTheBoxDevice" }) as any as S.Schema<OverTheBoxDevice>;
 
 export interface GetOverTheBoxDeviceActionRequest {
   /** The internal name of your overTheBox offer */
@@ -902,13 +810,7 @@ export interface GetOverTheBoxDeviceHardwareRequest {
 export const GetOverTheBoxDeviceHardwareRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/overTheBox/{serviceName}/device/hardware",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/overTheBox/{serviceName}/device/hardware", code: 200 })),
 ).annotate({
   identifier: "GetOverTheBoxDeviceHardwareRequest",
 }) as any as S.Schema<GetOverTheBoxDeviceHardwareRequest>;
@@ -937,9 +839,7 @@ export const OverTheBoxHardware = /*@__PURE__*/ S.suspend(() =>
     prettyModelName: S.optional(S.String),
     serial: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OverTheBoxHardware",
-}) as any as S.Schema<OverTheBoxHardware>;
+).annotate({ identifier: "OverTheBoxHardware" }) as any as S.Schema<OverTheBoxHardware>;
 
 export interface GetOverTheBoxHardwareRequest {
   /** The internal name of your hardware */
@@ -948,13 +848,7 @@ export interface GetOverTheBoxHardwareRequest {
 export const GetOverTheBoxHardwareRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     hardwareName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/overTheBox/hardware/{hardwareName}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/overTheBox/hardware/{hardwareName}", code: 200 })),
 ).annotate({
   identifier: "GetOverTheBoxHardwareRequest",
 }) as any as S.Schema<GetOverTheBoxHardwareRequest>;
@@ -1000,16 +894,8 @@ export const GetOverTheBoxIpsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     ip: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/overTheBox/{serviceName}/ips/{ip}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetOverTheBoxIpsRequest",
-}) as any as S.Schema<GetOverTheBoxIpsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/overTheBox/{serviceName}/ips/{ip}", code: 200 })),
+).annotate({ identifier: "GetOverTheBoxIpsRequest" }) as any as S.Schema<GetOverTheBoxIpsRequest>;
 
 /** IP geolocation */
 export type OtbServiceIpGeolocationEnum = "fr";
@@ -1074,13 +960,7 @@ export interface GetOverTheBoxServiceInfosRequest {
 export const GetOverTheBoxServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/overTheBox/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/overTheBox/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetOverTheBoxServiceInfosRequest",
 }) as any as S.Schema<GetOverTheBoxServiceInfosRequest>;
@@ -1112,9 +992,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -1172,9 +1050,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetOverTheBoxTaskRequest {
   /** The internal name of your overTheBox offer */
@@ -1186,16 +1062,8 @@ export const GetOverTheBoxTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     taskId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/overTheBox/{serviceName}/tasks/{taskId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetOverTheBoxTaskRequest",
-}) as any as S.Schema<GetOverTheBoxTaskRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/overTheBox/{serviceName}/tasks/{taskId}", code: 200 })),
+).annotate({ identifier: "GetOverTheBoxTaskRequest" }) as any as S.Schema<GetOverTheBoxTaskRequest>;
 
 /** Status of a task. */
 export type OverTheBoxTaskStatusEnum = "doing" | "done" | "error" | "todo";
@@ -1245,9 +1113,7 @@ export const ListOverTheBoxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamTags: S.optional(ListOverTheBoxRequestIamTagsMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/overTheBox", code: 200 })),
-).annotate({
-  identifier: "ListOverTheBoxRequest",
-}) as any as S.Schema<ListOverTheBoxRequest>;
+).annotate({ identifier: "ListOverTheBoxRequest" }) as any as S.Schema<ListOverTheBoxRequest>;
 
 export type ListOverTheBoxResponseBodyList = Array<string>;
 export const ListOverTheBoxResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1257,9 +1123,7 @@ export const ListOverTheBoxResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListOverTheBoxResponse = ListOverTheBoxResponseBodyList;
 export const ListOverTheBoxResponse = /*@__PURE__*/ S.suspend(() =>
   ListOverTheBoxResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListOverTheBoxResponse",
-}) as any as S.Schema<ListOverTheBoxResponse>;
+).annotate({ identifier: "ListOverTheBoxResponse" }) as any as S.Schema<ListOverTheBoxResponse>;
 
 export interface ListOverTheBoxAvailableOffersRequest {}
 export const ListOverTheBoxAvailableOffersRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1292,11 +1156,7 @@ export const ListOverTheBoxAvailableReleaseChannelsRequest = /*@__PURE__*/ S.sus
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/overTheBox/{serviceName}/availableReleaseChannels",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/overTheBox/{serviceName}/availableReleaseChannels", code: 200 }),
   ),
 ).annotate({
   identifier: "ListOverTheBoxAvailableReleaseChannelsRequest",
@@ -1322,13 +1182,7 @@ export interface ListOverTheBoxBackupsRequest {
 export const ListOverTheBoxBackupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/overTheBox/{serviceName}/backups",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/overTheBox/{serviceName}/backups", code: 200 })),
 ).annotate({
   identifier: "ListOverTheBoxBackupsRequest",
 }) as any as S.Schema<ListOverTheBoxBackupsRequest>;
@@ -1358,13 +1212,7 @@ export const ListOverTheBoxDeviceActionsRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     name: S.optional(S.String.pipe(T.Query())),
     status: S.optional(OverTheBoxActionStatusEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/overTheBox/{serviceName}/device/actions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/overTheBox/{serviceName}/device/actions", code: 200 })),
 ).annotate({
   identifier: "ListOverTheBoxDeviceActionsRequest",
 }) as any as S.Schema<ListOverTheBoxDeviceActionsRequest>;
@@ -1389,11 +1237,7 @@ export const ListOverTheBoxDeviceAvailableActionsRequest = /*@__PURE__*/ S.suspe
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/overTheBox/{serviceName}/device/availableActions",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/overTheBox/{serviceName}/device/availableActions", code: 200 }),
   ),
 ).annotate({
   identifier: "ListOverTheBoxDeviceAvailableActionsRequest",
@@ -1468,13 +1312,7 @@ export const ListOverTheBoxHardwareResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface ListOverTheBoxHardwareAvailableRequest {}
 export const ListOverTheBoxHardwareAvailableRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/overTheBox/hardware/available",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/overTheBox/hardware/available", code: 200 })),
 ).annotate({
   identifier: "ListOverTheBoxHardwareAvailableRequest",
 }) as any as S.Schema<ListOverTheBoxHardwareAvailableRequest>;
@@ -1500,9 +1338,7 @@ export const ListOverTheBoxIpsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/overTheBox/{serviceName}/ips", code: 200 })),
-).annotate({
-  identifier: "ListOverTheBoxIpsRequest",
-}) as any as S.Schema<ListOverTheBoxIpsRequest>;
+).annotate({ identifier: "ListOverTheBoxIpsRequest" }) as any as S.Schema<ListOverTheBoxIpsRequest>;
 
 export type ListOverTheBoxIpsResponseBodyList = Array<string>;
 export const ListOverTheBoxIpsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1523,13 +1359,7 @@ export interface ListOverTheBoxMigrationOffersRequest {
 export const ListOverTheBoxMigrationOffersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/overTheBox/{serviceName}/migration/offers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/overTheBox/{serviceName}/migration/offers", code: 200 })),
 ).annotate({
   identifier: "ListOverTheBoxMigrationOffersRequest",
 }) as any as S.Schema<ListOverTheBoxMigrationOffersRequest>;
@@ -1648,13 +1478,7 @@ export interface ListOverTheBoxRemoteAccessesRequest {
 export const ListOverTheBoxRemoteAccessesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/overTheBox/{serviceName}/remoteAccesses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/overTheBox/{serviceName}/remoteAccesses", code: 200 })),
 ).annotate({
   identifier: "ListOverTheBoxRemoteAccessesRequest",
 }) as any as S.Schema<ListOverTheBoxRemoteAccessesRequest>;
@@ -1692,13 +1516,7 @@ export const ListOverTheBoxStatisticsRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     metricsType: OtbDeviceStatisticsTypeEnum.pipe(T.Query()),
     period: S.optional(OtbDeviceStatisticsPeriodEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/overTheBox/{serviceName}/statistics",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/overTheBox/{serviceName}/statistics", code: 200 })),
 ).annotate({
   identifier: "ListOverTheBoxStatisticsRequest",
 }) as any as S.Schema<ListOverTheBoxStatisticsRequest>;
@@ -1715,9 +1533,7 @@ export const OtbDeviceStatisticsPoint = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.optional(S.Number),
     value: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "OtbDeviceStatisticsPoint",
-}) as any as S.Schema<OtbDeviceStatisticsPoint>;
+).annotate({ identifier: "OtbDeviceStatisticsPoint" }) as any as S.Schema<OtbDeviceStatisticsPoint>;
 
 /** List of point */
 export type OtbDeviceStatisticsPointsList = Array<OtbDeviceStatisticsPoint>;
@@ -1737,9 +1553,7 @@ export const OtbDeviceStatisticsTag = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "OtbDeviceStatisticsTag",
-}) as any as S.Schema<OtbDeviceStatisticsTag>;
+).annotate({ identifier: "OtbDeviceStatisticsTag" }) as any as S.Schema<OtbDeviceStatisticsTag>;
 
 /** List of tags */
 export type OtbDeviceStatisticsTagsList = Array<OtbDeviceStatisticsTag>;
@@ -1769,9 +1583,7 @@ export const OtbDeviceStatistics = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(OtbDeviceStatisticsTagsList),
     unit: S.optional(OtbDeviceStatisticsUnitEnum),
   }),
-).annotate({
-  identifier: "OtbDeviceStatistics",
-}) as any as S.Schema<OtbDeviceStatistics>;
+).annotate({ identifier: "OtbDeviceStatistics" }) as any as S.Schema<OtbDeviceStatistics>;
 
 export type ListOverTheBoxStatisticsResponseBodyList = Array<OtbDeviceStatistics>;
 export const ListOverTheBoxStatisticsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1798,13 +1610,7 @@ export const ListOverTheBoxTasksRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     name: S.optional(S.String.pipe(T.Query())),
     status: S.optional(OverTheBoxTaskStatusEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/overTheBox/{serviceName}/tasks",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/overTheBox/{serviceName}/tasks", code: 200 })),
 ).annotate({
   identifier: "ListOverTheBoxTasksRequest",
 }) as any as S.Schema<ListOverTheBoxTasksRequest>;
@@ -1838,9 +1644,7 @@ export const PutOverTheBoxRequest = /*@__PURE__*/ S.suspend(() =>
     customerDescription: S.optional(S.NullOr(S.String)),
     releaseChannel: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/overTheBox/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "PutOverTheBoxRequest",
-}) as any as S.Schema<PutOverTheBoxRequest>;
+).annotate({ identifier: "PutOverTheBoxRequest" }) as any as S.Schema<PutOverTheBoxRequest>;
 
 export interface PutOverTheBoxResponse {}
 export const PutOverTheBoxResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1857,13 +1661,7 @@ export const PutOverTheBoxAutoMTURequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     mtuAuto: OverTheBoxAvailableStatusEnum,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/overTheBox/{serviceName}/autoMTU",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/overTheBox/{serviceName}/autoMTU", code: 200 })),
 ).annotate({
   identifier: "PutOverTheBoxAutoMTURequest",
 }) as any as S.Schema<PutOverTheBoxAutoMTURequest>;
@@ -1884,9 +1682,7 @@ export const PutOverTheBoxIpv6Request = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     enabled: S.Boolean,
   }).pipe(T.Http({ method: "PUT", uri: "/overTheBox/{serviceName}/ipv6", code: 200 })),
-).annotate({
-  identifier: "PutOverTheBoxIpv6Request",
-}) as any as S.Schema<PutOverTheBoxIpv6Request>;
+).annotate({ identifier: "PutOverTheBoxIpv6Request" }) as any as S.Schema<PutOverTheBoxIpv6Request>;
 
 export interface PutOverTheBoxServiceInfosRequest {
   /** The internal name of your overTheBox offer */
@@ -1898,13 +1694,7 @@ export const PutOverTheBoxServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/overTheBox/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/overTheBox/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutOverTheBoxServiceInfosRequest",
 }) as any as S.Schema<PutOverTheBoxServiceInfosRequest>;
@@ -1927,11 +1717,7 @@ export const RestoreOverTheBoxDeviceBackupRequest = /*@__PURE__*/ S.suspend(() =
     serviceName: S.String.pipe(T.Label()),
     backupId: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/overTheBox/{serviceName}/device/restoreBackup",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/overTheBox/{serviceName}/device/restoreBackup", code: 200 }),
   ),
 ).annotate({
   identifier: "RestoreOverTheBoxDeviceBackupRequest",

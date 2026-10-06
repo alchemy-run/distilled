@@ -16,13 +16,7 @@ export interface CancelPackXdslResiliationRequest {
 export const CancelPackXdslResiliationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/pack/xdsl/{packName}/cancelResiliation",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/pack/xdsl/{packName}/cancelResiliation", code: 200 })),
 ).annotate({
   identifier: "CancelPackXdslResiliationRequest",
 }) as any as S.Schema<CancelPackXdslResiliationRequest>;
@@ -44,13 +38,7 @@ export const CreatePackXdslAddressMoveOfferRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     packName: S.String.pipe(T.Label()),
     eligibilityReference: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/pack/xdsl/{packName}/addressMove/offers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/pack/xdsl/{packName}/addressMove/offers", code: 200 })),
 ).annotate({
   identifier: "CreatePackXdslAddressMoveOfferRequest",
 }) as any as S.Schema<CreatePackXdslAddressMoveOfferRequest>;
@@ -191,9 +179,7 @@ export const PackXdslAddressMovePrice = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     price: S.optional(S.NullOr(OrderPrice)),
   }),
-).annotate({
-  identifier: "PackXdslAddressMovePrice",
-}) as any as S.Schema<PackXdslAddressMovePrice>;
+).annotate({ identifier: "PackXdslAddressMovePrice" }) as any as S.Schema<PackXdslAddressMovePrice>;
 
 /** Migration or address move offer promotion details */
 export interface PackXdslMigrationAndAddressMovePromotionDetails {
@@ -581,13 +567,7 @@ export const CreatePackXdslChangeContactRequest = /*@__PURE__*/ S.suspend(() =>
     contactAdmin: S.optional(S.String),
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/pack/xdsl/{packName}/changeContact",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/pack/xdsl/{packName}/changeContact", code: 200 })),
 ).annotate({
   identifier: "CreatePackXdslChangeContactRequest",
 }) as any as S.Schema<CreatePackXdslChangeContactRequest>;
@@ -627,13 +607,7 @@ export const CreatePackXdslDomainServiceRequest = /*@__PURE__*/ S.suspend(() =>
     authInfo: S.optional(S.String),
     domain: S.String,
     tld: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/pack/xdsl/{packName}/domain/services",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/pack/xdsl/{packName}/domain/services", code: 200 })),
 ).annotate({
   identifier: "CreatePackXdslDomainServiceRequest",
 }) as any as S.Schema<CreatePackXdslDomainServiceRequest>;
@@ -671,13 +645,7 @@ export const CreatePackXdslEmailProServiceRequest = /*@__PURE__*/ S.suspend(() =
     packName: S.String.pipe(T.Label()),
     email: S.String,
     password: S.String.pipe(T.SensitiveValue({})),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/pack/xdsl/{packName}/emailPro/services",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/pack/xdsl/{packName}/emailPro/services", code: 200 })),
 ).annotate({
   identifier: "CreatePackXdslEmailProServiceRequest",
 }) as any as S.Schema<CreatePackXdslEmailProServiceRequest>;
@@ -695,13 +663,7 @@ export const CreatePackXdslHostedEmailServiceRequest = /*@__PURE__*/ S.suspend((
     packName: S.String.pipe(T.Label()),
     email: S.String,
     password: S.String.pipe(T.SensitiveValue({})),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/pack/xdsl/{packName}/hostedEmail/services",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/pack/xdsl/{packName}/hostedEmail/services", code: 200 })),
 ).annotate({
   identifier: "CreatePackXdslHostedEmailServiceRequest",
 }) as any as S.Schema<CreatePackXdslHostedEmailServiceRequest>;
@@ -746,13 +708,7 @@ export const CreatePackXdslMigrationOfferRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
     buildingReference: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/pack/xdsl/{packName}/migration/offers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/pack/xdsl/{packName}/migration/offers", code: 200 })),
 ).annotate({
   identifier: "CreatePackXdslMigrationOfferRequest",
 }) as any as S.Schema<CreatePackXdslMigrationOfferRequest>;
@@ -1097,13 +1053,7 @@ export const CreatePackXdslResiliateRequest = /*@__PURE__*/ S.suspend(() =>
     resiliationDate: S.optional(S.String),
     resiliationSurvey: PackXdslResiliationSurvey,
     servicesToKeep: S.optional(CreatePackXdslResiliateRequestServicesToKeepList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/pack/xdsl/{packName}/resiliate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/pack/xdsl/{packName}/resiliate", code: 200 })),
 ).annotate({
   identifier: "CreatePackXdslResiliateRequest",
 }) as any as S.Schema<CreatePackXdslResiliateRequest>;
@@ -1137,13 +1087,7 @@ export interface CreatePackXdslVoipEcofaxServiceRequest {
 export const CreatePackXdslVoipEcofaxServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/pack/xdsl/{packName}/voipEcofax/services",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/pack/xdsl/{packName}/voipEcofax/services", code: 200 })),
 ).annotate({
   identifier: "CreatePackXdslVoipEcofaxServiceRequest",
 }) as any as S.Schema<CreatePackXdslVoipEcofaxServiceRequest>;
@@ -1211,13 +1155,7 @@ export const CreatePackXdslVoipLineServiceRequest = /*@__PURE__*/ S.suspend(() =
     hardwareNames: CreatePackXdslVoipLineServiceRequestHardwareNamesList,
     mondialRelayId: S.optional(S.String),
     shippingId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/pack/xdsl/{packName}/voipLine/services",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/pack/xdsl/{packName}/voipLine/services", code: 200 })),
 ).annotate({
   identifier: "CreatePackXdslVoipLineServiceRequest",
 }) as any as S.Schema<CreatePackXdslVoipLineServiceRequest>;
@@ -1242,9 +1180,7 @@ export const PackXdslVoIPLineOrder = /*@__PURE__*/ S.suspend(() =>
     orderUrl: S.optional(S.String),
     taskIds: S.optional(PackXdslVoIPLineOrderTaskIdsList),
   }),
-).annotate({
-  identifier: "PackXdslVoIPLineOrder",
-}) as any as S.Schema<PackXdslVoIPLineOrder>;
+).annotate({ identifier: "PackXdslVoIPLineOrder" }) as any as S.Schema<PackXdslVoIPLineOrder>;
 
 export interface DeletePackXdslHostedEmailServiceRequest {
   /** The internal name of your pack */
@@ -1281,11 +1217,7 @@ export const GeneratePackXdslPromotionCodeRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     packName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/pack/xdsl/{packName}/promotionCode/generate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/pack/xdsl/{packName}/promotionCode/generate", code: 200 }),
   ),
 ).annotate({
   identifier: "GeneratePackXdslPromotionCodeRequest",
@@ -1299,9 +1231,7 @@ export const GetPackXdslRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}", code: 200 })),
-).annotate({
-  identifier: "GetPackXdslRequest",
-}) as any as S.Schema<GetPackXdslRequest>;
+).annotate({ identifier: "GetPackXdslRequest" }) as any as S.Schema<GetPackXdslRequest>;
 
 /** Describe the capabilities of this pack */
 export interface PackXdslPackCapabilities {
@@ -1318,9 +1248,7 @@ export const PackXdslPackCapabilities = /*@__PURE__*/ S.suspend(() =>
     isLegacyOffer: S.optional(S.Boolean),
     isResellerOffer: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "PackXdslPackCapabilities",
-}) as any as S.Schema<PackXdslPackCapabilities>;
+).annotate({ identifier: "PackXdslPackCapabilities" }) as any as S.Schema<PackXdslPackCapabilities>;
 
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
 export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
@@ -1347,9 +1275,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** Pack of xDSL services */
 export interface PackXdslPackAdslWithIAM {
@@ -1375,9 +1301,7 @@ export const PackXdslPackAdslWithIAM = /*@__PURE__*/ S.suspend(() =>
     offerPrice: S.optional(OrderPrice),
     packName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PackXdslPackAdslWithIAM",
-}) as any as S.Schema<PackXdslPackAdslWithIAM>;
+).annotate({ identifier: "PackXdslPackAdslWithIAM" }) as any as S.Schema<PackXdslPackAdslWithIAM>;
 
 export interface GetPackXdslCanCancelResiliationRequest {
   /** The internal name of your pack */
@@ -1386,13 +1310,7 @@ export interface GetPackXdslCanCancelResiliationRequest {
 export const GetPackXdslCanCancelResiliationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/canCancelResiliation",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/canCancelResiliation", code: 200 })),
 ).annotate({
   identifier: "GetPackXdslCanCancelResiliationRequest",
 }) as any as S.Schema<GetPackXdslCanCancelResiliationRequest>;
@@ -1411,13 +1329,7 @@ export interface GetPackXdslContactOwnerRequest {
 export const GetPackXdslContactOwnerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/contactOwner",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/contactOwner", code: 200 })),
 ).annotate({
   identifier: "GetPackXdslContactOwnerRequest",
 }) as any as S.Schema<GetPackXdslContactOwnerRequest>;
@@ -1716,9 +1628,7 @@ export const PackXdslContactInfos = /*@__PURE__*/ S.suspend(() =>
     phoneCountry: S.optional(S.NullOr(NichandleCountryEnum)),
     zip: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "PackXdslContactInfos",
-}) as any as S.Schema<PackXdslContactInfos>;
+).annotate({ identifier: "PackXdslContactInfos" }) as any as S.Schema<PackXdslContactInfos>;
 
 export interface GetPackXdslEmailProOptionIsEmailAvailableRequest {
   /** The internal name of your pack */
@@ -1918,13 +1828,7 @@ export interface GetPackXdslResiliationFollowUpRequest {
 export const GetPackXdslResiliationFollowUpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/resiliationFollowUp",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/resiliationFollowUp", code: 200 })),
 ).annotate({
   identifier: "GetPackXdslResiliationFollowUpRequest",
 }) as any as S.Schema<GetPackXdslResiliationFollowUpRequest>;
@@ -1939,13 +1843,7 @@ export const GetPackXdslResiliationTermsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
     resiliationDate: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/resiliationTerms",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/resiliationTerms", code: 200 })),
 ).annotate({
   identifier: "GetPackXdslResiliationTermsRequest",
 }) as any as S.Schema<GetPackXdslResiliationTermsRequest>;
@@ -1977,9 +1875,7 @@ export const PackXdslResiliationTerms = /*@__PURE__*/ S.suspend(() =>
     resiliationDate: S.optional(S.String),
     resiliationReasons: S.optional(PackXdslResiliationTermsResiliationReasonsList),
   }),
-).annotate({
-  identifier: "PackXdslResiliationTerms",
-}) as any as S.Schema<PackXdslResiliationTerms>;
+).annotate({ identifier: "PackXdslResiliationTerms" }) as any as S.Schema<PackXdslResiliationTerms>;
 
 export interface GetPackXdslServiceInfosRequest {
   /** The internal name of your pack */
@@ -1988,13 +1884,7 @@ export interface GetPackXdslServiceInfosRequest {
 export const GetPackXdslServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetPackXdslServiceInfosRequest",
 }) as any as S.Schema<GetPackXdslServiceInfosRequest>;
@@ -2026,9 +1916,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -2086,9 +1974,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetPackXdslSubServiceRequest {
   /** The internal name of your pack */
@@ -2099,13 +1985,7 @@ export const GetPackXdslSubServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
     domain: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/subServices/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/subServices/{domain}", code: 200 })),
 ).annotate({
   identifier: "GetPackXdslSubServiceRequest",
 }) as any as S.Schema<GetPackXdslSubServiceRequest>;
@@ -2122,9 +2002,7 @@ export const PackXdslService = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     type: S.optional(PackXdslServiceNameEnum),
   }),
-).annotate({
-  identifier: "PackXdslService",
-}) as any as S.Schema<PackXdslService>;
+).annotate({ identifier: "PackXdslService" }) as any as S.Schema<PackXdslService>;
 
 export interface GetPackXdslSubServiceKeepServiceTermsRequest {
   /** The internal name of your pack */
@@ -2164,9 +2042,7 @@ export const PackXdslUnpackTerms = /*@__PURE__*/ S.suspend(() =>
     renewPeriod: S.optional(S.Number),
     renewPrice: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "PackXdslUnpackTerms",
-}) as any as S.Schema<PackXdslUnpackTerms>;
+).annotate({ identifier: "PackXdslUnpackTerms" }) as any as S.Schema<PackXdslUnpackTerms>;
 
 export interface GetPackXdslTaskRequest {
   /** The internal name of your pack */
@@ -2178,16 +2054,8 @@ export const GetPackXdslTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/tasks/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetPackXdslTaskRequest",
-}) as any as S.Schema<GetPackXdslTaskRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/tasks/{id}", code: 200 })),
+).annotate({ identifier: "GetPackXdslTaskRequest" }) as any as S.Schema<GetPackXdslTaskRequest>;
 
 export interface GetPackXdslVoipLineServiceRequest {
   /** The internal name of your pack */
@@ -2199,11 +2067,7 @@ export const GetPackXdslVoipLineServiceRequest = /*@__PURE__*/ S.suspend(() =>
     packName: S.String.pipe(T.Label()),
     domain: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/voipLine/services/{domain}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/voipLine/services/{domain}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetPackXdslVoipLineServiceRequest",
@@ -2219,9 +2083,7 @@ export const PackXdslVoipLineService = /*@__PURE__*/ S.suspend(() =>
     billingAccount: S.optional(S.String),
     domain: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PackXdslVoipLineService",
-}) as any as S.Schema<PackXdslVoipLineService>;
+).annotate({ identifier: "PackXdslVoipLineService" }) as any as S.Schema<PackXdslVoipLineService>;
 
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -2250,9 +2112,7 @@ export const ListPackXdslRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamTags: S.optional(ListPackXdslRequestIamTagsMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl", code: 200 })),
-).annotate({
-  identifier: "ListPackXdslRequest",
-}) as any as S.Schema<ListPackXdslRequest>;
+).annotate({ identifier: "ListPackXdslRequest" }) as any as S.Schema<ListPackXdslRequest>;
 
 export type ListPackXdslResponseBodyList = Array<string>;
 export const ListPackXdslResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2262,9 +2122,7 @@ export const ListPackXdslResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListPackXdslResponse = ListPackXdslResponseBodyList;
 export const ListPackXdslResponse = /*@__PURE__*/ S.suspend(() =>
   ListPackXdslResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPackXdslResponse",
-}) as any as S.Schema<ListPackXdslResponse>;
+).annotate({ identifier: "ListPackXdslResponse" }) as any as S.Schema<ListPackXdslResponse>;
 
 export interface ListPackXdslDomainOptionTldsRequest {
   /** The internal name of your pack */
@@ -2273,13 +2131,7 @@ export interface ListPackXdslDomainOptionTldsRequest {
 export const ListPackXdslDomainOptionTldsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/domain/options/tlds",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/domain/options/tlds", code: 200 })),
 ).annotate({
   identifier: "ListPackXdslDomainOptionTldsRequest",
 }) as any as S.Schema<ListPackXdslDomainOptionTldsRequest>;
@@ -2303,13 +2155,7 @@ export interface ListPackXdslDomainServicesRequest {
 export const ListPackXdslDomainServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/domain/services",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/domain/services", code: 200 })),
 ).annotate({
   identifier: "ListPackXdslDomainServicesRequest",
 }) as any as S.Schema<ListPackXdslDomainServicesRequest>;
@@ -2334,11 +2180,7 @@ export const ListPackXdslEmailProOptionDomainsRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     packName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/emailPro/options/domains",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/emailPro/options/domains", code: 200 }),
   ),
 ).annotate({
   identifier: "ListPackXdslEmailProOptionDomainsRequest",
@@ -2364,13 +2206,7 @@ export interface ListPackXdslEmailProServicesRequest {
 export const ListPackXdslEmailProServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/emailPro/services",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/emailPro/services", code: 200 })),
 ).annotate({
   identifier: "ListPackXdslEmailProServicesRequest",
 }) as any as S.Schema<ListPackXdslEmailProServicesRequest>;
@@ -2395,11 +2231,7 @@ export const ListPackXdslExchangeAccountServicesRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     packName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/exchangeAccount/services",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/exchangeAccount/services", code: 200 }),
   ),
 ).annotate({
   identifier: "ListPackXdslExchangeAccountServicesRequest",
@@ -2488,11 +2320,7 @@ export const ListPackXdslHostedEmailOptionDomainsRequest = /*@__PURE__*/ S.suspe
   S.Struct({
     packName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/hostedEmail/options/domains",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/hostedEmail/options/domains", code: 200 }),
   ),
 ).annotate({
   identifier: "ListPackXdslHostedEmailOptionDomainsRequest",
@@ -2607,13 +2435,7 @@ export interface ListPackXdslHostedEmailServicesRequest {
 export const ListPackXdslHostedEmailServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/hostedEmail/services",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/hostedEmail/services", code: 200 })),
 ).annotate({
   identifier: "ListPackXdslHostedEmailServicesRequest",
 }) as any as S.Schema<ListPackXdslHostedEmailServicesRequest>;
@@ -2638,13 +2460,7 @@ export interface ListPackXdslOrderFollowUpRequest {
 export const ListPackXdslOrderFollowUpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/orderFollowUp",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/orderFollowUp", code: 200 })),
 ).annotate({
   identifier: "ListPackXdslOrderFollowUpRequest",
 }) as any as S.Schema<ListPackXdslOrderFollowUpRequest>;
@@ -2703,11 +2519,7 @@ export const ListPackXdslPromotionCodeCapabilitiesRequest = /*@__PURE__*/ S.susp
   S.Struct({
     packName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/promotionCode/capabilities",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/promotionCode/capabilities", code: 200 }),
   ),
 ).annotate({
   identifier: "ListPackXdslPromotionCodeCapabilitiesRequest",
@@ -2788,9 +2600,7 @@ export const PackXdslPackDetail = /*@__PURE__*/ S.suspend(() =>
     packname: S.optional(S.String),
     type: S.optional(XdslDslTypeEnum),
   }),
-).annotate({
-  identifier: "PackXdslPackDetail",
-}) as any as S.Schema<PackXdslPackDetail>;
+).annotate({ identifier: "PackXdslPackDetail" }) as any as S.Schema<PackXdslPackDetail>;
 
 export type ListPackXdslSearchResponseBodyList = Array<PackXdslPackDetail>;
 export const ListPackXdslSearchResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2860,13 +2670,7 @@ export const ListPackXdslShippingAddressesRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     packName: S.String.pipe(T.Label()),
     context: PackXdslShippingAddressContextEnum.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/shippingAddresses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/shippingAddresses", code: 200 })),
 ).annotate({
   identifier: "ListPackXdslShippingAddressesRequest",
 }) as any as S.Schema<ListPackXdslShippingAddressesRequest>;
@@ -2891,9 +2695,7 @@ export const PackXdslShippingAddress = /*@__PURE__*/ S.suspend(() =>
     shippingId: S.optional(S.String),
     zipCode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PackXdslShippingAddress",
-}) as any as S.Schema<PackXdslShippingAddress>;
+).annotate({ identifier: "PackXdslShippingAddress" }) as any as S.Schema<PackXdslShippingAddress>;
 
 export type ListPackXdslShippingAddressesResponseBodyList = Array<PackXdslShippingAddress>;
 export const ListPackXdslShippingAddressesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2914,13 +2716,7 @@ export interface ListPackXdslSubServicesRequest {
 export const ListPackXdslSubServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/subServices",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/subServices", code: 200 })),
 ).annotate({
   identifier: "ListPackXdslSubServicesRequest",
 }) as any as S.Schema<ListPackXdslSubServicesRequest>;
@@ -2951,9 +2747,7 @@ export const ListPackXdslTasksRequest = /*@__PURE__*/ S.suspend(() =>
     function: S.optional(S.String.pipe(T.Query())),
     status: S.optional(PackXdslTaskStatusEnum.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/tasks", code: 200 })),
-).annotate({
-  identifier: "ListPackXdslTasksRequest",
-}) as any as S.Schema<ListPackXdslTasksRequest>;
+).annotate({ identifier: "ListPackXdslTasksRequest" }) as any as S.Schema<ListPackXdslTasksRequest>;
 
 export type ListPackXdslTasksResponseBodyList = Array<number>;
 export const ListPackXdslTasksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2975,11 +2769,7 @@ export const ListPackXdslVoipBillingAccountServicesRequest = /*@__PURE__*/ S.sus
   S.Struct({
     packName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/voipBillingAccount/services",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/voipBillingAccount/services", code: 200 }),
   ),
 ).annotate({
   identifier: "ListPackXdslVoipBillingAccountServicesRequest",
@@ -3005,13 +2795,7 @@ export interface ListPackXdslVoipEcofaxServicesRequest {
 export const ListPackXdslVoipEcofaxServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/voipEcofax/services",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/voipEcofax/services", code: 200 })),
 ).annotate({
   identifier: "ListPackXdslVoipEcofaxServicesRequest",
 }) as any as S.Schema<ListPackXdslVoipEcofaxServicesRequest>;
@@ -3036,11 +2820,7 @@ export const ListPackXdslVoipLineOptionHardwaresRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     packName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/voipLine/options/hardwares",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/voipLine/options/hardwares", code: 200 }),
   ),
 ).annotate({
   identifier: "ListPackXdslVoipLineOptionHardwaresRequest",
@@ -3068,9 +2848,7 @@ export const PackXdslVoIPHardware = /*@__PURE__*/ S.suspend(() =>
     needShipping: S.optional(S.Boolean),
     url: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "PackXdslVoIPHardware",
-}) as any as S.Schema<PackXdslVoIPHardware>;
+).annotate({ identifier: "PackXdslVoIPHardware" }) as any as S.Schema<PackXdslVoIPHardware>;
 
 export type ListPackXdslVoipLineOptionHardwaresResponseBodyList = Array<PackXdslVoIPHardware>;
 export const ListPackXdslVoipLineOptionHardwaresResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3124,13 +2902,7 @@ export interface ListPackXdslVoipLineServicesRequest {
 export const ListPackXdslVoipLineServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/voipLine/services",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/voipLine/services", code: 200 })),
 ).annotate({
   identifier: "ListPackXdslVoipLineServicesRequest",
 }) as any as S.Schema<ListPackXdslVoipLineServicesRequest>;
@@ -3154,13 +2926,7 @@ export interface ListPackXdslXdslAccessServicesRequest {
 export const ListPackXdslXdslAccessServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/pack/xdsl/{packName}/xdslAccess/services",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/pack/xdsl/{packName}/xdslAccess/services", code: 200 })),
 ).annotate({
   identifier: "ListPackXdslXdslAccessServicesRequest",
 }) as any as S.Schema<ListPackXdslXdslAccessServicesRequest>;
@@ -3346,13 +3112,7 @@ export const MigratePackXdslMigrationRequest = /*@__PURE__*/ S.suspend(() =>
     stair: S.optional(S.String),
     subServicesToDelete: S.optional(MigratePackXdslMigrationRequestSubServicesToDeleteList),
     subServicesToKeep: S.optional(MigratePackXdslMigrationRequestSubServicesToKeepList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/pack/xdsl/{packName}/migration/migrate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/pack/xdsl/{packName}/migration/migrate", code: 200 })),
 ).annotate({
   identifier: "MigratePackXdslMigrationRequest",
 }) as any as S.Schema<MigratePackXdslMigrationRequest>;
@@ -3460,11 +3220,7 @@ export const MovePackXdslAddressMoveOfferRequest = /*@__PURE__*/ S.suspend(() =>
     subServicesToDelete: S.optional(MovePackXdslAddressMoveOfferRequestSubServicesToDeleteList),
     subServicesToKeep: S.optional(MovePackXdslAddressMoveOfferRequestSubServicesToKeepList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/pack/xdsl/{packName}/addressMove/moveOffer",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/pack/xdsl/{packName}/addressMove/moveOffer", code: 200 }),
   ),
 ).annotate({
   identifier: "MovePackXdslAddressMoveOfferRequest",
@@ -3484,9 +3240,7 @@ export const PackXdslAsyncTaskLong = /*@__PURE__*/ S.suspend(() =>
     result: S.optional(S.Number),
     status: S.optional(PackXdslAsyncTaskStatusEnum),
   }),
-).annotate({
-  identifier: "PackXdslAsyncTaskLong",
-}) as any as S.Schema<PackXdslAsyncTaskLong>;
+).annotate({ identifier: "PackXdslAsyncTaskLong" }) as any as S.Schema<PackXdslAsyncTaskLong>;
 
 export interface PutPackXdslRequest {
   /** The internal name of your pack */
@@ -3499,9 +3253,7 @@ export const PutPackXdslRequest = /*@__PURE__*/ S.suspend(() =>
     packName: S.String.pipe(T.Label()),
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PUT", uri: "/pack/xdsl/{packName}", code: 200 })),
-).annotate({
-  identifier: "PutPackXdslRequest",
-}) as any as S.Schema<PutPackXdslRequest>;
+).annotate({ identifier: "PutPackXdslRequest" }) as any as S.Schema<PutPackXdslRequest>;
 
 export interface PutPackXdslResponse {}
 export const PutPackXdslResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3518,22 +3270,14 @@ export const PutPackXdslServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     packName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/pack/xdsl/{packName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/pack/xdsl/{packName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutPackXdslServiceInfosRequest",
 }) as any as S.Schema<PutPackXdslServiceInfosRequest>;
 
 export interface PutPackXdslServiceInfosResponse {}
 export const PutPackXdslServiceInfosResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "PutPackXdslServiceInfosResponse",
-  },
+  { identifier: "PutPackXdslServiceInfosResponse" },
 ) as any as S.Schema<PutPackXdslServiceInfosResponse>;
 
 export type CancelPackXdslResiliationError = OvhOpError;

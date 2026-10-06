@@ -55,11 +55,7 @@ export const ConfirmSslGatewayTerminationRequest = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(ServiceTerminationReasonEnum),
     token: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sslGateway/{serviceName}/confirmTermination",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/sslGateway/{serviceName}/confirmTermination", code: 200 }),
   ),
 ).annotate({
   identifier: "ConfirmSslGatewayTerminationRequest",
@@ -88,13 +84,7 @@ export const CreateSslGatewayChangeContactRequest = /*@__PURE__*/ S.suspend(() =
     contactAdmin: S.optional(S.String),
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sslGateway/{serviceName}/changeContact",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sslGateway/{serviceName}/changeContact", code: 200 })),
 ).annotate({
   identifier: "CreateSslGatewayChangeContactRequest",
 }) as any as S.Schema<CreateSslGatewayChangeContactRequest>;
@@ -121,13 +111,7 @@ export const CreateSslGatewayDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     domain: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sslGateway/{serviceName}/domain",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sslGateway/{serviceName}/domain", code: 200 })),
 ).annotate({
   identifier: "CreateSslGatewayDomainRequest",
 }) as any as S.Schema<CreateSslGatewayDomainRequest>;
@@ -157,9 +141,7 @@ export const SslGatewayDomain = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     state: S.optional(SslGatewayDomainStateEnum),
   }),
-).annotate({
-  identifier: "SslGatewayDomain",
-}) as any as S.Schema<SslGatewayDomain>;
+).annotate({ identifier: "SslGatewayDomain" }) as any as S.Schema<SslGatewayDomain>;
 
 export interface CreateSslGatewayServerRequest {
   /** The internal name of your SSL Gateway */
@@ -174,13 +156,7 @@ export const CreateSslGatewayServerRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     address: S.String,
     port: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sslGateway/{serviceName}/server",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sslGateway/{serviceName}/server", code: 200 })),
 ).annotate({
   identifier: "CreateSslGatewayServerRequest",
 }) as any as S.Schema<CreateSslGatewayServerRequest>;
@@ -213,9 +189,7 @@ export const SslGatewayServer = /*@__PURE__*/ S.suspend(() =>
     port: S.optional(S.Number),
     state: S.optional(SslGatewayServerStateEnum),
   }),
-).annotate({
-  identifier: "SslGatewayServer",
-}) as any as S.Schema<SslGatewayServer>;
+).annotate({ identifier: "SslGatewayServer" }) as any as S.Schema<SslGatewayServer>;
 
 export interface DeleteSslGatewayDomainRequest {
   /** The internal name of your SSL Gateway */
@@ -227,13 +201,7 @@ export const DeleteSslGatewayDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/sslGateway/{serviceName}/domain/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/sslGateway/{serviceName}/domain/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteSslGatewayDomainRequest",
 }) as any as S.Schema<DeleteSslGatewayDomainRequest>;
@@ -253,13 +221,7 @@ export const DeleteSslGatewayServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/sslGateway/{serviceName}/server/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/sslGateway/{serviceName}/server/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteSslGatewayServerRequest",
 }) as any as S.Schema<DeleteSslGatewayServerRequest>;
@@ -277,9 +239,7 @@ export const GetSslGatewayRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/sslGateway/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "GetSslGatewayRequest",
-}) as any as S.Schema<GetSslGatewayRequest>;
+).annotate({ identifier: "GetSslGatewayRequest" }) as any as S.Schema<GetSslGatewayRequest>;
 
 /** Restrict SSL Gateway access to these ip block. No restriction if null */
 export type SslGatewaySslGatewayWithIAMAllowedSourceList = Array<string>;
@@ -312,9 +272,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** List of SSL Gateway offers */
 export type SslGatewayOfferEnum = "advanced" | "enterprise" | "free" | "internal";
@@ -407,13 +365,7 @@ export const GetSslGatewayDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sslGateway/{serviceName}/domain/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sslGateway/{serviceName}/domain/{id}", code: 200 })),
 ).annotate({
   identifier: "GetSslGatewayDomainRequest",
 }) as any as S.Schema<GetSslGatewayDomainRequest>;
@@ -428,13 +380,7 @@ export const GetSslGatewayServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sslGateway/{serviceName}/server/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sslGateway/{serviceName}/server/{id}", code: 200 })),
 ).annotate({
   identifier: "GetSslGatewayServerRequest",
 }) as any as S.Schema<GetSslGatewayServerRequest>;
@@ -446,13 +392,7 @@ export interface GetSslGatewayServiceInfosRequest {
 export const GetSslGatewayServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sslGateway/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sslGateway/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetSslGatewayServiceInfosRequest",
 }) as any as S.Schema<GetSslGatewayServiceInfosRequest>;
@@ -484,9 +424,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -544,9 +482,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetSslGatewayTaskRequest {
   /** The internal name of your SSL Gateway */
@@ -558,16 +494,8 @@ export const GetSslGatewayTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sslGateway/{serviceName}/task/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSslGatewayTaskRequest",
-}) as any as S.Schema<GetSslGatewayTaskRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sslGateway/{serviceName}/task/{id}", code: 200 })),
+).annotate({ identifier: "GetSslGatewayTaskRequest" }) as any as S.Schema<GetSslGatewayTaskRequest>;
 
 /** Possible task action */
 export type SslGatewayTaskActionEnum =
@@ -645,9 +573,7 @@ export const ListSslGatewayRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamTags: S.optional(ListSslGatewayRequestIamTagsMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/sslGateway", code: 200 })),
-).annotate({
-  identifier: "ListSslGatewayRequest",
-}) as any as S.Schema<ListSslGatewayRequest>;
+).annotate({ identifier: "ListSslGatewayRequest" }) as any as S.Schema<ListSslGatewayRequest>;
 
 export type ListSslGatewayResponseBodyList = Array<string>;
 export const ListSslGatewayResponseBodyList = /*@__PURE__*/ S.Array(
@@ -657,9 +583,7 @@ export const ListSslGatewayResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSslGatewayResponse = ListSslGatewayResponseBodyList;
 export const ListSslGatewayResponse = /*@__PURE__*/ S.suspend(() =>
   ListSslGatewayResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSslGatewayResponse",
-}) as any as S.Schema<ListSslGatewayResponse>;
+).annotate({ identifier: "ListSslGatewayResponse" }) as any as S.Schema<ListSslGatewayResponse>;
 
 export interface ListSslGatewayAvailableZonesRequest {}
 export const ListSslGatewayAvailableZonesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -687,13 +611,7 @@ export interface ListSslGatewayDomainRequest {
 export const ListSslGatewayDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sslGateway/{serviceName}/domain",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sslGateway/{serviceName}/domain", code: 200 })),
 ).annotate({
   identifier: "ListSslGatewayDomainRequest",
 }) as any as S.Schema<ListSslGatewayDomainRequest>;
@@ -763,13 +681,7 @@ export interface ListSslGatewayNatIpRequest {
 export const ListSslGatewayNatIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sslGateway/{serviceName}/natIp",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sslGateway/{serviceName}/natIp", code: 200 })),
 ).annotate({
   identifier: "ListSslGatewayNatIpRequest",
 }) as any as S.Schema<ListSslGatewayNatIpRequest>;
@@ -789,9 +701,7 @@ export const SslGatewayNatIps = /*@__PURE__*/ S.suspend(() =>
     ip: S.optional(SslGatewayNatIpsIpList),
     zone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SslGatewayNatIps",
-}) as any as S.Schema<SslGatewayNatIps>;
+).annotate({ identifier: "SslGatewayNatIps" }) as any as S.Schema<SslGatewayNatIps>;
 
 export type ListSslGatewayNatIpResponseBodyList = Array<SslGatewayNatIps>;
 export const ListSslGatewayNatIpResponseBodyList = /*@__PURE__*/ S.Array(
@@ -812,13 +722,7 @@ export interface ListSslGatewayServerRequest {
 export const ListSslGatewayServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sslGateway/{serviceName}/server",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sslGateway/{serviceName}/server", code: 200 })),
 ).annotate({
   identifier: "ListSslGatewayServerRequest",
 }) as any as S.Schema<ListSslGatewayServerRequest>;
@@ -894,9 +798,7 @@ export const PutSslGatewayRequest = /*@__PURE__*/ S.suspend(() =>
     serverHttps: S.optional(S.Boolean),
     sslConfiguration: S.optional(S.NullOr(SslGatewaySslConfigurationEnum)),
   }).pipe(T.Http({ method: "PUT", uri: "/sslGateway/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "PutSslGatewayRequest",
-}) as any as S.Schema<PutSslGatewayRequest>;
+).annotate({ identifier: "PutSslGatewayRequest" }) as any as S.Schema<PutSslGatewayRequest>;
 
 export interface PutSslGatewayResponse {}
 export const PutSslGatewayResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -919,13 +821,7 @@ export const PutSslGatewayServerRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     address: S.optional(S.String),
     port: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/sslGateway/{serviceName}/server/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/sslGateway/{serviceName}/server/{id}", code: 200 })),
 ).annotate({
   identifier: "PutSslGatewayServerRequest",
 }) as any as S.Schema<PutSslGatewayServerRequest>;
@@ -945,13 +841,7 @@ export const PutSslGatewayServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/sslGateway/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/sslGateway/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutSslGatewayServiceInfosRequest",
 }) as any as S.Schema<PutSslGatewayServiceInfosRequest>;
@@ -973,13 +863,7 @@ export const RenewSslGatewayCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     domain: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sslGateway/{serviceName}/renewCertificate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sslGateway/{serviceName}/renewCertificate", code: 200 })),
 ).annotate({
   identifier: "RenewSslGatewayCertificateRequest",
 }) as any as S.Schema<RenewSslGatewayCertificateRequest>;
@@ -1003,13 +887,7 @@ export interface TerminateSslGatewayRequest {
 export const TerminateSslGatewayRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sslGateway/{serviceName}/terminate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sslGateway/{serviceName}/terminate", code: 200 })),
 ).annotate({
   identifier: "TerminateSslGatewayRequest",
 }) as any as S.Schema<TerminateSslGatewayRequest>;

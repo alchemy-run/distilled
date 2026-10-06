@@ -23,11 +23,7 @@ export const CreateEmailMxplanAccountAliasRequest = /*@__PURE__*/ S.suspend(() =
     email: S.String.pipe(T.Label()),
     alias: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/email/mxplan/{service}/account/{email}/alias",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/email/mxplan/{service}/account/{email}/alias", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateEmailMxplanAccountAliasRequest",
@@ -237,13 +233,7 @@ export const CreateEmailMxplanExternalContactRequest = /*@__PURE__*/ S.suspend((
     hiddenFromGAL: S.optional(S.Boolean),
     initials: S.optional(S.String),
     lastName: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/email/mxplan/{service}/externalContact",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/email/mxplan/{service}/externalContact", code: 200 })),
 ).annotate({
   identifier: "CreateEmailMxplanExternalContactRequest",
 }) as any as S.Schema<CreateEmailMxplanExternalContactRequest>;
@@ -258,13 +248,7 @@ export const DeleteEmailMxplanAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
     email: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/email/mxplan/{service}/account/{email}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/email/mxplan/{service}/account/{email}", code: 200 })),
 ).annotate({
   identifier: "DeleteEmailMxplanAccountRequest",
 }) as any as S.Schema<DeleteEmailMxplanAccountRequest>;
@@ -415,9 +399,7 @@ export const GetEmailMxplanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/email/mxplan/{service}", code: 200 })),
-).annotate({
-  identifier: "GetEmailMxplanRequest",
-}) as any as S.Schema<GetEmailMxplanRequest>;
+).annotate({ identifier: "GetEmailMxplanRequest" }) as any as S.Schema<GetEmailMxplanRequest>;
 
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
 export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
@@ -444,9 +426,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** Service Offer name */
 export type EmailMxplanServiceOfferEnum = "MXPLAN";
@@ -574,13 +554,7 @@ export const GetEmailMxplanAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
     email: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/mxplan/{service}/account/{email}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/email/mxplan/{service}/account/{email}", code: 200 })),
 ).annotate({
   identifier: "GetEmailMxplanAccountRequest",
 }) as any as S.Schema<GetEmailMxplanAccountRequest>;
@@ -700,9 +674,7 @@ export const EmailMxplanAccount = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(EmailProObjectStateEnum),
     taskPendingId: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "EmailMxplanAccount",
-}) as any as S.Schema<EmailMxplanAccount>;
+).annotate({ identifier: "EmailMxplanAccount" }) as any as S.Schema<EmailMxplanAccount>;
 
 export interface GetEmailMxplanAccountAliasRequest {
   /** The internal name of your mxplan organization */
@@ -743,9 +715,7 @@ export const EmailMxplanAccountAlias = /*@__PURE__*/ S.suspend(() =>
     creationDate: S.optional(S.String),
     taskPendingId: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EmailMxplanAccountAlias",
-}) as any as S.Schema<EmailMxplanAccountAlias>;
+).annotate({ identifier: "EmailMxplanAccountAlias" }) as any as S.Schema<EmailMxplanAccountAlias>;
 
 export interface GetEmailMxplanAccountDiagnosticRequest {
   /** The internal name of your mxplan organization */
@@ -758,11 +728,7 @@ export const GetEmailMxplanAccountDiagnosticRequest = /*@__PURE__*/ S.suspend(()
     service: S.String.pipe(T.Label()),
     email: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/mxplan/{service}/account/{email}/diagnostic",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/email/mxplan/{service}/account/{email}/diagnostic", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEmailMxplanAccountDiagnosticRequest",
@@ -887,9 +853,7 @@ export const EmailMxplanAccountSendAs = /*@__PURE__*/ S.suspend(() =>
     creationDate: S.optional(S.String),
     taskPendingId: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EmailMxplanAccountSendAs",
-}) as any as S.Schema<EmailMxplanAccountSendAs>;
+).annotate({ identifier: "EmailMxplanAccountSendAs" }) as any as S.Schema<EmailMxplanAccountSendAs>;
 
 export interface GetEmailMxplanAccountSendOnBehalfToRequest {
   /** The internal name of your mxplan organization */
@@ -948,11 +912,7 @@ export const GetEmailMxplanAccountTaskRequest = /*@__PURE__*/ S.suspend(() =>
     email: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/mxplan/{service}/account/{email}/task/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/email/mxplan/{service}/account/{email}/task/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEmailMxplanAccountTaskRequest",
@@ -968,13 +928,7 @@ export const GetEmailMxplanDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
     domainName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/mxplan/{service}/domain/{domainName}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/email/mxplan/{service}/domain/{domainName}", code: 200 })),
 ).annotate({
   identifier: "GetEmailMxplanDomainRequest",
 }) as any as S.Schema<GetEmailMxplanDomainRequest>;
@@ -1055,9 +1009,7 @@ export const EmailMxplanDomain = /*@__PURE__*/ S.suspend(() =>
     taskPendingId: S.optional(S.Number),
     type: S.optional(EmailProDomainTypeEnum),
   }),
-).annotate({
-  identifier: "EmailMxplanDomain",
-}) as any as S.Schema<EmailMxplanDomain>;
+).annotate({ identifier: "EmailMxplanDomain" }) as any as S.Schema<EmailMxplanDomain>;
 
 export interface GetEmailMxplanDomainDisclaimerRequest {
   /** The internal name of your mxplan organization */
@@ -1101,9 +1053,7 @@ export const EmailProDisclaimer = /*@__PURE__*/ S.suspend(() =>
     outsideOnly: S.optional(S.Boolean),
     taskPendingId: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EmailProDisclaimer",
-}) as any as S.Schema<EmailProDisclaimer>;
+).annotate({ identifier: "EmailProDisclaimer" }) as any as S.Schema<EmailProDisclaimer>;
 
 export interface GetEmailMxplanExternalContactRequest {
   /** The internal name of your mxplan organization */
@@ -1221,9 +1171,7 @@ export const EmailMxplanServer = /*@__PURE__*/ S.suspend(() =>
     taskPendingId: S.optional(S.Number),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "EmailMxplanServer",
-}) as any as S.Schema<EmailMxplanServer>;
+).annotate({ identifier: "EmailMxplanServer" }) as any as S.Schema<EmailMxplanServer>;
 
 export interface GetEmailMxplanTaskRequest {
   /** The internal name of your mxplan organization */
@@ -1235,13 +1183,7 @@ export const GetEmailMxplanTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/mxplan/{service}/task/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/email/mxplan/{service}/task/{id}", code: 200 })),
 ).annotate({
   identifier: "GetEmailMxplanTaskRequest",
 }) as any as S.Schema<GetEmailMxplanTaskRequest>;
@@ -1273,9 +1215,7 @@ export const ListEmailMxplanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamTags: S.optional(ListEmailMxplanRequestIamTagsMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/email/mxplan", code: 200 })),
-).annotate({
-  identifier: "ListEmailMxplanRequest",
-}) as any as S.Schema<ListEmailMxplanRequest>;
+).annotate({ identifier: "ListEmailMxplanRequest" }) as any as S.Schema<ListEmailMxplanRequest>;
 
 export type ListEmailMxplanResponseBodyList = Array<string>;
 export const ListEmailMxplanResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1285,9 +1225,7 @@ export const ListEmailMxplanResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListEmailMxplanResponse = ListEmailMxplanResponseBodyList;
 export const ListEmailMxplanResponse = /*@__PURE__*/ S.suspend(() =>
   ListEmailMxplanResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListEmailMxplanResponse",
-}) as any as S.Schema<ListEmailMxplanResponse>;
+).annotate({ identifier: "ListEmailMxplanResponse" }) as any as S.Schema<ListEmailMxplanResponse>;
 
 export interface ListEmailMxplanAccountRequest {
   /** The internal name of your mxplan organization */
@@ -1302,13 +1240,7 @@ export const ListEmailMxplanAccountRequest = /*@__PURE__*/ S.suspend(() =>
     service: S.String.pipe(T.Label()),
     id: S.optional(S.Number.pipe(T.Query())),
     primaryEmailAddress: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/mxplan/{service}/account",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/email/mxplan/{service}/account", code: 200 })),
 ).annotate({
   identifier: "ListEmailMxplanAccountRequest",
 }) as any as S.Schema<ListEmailMxplanAccountRequest>;
@@ -1336,11 +1268,7 @@ export const ListEmailMxplanAccountAliasRequest = /*@__PURE__*/ S.suspend(() =>
     service: S.String.pipe(T.Label()),
     email: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/mxplan/{service}/account/{email}/alias",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/email/mxplan/{service}/account/{email}/alias", code: 200 }),
   ),
 ).annotate({
   identifier: "ListEmailMxplanAccountAliasRequest",
@@ -1409,11 +1337,7 @@ export const ListEmailMxplanAccountFullAccessRequest = /*@__PURE__*/ S.suspend((
     service: S.String.pipe(T.Label()),
     email: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/mxplan/{service}/account/{email}/fullAccess",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/email/mxplan/{service}/account/{email}/fullAccess", code: 200 }),
   ),
 ).annotate({
   identifier: "ListEmailMxplanAccountFullAccessRequest",
@@ -1443,11 +1367,7 @@ export const ListEmailMxplanAccountSendAsRequest = /*@__PURE__*/ S.suspend(() =>
     service: S.String.pipe(T.Label()),
     email: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/mxplan/{service}/account/{email}/sendAs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/email/mxplan/{service}/account/{email}/sendAs", code: 200 }),
   ),
 ).annotate({
   identifier: "ListEmailMxplanAccountSendAsRequest",
@@ -1510,11 +1430,7 @@ export const ListEmailMxplanAccountTaskRequest = /*@__PURE__*/ S.suspend(() =>
     service: S.String.pipe(T.Label()),
     email: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/mxplan/{service}/account/{email}/task",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/email/mxplan/{service}/account/{email}/task", code: 200 }),
   ),
 ).annotate({
   identifier: "ListEmailMxplanAccountTaskRequest",
@@ -1645,13 +1561,7 @@ export const ListEmailMxplanExternalContactRequest = /*@__PURE__*/ S.suspend(() 
     firstName: S.optional(S.String.pipe(T.Query())),
     id: S.optional(S.Number.pipe(T.Query())),
     lastName: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/mxplan/{service}/externalContact",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/email/mxplan/{service}/externalContact", code: 200 })),
 ).annotate({
   identifier: "ListEmailMxplanExternalContactRequest",
 }) as any as S.Schema<ListEmailMxplanExternalContactRequest>;
@@ -1733,9 +1643,7 @@ export const PutEmailMxplanRequest = /*@__PURE__*/ S.suspend(() =>
     minPasswordLength: S.optional(S.NullOr(S.Number)),
     spamAndVirusConfiguration: S.optional(EmailProSpamAndVirusConfiguration),
   }).pipe(T.Http({ method: "PUT", uri: "/email/mxplan/{service}", code: 200 })),
-).annotate({
-  identifier: "PutEmailMxplanRequest",
-}) as any as S.Schema<PutEmailMxplanRequest>;
+).annotate({ identifier: "PutEmailMxplanRequest" }) as any as S.Schema<PutEmailMxplanRequest>;
 
 export interface PutEmailMxplanResponse {}
 export const PutEmailMxplanResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1796,13 +1704,7 @@ export const PutEmailMxplanAccountRequest = /*@__PURE__*/ S.suspend(() =>
     quota: S.optional(S.Number),
     renewPeriod: S.optional(S.NullOr(EmailProRenewPeriodEnum)),
     spamAndVirusConfiguration: S.optional(EmailProSpamAndVirusConfiguration),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/email/mxplan/{service}/account/{email}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/email/mxplan/{service}/account/{email}", code: 200 })),
 ).annotate({
   identifier: "PutEmailMxplanAccountRequest",
 }) as any as S.Schema<PutEmailMxplanAccountRequest>;
@@ -1828,13 +1730,7 @@ export const PutEmailMxplanDomainRequest = /*@__PURE__*/ S.suspend(() =>
     domainName: S.String.pipe(T.Label()),
     mxRelay: S.optional(S.NullOr(S.String)),
     type: S.optional(EmailProDomainTypeEnum),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/email/mxplan/{service}/domain/{domainName}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/email/mxplan/{service}/domain/{domainName}", code: 200 })),
 ).annotate({
   identifier: "PutEmailMxplanDomainRequest",
 }) as any as S.Schema<PutEmailMxplanDomainRequest>;
@@ -1935,11 +1831,7 @@ export const SendEmailMxplanAccountAsRequest = /*@__PURE__*/ S.suspend(() =>
     email: S.String.pipe(T.Label()),
     allowAccountId: S.Number,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/email/mxplan/{service}/account/{email}/sendAs",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/email/mxplan/{service}/account/{email}/sendAs", code: 200 }),
   ),
 ).annotate({
   identifier: "SendEmailMxplanAccountAsRequest",
@@ -1977,11 +1869,7 @@ export const UpdateEmailMxplanFlagsOnAllAccountsRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     service: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/email/mxplan/{service}/updateFlagsOnAllAccounts",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/email/mxplan/{service}/updateFlagsOnAllAccounts", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateEmailMxplanFlagsOnAllAccountsRequest",

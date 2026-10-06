@@ -19,16 +19,8 @@ export const CancelSmsBatchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sms/{serviceName}/batches/{id}/cancel",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CancelSmsBatchRequest",
-}) as any as S.Schema<CancelSmsBatchRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/sms/{serviceName}/batches/{id}/cancel", code: 200 })),
+).annotate({ identifier: "CancelSmsBatchRequest" }) as any as S.Schema<CancelSmsBatchRequest>;
 
 /** Batch error details */
 export interface SmsBatchError {
@@ -175,9 +167,7 @@ export const CreateSmsBatchRequest = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.String),
     to: S.optional(CreateSmsBatchRequestToList),
   }).pipe(T.Http({ method: "POST", uri: "/sms/{serviceName}/batches", code: 200 })),
-).annotate({
-  identifier: "CreateSmsBatchRequest",
-}) as any as S.Schema<CreateSmsBatchRequest>;
+).annotate({ identifier: "CreateSmsBatchRequest" }) as any as S.Schema<CreateSmsBatchRequest>;
 
 /** All existing types for a given sender */
 export type SmsTypeSenderEnum = "alpha" | "numeric" | "shortcode" | "virtual";
@@ -197,9 +187,7 @@ export const CreateSmsEstimateRequest = /*@__PURE__*/ S.suspend(() =>
     noStopClause: S.Boolean,
     senderType: SmsTypeSenderEnum,
   }).pipe(T.Http({ method: "POST", uri: "/sms/estimate", code: 200 })),
-).annotate({
-  identifier: "CreateSmsEstimateRequest",
-}) as any as S.Schema<CreateSmsEstimateRequest>;
+).annotate({ identifier: "CreateSmsEstimateRequest" }) as any as S.Schema<CreateSmsEstimateRequest>;
 
 /** The SMS available characters class */
 export type SmsEncodingEnum = "7bits" | "unicode";
@@ -245,9 +233,7 @@ export const CreateSmsHlrRequest = /*@__PURE__*/ S.suspend(() =>
     receivers: S.optional(CreateSmsHlrRequestReceiversList),
     receiversDocumentUrl: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/sms/{serviceName}/hlr", code: 200 })),
-).annotate({
-  identifier: "CreateSmsHlrRequest",
-}) as any as S.Schema<CreateSmsHlrRequest>;
+).annotate({ identifier: "CreateSmsHlrRequest" }) as any as S.Schema<CreateSmsHlrRequest>;
 
 export type SmsSmsSendingReportIdsList = Array<number>;
 export const SmsSmsSendingReportIdsList = /*@__PURE__*/ S.Array(
@@ -280,9 +266,7 @@ export const SmsSmsSendingReport = /*@__PURE__*/ S.suspend(() =>
     totalCreditsRemoved: S.optional(S.Number),
     validReceivers: S.optional(SmsSmsSendingReportValidReceiversList),
   }),
-).annotate({
-  identifier: "SmsSmsSendingReport",
-}) as any as S.Schema<SmsSmsSendingReport>;
+).annotate({ identifier: "SmsSmsSendingReport" }) as any as S.Schema<SmsSmsSendingReport>;
 
 /** The charset format */
 export type SmsCharsetEnum = "UTF-8";
@@ -356,9 +340,7 @@ export const CreateSmsJobRequest = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.String),
     validityPeriod: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/sms/{serviceName}/jobs", code: 200 })),
-).annotate({
-  identifier: "CreateSmsJobRequest",
-}) as any as S.Schema<CreateSmsJobRequest>;
+).annotate({ identifier: "CreateSmsJobRequest" }) as any as S.Schema<CreateSmsJobRequest>;
 
 export interface CreateSmsPhonebookRequest {
   /** The internal name of your SMS offer */
@@ -454,9 +436,7 @@ export const CreateSmsReceiverRequest = /*@__PURE__*/ S.suspend(() =>
     documentId: S.optional(S.String),
     slotId: S.Number,
   }).pipe(T.Http({ method: "POST", uri: "/sms/{serviceName}/receivers", code: 200 })),
-).annotate({
-  identifier: "CreateSmsReceiverRequest",
-}) as any as S.Schema<CreateSmsReceiverRequest>;
+).annotate({ identifier: "CreateSmsReceiverRequest" }) as any as S.Schema<CreateSmsReceiverRequest>;
 
 /** Sms receivers preloaded */
 export interface SmsReceiver {
@@ -501,11 +481,7 @@ export const CreateSmsReceiverCleanRequest = /*@__PURE__*/ S.suspend(() =>
     freemium: S.Boolean,
     priceOnly: S.Boolean,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sms/{serviceName}/receivers/{slotId}/clean",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/sms/{serviceName}/receivers/{slotId}/clean", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateSmsReceiverCleanRequest",
@@ -542,16 +518,12 @@ export const CreateSmsSenderRequest = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(S.String),
     sender: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/sms/{serviceName}/senders", code: 200 })),
-).annotate({
-  identifier: "CreateSmsSenderRequest",
-}) as any as S.Schema<CreateSmsSenderRequest>;
+).annotate({ identifier: "CreateSmsSenderRequest" }) as any as S.Schema<CreateSmsSenderRequest>;
 
 export type CreateSmsSenderResponse = string;
 export const CreateSmsSenderResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CreateSmsSenderResponse",
-}) as any as S.Schema<CreateSmsSenderResponse>;
+).annotate({ identifier: "CreateSmsSenderResponse" }) as any as S.Schema<CreateSmsSenderResponse>;
 
 export interface CreateSmsSenderDocumentRequest {
   /** The internal name of your SMS offer */
@@ -570,11 +542,7 @@ export const CreateSmsSenderDocumentRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     name: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sms/{serviceName}/senders/{sender}/documents",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/sms/{serviceName}/senders/{sender}/documents", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateSmsSenderDocumentRequest",
@@ -607,9 +575,7 @@ export const SmsSenderDocument = /*@__PURE__*/ S.suspend(() =>
     putUrl: S.optional(S.NullOr(S.String)),
     size: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SmsSenderDocument",
-}) as any as S.Schema<SmsSenderDocument>;
+).annotate({ identifier: "SmsSenderDocument" }) as any as S.Schema<SmsSenderDocument>;
 
 export interface CreateSmsSmppPasswordRequest {
   /** The internal name of your SMS offer */
@@ -618,13 +584,7 @@ export interface CreateSmsSmppPasswordRequest {
 export const CreateSmsSmppPasswordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sms/{serviceName}/smpp/password",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sms/{serviceName}/smpp/password", code: 200 })),
 ).annotate({
   identifier: "CreateSmsSmppPasswordRequest",
 }) as any as S.Schema<CreateSmsSmppPasswordRequest>;
@@ -660,13 +620,7 @@ export const CreateSmsTemplatesControlRequest = /*@__PURE__*/ S.suspend(() =>
     message: S.String,
     name: S.String,
     reason: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sms/{serviceName}/templatesControl",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sms/{serviceName}/templatesControl", code: 200 })),
 ).annotate({
   identifier: "CreateSmsTemplatesControlRequest",
 }) as any as S.Schema<CreateSmsTemplatesControlRequest>;
@@ -726,9 +680,7 @@ export const CreateSmsUserRequest = /*@__PURE__*/ S.suspend(() =>
     login: S.String,
     password: S.String.pipe(T.SensitiveValue({})),
   }).pipe(T.Http({ method: "POST", uri: "/sms/{serviceName}/users", code: 200 })),
-).annotate({
-  identifier: "CreateSmsUserRequest",
-}) as any as S.Schema<CreateSmsUserRequest>;
+).annotate({ identifier: "CreateSmsUserRequest" }) as any as S.Schema<CreateSmsUserRequest>;
 
 export interface CreateSmsUserResponse {}
 export const CreateSmsUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -793,16 +745,8 @@ export const CreateSmsUserJobRequest = /*@__PURE__*/ S.suspend(() =>
     senderForResponse: S.optional(S.Boolean),
     tag: S.optional(S.String),
     validityPeriod: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sms/{serviceName}/users/{login}/jobs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateSmsUserJobRequest",
-}) as any as S.Schema<CreateSmsUserJobRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/sms/{serviceName}/users/{login}/jobs", code: 200 })),
+).annotate({ identifier: "CreateSmsUserJobRequest" }) as any as S.Schema<CreateSmsUserJobRequest>;
 
 export interface CreateSmsUserReceiverRequest {
   /** The internal name of your SMS offer */
@@ -829,13 +773,7 @@ export const CreateSmsUserReceiverRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     documentId: S.optional(S.String),
     slotId: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sms/{serviceName}/users/{login}/receivers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sms/{serviceName}/users/{login}/receivers", code: 200 })),
 ).annotate({
   identifier: "CreateSmsUserReceiverRequest",
 }) as any as S.Schema<CreateSmsUserReceiverRequest>;
@@ -957,11 +895,7 @@ export const CreateSmsVirtualNumberJobRequest = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.String),
     validityPeriod: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sms/{serviceName}/virtualNumbers/{number}/jobs",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/sms/{serviceName}/virtualNumbers/{number}/jobs", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateSmsVirtualNumberJobRequest",
@@ -977,16 +911,8 @@ export const DeleteSmsBatchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/sms/{serviceName}/batches/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteSmsBatchRequest",
-}) as any as S.Schema<DeleteSmsBatchRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/sms/{serviceName}/batches/{id}", code: 200 })),
+).annotate({ identifier: "DeleteSmsBatchRequest" }) as any as S.Schema<DeleteSmsBatchRequest>;
 
 export interface DeleteSmsBatchResponse {}
 export const DeleteSmsBatchResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1003,13 +929,7 @@ export const DeleteSmsBlacklistRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     number: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/sms/{serviceName}/blacklists/{number}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/sms/{serviceName}/blacklists/{number}", code: 200 })),
 ).annotate({
   identifier: "DeleteSmsBlacklistRequest",
 }) as any as S.Schema<DeleteSmsBlacklistRequest>;
@@ -1029,16 +949,8 @@ export const DeleteSmsIncomingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/sms/{serviceName}/incoming/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteSmsIncomingRequest",
-}) as any as S.Schema<DeleteSmsIncomingRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/sms/{serviceName}/incoming/{id}", code: 200 })),
+).annotate({ identifier: "DeleteSmsIncomingRequest" }) as any as S.Schema<DeleteSmsIncomingRequest>;
 
 export interface DeleteSmsIncomingResponse {}
 export const DeleteSmsIncomingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1055,16 +967,8 @@ export const DeleteSmsJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/sms/{serviceName}/jobs/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteSmsJobRequest",
-}) as any as S.Schema<DeleteSmsJobRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/sms/{serviceName}/jobs/{id}", code: 200 })),
+).annotate({ identifier: "DeleteSmsJobRequest" }) as any as S.Schema<DeleteSmsJobRequest>;
 
 export interface DeleteSmsJobResponse {}
 export const DeleteSmsJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1081,16 +985,8 @@ export const DeleteSmsOutgoingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/sms/{serviceName}/outgoing/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteSmsOutgoingRequest",
-}) as any as S.Schema<DeleteSmsOutgoingRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/sms/{serviceName}/outgoing/{id}", code: 200 })),
+).annotate({ identifier: "DeleteSmsOutgoingRequest" }) as any as S.Schema<DeleteSmsOutgoingRequest>;
 
 export interface DeleteSmsOutgoingResponse {}
 export const DeleteSmsOutgoingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1107,13 +1003,7 @@ export const DeleteSmsPhonebookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     bookKey: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/sms/{serviceName}/phonebooks/{bookKey}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/sms/{serviceName}/phonebooks/{bookKey}", code: 200 })),
 ).annotate({
   identifier: "DeleteSmsPhonebookRequest",
 }) as any as S.Schema<DeleteSmsPhonebookRequest>;
@@ -1164,16 +1054,8 @@ export const DeleteSmsReceiverRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     slotId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/sms/{serviceName}/receivers/{slotId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteSmsReceiverRequest",
-}) as any as S.Schema<DeleteSmsReceiverRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/sms/{serviceName}/receivers/{slotId}", code: 200 })),
+).annotate({ identifier: "DeleteSmsReceiverRequest" }) as any as S.Schema<DeleteSmsReceiverRequest>;
 
 export interface DeleteSmsReceiverResponse {}
 export const DeleteSmsReceiverResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1190,16 +1072,8 @@ export const DeleteSmsSenderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     sender: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/sms/{serviceName}/senders/{sender}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteSmsSenderRequest",
-}) as any as S.Schema<DeleteSmsSenderRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/sms/{serviceName}/senders/{sender}", code: 200 })),
+).annotate({ identifier: "DeleteSmsSenderRequest" }) as any as S.Schema<DeleteSmsSenderRequest>;
 
 export interface DeleteSmsSenderResponse {}
 export const DeleteSmsSenderResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1217,11 +1091,7 @@ export const DeleteSmsTemplatesControlRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/sms/{serviceName}/templatesControl/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/sms/{serviceName}/templatesControl/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteSmsTemplatesControlRequest",
@@ -1244,16 +1114,8 @@ export const DeleteSmsUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     login: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/sms/{serviceName}/users/{login}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteSmsUserRequest",
-}) as any as S.Schema<DeleteSmsUserRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/sms/{serviceName}/users/{login}", code: 200 })),
+).annotate({ identifier: "DeleteSmsUserRequest" }) as any as S.Schema<DeleteSmsUserRequest>;
 
 export interface DeleteSmsUserResponse {}
 export const DeleteSmsUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1274,11 +1136,7 @@ export const DeleteSmsUserIncomingRequest = /*@__PURE__*/ S.suspend(() =>
     login: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/sms/{serviceName}/users/{login}/incoming/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/sms/{serviceName}/users/{login}/incoming/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteSmsUserIncomingRequest",
@@ -1303,15 +1161,9 @@ export const DeleteSmsUserJobRequest = /*@__PURE__*/ S.suspend(() =>
     login: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/sms/{serviceName}/users/{login}/jobs/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/sms/{serviceName}/users/{login}/jobs/{id}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteSmsUserJobRequest",
-}) as any as S.Schema<DeleteSmsUserJobRequest>;
+).annotate({ identifier: "DeleteSmsUserJobRequest" }) as any as S.Schema<DeleteSmsUserJobRequest>;
 
 export interface DeleteSmsUserJobResponse {}
 export const DeleteSmsUserJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1332,11 +1184,7 @@ export const DeleteSmsUserOutgoingRequest = /*@__PURE__*/ S.suspend(() =>
     login: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/sms/{serviceName}/users/{login}/outgoing/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/sms/{serviceName}/users/{login}/outgoing/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteSmsUserOutgoingRequest",
@@ -1540,9 +1388,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** Response type */
 export type SmsResponseTypeEnum = "cgi" | "none" | "text";
@@ -1661,9 +1507,7 @@ export const SmsAccountWithIAM = /*@__PURE__*/ S.suspend(() =>
     templates: S.optional(SmsTemplates),
     userQuantityWithQuota: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SmsAccountWithIAM",
-}) as any as S.Schema<SmsAccountWithIAM>;
+).annotate({ identifier: "SmsAccountWithIAM" }) as any as S.Schema<SmsAccountWithIAM>;
 
 export interface GetSmsBatchRequest {
   /** The internal name of your SMS offer */
@@ -1675,16 +1519,8 @@ export const GetSmsBatchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/batches/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSmsBatchRequest",
-}) as any as S.Schema<GetSmsBatchRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/batches/{id}", code: 200 })),
+).annotate({ identifier: "GetSmsBatchRequest" }) as any as S.Schema<GetSmsBatchRequest>;
 
 export interface GetSmsBatchStatisticsRequest {
   /** The internal name of your SMS offer */
@@ -1696,13 +1532,7 @@ export const GetSmsBatchStatisticsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/batches/{id}/statistics",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/batches/{id}/statistics", code: 200 })),
 ).annotate({
   identifier: "GetSmsBatchStatisticsRequest",
 }) as any as S.Schema<GetSmsBatchStatisticsRequest>;
@@ -1737,9 +1567,7 @@ export const SmsBatchStatistics = /*@__PURE__*/ S.suspend(() =>
     sent: S.optional(S.Number),
     stoplisted: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SmsBatchStatistics",
-}) as any as S.Schema<SmsBatchStatistics>;
+).annotate({ identifier: "SmsBatchStatistics" }) as any as S.Schema<SmsBatchStatistics>;
 
 export interface GetSmsBlacklistRequest {
   /** The internal name of your SMS offer */
@@ -1751,16 +1579,8 @@ export const GetSmsBlacklistRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     number: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/blacklists/{number}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSmsBlacklistRequest",
-}) as any as S.Schema<GetSmsBlacklistRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/blacklists/{number}", code: 200 })),
+).annotate({ identifier: "GetSmsBlacklistRequest" }) as any as S.Schema<GetSmsBlacklistRequest>;
 
 /** SMS blacklist */
 export interface SmsBlacklist {
@@ -1808,16 +1628,12 @@ export const GetSmsDocumentRequest = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.String.pipe(T.Query())),
     wayType: SmsDocumentWayTypeEnum.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/document", code: 200 })),
-).annotate({
-  identifier: "GetSmsDocumentRequest",
-}) as any as S.Schema<GetSmsDocumentRequest>;
+).annotate({ identifier: "GetSmsDocumentRequest" }) as any as S.Schema<GetSmsDocumentRequest>;
 
 export type GetSmsDocumentResponse = string;
 export const GetSmsDocumentResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetSmsDocumentResponse",
-}) as any as S.Schema<GetSmsDocumentResponse>;
+).annotate({ identifier: "GetSmsDocumentResponse" }) as any as S.Schema<GetSmsDocumentResponse>;
 
 export interface GetSmsHlrRequest {
   /** The internal name of your SMS offer */
@@ -1830,9 +1646,7 @@ export const GetSmsHlrRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/hlr/{id}", code: 200 })),
-).annotate({
-  identifier: "GetSmsHlrRequest",
-}) as any as S.Schema<GetSmsHlrRequest>;
+).annotate({ identifier: "GetSmsHlrRequest" }) as any as S.Schema<GetSmsHlrRequest>;
 
 /** The sms coding */
 export type SmsHlrStatuses = "doing" | "done" | "error" | "todo";
@@ -1871,9 +1685,7 @@ export const SmsHlrLookupNumber = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(SmsHlrStatuses),
     valid: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SmsHlrLookupNumber",
-}) as any as S.Schema<SmsHlrLookupNumber>;
+).annotate({ identifier: "SmsHlrLookupNumber" }) as any as S.Schema<SmsHlrLookupNumber>;
 
 export interface GetSmsHlrOperatorRequest {
   /** The internal name of your SMS offer */
@@ -1885,16 +1697,8 @@ export const GetSmsHlrOperatorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/hlr/{id}/operator",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSmsHlrOperatorRequest",
-}) as any as S.Schema<GetSmsHlrOperatorRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/hlr/{id}/operator", code: 200 })),
+).annotate({ identifier: "GetSmsHlrOperatorRequest" }) as any as S.Schema<GetSmsHlrOperatorRequest>;
 
 /** Sms operator informations */
 export interface SmsHlr {
@@ -1929,16 +1733,8 @@ export const GetSmsIncomingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/incoming/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSmsIncomingRequest",
-}) as any as S.Schema<GetSmsIncomingRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/incoming/{id}", code: 200 })),
+).annotate({ identifier: "GetSmsIncomingRequest" }) as any as S.Schema<GetSmsIncomingRequest>;
 
 /** Sms history of sms incoming received */
 export interface SmsIncoming {
@@ -1971,9 +1767,7 @@ export const GetSmsJobRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/jobs/{id}", code: 200 })),
-).annotate({
-  identifier: "GetSmsJobRequest",
-}) as any as S.Schema<GetSmsJobRequest>;
+).annotate({ identifier: "GetSmsJobRequest" }) as any as S.Schema<GetSmsJobRequest>;
 
 /** Sms job */
 export interface SmsJob {
@@ -2019,16 +1813,8 @@ export const GetSmsOutgoingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/outgoing/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSmsOutgoingRequest",
-}) as any as S.Schema<GetSmsOutgoingRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/outgoing/{id}", code: 200 })),
+).annotate({ identifier: "GetSmsOutgoingRequest" }) as any as S.Schema<GetSmsOutgoingRequest>;
 
 /** Sent SMS */
 export interface SmsOutgoing {
@@ -2099,16 +1885,8 @@ export const GetSmsOutgoingHlrRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/outgoing/{id}/hlr",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSmsOutgoingHlrRequest",
-}) as any as S.Schema<GetSmsOutgoingHlrRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/outgoing/{id}/hlr", code: 200 })),
+).annotate({ identifier: "GetSmsOutgoingHlrRequest" }) as any as S.Schema<GetSmsOutgoingHlrRequest>;
 
 export interface GetSmsPhonebookRequest {
   /** The internal name of your SMS offer */
@@ -2120,16 +1898,8 @@ export const GetSmsPhonebookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     bookKey: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/phonebooks/{bookKey}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSmsPhonebookRequest",
-}) as any as S.Schema<GetSmsPhonebookRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/phonebooks/{bookKey}", code: 200 })),
+).annotate({ identifier: "GetSmsPhonebookRequest" }) as any as S.Schema<GetSmsPhonebookRequest>;
 
 /** Phone book */
 export interface SmsPhonebook {
@@ -2166,11 +1936,7 @@ export const GetSmsPhonebookExportRequest = /*@__PURE__*/ S.suspend(() =>
     bookKey: S.String.pipe(T.Label()),
     format: TelephonyContactsExportFormatsEnum.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/phonebooks/{bookKey}/export",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/sms/{serviceName}/phonebooks/{bookKey}/export", code: 200 }),
   ),
 ).annotate({
   identifier: "GetSmsPhonebookExportRequest",
@@ -2194,9 +1960,7 @@ export const TelephonyPcsFile = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
     urlExpirationDatetime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyPcsFile",
-}) as any as S.Schema<TelephonyPcsFile>;
+).annotate({ identifier: "TelephonyPcsFile" }) as any as S.Schema<TelephonyPcsFile>;
 
 export interface GetSmsPhonebookPhonebookContactRequest {
   /** The internal name of your SMS offer */
@@ -2252,9 +2016,7 @@ export const SmsPhonebookContact = /*@__PURE__*/ S.suspend(() =>
     workMobile: S.optional(S.NullOr(S.String)),
     workPhone: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "SmsPhonebookContact",
-}) as any as S.Schema<SmsPhonebookContact>;
+).annotate({ identifier: "SmsPhonebookContact" }) as any as S.Schema<SmsPhonebookContact>;
 
 export interface GetSmsPttsRequest {
   /** The premium transaction tracking code */
@@ -2264,9 +2026,7 @@ export const GetSmsPttsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ptt: S.Number.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/sms/ptts", code: 200 })),
-).annotate({
-  identifier: "GetSmsPttsRequest",
-}) as any as S.Schema<GetSmsPttsRequest>;
+).annotate({ identifier: "GetSmsPttsRequest" }) as any as S.Schema<GetSmsPttsRequest>;
 
 /** All typology of ptt duration */
 export type SmsPttDurationTypeEnum = "indeterminated" | "permanent" | "temporary";
@@ -2570,9 +2330,7 @@ export const SmsDestinationRates = /*@__PURE__*/ S.suspend(() =>
     credit: S.optional(S.Number),
     price: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "SmsDestinationRates",
-}) as any as S.Schema<SmsDestinationRates>;
+).annotate({ identifier: "SmsDestinationRates" }) as any as S.Schema<SmsDestinationRates>;
 
 export interface GetSmsReceiverRequest {
   /** The internal name of your SMS offer */
@@ -2584,16 +2342,8 @@ export const GetSmsReceiverRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     slotId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/receivers/{slotId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSmsReceiverRequest",
-}) as any as S.Schema<GetSmsReceiverRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/receivers/{slotId}", code: 200 })),
+).annotate({ identifier: "GetSmsReceiverRequest" }) as any as S.Schema<GetSmsReceiverRequest>;
 
 export interface GetSmsReceiverCsvRequest {
   /** The internal name of your SMS offer */
@@ -2605,16 +2355,8 @@ export const GetSmsReceiverCsvRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     slotId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/receivers/{slotId}/csv",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSmsReceiverCsvRequest",
-}) as any as S.Schema<GetSmsReceiverCsvRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/receivers/{slotId}/csv", code: 200 })),
+).annotate({ identifier: "GetSmsReceiverCsvRequest" }) as any as S.Schema<GetSmsReceiverCsvRequest>;
 
 export type GetSmsReceiverCsvResponse = string;
 export const GetSmsReceiverCsvResponse = /*@__PURE__*/ S.suspend(() =>
@@ -2633,16 +2375,8 @@ export const GetSmsSenderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     sender: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/senders/{sender}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSmsSenderRequest",
-}) as any as S.Schema<GetSmsSenderRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/senders/{sender}", code: 200 })),
+).annotate({ identifier: "GetSmsSenderRequest" }) as any as S.Schema<GetSmsSenderRequest>;
 
 /** All tyoplogy of senders */
 export type SmsRefererSenderEnum = "custom" | "domain" | "line" | "nic" | "owner" | "virtual";
@@ -2712,13 +2446,7 @@ export interface GetSmsServiceInfosRequest {
 export const GetSmsServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetSmsServiceInfosRequest",
 }) as any as S.Schema<GetSmsServiceInfosRequest>;
@@ -2750,9 +2478,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -2810,9 +2536,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetSmsSmppSettingsRequest {
   /** The internal name of your SMS offer */
@@ -2821,13 +2545,7 @@ export interface GetSmsSmppSettingsRequest {
 export const GetSmsSmppSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/smpp/settings",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/smpp/settings", code: 200 })),
 ).annotate({
   identifier: "GetSmsSmppSettingsRequest",
 }) as any as S.Schema<GetSmsSmppSettingsRequest>;
@@ -2844,9 +2562,7 @@ export const SmsSettingsEndpoints = /*@__PURE__*/ S.suspend(() =>
     secured: S.optional(S.String),
     unsecured: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SmsSettingsEndpoints",
-}) as any as S.Schema<SmsSettingsEndpoints>;
+).annotate({ identifier: "SmsSettingsEndpoints" }) as any as S.Schema<SmsSettingsEndpoints>;
 
 /** Addresses of the TLS and non-TLS endpoints */
 export type SmsSettingsEndpointsList = Array<SmsSettingsEndpoints>;
@@ -2896,16 +2612,8 @@ export const GetSmsTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     taskId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/task/{taskId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSmsTaskRequest",
-}) as any as S.Schema<GetSmsTaskRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/task/{taskId}", code: 200 })),
+).annotate({ identifier: "GetSmsTaskRequest" }) as any as S.Schema<GetSmsTaskRequest>;
 
 /** The task function */
 export type SmsTodoGeneralPublicFunctionsEnum = "cleanSmsReceivers";
@@ -2951,13 +2659,7 @@ export const GetSmsTemplatesControlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/templatesControl/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/templatesControl/{name}", code: 200 })),
 ).annotate({
   identifier: "GetSmsTemplatesControlRequest",
 }) as any as S.Schema<GetSmsTemplatesControlRequest>;
@@ -2989,9 +2691,7 @@ export const SmsTemplateControl = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     status: S.optional(SmsStatusSenderEnum),
   }),
-).annotate({
-  identifier: "SmsTemplateControl",
-}) as any as S.Schema<SmsTemplateControl>;
+).annotate({ identifier: "SmsTemplateControl" }) as any as S.Schema<SmsTemplateControl>;
 
 export interface GetSmsUserRequest {
   /** The internal name of your SMS offer */
@@ -3003,16 +2703,8 @@ export const GetSmsUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     login: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/users/{login}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSmsUserRequest",
-}) as any as S.Schema<GetSmsUserRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/users/{login}", code: 200 })),
+).annotate({ identifier: "GetSmsUserRequest" }) as any as S.Schema<GetSmsUserRequest>;
 
 /** The media support used to be contacted in case of alert */
 export type SmsSupportEnum = "both" | "mail" | "sms";
@@ -3032,9 +2724,7 @@ export const SmsAlertThreshold = /*@__PURE__*/ S.suspend(() =>
     alertThreshold: S.optional(S.Number),
     support: S.optional(SmsSupportEnum),
   }),
-).annotate({
-  identifier: "SmsAlertThreshold",
-}) as any as S.Schema<SmsAlertThreshold>;
+).annotate({ identifier: "SmsAlertThreshold" }) as any as S.Schema<SmsAlertThreshold>;
 
 export type SmsUserIpRestrictionsList = Array<string>;
 export const SmsUserIpRestrictionsList = /*@__PURE__*/ S.Array(
@@ -3104,13 +2794,7 @@ export const GetSmsUserDocumentRequest = /*@__PURE__*/ S.suspend(() =>
     creationDatetime_to: S.optional(S.String.pipe(T.Query("creationDatetime.to"))),
     tag: S.optional(S.String.pipe(T.Query())),
     wayType: SmsDocumentWayTypeEnum.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/users/{login}/document",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/users/{login}/document", code: 200 })),
 ).annotate({
   identifier: "GetSmsUserDocumentRequest",
 }) as any as S.Schema<GetSmsUserDocumentRequest>;
@@ -3136,11 +2820,7 @@ export const GetSmsUserIncomingRequest = /*@__PURE__*/ S.suspend(() =>
     login: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/users/{login}/incoming/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/sms/{serviceName}/users/{login}/incoming/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetSmsUserIncomingRequest",
@@ -3159,16 +2839,8 @@ export const GetSmsUserJobRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     login: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/users/{login}/jobs/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSmsUserJobRequest",
-}) as any as S.Schema<GetSmsUserJobRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/users/{login}/jobs/{id}", code: 200 })),
+).annotate({ identifier: "GetSmsUserJobRequest" }) as any as S.Schema<GetSmsUserJobRequest>;
 
 export interface GetSmsUserOutgoingRequest {
   /** The internal name of your SMS offer */
@@ -3184,11 +2856,7 @@ export const GetSmsUserOutgoingRequest = /*@__PURE__*/ S.suspend(() =>
     login: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/users/{login}/outgoing/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/sms/{serviceName}/users/{login}/outgoing/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetSmsUserOutgoingRequest",
@@ -3208,11 +2876,7 @@ export const GetSmsUserOutgoingHlrRequest = /*@__PURE__*/ S.suspend(() =>
     login: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/users/{login}/outgoing/{id}/hlr",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/sms/{serviceName}/users/{login}/outgoing/{id}/hlr", code: 200 }),
   ),
 ).annotate({
   identifier: "GetSmsUserOutgoingHlrRequest",
@@ -3318,13 +2982,7 @@ export const GetSmsVirtualNumberByNumberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     number: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/virtualNumbers/{number}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/virtualNumbers/{number}", code: 200 })),
 ).annotate({
   identifier: "GetSmsVirtualNumberByNumberRequest",
 }) as any as S.Schema<GetSmsVirtualNumberByNumberRequest>;
@@ -3341,9 +2999,7 @@ export const SmsVirtualNumber = /*@__PURE__*/ S.suspend(() =>
     countryCode: S.optional(SmsVirtualNumberIsoCountryCodeEnum),
     number: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SmsVirtualNumber",
-}) as any as S.Schema<SmsVirtualNumber>;
+).annotate({ identifier: "SmsVirtualNumber" }) as any as S.Schema<SmsVirtualNumber>;
 
 export interface GetSmsVirtualNumberChatAccessRequest {
   /** The internal name of your SMS offer */
@@ -3440,9 +3096,7 @@ export const SmsVirtualNumberJob = /*@__PURE__*/ S.suspend(() =>
     ptt: S.optional(S.Number),
     receiver: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SmsVirtualNumberJob",
-}) as any as S.Schema<SmsVirtualNumberJob>;
+).annotate({ identifier: "SmsVirtualNumberJob" }) as any as S.Schema<SmsVirtualNumberJob>;
 
 export interface GetSmsVirtualNumberOutgoingRequest {
   /** The internal name of your SMS offer */
@@ -3499,13 +3153,7 @@ export interface GetSmsVirtualNumberServiceInfosRequest {
 export const GetSmsVirtualNumberServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     number: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/virtualNumbers/{number}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sms/virtualNumbers/{number}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetSmsVirtualNumberServiceInfosRequest",
 }) as any as S.Schema<GetSmsVirtualNumberServiceInfosRequest>;
@@ -3524,11 +3172,7 @@ export const ImportSmsPhonebookRequest = /*@__PURE__*/ S.suspend(() =>
     bookKey: S.String.pipe(T.Label()),
     documentId: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sms/{serviceName}/phonebooks/{bookKey}/import",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/sms/{serviceName}/phonebooks/{bookKey}/import", code: 200 }),
   ),
 ).annotate({
   identifier: "ImportSmsPhonebookRequest",
@@ -3595,9 +3239,7 @@ export const ListSmsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSmsResponse = ListSmsResponseBodyList;
 export const ListSmsResponse = /*@__PURE__*/ S.suspend(() =>
   ListSmsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSmsResponse",
-}) as any as S.Schema<ListSmsResponse>;
+).annotate({ identifier: "ListSmsResponse" }) as any as S.Schema<ListSmsResponse>;
 
 export interface ListSmsBatchesRequest {
   /** The internal name of your SMS offer */
@@ -3607,9 +3249,7 @@ export const ListSmsBatchesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/batches", code: 200 })),
-).annotate({
-  identifier: "ListSmsBatchesRequest",
-}) as any as S.Schema<ListSmsBatchesRequest>;
+).annotate({ identifier: "ListSmsBatchesRequest" }) as any as S.Schema<ListSmsBatchesRequest>;
 
 export type ListSmsBatchesResponseBodyList = Array<SmsBatch>;
 export const ListSmsBatchesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3619,9 +3259,7 @@ export const ListSmsBatchesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSmsBatchesResponse = ListSmsBatchesResponseBodyList;
 export const ListSmsBatchesResponse = /*@__PURE__*/ S.suspend(() =>
   ListSmsBatchesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSmsBatchesResponse",
-}) as any as S.Schema<ListSmsBatchesResponse>;
+).annotate({ identifier: "ListSmsBatchesResponse" }) as any as S.Schema<ListSmsBatchesResponse>;
 
 export interface ListSmsBlacklistsRequest {
   /** The internal name of your SMS offer */
@@ -3637,9 +3275,7 @@ export const ListSmsBlacklistsRequest = /*@__PURE__*/ S.suspend(() =>
     batchID: S.optional(S.String.pipe(T.Query())),
     smsOutgoingID: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/blacklists", code: 200 })),
-).annotate({
-  identifier: "ListSmsBlacklistsRequest",
-}) as any as S.Schema<ListSmsBlacklistsRequest>;
+).annotate({ identifier: "ListSmsBlacklistsRequest" }) as any as S.Schema<ListSmsBlacklistsRequest>;
 
 export type ListSmsBlacklistsResponseBodyList = Array<string>;
 export const ListSmsBlacklistsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3664,9 +3300,7 @@ export const ListSmsExceptionsRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     receiver: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/exceptions", code: 200 })),
-).annotate({
-  identifier: "ListSmsExceptionsRequest",
-}) as any as S.Schema<ListSmsExceptionsRequest>;
+).annotate({ identifier: "ListSmsExceptionsRequest" }) as any as S.Schema<ListSmsExceptionsRequest>;
 
 /** The exception message */
 export type SmsExceptionMessagesList = Array<string>;
@@ -3728,9 +3362,7 @@ export const ListSmsHlrRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/hlr", code: 200 })),
-).annotate({
-  identifier: "ListSmsHlrRequest",
-}) as any as S.Schema<ListSmsHlrRequest>;
+).annotate({ identifier: "ListSmsHlrRequest" }) as any as S.Schema<ListSmsHlrRequest>;
 
 export type ListSmsHlrResponseBodyList = Array<number>;
 export const ListSmsHlrResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3740,9 +3372,7 @@ export const ListSmsHlrResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSmsHlrResponse = ListSmsHlrResponseBodyList;
 export const ListSmsHlrResponse = /*@__PURE__*/ S.suspend(() =>
   ListSmsHlrResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSmsHlrResponse",
-}) as any as S.Schema<ListSmsHlrResponse>;
+).annotate({ identifier: "ListSmsHlrResponse" }) as any as S.Schema<ListSmsHlrResponse>;
 
 export interface ListSmsIncomingRequest {
   /** The internal name of your SMS offer */
@@ -3764,9 +3394,7 @@ export const ListSmsIncomingRequest = /*@__PURE__*/ S.suspend(() =>
     sender: S.optional(S.String.pipe(T.Query())),
     tag: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/incoming", code: 200 })),
-).annotate({
-  identifier: "ListSmsIncomingRequest",
-}) as any as S.Schema<ListSmsIncomingRequest>;
+).annotate({ identifier: "ListSmsIncomingRequest" }) as any as S.Schema<ListSmsIncomingRequest>;
 
 export type ListSmsIncomingResponseBodyList = Array<number>;
 export const ListSmsIncomingResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3776,9 +3404,7 @@ export const ListSmsIncomingResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSmsIncomingResponse = ListSmsIncomingResponseBodyList;
 export const ListSmsIncomingResponse = /*@__PURE__*/ S.suspend(() =>
   ListSmsIncomingResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSmsIncomingResponse",
-}) as any as S.Schema<ListSmsIncomingResponse>;
+).annotate({ identifier: "ListSmsIncomingResponse" }) as any as S.Schema<ListSmsIncomingResponse>;
 
 export interface ListSmsJobsRequest {
   /** The internal name of your SMS offer */
@@ -3788,9 +3414,7 @@ export const ListSmsJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/jobs", code: 200 })),
-).annotate({
-  identifier: "ListSmsJobsRequest",
-}) as any as S.Schema<ListSmsJobsRequest>;
+).annotate({ identifier: "ListSmsJobsRequest" }) as any as S.Schema<ListSmsJobsRequest>;
 
 export type ListSmsJobsResponseBodyList = Array<number>;
 export const ListSmsJobsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3800,9 +3424,7 @@ export const ListSmsJobsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSmsJobsResponse = ListSmsJobsResponseBodyList;
 export const ListSmsJobsResponse = /*@__PURE__*/ S.suspend(() =>
   ListSmsJobsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSmsJobsResponse",
-}) as any as S.Schema<ListSmsJobsResponse>;
+).annotate({ identifier: "ListSmsJobsResponse" }) as any as S.Schema<ListSmsJobsResponse>;
 
 export interface ListSmsOutgoingRequest {
   /** The internal name of your SMS offer */
@@ -3842,9 +3464,7 @@ export const ListSmsOutgoingRequest = /*@__PURE__*/ S.suspend(() =>
     sender: S.optional(S.String.pipe(T.Query())),
     tag: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/outgoing", code: 200 })),
-).annotate({
-  identifier: "ListSmsOutgoingRequest",
-}) as any as S.Schema<ListSmsOutgoingRequest>;
+).annotate({ identifier: "ListSmsOutgoingRequest" }) as any as S.Schema<ListSmsOutgoingRequest>;
 
 export type ListSmsOutgoingResponseBodyList = Array<number>;
 export const ListSmsOutgoingResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3854,9 +3474,7 @@ export const ListSmsOutgoingResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSmsOutgoingResponse = ListSmsOutgoingResponseBodyList;
 export const ListSmsOutgoingResponse = /*@__PURE__*/ S.suspend(() =>
   ListSmsOutgoingResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSmsOutgoingResponse",
-}) as any as S.Schema<ListSmsOutgoingResponse>;
+).annotate({ identifier: "ListSmsOutgoingResponse" }) as any as S.Schema<ListSmsOutgoingResponse>;
 
 export interface ListSmsPhonebookPhonebookContactRequest {
   /** The internal name of your SMS offer */
@@ -3900,9 +3518,7 @@ export const ListSmsPhonebooksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/phonebooks", code: 200 })),
-).annotate({
-  identifier: "ListSmsPhonebooksRequest",
-}) as any as S.Schema<ListSmsPhonebooksRequest>;
+).annotate({ identifier: "ListSmsPhonebooksRequest" }) as any as S.Schema<ListSmsPhonebooksRequest>;
 
 export type ListSmsPhonebooksResponseBodyList = Array<string>;
 export const ListSmsPhonebooksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3927,9 +3543,7 @@ export const ListSmsRatePacksRequest = /*@__PURE__*/ S.suspend(() =>
     billingCountry: S.optional(SmsBillingCountryEnum.pipe(T.Query())),
     country: SmsCountryEnum.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/sms/rates/packs", code: 200 })),
-).annotate({
-  identifier: "ListSmsRatePacksRequest",
-}) as any as S.Schema<ListSmsRatePacksRequest>;
+).annotate({ identifier: "ListSmsRatePacksRequest" }) as any as S.Schema<ListSmsRatePacksRequest>;
 
 /** Details about a SMS pack */
 export interface SmsPackDetails {
@@ -3980,9 +3594,7 @@ export const ListSmsRatePacksResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSmsRatePacksResponse = ListSmsRatePacksResponseBodyList;
 export const ListSmsRatePacksResponse = /*@__PURE__*/ S.suspend(() =>
   ListSmsRatePacksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSmsRatePacksResponse",
-}) as any as S.Schema<ListSmsRatePacksResponse>;
+).annotate({ identifier: "ListSmsRatePacksResponse" }) as any as S.Schema<ListSmsRatePacksResponse>;
 
 export interface ListSmsReceiversRequest {
   /** The internal name of your SMS offer */
@@ -3992,9 +3604,7 @@ export const ListSmsReceiversRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/receivers", code: 200 })),
-).annotate({
-  identifier: "ListSmsReceiversRequest",
-}) as any as S.Schema<ListSmsReceiversRequest>;
+).annotate({ identifier: "ListSmsReceiversRequest" }) as any as S.Schema<ListSmsReceiversRequest>;
 
 export type ListSmsReceiversResponseBodyList = Array<number>;
 export const ListSmsReceiversResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4004,9 +3614,7 @@ export const ListSmsReceiversResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSmsReceiversResponse = ListSmsReceiversResponseBodyList;
 export const ListSmsReceiversResponse = /*@__PURE__*/ S.suspend(() =>
   ListSmsReceiversResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSmsReceiversResponse",
-}) as any as S.Schema<ListSmsReceiversResponse>;
+).annotate({ identifier: "ListSmsReceiversResponse" }) as any as S.Schema<ListSmsReceiversResponse>;
 
 /** All country prices accessible from a reference */
 export type ReferenceCountryEnum =
@@ -4068,9 +3676,7 @@ export const ListSmsSeeOffersRequest = /*@__PURE__*/ S.suspend(() =>
     countryDestination: SmsCountryEnum.pipe(T.Query()),
     quantity: SmsPackQuantityEnum.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/seeOffers", code: 200 })),
-).annotate({
-  identifier: "ListSmsSeeOffersRequest",
-}) as any as S.Schema<ListSmsSeeOffersRequest>;
+).annotate({ identifier: "ListSmsSeeOffersRequest" }) as any as S.Schema<ListSmsSeeOffersRequest>;
 
 /** A structure describing all information about an sms pack offer */
 export interface SmsPackOffer {
@@ -4104,9 +3710,7 @@ export const ListSmsSeeOffersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSmsSeeOffersResponse = ListSmsSeeOffersResponseBodyList;
 export const ListSmsSeeOffersResponse = /*@__PURE__*/ S.suspend(() =>
   ListSmsSeeOffersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSmsSeeOffersResponse",
-}) as any as S.Schema<ListSmsSeeOffersResponse>;
+).annotate({ identifier: "ListSmsSeeOffersResponse" }) as any as S.Schema<ListSmsSeeOffersResponse>;
 
 export interface ListSmsSenderDocumentsRequest {
   /** The internal name of your SMS offer */
@@ -4119,11 +3723,7 @@ export const ListSmsSenderDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     sender: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/senders/{sender}/documents",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/sms/{serviceName}/senders/{sender}/documents", code: 200 }),
   ),
 ).annotate({
   identifier: "ListSmsSenderDocumentsRequest",
@@ -4149,9 +3749,7 @@ export const ListSmsSendersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/senders", code: 200 })),
-).annotate({
-  identifier: "ListSmsSendersRequest",
-}) as any as S.Schema<ListSmsSendersRequest>;
+).annotate({ identifier: "ListSmsSendersRequest" }) as any as S.Schema<ListSmsSendersRequest>;
 
 export type ListSmsSendersResponseBodyList = Array<string>;
 export const ListSmsSendersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4161,9 +3759,7 @@ export const ListSmsSendersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSmsSendersResponse = ListSmsSendersResponseBodyList;
 export const ListSmsSendersResponse = /*@__PURE__*/ S.suspend(() =>
   ListSmsSendersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSmsSendersResponse",
-}) as any as S.Schema<ListSmsSendersResponse>;
+).annotate({ identifier: "ListSmsSendersResponse" }) as any as S.Schema<ListSmsSendersResponse>;
 
 /** The referer of the available sender */
 export type SmsSenderRefererEnum = "domain" | "nichandle";
@@ -4180,11 +3776,7 @@ export const ListSmsSendersAvailableForValidationRequest = /*@__PURE__*/ S.suspe
     serviceName: S.String.pipe(T.Label()),
     referer: S.optional(SmsSenderRefererEnum.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/sendersAvailableForValidation",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/sms/{serviceName}/sendersAvailableForValidation", code: 200 }),
   ),
 ).annotate({
   identifier: "ListSmsSendersAvailableForValidationRequest",
@@ -4200,9 +3792,7 @@ export const SmsSenderAvailable = /*@__PURE__*/ S.suspend(() =>
     referer: S.optional(SmsSenderRefererEnum),
     sender: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SmsSenderAvailable",
-}) as any as S.Schema<SmsSenderAvailable>;
+).annotate({ identifier: "SmsSenderAvailable" }) as any as S.Schema<SmsSenderAvailable>;
 
 export type ListSmsSendersAvailableForValidationResponseBodyList = Array<SmsSenderAvailable>;
 export const ListSmsSendersAvailableForValidationResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4224,13 +3814,7 @@ export interface ListSmsSmppAllowedIPsRequest {
 export const ListSmsSmppAllowedIPsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/smpp/allowedIPs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/smpp/allowedIPs", code: 200 })),
 ).annotate({
   identifier: "ListSmsSmppAllowedIPsRequest",
 }) as any as S.Schema<ListSmsSmppAllowedIPsRequest>;
@@ -4258,9 +3842,7 @@ export const ListSmsTaskRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     status: S.optional(TelephonyTaskStatusEnum.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/task", code: 200 })),
-).annotate({
-  identifier: "ListSmsTaskRequest",
-}) as any as S.Schema<ListSmsTaskRequest>;
+).annotate({ identifier: "ListSmsTaskRequest" }) as any as S.Schema<ListSmsTaskRequest>;
 
 export type ListSmsTaskResponseBodyList = Array<number>;
 export const ListSmsTaskResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4270,9 +3852,7 @@ export const ListSmsTaskResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSmsTaskResponse = ListSmsTaskResponseBodyList;
 export const ListSmsTaskResponse = /*@__PURE__*/ S.suspend(() =>
   ListSmsTaskResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSmsTaskResponse",
-}) as any as S.Schema<ListSmsTaskResponse>;
+).annotate({ identifier: "ListSmsTaskResponse" }) as any as S.Schema<ListSmsTaskResponse>;
 
 export interface ListSmsTemplatesControlRequest {
   /** The internal name of your SMS offer */
@@ -4281,13 +3861,7 @@ export interface ListSmsTemplatesControlRequest {
 export const ListSmsTemplatesControlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/templatesControl",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/templatesControl", code: 200 })),
 ).annotate({
   identifier: "ListSmsTemplatesControlRequest",
 }) as any as S.Schema<ListSmsTemplatesControlRequest>;
@@ -4320,13 +3894,7 @@ export const ListSmsUserIncomingRequest = /*@__PURE__*/ S.suspend(() =>
     login: S.String.pipe(T.Label()),
     sender: S.optional(S.String.pipe(T.Query())),
     tag: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/users/{login}/incoming",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/users/{login}/incoming", code: 200 })),
 ).annotate({
   identifier: "ListSmsUserIncomingRequest",
 }) as any as S.Schema<ListSmsUserIncomingRequest>;
@@ -4353,16 +3921,8 @@ export const ListSmsUserJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     login: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/users/{login}/jobs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListSmsUserJobsRequest",
-}) as any as S.Schema<ListSmsUserJobsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/users/{login}/jobs", code: 200 })),
+).annotate({ identifier: "ListSmsUserJobsRequest" }) as any as S.Schema<ListSmsUserJobsRequest>;
 
 export type ListSmsUserJobsResponseBodyList = Array<number>;
 export const ListSmsUserJobsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4372,9 +3932,7 @@ export const ListSmsUserJobsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSmsUserJobsResponse = ListSmsUserJobsResponseBodyList;
 export const ListSmsUserJobsResponse = /*@__PURE__*/ S.suspend(() =>
   ListSmsUserJobsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSmsUserJobsResponse",
-}) as any as S.Schema<ListSmsUserJobsResponse>;
+).annotate({ identifier: "ListSmsUserJobsResponse" }) as any as S.Schema<ListSmsUserJobsResponse>;
 
 export interface ListSmsUserOutgoingRequest {
   /** The internal name of your SMS offer */
@@ -4404,13 +3962,7 @@ export const ListSmsUserOutgoingRequest = /*@__PURE__*/ S.suspend(() =>
     receiver: S.optional(S.String.pipe(T.Query())),
     sender: S.optional(S.String.pipe(T.Query())),
     tag: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/users/{login}/outgoing",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/users/{login}/outgoing", code: 200 })),
 ).annotate({
   identifier: "ListSmsUserOutgoingRequest",
 }) as any as S.Schema<ListSmsUserOutgoingRequest>;
@@ -4437,13 +3989,7 @@ export const ListSmsUserReceiversRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     login: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/users/{login}/receivers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/users/{login}/receivers", code: 200 })),
 ).annotate({
   identifier: "ListSmsUserReceiversRequest",
 }) as any as S.Schema<ListSmsUserReceiversRequest>;
@@ -4468,9 +4014,7 @@ export const ListSmsUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/users", code: 200 })),
-).annotate({
-  identifier: "ListSmsUsersRequest",
-}) as any as S.Schema<ListSmsUsersRequest>;
+).annotate({ identifier: "ListSmsUsersRequest" }) as any as S.Schema<ListSmsUsersRequest>;
 
 export type ListSmsUsersResponseBodyList = Array<string>;
 export const ListSmsUsersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4480,9 +4024,7 @@ export const ListSmsUsersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSmsUsersResponse = ListSmsUsersResponseBodyList;
 export const ListSmsUsersResponse = /*@__PURE__*/ S.suspend(() =>
   ListSmsUsersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSmsUsersResponse",
-}) as any as S.Schema<ListSmsUsersResponse>;
+).annotate({ identifier: "ListSmsUsersResponse" }) as any as S.Schema<ListSmsUsersResponse>;
 
 export interface ListSmsVirtualNumberIncomingRequest {
   /** The internal name of your SMS offer */
@@ -4540,11 +4082,7 @@ export const ListSmsVirtualNumberJobsRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     number: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/virtualNumbers/{number}/jobs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/sms/{serviceName}/virtualNumbers/{number}/jobs", code: 200 }),
   ),
 ).annotate({
   identifier: "ListSmsVirtualNumberJobsRequest",
@@ -4663,13 +4201,7 @@ export interface ListSmsVirtualNumbersRequest2 {
 export const ListSmsVirtualNumbersRequest2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sms/{serviceName}/virtualNumbers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sms/{serviceName}/virtualNumbers", code: 200 })),
 ).annotate({
   identifier: "ListSmsVirtualNumbersRequest2",
 }) as any as S.Schema<ListSmsVirtualNumbersRequest2>;
@@ -4731,16 +4263,8 @@ export const PutSmsBatchRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/sms/{serviceName}/batches/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutSmsBatchRequest",
-}) as any as S.Schema<PutSmsBatchRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/sms/{serviceName}/batches/{id}", code: 200 })),
+).annotate({ identifier: "PutSmsBatchRequest" }) as any as S.Schema<PutSmsBatchRequest>;
 
 export interface PutSmsPhonebookRequest {
   /** The internal name of your SMS offer */
@@ -4755,16 +4279,8 @@ export const PutSmsPhonebookRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     bookKey: S.String.pipe(T.Label()),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/sms/{serviceName}/phonebooks/{bookKey}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutSmsPhonebookRequest",
-}) as any as S.Schema<PutSmsPhonebookRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/sms/{serviceName}/phonebooks/{bookKey}", code: 200 })),
+).annotate({ identifier: "PutSmsPhonebookRequest" }) as any as S.Schema<PutSmsPhonebookRequest>;
 
 export interface PutSmsPhonebookResponse {}
 export const PutSmsPhonebookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4839,16 +4355,8 @@ export const PutSmsReceiverRequest = /*@__PURE__*/ S.suspend(() =>
     slotId: S.Number.pipe(T.Label()),
     autoUpdate: S.optional(S.Boolean),
     description: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/sms/{serviceName}/receivers/{slotId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutSmsReceiverRequest",
-}) as any as S.Schema<PutSmsReceiverRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/sms/{serviceName}/receivers/{slotId}", code: 200 })),
+).annotate({ identifier: "PutSmsReceiverRequest" }) as any as S.Schema<PutSmsReceiverRequest>;
 
 export interface PutSmsReceiverResponse {}
 export const PutSmsReceiverResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4871,16 +4379,8 @@ export const PutSmsSenderRequest = /*@__PURE__*/ S.suspend(() =>
     sender: S.String.pipe(T.Label()),
     description: S.optional(S.String),
     status: S.optional(SmsStatusSenderEnum),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/sms/{serviceName}/senders/{sender}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutSmsSenderRequest",
-}) as any as S.Schema<PutSmsSenderRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/sms/{serviceName}/senders/{sender}", code: 200 })),
+).annotate({ identifier: "PutSmsSenderRequest" }) as any as S.Schema<PutSmsSenderRequest>;
 
 export interface PutSmsSenderResponse {}
 export const PutSmsSenderResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4932,13 +4432,7 @@ export const PutSmsServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/sms/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/sms/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutSmsServiceInfosRequest",
 }) as any as S.Schema<PutSmsServiceInfosRequest>;
@@ -4971,13 +4465,7 @@ export const PutSmsSmppAllowedIPsRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     action: SmsAllowedIPsActionEnum,
     ips: PutSmsSmppAllowedIPsRequestIpsList,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/sms/{serviceName}/smpp/allowedIPs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/sms/{serviceName}/smpp/allowedIPs", code: 200 })),
 ).annotate({
   identifier: "PutSmsSmppAllowedIPsRequest",
 }) as any as S.Schema<PutSmsSmppAllowedIPsRequest>;
@@ -5016,13 +4504,7 @@ export const PutSmsTemplatesControlRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     message: S.optional(S.String),
     status: S.optional(SmsStatusSenderEnum),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/sms/{serviceName}/templatesControl/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/sms/{serviceName}/templatesControl/{name}", code: 200 })),
 ).annotate({
   identifier: "PutSmsTemplatesControlRequest",
 }) as any as S.Schema<PutSmsTemplatesControlRequest>;
@@ -5061,16 +4543,8 @@ export const PutSmsUserRequest = /*@__PURE__*/ S.suspend(() =>
     password: S.optional(S.String.pipe(T.SensitiveValue({}))),
     quotaInformations: S.optional(SmsQuota),
     stopCallBack: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/sms/{serviceName}/users/{login}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutSmsUserRequest",
-}) as any as S.Schema<PutSmsUserRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/sms/{serviceName}/users/{login}", code: 200 })),
+).annotate({ identifier: "PutSmsUserRequest" }) as any as S.Schema<PutSmsUserRequest>;
 
 export interface PutSmsUserResponse {}
 export const PutSmsUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5122,13 +4596,7 @@ export const PutSmsVirtualNumberServiceInfosRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     number: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/sms/virtualNumbers/{number}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/sms/virtualNumbers/{number}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutSmsVirtualNumberServiceInfosRequest",
 }) as any as S.Schema<PutSmsVirtualNumberServiceInfosRequest>;
@@ -5153,13 +4621,7 @@ export const TransferSmsCreditsRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     credits: S.Number,
     smsAccountTarget: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sms/{serviceName}/transferCredits",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sms/{serviceName}/transferCredits", code: 200 })),
 ).annotate({
   identifier: "TransferSmsCreditsRequest",
 }) as any as S.Schema<TransferSmsCreditsRequest>;
@@ -5183,15 +4645,9 @@ export const ValidateSmsSenderRequest = /*@__PURE__*/ S.suspend(() =>
     sender: S.String.pipe(T.Label()),
     code: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sms/{serviceName}/senders/{sender}/validate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/sms/{serviceName}/senders/{sender}/validate", code: 200 }),
   ),
-).annotate({
-  identifier: "ValidateSmsSenderRequest",
-}) as any as S.Schema<ValidateSmsSenderRequest>;
+).annotate({ identifier: "ValidateSmsSenderRequest" }) as any as S.Schema<ValidateSmsSenderRequest>;
 
 export interface ValidateSmsSenderResponse {}
 export const ValidateSmsSenderResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

@@ -55,11 +55,7 @@ export const ConfirmStorageNetappTerminationRequest = /*@__PURE__*/ S.suspend(()
     reason: S.optional(ServiceTerminationReasonEnum),
     token: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/storage/netapp/{serviceName}/confirmTermination",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/storage/netapp/{serviceName}/confirmTermination", code: 200 }),
   ),
 ).annotate({
   identifier: "ConfirmStorageNetappTerminationRequest",
@@ -89,11 +85,7 @@ export const CreateStorageNetappChangeContactRequest = /*@__PURE__*/ S.suspend((
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/storage/netapp/{serviceName}/changeContact",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/storage/netapp/{serviceName}/changeContact", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateStorageNetappChangeContactRequest",
@@ -133,11 +125,7 @@ export const CreateStorageNetappShareAclRequest = /*@__PURE__*/ S.suspend(() =>
     accessLevel: S.NullOr(StorageNetAppShareACLPermissionEnum),
     accessTo: S.NullOr(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/storage/netapp/{serviceName}/share/{shareId}/acl",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/storage/netapp/{serviceName}/share/{shareId}/acl", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateStorageNetappShareAclRequest",
@@ -445,11 +433,7 @@ export const CreateStorageNetappSnapshotPolicyRequest = /*@__PURE__*/ S.suspend(
     name: S.optional(S.NullOr(S.String)),
     rules: S.NullOr(CreateStorageNetappSnapshotPolicyRequestRulesList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/storage/netapp/{serviceName}/snapshotPolicy",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/storage/netapp/{serviceName}/snapshotPolicy", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateStorageNetappSnapshotPolicyRequest",
@@ -512,11 +496,7 @@ export const DeleteStorageNetappShareRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     shareId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/storage/netapp/{serviceName}/share/{shareId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/storage/netapp/{serviceName}/share/{shareId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteStorageNetappShareRequest",
@@ -658,9 +638,7 @@ export const GetStorageNetappRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/storage/netapp/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "GetStorageNetappRequest",
-}) as any as S.Schema<GetStorageNetappRequest>;
+).annotate({ identifier: "GetStorageNetappRequest" }) as any as S.Schema<GetStorageNetappRequest>;
 
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
 export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
@@ -687,9 +665,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** Service performance level */
 export type StorageNetAppServicePerformanceLevelEnum = "premium";
@@ -759,13 +735,7 @@ export interface GetStorageNetappMetricsTokenRequest {
 export const GetStorageNetappMetricsTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/storage/netapp/{serviceName}/metricsToken",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/storage/netapp/{serviceName}/metricsToken", code: 200 })),
 ).annotate({
   identifier: "GetStorageNetappMetricsTokenRequest",
 }) as any as S.Schema<GetStorageNetappMetricsTokenRequest>;
@@ -785,9 +755,7 @@ export const StorageMetricsToken = /*@__PURE__*/ S.suspend(() =>
     expiry: S.optional(S.String),
     token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageMetricsToken",
-}) as any as S.Schema<StorageMetricsToken>;
+).annotate({ identifier: "StorageMetricsToken" }) as any as S.Schema<StorageMetricsToken>;
 
 export interface GetStorageNetappNetworkRequest {
   /** Service name */
@@ -800,11 +768,7 @@ export const GetStorageNetappNetworkRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     networkId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/storage/netapp/{serviceName}/network/{networkId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/storage/netapp/{serviceName}/network/{networkId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetStorageNetappNetworkRequest",
@@ -833,9 +797,7 @@ export const StorageNetAppNetwork = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(StorageNetAppNetworkStatusEnum)),
     vRackServicesURN: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "StorageNetAppNetwork",
-}) as any as S.Schema<StorageNetAppNetwork>;
+).annotate({ identifier: "StorageNetAppNetwork" }) as any as S.Schema<StorageNetAppNetwork>;
 
 export interface GetStorageNetappServiceInfosRequest {
   /** Service name */
@@ -844,13 +806,7 @@ export interface GetStorageNetappServiceInfosRequest {
 export const GetStorageNetappServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/storage/netapp/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/storage/netapp/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetStorageNetappServiceInfosRequest",
 }) as any as S.Schema<GetStorageNetappServiceInfosRequest>;
@@ -882,9 +838,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -942,9 +896,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetStorageNetappShareRequest {
   /** Service name */
@@ -957,11 +909,7 @@ export const GetStorageNetappShareRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     shareId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/storage/netapp/{serviceName}/share/{shareId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/storage/netapp/{serviceName}/share/{shareId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetStorageNetappShareRequest",
@@ -1031,9 +979,7 @@ export const StorageNetAppShare = /*@__PURE__*/ S.suspend(() =>
     snapshotID: S.optional(S.NullOr(S.String)),
     status: S.optional(S.NullOr(StorageNetAppShareStatusEnum)),
   }),
-).annotate({
-  identifier: "StorageNetAppShare",
-}) as any as S.Schema<StorageNetAppShare>;
+).annotate({ identifier: "StorageNetAppShare" }) as any as S.Schema<StorageNetAppShare>;
 
 export interface GetStorageNetappShareAccessPathRequest {
   /** Service name */
@@ -1256,9 +1202,7 @@ export const ListStorageNetappRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamTags: S.optional(ListStorageNetappRequestIamTagsMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/storage/netapp", code: 200 })),
-).annotate({
-  identifier: "ListStorageNetappRequest",
-}) as any as S.Schema<ListStorageNetappRequest>;
+).annotate({ identifier: "ListStorageNetappRequest" }) as any as S.Schema<ListStorageNetappRequest>;
 
 export type ListStorageNetappResponseBodyList = Array<StorageNetAppServiceWithIAM>;
 export const ListStorageNetappResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1282,13 +1226,7 @@ export const ListStorageNetappNetworkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     detail: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/storage/netapp/{serviceName}/network",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/storage/netapp/{serviceName}/network", code: 200 })),
 ).annotate({
   identifier: "ListStorageNetappNetworkRequest",
 }) as any as S.Schema<ListStorageNetappNetworkRequest>;
@@ -1318,13 +1256,7 @@ export const ListStorageNetappShareRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     detail: S.optional(S.Boolean.pipe(T.Query())),
     mountPointName: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/storage/netapp/{serviceName}/share",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/storage/netapp/{serviceName}/share", code: 200 })),
 ).annotate({
   identifier: "ListStorageNetappShareRequest",
 }) as any as S.Schema<ListStorageNetappShareRequest>;
@@ -1386,11 +1318,7 @@ export const ListStorageNetappShareAclRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     shareId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/storage/netapp/{serviceName}/share/{shareId}/acl",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/storage/netapp/{serviceName}/share/{shareId}/acl", code: 200 }),
   ),
 ).annotate({
   identifier: "ListStorageNetappShareAclRequest",
@@ -1452,11 +1380,7 @@ export const ListStorageNetappSnapshotPolicyRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/storage/netapp/{serviceName}/snapshotPolicy",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/storage/netapp/{serviceName}/snapshotPolicy", code: 200 }),
   ),
 ).annotate({
   identifier: "ListStorageNetappSnapshotPolicyRequest",
@@ -1486,9 +1410,7 @@ export const PutStorageNetappRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     name: S.String,
   }).pipe(T.Http({ method: "PUT", uri: "/storage/netapp/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "PutStorageNetappRequest",
-}) as any as S.Schema<PutStorageNetappRequest>;
+).annotate({ identifier: "PutStorageNetappRequest" }) as any as S.Schema<PutStorageNetappRequest>;
 
 /** A service */
 export interface StorageNetAppService {
@@ -1520,9 +1442,7 @@ export const StorageNetAppService = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(StorageRegionEnum),
     status: S.optional(StorageNetAppServiceStatusEnum),
   }),
-).annotate({
-  identifier: "StorageNetAppService",
-}) as any as S.Schema<StorageNetAppService>;
+).annotate({ identifier: "StorageNetAppService" }) as any as S.Schema<StorageNetAppService>;
 
 export interface PutStorageNetappServiceInfosRequest {
   /** Service name */
@@ -1534,13 +1454,7 @@ export const PutStorageNetappServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/storage/netapp/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/storage/netapp/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutStorageNetappServiceInfosRequest",
 }) as any as S.Schema<PutStorageNetappServiceInfosRequest>;
@@ -1569,11 +1483,7 @@ export const PutStorageNetappShareRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     name: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/storage/netapp/{serviceName}/share/{shareId}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/storage/netapp/{serviceName}/share/{shareId}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutStorageNetappShareRequest",
@@ -1730,13 +1640,7 @@ export const ShareStorageNetappRequest = /*@__PURE__*/ S.suspend(() =>
     protocol: S.NullOr(StorageProtocolEnum),
     size: S.NullOr(S.Number),
     snapshotID: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/storage/netapp/{serviceName}/share",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/storage/netapp/{serviceName}/share", code: 200 })),
 ).annotate({
   identifier: "ShareStorageNetappRequest",
 }) as any as S.Schema<ShareStorageNetappRequest>;
@@ -1748,13 +1652,7 @@ export interface TerminateStorageNetappRequest {
 export const TerminateStorageNetappRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/storage/netapp/{serviceName}/terminate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/storage/netapp/{serviceName}/terminate", code: 200 })),
 ).annotate({
   identifier: "TerminateStorageNetappRequest",
 }) as any as S.Schema<TerminateStorageNetappRequest>;

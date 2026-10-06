@@ -185,9 +185,7 @@ export const DedicatedServerTask = /*@__PURE__*/ S.suspend(() =>
     taskId: S.optional(S.Number),
     ticketReference: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DedicatedServerTask",
-}) as any as S.Schema<DedicatedServerTask>;
+).annotate({ identifier: "DedicatedServerTask" }) as any as S.Schema<DedicatedServerTask>;
 
 export interface CancelDedicatedServerTaskRequest {
   /** The internal name of your dedicated server */
@@ -328,9 +326,7 @@ export const DedicatedServerAccess = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     user: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DedicatedServerAccess",
-}) as any as S.Schema<DedicatedServerAccess>;
+).annotate({ identifier: "DedicatedServerAccess" }) as any as S.Schema<DedicatedServerAccess>;
 
 export type CreateDedicatedServerAuthenticationSecretResponseBodyList =
   Array<DedicatedServerAccess>;
@@ -410,11 +406,7 @@ export const CreateDedicatedServerChangeContactRequest = /*@__PURE__*/ S.suspend
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/server/{serviceName}/changeContact",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dedicated/server/{serviceName}/changeContact", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDedicatedServerChangeContactRequest",
@@ -807,9 +799,7 @@ export const DedicatedServerOperation = /*@__PURE__*/ S.suspend(() =>
     startDate: S.optional(S.String),
     status: S.optional(DedicatedTaskStatusEnum),
   }),
-).annotate({
-  identifier: "DedicatedServerOperation",
-}) as any as S.Schema<DedicatedServerOperation>;
+).annotate({ identifier: "DedicatedServerOperation" }) as any as S.Schema<DedicatedServerOperation>;
 
 export interface CreateDedicatedServerFeatureBmcSshSolRequest {
   /** The internal name of your dedicated server */
@@ -932,11 +922,7 @@ export const CreateDedicatedServerIpBlockMergeRequest = /*@__PURE__*/ S.suspend(
     serviceName: S.String.pipe(T.Label()),
     block: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/server/{serviceName}/ipBlockMerge",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dedicated/server/{serviceName}/ipBlockMerge", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDedicatedServerIpBlockMergeRequest",
@@ -952,13 +938,7 @@ export const CreateDedicatedServerIpMoveRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     ip: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/server/{serviceName}/ipMove",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dedicated/server/{serviceName}/ipMove", code: 200 })),
 ).annotate({
   identifier: "CreateDedicatedServerIpMoveRequest",
 }) as any as S.Schema<CreateDedicatedServerIpMoveRequest>;
@@ -1561,11 +1541,7 @@ export const CreateDedicatedServerLicenseWindowsRequest = /*@__PURE__*/ S.suspen
     licenseId: S.String,
     version: LicenseWindowsOsVersionEnum,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/server/{serviceName}/license/windows",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dedicated/server/{serviceName}/license/windows", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDedicatedServerLicenseWindowsRequest",
@@ -1613,13 +1589,7 @@ export const CreateDedicatedServerNetworkingRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     interfaces: CreateDedicatedServerNetworkingRequestInterfacesList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/server/{serviceName}/networking",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dedicated/server/{serviceName}/networking", code: 200 })),
 ).annotate({
   identifier: "CreateDedicatedServerNetworkingRequest",
 }) as any as S.Schema<CreateDedicatedServerNetworkingRequest>;
@@ -1675,11 +1645,7 @@ export const CreateDedicatedServerOlaAggregationRequest = /*@__PURE__*/ S.suspen
     virtualNetworkInterfaces:
       CreateDedicatedServerOlaAggregationRequestVirtualNetworkInterfacesList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/server/{serviceName}/ola/aggregation",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dedicated/server/{serviceName}/ola/aggregation", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDedicatedServerOlaAggregationRequest",
@@ -1979,13 +1945,7 @@ export const CreateDedicatedServerReinstallRequest = /*@__PURE__*/ S.suspend(() 
     operatingSystem: S.String,
     properties: S.optional(CreateDedicatedServerReinstallRequestPropertiesMap),
     storage: S.optional(CreateDedicatedServerReinstallRequestStorageList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/server/{serviceName}/reinstall",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dedicated/server/{serviceName}/reinstall", code: 200 })),
 ).annotate({
   identifier: "CreateDedicatedServerReinstallRequest",
 }) as any as S.Schema<CreateDedicatedServerReinstallRequest>;
@@ -2121,13 +2081,7 @@ export const CreateDedicatedServerSplaRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     serialNumber: S.String,
     type: DedicatedServerSplaTypeEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/server/{serviceName}/spla",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dedicated/server/{serviceName}/spla", code: 200 })),
 ).annotate({
   identifier: "CreateDedicatedServerSplaRequest",
 }) as any as S.Schema<CreateDedicatedServerSplaRequest>;
@@ -2181,9 +2135,7 @@ export const SupportNewMessageInfo = /*@__PURE__*/ S.suspend(() =>
     ticketId: S.optional(S.Number),
     ticketNumber: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SupportNewMessageInfo",
-}) as any as S.Schema<SupportNewMessageInfo>;
+).annotate({ identifier: "SupportNewMessageInfo" }) as any as S.Schema<SupportNewMessageInfo>;
 
 /** Hdd replace support request details. */
 export interface DedicatedServerSupportReplaceHddInfo {
@@ -2323,13 +2275,7 @@ export const CreateDedicatedServerVirtualMacRequest = /*@__PURE__*/ S.suspend(()
     ipAddress: S.String,
     type: DedicatedServerVmacTypeEnum,
     virtualMachineName: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/server/{serviceName}/virtualMac",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dedicated/server/{serviceName}/virtualMac", code: 200 })),
 ).annotate({
   identifier: "CreateDedicatedServerVirtualMacRequest",
 }) as any as S.Schema<CreateDedicatedServerVirtualMacRequest>;
@@ -2433,11 +2379,7 @@ export const DeleteDedicatedServerNetworkingRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/dedicated/server/{serviceName}/networking",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/dedicated/server/{serviceName}/networking", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteDedicatedServerNetworkingRequest",
@@ -2469,11 +2411,7 @@ export const DeleteDedicatedServerOptionRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     option: DeleteDedicatedServerOptionRequestOption.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/dedicated/server/{serviceName}/option/{option}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/dedicated/server/{serviceName}/option/{option}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteDedicatedServerOptionRequest",
@@ -2549,11 +2487,7 @@ export const DeleteDedicatedServerVrackRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     vrack: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/dedicated/server/{serviceName}/vrack/{vrack}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/dedicated/server/{serviceName}/vrack/{vrack}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteDedicatedServerVrackRequest",
@@ -2595,13 +2529,7 @@ export interface GetDedicatedServerRequest {
 export const GetDedicatedServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}", code: 200 })),
 ).annotate({
   identifier: "GetDedicatedServerRequest",
 }) as any as S.Schema<GetDedicatedServerRequest>;
@@ -2689,9 +2617,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** Power states of a Dedicated */
 export type DedicatedServerPowerStateEnum = "poweroff" | "poweron";
@@ -2861,11 +2787,7 @@ export const GetDedicatedServerBiosSettingsRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/biosSettings",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/biosSettings", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerBiosSettingsRequest",
@@ -2938,11 +2860,7 @@ export const GetDedicatedServerBiosSettingsSgxRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/biosSettings/sgx",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/biosSettings/sgx", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerBiosSettingsSgxRequest",
@@ -2975,11 +2893,7 @@ export const GetDedicatedServerBootRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     bootId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/boot/{bootId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/boot/{bootId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerBootRequest",
@@ -3007,9 +2921,7 @@ export const DedicatedServerNetboot = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     kernel: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DedicatedServerNetboot",
-}) as any as S.Schema<DedicatedServerNetboot>;
+).annotate({ identifier: "DedicatedServerNetboot" }) as any as S.Schema<DedicatedServerNetboot>;
 
 /** Different option activated on netboot */
 export type GetDedicatedServerBootOptionRequestOption = "cpufamily" | "grsec" | "ipv6" | "smp";
@@ -3066,13 +2978,7 @@ export interface GetDedicatedServerBurstRequest {
 export const GetDedicatedServerBurstRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/burst",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/burst", code: 200 })),
 ).annotate({
   identifier: "GetDedicatedServerBurstRequest",
 }) as any as S.Schema<GetDedicatedServerBurstRequest>;
@@ -3105,11 +3011,7 @@ export const GetDedicatedServerFeatureBackupFTPRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/features/backupFTP",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/features/backupFTP", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerFeatureBackupFTPRequest",
@@ -3140,9 +3042,7 @@ export const DedicatedServerBackupFtp = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(DedicatedServerBackupStorageTypeEnum),
     usage: S.optional(S.NullOr(ComplexTypeUnitAndValueLong)),
   }),
-).annotate({
-  identifier: "DedicatedServerBackupFtp",
-}) as any as S.Schema<DedicatedServerBackupFtp>;
+).annotate({ identifier: "DedicatedServerBackupFtp" }) as any as S.Schema<DedicatedServerBackupFtp>;
 
 export interface GetDedicatedServerFeatureBackupFTPAccessRequest {
   /** The internal name of your dedicated server */
@@ -3201,11 +3101,7 @@ export const GetDedicatedServerFeatureBmcRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/features/bmc",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/features/bmc", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerFeatureBmcRequest",
@@ -3254,9 +3150,7 @@ export const DedicatedServerBMC = /*@__PURE__*/ S.suspend(() =>
     available: S.optional(S.Boolean),
     supportedFeatures: S.optional(DedicatedServerBmcSupportedFeatures),
   }),
-).annotate({
-  identifier: "DedicatedServerBMC",
-}) as any as S.Schema<DedicatedServerBMC>;
+).annotate({ identifier: "DedicatedServerBMC" }) as any as S.Schema<DedicatedServerBMC>;
 
 export interface GetDedicatedServerFeatureBmcJavaKvmRequest {
   /** The internal name of your dedicated server */
@@ -3350,11 +3244,7 @@ export const GetDedicatedServerFeatureBmcTestRequest = /*@__PURE__*/ S.suspend((
     operationId: S.String.pipe(T.Query()),
     type: DedicatedServerBmcTestTypeEnum.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/features/bmc/test",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/features/bmc/test", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerFeatureBmcTestRequest",
@@ -3461,11 +3351,7 @@ export const GetDedicatedServerFeatureFirewallRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/features/firewall",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/features/firewall", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerFeatureFirewallRequest",
@@ -3498,9 +3384,7 @@ export const DedicatedServerFirewall = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(DedicatedServerFirewallModeEnum),
     model: S.optional(S.NullOr(DedicatedServerFirewallModelEnum)),
   }),
-).annotate({
-  identifier: "DedicatedServerFirewall",
-}) as any as S.Schema<DedicatedServerFirewall>;
+).annotate({ identifier: "DedicatedServerFirewall" }) as any as S.Schema<DedicatedServerFirewall>;
 
 export interface GetDedicatedServerFeatureIpmiRequest {
   /** The internal name of your dedicated server */
@@ -3510,11 +3394,7 @@ export const GetDedicatedServerFeatureIpmiRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/features/ipmi",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/features/ipmi", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerFeatureIpmiRequest",
@@ -3554,9 +3434,7 @@ export const DedicatedServerIpmi = /*@__PURE__*/ S.suspend(() =>
     activated: S.optional(S.Boolean),
     supportedFeatures: S.optional(DedicatedServerIpmiSupportedFeatures),
   }),
-).annotate({
-  identifier: "DedicatedServerIpmi",
-}) as any as S.Schema<DedicatedServerIpmi>;
+).annotate({ identifier: "DedicatedServerIpmi" }) as any as S.Schema<DedicatedServerIpmi>;
 
 export interface GetDedicatedServerFeatureIpmiAccessRequest {
   /** The internal name of your dedicated server */
@@ -3610,11 +3488,7 @@ export const GetDedicatedServerFeatureIpmiTestRequest = /*@__PURE__*/ S.suspend(
     serviceName: S.String.pipe(T.Label()),
     type: DedicatedServerIpmiTestTypeEnum.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/features/ipmi/test",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/features/ipmi/test", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerFeatureIpmiTestRequest",
@@ -3644,11 +3518,7 @@ export const GetDedicatedServerFeatureKvmRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/features/kvm",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/features/kvm", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerFeatureKvmRequest",
@@ -3669,9 +3539,7 @@ export const DedicatedServerKvm = /*@__PURE__*/ S.suspend(() =>
     ip: S.optional(S.NullOr(S.String)),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DedicatedServerKvm",
-}) as any as S.Schema<DedicatedServerKvm>;
+).annotate({ identifier: "DedicatedServerKvm" }) as any as S.Schema<DedicatedServerKvm>;
 
 export interface GetDedicatedServerInterventionRequest {
   /** The internal name of your dedicated server */
@@ -3724,11 +3592,7 @@ export const GetDedicatedServerIpCanBeMovedToRequest = /*@__PURE__*/ S.suspend((
     serviceName: S.String.pipe(T.Label()),
     ip: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/ipCanBeMovedTo",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/ipCanBeMovedTo", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerIpCanBeMovedToRequest",
@@ -3842,11 +3706,7 @@ export const GetDedicatedServerOptionRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     option: GetDedicatedServerOptionRequestOption.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/option/{option}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/option/{option}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerOptionRequest",
@@ -3883,9 +3743,7 @@ export const DedicatedServerOption = /*@__PURE__*/ S.suspend(() =>
     option: S.optional(DedicatedServerOptionEnum),
     state: S.optional(DedicatedServerOptionStateEnum),
   }),
-).annotate({
-  identifier: "DedicatedServerOption",
-}) as any as S.Schema<DedicatedServerOption>;
+).annotate({ identifier: "DedicatedServerOption" }) as any as S.Schema<DedicatedServerOption>;
 
 /** Dedicated server orderable features */
 export type DedicatedServerOrderableSysFeatureEnum = "backupProtocol" | "monitoring";
@@ -3902,11 +3760,7 @@ export const GetDedicatedServerOrderableFeatureRequest = /*@__PURE__*/ S.suspend
     serviceName: S.String.pipe(T.Label()),
     feature: DedicatedServerOrderableSysFeatureEnum.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/orderable/feature",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/orderable/feature", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerOrderableFeatureRequest",
@@ -3927,11 +3781,7 @@ export const GetDedicatedServerOrderableKvmRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/orderable/kvm",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/orderable/kvm", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerOrderableKvmRequest",
@@ -4086,9 +3936,7 @@ export const SecondaryDnsSecondaryDNS = /*@__PURE__*/ S.suspend(() =>
     domain: S.optional(S.String),
     ipMaster: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SecondaryDnsSecondaryDNS",
-}) as any as S.Schema<SecondaryDnsSecondaryDNS>;
+).annotate({ identifier: "SecondaryDnsSecondaryDNS" }) as any as S.Schema<SecondaryDnsSecondaryDNS>;
 
 export interface GetDedicatedServerSecondaryDnsDomainDnsServerRequest {
   /** The internal name of your dedicated server */
@@ -4216,11 +4064,7 @@ export const GetDedicatedServerServiceInfosRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/serviceInfos",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/serviceInfos", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerServiceInfosRequest",
@@ -4253,9 +4097,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -4313,9 +4155,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetDedicatedServerSpecificationHardwareRequest {
   /** The internal name of your dedicated server */
@@ -4796,13 +4636,7 @@ export const GetDedicatedServerSplaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/spla/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/spla/{id}", code: 200 })),
 ).annotate({
   identifier: "GetDedicatedServerSplaRequest",
 }) as any as S.Schema<GetDedicatedServerSplaRequest>;
@@ -4832,9 +4666,7 @@ export const DedicatedServerSpla = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(DedicatedServerSplaStatusEnum),
     type: S.optional(DedicatedServerSplaTypeEnum),
   }),
-).annotate({
-  identifier: "DedicatedServerSpla",
-}) as any as S.Schema<DedicatedServerSpla>;
+).annotate({ identifier: "DedicatedServerSpla" }) as any as S.Schema<DedicatedServerSpla>;
 
 export interface GetDedicatedServerTaskRequest {
   /** The internal name of your dedicated server */
@@ -4847,11 +4679,7 @@ export const GetDedicatedServerTaskRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     taskId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/task/{taskId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/task/{taskId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerTaskRequest",
@@ -4942,11 +4770,7 @@ export const GetDedicatedServerVirtualNetworkInterfaceRequest = /*@__PURE__*/ S.
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/virtualNetworkInterface/{uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/virtualNetworkInterface/{uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerVirtualNetworkInterfaceRequest",
@@ -5065,11 +4889,7 @@ export const GetDedicatedServerVrackRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     vrack: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/vrack/{vrack}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/vrack/{vrack}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedServerVrackRequest",
@@ -5087,9 +4907,7 @@ export const VrackDedicatedServer = /*@__PURE__*/ S.suspend(() =>
     dedicatedServer: S.optional(S.String),
     vrack: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VrackDedicatedServer",
-}) as any as S.Schema<VrackDedicatedServer>;
+).annotate({ identifier: "VrackDedicatedServer" }) as any as S.Schema<VrackDedicatedServer>;
 
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -5137,11 +4955,7 @@ export const ListDedicatedServerResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListDedicatedServerAvailabilityRawRequest {}
 export const ListDedicatedServerAvailabilityRawRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/availabilities/raw",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/availabilities/raw", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDedicatedServerAvailabilityRawRequest",
@@ -5281,13 +5095,7 @@ export const ListDedicatedServerBootRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     bootType: S.optional(DedicatedServerBootTypeEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/boot",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/boot", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedServerBootRequest",
 }) as any as S.Schema<ListDedicatedServerBootRequest>;
@@ -5365,13 +5173,7 @@ export const ListDedicatedServerDatacenterAvailabilitiesRequest = /*@__PURE__*/ 
     server: S.optional(S.String.pipe(T.Query())),
     storage: S.optional(S.String.pipe(T.Query())),
     systemStorage: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/datacenter/availabilities",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/server/datacenter/availabilities", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedServerDatacenterAvailabilitiesRequest",
 }) as any as S.Schema<ListDedicatedServerDatacenterAvailabilitiesRequest>;
@@ -5527,11 +5329,7 @@ export const ListDedicatedServerDatacenterAvailabilityRawRequest = /*@__PURE__*/
     storage: S.optional(S.String.pipe(T.Query())),
     systemStorage: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/datacenter/availabilities/raw",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/datacenter/availabilities/raw", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDedicatedServerDatacenterAvailabilityRawRequest",
@@ -6100,11 +5898,7 @@ export const ListDedicatedServerInstallStatusRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/install/status",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/install/status", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDedicatedServerInstallStatusRequest",
@@ -6172,11 +5966,7 @@ export const ListDedicatedServerInterventionRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/intervention",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/intervention", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDedicatedServerInterventionRequest",
@@ -6203,11 +5993,7 @@ export const ListDedicatedServerIpCountryAvailableRequest = /*@__PURE__*/ S.susp
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/ipCountryAvailable",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/ipCountryAvailable", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDedicatedServerIpCountryAvailableRequest",
@@ -6256,13 +6042,7 @@ export interface ListDedicatedServerIpsRequest {
 export const ListDedicatedServerIpsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/ips",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/ips", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedServerIpsRequest",
 }) as any as S.Schema<ListDedicatedServerIpsRequest>;
@@ -6381,13 +6161,7 @@ export interface ListDedicatedServerNetworkingRequest {
 export const ListDedicatedServerNetworkingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/networking",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/networking", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedServerNetworkingRequest",
 }) as any as S.Schema<ListDedicatedServerNetworkingRequest>;
@@ -6512,13 +6286,7 @@ export interface ListDedicatedServerOngoingRequest {
 export const ListDedicatedServerOngoingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/ongoing",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/ongoing", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedServerOngoingRequest",
 }) as any as S.Schema<ListDedicatedServerOngoingRequest>;
@@ -6541,9 +6309,7 @@ export const DedicatedExposedTask = /*@__PURE__*/ S.suspend(() =>
     server: S.optional(S.String),
     todoDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DedicatedExposedTask",
-}) as any as S.Schema<DedicatedExposedTask>;
+).annotate({ identifier: "DedicatedExposedTask" }) as any as S.Schema<DedicatedExposedTask>;
 
 export type ListDedicatedServerOngoingResponseBodyList = Array<DedicatedExposedTask>;
 export const ListDedicatedServerOngoingResponseBodyList = /*@__PURE__*/ S.Array(
@@ -6570,13 +6336,7 @@ export const ListDedicatedServerOperationRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     function: S.optional(DedicatedOperationFunctionEnum.pipe(T.Query())),
     status: S.optional(DedicatedTaskStatusEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/operation",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/operation", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedServerOperationRequest",
 }) as any as S.Schema<ListDedicatedServerOperationRequest>;
@@ -6600,13 +6360,7 @@ export interface ListDedicatedServerOptionRequest {
 export const ListDedicatedServerOptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/option",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/option", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedServerOptionRequest",
 }) as any as S.Schema<ListDedicatedServerOptionRequest>;
@@ -6785,11 +6539,7 @@ export const ListDedicatedServerOrderableIpRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/orderable/ip",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/orderable/ip", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDedicatedServerOrderableIpRequest",
@@ -6922,11 +6672,7 @@ export const ListDedicatedServerOrderableTrafficRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/orderable/traffic",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/orderable/traffic", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDedicatedServerOrderableTrafficRequest",
@@ -6969,11 +6715,7 @@ export const ListDedicatedServerOrderableUsbKeyRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/orderable/usbKey",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/orderable/usbKey", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDedicatedServerOrderableUsbKeyRequest",
@@ -7019,13 +6761,7 @@ export interface ListDedicatedServerOsAvailabilitiesRequest {
 export const ListDedicatedServerOsAvailabilitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     hardware: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/osAvailabilities",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/server/osAvailabilities", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedServerOsAvailabilitiesRequest",
 }) as any as S.Schema<ListDedicatedServerOsAvailabilitiesRequest>;
@@ -7127,13 +6863,7 @@ export const ListDedicatedServerRegionAvailabilitiesRequest = /*@__PURE__*/ S.su
     server: S.optional(S.String.pipe(T.Query())),
     storage: S.optional(S.String.pipe(T.Query())),
     systemStorage: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/region/availabilities",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/server/region/availabilities", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedServerRegionAvailabilitiesRequest",
 }) as any as S.Schema<ListDedicatedServerRegionAvailabilitiesRequest>;
@@ -7319,11 +7049,7 @@ export const ListDedicatedServerSpecificationIpRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/specifications/ip",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/specifications/ip", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDedicatedServerSpecificationIpRequest",
@@ -7342,13 +7068,7 @@ export const ListDedicatedServerSplaRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     status: S.optional(DedicatedServerSplaStatusEnum.pipe(T.Query())),
     type: S.optional(DedicatedServerSplaTypeEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/spla",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/spla", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedServerSplaRequest",
 }) as any as S.Schema<ListDedicatedServerSplaRequest>;
@@ -7378,13 +7098,7 @@ export const ListDedicatedServerTaskRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     function: S.optional(DedicatedTaskFunctionEnum.pipe(T.Query())),
     status: S.optional(DedicatedTaskStatusEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/task",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/task", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedServerTaskRequest",
 }) as any as S.Schema<ListDedicatedServerTaskRequest>;
@@ -7473,11 +7187,7 @@ export const ListDedicatedServerUpdateAllowedRequest = /*@__PURE__*/ S.suspend((
     serviceName: S.String.pipe(T.Label()),
     family: DedicatedServerAddonFamilyEnum.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/updates/allowed",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/updates/allowed", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDedicatedServerUpdateAllowedRequest",
@@ -7561,13 +7271,7 @@ export interface ListDedicatedServerVirtualMacRequest {
 export const ListDedicatedServerVirtualMacRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/virtualMac",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/virtualMac", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedServerVirtualMacRequest",
 }) as any as S.Schema<ListDedicatedServerVirtualMacRequest>;
@@ -7670,13 +7374,7 @@ export interface ListDedicatedServerVrackRequest {
 export const ListDedicatedServerVrackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/server/{serviceName}/vrack",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/server/{serviceName}/vrack", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedServerVrackRequest",
 }) as any as S.Schema<ListDedicatedServerVrackRequest>;
@@ -7724,13 +7422,7 @@ export const PutDedicatedServerRequest = /*@__PURE__*/ S.suspend(() =>
     rescueSshKey: S.optional(S.NullOr(S.String)),
     rootDevice: S.optional(S.NullOr(S.String)),
     state: S.optional(DedicatedServerStateEnum),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/dedicated/server/{serviceName}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/dedicated/server/{serviceName}", code: 200 })),
 ).annotate({
   identifier: "PutDedicatedServerRequest",
 }) as any as S.Schema<PutDedicatedServerRequest>;
@@ -7750,22 +7442,14 @@ export const PutDedicatedServerBurstRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     status: S.optional(DedicatedServerBurstStatusEnum),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/dedicated/server/{serviceName}/burst",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/dedicated/server/{serviceName}/burst", code: 200 })),
 ).annotate({
   identifier: "PutDedicatedServerBurstRequest",
 }) as any as S.Schema<PutDedicatedServerBurstRequest>;
 
 export interface PutDedicatedServerBurstResponse {}
 export const PutDedicatedServerBurstResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "PutDedicatedServerBurstResponse",
-  },
+  { identifier: "PutDedicatedServerBurstResponse" },
 ) as any as S.Schema<PutDedicatedServerBurstResponse>;
 
 export interface PutDedicatedServerFeatureBackupFTPAccessRequest {
@@ -7815,11 +7499,7 @@ export const PutDedicatedServerFeatureFirewallRequest = /*@__PURE__*/ S.suspend(
     serviceName: S.String.pipe(T.Label()),
     enabled: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/dedicated/server/{serviceName}/features/firewall",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/dedicated/server/{serviceName}/features/firewall", code: 200 }),
   ),
 ).annotate({
   identifier: "PutDedicatedServerFeatureFirewallRequest",
@@ -7874,11 +7554,7 @@ export const PutDedicatedServerServiceInfosRequest = /*@__PURE__*/ S.suspend(() 
     serviceName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/dedicated/server/{serviceName}/serviceInfos",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/dedicated/server/{serviceName}/serviceInfos", code: 200 }),
   ),
 ).annotate({
   identifier: "PutDedicatedServerServiceInfosRequest",
@@ -7904,13 +7580,7 @@ export const PutDedicatedServerSplaRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
     serialNumber: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/dedicated/server/{serviceName}/spla/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/dedicated/server/{serviceName}/spla/{id}", code: 200 })),
 ).annotate({
   identifier: "PutDedicatedServerSplaRequest",
 }) as any as S.Schema<PutDedicatedServerSplaRequest>;
@@ -7934,11 +7604,7 @@ export const PutDedicatedServerUpgradeScheduleRequest = /*@__PURE__*/ S.suspend(
     hasPerformedBackup: S.Boolean,
     wantedBeginningDate: S.String,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/dedicated/server/{serviceName}/upgrade/schedule",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/dedicated/server/{serviceName}/upgrade/schedule", code: 200 }),
   ),
 ).annotate({
   identifier: "PutDedicatedServerUpgradeScheduleRequest",
@@ -7958,13 +7624,7 @@ export interface RebootDedicatedServerRequest {
 export const RebootDedicatedServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/server/{serviceName}/reboot",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dedicated/server/{serviceName}/reboot", code: 200 })),
 ).annotate({
   identifier: "RebootDedicatedServerRequest",
 }) as any as S.Schema<RebootDedicatedServerRequest>;
@@ -8015,13 +7675,7 @@ export const ResetDedicatedServerOlaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     virtualNetworkInterface: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/server/{serviceName}/ola/reset",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dedicated/server/{serviceName}/ola/reset", code: 200 })),
 ).annotate({
   identifier: "ResetDedicatedServerOlaRequest",
 }) as any as S.Schema<ResetDedicatedServerOlaRequest>;
@@ -8073,11 +7727,7 @@ export const RevokeDedicatedServerSplaRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/server/{serviceName}/spla/{id}/revoke",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dedicated/server/{serviceName}/spla/{id}/revoke", code: 200 }),
   ),
 ).annotate({
   identifier: "RevokeDedicatedServerSplaRequest",
@@ -8159,11 +7809,7 @@ export const StartDedicatedServerInstallRequest = /*@__PURE__*/ S.suspend(() =>
     templateName: S.String,
     userMetadata: S.optional(StartDedicatedServerInstallRequestUserMetadataList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/server/{serviceName}/install/start",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dedicated/server/{serviceName}/install/start", code: 200 }),
   ),
 ).annotate({
   identifier: "StartDedicatedServerInstallRequest",
@@ -8176,13 +7822,7 @@ export interface TerminateDedicatedServerRequest {
 export const TerminateDedicatedServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/server/{serviceName}/terminate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dedicated/server/{serviceName}/terminate", code: 200 })),
 ).annotate({
   identifier: "TerminateDedicatedServerRequest",
 }) as any as S.Schema<TerminateDedicatedServerRequest>;
@@ -8208,11 +7848,7 @@ export const TestDedicatedServerFeaturesBmcRequest = /*@__PURE__*/ S.suspend(() 
     ttl: S.optional(DedicatedServerCacheTTLEnum),
     type: DedicatedServerBmcTestTypeEnum,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/server/{serviceName}/features/bmc/test",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dedicated/server/{serviceName}/features/bmc/test", code: 200 }),
   ),
 ).annotate({
   identifier: "TestDedicatedServerFeaturesBmcRequest",
