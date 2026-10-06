@@ -17,9 +17,7 @@ export const DeleteOnEmptyConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     min_age_secs: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DeleteOnEmptyConfig",
-}) as any as S.Schema<DeleteOnEmptyConfig>;
+).annotate({ identifier: "DeleteOnEmptyConfig" }) as any as S.Schema<DeleteOnEmptyConfig>;
 
 /** Age in seconds for automatic trimming of records older than this threshold. This must be set to a value greater than 0 seconds. */
 export interface RetentionPolicyCase0 {
@@ -30,9 +28,7 @@ export const RetentionPolicyCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     age: S.Number,
   }),
-).annotate({
-  identifier: "RetentionPolicyCase0",
-}) as any as S.Schema<RetentionPolicyCase0>;
+).annotate({ identifier: "RetentionPolicyCase0" }) as any as S.Schema<RetentionPolicyCase0>;
 
 /** Retain records unless explicitly trimmed. */
 export interface RetentionPolicyCase1 {
@@ -43,15 +39,10 @@ export const RetentionPolicyCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     infinite: S.Unknown,
   }),
-).annotate({
-  identifier: "RetentionPolicyCase1",
-}) as any as S.Schema<RetentionPolicyCase1>;
+).annotate({ identifier: "RetentionPolicyCase1" }) as any as S.Schema<RetentionPolicyCase1>;
 
 export type RetentionPolicy = RetentionPolicyCase0 | RetentionPolicyCase1;
 export const RetentionPolicy = /*@__PURE__*/ S.Unknown as any as S.Schema<RetentionPolicy>;
-
-export type StorageClass = "standard" | "express";
-export const StorageClass = S.String;
 
 export type TimestampingMode = "client-prefer" | "client-require" | "arrival";
 export const TimestampingMode = S.String;
@@ -66,21 +57,20 @@ export const TimestampingConfig = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(S.NullOr(TimestampingMode)),
     uncapped: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "TimestampingConfig",
-}) as any as S.Schema<TimestampingConfig>;
+).annotate({ identifier: "TimestampingConfig" }) as any as S.Schema<TimestampingConfig>;
 
 export interface StreamConfig {
   delete_on_empty?: DeleteOnEmptyConfig | null;
   retention_policy?: RetentionPolicy | null;
-  storage_class?: StorageClass | (string & {}) | null;
+  /** [Storage class](https://s2.dev/docs/storage-classes) for recent writes. */
+  storage_class?: string | null;
   timestamping?: TimestampingConfig | null;
 }
 export const StreamConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     delete_on_empty: S.optional(S.NullOr(DeleteOnEmptyConfig)),
     retention_policy: S.optional(S.NullOr(RetentionPolicy)),
-    storage_class: S.optional(S.NullOr(StorageClass)),
+    storage_class: S.optional(S.NullOr(S.String)),
     timestamping: S.optional(S.NullOr(TimestampingConfig)),
   }),
 ).annotate({ identifier: "StreamConfig" }) as any as S.Schema<StreamConfig>;
@@ -98,9 +88,7 @@ export const CreateStreamRequest = /*@__PURE__*/ S.suspend(() =>
     config: S.optional(S.NullOr(StreamConfig)),
     stream: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/streams", code: 200 })),
-).annotate({
-  identifier: "CreateStreamRequest",
-}) as any as S.Schema<CreateStreamRequest>;
+).annotate({ identifier: "CreateStreamRequest" }) as any as S.Schema<CreateStreamRequest>;
 
 export type EncryptionAlgorithm = "aegis-256" | "aes-256-gcm";
 export const EncryptionAlgorithm = S.String;
@@ -131,9 +119,7 @@ export const DeleteStreamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     stream: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/streams/{stream}", code: 200 })),
-).annotate({
-  identifier: "DeleteStreamRequest",
-}) as any as S.Schema<DeleteStreamRequest>;
+).annotate({ identifier: "DeleteStreamRequest" }) as any as S.Schema<DeleteStreamRequest>;
 
 export interface DeleteStreamResponse {}
 export const DeleteStreamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -150,9 +136,7 @@ export const EnsureStreamRequest = /*@__PURE__*/ S.suspend(() =>
     stream: S.String.pipe(T.Label()),
     body: S.optional(S.NullOr(StreamConfig).pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "PUT", uri: "/streams/{stream}", code: 200 })),
-).annotate({
-  identifier: "EnsureStreamRequest",
-}) as any as S.Schema<EnsureStreamRequest>;
+).annotate({ identifier: "EnsureStreamRequest" }) as any as S.Schema<EnsureStreamRequest>;
 
 export interface GetStreamConfigRequest {
   /** Stream name. */
@@ -162,9 +146,7 @@ export const GetStreamConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     stream: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/streams/{stream}", code: 200 })),
-).annotate({
-  identifier: "GetStreamConfigRequest",
-}) as any as S.Schema<GetStreamConfigRequest>;
+).annotate({ identifier: "GetStreamConfigRequest" }) as any as S.Schema<GetStreamConfigRequest>;
 
 export interface ListStreamsRequest {
   /** Filter to streams whose names begin with this prefix. It must not contain NUL bytes. */
@@ -180,9 +162,7 @@ export const ListStreamsRequest = /*@__PURE__*/ S.suspend(() =>
     start_after: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/streams", code: 200 })),
-).annotate({
-  identifier: "ListStreamsRequest",
-}) as any as S.Schema<ListStreamsRequest>;
+).annotate({ identifier: "ListStreamsRequest" }) as any as S.Schema<ListStreamsRequest>;
 
 /** Matching streams. */
 export type ListStreamsResponseStreamsList = Array<StreamInfo>;
@@ -201,9 +181,7 @@ export const ListStreamsResponse = /*@__PURE__*/ S.suspend(() =>
     has_more: S.Boolean,
     streams: ListStreamsResponseStreamsList,
   }),
-).annotate({
-  identifier: "ListStreamsResponse",
-}) as any as S.Schema<ListStreamsResponse>;
+).annotate({ identifier: "ListStreamsResponse" }) as any as S.Schema<ListStreamsResponse>;
 
 export interface DeleteOnEmptyReconfiguration {
   /** Minimum age in seconds before an empty stream can be deleted. Set to 0 to disable delete-on-empty (don't delete automatically). */
@@ -236,7 +214,8 @@ export interface ReconfigureStreamRequest {
   stream: string;
   delete_on_empty?: DeleteOnEmptyReconfiguration | null;
   retention_policy?: RetentionPolicy | null;
-  storage_class?: StorageClass | (string & {}) | null;
+  /** [Storage class](https://s2.dev/docs/storage-classes) for recent writes. */
+  storage_class?: string | null;
   timestamping?: TimestampingReconfiguration | null;
 }
 export const ReconfigureStreamRequest = /*@__PURE__*/ S.suspend(() =>
@@ -244,12 +223,10 @@ export const ReconfigureStreamRequest = /*@__PURE__*/ S.suspend(() =>
     stream: S.String.pipe(T.Label()),
     delete_on_empty: S.optional(S.NullOr(DeleteOnEmptyReconfiguration)),
     retention_policy: S.optional(S.NullOr(RetentionPolicy)),
-    storage_class: S.optional(S.NullOr(StorageClass)),
+    storage_class: S.optional(S.NullOr(S.String)),
     timestamping: S.optional(S.NullOr(TimestampingReconfiguration)),
   }).pipe(T.Http({ method: "PATCH", uri: "/streams/{stream}", code: 200 })),
-).annotate({
-  identifier: "ReconfigureStreamRequest",
-}) as any as S.Schema<ReconfigureStreamRequest>;
+).annotate({ identifier: "ReconfigureStreamRequest" }) as any as S.Schema<ReconfigureStreamRequest>;
 
 export type CreateStreamError = S2OpError;
 /** Create a stream. */

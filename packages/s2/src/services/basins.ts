@@ -17,9 +17,7 @@ export const DeleteOnEmptyConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     min_age_secs: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DeleteOnEmptyConfig",
-}) as any as S.Schema<DeleteOnEmptyConfig>;
+).annotate({ identifier: "DeleteOnEmptyConfig" }) as any as S.Schema<DeleteOnEmptyConfig>;
 
 /** Age in seconds for automatic trimming of records older than this threshold. This must be set to a value greater than 0 seconds. */
 export interface RetentionPolicyCase0 {
@@ -30,9 +28,7 @@ export const RetentionPolicyCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     age: S.Number,
   }),
-).annotate({
-  identifier: "RetentionPolicyCase0",
-}) as any as S.Schema<RetentionPolicyCase0>;
+).annotate({ identifier: "RetentionPolicyCase0" }) as any as S.Schema<RetentionPolicyCase0>;
 
 /** Retain records unless explicitly trimmed. */
 export interface RetentionPolicyCase1 {
@@ -43,15 +39,10 @@ export const RetentionPolicyCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     infinite: S.Unknown,
   }),
-).annotate({
-  identifier: "RetentionPolicyCase1",
-}) as any as S.Schema<RetentionPolicyCase1>;
+).annotate({ identifier: "RetentionPolicyCase1" }) as any as S.Schema<RetentionPolicyCase1>;
 
 export type RetentionPolicy = RetentionPolicyCase0 | RetentionPolicyCase1;
 export const RetentionPolicy = /*@__PURE__*/ S.Unknown as any as S.Schema<RetentionPolicy>;
-
-export type StorageClass = "standard" | "express";
-export const StorageClass = S.String;
 
 export type TimestampingMode = "client-prefer" | "client-require" | "arrival";
 export const TimestampingMode = S.String;
@@ -66,21 +57,20 @@ export const TimestampingConfig = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(S.NullOr(TimestampingMode)),
     uncapped: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "TimestampingConfig",
-}) as any as S.Schema<TimestampingConfig>;
+).annotate({ identifier: "TimestampingConfig" }) as any as S.Schema<TimestampingConfig>;
 
 export interface StreamConfig {
   delete_on_empty?: DeleteOnEmptyConfig | null;
   retention_policy?: RetentionPolicy | null;
-  storage_class?: StorageClass | (string & {}) | null;
+  /** [Storage class](https://s2.dev/docs/storage-classes) for recent writes. */
+  storage_class?: string | null;
   timestamping?: TimestampingConfig | null;
 }
 export const StreamConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     delete_on_empty: S.optional(S.NullOr(DeleteOnEmptyConfig)),
     retention_policy: S.optional(S.NullOr(RetentionPolicy)),
-    storage_class: S.optional(S.NullOr(StorageClass)),
+    storage_class: S.optional(S.NullOr(S.String)),
     timestamping: S.optional(S.NullOr(TimestampingConfig)),
   }),
 ).annotate({ identifier: "StreamConfig" }) as any as S.Schema<StreamConfig>;
@@ -120,9 +110,7 @@ export const CreateBasinRequest = /*@__PURE__*/ S.suspend(() =>
     config: S.optional(S.NullOr(BasinConfig)),
     location: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/basins", code: 200 })),
-).annotate({
-  identifier: "CreateBasinRequest",
-}) as any as S.Schema<CreateBasinRequest>;
+).annotate({ identifier: "CreateBasinRequest" }) as any as S.Schema<CreateBasinRequest>;
 
 export interface BasinInfo {
   /** Creation time in RFC 3339 format. */
@@ -150,9 +138,7 @@ export const DeleteBasinRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     basin: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/basins/{basin}", code: 200 })),
-).annotate({
-  identifier: "DeleteBasinRequest",
-}) as any as S.Schema<DeleteBasinRequest>;
+).annotate({ identifier: "DeleteBasinRequest" }) as any as S.Schema<DeleteBasinRequest>;
 
 export interface DeleteBasinResponse {}
 export const DeleteBasinResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -168,9 +154,7 @@ export const EnsureBasinRequest = /*@__PURE__*/ S.suspend(() =>
     config: S.optional(S.NullOr(BasinConfig)),
     location: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "EnsureBasinRequest",
-}) as any as S.Schema<EnsureBasinRequest>;
+).annotate({ identifier: "EnsureBasinRequest" }) as any as S.Schema<EnsureBasinRequest>;
 
 export interface EnsureBasinRequest2 {
   /** Basin name. */
@@ -182,9 +166,7 @@ export const EnsureBasinRequest2 = /*@__PURE__*/ S.suspend(() =>
     basin: S.String.pipe(T.Label()),
     body: S.optional(S.NullOr(EnsureBasinRequest).pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "PUT", uri: "/basins/{basin}", code: 200 })),
-).annotate({
-  identifier: "EnsureBasinRequest2",
-}) as any as S.Schema<EnsureBasinRequest2>;
+).annotate({ identifier: "EnsureBasinRequest2" }) as any as S.Schema<EnsureBasinRequest2>;
 
 export interface GetBasinConfigRequest {
   /** Basin name. */
@@ -194,9 +176,7 @@ export const GetBasinConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     basin: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/basins/{basin}", code: 200 })),
-).annotate({
-  identifier: "GetBasinConfigRequest",
-}) as any as S.Schema<GetBasinConfigRequest>;
+).annotate({ identifier: "GetBasinConfigRequest" }) as any as S.Schema<GetBasinConfigRequest>;
 
 export interface ListBasinsRequest {
   /** Filter to basins whose names begin with this prefix. */
@@ -212,9 +192,7 @@ export const ListBasinsRequest = /*@__PURE__*/ S.suspend(() =>
     start_after: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/basins", code: 200 })),
-).annotate({
-  identifier: "ListBasinsRequest",
-}) as any as S.Schema<ListBasinsRequest>;
+).annotate({ identifier: "ListBasinsRequest" }) as any as S.Schema<ListBasinsRequest>;
 
 /** Matching basins. */
 export type ListBasinsResponseBasinsList = Array<BasinInfo>;
@@ -233,9 +211,7 @@ export const ListBasinsResponse = /*@__PURE__*/ S.suspend(() =>
     basins: ListBasinsResponseBasinsList,
     has_more: S.Boolean,
   }),
-).annotate({
-  identifier: "ListBasinsResponse",
-}) as any as S.Schema<ListBasinsResponse>;
+).annotate({ identifier: "ListBasinsResponse" }) as any as S.Schema<ListBasinsResponse>;
 
 export interface DeleteOnEmptyReconfiguration {
   /** Minimum age in seconds before an empty stream can be deleted. Set to 0 to disable delete-on-empty (don't delete automatically). */
@@ -266,19 +242,18 @@ export const TimestampingReconfiguration = /*@__PURE__*/ S.suspend(() =>
 export interface StreamReconfiguration {
   delete_on_empty?: DeleteOnEmptyReconfiguration | null;
   retention_policy?: RetentionPolicy | null;
-  storage_class?: StorageClass | (string & {}) | null;
+  /** [Storage class](https://s2.dev/docs/storage-classes) for recent writes. */
+  storage_class?: string | null;
   timestamping?: TimestampingReconfiguration | null;
 }
 export const StreamReconfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     delete_on_empty: S.optional(S.NullOr(DeleteOnEmptyReconfiguration)),
     retention_policy: S.optional(S.NullOr(RetentionPolicy)),
-    storage_class: S.optional(S.NullOr(StorageClass)),
+    storage_class: S.optional(S.NullOr(S.String)),
     timestamping: S.optional(S.NullOr(TimestampingReconfiguration)),
   }),
-).annotate({
-  identifier: "StreamReconfiguration",
-}) as any as S.Schema<StreamReconfiguration>;
+).annotate({ identifier: "StreamReconfiguration" }) as any as S.Schema<StreamReconfiguration>;
 
 export interface ReconfigureBasinRequest {
   /** Basin name. */
@@ -298,9 +273,7 @@ export const ReconfigureBasinRequest = /*@__PURE__*/ S.suspend(() =>
     default_stream_config: S.optional(S.NullOr(StreamReconfiguration)),
     stream_cipher: S.optional(S.NullOr(EncryptionAlgorithm)),
   }).pipe(T.Http({ method: "PATCH", uri: "/basins/{basin}", code: 200 })),
-).annotate({
-  identifier: "ReconfigureBasinRequest",
-}) as any as S.Schema<ReconfigureBasinRequest>;
+).annotate({ identifier: "ReconfigureBasinRequest" }) as any as S.Schema<ReconfigureBasinRequest>;
 
 export type CreateBasinError = S2OpError;
 /** Create a basin. */

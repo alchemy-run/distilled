@@ -49,6 +49,8 @@ export interface AppendRequest {
   s2Format?: Format | (string & {});
   /** Encryption key material for append and read operations. Provide base64-encoded key when stream encryption is enabled. */
   s2EncryptionKey?: string;
+  /** JSON-encoded `StreamConfig` to apply if the stream is created on append or read. Unset fields inherit the basin's default stream configuration. Ignored if the stream already exists. Compact JSON is preferred. */
+  s2StreamConfig?: string;
   fencing_token?: string | null;
   match_seq_num?: number | null;
   /** Batch of records to append atomically, which must contain at least one record, and no more than 1000. The total size of a batch of records may not exceed 1 MiB of metered bytes. */
@@ -59,6 +61,7 @@ export const AppendRequest = /*@__PURE__*/ S.suspend(() =>
     stream: S.String.pipe(T.Label()),
     s2Format: S.optional(Format.pipe(T.Header("s2-format"))),
     s2EncryptionKey: S.optional(S.String.pipe(T.Header("s2-encryption-key"))),
+    s2StreamConfig: S.optional(S.String.pipe(T.Header("s2-stream-config"))),
     fencing_token: S.optional(S.NullOr(S.String)),
     match_seq_num: S.optional(S.NullOr(S.Number)),
     records: AppendRequestRecordsList,
@@ -104,9 +107,7 @@ export const CheckTailRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     stream: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/streams/{stream}/records/tail", code: 200 })),
-).annotate({
-  identifier: "CheckTailRequest",
-}) as any as S.Schema<CheckTailRequest>;
+).annotate({ identifier: "CheckTailRequest" }) as any as S.Schema<CheckTailRequest>;
 
 export interface TailResponse {
   /** Sequence number that will be assigned to the next record on the stream, and timestamp of the last record. */
@@ -141,6 +142,8 @@ export interface ReadRequest {
   s2Format?: Format | (string & {});
   /** Encryption key material for append and read operations. Provide base64-encoded key when stream encryption is enabled. */
   s2EncryptionKey?: string;
+  /** JSON-encoded `StreamConfig` to apply if the stream is created on append or read. Unset fields inherit the basin's default stream configuration. Ignored if the stream already exists. Compact JSON is preferred. */
+  s2StreamConfig?: string;
 }
 export const ReadRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -155,6 +158,7 @@ export const ReadRequest = /*@__PURE__*/ S.suspend(() =>
     wait: S.optional(S.Number.pipe(T.Query())),
     s2Format: S.optional(Format.pipe(T.Header("s2-format"))),
     s2EncryptionKey: S.optional(S.String.pipe(T.Header("s2-encryption-key"))),
+    s2StreamConfig: S.optional(S.String.pipe(T.Header("s2-stream-config"))),
   }).pipe(T.Http({ method: "GET", uri: "/streams/{stream}/records", code: 200 })),
 ).annotate({ identifier: "ReadRequest" }) as any as S.Schema<ReadRequest>;
 
@@ -182,9 +186,7 @@ export const SequencedRecord = /*@__PURE__*/ S.suspend(() =>
     seq_num: S.Number,
     timestamp: S.Number,
   }),
-).annotate({
-  identifier: "SequencedRecord",
-}) as any as S.Schema<SequencedRecord>;
+).annotate({ identifier: "SequencedRecord" }) as any as S.Schema<SequencedRecord>;
 
 /** Records that are durably sequenced on the stream, retrieved based on the requested criteria. This can only be empty in response to a unary read (i.e. not SSE), if the request cannot be satisfied without violating an explicit bound (`count`, `bytes`, or `until`). */
 export type ReadBatchRecordsList = Array<SequencedRecord>;

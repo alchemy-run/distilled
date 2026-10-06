@@ -21,6 +21,13 @@
     "com.s2.locations#LocationInfo": {
       "type": "structure",
       "members": {
+        "default_storage_class": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default [storage class](https://s2.dev/docs/storage-classes) for this location.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "is_private": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -34,9 +41,25 @@
             "smithy.api#documentation": "Location name.",
             "smithy.api#required": {}
           }
+        },
+        "storage_classes": {
+          "target": "com.s2.locations#LocationInfoStorageClassesList",
+          "traits": {
+            "smithy.api#documentation": "[Storage classes](https://s2.dev/docs/storage-classes) available to the account in this location.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
+    },
+    "com.s2.locations#LocationInfoStorageClassesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "[Storage classes](https://s2.dev/docs/storage-classes) available to the account in this location."
+      }
     },
     "com.s2.locations#ListLocationsResponseBodyList": {
       "type": "list",

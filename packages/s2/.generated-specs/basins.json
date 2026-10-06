@@ -179,8 +179,9 @@
           }
         },
         "storage_class": {
-          "target": "com.s2.basins#StorageClass",
+          "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "[Storage class](https://s2.dev/docs/storage-classes) for recent writes.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -246,24 +247,6 @@
       "traits": {
         "smithy.api#documentation": "Retain records unless explicitly trimmed."
       }
-    },
-    "com.s2.basins#StorageClass": {
-      "type": "enum",
-      "members": {
-        "STANDARD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "standard"
-          }
-        },
-        "EXPRESS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "express"
-          }
-        }
-      },
-      "traits": {}
     },
     "com.s2.basins#TimestampingConfig": {
       "type": "structure",
@@ -484,8 +467,9 @@
           }
         },
         "storage_class": {
-          "target": "com.s2.basins#StorageClass",
+          "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "[Storage class](https://s2.dev/docs/storage-classes) for recent writes.",
             "com.distilled.openapi#nullable": {}
           }
         },
