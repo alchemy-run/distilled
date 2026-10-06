@@ -23876,6 +23876,8 @@ export interface SubscriptionCreateCustomer {
   metadata?: SubscriptionCreateCustomerMetadataMap;
   /** The ID of the recurring product to subscribe to. Must be a free product, otherwise the customer should go through a checkout flow. */
   product_id: string;
+  /** The currency of the subscription. The product must have a free price in this currency. If not set, the organization's default currency is used. */
+  currency?: PresentmentCurrency | (string & {}) | null;
   /** The ID of the customer to create the subscription for. */
   customer_id: string;
 }
@@ -23883,6 +23885,7 @@ export const SubscriptionCreateCustomer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: S.optional(SubscriptionCreateCustomerMetadataMap),
     product_id: S.String,
+    currency: S.optional(S.NullOr(PresentmentCurrency)),
     customer_id: S.String,
   }),
 ).annotate({
@@ -23908,6 +23911,8 @@ export interface SubscriptionCreateExternalCustomer {
   metadata?: SubscriptionCreateExternalCustomerMetadataMap;
   /** The ID of the recurring product to subscribe to. Must be a free product, otherwise the customer should go through a checkout flow. */
   product_id: string;
+  /** The currency of the subscription. The product must have a free price in this currency. If not set, the organization's default currency is used. */
+  currency?: PresentmentCurrency | (string & {}) | null;
   /** The ID of the customer in your system to create the subscription for. It must already exist in Polar. */
   external_customer_id: string;
 }
@@ -23915,6 +23920,7 @@ export const SubscriptionCreateExternalCustomer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: S.optional(SubscriptionCreateExternalCustomerMetadataMap),
     product_id: S.String,
+    currency: S.optional(S.NullOr(PresentmentCurrency)),
     external_customer_id: S.String,
   }),
 ).annotate({

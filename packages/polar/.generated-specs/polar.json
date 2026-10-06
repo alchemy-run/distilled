@@ -13564,6 +13564,13 @@
             "smithy.api#required": {}
           }
         },
+        "currency": {
+          "target": "com.polar.api#PresentmentCurrency",
+          "traits": {
+            "smithy.api#documentation": "The currency of the subscription. The product must have a free price in this currency. If not set, the organization's default currency is used.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "customer_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -13620,6 +13627,13 @@
           "traits": {
             "smithy.api#documentation": "The ID of the recurring product to subscribe to. Must be a free product, otherwise the customer should go through a checkout flow.",
             "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.polar.api#PresentmentCurrency",
+          "traits": {
+            "smithy.api#documentation": "The currency of the subscription. The product must have a free price in this currency. If not set, the organization's default currency is used.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "external_customer_id": {
