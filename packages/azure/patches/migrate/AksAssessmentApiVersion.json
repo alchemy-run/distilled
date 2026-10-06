@@ -3,122 +3,122 @@
   "patches": [
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#GetAksSummaryOperation/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#AksSummaryOperationsGet/traits/smithy.api#http/apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#GetAksSummaryOperation/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#AksSummaryOperationsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#ListAksSummaryOperationByAksAssessment/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#AksSummaryOperationsListByAksAssessment/traits/smithy.api#http/apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#ListAksSummaryOperationByAksAssessment/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#AksSummaryOperationsListByAksAssessment/traits/com.distilled.openapi#apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#DownloadAksAssessmentOperationUrl/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#AksAssessmentOperationsDownloadUrl/traits/smithy.api#http/apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#DownloadAksAssessmentOperationUrl/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#AksAssessmentOperationsDownloadUrl/traits/com.distilled.openapi#apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#ListAksCostDetailOperationByAksAssessment/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#AksCostDetailOperationsListByAksAssessment/traits/smithy.api#http/apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#ListAksCostDetailOperationByAksAssessment/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#AksCostDetailOperationsListByAksAssessment/traits/com.distilled.openapi#apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#GetAksClusterOperation/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#AksClusterOperationsGet/traits/smithy.api#http/apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#GetAksClusterOperation/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#AksClusterOperationsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#ListAksClusterOperationByAksAssessment/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#AksClusterOperationsListByAksAssessment/traits/smithy.api#http/apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#ListAksClusterOperationByAksAssessment/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#AksClusterOperationsListByAksAssessment/traits/com.distilled.openapi#apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#GetAssessedWebApplicationOperation/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#AssessedWebApplicationOperationsGet/traits/smithy.api#http/apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#GetAssessedWebApplicationOperation/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#AssessedWebApplicationOperationsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#ListAssessedWebApplicationOperationByAksAssessment/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#AssessedWebApplicationOperationsListByAksAssessment/traits/smithy.api#http/apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#ListAssessedWebApplicationOperationByAksAssessment/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#AssessedWebApplicationOperationsListByAksAssessment/traits/com.distilled.openapi#apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#DeleteAksAssessmentOperation/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#AksAssessmentOperationsDelete/traits/smithy.api#http/apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#DeleteAksAssessmentOperation/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#AksAssessmentOperationsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#CreateAksAssessmentOperation/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#AksAssessmentOperationsCreate/traits/smithy.api#http/apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#CreateAksAssessmentOperation/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#AksAssessmentOperationsCreate/traits/com.distilled.openapi#apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#GetAksAssessmentOperation/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#AksAssessmentOperationsGet/traits/smithy.api#http/apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#GetAksAssessmentOperation/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#AksAssessmentOperationsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#ListAksAssessmentOperationByAssessmentProject/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#AksAssessmentOperationsListByAssessmentProject/traits/smithy.api#http/apiVersion",
       "value": "2024-03-03-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#ListAksAssessmentOperationByAssessmentProject/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#AksAssessmentOperationsListByAssessmentProject/traits/com.distilled.openapi#apiVersion",
       "value": "2024-03-03-preview"
     },
     {

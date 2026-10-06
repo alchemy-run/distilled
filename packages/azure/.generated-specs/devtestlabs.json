@@ -10571,10 +10571,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners/{name}",
           "code": 200,
-          "apiVersion": "2018-09-15"
+          "apiVersion": "2018-10-15-preview"
         },
         "smithy.api#documentation": "Create or replace an existing service runner.",
-        "com.distilled.openapi#apiVersion": "2018-09-15"
+        "com.distilled.openapi#apiVersion": "2018-10-15-preview"
       }
     },
     "com.azure.devtestlabs#ServiceRunnersCreateOrUpdateResponse": {
@@ -10652,6 +10652,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The client secret URL of the identity."
+          }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.devtestlabs#IdentityPropertiesUserAssignedIdentitiesMap",
+          "traits": {
+            "smithy.api#documentation": "User-assigned identities, keyed by ARM resource ID."
           }
         }
       },
@@ -10754,6 +10760,12 @@
           "target": "com.azure.devtestlabs#IdentityProperties",
           "traits": {
             "smithy.api#documentation": "The identity of the resource."
+          }
+        },
+        "properties": {
+          "target": "com.azure.devtestlabs#ServiceRunnerProperties",
+          "traits": {
+            "smithy.api#documentation": "Properties of the service runner."
           }
         }
       },
@@ -21069,6 +21081,52 @@
       "traits": {
         "smithy.api#title": "Azure Devtestlabs",
         "smithy.api#documentation": "Azure Devtestlabs API — merged from the devtestlabs resource-manager specs (latest stable api-version per resource provider)."
+      }
+    },
+    "com.azure.devtestlabs#UserAssignedIdentityValue": {
+      "type": "structure",
+      "members": {
+        "principalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Principal ID of the user-assigned identity."
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Client ID of the user-assigned identity."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A user-assigned identity attached to the resource."
+      }
+    },
+    "com.azure.devtestlabs#IdentityPropertiesUserAssignedIdentitiesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.azure.devtestlabs#UserAssignedIdentityValue"
+      },
+      "traits": {
+        "smithy.api#documentation": "User-assigned identities, keyed by ARM resource ID."
+      }
+    },
+    "com.azure.devtestlabs#ServiceRunnerProperties": {
+      "type": "structure",
+      "members": {
+        "identityUsageType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the runner's identity is used for: `Environment` or `VirtualMachine`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Properties of a service runner."
       }
     }
   }

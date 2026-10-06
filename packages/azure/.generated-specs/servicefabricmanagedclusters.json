@@ -4624,6 +4624,66 @@
           "traits": {
             "smithy.api#documentation": "Dns name used for the service. If this is specified, then the DNS name can be used to return the IP addresses of service endpoints for application layer protocols (e.g., HTTP).\nWhen updating serviceDnsName, old name may be temporarily resolvable. However, rely on new name.\nWhen removing serviceDnsName, removed name may temporarily be resolvable. Do not rely on the name being unresolvable."
           }
+        },
+        "instanceCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Stateless: instance count per partition (-1 = every node)."
+          }
+        },
+        "minInstanceCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Stateless: minimum instance count."
+          }
+        },
+        "minInstancePercentage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Stateless: minimum instance percentage."
+          }
+        },
+        "targetReplicaSetSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Stateful: target replica set size."
+          }
+        },
+        "minReplicaSetSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Stateful: minimum replica set size."
+          }
+        },
+        "hasPersistedState": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Stateful: whether the service persists state on disk."
+          }
+        },
+        "replicaRestartWaitDuration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stateful: ISO 8601 replica restart wait duration."
+          }
+        },
+        "quorumLossWaitDuration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stateful: ISO 8601 quorum loss wait duration."
+          }
+        },
+        "standByReplicaKeepDuration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stateful: ISO 8601 standby replica keep duration."
+          }
+        },
+        "servicePlacementTimeLimit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stateful: ISO 8601 service placement time limit."
+          }
         }
       },
       "traits": {
@@ -4657,6 +4717,30 @@
           "target": "com.azure.servicefabricmanagedclusters#PartitionScheme",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of partitions (UniformInt64Range / Named)."
+          }
+        },
+        "lowKey": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#documentation": "Lower bound of the partition key range (UniformInt64Range)."
+          }
+        },
+        "highKey": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#documentation": "Upper bound of the partition key range (UniformInt64Range)."
+          }
+        },
+        "names": {
+          "target": "com.azure.servicefabricmanagedclusters#PartitionNamesList",
+          "traits": {
+            "smithy.api#documentation": "Partition names (Named)."
           }
         }
       },
@@ -5328,6 +5412,66 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Dns name used for the service. If this is specified, then the DNS name can be used to return the IP addresses of service endpoints for application layer protocols (e.g., HTTP).\nWhen updating serviceDnsName, old name may be temporarily resolvable. However, rely on new name.\nWhen removing serviceDnsName, removed name may temporarily be resolvable. Do not rely on the name being unresolvable."
+          }
+        },
+        "instanceCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Stateless: instance count per partition (-1 = every node)."
+          }
+        },
+        "minInstanceCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Stateless: minimum instance count."
+          }
+        },
+        "minInstancePercentage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Stateless: minimum instance percentage."
+          }
+        },
+        "targetReplicaSetSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Stateful: target replica set size."
+          }
+        },
+        "minReplicaSetSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Stateful: minimum replica set size."
+          }
+        },
+        "hasPersistedState": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Stateful: whether the service persists state on disk."
+          }
+        },
+        "replicaRestartWaitDuration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stateful: ISO 8601 replica restart wait duration."
+          }
+        },
+        "quorumLossWaitDuration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stateful: ISO 8601 quorum loss wait duration."
+          }
+        },
+        "standByReplicaKeepDuration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stateful: ISO 8601 standby replica keep duration."
+          }
+        },
+        "servicePlacementTimeLimit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stateful: ISO 8601 service placement time limit."
           }
         }
       },
@@ -11489,6 +11633,15 @@
       "traits": {
         "smithy.api#title": "Azure Servicefabricmanagedclusters",
         "smithy.api#documentation": "Azure Servicefabricmanagedclusters API — merged from the servicefabricmanagedclusters resource-manager specs (latest stable api-version per resource provider)."
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#PartitionNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Partition names (Named scheme)."
       }
     }
   }

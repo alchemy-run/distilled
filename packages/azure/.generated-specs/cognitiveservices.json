@@ -7127,6 +7127,12 @@
         },
         "useWorkspaceManagedIdentity": {
           "target": "smithy.api#Boolean"
+        },
+        "credentials": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Auth-type-specific credentials (polymorphic on `authType`), e.g. `{ key }` for ApiKey or `{ keys: {...} }` for CustomKeys. Write-only."
+          }
         }
       },
       "traits": {
@@ -8126,7 +8132,7 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}/listAgents",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Lists agents for an Agent Application.\n\nLists agents for an Agent Application.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -8285,7 +8291,7 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}/enable",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Enables an Agent Application.\n\nEnables an Agent Application.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -8352,7 +8358,7 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}/disable",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Disables an Agent Application.\n\nDisables an Agent Application.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -8419,7 +8425,7 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}/stop",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Stops an Agent Deployment.\n\nStops an Agent Deployment.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -8494,7 +8500,7 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}/start",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Starts an Agent Deployment.\n\nStarts an Agent Deployment.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -8569,7 +8575,7 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Delete Agent Deployment.\n\nDelete Agent Deployment.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -8644,7 +8650,7 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Creates or updates an Agent Deployment (asynchronous).\n\nCreates or updates an Agent Deployment (asynchronous).",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -9161,7 +9167,7 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Gets an Agent Deployment by name.\n\nGets an Agent Deployment by name.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -9275,7 +9281,7 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Lists Agent Deployments in the application.\n\nLists Agent Deployments in the application.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -9453,7 +9459,7 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Delete Agent Application.\n\nDelete Agent Application.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -9520,7 +9526,7 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Creates or updates an Agent Application (asynchronous).\n\nCreates or updates an Agent Application (asynchronous).",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -10213,7 +10219,7 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Gets an Agent Application by name.\n\nGets an Agent Application by name.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -10319,7 +10325,7 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Lists Agent Applications in the project.\n\nLists Agent Applications in the project.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -13590,7 +13596,7 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/provision",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Provisions the managed network of a cognitive services account.\n\nProvisions the managed network of a cognitive services account.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -13683,7 +13689,7 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/outboundRules/{ruleName}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "The DELETE API for deleting a single outbound rule of the managed network associated with the cognitive services account.\n\nThe DELETE API for deleting a single outbound rule of the managed network associated with the cognitive services account.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -13750,7 +13756,7 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/outboundRules/{ruleName}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "The PUT API for creating or updating a single outbound rule of the managed network associated with the cognitive services account.\n\nThe PUT API for creating or updating a single outbound rule of the managed network associated with the cognitive services account.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -13825,6 +13831,12 @@
         },
         "parentRuleNames": {
           "target": "com.azure.cognitiveservices#OutboundRuleParentRuleNamesList"
+        },
+        "destination": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Rule destination (polymorphic on `type`)."
+          }
         }
       },
       "traits": {
@@ -14010,6 +14022,12 @@
             "smithy.api#documentation": "Type of a managed network Outbound Rule of a cognitive services account.",
             "smithy.api#required": {}
           }
+        },
+        "destination": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Rule destination (polymorphic on `type`): an FQDN string, a `{ serviceResourceId, subresourceTarget }` private endpoint target, or a `{ serviceTag, protocol, portRanges, action }` service tag."
+          }
         }
       },
       "traits": {
@@ -14029,7 +14047,7 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/outboundRules/{ruleName}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "The GET API for retrieving a single outbound rule of the managed network associated with the cognitive services account.\n\nThe GET API for retrieving a single outbound rule of the managed network associated with the cognitive services account.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -14135,7 +14153,7 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/outboundRules",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "The GET API for retrieving the list of outbound rules of the managed network associated with the cognitive services account.\n\nThe GET API for retrieving the list of outbound rules of the managed network associated with the cognitive services account.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -14262,7 +14280,7 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/batchOutboundRules",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "The POST API for updating the outbound rules of the managed network associated with the cognitive services account.\n\nThe POST API for updating the outbound rules of the managed network associated with the cognitive services account.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -14444,7 +14462,7 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Delete API for managed network settings of a cognitive services account.\n\nDelete API for managed network settings of a cognitive services account.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -14503,7 +14521,7 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Patch API for managed network settings of a cognitive services account.\n\nPatch API for managed network settings of a cognitive services account.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -14806,7 +14824,7 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "PUT API for managed network settings of a cognitive services account.\n\nPUT API for managed network settings of a cognitive services account.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -14909,7 +14927,7 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Get API for managed network settings of a cognitive services account.\n\nGet API for managed network settings of a cognitive services account.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -15006,7 +15024,7 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "List API for managed network settings of a cognitive services account.\n\nList API for managed network settings of a cognitive services account.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -21368,7 +21386,7 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiPolicy/{raiPolicyName}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Deletes the specified Content Filters associated with the subscription.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -21411,7 +21429,7 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiPolicy/{raiPolicyName}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Update the state of specified Content Filters associated with the subscription.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -21540,7 +21558,7 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiPolicy/{raiPolicyName}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Gets the specified Content Filters associated with the Subscription.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -21645,7 +21663,7 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiExternalSafetyProviders/{safetyProviderName}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Deletes the specified custom topic associated with the subscription.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -21688,7 +21706,7 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiExternalSafetyProviders/{safetyProviderName}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Create the rai safety provider associated with the subscription.",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -21799,7 +21817,7 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiExternalSafetyProviders/{safetyProviderName}",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Gets the specified external safety provider associated with the Subscription",
         "com.distilled.openapi#apiVersion": "2026-09-01"
@@ -21904,7 +21922,7 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiExternalSafetyProviders",
           "code": 200,
-          "apiVersion": "2026-09-01"
+          "apiVersion": "2026-07-15-preview"
         },
         "smithy.api#documentation": "Gets the safety providers associated with the subscription",
         "com.distilled.openapi#apiVersion": "2026-09-01"

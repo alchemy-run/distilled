@@ -23,32 +23,32 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CheckLocationQuotaAvailability/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#LocationsCheckQuotaAvailability/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CheckLocationQuotaAvailability/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#LocationsCheckQuotaAvailability/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CheckLocationTrialAvailability/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#LocationsCheckTrialAvailability/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CheckLocationTrialAvailability/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#LocationsCheckTrialAvailability/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CheckServiceComponentAvailability/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#ServiceComponentsCheckAvailability/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CheckServiceComponentAvailability/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#ServiceComponentsCheckAvailability/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
@@ -73,72 +73,72 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CreateWorkloadNetworkDhcp/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksCreateDhcp/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CreateWorkloadNetworkDhcp/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksCreateDhcp/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CreateWorkloadNetworkDnsService/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksCreateDnsService/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CreateWorkloadNetworkDnsService/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksCreateDnsService/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CreateWorkloadNetworkDnsZone/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksCreateDnsZone/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CreateWorkloadNetworkDnsZone/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksCreateDnsZone/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CreateWorkloadNetworkPortMirroring/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksCreatePortMirroring/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CreateWorkloadNetworkPortMirroring/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksCreatePortMirroring/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CreateWorkloadNetworkPublicIP/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksCreatePublicIP/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CreateWorkloadNetworkPublicIP/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksCreatePublicIP/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CreateWorkloadNetworkSegments/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksCreateSegments/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CreateWorkloadNetworkSegments/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksCreateSegments/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CreateWorkloadNetworkVMGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksCreateVMGroup/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#CreateWorkloadNetworkVMGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksCreateVMGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
@@ -153,522 +153,522 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteAddon/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#AddonsDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteAddon/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#AddonsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteAuthorization/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#AuthorizationsDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteAuthorization/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#AuthorizationsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteCloudLink/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#CloudLinksDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteCloudLink/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#CloudLinksDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteCluster/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#ClustersDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteCluster/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#ClustersDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteDatastore/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#DatastoresDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteDatastore/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#DatastoresDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteGlobalReachConnection/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#GlobalReachConnectionsDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteGlobalReachConnection/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#GlobalReachConnectionsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteHcxEnterpriseSite/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#HcxEnterpriseSitesDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteHcxEnterpriseSite/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#HcxEnterpriseSitesDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteIscsiPath/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#IscsiPathsDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteIscsiPath/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#IscsiPathsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteLicense/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#LicensesDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteLicense/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#LicensesDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeletePlacementPolicy/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#PlacementPoliciesDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeletePlacementPolicy/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#PlacementPoliciesDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeletePrivateCloud/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeletePrivateCloud/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeletePureStoragePolicy/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#PureStoragePoliciesDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeletePureStoragePolicy/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#PureStoragePoliciesDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteScriptExecution/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#ScriptExecutionsDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteScriptExecution/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#ScriptExecutionsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteWorkloadNetworkDhcp/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksDeleteDhcp/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteWorkloadNetworkDhcp/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksDeleteDhcp/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteWorkloadNetworkDnsService/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksDeleteDnsService/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteWorkloadNetworkDnsService/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksDeleteDnsService/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteWorkloadNetworkDnsZone/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksDeleteDnsZone/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteWorkloadNetworkDnsZone/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksDeleteDnsZone/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteWorkloadNetworkPortMirroring/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksDeletePortMirroring/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteWorkloadNetworkPortMirroring/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksDeletePortMirroring/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteWorkloadNetworkPublicIP/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksDeletePublicIP/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteWorkloadNetworkPublicIP/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksDeletePublicIP/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteWorkloadNetworkSegment/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksDeleteSegment/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteWorkloadNetworkSegment/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksDeleteSegment/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteWorkloadNetworkVMGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksDeleteVMGroup/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#DeleteWorkloadNetworkVMGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksDeleteVMGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetAddon/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#AddonsGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetAddon/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#AddonsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetAuthorization/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#AuthorizationsGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetAuthorization/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#AuthorizationsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetCloudLink/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#CloudLinksGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetCloudLink/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#CloudLinksGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetCluster/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#ClustersGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetCluster/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#ClustersGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetDatastore/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#DatastoresGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetDatastore/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#DatastoresGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetGlobalReachConnection/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#GlobalReachConnectionsGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetGlobalReachConnection/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#GlobalReachConnectionsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetHcxEnterpriseSite/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#HcxEnterpriseSitesGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetHcxEnterpriseSite/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#HcxEnterpriseSitesGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetHost/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#HostsGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetHost/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#HostsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetIscsiPath/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#IscsiPathsGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetIscsiPath/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#IscsiPathsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetLicense/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#LicensesGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetLicense/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#LicensesGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetLicenseProperties/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#LicensesGetProperties/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetLicenseProperties/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#LicensesGetProperties/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetMaintenance/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#MaintenancesGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetMaintenance/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#MaintenancesGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetPlacementPolicy/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#PlacementPoliciesGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetPlacementPolicy/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#PlacementPoliciesGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetPrivateCloud/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetPrivateCloud/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetPrivateCloudVcfLicense/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsGetVcfLicense/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetPrivateCloudVcfLicense/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsGetVcfLicense/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetProvisionedNetwork/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#ProvisionedNetworksGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetProvisionedNetwork/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#ProvisionedNetworksGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetPureStoragePolicy/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#PureStoragePoliciesGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetPureStoragePolicy/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#PureStoragePoliciesGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetScriptCmdlet/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#ScriptCmdletsGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetScriptCmdlet/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#ScriptCmdletsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetScriptExecution/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#ScriptExecutionsGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetScriptExecution/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#ScriptExecutionsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetScriptExecutionExecutionLogs/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#ScriptExecutionsGetExecutionLogs/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetScriptExecutionExecutionLogs/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#ScriptExecutionsGetExecutionLogs/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetScriptPackage/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#ScriptPackagesGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetScriptPackage/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#ScriptPackagesGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetVirtualMachine/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#VirtualMachinesGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetVirtualMachine/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#VirtualMachinesGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetwork/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGet/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetwork/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkDhcp/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetDhcp/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkDhcp/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetDhcp/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkDnsService/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetDnsService/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkDnsService/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetDnsService/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkDnsZone/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetDnsZone/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkDnsZone/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetDnsZone/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkGateway/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetGateway/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkGateway/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetGateway/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkPortMirroring/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetPortMirroring/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkPortMirroring/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetPortMirroring/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkPublicIP/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetPublicIP/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkPublicIP/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetPublicIP/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkSegment/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetSegment/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkSegment/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetSegment/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkVMGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetVMGroup/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkVMGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetVMGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkVirtualMachine/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetVirtualMachine/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#GetWorkloadNetworkVirtualMachine/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksGetVirtualMachine/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
@@ -713,342 +713,342 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListAddons/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#AddonsList/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListAddons/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#AddonsList/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListAuthorizations/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#AuthorizationsList/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListAuthorizations/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#AuthorizationsList/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListCloudLinks/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#CloudLinksList/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListCloudLinks/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#CloudLinksList/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListClusterZones/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#ClustersListZones/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListClusterZones/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#ClustersListZones/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListClusters/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#ClustersList/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListClusters/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#ClustersList/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListDatastores/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#DatastoresList/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListDatastores/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#DatastoresList/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListGlobalReachConnections/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#GlobalReachConnectionsList/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListGlobalReachConnections/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#GlobalReachConnectionsList/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListHcxEnterpriseSites/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#HcxEnterpriseSitesList/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListHcxEnterpriseSites/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#HcxEnterpriseSitesList/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListHosts/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#HostsList/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListHosts/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#HostsList/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListIscsiPathByPrivateCloud/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#IscsiPathsListByPrivateCloud/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListIscsiPathByPrivateCloud/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#IscsiPathsListByPrivateCloud/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListLicenses/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#LicensesList/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListLicenses/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#LicensesList/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListMaintenances/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#MaintenancesList/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListMaintenances/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#MaintenancesList/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListOperations/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#OperationsList/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListOperations/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#OperationsList/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListPlacementPolicies/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#PlacementPoliciesList2/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListPlacementPolicies/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#PlacementPoliciesList2/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListPrivateCloudAdminCredentials/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsListAdminCredentials/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListPrivateCloudAdminCredentials/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsListAdminCredentials/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListPrivateCloudInSubscription/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsListInSubscription/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListPrivateCloudInSubscription/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsListInSubscription/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListPrivateClouds/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsList/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListPrivateClouds/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsList/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListProvisionedNetworks/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#ProvisionedNetworksList/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListProvisionedNetworks/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#ProvisionedNetworksList/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListPureStoragePolicies/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#PureStoragePoliciesList/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListPureStoragePolicies/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#PureStoragePoliciesList/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListScriptCmdlets/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#ScriptCmdletsList2/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListScriptCmdlets/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#ScriptCmdletsList2/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListScriptExecutions/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#ScriptExecutionsList2/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListScriptExecutions/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#ScriptExecutionsList2/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListScriptPackages/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#ScriptPackagesList2/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListScriptPackages/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#ScriptPackagesList2/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListSkus/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#SkusList/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListSkus/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#SkusList/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListVirtualMachines/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#VirtualMachinesList2/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListVirtualMachines/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#VirtualMachinesList2/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkDhcp/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListDhcp/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkDhcp/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListDhcp/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkDnsServices/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListDnsServices/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkDnsServices/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListDnsServices/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkDnsZones/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListDnsZones/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkDnsZones/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListDnsZones/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkGateways/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListGateways/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkGateways/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListGateways/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkPortMirroring/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListPortMirroring/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkPortMirroring/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListPortMirroring/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkPublicIPs/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListPublicIPs/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkPublicIPs/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListPublicIPs/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkSegments/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListSegments/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkSegments/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListSegments/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkVMGroups/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListVMGroups/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkVMGroups/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListVMGroups/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkVirtualMachines/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListVirtualMachines/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworkVirtualMachines/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksListVirtualMachines/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworks/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksList/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#ListWorkloadNetworks/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksList/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
@@ -1113,22 +1113,22 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#RotatePrivateCloudNsxtPassword/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsRotateNsxtPassword/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#RotatePrivateCloudNsxtPassword/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsRotateNsxtPassword/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#RotatePrivateCloudVcenterPassword/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsRotateVcenterPassword/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#RotatePrivateCloudVcenterPassword/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsRotateVcenterPassword/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
@@ -1143,102 +1143,102 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdateCluster/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#ClustersUpdate/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdateCluster/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#ClustersUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdateHost/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#HostsUpdate/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdateHost/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#HostsUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdatePlacementPolicy/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#PlacementPoliciesUpdate/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdatePlacementPolicy/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#PlacementPoliciesUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdatePrivateCloud/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsUpdate/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdatePrivateCloud/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#PrivateCloudsUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdateWorkloadNetworkDhcp/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksUpdateDhcp/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdateWorkloadNetworkDhcp/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksUpdateDhcp/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdateWorkloadNetworkDnsService/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksUpdateDnsService/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdateWorkloadNetworkDnsService/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksUpdateDnsService/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdateWorkloadNetworkDnsZone/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksUpdateDnsZone/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdateWorkloadNetworkDnsZone/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksUpdateDnsZone/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdateWorkloadNetworkPortMirroring/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksUpdatePortMirroring/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdateWorkloadNetworkPortMirroring/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksUpdatePortMirroring/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdateWorkloadNetworkSegments/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksUpdateSegments/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdateWorkloadNetworkSegments/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksUpdateSegments/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdateWorkloadNetworkVMGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksUpdateVMGroup/traits/smithy.api#http/apiVersion",
       "value": "2025-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.vmware#UpdateWorkloadNetworkVMGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworksUpdateVMGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2025-09-01"
     },
     {

@@ -73,8 +73,5 @@
   },
   "peerDependencies": {
     "effect": "catalog:"
-  },
-  "distilled": {
-    "patches": "generate"
   }
 }

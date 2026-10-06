@@ -14,7 +14,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.web#InstallWebAppSiteExtensionRequest/members/properties",
+      "path": "/shapes/com.azure.web#WebAppsInstallSiteExtensionRequest/members/properties",
       "value": {
         "target": "com.azure.web#SiteExtensionInstallProperties",
         "traits": {
@@ -24,7 +24,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.web#InstallWebAppSiteExtensionSlotRequest/members/properties",
+      "path": "/shapes/com.azure.web#WebAppsInstallSiteExtensionSlotRequest/members/properties",
       "value": {
         "target": "com.azure.web#SiteExtensionInstallProperties",
         "traits": {

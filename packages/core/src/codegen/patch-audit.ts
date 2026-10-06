@@ -9,18 +9,13 @@
  *   depended   the build fails without it — a later patch targets what it
  *              adds, so the two go together
  *
- * How "the model" is built depends on the package's patch stage
- * (`distilled.patches`, see `./patches.ts`):
- *
- *   convert    run the package's `convert` on a scratch copy of the package
- *              (`packages/.audit-<pkg>-<n>`); needs the spec mirror. A file
- *              whose ops all target the Smithy model is judged in memory by
- *              `finalizeConvert` ({@link PATCH_AUDIT_ENV}): one convert, then
- *              only the finalize steps re-run per file. Any other file (it
- *              edits the spec before conversion) costs one convert per file
- *              ({@link SKIP_PATCHES_ENV}). Up to `jobs` copies run at once.
- *   generate   apply `patches/<model>/` to the committed `.generated-specs`
- *              in-process; needs nothing beyond the checkout
+ * The model is built by running the package's `convert` on a scratch copy
+ * of the package (`packages/.audit-<pkg>-<n>`), so the spec mirror must be
+ * fetched. A file whose ops all target the Smithy model is judged in
+ * memory by `finalizeConvert` ({@link PATCH_AUDIT_ENV}): one convert, then
+ * only the finalize steps re-run per file. Any other file (it edits the
+ * spec before conversion) costs one convert per file
+ * ({@link SKIP_PATCHES_ENV}). Up to `jobs` copies run at once.
  *
  * The package itself is never written: `.generated-specs` stays as committed.
  *
@@ -43,15 +38,12 @@ import { availableParallelism, freemem } from "node:os";
 import { basename, dirname, join, relative, sep } from "node:path";
 import { diffModels, type Models } from "./model-diff.ts";
 import {
-  applyModelPatches,
   isSmithyPatchPath,
   PATCH_AUDIT_ENV,
   PATCH_AUDIT_MARKER,
-  patchStage,
   RENAME_MAP_ENV,
   SKIP_PATCHES_ENV,
   type InMemoryVerdict,
-  type PatchStage,
 } from "./patches.ts";
 
 export { diffModels, type Models };
@@ -89,7 +81,6 @@ export interface FileVerdict {
 export type PackageAudit =
   | {
       readonly kind: "audited";
-      readonly stage: PatchStage;
       readonly files: readonly FileVerdict[];
       /** Files under `patches/` without a `patches` array (e.g. AWS typed configs). */
       readonly notAudited: readonly string[];
@@ -141,75 +132,7 @@ export const listPatchFiles = (patchesDir: string): { files: PatchFileInfo[]; ot
 };
 
 // ---------------------------------------------------------------------------
-// generate stage
-
-/**
- * Generate stage: apply `patches/<model>/` to the committed
- * `.generated-specs/<model>.json` in memory. Only the model a skipped file
- * belongs to is rebuilt; the committed files are never written.
- */
-export const generateBuilder = (pkgDir: string): ModelBuilder => {
-  const specsDir = join(pkgDir, ".generated-specs");
-  const patchesDir = join(pkgDir, "patches");
-  const models = readdirSync(patchesDir, { withFileTypes: true })
-    .filter((e) => e.isDirectory())
-    .map((e) => e.name)
-    .sort();
-  const raw = new Map<string, string>();
-  const source = (model: string): string => {
-    let text = raw.get(model);
-    if (text === undefined) {
-      const file = join(specsDir, `${model}.json`);
-      if (!existsSync(file))
-        throw new Error(`patches/${model}/ has no .generated-specs/${model}.json`);
-      text = readFileSync(file, "utf8");
-      raw.set(model, text);
-    }
-    return text;
-  };
-  const patched = (model: string): string => {
-    const json = JSON.parse(source(model));
-    applyModelPatches(json, join(patchesDir, model));
-    return JSON.stringify(json);
-  };
-  let baseline: Models | undefined;
-  const withSkip = <A>(skip: string | undefined, f: () => A): A => {
-    const previous = process.env[SKIP_PATCHES_ENV];
-    if (skip === undefined) delete process.env[SKIP_PATCHES_ENV];
-    else process.env[SKIP_PATCHES_ENV] = skip;
-    try {
-      return f();
-    } finally {
-      if (previous === undefined) delete process.env[SKIP_PATCHES_ENV];
-      else process.env[SKIP_PATCHES_ENV] = previous;
-    }
-  };
-  return {
-    build: (skip) => {
-      try {
-        baseline ??= withSkip(
-          undefined,
-          () => new Map(models.map((m) => [`${m}.json`, patched(m)])),
-        );
-        if (skip === undefined) return { ok: true, models: baseline };
-        // A skip entry is `<model>/<file>[:<index>]`: rebuild that model only.
-        const model = skip.split("/")[0]!;
-        const next = new Map(baseline);
-        next.set(
-          `${model}.json`,
-          withSkip(skip, () => patched(model)),
-        );
-        return { ok: true, models: next };
-      } catch (e) {
-        return { ok: false, error: e instanceof Error ? e.message : String(e) };
-      }
-    },
-    restore: () => {},
-  };
-};
-
-// ---------------------------------------------------------------------------
-// convert stage: scratch copies
+// scratch copies
 
 /**
  * A scratch copy of the package next to it (same depth, so relative imports
@@ -475,7 +398,7 @@ export interface AuditOptions {
   readonly ops?: boolean;
   /** Only files whose key contains this substring. */
   readonly only?: string;
-  /** Scratch copies converting at once (convert stage); default from cores and free memory. */
+  /** Scratch copies converting at once; default from cores and free memory. */
   readonly jobs?: number;
   /** `false` judges every file by one convert each (the slow path; for comparing). */
   readonly inMemory?: boolean;
@@ -492,7 +415,6 @@ export const auditPackage = async (
 ): Promise<PackageAudit> => {
   const patchesDir = join(pkgDir, "patches");
   if (!existsSync(patchesDir)) return { kind: "skipped", reason: "no patches/ directory" };
-  const stage = patchStage(pkgDir);
   const listed = listPatchFiles(patchesDir);
   const files =
     options.only === undefined
@@ -506,35 +428,11 @@ export const auditPackage = async (
   };
   const done = (judged: { inMemory: number; perFile: number }): PackageAudit => ({
     kind: "audited",
-    stage,
     files: verdicts.sort((a, b) => order.get(a.file.key)! - order.get(b.file.key)!),
     notAudited: listed.other,
     judged,
   });
   if (files.length === 0) return done({ inMemory: 0, perFile: 0 });
-
-  if (stage === "generate") {
-    const builder = generateBuilder(pkgDir);
-    const base = builder.build();
-    if (!base.ok) return { kind: "skipped", reason: `baseline build fails: ${base.error}` };
-    const judge = (skip: string): Verdict => {
-      const run = builder.build(skip);
-      if (!run.ok) return { kind: "depended", error: run.error };
-      const diff = diffModels(base.models, run.models);
-      return diff.length === 0 ? { kind: "unused" } : { kind: "needed", diff };
-    };
-    for (const file of files) {
-      const verdict = judge(file.key);
-      const deadOps: number[] = [];
-      if (options.ops && verdict.kind === "needed" && file.ops > 1) {
-        for (let index = 0; index < file.ops; index++) {
-          if (judge(`${file.key}:${index}`).kind === "unused") deadOps.push(index);
-        }
-      }
-      report({ file, verdict, deadOps });
-    }
-    return done({ inMemory: files.length, perFile: 0 });
-  }
 
   const command = JSON.parse(readFileSync(join(pkgDir, "package.json"), "utf8")).scripts?.convert;
   if (!command) return { kind: "skipped", reason: "no `convert` script applies patches" };

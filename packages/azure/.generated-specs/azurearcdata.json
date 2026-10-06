@@ -1821,10 +1821,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/dataControllers/{dataControllerName}",
           "code": 200,
-          "apiVersion": "2026-01-01"
+          "apiVersion": "2023-09-01-preview"
         },
         "smithy.api#documentation": "Deletes a dataController resource",
-        "com.distilled.openapi#apiVersion": "2026-01-01"
+        "com.distilled.openapi#apiVersion": "2023-09-01-preview"
       }
     },
     "com.azure.azurearcdata#DeleteDataControllerDataControllerRequest": {
@@ -1872,10 +1872,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/dataControllers/{dataControllerName}",
           "code": 200,
-          "apiVersion": "2026-01-01"
+          "apiVersion": "2023-09-01-preview"
         },
         "smithy.api#documentation": "Updates a dataController resource",
-        "com.distilled.openapi#apiVersion": "2026-01-01"
+        "com.distilled.openapi#apiVersion": "2023-09-01-preview"
       }
     },
     "com.azure.azurearcdata#PatchDataControllerDataControllerResponse": {
@@ -2506,10 +2506,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/dataControllers/{dataControllerName}",
           "code": 200,
-          "apiVersion": "2026-01-01"
+          "apiVersion": "2023-09-01-preview"
         },
         "smithy.api#documentation": "Creates or replaces a dataController resource",
-        "com.distilled.openapi#apiVersion": "2026-01-01"
+        "com.distilled.openapi#apiVersion": "2023-09-01-preview"
       }
     },
     "com.azure.azurearcdata#PutDataControllerDataControllerResponse": {
@@ -2705,10 +2705,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/dataControllers/{dataControllerName}",
           "code": 200,
-          "apiVersion": "2026-01-01"
+          "apiVersion": "2023-09-01-preview"
         },
         "smithy.api#documentation": "Retrieves a dataController resource",
-        "com.distilled.openapi#apiVersion": "2026-01-01"
+        "com.distilled.openapi#apiVersion": "2023-09-01-preview"
       }
     },
     "com.azure.azurearcdata#GetDataControllerDataControllerResponse": {
@@ -2846,10 +2846,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/dataControllers",
           "code": 200,
-          "apiVersion": "2026-01-01"
+          "apiVersion": "2023-09-01-preview"
         },
         "smithy.api#documentation": "List dataController resources in the resource group",
-        "com.distilled.openapi#apiVersion": "2026-01-01"
+        "com.distilled.openapi#apiVersion": "2023-09-01-preview"
       }
     },
     "com.azure.azurearcdata#ListDataControllerInGroupResponse": {
@@ -3008,10 +3008,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.AzureArcData/dataControllers",
           "code": 200,
-          "apiVersion": "2026-01-01"
+          "apiVersion": "2023-09-01-preview"
         },
         "smithy.api#documentation": "List dataController resources in the subscription",
-        "com.distilled.openapi#apiVersion": "2026-01-01"
+        "com.distilled.openapi#apiVersion": "2023-09-01-preview"
       }
     },
     "com.azure.azurearcdata#ListDataControllerInSubscriptionResponse": {

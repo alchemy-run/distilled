@@ -6,8 +6,6 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, test } from "vitest";
-import { auditPackage } from "./codegen/patch-audit.ts";
-import { patchStage } from "./codegen/patches.ts";
 
 const PACKAGES = join(import.meta.dirname, "..", "..");
 
@@ -87,17 +85,3 @@ describe("every SDK", () => {
     expect(/export type CommonErrors =([^;]*);/.exec(errors)?.[1]).toMatch(/\bParseError\b/);
   });
 });
-
-describe.each(sdks.filter((pkg) => patchStage(join(PACKAGES, pkg)) === "generate"))(
-  "%s generate-stage patches",
-  (pkg) => {
-    // Generate-stage patches apply to the committed model, so their audit
-    // needs no spec mirror and runs here on every PR.
-    test("every patch file still changes the model", async () => {
-      const result = await auditPackage(join(PACKAGES, pkg));
-      if (result.kind === "skipped") throw new Error(result.reason);
-      const unused = result.files.filter((f) => f.verdict.kind === "unused").map((f) => f.file.key);
-      expect(unused, `delete these from packages/${pkg}/patches/`).toEqual([]);
-    });
-  },
-);

@@ -718,6 +718,36 @@
             "smithy.api#documentation": "Discriminator property for FabricProfile.",
             "smithy.api#required": {}
           }
+        },
+        "sku": {
+          "target": "com.azure.devopsinfrastructure#DevOpsAzureSku",
+          "traits": {
+            "smithy.api#documentation": "Vmss only: the Azure SKU of the machines in the pool."
+          }
+        },
+        "images": {
+          "target": "com.azure.devopsinfrastructure#PoolImageList",
+          "traits": {
+            "smithy.api#documentation": "Vmss only: the VM images of the machines in the pool."
+          }
+        },
+        "osProfile": {
+          "target": "com.azure.devopsinfrastructure#OsProfile",
+          "traits": {
+            "smithy.api#documentation": "Vmss only: the OS profile of the machines in the pool."
+          }
+        },
+        "storageProfile": {
+          "target": "com.azure.devopsinfrastructure#StorageProfile",
+          "traits": {
+            "smithy.api#documentation": "Vmss only: the storage profile of the machines in the pool."
+          }
+        },
+        "networkProfile": {
+          "target": "com.azure.devopsinfrastructure#NetworkProfile",
+          "traits": {
+            "smithy.api#documentation": "Vmss only: the network profile of the machines in the pool."
+          }
         }
       },
       "traits": {
@@ -745,6 +775,18 @@
           "traits": {
             "smithy.api#documentation": "Defines how the pool buffer/stand-by agents is provided."
           }
+        },
+        "maxAgentLifetime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stateful only: how long should stateful machines be kept around (d.hh:mm:ss)."
+          }
+        },
+        "gracePeriodTimeSpan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stateful only: how long should the machine be kept around after it ran a workload when there are no stand-by agents."
+          }
         }
       },
       "traits": {
@@ -759,6 +801,12 @@
           "traits": {
             "smithy.api#documentation": "Determines how the stand-by scheme should be provided.",
             "smithy.api#required": {}
+          }
+        },
+        "predictionPreference": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Automatic only: determines the balance between cost and performance (Balanced, MostCostEffective, MoreCostEffective, MorePerformance, BestPerformance)."
           }
         }
       },
@@ -794,6 +842,24 @@
           "traits": {
             "smithy.api#documentation": "Discriminator property for OrganizationProfile.",
             "smithy.api#required": {}
+          }
+        },
+        "organizations": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "AzureDevOps: list of {url, projects?, parallelism?, openAccess?}; GitHub: list of {url, repositories?}."
+          }
+        },
+        "permissionProfile": {
+          "target": "com.azure.devopsinfrastructure#AzureDevOpsPermissionProfile",
+          "traits": {
+            "smithy.api#documentation": "AzureDevOps only: the type of permission which determines which accounts are admins on the pool."
+          }
+        },
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "AzureDevOps only: an alias to reference the pool by."
           }
         }
       },
@@ -2701,6 +2767,239 @@
       "traits": {
         "smithy.api#title": "Azure Devopsinfrastructure",
         "smithy.api#documentation": "Azure Devopsinfrastructure API — merged from the devopsinfrastructure resource-manager specs (latest stable api-version per resource provider)."
+      }
+    },
+    "com.azure.devopsinfrastructure#PoolStringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of strings."
+      }
+    },
+    "com.azure.devopsinfrastructure#AzureDevOpsPermissionProfile": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Determines who has admin permissions to the Azure DevOps pool (CreatorOnly, Inherit, SpecificAccounts).",
+            "smithy.api#required": {}
+          }
+        },
+        "users": {
+          "target": "com.azure.devopsinfrastructure#PoolStringList",
+          "traits": {
+            "smithy.api#documentation": "User email addresses."
+          }
+        },
+        "groups": {
+          "target": "com.azure.devopsinfrastructure#PoolStringList",
+          "traits": {
+            "smithy.api#documentation": "Group email addresses."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the type of Azure DevOps pool permission."
+      }
+    },
+    "com.azure.devopsinfrastructure#DevOpsAzureSku": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Azure SKU name of the machines in the pool.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Azure SKU of the machines in the pool."
+      }
+    },
+    "com.azure.devopsinfrastructure#PoolImage": {
+      "type": "structure",
+      "members": {
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource id of the image."
+          }
+        },
+        "wellKnownImageName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The image to use from a well-known set of images made available to customers."
+          }
+        },
+        "aliases": {
+          "target": "com.azure.devopsinfrastructure#PoolStringList",
+          "traits": {
+            "smithy.api#documentation": "List of aliases to reference the image by."
+          }
+        },
+        "buffer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The percentage of the buffer to be allocated to this image."
+          }
+        },
+        "ephemeralType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ephemeral type of the image (Automatic, CacheDisk, ResourceDisk)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The VM image of the machines in the pool."
+      }
+    },
+    "com.azure.devopsinfrastructure#PoolImageList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.devopsinfrastructure#PoolImage"
+      },
+      "traits": {
+        "smithy.api#documentation": "The VM images of the machines in the pool."
+      }
+    },
+    "com.azure.devopsinfrastructure#SecretsManagementSettings": {
+      "type": "structure",
+      "members": {
+        "certificateStoreLocation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Where to store certificates on the machine."
+          }
+        },
+        "certificateStoreName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the certificate store to use on the machine (My, Root)."
+          }
+        },
+        "observedCertificates": {
+          "target": "com.azure.devopsinfrastructure#PoolStringList",
+          "traits": {
+            "smithy.api#documentation": "The list of certificates to install on all machines in the pool.",
+            "smithy.api#required": {}
+          }
+        },
+        "keyExportable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines if the key of installed certificates should be exportable.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The secret management settings of the machines in the pool."
+      }
+    },
+    "com.azure.devopsinfrastructure#OsProfile": {
+      "type": "structure",
+      "members": {
+        "secretsManagementSettings": {
+          "target": "com.azure.devopsinfrastructure#SecretsManagementSettings",
+          "traits": {
+            "smithy.api#documentation": "The secret management settings of the machines in the pool."
+          }
+        },
+        "logonType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Determines how the service should be run (Service, Interactive)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The OS profile of the machines in the pool."
+      }
+    },
+    "com.azure.devopsinfrastructure#DataDisk": {
+      "type": "structure",
+      "members": {
+        "caching": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of caching to be enabled for the data disks (None, ReadOnly, ReadWrite)."
+          }
+        },
+        "diskSizeGiB": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The initial disk size in gigabytes."
+          }
+        },
+        "storageAccountType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The storage Account type to be used for the data disk."
+          }
+        },
+        "driveLetter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The drive letter for the empty data disk."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The data disk of the VMSS."
+      }
+    },
+    "com.azure.devopsinfrastructure#DataDiskList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.devopsinfrastructure#DataDisk"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of empty data disks to attach."
+      }
+    },
+    "com.azure.devopsinfrastructure#StorageProfile": {
+      "type": "structure",
+      "members": {
+        "osDiskStorageAccountType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Azure SKU name of the OS disk (Standard, Premium, StandardSSD)."
+          }
+        },
+        "dataDisks": {
+          "target": "com.azure.devopsinfrastructure#DataDiskList",
+          "traits": {
+            "smithy.api#documentation": "A list of empty data disks to attach."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The storage profile of the VMSS."
+      }
+    },
+    "com.azure.devopsinfrastructure#NetworkProfile": {
+      "type": "structure",
+      "members": {
+        "subnetId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The subnet id on which to put all machines created in the pool."
+          }
+        },
+        "staticIpAddressCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of static public IP addresses for machines in the pool."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The network profile of the machines in the pool."
       }
     }
   }
