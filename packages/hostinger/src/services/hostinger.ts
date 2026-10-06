@@ -294,6 +294,27 @@ export const AgencyHostingLinkDomainToWebsiteV1Request = /*@__PURE__*/ S.suspend
   identifier: "AgencyHostingLinkDomainToWebsiteV1Request",
 }) as any as S.Schema<AgencyHostingLinkDomainToWebsiteV1Request>;
 
+export interface AgencyHostingReinstallWebsiteSSLV1Request {
+  /** Agency Plan website UID */
+  website_uid: string;
+  /** Domain name */
+  domain: string;
+}
+export const AgencyHostingReinstallWebsiteSSLV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    website_uid: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/agency-hosting/v1/websites/{website_uid}/domains/{domain}/ssl/reinstall",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "AgencyHostingReinstallWebsiteSSLV1Request",
+}) as any as S.Schema<AgencyHostingReinstallWebsiteSSLV1Request>;
+
 export interface AssignReachAContactToATagV1Request {
   /** Profile uuid parameter */
   profileUuid: string;
@@ -390,17 +411,13 @@ export const AttachVPSPublicKeyV1Request = /*@__PURE__*/ S.suspend(() =>
     virtualMachineId: S.Number.pipe(T.Label()),
     ids: AttachVPSPublicKeyV1RequestIdsList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/vps/v1/public-keys/attach/{virtualMachineId}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/vps/v1/public-keys/attach/{virtualMachineId}", code: 200 }),
   ),
 ).annotate({
   identifier: "AttachVPSPublicKeyV1Request",
 }) as any as S.Schema<AttachVPSPublicKeyV1Request>;
 
-export type BillingGetCatalogItemListV1RequestCategory = "DOMAIN" | "VPS" | "EMAIL";
+export type BillingGetCatalogItemListV1RequestCategory = "DOMAIN" | "VPS" | "EMAIL" | "HOSTING";
 export const BillingGetCatalogItemListV1RequestCategory = S.String;
 
 export interface BillingGetCatalogItemListV1Request {
@@ -500,13 +517,7 @@ export const BillingGetCatalogItemListV1Response = /*@__PURE__*/ S.suspend(() =>
 
 export interface BillingGetPaymentMethodListV1Request {}
 export const BillingGetPaymentMethodListV1Request = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/billing/v1/payment-methods",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/billing/v1/payment-methods", code: 200 })),
 ).annotate({
   identifier: "BillingGetPaymentMethodListV1Request",
 }) as any as S.Schema<BillingGetPaymentMethodListV1Request>;
@@ -629,13 +640,7 @@ export interface CancelDomainPendingIRTPVerificationV1Request {
 export const CancelDomainPendingIRTPVerificationV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/domains/v1/irtp/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/domains/v1/irtp/{domain}", code: 200 })),
 ).annotate({
   identifier: "CancelDomainPendingIRTPVerificationV1Request",
 }) as any as S.Schema<CancelDomainPendingIRTPVerificationV1Request>;
@@ -733,13 +738,7 @@ export const CheckDomainDomainAvailabilityV1Request = /*@__PURE__*/ S.suspend(()
     domain: S.String,
     tlds: CheckDomainDomainAvailabilityV1RequestTldsList,
     with_alternatives: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/domains/v1/availability",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/domains/v1/availability", code: 200 })),
 ).annotate({
   identifier: "CheckDomainDomainAvailabilityV1Request",
 }) as any as S.Schema<CheckDomainDomainAvailabilityV1Request>;
@@ -907,13 +906,7 @@ export const ClaimDomainFreeDomainTransferV1Request = /*@__PURE__*/ S.suspend(()
     auth_code: S.String,
     domain_contacts: S.optional(ClaimDomainFreeDomainTransferV1RequestDomainContacts),
     should_keep_ns: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/domains/v1/transfers/claim",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/domains/v1/transfers/claim", code: 200 })),
 ).annotate({
   identifier: "ClaimDomainFreeDomainTransferV1Request",
 }) as any as S.Schema<ClaimDomainFreeDomainTransferV1Request>;
@@ -958,13 +951,7 @@ export const ClaimDomainFreeDomainV1Request = /*@__PURE__*/ S.suspend(() =>
     domain: S.String,
     domain_contacts: S.optional(ClaimDomainFreeDomainTransferV1RequestDomainContacts),
     additional_details: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/domains/v1/portfolio/claim",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/domains/v1/portfolio/claim", code: 200 })),
 ).annotate({
   identifier: "ClaimDomainFreeDomainV1Request",
 }) as any as S.Schema<ClaimDomainFreeDomainV1Request>;
@@ -1016,6 +1003,26 @@ export const ClearAgencyHostingWebsiteCacheV1Request = /*@__PURE__*/ S.suspend((
   identifier: "ClearAgencyHostingWebsiteCacheV1Request",
 }) as any as S.Schema<ClearAgencyHostingWebsiteCacheV1Request>;
 
+export interface ClearHostingNodeJsRuntimeLogsV1Request {
+  username: string;
+  /** Domain name */
+  domain: string;
+}
+export const ClearHostingNodeJsRuntimeLogsV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/api/hosting/v1/accounts/{username}/websites/{domain}/nodejs/runtime-logs",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ClearHostingNodeJsRuntimeLogsV1Request",
+}) as any as S.Schema<ClearHostingNodeJsRuntimeLogsV1Request>;
+
 export interface ClearHostingWebsiteCacheV1Request {
   username: string;
   /** Domain name */
@@ -1038,6 +1045,59 @@ export const ClearHostingWebsiteCacheV1Request = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ClearHostingWebsiteCacheV1Request",
 }) as any as S.Schema<ClearHostingWebsiteCacheV1Request>;
+
+export interface CloneHorizonWebsiteV1Request {
+  /** The website ID */
+  websiteId: string;
+}
+export const CloneHorizonWebsiteV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    websiteId: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/api/horizons/v1/websites/{websiteId}/clone", code: 200 }),
+  ),
+).annotate({
+  identifier: "CloneHorizonWebsiteV1Request",
+}) as any as S.Schema<CloneHorizonWebsiteV1Request>;
+
+export interface HorizonsV1WebsitesCreatedWebsiteResource {
+  /** The website URL for the user to access their website in Hostinger Horizons interface */
+  website_url: string;
+  /** The website ID */
+  website_id: string;
+}
+export const HorizonsV1WebsitesCreatedWebsiteResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    website_url: S.String,
+    website_id: S.String,
+  }),
+).annotate({
+  identifier: "HorizonsV1WebsitesCreatedWebsiteResource",
+}) as any as S.Schema<HorizonsV1WebsitesCreatedWebsiteResource>;
+
+/** Domain contact information */
+export type CompleteDomainDomainSetupV1RequestDomainContacts =
+  ClaimDomainFreeDomainTransferV1RequestDomainContacts;
+export const CompleteDomainDomainSetupV1RequestDomainContacts =
+  ClaimDomainFreeDomainTransferV1RequestDomainContacts;
+
+export interface CompleteDomainDomainSetupV1Request {
+  /** Domain name */
+  domain: string;
+  /** Domain contact information */
+  domain_contacts?: ClaimDomainFreeDomainTransferV1RequestDomainContacts;
+  /** Additional registration data, possible values depends on TLD */
+  additional_details?: unknown;
+}
+export const CompleteDomainDomainSetupV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+    domain_contacts: S.optional(ClaimDomainFreeDomainTransferV1RequestDomainContacts),
+    additional_details: S.optional(S.Unknown),
+  }).pipe(T.Http({ method: "POST", uri: "/api/domains/v1/portfolio/{domain}/setup", code: 200 })),
+).annotate({
+  identifier: "CompleteDomainDomainSetupV1Request",
+}) as any as S.Schema<CompleteDomainDomainSetupV1Request>;
 
 export interface CreateAgencyHostingANewWebsiteV1RequestSettingsPhp {
   /** PHP version */
@@ -1064,7 +1124,7 @@ export const CreateAgencyHostingANewWebsiteV1RequestSettings = /*@__PURE__*/ S.s
 }) as any as S.Schema<CreateAgencyHostingANewWebsiteV1RequestSettings>;
 
 /** Website type */
-export type CreateAgencyHostingANewWebsiteV1RequestType = "horizons" | "node-static";
+export type CreateAgencyHostingANewWebsiteV1RequestType = "node-static";
 export const CreateAgencyHostingANewWebsiteV1RequestType = S.String;
 
 export interface CreateAgencyHostingANewWebsiteV1RequestWordpressAdmin {
@@ -1098,44 +1158,6 @@ export const CreateAgencyHostingANewWebsiteV1RequestWordpress = /*@__PURE__*/ S.
   identifier: "CreateAgencyHostingANewWebsiteV1RequestWordpress",
 }) as any as S.Schema<CreateAgencyHostingANewWebsiteV1RequestWordpress>;
 
-/** Clone the new website from an existing website */
-export interface CreateAgencyHostingANewWebsiteV1RequestClone {
-  website_uid: string;
-}
-export const CreateAgencyHostingANewWebsiteV1RequestClone = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    website_uid: S.String,
-  }),
-).annotate({
-  identifier: "CreateAgencyHostingANewWebsiteV1RequestClone",
-}) as any as S.Schema<CreateAgencyHostingANewWebsiteV1RequestClone>;
-
-export interface CreateAgencyHostingANewWebsiteV1RequestDeriveDomainFromVhost {
-  username: string;
-  vhost: string;
-}
-export const CreateAgencyHostingANewWebsiteV1RequestDeriveDomainFromVhost = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      username: S.String,
-      vhost: S.String,
-    }),
-).annotate({
-  identifier: "CreateAgencyHostingANewWebsiteV1RequestDeriveDomainFromVhost",
-}) as any as S.Schema<CreateAgencyHostingANewWebsiteV1RequestDeriveDomainFromVhost>;
-
-/** Derive the domain from an existing vhost */
-export interface CreateAgencyHostingANewWebsiteV1RequestDeriveDomain {
-  from_vhost: CreateAgencyHostingANewWebsiteV1RequestDeriveDomainFromVhost;
-}
-export const CreateAgencyHostingANewWebsiteV1RequestDeriveDomain = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    from_vhost: CreateAgencyHostingANewWebsiteV1RequestDeriveDomainFromVhost,
-  }),
-).annotate({
-  identifier: "CreateAgencyHostingANewWebsiteV1RequestDeriveDomain",
-}) as any as S.Schema<CreateAgencyHostingANewWebsiteV1RequestDeriveDomain>;
-
 export interface CreateAgencyHostingANewWebsiteV1Request {
   /** Agency Plan order ID */
   order_id: number;
@@ -1151,10 +1173,6 @@ export interface CreateAgencyHostingANewWebsiteV1Request {
   type?: CreateAgencyHostingANewWebsiteV1RequestType | (string & {}) | null;
   /** WordPress installation options */
   wordpress?: CreateAgencyHostingANewWebsiteV1RequestWordpress;
-  /** Clone the new website from an existing website */
-  clone?: CreateAgencyHostingANewWebsiteV1RequestClone;
-  /** Derive the domain from an existing vhost */
-  derive_domain?: CreateAgencyHostingANewWebsiteV1RequestDeriveDomain;
 }
 export const CreateAgencyHostingANewWebsiteV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1165,8 +1183,6 @@ export const CreateAgencyHostingANewWebsiteV1Request = /*@__PURE__*/ S.suspend((
     domain: S.optional(S.NullOr(S.String)),
     type: S.optional(S.NullOr(CreateAgencyHostingANewWebsiteV1RequestType)),
     wordpress: S.optional(CreateAgencyHostingANewWebsiteV1RequestWordpress),
-    clone: S.optional(CreateAgencyHostingANewWebsiteV1RequestClone),
-    derive_domain: S.optional(CreateAgencyHostingANewWebsiteV1RequestDeriveDomain),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1545,6 +1561,8 @@ export interface DomainsV1WHOISProfileResource {
   country?: string;
   /** WHOIS profile entity type */
   entity_type?: DomainsV1WHOISProfileResourceEntityType;
+  /** Whether the profile is pre-selected when registering new domains of its TLD */
+  is_default?: boolean;
   /** WHOIS profile details */
   whois_details?: unknown;
   /** TLD details */
@@ -1558,6 +1576,7 @@ export const DomainsV1WHOISProfileResource = /*@__PURE__*/ S.suspend(() =>
     tld: S.optional(S.String),
     country: S.optional(S.String),
     entity_type: S.optional(DomainsV1WHOISProfileResourceEntityType),
+    is_default: S.optional(S.Boolean),
     whois_details: S.optional(S.Unknown),
     tld_details: S.optional(S.Unknown),
     created_at: S.optional(S.String),
@@ -1613,11 +1632,7 @@ export const CreateEcommerceADiscountV1Request = /*@__PURE__*/ S.suspend(() =>
     min_cart_value: S.optional(S.Number),
     time_zone: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/ecommerce/v1/stores/{store_id}/discounts",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/ecommerce/v1/stores/{store_id}/discounts", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateEcommerceADiscountV1Request",
@@ -2193,21 +2208,6 @@ export const CreateHorizonWebsiteV1Request = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateHorizonWebsiteV1Request",
 }) as any as S.Schema<CreateHorizonWebsiteV1Request>;
 
-export interface HorizonsV1WebsitesCreatedWebsiteResource {
-  /** The website URL for the user to access their website in Hostinger Horizons interface */
-  website_url: string;
-  /** The website ID */
-  website_id: string;
-}
-export const HorizonsV1WebsitesCreatedWebsiteResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    website_url: S.String,
-    website_id: S.String,
-  }),
-).annotate({
-  identifier: "HorizonsV1WebsitesCreatedWebsiteResource",
-}) as any as S.Schema<HorizonsV1WebsitesCreatedWebsiteResource>;
-
 export interface CreateHostingAccountCronJobV1Request {
   username: string;
   /** Cron schedule expression (for example "0 2 * * *" runs daily at 02:00). */
@@ -2221,11 +2221,7 @@ export const CreateHostingAccountCronJobV1Request = /*@__PURE__*/ S.suspend(() =
     time: S.String,
     command: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/hosting/v1/accounts/{username}/cron-jobs",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/hosting/v1/accounts/{username}/cron-jobs", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateHostingAccountCronJobV1Request",
@@ -2271,11 +2267,7 @@ export const CreateHostingAccountDatabaseV1Request = /*@__PURE__*/ S.suspend(() 
     password: S.String.pipe(T.SensitiveValue({})),
     website_domain: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/hosting/v1/accounts/{username}/databases",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/hosting/v1/accounts/{username}/databases", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateHostingAccountDatabaseV1Request",
@@ -2438,7 +2430,7 @@ export const CreateHostingWebsiteSubdomainV1Request = /*@__PURE__*/ S.suspend(()
 export interface CreateHostingWebsiteV1Request {
   /** Domain name for the website. Cannot start with "www." */
   domain: string;
-  /** ID of the associated order */
+  /** Hosting order ID to create this website on. Choose the order whose hosting plan should host the new website. List orders to find available IDs. */
   order_id: number;
   /** Datacenter code. This parameter is required when creating the first website on a new hosting plan. */
   datacenter_code?: string | null;
@@ -2463,16 +2455,8 @@ export const CreateMailAliasV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mailboxId: S.String.pipe(T.Label()),
     local_part: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/mail/v1/mailboxes/{mailboxId}/aliases",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateMailAliasV1Request",
-}) as any as S.Schema<CreateMailAliasV1Request>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/mail/v1/mailboxes/{mailboxId}/aliases", code: 200 })),
+).annotate({ identifier: "CreateMailAliasV1Request" }) as any as S.Schema<CreateMailAliasV1Request>;
 
 export interface MailV1AliasesAliasMailboxResource {
   /** Mailbox resource ID */
@@ -2547,13 +2531,7 @@ export const CreateMailAPITokenV1Request = /*@__PURE__*/ S.suspend(() =>
     orderId: S.String.pipe(T.Label()),
     name: S.String,
     scope: CreateMailAPITokenV1RequestScope,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/mail/v1/orders/{orderId}/api-tokens",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/mail/v1/orders/{orderId}/api-tokens", code: 200 })),
 ).annotate({
   identifier: "CreateMailAPITokenV1Request",
 }) as any as S.Schema<CreateMailAPITokenV1Request>;
@@ -2633,11 +2611,7 @@ export const CreateMailAutoreplyV1Request = /*@__PURE__*/ S.suspend(() =>
     starts_at: S.optional(S.NullOr(S.String)),
     ends_at: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/mail/v1/mailboxes/{mailboxId}/autoreplies",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/mail/v1/mailboxes/{mailboxId}/autoreplies", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateMailAutoreplyV1Request",
@@ -2687,11 +2661,7 @@ export const CreateMailCatchAllV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mailboxId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/mail/v1/mailboxes/{mailboxId}/catchalls",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/mail/v1/mailboxes/{mailboxId}/catchalls", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateMailCatchAllV1Request",
@@ -2741,11 +2711,7 @@ export const CreateMailForwarderV1Request = /*@__PURE__*/ S.suspend(() =>
     destination: S.String,
     is_keep_copy_enabled: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/mail/v1/mailboxes/{mailboxId}/forwarders",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/mail/v1/mailboxes/{mailboxId}/forwarders", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateMailForwarderV1Request",
@@ -2797,13 +2763,7 @@ export const CreateMailMailboxV1Request = /*@__PURE__*/ S.suspend(() =>
     orderId: S.String.pipe(T.Label()),
     local_part: S.String,
     password: S.String.pipe(T.SensitiveValue({})),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/mail/v1/orders/{orderId}/mailboxes",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/mail/v1/orders/{orderId}/mailboxes", code: 200 })),
 ).annotate({
   identifier: "CreateMailMailboxV1Request",
 }) as any as S.Schema<CreateMailMailboxV1Request>;
@@ -2942,11 +2902,7 @@ export const CreateMailWebhookV1Request = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(CreateMailWebhookV1RequestStatus),
     url: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/mail/v1/mailboxes/{mailboxId}/webhooks",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/mail/v1/mailboxes/{mailboxId}/webhooks", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateMailWebhookV1Request",
@@ -3109,6 +3065,154 @@ export const ReachV1ContactsFieldsContactFieldResource = /*@__PURE__*/ S.suspend
   identifier: "ReachV1ContactsFieldsContactFieldResource",
 }) as any as S.Schema<ReachV1ContactsFieldsContactFieldResource>;
 
+/** Extra campaign fields. Any key outside the listed ones is rejected. */
+export interface CreateReachADraftCampaignV1RequestMetadata {
+  /** Preview text shown after the subject line in the inbox. */
+  preheader?: string;
+  /** Where the campaign was created from. */
+  source?: string;
+}
+export const CreateReachADraftCampaignV1RequestMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    preheader: S.optional(S.String),
+    source: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateReachADraftCampaignV1RequestMetadata",
+}) as any as S.Schema<CreateReachADraftCampaignV1RequestMetadata>;
+
+export interface CreateReachADraftCampaignV1Request {
+  /** Profile uuid parameter */
+  profileUuid: string;
+  /** From name shown to the recipients. */
+  sender_name: string;
+  /** From address of the campaign. Its domain has to be verified on the profile before the campaign can be sent. */
+  sender_email: string;
+  /** Name the campaign is listed under. Not shown to the recipients. */
+  title?: string;
+  /** Subject line of the email. */
+  subject?: string;
+  /** Template to send, as returned by the template endpoints. Can be left out and attached later, but the campaign cannot be sent without one. */
+  template_uuid?: string;
+  /** Extra campaign fields. Any key outside the listed ones is rejected. */
+  metadata?: CreateReachADraftCampaignV1RequestMetadata | null;
+}
+export const CreateReachADraftCampaignV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    profileUuid: S.String.pipe(T.Label()),
+    sender_name: S.String,
+    sender_email: S.String,
+    title: S.optional(S.String),
+    subject: S.optional(S.String),
+    template_uuid: S.optional(S.String),
+    metadata: S.optional(S.NullOr(CreateReachADraftCampaignV1RequestMetadata)),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/api/reach/v1/profiles/{profileUuid}/campaigns", code: 200 }),
+  ),
+).annotate({
+  identifier: "CreateReachADraftCampaignV1Request",
+}) as any as S.Schema<CreateReachADraftCampaignV1Request>;
+
+/** Always `draft` for a campaign that was just created. */
+export type ReachV1CampaignsCreatedCampaignResourceStatus =
+  | "draft"
+  | "scheduled"
+  | "sending"
+  | "publish"
+  | "failed";
+export const ReachV1CampaignsCreatedCampaignResourceStatus = S.String;
+
+export type ReachV1CampaignsCreatedCampaignResourceType =
+  | "campaign"
+  | "automation"
+  | "double_opt_in";
+export const ReachV1CampaignsCreatedCampaignResourceType = S.String;
+
+/** The stored extra fields, including the ones Reach sets itself. */
+export type ReachV1CampaignsCreatedCampaignResourceMetadataMap = {
+  [key: string]: string | undefined;
+};
+export const ReachV1CampaignsCreatedCampaignResourceMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<ReachV1CampaignsCreatedCampaignResourceMetadataMap>;
+
+/** The campaign as it was stored, without targeting or delivery progress */
+export interface ReachV1CampaignsCreatedCampaignResource {
+  uuid?: string;
+  title?: string;
+  subject?: string;
+  sender_name?: string;
+  sender_email?: string;
+  template_uuid?: string | null;
+  /** Always `draft` for a campaign that was just created. */
+  status?: ReachV1CampaignsCreatedCampaignResourceStatus;
+  type?: ReachV1CampaignsCreatedCampaignResourceType;
+  /** Whether the campaign targets every contact instead of selected segments. */
+  is_all_contacts?: boolean;
+  /** The stored extra fields, including the ones Reach sets itself. */
+  metadata?: ReachV1CampaignsCreatedCampaignResourceMetadataMap;
+  created_at?: string | null;
+  updated_at?: string | null;
+}
+export const ReachV1CampaignsCreatedCampaignResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.optional(S.String),
+    title: S.optional(S.String),
+    subject: S.optional(S.String),
+    sender_name: S.optional(S.String),
+    sender_email: S.optional(S.String),
+    template_uuid: S.optional(S.NullOr(S.String)),
+    status: S.optional(ReachV1CampaignsCreatedCampaignResourceStatus),
+    type: S.optional(ReachV1CampaignsCreatedCampaignResourceType),
+    is_all_contacts: S.optional(S.Boolean),
+    metadata: S.optional(ReachV1CampaignsCreatedCampaignResourceMetadataMap),
+    created_at: S.optional(S.NullOr(S.String)),
+    updated_at: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "ReachV1CampaignsCreatedCampaignResource",
+}) as any as S.Schema<ReachV1CampaignsCreatedCampaignResource>;
+
+export interface CreateReachAnEmailTemplateV1Request {
+  /** Profile uuid parameter */
+  profileUuid: string;
+  /** The email body as HTML. It is sanitised before it is stored, so the saved template can differ from what was sent - inline any styles the email clients need and keep the markup self-contained. */
+  template_content: string;
+  /** Name the template is listed under. Not shown to the recipients. */
+  title?: string | null;
+}
+export const CreateReachAnEmailTemplateV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    profileUuid: S.String.pipe(T.Label()),
+    template_content: S.String,
+    title: S.optional(S.NullOr(S.String)),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/api/reach/v1/profiles/{profileUuid}/templates", code: 200 }),
+  ),
+).annotate({
+  identifier: "CreateReachAnEmailTemplateV1Request",
+}) as any as S.Schema<CreateReachAnEmailTemplateV1Request>;
+
+export interface ReachV1TemplatesTemplateResource {
+  /** Pass this as the `template_uuid` of a campaign. */
+  uuid?: string | null;
+  /** Null for templates that were never named. */
+  title?: string | null;
+  created_at?: string | null;
+  updated_at?: string | null;
+}
+export const ReachV1TemplatesTemplateResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.optional(S.NullOr(S.String)),
+    title: S.optional(S.NullOr(S.String)),
+    created_at: S.optional(S.NullOr(S.String)),
+    updated_at: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "ReachV1TemplatesTemplateResource",
+}) as any as S.Schema<ReachV1TemplatesTemplateResource>;
+
 export type CreateReachAProfileSegmentV1RequestConditionsItemOperator =
   | "equals"
   | "not_equals"
@@ -3244,11 +3348,7 @@ export const CreateReachNewContactsV1Request = /*@__PURE__*/ S.suspend(() =>
     note: S.optional(S.NullOr(S.String)),
     tag_uuids: S.optional(CreateReachNewContactsV1RequestTagUuidsList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/reach/v1/profiles/{profileUuid}/contacts",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/reach/v1/profiles/{profileUuid}/contacts", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateReachNewContactsV1Request",
@@ -3290,13 +3390,7 @@ export const CreateVPSFirewallRuleV1Request = /*@__PURE__*/ S.suspend(() =>
     port: S.String,
     source: CreateVPSFirewallRuleV1RequestSource,
     source_detail: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/vps/v1/firewall/{firewallId}/rules",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/vps/v1/firewall/{firewallId}/rules", code: 200 })),
 ).annotate({
   identifier: "CreateVPSFirewallRuleV1Request",
 }) as any as S.Schema<CreateVPSFirewallRuleV1Request>;
@@ -3608,11 +3702,7 @@ export const DeleteAgencyHostingWebsiteV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     website_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/agency-hosting/v1/websites/{website_uid}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/agency-hosting/v1/websites/{website_uid}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteAgencyHostingWebsiteV1Request",
@@ -3694,13 +3784,7 @@ export interface DeleteDomainDomainForwardingV1Request {
 export const DeleteDomainDomainForwardingV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/domains/v1/forwarding/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/domains/v1/forwarding/{domain}", code: 200 })),
 ).annotate({
   identifier: "DeleteDomainDomainForwardingV1Request",
 }) as any as S.Schema<DeleteDomainDomainForwardingV1Request>;
@@ -3712,13 +3796,7 @@ export interface DeleteDomainWHOISProfileV1Request {
 export const DeleteDomainWHOISProfileV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     whoisId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/domains/v1/whois/{whoisId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/domains/v1/whois/{whoisId}", code: 200 })),
 ).annotate({
   identifier: "DeleteDomainWHOISProfileV1Request",
 }) as any as S.Schema<DeleteDomainWHOISProfileV1Request>;
@@ -3830,13 +3908,7 @@ export interface DeleteEcommerceStoreV1Request {
 export const DeleteEcommerceStoreV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     store_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/ecommerce/v1/stores/{store_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/ecommerce/v1/stores/{store_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteEcommerceStoreV1Request",
 }) as any as S.Schema<DeleteEcommerceStoreV1Request>;
@@ -3919,6 +3991,26 @@ export const DeleteHostingDatabaseRemoteConnectionV1Request = /*@__PURE__*/ S.su
   identifier: "DeleteHostingDatabaseRemoteConnectionV1Request",
 }) as any as S.Schema<DeleteHostingDatabaseRemoteConnectionV1Request>;
 
+export interface DeleteHostingGitAutoDeploymentSettingsV1Request {
+  username: string;
+  /** Domain name */
+  domain: string;
+}
+export const DeleteHostingGitAutoDeploymentSettingsV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/api/hosting/v1/accounts/{username}/websites/{domain}/git/auto-deployments/settings",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteHostingGitAutoDeploymentSettingsV1Request",
+}) as any as S.Schema<DeleteHostingGitAutoDeploymentSettingsV1Request>;
+
 export interface DeleteHostingWebsiteParkedDomainV1Request {
   username: string;
   /** Domain name */
@@ -3993,13 +4085,7 @@ export interface DeleteHostingWebsiteV1Request {
 export const DeleteHostingWebsiteV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/hosting/v1/websites/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/hosting/v1/websites/{domain}", code: 200 })),
 ).annotate({
   identifier: "DeleteHostingWebsiteV1Request",
 }) as any as S.Schema<DeleteHostingWebsiteV1Request>;
@@ -4037,16 +4123,8 @@ export interface DeleteMailAliasV1Request {
 export const DeleteMailAliasV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     aliasId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/mail/v1/aliases/{aliasId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteMailAliasV1Request",
-}) as any as S.Schema<DeleteMailAliasV1Request>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/mail/v1/aliases/{aliasId}", code: 200 })),
+).annotate({ identifier: "DeleteMailAliasV1Request" }) as any as S.Schema<DeleteMailAliasV1Request>;
 
 export interface DeleteMailAutoreplyV1Request {
   /** Autoreply resource ID */
@@ -4055,13 +4133,7 @@ export interface DeleteMailAutoreplyV1Request {
 export const DeleteMailAutoreplyV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     autoreplyId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/mail/v1/autoreplies/{autoreplyId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/mail/v1/autoreplies/{autoreplyId}", code: 200 })),
 ).annotate({
   identifier: "DeleteMailAutoreplyV1Request",
 }) as any as S.Schema<DeleteMailAutoreplyV1Request>;
@@ -4073,13 +4145,7 @@ export interface DeleteMailCatchAllV1Request {
 export const DeleteMailCatchAllV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     catchallId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/mail/v1/catchalls/{catchallId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/mail/v1/catchalls/{catchallId}", code: 200 })),
 ).annotate({
   identifier: "DeleteMailCatchAllV1Request",
 }) as any as S.Schema<DeleteMailCatchAllV1Request>;
@@ -4091,13 +4157,7 @@ export interface DeleteMailForwarderV1Request {
 export const DeleteMailForwarderV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     forwarderId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/mail/v1/forwarders/{forwarderId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/mail/v1/forwarders/{forwarderId}", code: 200 })),
 ).annotate({
   identifier: "DeleteMailForwarderV1Request",
 }) as any as S.Schema<DeleteMailForwarderV1Request>;
@@ -4109,13 +4169,7 @@ export interface DeleteMailMailboxV1Request {
 export const DeleteMailMailboxV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mailboxId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/mail/v1/mailboxes/{mailboxId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/mail/v1/mailboxes/{mailboxId}", code: 200 })),
 ).annotate({
   identifier: "DeleteMailMailboxV1Request",
 }) as any as S.Schema<DeleteMailMailboxV1Request>;
@@ -4127,13 +4181,7 @@ export interface DeleteMailWebhookV1Request {
 export const DeleteMailWebhookV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     webhookId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/mail/v1/webhooks/{webhookId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/mail/v1/webhooks/{webhookId}", code: 200 })),
 ).annotate({
   identifier: "DeleteMailWebhookV1Request",
 }) as any as S.Schema<DeleteMailWebhookV1Request>;
@@ -4218,9 +4266,7 @@ export const DeleteReachATagV1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteReachATagV1Request",
-}) as any as S.Schema<DeleteReachATagV1Request>;
+).annotate({ identifier: "DeleteReachATagV1Request" }) as any as S.Schema<DeleteReachATagV1Request>;
 
 export interface DeleteReachFormV1Request {
   /** Profile uuid parameter */
@@ -4239,9 +4285,7 @@ export const DeleteReachFormV1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteReachFormV1Request",
-}) as any as S.Schema<DeleteReachFormV1Request>;
+).annotate({ identifier: "DeleteReachFormV1Request" }) as any as S.Schema<DeleteReachFormV1Request>;
 
 export interface DeleteVPSFirewallRuleV1Request {
   /** Firewall ID */
@@ -4271,13 +4315,7 @@ export interface DeleteVPSFirewallV1Request {
 export const DeleteVPSFirewallV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     firewallId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/vps/v1/firewall/{firewallId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/vps/v1/firewall/{firewallId}", code: 200 })),
 ).annotate({
   identifier: "DeleteVPSFirewallV1Request",
 }) as any as S.Schema<DeleteVPSFirewallV1Request>;
@@ -4331,13 +4369,7 @@ export interface DeleteVPSPublicKeyV1Request {
 export const DeleteVPSPublicKeyV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     publicKeyId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/vps/v1/public-keys/{publicKeyId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/vps/v1/public-keys/{publicKeyId}", code: 200 })),
 ).annotate({
   identifier: "DeleteVPSPublicKeyV1Request",
 }) as any as S.Schema<DeleteVPSPublicKeyV1Request>;
@@ -4359,6 +4391,51 @@ export const DeleteVPSSnapshotV1Request = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteVPSSnapshotV1Request",
 }) as any as S.Schema<DeleteVPSSnapshotV1Request>;
+
+export interface DeployHostingWebsiteGitRepositoryV1Request {
+  username: string;
+  /** Domain name */
+  domain: string;
+  /** Clone URL of the repository on any Git host, SSH or HTTPS. Private repositories need an SSH URL and the account's Git SSH key added to the repository as a deploy key. An HTTP or HTTPS URL with a username or token, or any URL with a password, is rejected. */
+  repository_url: string;
+  /** Branch to clone and pull */
+  branch: string;
+  /** Directory under the website document root, exactly as `List website Git repositories` returns it for an existing repository. Empty, null or omitted means the document root. */
+  directory?: string | null;
+}
+export const DeployHostingWebsiteGitRepositoryV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+    repository_url: S.String,
+    branch: S.String,
+    directory: S.optional(S.NullOr(S.String)),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/hosting/v1/accounts/{username}/websites/{domain}/git/repositories/deploy",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeployHostingWebsiteGitRepositoryV1Request",
+}) as any as S.Schema<DeployHostingWebsiteGitRepositoryV1Request>;
+
+/** Result of cloning or pulling a Git repository into the website */
+export interface HostingV1GitGitDeployOutputResource {
+  /** Whether the clone or pull, and composer install when it ran, finished without errors */
+  is_success: boolean;
+  /** Log of the deployment steps, and the Git or composer error when `is_success` is false */
+  output: string;
+}
+export const HostingV1GitGitDeployOutputResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    is_success: S.Boolean,
+    output: S.String,
+  }),
+).annotate({
+  identifier: "HostingV1GitGitDeployOutputResource",
+}) as any as S.Schema<HostingV1GitGitDeployOutputResource>;
 
 export interface DeployHostingWordPressPluginV1Request {
   username: string;
@@ -4441,11 +4518,7 @@ export const DisableDomainDomainLockV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/domains/v1/portfolio/{domain}/domain-lock",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/domains/v1/portfolio/{domain}/domain-lock", code: 200 }),
   ),
 ).annotate({
   identifier: "DisableDomainDomainLockV1Request",
@@ -4543,13 +4616,7 @@ export const DomainsAcceptIncomingDomainMoveV1Request = /*@__PURE__*/ S.suspend(
   S.Struct({
     domain: S.String.pipe(T.Label()),
     domain_contacts: DomainsAcceptIncomingDomainMoveV1RequestDomainContacts,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/domains/v1/move/incoming/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/domains/v1/move/incoming/{domain}", code: 200 })),
 ).annotate({
   identifier: "DomainsAcceptIncomingDomainMoveV1Request",
 }) as any as S.Schema<DomainsAcceptIncomingDomainMoveV1Request>;
@@ -4561,13 +4628,7 @@ export interface DomainsCancelOutgoingDomainMoveV1Request {
 export const DomainsCancelOutgoingDomainMoveV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/domains/v1/move/outgoing/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/domains/v1/move/outgoing/{domain}", code: 200 })),
 ).annotate({
   identifier: "DomainsCancelOutgoingDomainMoveV1Request",
 }) as any as S.Schema<DomainsCancelOutgoingDomainMoveV1Request>;
@@ -4668,13 +4729,7 @@ export const DomainsGetDomainListV1Response = /*@__PURE__*/ S.suspend(() =>
 
 export interface DomainsGetIncomingDomainMoveListV1Request {}
 export const DomainsGetIncomingDomainMoveListV1Request = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/domains/v1/move/incoming",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/domains/v1/move/incoming", code: 200 })),
 ).annotate({
   identifier: "DomainsGetIncomingDomainMoveListV1Request",
 }) as any as S.Schema<DomainsGetIncomingDomainMoveListV1Request>;
@@ -4725,26 +4780,14 @@ export const DomainsGetIncomingDomainMoveV1Request = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     domain: S.String.pipe(T.Label()),
     force_sync: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/domains/v1/move/incoming/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/domains/v1/move/incoming/{domain}", code: 200 })),
 ).annotate({
   identifier: "DomainsGetIncomingDomainMoveV1Request",
 }) as any as S.Schema<DomainsGetIncomingDomainMoveV1Request>;
 
 export interface DomainsGetOutgoingDomainMoveListV1Request {}
 export const DomainsGetOutgoingDomainMoveListV1Request = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/domains/v1/move/outgoing",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/domains/v1/move/outgoing", code: 200 })),
 ).annotate({
   identifier: "DomainsGetOutgoingDomainMoveListV1Request",
 }) as any as S.Schema<DomainsGetOutgoingDomainMoveListV1Request>;
@@ -4763,13 +4806,7 @@ export interface DomainsGetOutgoingDomainMoveV1Request {
 export const DomainsGetOutgoingDomainMoveV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/domains/v1/move/outgoing/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/domains/v1/move/outgoing/{domain}", code: 200 })),
 ).annotate({
   identifier: "DomainsGetOutgoingDomainMoveV1Request",
 }) as any as S.Schema<DomainsGetOutgoingDomainMoveV1Request>;
@@ -4865,13 +4902,7 @@ export interface DomainsRejectIncomingDomainMoveV1Request {
 export const DomainsRejectIncomingDomainMoveV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/domains/v1/move/incoming/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/domains/v1/move/incoming/{domain}", code: 200 })),
 ).annotate({
   identifier: "DomainsRejectIncomingDomainMoveV1Request",
 }) as any as S.Schema<DomainsRejectIncomingDomainMoveV1Request>;
@@ -4886,13 +4917,7 @@ export const DomainsStartOutgoingDomainMoveV1Request = /*@__PURE__*/ S.suspend((
   S.Struct({
     domain: S.String.pipe(T.Label()),
     new_customer_email: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/domains/v1/move/outgoing/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/domains/v1/move/outgoing/{domain}", code: 200 })),
 ).annotate({
   identifier: "DomainsStartOutgoingDomainMoveV1Request",
 }) as any as S.Schema<DomainsStartOutgoingDomainMoveV1Request>;
@@ -4968,13 +4993,7 @@ export interface DomainsUnsetDefaultWHOISProfileV1Request {
 export const DomainsUnsetDefaultWHOISProfileV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     whoisId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/domains/v1/whois/default/{whoisId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/domains/v1/whois/default/{whoisId}", code: 200 })),
 ).annotate({
   identifier: "DomainsUnsetDefaultWHOISProfileV1Request",
 }) as any as S.Schema<DomainsUnsetDefaultWHOISProfileV1Request>;
@@ -5139,7 +5158,7 @@ export interface EcommerceUploadAndAttachAProductImageV1Request {
   store_id: string;
   /** The ID of the product to attach the image to. */
   product_id: string;
-  /** Publicly reachable URL of the raster image (JPEG, PNG, GIF or WebP), maximum 15MB. The image is fetched, virus-scanned and validated by content, then stored on the CDN. SVG is not accepted. Provide either this or object_name. */
+  /** Publicly reachable URL of a raster image (JPEG, PNG, GIF or WebP), maximum 15MB. Fetching the image requires HTTPS on port 443 without embedded credentials. At most one redirect is allowed; its destination must meet the same URL requirements. Private or reserved network destinations, unsupported URLs and longer redirect chains are rejected. The image is fetched, virus-scanned and validated by content, then stored on the CDN. SVG is not accepted. Provide either this or object_name. */
   image_url?: string;
   /** Key returned by the upload-url endpoint. Provide this instead of image_url to attach an uploaded image. */
   object_name?: string;
@@ -5179,6 +5198,44 @@ export const EcommerceV1ProductProductImageUploadResource = /*@__PURE__*/ S.susp
   identifier: "EcommerceV1ProductProductImageUploadResource",
 }) as any as S.Schema<EcommerceV1ProductProductImageUploadResource>;
 
+export type EditHorizonWebsiteV1RequestMessageItemType = "text";
+export const EditHorizonWebsiteV1RequestMessageItemType = S.String;
+
+export interface EditHorizonWebsiteV1RequestMessageItem {
+  type: EditHorizonWebsiteV1RequestMessageItemType | (string & {});
+  /** Detailed description of the changes to apply to the website. Include which sections, features, content or design should change and how. The specification should be detailed and comprehensive, covering all requested changes. */
+  text: string;
+}
+export const EditHorizonWebsiteV1RequestMessageItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: EditHorizonWebsiteV1RequestMessageItemType,
+    text: S.String,
+  }),
+).annotate({
+  identifier: "EditHorizonWebsiteV1RequestMessageItem",
+}) as any as S.Schema<EditHorizonWebsiteV1RequestMessageItem>;
+
+export type EditHorizonWebsiteV1RequestMessageList = Array<EditHorizonWebsiteV1RequestMessageItem>;
+export const EditHorizonWebsiteV1RequestMessageList = /*@__PURE__*/ S.Array(
+  EditHorizonWebsiteV1RequestMessageItem,
+) as any as S.Schema<EditHorizonWebsiteV1RequestMessageList>;
+
+export interface EditHorizonWebsiteV1Request {
+  /** The website ID */
+  websiteId: string;
+  message: EditHorizonWebsiteV1RequestMessageList;
+}
+export const EditHorizonWebsiteV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    websiteId: S.String.pipe(T.Label()),
+    message: EditHorizonWebsiteV1RequestMessageList,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/api/horizons/v1/websites/{websiteId}/messages", code: 200 }),
+  ),
+).annotate({
+  identifier: "EditHorizonWebsiteV1Request",
+}) as any as S.Schema<EditHorizonWebsiteV1Request>;
+
 export interface EnableBillingAutoRenewalV1Request {
   /** Subscription ID */
   subscriptionId: string;
@@ -5205,11 +5262,7 @@ export const EnableDomainDomainLockV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/domains/v1/portfolio/{domain}/domain-lock",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/domains/v1/portfolio/{domain}/domain-lock", code: 200 }),
   ),
 ).annotate({
   identifier: "EnableDomainDomainLockV1Request",
@@ -5292,11 +5345,7 @@ export const EcommerceV1PaymentManualPaymentResource = /*@__PURE__*/ S.suspend((
 export interface GenerateHostingAFreeSubdomainV1Request {}
 export const GenerateHostingAFreeSubdomainV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/hosting/v1/domains/free-subdomains",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/hosting/v1/domains/free-subdomains", code: 200 }),
   ),
 ).annotate({
   identifier: "GenerateHostingAFreeSubdomainV1Request",
@@ -5314,6 +5363,32 @@ export const HostingV1DomainsFreeSubdomainResource = /*@__PURE__*/ S.suspend(() 
   identifier: "HostingV1DomainsFreeSubdomainResource",
 }) as any as S.Schema<HostingV1DomainsFreeSubdomainResource>;
 
+export interface GenerateHostingGitSSHKeyV1Request {
+  username: string;
+}
+export const GenerateHostingGitSSHKeyV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/api/hosting/v1/accounts/{username}/git/ssh-key", code: 200 }),
+  ),
+).annotate({
+  identifier: "GenerateHostingGitSSHKeyV1Request",
+}) as any as S.Schema<GenerateHostingGitSSHKeyV1Request>;
+
+/** Public SSH key the hosting account uses to clone and pull Git repositories */
+export interface HostingV1GitGitSshKeyResource {
+  /** Public key to add as a deploy key on the Git host. Null when the account has no key yet. */
+  public_key: string | null;
+}
+export const HostingV1GitGitSshKeyResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    public_key: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "HostingV1GitGitSshKeyResource",
+}) as any as S.Schema<HostingV1GitGitSshKeyResource>;
+
 export interface GetAgencyHostingWebsiteDetailsV1Request {
   /** Agency Plan website UID */
   website_uid: string;
@@ -5322,11 +5397,7 @@ export const GetAgencyHostingWebsiteDetailsV1Request = /*@__PURE__*/ S.suspend((
   S.Struct({
     website_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/agency-hosting/v1/websites/{website_uid}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/agency-hosting/v1/websites/{website_uid}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetAgencyHostingWebsiteDetailsV1Request",
@@ -5741,6 +5812,54 @@ export const AgencyHostingV1SetupsWebsiteSetupStatusResource = /*@__PURE__*/ S.s
   identifier: "AgencyHostingV1SetupsWebsiteSetupStatusResource",
 }) as any as S.Schema<AgencyHostingV1SetupsWebsiteSetupStatusResource>;
 
+export interface GetAgencyHostingWebsiteSSLStatusV1Request {
+  /** Agency Plan website UID */
+  website_uid: string;
+  /** Domain name */
+  domain: string;
+}
+export const GetAgencyHostingWebsiteSSLStatusV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    website_uid: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/agency-hosting/v1/websites/{website_uid}/domains/{domain}/ssl/status",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetAgencyHostingWebsiteSSLStatusV1Request",
+}) as any as S.Schema<GetAgencyHostingWebsiteSSLStatusV1Request>;
+
+/** `installing` while a certificate setup is running or retrying, `active` when a valid certificate is in place (uploaded, platform-issued, or a lifetime certificate bought for the domain), `failed` when the last setup gave up and no valid certificate is in place, `expired` when the certificate has run out, `not_installed` when the domain has no certificate and no setup process. */
+export type AgencyHostingV1SslSslStatusResourceStatus =
+  | "not_installed"
+  | "installing"
+  | "failed"
+  | "active"
+  | "expired";
+export const AgencyHostingV1SslSslStatusResourceStatus = S.String;
+
+export interface AgencyHostingV1SslSslStatusResource {
+  /** `installing` while a certificate setup is running or retrying, `active` when a valid certificate is in place (uploaded, platform-issued, or a lifetime certificate bought for the domain), `failed` when the last setup gave up and no valid certificate is in place, `expired` when the certificate has run out, `not_installed` when the domain has no certificate and no setup process. */
+  status: AgencyHostingV1SslSslStatusResourceStatus;
+  /** Whether the certificate was uploaded by the customer instead of issued or sold by the platform. */
+  is_custom: boolean;
+  /** End of the validity period of the certificate in place; null when there is none or the uploaded certificate carries no expiry. */
+  expires_at: string | null;
+}
+export const AgencyHostingV1SslSslStatusResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: AgencyHostingV1SslSslStatusResourceStatus,
+    is_custom: S.Boolean,
+    expires_at: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "AgencyHostingV1SslSslStatusResource",
+}) as any as S.Schema<AgencyHostingV1SslSslStatusResource>;
+
 export interface GetAgencyHostingWordPressSettingsV1Request {
   /** Agency Plan website UID */
   website_uid: string;
@@ -5843,9 +5962,7 @@ export const DNSV1ZoneRecordResource = /*@__PURE__*/ S.suspend(() =>
     ttl: S.optional(S.Number),
     type: S.optional(DNSV1ZoneRecordResourceType),
   }),
-).annotate({
-  identifier: "DNSV1ZoneRecordResource",
-}) as any as S.Schema<DNSV1ZoneRecordResource>;
+).annotate({ identifier: "DNSV1ZoneRecordResource" }) as any as S.Schema<DNSV1ZoneRecordResource>;
 
 /** Array of [`DNS.V1.Zone.RecordResource`](#model/dnsv1zonerecordresource) */
 export type DNSV1ZoneRecordCollection = Array<DNSV1ZoneRecordResource>;
@@ -5870,13 +5987,7 @@ export const GetDNSDNSSnapshotV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
     snapshotId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/dns/v1/snapshots/{domain}/{snapshotId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/dns/v1/snapshots/{domain}/{snapshotId}", code: 200 })),
 ).annotate({
   identifier: "GetDNSDNSSnapshotV1Request",
 }) as any as S.Schema<GetDNSDNSSnapshotV1Request>;
@@ -5908,11 +6019,7 @@ export const GetDomainDomainAuthorizationCodeV1Request = /*@__PURE__*/ S.suspend
   S.Struct({
     domain: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/domains/v1/portfolio/{domain}/auth-code",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/domains/v1/portfolio/{domain}/auth-code", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDomainDomainAuthorizationCodeV1Request",
@@ -5937,13 +6044,7 @@ export interface GetDomainDomainDetailsV1Request {
 export const GetDomainDomainDetailsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/domains/v1/portfolio/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/domains/v1/portfolio/{domain}", code: 200 })),
 ).annotate({
   identifier: "GetDomainDomainDetailsV1Request",
 }) as any as S.Schema<GetDomainDomainDetailsV1Request>;
@@ -6067,13 +6168,7 @@ export interface GetDomainDomainForwardingV1Request {
 export const GetDomainDomainForwardingV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/domains/v1/forwarding/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/domains/v1/forwarding/{domain}", code: 200 })),
 ).annotate({
   identifier: "GetDomainDomainForwardingV1Request",
 }) as any as S.Schema<GetDomainDomainForwardingV1Request>;
@@ -6085,13 +6180,7 @@ export interface GetDomainDomainRenewalInformationV1Request {
 export const GetDomainDomainRenewalInformationV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/domains/v1/portfolio/{domain}/renewal",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/domains/v1/portfolio/{domain}/renewal", code: 200 })),
 ).annotate({
   identifier: "GetDomainDomainRenewalInformationV1Request",
 }) as any as S.Schema<GetDomainDomainRenewalInformationV1Request>;
@@ -6121,13 +6210,7 @@ export interface GetDomainPendingIRTPVerificationV1Request {
 export const GetDomainPendingIRTPVerificationV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/domains/v1/irtp/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/domains/v1/irtp/{domain}", code: 200 })),
 ).annotate({
   identifier: "GetDomainPendingIRTPVerificationV1Request",
 }) as any as S.Schema<GetDomainPendingIRTPVerificationV1Request>;
@@ -6173,13 +6256,7 @@ export interface GetDomainTransferV1Request {
 export const GetDomainTransferV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/domains/v1/transfers/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/domains/v1/transfers/{domain}", code: 200 })),
 ).annotate({
   identifier: "GetDomainTransferV1Request",
 }) as any as S.Schema<GetDomainTransferV1Request>;
@@ -6191,13 +6268,7 @@ export interface GetDomainWHOISProfileUsageV1Request {
 export const GetDomainWHOISProfileUsageV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     whoisId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/domains/v1/whois/{whoisId}/usage",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/domains/v1/whois/{whoisId}/usage", code: 200 })),
 ).annotate({
   identifier: "GetDomainWHOISProfileUsageV1Request",
 }) as any as S.Schema<GetDomainWHOISProfileUsageV1Request>;
@@ -6222,13 +6293,7 @@ export interface GetDomainWHOISProfileV1Request {
 export const GetDomainWHOISProfileV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     whoisId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/domains/v1/whois/{whoisId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/domains/v1/whois/{whoisId}", code: 200 })),
 ).annotate({
   identifier: "GetDomainWHOISProfileV1Request",
 }) as any as S.Schema<GetDomainWHOISProfileV1Request>;
@@ -6503,11 +6568,7 @@ export const GetEcommerceStoreMetadataV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     store_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/ecommerce/v1/stores/{store_id}/metadata",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/ecommerce/v1/stores/{store_id}/metadata", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEcommerceStoreMetadataV1Request",
@@ -6656,13 +6717,7 @@ export interface GetHorizonWebsiteV1Request {
 export const GetHorizonWebsiteV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     websiteId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/horizons/v1/websites/{websiteId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/horizons/v1/websites/{websiteId}", code: 200 })),
 ).annotate({
   identifier: "GetHorizonWebsiteV1Request",
 }) as any as S.Schema<GetHorizonWebsiteV1Request>;
@@ -6751,6 +6806,67 @@ export const HostingV1CronJobsCronJobOutputResource = /*@__PURE__*/ S.suspend(()
 ).annotate({
   identifier: "HostingV1CronJobsCronJobOutputResource",
 }) as any as S.Schema<HostingV1CronJobsCronJobOutputResource>;
+
+export interface GetHostingGitAutoDeploymentSettingsV1Request {
+  username: string;
+  /** Domain name */
+  domain: string;
+}
+export const GetHostingGitAutoDeploymentSettingsV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/hosting/v1/accounts/{username}/websites/{domain}/git/auto-deployments/settings",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetHostingGitAutoDeploymentSettingsV1Request",
+}) as any as S.Schema<GetHostingGitAutoDeploymentSettingsV1Request>;
+
+/** Every field is null when the website has no Git auto-deployment configured. */
+export interface HostingV1GitGitAutoDeploymentSettingsResource {
+  /** Git installation the repository is accessed through */
+  installation_uuid: string | null;
+  /** Whether pushes to the branch deploy automatically */
+  is_enabled: boolean | null;
+  /** Repository owner login */
+  owner: string | null;
+  /** Repository name */
+  repository: string | null;
+  /** Branch that is deployed */
+  branch: string | null;
+  /** Subdirectory under the website document root the repository deploys into. Empty means the document root. */
+  directory: string | null;
+}
+export const HostingV1GitGitAutoDeploymentSettingsResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    installation_uuid: S.NullOr(S.String),
+    is_enabled: S.NullOr(S.Boolean),
+    owner: S.NullOr(S.String),
+    repository: S.NullOr(S.String),
+    branch: S.NullOr(S.String),
+    directory: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "HostingV1GitGitAutoDeploymentSettingsResource",
+}) as any as S.Schema<HostingV1GitGitAutoDeploymentSettingsResource>;
+
+export interface GetHostingGitSSHPublicKeyV1Request {
+  username: string;
+}
+export const GetHostingGitSSHPublicKeyV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/api/hosting/v1/accounts/{username}/git/ssh-key", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetHostingGitSSHPublicKeyV1Request",
+}) as any as S.Schema<GetHostingGitSSHPublicKeyV1Request>;
 
 export interface GetHostingInstallationJWTTokenV1Request {
   username: string;
@@ -6900,6 +7016,184 @@ export const WordPressV1MemcachedMemcachedStatusResource = /*@__PURE__*/ S.suspe
   identifier: "WordPressV1MemcachedMemcachedStatusResource",
 }) as any as S.Schema<WordPressV1MemcachedMemcachedStatusResource>;
 
+export interface GetHostingNodeJsBuildDetailsV1Request {
+  username: string;
+  /** Domain name */
+  domain: string;
+  /** Build UUID */
+  uuid: string;
+}
+export const GetHostingNodeJsBuildDetailsV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+    uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/hosting/v1/accounts/{username}/websites/{domain}/nodejs/builds/{uuid}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetHostingNodeJsBuildDetailsV1Request",
+}) as any as S.Schema<GetHostingNodeJsBuildDetailsV1Request>;
+
+/** Build state */
+export type HostingV1NodeJsBuildResourceState = "pending" | "running" | "completed" | "failed";
+export const HostingV1NodeJsBuildResourceState = S.String;
+
+/** Node.js application type */
+export type HostingV1NodeJsBuildOptionsResourceAppType =
+  | "create-react-app"
+  | "gatsby"
+  | "vite"
+  | "angular"
+  | "react"
+  | "vue"
+  | "parcel"
+  | "next"
+  | "nuxt"
+  | "nest"
+  | "express"
+  | "fastify"
+  | "astro"
+  | "svelte"
+  | "svelte-kit"
+  | "hono"
+  | "react-router"
+  | "nitro"
+  | "other";
+export const HostingV1NodeJsBuildOptionsResourceAppType = S.String;
+
+/** Package manager */
+export type HostingV1NodeJsBuildOptionsResourcePackageManager = "npm" | "yarn" | "pnpm";
+export const HostingV1NodeJsBuildOptionsResourcePackageManager = S.String;
+
+/** Source type for the build */
+export type HostingV1NodeJsBuildOptionsResourceSourceType = "archive" | "git";
+export const HostingV1NodeJsBuildOptionsResourceSourceType = S.String;
+
+export interface HostingV1GitGitCommitAuthorResource {
+  /** Author name as recorded in the commit */
+  name: string;
+  /** Avatar URL of the author on the Git provider */
+  avatar_url: string | null;
+}
+export const HostingV1GitGitCommitAuthorResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    avatar_url: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "HostingV1GitGitCommitAuthorResource",
+}) as any as S.Schema<HostingV1GitGitCommitAuthorResource>;
+
+export interface HostingV1GitGitCommitResource {
+  /** Full commit SHA */
+  hash: string;
+  /** Commit message */
+  message: string;
+  author: HostingV1GitGitCommitAuthorResource;
+}
+export const HostingV1GitGitCommitResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hash: S.String,
+    message: S.String,
+    author: HostingV1GitGitCommitAuthorResource,
+  }),
+).annotate({
+  identifier: "HostingV1GitGitCommitResource",
+}) as any as S.Schema<HostingV1GitGitCommitResource>;
+
+/** Which keys carry values depends on the parent source_type; the others are null. */
+export interface HostingV1NodeJsSourceOptionsResource {
+  /** Present if sourceType is "archive" */
+  archive_path?: string | null;
+  /** Repository owner login (present if source_type is "git") */
+  owner: string | null;
+  /** Repository name without the .git suffix (present if source_type is "git") */
+  repository: string | null;
+  /** Branch that was built (present if source_type is "git") */
+  branch: string | null;
+  /** Git installation used to access the repository (present if source_type is "git") */
+  installation_uuid: string | null;
+  /** Commit that was built (present if source_type is "git"). Null until the clone step has resolved the branch head. */
+  commit: HostingV1GitGitCommitResource | null;
+}
+export const HostingV1NodeJsSourceOptionsResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    archive_path: S.optional(S.NullOr(S.String)),
+    owner: S.NullOr(S.String),
+    repository: S.NullOr(S.String),
+    branch: S.NullOr(S.String),
+    installation_uuid: S.NullOr(S.String),
+    commit: S.NullOr(HostingV1GitGitCommitResource),
+  }),
+).annotate({
+  identifier: "HostingV1NodeJsSourceOptionsResource",
+}) as any as S.Schema<HostingV1NodeJsSourceOptionsResource>;
+
+export interface HostingV1NodeJsBuildOptionsResource {
+  /** Node.js version */
+  node_version: number;
+  /** Node.js application type */
+  app_type: HostingV1NodeJsBuildOptionsResourceAppType | null;
+  /** Application root directory */
+  root_directory: string | null;
+  /** Build output directory */
+  output_directory: string | null;
+  /** The npm script to run to build the application */
+  build_script: string | null;
+  /** The main entry point file for the application */
+  entry_file: string | null;
+  /** Package manager */
+  package_manager: HostingV1NodeJsBuildOptionsResourcePackageManager | null;
+  /** Source type for the build */
+  source_type: HostingV1NodeJsBuildOptionsResourceSourceType | null;
+  /** Source options, varies based on sourceType */
+  source_options: HostingV1NodeJsSourceOptionsResource | null;
+}
+export const HostingV1NodeJsBuildOptionsResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    node_version: S.Number,
+    app_type: S.NullOr(HostingV1NodeJsBuildOptionsResourceAppType),
+    root_directory: S.NullOr(S.String),
+    output_directory: S.NullOr(S.String),
+    build_script: S.NullOr(S.String),
+    entry_file: S.NullOr(S.String),
+    package_manager: S.NullOr(HostingV1NodeJsBuildOptionsResourcePackageManager),
+    source_type: S.NullOr(HostingV1NodeJsBuildOptionsResourceSourceType),
+    source_options: S.NullOr(HostingV1NodeJsSourceOptionsResource),
+  }),
+).annotate({
+  identifier: "HostingV1NodeJsBuildOptionsResource",
+}) as any as S.Schema<HostingV1NodeJsBuildOptionsResource>;
+
+export interface HostingV1NodeJsBuildResource {
+  /** Build UUID */
+  uuid?: string;
+  /** Build state */
+  state?: HostingV1NodeJsBuildResourceState;
+  /** Build options */
+  options?: HostingV1NodeJsBuildOptionsResource | null;
+  /** Creation timestamp */
+  created_at?: string;
+  /** Last update timestamp */
+  updated_at?: string;
+}
+export const HostingV1NodeJsBuildResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.optional(S.String),
+    state: S.optional(HostingV1NodeJsBuildResourceState),
+    options: S.optional(S.NullOr(HostingV1NodeJsBuildOptionsResource)),
+    created_at: S.optional(S.String),
+    updated_at: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "HostingV1NodeJsBuildResource",
+}) as any as S.Schema<HostingV1NodeJsBuildResource>;
+
 export interface GetHostingNodeJSBuildLogsV1Request {
   username: string;
   /** Domain name */
@@ -6940,6 +7234,178 @@ export const HostingV1NodeJsBuildLogsResource = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "HostingV1NodeJsBuildLogsResource",
 }) as any as S.Schema<HostingV1NodeJsBuildLogsResource>;
+
+export interface GetHostingNodeJsBuildSettingsV1Request {
+  username: string;
+  /** Domain name */
+  domain: string;
+}
+export const GetHostingNodeJsBuildSettingsV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/hosting/v1/accounts/{username}/websites/{domain}/nodejs/builds/settings",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetHostingNodeJsBuildSettingsV1Request",
+}) as any as S.Schema<GetHostingNodeJsBuildSettingsV1Request>;
+
+/** Detected or chosen application framework */
+export type HostingV1NodeJsStoredBuildSettingsResourceAppType =
+  | "create-react-app"
+  | "gatsby"
+  | "vite"
+  | "angular"
+  | "react"
+  | "vue"
+  | "parcel"
+  | "next"
+  | "nuxt"
+  | "nest"
+  | "express"
+  | "fastify"
+  | "astro"
+  | "svelte"
+  | "svelte-kit"
+  | "hono"
+  | "react-router"
+  | "nitro"
+  | "other";
+export const HostingV1NodeJsStoredBuildSettingsResourceAppType = S.String;
+
+/** Package manager used to install dependencies */
+export type HostingV1NodeJsStoredBuildSettingsResourcePackageManager = "npm" | "yarn" | "pnpm";
+export const HostingV1NodeJsStoredBuildSettingsResourcePackageManager = S.String;
+
+export interface HostingV1NodeJsStoredBuildSettingsResource {
+  /** Node.js major version used to build and run the application */
+  node_version: number;
+  /** Detected or chosen application framework */
+  app_type: HostingV1NodeJsStoredBuildSettingsResourceAppType | null;
+  /** Application root directory (where package.json is located) relative to public_html; null means public_html itself */
+  root_directory: string | null;
+  /** Build output directory relative to the root directory */
+  output_directory: string | null;
+  /** The package.json script that builds the application */
+  build_script: string | null;
+  /** The main entry point file for the application */
+  entry_file: string | null;
+  /** Package manager used to install dependencies */
+  package_manager: HostingV1NodeJsStoredBuildSettingsResourcePackageManager | null;
+}
+export const HostingV1NodeJsStoredBuildSettingsResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    node_version: S.Number,
+    app_type: S.NullOr(HostingV1NodeJsStoredBuildSettingsResourceAppType),
+    root_directory: S.NullOr(S.String),
+    output_directory: S.NullOr(S.String),
+    build_script: S.NullOr(S.String),
+    entry_file: S.NullOr(S.String),
+    package_manager: S.NullOr(HostingV1NodeJsStoredBuildSettingsResourcePackageManager),
+  }),
+).annotate({
+  identifier: "HostingV1NodeJsStoredBuildSettingsResource",
+}) as any as S.Schema<HostingV1NodeJsStoredBuildSettingsResource>;
+
+export type GetHostingNodeJsRuntimeLogsV1RequestPeriod = "1h" | "1d" | "1w" | "1m";
+export const GetHostingNodeJsRuntimeLogsV1RequestPeriod = S.String;
+
+export type GetHostingNodeJsRuntimeLogsV1RequestLevelsItem =
+  | "LOG"
+  | "ERROR"
+  | "WARN"
+  | "INFO"
+  | "DEBUG"
+  | "TRACE";
+export const GetHostingNodeJsRuntimeLogsV1RequestLevelsItem = S.String;
+
+export type GetHostingNodeJsRuntimeLogsV1RequestLevelsList = Array<
+  GetHostingNodeJsRuntimeLogsV1RequestLevelsItem | (string & {})
+>;
+export const GetHostingNodeJsRuntimeLogsV1RequestLevelsList = /*@__PURE__*/ S.Array(
+  GetHostingNodeJsRuntimeLogsV1RequestLevelsItem,
+) as any as S.Schema<GetHostingNodeJsRuntimeLogsV1RequestLevelsList>;
+
+export interface GetHostingNodeJsRuntimeLogsV1Request {
+  username: string;
+  /** Domain name */
+  domain: string;
+  /** Time window for the first fetch. Required when `from_line` is not sent. */
+  period?: GetHostingNodeJsRuntimeLogsV1RequestPeriod | (string & {});
+  /** 1-based line of the log file to start from. For polling send `total_lines + 1` from the previous response. Cannot be combined with `period`. */
+  from_line?: number;
+  /** Maximum number of log entries to return. When more entries match, the newest are kept. */
+  limit?: number;
+  /** Return only entries with these log levels, sent as a comma-separated list, e.g. ERROR,WARN. Matching runs on the raw log line, so entries written with numeric levels (for example by pino) are excluded while this filter is set. */
+  levels?: GetHostingNodeJsRuntimeLogsV1RequestLevelsList;
+}
+export const GetHostingNodeJsRuntimeLogsV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+    period: S.optional(GetHostingNodeJsRuntimeLogsV1RequestPeriod.pipe(T.Query())),
+    from_line: S.optional(S.Number.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    levels: S.optional(GetHostingNodeJsRuntimeLogsV1RequestLevelsList.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/hosting/v1/accounts/{username}/websites/{domain}/nodejs/runtime-logs",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetHostingNodeJsRuntimeLogsV1Request",
+}) as any as S.Schema<GetHostingNodeJsRuntimeLogsV1Request>;
+
+export interface HostingV1NodeJsLogEntryResource {
+  /** ISO 8601 timestamp of the log entry */
+  timestamp: string;
+  /** Log level in upper case (usually ERROR, WARN, INFO, LOG, DEBUG or TRACE). Numeric pino levels are mapped to these names. */
+  level: string;
+  /** Log message */
+  message: string;
+}
+export const HostingV1NodeJsLogEntryResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.String,
+    level: S.String,
+    message: S.String,
+  }),
+).annotate({
+  identifier: "HostingV1NodeJsLogEntryResource",
+}) as any as S.Schema<HostingV1NodeJsLogEntryResource>;
+
+/** Array of [`Hosting.V1.NodeJs.LogEntryResource`](#model/hostingv1nodejslogentryresource) */
+export type HostingV1NodeJsLogEntryCollection = Array<HostingV1NodeJsLogEntryResource>;
+export const HostingV1NodeJsLogEntryCollection = /*@__PURE__*/ S.Array(
+  HostingV1NodeJsLogEntryResource,
+) as any as S.Schema<HostingV1NodeJsLogEntryCollection>;
+
+export interface HostingV1NodeJsRuntimeLogsResource {
+  logs: HostingV1NodeJsLogEntryCollection;
+  /** Timestamp of the first line of the log file; null when the file is empty or its first line has no timestamp field */
+  started_at: string | null;
+  /** Total number of lines in the raw log file. Send total_lines + 1 as from_line in the next poll to receive only new entries. */
+  total_lines: number;
+  /** Time of the last completed build; entries before it belong to the previous deployment. null when no build has completed yet. */
+  last_deployed_at: string | null;
+}
+export const HostingV1NodeJsRuntimeLogsResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    logs: HostingV1NodeJsLogEntryCollection,
+    started_at: S.NullOr(S.String),
+    total_lines: S.Number,
+    last_deployed_at: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "HostingV1NodeJsRuntimeLogsResource",
+}) as any as S.Schema<HostingV1NodeJsRuntimeLogsResource>;
 
 export interface GetHostingPHPDetailsV1Request {
   username: string;
@@ -7114,6 +7580,72 @@ export const HostingV1DatabasesPhpMyAdminLinkResource = /*@__PURE__*/ S.suspend(
   identifier: "HostingV1DatabasesPhpMyAdminLinkResource",
 }) as any as S.Schema<HostingV1DatabasesPhpMyAdminLinkResource>;
 
+export interface GetHostingSSLStatusV1Request {
+  username: string;
+  /** Domain name */
+  domain: string;
+}
+export const GetHostingSSLStatusV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/hosting/v1/accounts/{username}/websites/{domain}/ssl/status",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetHostingSSLStatusV1Request",
+}) as any as S.Schema<GetHostingSSLStatusV1Request>;
+
+/** Current certificate status */
+export type HostingV1SslSslStatusResourceStatus =
+  | "not_installed"
+  | "installing"
+  | "waiting_for_retry"
+  | "active"
+  | "expired"
+  | "failed";
+export const HostingV1SslSslStatusResourceStatus = S.String;
+
+/** Provider of the assigned certificate, or of the last recorded installation when none is assigned. `custom` means an uploaded certificate. Null when no certificate is assigned and no installation is recorded, which is also the case for free subdomains on the platform-managed certificate. */
+export type HostingV1SslSslStatusResourceProvider =
+  | "custom"
+  | "letsencrypt"
+  | "zerossl"
+  | "googlessl"
+  | "hssl";
+export const HostingV1SslSslStatusResourceProvider = S.String;
+
+export interface HostingV1SslSslStatusResource {
+  /** Current certificate status */
+  status: HostingV1SslSslStatusResourceStatus;
+  /** Provider of the assigned certificate, or of the last recorded installation when none is assigned. `custom` means an uploaded certificate. Null when no certificate is assigned and no installation is recorded, which is also the case for free subdomains on the platform-managed certificate. */
+  provider: HostingV1SslSslStatusResourceProvider | null;
+  /** Whether the certificate comes from a lifetime provider managed by the platform, not an uploaded one. Follows `provider`: it reflects the last recorded installation when no certificate is assigned, and is false when `provider` is null. */
+  is_lifetime: boolean;
+  /** Whether HTTP requests to the website are redirected to HTTPS */
+  is_https_redirect_enabled: boolean;
+  /** End of the assigned certificate validity period; null when no certificate details are available. */
+  expires_at: string | null;
+  /** Last installation error, when it is one of the known displayable messages */
+  last_error: string | null;
+}
+export const HostingV1SslSslStatusResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: HostingV1SslSslStatusResourceStatus,
+    provider: S.NullOr(HostingV1SslSslStatusResourceProvider),
+    is_lifetime: S.Boolean,
+    is_https_redirect_enabled: S.Boolean,
+    expires_at: S.NullOr(S.String),
+    last_error: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "HostingV1SslSslStatusResource",
+}) as any as S.Schema<HostingV1SslSslStatusResource>;
+
 export interface GetHostingWebsiteFileContentV1Request {
   username: string;
   /** Domain name */
@@ -7240,13 +7772,7 @@ export interface GetMailOrderPlanV1Request {
 export const GetMailOrderPlanV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/mail/v1/orders/{orderId}/plan",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/mail/v1/orders/{orderId}/plan", code: 200 })),
 ).annotate({
   identifier: "GetMailOrderPlanV1Request",
 }) as any as S.Schema<GetMailOrderPlanV1Request>;
@@ -7329,9 +7855,7 @@ export const MailV1OrdersPlanResource = /*@__PURE__*/ S.suspend(() =>
     domain: S.optional(MailV1OrdersPlanDomainResource),
     mailbox: S.optional(MailV1OrdersPlanMailboxResource),
   }),
-).annotate({
-  identifier: "MailV1OrdersPlanResource",
-}) as any as S.Schema<MailV1OrdersPlanResource>;
+).annotate({ identifier: "MailV1OrdersPlanResource" }) as any as S.Schema<MailV1OrdersPlanResource>;
 
 export interface GetMailWebhookV1Request {
   /** Webhook ID (returned when the webhook was created) */
@@ -7340,16 +7864,8 @@ export interface GetMailWebhookV1Request {
 export const GetMailWebhookV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     webhookId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/mail/v1/webhooks/{webhookId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetMailWebhookV1Request",
-}) as any as S.Schema<GetMailWebhookV1Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/mail/v1/webhooks/{webhookId}", code: 200 })),
+).annotate({ identifier: "GetMailWebhookV1Request" }) as any as S.Schema<GetMailWebhookV1Request>;
 
 export type MailV1WebhooksWebhookResourceEventsItem = "message.received";
 export const MailV1WebhooksWebhookResourceEventsItem = S.String;
@@ -7677,11 +8193,7 @@ export const GetReachConnectedSendingDomainV1Request = /*@__PURE__*/ S.suspend((
   S.Struct({
     profileUuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/reach/v1/profiles/{profileUuid}/domains",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/reach/v1/profiles/{profileUuid}/domains", code: 200 }),
   ),
 ).annotate({
   identifier: "GetReachConnectedSendingDomainV1Request",
@@ -8106,13 +8618,7 @@ export interface GetReachRemainingPlanLimitsV1Request {
 export const GetReachRemainingPlanLimitsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     profileUuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/reach/v1/profiles/{profileUuid}/limits",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/reach/v1/profiles/{profileUuid}/limits", code: 200 })),
 ).annotate({
   identifier: "GetReachRemainingPlanLimitsV1Request",
 }) as any as S.Schema<GetReachRemainingPlanLimitsV1Request>;
@@ -8171,13 +8677,7 @@ export interface GetV2DomainVerificationsDIRECTRequest {
 export const GetV2DomainVerificationsDIRECTRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domains: GetV2DomainVerificationsDIRECTRequestDomainsList,
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/direct/verifications/active",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/direct/verifications/active", code: 200 })),
 ).annotate({
   identifier: "GetV2DomainVerificationsDIRECTRequest",
 }) as any as S.Schema<GetV2DomainVerificationsDIRECTRequest>;
@@ -8384,9 +8884,7 @@ export const GetVPSActionsV1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetVPSActionsV1Request",
-}) as any as S.Schema<GetVPSActionsV1Request>;
+).annotate({ identifier: "GetVPSActionsV1Request" }) as any as S.Schema<GetVPSActionsV1Request>;
 
 /** Array of [`VPS.V1.Action.ActionResource`](#model/vpsv1actionactionresource) */
 export type VPSV1ActionActionCollection = Array<VPSV1ActionActionResource>;
@@ -8403,9 +8901,7 @@ export const GetVPSActionsV1Response = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(VPSV1ActionActionCollection),
     meta: S.optional(CommonSchemaPaginationMetaSchema),
   }),
-).annotate({
-  identifier: "GetVPSActionsV1Response",
-}) as any as S.Schema<GetVPSActionsV1Response>;
+).annotate({ identifier: "GetVPSActionsV1Response" }) as any as S.Schema<GetVPSActionsV1Response>;
 
 export interface GetVPSAttachedPublicKeysV1Request {
   /** Virtual Machine ID */
@@ -8464,9 +8960,7 @@ export const GetVPSBackupsV1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetVPSBackupsV1Request",
-}) as any as S.Schema<GetVPSBackupsV1Request>;
+).annotate({ identifier: "GetVPSBackupsV1Request" }) as any as S.Schema<GetVPSBackupsV1Request>;
 
 export interface VPSV1BackupBackupResource {
   /** Backup ID */
@@ -8506,9 +9000,7 @@ export const GetVPSBackupsV1Response = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(VPSV1BackupBackupCollection),
     meta: S.optional(CommonSchemaPaginationMetaSchema),
   }),
-).annotate({
-  identifier: "GetVPSBackupsV1Response",
-}) as any as S.Schema<GetVPSBackupsV1Response>;
+).annotate({ identifier: "GetVPSBackupsV1Response" }) as any as S.Schema<GetVPSBackupsV1Response>;
 
 export interface GetVPSFirewallDetailsV1Request {
   /** Firewall ID */
@@ -8517,13 +9009,7 @@ export interface GetVPSFirewallDetailsV1Request {
 export const GetVPSFirewallDetailsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     firewallId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/vps/v1/firewall/{firewallId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/vps/v1/firewall/{firewallId}", code: 200 })),
 ).annotate({
   identifier: "GetVPSFirewallDetailsV1Request",
 }) as any as S.Schema<GetVPSFirewallDetailsV1Request>;
@@ -8546,9 +9032,7 @@ export const GetVPSMetricsV1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetVPSMetricsV1Request",
-}) as any as S.Schema<GetVPSMetricsV1Request>;
+).annotate({ identifier: "GetVPSMetricsV1Request" }) as any as S.Schema<GetVPSMetricsV1Request>;
 
 export interface VPSV1MetricsMetricsResource {
   /** Measurement unit */
@@ -8945,9 +9429,7 @@ export const GetVPSSnapshotV1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetVPSSnapshotV1Request",
-}) as any as S.Schema<GetVPSSnapshotV1Request>;
+).annotate({ identifier: "GetVPSSnapshotV1Request" }) as any as S.Schema<GetVPSSnapshotV1Request>;
 
 export interface VPSV1SnapshotSnapshotResource {
   /** Snapshot ID */
@@ -8975,13 +9457,7 @@ export interface GetVPSTemplateDetailsV1Request {
 export const GetVPSTemplateDetailsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     templateId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/vps/v1/templates/{templateId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/vps/v1/templates/{templateId}", code: 200 })),
 ).annotate({
   identifier: "GetVPSTemplateDetailsV1Request",
 }) as any as S.Schema<GetVPSTemplateDetailsV1Request>;
@@ -9010,9 +9486,7 @@ export const VPSV1TemplateTemplateResource = /*@__PURE__*/ S.suspend(() =>
 export interface GetVPSTemplatesV1Request {}
 export const GetVPSTemplatesV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/vps/v1/templates", code: 200 })),
-).annotate({
-  identifier: "GetVPSTemplatesV1Request",
-}) as any as S.Schema<GetVPSTemplatesV1Request>;
+).annotate({ identifier: "GetVPSTemplatesV1Request" }) as any as S.Schema<GetVPSTemplatesV1Request>;
 
 /** Array of [`VPS.V1.Template.TemplateResource`](#model/vpsv1templatetemplateresource) */
 export type VPSV1TemplateTemplateCollection = Array<VPSV1TemplateTemplateResource>;
@@ -9035,11 +9509,7 @@ export const GetVPSVirtualMachineDetailsV1Request = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     virtualMachineId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/vps/v1/virtual-machines/{virtualMachineId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/vps/v1/virtual-machines/{virtualMachineId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetVPSVirtualMachineDetailsV1Request",
@@ -9171,6 +9641,99 @@ export const GetVPSVirtualMachinesV1Response = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetVPSVirtualMachinesV1Response",
 }) as any as S.Schema<GetVPSVirtualMachinesV1Response>;
 
+export interface HorizonsGetWebsiteListV1Request {}
+export const HorizonsGetWebsiteListV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/horizons/v1/websites", code: 200 })),
+).annotate({
+  identifier: "HorizonsGetWebsiteListV1Request",
+}) as any as S.Schema<HorizonsGetWebsiteListV1Request>;
+
+/** The website status */
+export type HorizonsV1WebsitesWebsiteResourceStatus =
+  | "active"
+  | "suspended"
+  | "deleting"
+  | "deleted";
+export const HorizonsV1WebsitesWebsiteResourceStatus = S.String;
+
+export interface HorizonsV1WebsitesWebsiteResource {
+  /** The website ID */
+  website_id: string;
+  /** The website description */
+  description?: string | null;
+  /** The domain the website is published on, if it has been published */
+  domain?: string | null;
+  /** The website status */
+  status: HorizonsV1WebsitesWebsiteResourceStatus;
+  /** The website creation date */
+  created_at: string;
+  /** The website URL for the user to access their website in Hostinger Horizons interface */
+  website_url: string;
+}
+export const HorizonsV1WebsitesWebsiteResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    website_id: S.String,
+    description: S.optional(S.NullOr(S.String)),
+    domain: S.optional(S.NullOr(S.String)),
+    status: HorizonsV1WebsitesWebsiteResourceStatus,
+    created_at: S.String,
+    website_url: S.String,
+  }),
+).annotate({
+  identifier: "HorizonsV1WebsitesWebsiteResource",
+}) as any as S.Schema<HorizonsV1WebsitesWebsiteResource>;
+
+/** Array of [`Horizons.V1.Websites.WebsiteResource`](#model/horizonsv1websiteswebsiteresource) */
+export type HorizonsV1WebsitesWebsiteCollection = Array<HorizonsV1WebsitesWebsiteResource>;
+export const HorizonsV1WebsitesWebsiteCollection = /*@__PURE__*/ S.Array(
+  HorizonsV1WebsitesWebsiteResource,
+) as any as S.Schema<HorizonsV1WebsitesWebsiteCollection>;
+
+export type HorizonsGetWebsiteListV1Response = HorizonsV1WebsitesWebsiteCollection;
+export const HorizonsGetWebsiteListV1Response = /*@__PURE__*/ S.suspend(() =>
+  HorizonsV1WebsitesWebsiteCollection.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "HorizonsGetWebsiteListV1Response",
+}) as any as S.Schema<HorizonsGetWebsiteListV1Response>;
+
+export interface HostingAnalyseFailedNodeJsBuildV1Request {
+  username: string;
+  /** Domain name */
+  domain: string;
+  /** Build UUID */
+  uuid: string;
+}
+export const HostingAnalyseFailedNodeJsBuildV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+    uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/hosting/v1/accounts/{username}/websites/{domain}/nodejs/builds/{uuid}/analysis",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "HostingAnalyseFailedNodeJsBuildV1Request",
+}) as any as S.Schema<HostingAnalyseFailedNodeJsBuildV1Request>;
+
+export interface HostingV1NodeJsBuildAnalysisResource {
+  /** Why the build failed. null when no analysis could be produced. */
+  analysis: string | null;
+  /** Suggested fix for the build failure. null when no analysis could be produced. */
+  solution: string | null;
+}
+export const HostingV1NodeJsBuildAnalysisResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    analysis: S.NullOr(S.String),
+    solution: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "HostingV1NodeJsBuildAnalysisResource",
+}) as any as S.Schema<HostingV1NodeJsBuildAnalysisResource>;
+
 export interface HostingChangeDatabasePasswordV1Request {
   username: string;
   /** Full database name as returned by the list databases endpoint. */
@@ -9244,13 +9807,7 @@ export const HostingGenerateUploadURLV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String,
     domain: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/hosting/v1/files/upload-urls",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/hosting/v1/files/upload-urls", code: 200 })),
 ).annotate({
   identifier: "HostingGenerateUploadURLV1Request",
 }) as any as S.Schema<HostingGenerateUploadURLV1Request>;
@@ -9488,6 +10045,73 @@ export const HostingRepairDatabaseV1Request = /*@__PURE__*/ S.suspend(() =>
   identifier: "HostingRepairDatabaseV1Request",
 }) as any as S.Schema<HostingRepairDatabaseV1Request>;
 
+export interface HostingSetupWebsiteDatabaseV1Request {
+  username: string;
+  /** Domain name */
+  domain: string;
+  /** Optional database name. Generated when omitted. Letters, digits and underscores; must not start with an underscore. Up to 14 characters without the account username prefix (`u123456789_`), which is added automatically when missing. With the prefix the full name is 12 to 25 characters. */
+  name?: string;
+  /** Optional database user. Generated when omitted. Letters, digits and underscores; must not start with an underscore. Up to 14 characters without the account username prefix (`u123456789_`), which is added automatically when missing. With the prefix the full user is 12 to 25 characters. */
+  user?: string;
+}
+export const HostingSetupWebsiteDatabaseV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+    name: S.optional(S.String),
+    user: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/hosting/v1/accounts/{username}/websites/{domain}/databases/setup",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "HostingSetupWebsiteDatabaseV1Request",
+}) as any as S.Schema<HostingSetupWebsiteDatabaseV1Request>;
+
+export interface HostingV1DatabasesWebsiteDatabaseConnectionResource {
+  /** Database name, as written into DB_NAME */
+  name: string;
+  /** Database user, as written into DB_USER */
+  user: string;
+  /** MySQL host as written into DB_HOST. The application connects over the loopback. */
+  host: string;
+  /** MySQL port as written into DB_PORT */
+  port: number;
+}
+export const HostingV1DatabasesWebsiteDatabaseConnectionResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    user: S.String,
+    host: S.String,
+    port: S.Number,
+  }),
+).annotate({
+  identifier: "HostingV1DatabasesWebsiteDatabaseConnectionResource",
+}) as any as S.Schema<HostingV1DatabasesWebsiteDatabaseConnectionResource>;
+
+/** Names of the environment variables written for this database. Values are never returned. */
+export type HostingV1DatabasesWebsiteDatabaseResourceEnvVarKeysList = Array<string>;
+export const HostingV1DatabasesWebsiteDatabaseResourceEnvVarKeysList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<HostingV1DatabasesWebsiteDatabaseResourceEnvVarKeysList>;
+
+export interface HostingV1DatabasesWebsiteDatabaseResource {
+  database: HostingV1DatabasesWebsiteDatabaseConnectionResource;
+  /** Names of the environment variables written for this database. Values are never returned. */
+  env_var_keys: HostingV1DatabasesWebsiteDatabaseResourceEnvVarKeysList;
+}
+export const HostingV1DatabasesWebsiteDatabaseResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    database: HostingV1DatabasesWebsiteDatabaseConnectionResource,
+    env_var_keys: HostingV1DatabasesWebsiteDatabaseResourceEnvVarKeysList,
+  }),
+).annotate({
+  identifier: "HostingV1DatabasesWebsiteDatabaseResource",
+}) as any as S.Schema<HostingV1DatabasesWebsiteDatabaseResource>;
+
 export interface ImportHostingWordPressWebsiteV1Request {
   username: string;
   /** Domain name */
@@ -9513,6 +10137,47 @@ export const ImportHostingWordPressWebsiteV1Request = /*@__PURE__*/ S.suspend(()
 ).annotate({
   identifier: "ImportHostingWordPressWebsiteV1Request",
 }) as any as S.Schema<ImportHostingWordPressWebsiteV1Request>;
+
+export interface InstallAgencyHostingWebsiteSSLV1Request {
+  /** Agency Plan website UID */
+  website_uid: string;
+  /** Domain name */
+  domain: string;
+}
+export const InstallAgencyHostingWebsiteSSLV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    website_uid: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/agency-hosting/v1/websites/{website_uid}/domains/{domain}/ssl/setup",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "InstallAgencyHostingWebsiteSSLV1Request",
+}) as any as S.Schema<InstallAgencyHostingWebsiteSSLV1Request>;
+
+export interface InstallHostingSSLV1Request {
+  username: string;
+  /** Domain name */
+  domain: string;
+}
+export const InstallHostingSSLV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/hosting/v1/accounts/{username}/websites/{domain}/ssl/setup",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "InstallHostingSSLV1Request",
+}) as any as S.Schema<InstallHostingSSLV1Request>;
 
 /** Plugin slugs to install. Use GET /api/hosting/v1/wordpress/plugins to discover available slugs. */
 export type InstallHostingWordPressPluginsV1RequestPluginsList = Array<string>;
@@ -9606,10 +10271,11 @@ export const InstallHostingWordPressV1RequestCredentials = /*@__PURE__*/ S.suspe
   identifier: "InstallHostingWordPressV1RequestCredentials",
 }) as any as S.Schema<InstallHostingWordPressV1RequestCredentials>;
 
-/** Optional. If the named database already exists, it will be used for this WordPress install. Otherwise a new database is created with a generated name and random credentials. */
+/** Optional. If the named database already exists on the account, it is used for this WordPress install. Otherwise a new database is created with this name, or with a generated name when database is omitted or null. A new database gets a random database user and counts toward the plan's database limit. */
 export interface InstallHostingWordPressV1RequestDatabase {
   /** Database name (username prefix added if missing) */
   name?: string;
+  /** Password for a new database. Random when omitted or null. Ignored when the named database already exists. */
   password?: string | Redacted.Redacted<string> | null;
 }
 export const InstallHostingWordPressV1RequestDatabase = /*@__PURE__*/ S.suspend(() =>
@@ -9639,7 +10305,7 @@ export interface InstallHostingWordPressV1Request {
   version?: string | null;
   /** WordPress admin credentials */
   credentials: InstallHostingWordPressV1RequestCredentials;
-  /** Optional. If the named database already exists, it will be used for this WordPress install. Otherwise a new database is created with a generated name and random credentials. */
+  /** Optional. If the named database already exists on the account, it is used for this WordPress install. Otherwise a new database is created with this name, or with a generated name when database is omitted or null. A new database gets a random database user and counts toward the plan's database limit. */
   database?: InstallHostingWordPressV1RequestDatabase | null;
 }
 export const InstallHostingWordPressV1Request = /*@__PURE__*/ S.suspend(() =>
@@ -9828,13 +10494,7 @@ export const ListAgencyHostingAgencyPlanWebsitesV1Request = /*@__PURE__*/ S.susp
       ListAgencyHostingAgencyPlanWebsitesV1RequestWebsiteTypesList.pipe(T.Query()),
     ),
     domain: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/agency-hosting/v1/websites",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/agency-hosting/v1/websites", code: 200 })),
 ).annotate({
   identifier: "ListAgencyHostingAgencyPlanWebsitesV1Request",
 }) as any as S.Schema<ListAgencyHostingAgencyPlanWebsitesV1Request>;
@@ -10814,11 +11474,7 @@ export const ListEcommerceDiscountsV1Request = /*@__PURE__*/ S.suspend(() =>
     is_disabled: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/ecommerce/v1/stores/{store_id}/discounts",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/ecommerce/v1/stores/{store_id}/discounts", code: 200 }),
   ),
 ).annotate({
   identifier: "ListEcommerceDiscountsV1Request",
@@ -10896,11 +11552,7 @@ export const ListEcommerceProductsV1Request = /*@__PURE__*/ S.suspend(() =>
     include: S.optional(ListEcommerceProductsV1RequestIncludeList.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/ecommerce/v1/stores/{store_id}/products",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/ecommerce/v1/stores/{store_id}/products", code: 200 }),
   ),
 ).annotate({
   identifier: "ListEcommerceProductsV1Request",
@@ -11137,11 +11789,7 @@ export const ListEcommerceSalesChannelsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     store_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/ecommerce/v1/stores/{store_id}/sales-channels",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/ecommerce/v1/stores/{store_id}/sales-channels", code: 200 }),
   ),
 ).annotate({
   identifier: "ListEcommerceSalesChannelsV1Request",
@@ -11296,13 +11944,7 @@ export const ListEcommerceStoreOrdersV1Request = /*@__PURE__*/ S.suspend(() =>
     created_at_from: S.optional(S.String.pipe(T.Query())),
     created_at_to: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/ecommerce/v1/stores/{store_id}/orders",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/ecommerce/v1/stores/{store_id}/orders", code: 200 })),
 ).annotate({
   identifier: "ListEcommerceStoreOrdersV1Request",
 }) as any as S.Schema<ListEcommerceStoreOrdersV1Request>;
@@ -11471,11 +12113,7 @@ export const ListHostingAccountCronJobsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/hosting/v1/accounts/{username}/cron-jobs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/hosting/v1/accounts/{username}/cron-jobs", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingAccountCronJobsV1Request",
@@ -11516,11 +12154,7 @@ export const ListHostingAccountDatabasesV1Request = /*@__PURE__*/ S.suspend(() =
     is_assigned: S.optional(S.Boolean.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/hosting/v1/accounts/{username}/databases",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/hosting/v1/accounts/{username}/databases", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingAccountDatabasesV1Request",
@@ -11814,6 +12448,152 @@ export const ListHostingDatabaseRemoteConnectionsV1Response = /*@__PURE__*/ S.su
   identifier: "ListHostingDatabaseRemoteConnectionsV1Response",
 }) as any as S.Schema<ListHostingDatabaseRemoteConnectionsV1Response>;
 
+export interface ListHostingGitInstallationRepositoriesV1Request {
+  /** Git installation UUID from the List Git installations endpoint */
+  uuid: string;
+}
+export const ListHostingGitInstallationRepositoriesV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/hosting/v1/git/installations/{uuid}/repositories",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListHostingGitInstallationRepositoriesV1Request",
+}) as any as S.Schema<ListHostingGitInstallationRepositoriesV1Request>;
+
+export interface HostingV1GitGitRepositoryResource {
+  /** Repository identifier assigned by the Git provider */
+  id: number;
+  /** Repository name without the .git suffix */
+  name: string;
+  /** Owner and repository name joined with a slash */
+  full_name: string;
+  /** Repository owner login */
+  owner: string;
+  /** Whether the repository is private */
+  is_private: boolean;
+  /** Repository page URL */
+  html_url: string;
+  /** HTTPS clone URL */
+  clone_url: string;
+  /** Default branch of the repository */
+  default_branch: string;
+}
+export const HostingV1GitGitRepositoryResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    name: S.String,
+    full_name: S.String,
+    owner: S.String,
+    is_private: S.Boolean,
+    html_url: S.String,
+    clone_url: S.String,
+    default_branch: S.String,
+  }),
+).annotate({
+  identifier: "HostingV1GitGitRepositoryResource",
+}) as any as S.Schema<HostingV1GitGitRepositoryResource>;
+
+/** Array of [`Hosting.V1.Git.GitRepositoryResource`](#model/hostingv1gitgitrepositoryresource) */
+export type HostingV1GitGitRepositoryCollection = Array<HostingV1GitGitRepositoryResource>;
+export const HostingV1GitGitRepositoryCollection = /*@__PURE__*/ S.Array(
+  HostingV1GitGitRepositoryResource,
+) as any as S.Schema<HostingV1GitGitRepositoryCollection>;
+
+export type ListHostingGitInstallationRepositoriesV1Response = HostingV1GitGitRepositoryCollection;
+export const ListHostingGitInstallationRepositoriesV1Response = /*@__PURE__*/ S.suspend(() =>
+  HostingV1GitGitRepositoryCollection.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListHostingGitInstallationRepositoriesV1Response",
+}) as any as S.Schema<ListHostingGitInstallationRepositoriesV1Response>;
+
+export type ListHostingGitInstallationsV1RequestProvider = "github" | "gitlab" | "bitbucket";
+export const ListHostingGitInstallationsV1RequestProvider = S.String;
+
+export type ListHostingGitInstallationsV1RequestStatus = "pending" | "active" | "suspended";
+export const ListHostingGitInstallationsV1RequestStatus = S.String;
+
+export interface ListHostingGitInstallationsV1Request {
+  /** Filter by Git provider */
+  provider?: ListHostingGitInstallationsV1RequestProvider | (string & {});
+  /** Filter by installation status */
+  status?: ListHostingGitInstallationsV1RequestStatus | (string & {});
+}
+export const ListHostingGitInstallationsV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: S.optional(ListHostingGitInstallationsV1RequestProvider.pipe(T.Query())),
+    status: S.optional(ListHostingGitInstallationsV1RequestStatus.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/hosting/v1/git/installations", code: 200 })),
+).annotate({
+  identifier: "ListHostingGitInstallationsV1Request",
+}) as any as S.Schema<ListHostingGitInstallationsV1Request>;
+
+/** Git provider the account belongs to */
+export type HostingV1GitGitInstallationResourceProvider = "github" | "gitlab" | "bitbucket";
+export const HostingV1GitGitInstallationResourceProvider = S.String;
+
+/** Whether the connected account is a user or an organization */
+export type HostingV1GitGitInstallationResourceAccountType = "User" | "Organization";
+export const HostingV1GitGitInstallationResourceAccountType = S.String;
+
+/** Installation status. Only active installations are listed unless the status filter says otherwise. */
+export type HostingV1GitGitInstallationResourceStatus = "pending" | "active" | "suspended";
+export const HostingV1GitGitInstallationResourceStatus = S.String;
+
+export interface HostingV1GitGitInstallationResource {
+  /** Installation identifier. Use it as the path parameter of List Git installation repositories. */
+  uuid: string;
+  /** Git provider the account belongs to */
+  provider: HostingV1GitGitInstallationResourceProvider;
+  /** Login of the connected provider account (user or organization) */
+  account_login: string | null;
+  /** Whether the connected account is a user or an organization */
+  account_type: HostingV1GitGitInstallationResourceAccountType | null;
+  /** Avatar URL of the connected provider account */
+  account_avatar_url: string | null;
+  /** Installation status. Only active installations are listed unless the status filter says otherwise. */
+  status: HostingV1GitGitInstallationResourceStatus;
+  /** When the provider app was installed on the account */
+  installed_at: string | null;
+  /** When the installation record was created */
+  created_at: string;
+  /** True when the GitHub user account has a stored OAuth token whose refresh token is still valid, false when the token is missing or its refresh token expired. Null for organization accounts and for providers other than GitHub. */
+  has_oauth: boolean | null;
+}
+export const HostingV1GitGitInstallationResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String,
+    provider: HostingV1GitGitInstallationResourceProvider,
+    account_login: S.NullOr(S.String),
+    account_type: S.NullOr(HostingV1GitGitInstallationResourceAccountType),
+    account_avatar_url: S.NullOr(S.String),
+    status: HostingV1GitGitInstallationResourceStatus,
+    installed_at: S.NullOr(S.String),
+    created_at: S.String,
+    has_oauth: S.NullOr(S.Boolean),
+  }),
+).annotate({
+  identifier: "HostingV1GitGitInstallationResource",
+}) as any as S.Schema<HostingV1GitGitInstallationResource>;
+
+/** Array of [`Hosting.V1.Git.GitInstallationResource`](#model/hostingv1gitgitinstallationresource) */
+export type HostingV1GitGitInstallationCollection = Array<HostingV1GitGitInstallationResource>;
+export const HostingV1GitGitInstallationCollection = /*@__PURE__*/ S.Array(
+  HostingV1GitGitInstallationResource,
+) as any as S.Schema<HostingV1GitGitInstallationCollection>;
+
+export type ListHostingGitInstallationsV1Response = HostingV1GitGitInstallationCollection;
+export const ListHostingGitInstallationsV1Response = /*@__PURE__*/ S.suspend(() =>
+  HostingV1GitGitInstallationCollection.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListHostingGitInstallationsV1Response",
+}) as any as S.Schema<ListHostingGitInstallationsV1Response>;
+
 export type ListHostingInstalledWordPressPluginsV1RequestCategory = "cache";
 export const ListHostingInstalledWordPressPluginsV1RequestCategory = S.String;
 
@@ -12008,113 +12788,6 @@ export const ListHostingNodeJSBuildsV1Request = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListHostingNodeJSBuildsV1Request",
 }) as any as S.Schema<ListHostingNodeJSBuildsV1Request>;
-
-/** Build state */
-export type HostingV1NodeJsBuildResourceState = "pending" | "running" | "completed" | "failed";
-export const HostingV1NodeJsBuildResourceState = S.String;
-
-/** Node.js application type */
-export type HostingV1NodeJsBuildOptionsResourceAppType =
-  | "create-react-app"
-  | "gatsby"
-  | "vite"
-  | "angular"
-  | "react"
-  | "vue"
-  | "parcel"
-  | "next"
-  | "nuxt"
-  | "nest"
-  | "express"
-  | "fastify"
-  | "astro"
-  | "svelte"
-  | "svelte-kit"
-  | "hono"
-  | "react-router"
-  | "nitro"
-  | "other";
-export const HostingV1NodeJsBuildOptionsResourceAppType = S.String;
-
-/** Package manager */
-export type HostingV1NodeJsBuildOptionsResourcePackageManager = "npm" | "yarn" | "pnpm";
-export const HostingV1NodeJsBuildOptionsResourcePackageManager = S.String;
-
-/** Source type for the build */
-export type HostingV1NodeJsBuildOptionsResourceSourceType = "archive";
-export const HostingV1NodeJsBuildOptionsResourceSourceType = S.String;
-
-export interface HostingV1NodeJsSourceOptionsResource {
-  /** Present if sourceType is "archive" */
-  archive_path?: string | null;
-}
-export const HostingV1NodeJsSourceOptionsResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    archive_path: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "HostingV1NodeJsSourceOptionsResource",
-}) as any as S.Schema<HostingV1NodeJsSourceOptionsResource>;
-
-export interface HostingV1NodeJsBuildOptionsResource {
-  /** Node.js version */
-  node_version: number;
-  /** Node.js application type */
-  app_type: HostingV1NodeJsBuildOptionsResourceAppType | null;
-  /** Application root directory */
-  root_directory: string | null;
-  /** Build output directory */
-  output_directory: string | null;
-  /** The npm script to run to build the application */
-  build_script: string | null;
-  /** The main entry point file for the application */
-  entry_file: string | null;
-  /** Package manager */
-  package_manager: HostingV1NodeJsBuildOptionsResourcePackageManager | null;
-  /** Source type for the build */
-  source_type: HostingV1NodeJsBuildOptionsResourceSourceType | null;
-  /** Source options, varies based on sourceType */
-  source_options: HostingV1NodeJsSourceOptionsResource | null;
-}
-export const HostingV1NodeJsBuildOptionsResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    node_version: S.Number,
-    app_type: S.NullOr(HostingV1NodeJsBuildOptionsResourceAppType),
-    root_directory: S.NullOr(S.String),
-    output_directory: S.NullOr(S.String),
-    build_script: S.NullOr(S.String),
-    entry_file: S.NullOr(S.String),
-    package_manager: S.NullOr(HostingV1NodeJsBuildOptionsResourcePackageManager),
-    source_type: S.NullOr(HostingV1NodeJsBuildOptionsResourceSourceType),
-    source_options: S.NullOr(HostingV1NodeJsSourceOptionsResource),
-  }),
-).annotate({
-  identifier: "HostingV1NodeJsBuildOptionsResource",
-}) as any as S.Schema<HostingV1NodeJsBuildOptionsResource>;
-
-export interface HostingV1NodeJsBuildResource {
-  /** Build UUID */
-  uuid?: string;
-  /** Build state */
-  state?: HostingV1NodeJsBuildResourceState;
-  /** Build options */
-  options?: HostingV1NodeJsBuildOptionsResource | null;
-  /** Creation timestamp */
-  created_at?: string;
-  /** Last update timestamp */
-  updated_at?: string;
-}
-export const HostingV1NodeJsBuildResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uuid: S.optional(S.String),
-    state: S.optional(HostingV1NodeJsBuildResourceState),
-    options: S.optional(S.NullOr(HostingV1NodeJsBuildOptionsResource)),
-    created_at: S.optional(S.String),
-    updated_at: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "HostingV1NodeJsBuildResource",
-}) as any as S.Schema<HostingV1NodeJsBuildResource>;
 
 /** Array of [`Hosting.V1.NodeJs.BuildResource`](#model/hostingv1nodejsbuildresource) */
 export type HostingV1NodeJsBuildCollection = Array<HostingV1NodeJsBuildResource>;
@@ -12401,13 +13074,7 @@ export interface ListHostingSuggestedWordPressPluginsV1Request {
 export const ListHostingSuggestedWordPressPluginsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     order_id: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/hosting/v1/wordpress/plugins/suggested",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/hosting/v1/wordpress/plugins/suggested", code: 200 })),
 ).annotate({
   identifier: "ListHostingSuggestedWordPressPluginsV1Request",
 }) as any as S.Schema<ListHostingSuggestedWordPressPluginsV1Request>;
@@ -12501,6 +13168,84 @@ export const ListHostingSuggestedWordPressPluginsV1Response = /*@__PURE__*/ S.su
 ).annotate({
   identifier: "ListHostingSuggestedWordPressPluginsV1Response",
 }) as any as S.Schema<ListHostingSuggestedWordPressPluginsV1Response>;
+
+export interface ListHostingWebsiteGitRepositoriesV1Request {
+  username: string;
+  /** Domain name */
+  domain: string;
+}
+export const ListHostingWebsiteGitRepositoriesV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/hosting/v1/accounts/{username}/websites/{domain}/git/repositories",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListHostingWebsiteGitRepositoriesV1Request",
+}) as any as S.Schema<ListHostingWebsiteGitRepositoriesV1Request>;
+
+/** Auto-deployment webhook of the repository, the same one the Git section of hPanel shows */
+export interface HostingV1GitWebsiteGitRepositoryWebhookResource {
+  /** Webhook URL to add on the Git host for automatic deployment */
+  url: string;
+  /** Git host detected from the repository URL. Null when it is not GitHub, GitLab or Bitbucket. */
+  provider: string | null;
+  /** Page on the Git host where the webhook is added. Null when the host is not detected. */
+  setup_url: string | null;
+  /** Git host guide for adding a webhook. Null when the host is not detected. */
+  tutorial_url: string | null;
+}
+export const HostingV1GitWebsiteGitRepositoryWebhookResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    url: S.String,
+    provider: S.NullOr(S.String),
+    setup_url: S.NullOr(S.String),
+    tutorial_url: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "HostingV1GitWebsiteGitRepositoryWebhookResource",
+}) as any as S.Schema<HostingV1GitWebsiteGitRepositoryWebhookResource>;
+
+/** Git repository linked to a directory of the website. A repository whose clone failed stays listed; deploying it again retries the clone. */
+export interface HostingV1GitWebsiteGitRepositoryResource {
+  /** Clone URL of the repository. A username, password or token in an HTTP(S) URL, or a password in any URL, is shown as `***`. */
+  repository_url: string;
+  /** Branch that is cloned and pulled */
+  branch: string;
+  /** Directory under the website document root. Empty means the document root. */
+  directory: string;
+  webhook: HostingV1GitWebsiteGitRepositoryWebhookResource;
+}
+export const HostingV1GitWebsiteGitRepositoryResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repository_url: S.String,
+    branch: S.String,
+    directory: S.String,
+    webhook: HostingV1GitWebsiteGitRepositoryWebhookResource,
+  }),
+).annotate({
+  identifier: "HostingV1GitWebsiteGitRepositoryResource",
+}) as any as S.Schema<HostingV1GitWebsiteGitRepositoryResource>;
+
+/** Array of [`Hosting.V1.Git.WebsiteGitRepositoryResource`](#model/hostingv1gitwebsitegitrepositoryresource) */
+export type HostingV1GitWebsiteGitRepositoryCollection =
+  Array<HostingV1GitWebsiteGitRepositoryResource>;
+export const HostingV1GitWebsiteGitRepositoryCollection = /*@__PURE__*/ S.Array(
+  HostingV1GitWebsiteGitRepositoryResource,
+) as any as S.Schema<HostingV1GitWebsiteGitRepositoryCollection>;
+
+export type ListHostingWebsiteGitRepositoriesV1Response =
+  HostingV1GitWebsiteGitRepositoryCollection;
+export const ListHostingWebsiteGitRepositoriesV1Response = /*@__PURE__*/ S.suspend(() =>
+  HostingV1GitWebsiteGitRepositoryCollection.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListHostingWebsiteGitRepositoriesV1Response",
+}) as any as S.Schema<ListHostingWebsiteGitRepositoriesV1Response>;
 
 export interface ListHostingWebsiteParkedDomainsV1Request {
   username: string;
@@ -12607,6 +13352,60 @@ export const ListHostingWebsiteRedirectsV1Response = /*@__PURE__*/ S.suspend(() 
 ).annotate({
   identifier: "ListHostingWebsiteRedirectsV1Response",
 }) as any as S.Schema<ListHostingWebsiteRedirectsV1Response>;
+
+export interface ListHostingWebsiteSetupsV1Request {
+  /** Filter by domain name (exact match) */
+  domain?: string;
+}
+export const ListHostingWebsiteSetupsV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/hosting/v1/onboardings", code: 200 })),
+).annotate({
+  identifier: "ListHostingWebsiteSetupsV1Request",
+}) as any as S.Schema<ListHostingWebsiteSetupsV1Request>;
+
+/** `running` while the website is still being set up, `completed` once the setup has finished, `failed` when it stopped before finishing or has not reported progress for over an hour. */
+export type HostingV1OnboardingsOnboardingResourceStatus = "running" | "completed" | "failed";
+export const HostingV1OnboardingsOnboardingResourceStatus = S.String;
+
+export interface HostingV1OnboardingsOnboardingResource {
+  /** Domain of the website being set up. */
+  domain: string;
+  /** Hosting account username. */
+  username: string;
+  /** `running` while the website is still being set up, `completed` once the setup has finished, `failed` when it stopped before finishing or has not reported progress for over an hour. */
+  status: HostingV1OnboardingsOnboardingResourceStatus;
+  /** When the setup was requested. */
+  created_at: string;
+  /** When the setup last reported progress. */
+  updated_at: string;
+}
+export const HostingV1OnboardingsOnboardingResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    username: S.String,
+    status: HostingV1OnboardingsOnboardingResourceStatus,
+    created_at: S.String,
+    updated_at: S.String,
+  }),
+).annotate({
+  identifier: "HostingV1OnboardingsOnboardingResource",
+}) as any as S.Schema<HostingV1OnboardingsOnboardingResource>;
+
+/** Array of [`Hosting.V1.Onboardings.OnboardingResource`](#model/hostingv1onboardingsonboardingresource) */
+export type HostingV1OnboardingsOnboardingCollection =
+  Array<HostingV1OnboardingsOnboardingResource>;
+export const HostingV1OnboardingsOnboardingCollection = /*@__PURE__*/ S.Array(
+  HostingV1OnboardingsOnboardingResource,
+) as any as S.Schema<HostingV1OnboardingsOnboardingCollection>;
+
+export type ListHostingWebsiteSetupsV1Response = HostingV1OnboardingsOnboardingCollection;
+export const ListHostingWebsiteSetupsV1Response = /*@__PURE__*/ S.suspend(() =>
+  HostingV1OnboardingsOnboardingCollection.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListHostingWebsiteSetupsV1Response",
+}) as any as S.Schema<ListHostingWebsiteSetupsV1Response>;
 
 export interface ListHostingWebsiteSubdomainsV1Request {
   username: string;
@@ -12728,7 +13527,7 @@ export interface HostingV1WebsitesWebsiteResource {
   domain?: string | null;
   /** Virtual host type. Only present for CloudLinux websites. */
   vhost_type?: HostingV1WebsitesWebsiteResourceVhostType | null;
-  /** Whether website is enabled */
+  /** True unless the website is suspended. Not a readiness signal: a website that is still being set up is enabled too, see the list website setups endpoint. */
   is_enabled?: boolean;
   /** Username. Not applicable for U4S websites. */
   username?: string | null;
@@ -12800,13 +13599,7 @@ export const ListHostingWordPressInstallationsV1Request = /*@__PURE__*/ S.suspen
     username: S.optional(S.String.pipe(T.Query())),
     domain: S.optional(S.String.pipe(T.Query())),
     ownership: S.optional(ListHostingWordPressInstallationsV1RequestOwnership.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/hosting/v1/wordpress/installations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/hosting/v1/wordpress/installations", code: 200 })),
 ).annotate({
   identifier: "ListHostingWordPressInstallationsV1Request",
 }) as any as S.Schema<ListHostingWordPressInstallationsV1Request>;
@@ -12881,13 +13674,7 @@ export const ListHostingWordPressThemesV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     order_id: S.optional(S.Number.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/hosting/v1/wordpress/themes",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/hosting/v1/wordpress/themes", code: 200 })),
 ).annotate({
   identifier: "ListHostingWordPressThemesV1Request",
 }) as any as S.Schema<ListHostingWordPressThemesV1Request>;
@@ -12978,13 +13765,7 @@ export const ListMailAccessLogsV1Request = /*@__PURE__*/ S.suspend(() =>
     has_deletions: S.optional(S.Boolean.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/mail/v1/orders/{orderId}/logs/access",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/mail/v1/orders/{orderId}/logs/access", code: 200 })),
 ).annotate({
   identifier: "ListMailAccessLogsV1Request",
 }) as any as S.Schema<ListMailAccessLogsV1Request>;
@@ -13087,13 +13868,7 @@ export const ListMailActionLogsV1Request = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ListMailActionLogsV1RequestStatus.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/mail/v1/orders/{orderId}/logs/action",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/mail/v1/orders/{orderId}/logs/action", code: 200 })),
 ).annotate({
   identifier: "ListMailActionLogsV1Request",
 }) as any as S.Schema<ListMailActionLogsV1Request>;
@@ -13158,16 +13933,8 @@ export const ListMailAliasesV1Request = /*@__PURE__*/ S.suspend(() =>
     orderId: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/mail/v1/orders/{orderId}/aliases",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListMailAliasesV1Request",
-}) as any as S.Schema<ListMailAliasesV1Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/mail/v1/orders/{orderId}/aliases", code: 200 })),
+).annotate({ identifier: "ListMailAliasesV1Request" }) as any as S.Schema<ListMailAliasesV1Request>;
 
 /** Array of [`Mail.V1.Aliases.AliasResource`](#model/mailv1aliasesaliasresource) */
 export type MailV1AliasesAliasCollection = Array<MailV1AliasesAliasResource>;
@@ -13268,13 +14035,7 @@ export const ListMailAutorepliesV1Request = /*@__PURE__*/ S.suspend(() =>
     orderId: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/mail/v1/orders/{orderId}/autoreplies",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/mail/v1/orders/{orderId}/autoreplies", code: 200 })),
 ).annotate({
   identifier: "ListMailAutorepliesV1Request",
 }) as any as S.Schema<ListMailAutorepliesV1Request>;
@@ -13311,13 +14072,7 @@ export const ListMailCatchAllsV1Request = /*@__PURE__*/ S.suspend(() =>
     orderId: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/mail/v1/orders/{orderId}/catchalls",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/mail/v1/orders/{orderId}/catchalls", code: 200 })),
 ).annotate({
   identifier: "ListMailCatchAllsV1Request",
 }) as any as S.Schema<ListMailCatchAllsV1Request>;
@@ -13354,13 +14109,7 @@ export const ListMailForwardersV1Request = /*@__PURE__*/ S.suspend(() =>
     orderId: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/mail/v1/orders/{orderId}/forwarders",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/mail/v1/orders/{orderId}/forwarders", code: 200 })),
 ).annotate({
   identifier: "ListMailForwardersV1Request",
 }) as any as S.Schema<ListMailForwardersV1Request>;
@@ -13421,13 +14170,7 @@ export const ListMailInboundLogsV1Request = /*@__PURE__*/ S.suspend(() =>
     recipient: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/mail/v1/orders/{orderId}/logs/inbound",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/mail/v1/orders/{orderId}/logs/inbound", code: 200 })),
 ).annotate({
   identifier: "ListMailInboundLogsV1Request",
 }) as any as S.Schema<ListMailInboundLogsV1Request>;
@@ -13548,11 +14291,7 @@ export const ListMailMailboxActionLogsV1Request = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/mail/v1/orders/{orderId}/logs/mailbox-actions",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/mail/v1/orders/{orderId}/logs/mailbox-actions", code: 200 }),
   ),
 ).annotate({
   identifier: "ListMailMailboxActionLogsV1Request",
@@ -13633,13 +14372,7 @@ export const ListMailMailboxesV1Request = /*@__PURE__*/ S.suspend(() =>
     sort: S.optional(ListMailMailboxesV1RequestSort.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/mail/v1/orders/{orderId}/mailboxes",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/mail/v1/orders/{orderId}/mailboxes", code: 200 })),
 ).annotate({
   identifier: "ListMailMailboxesV1Request",
 }) as any as S.Schema<ListMailMailboxesV1Request>;
@@ -13696,9 +14429,7 @@ export const ListMailOrdersV1Request = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/mail/v1/orders", code: 200 })),
-).annotate({
-  identifier: "ListMailOrdersV1Request",
-}) as any as S.Schema<ListMailOrdersV1Request>;
+).annotate({ identifier: "ListMailOrdersV1Request" }) as any as S.Schema<ListMailOrdersV1Request>;
 
 /** Order status */
 export type MailV1OrdersOrderResourceStatus = "pending_setup" | "active" | "suspended";
@@ -13783,9 +14514,7 @@ export const ListMailOrdersV1Response = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(MailV1OrdersOrderCollection),
     meta: S.optional(CommonSchemaPaginationMetaSchema),
   }),
-).annotate({
-  identifier: "ListMailOrdersV1Response",
-}) as any as S.Schema<ListMailOrdersV1Response>;
+).annotate({ identifier: "ListMailOrdersV1Response" }) as any as S.Schema<ListMailOrdersV1Response>;
 
 export type ListMailOutboundLogsV1RequestStatus = "Successful" | "Failed";
 export const ListMailOutboundLogsV1RequestStatus = S.String;
@@ -13824,13 +14553,7 @@ export const ListMailOutboundLogsV1Request = /*@__PURE__*/ S.suspend(() =>
     recipient: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/mail/v1/orders/{orderId}/logs/outbound",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/mail/v1/orders/{orderId}/logs/outbound", code: 200 })),
 ).annotate({
   identifier: "ListMailOutboundLogsV1Request",
 }) as any as S.Schema<ListMailOutboundLogsV1Request>;
@@ -13946,13 +14669,7 @@ export const ListMailWebhooksV1Request = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ListMailWebhooksV1RequestStatus.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/mail/v1/orders/{orderId}/webhooks",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/mail/v1/orders/{orderId}/webhooks", code: 200 })),
 ).annotate({
   identifier: "ListMailWebhooksV1Request",
 }) as any as S.Schema<ListMailWebhooksV1Request>;
@@ -14083,11 +14800,7 @@ export const ListReachAutomationsV1Request = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/reach/v1/profiles/{profileUuid}/automations",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/reach/v1/profiles/{profileUuid}/automations", code: 200 }),
   ),
 ).annotate({
   identifier: "ListReachAutomationsV1Request",
@@ -14149,11 +14862,7 @@ export const ListReachCampaignsV1Request = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/reach/v1/profiles/{profileUuid}/campaigns",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/reach/v1/profiles/{profileUuid}/campaigns", code: 200 }),
   ),
 ).annotate({
   identifier: "ListReachCampaignsV1Request",
@@ -14281,6 +14990,33 @@ export const ListReachContactFieldsV1Response = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListReachContactFieldsV1Response",
 }) as any as S.Schema<ListReachContactFieldsV1Response>;
 
+export interface ListReachEmailTemplatesV1Request {
+  /** Profile uuid parameter */
+  profileUuid: string;
+}
+export const ListReachEmailTemplatesV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    profileUuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/api/reach/v1/profiles/{profileUuid}/templates", code: 200 }),
+  ),
+).annotate({
+  identifier: "ListReachEmailTemplatesV1Request",
+}) as any as S.Schema<ListReachEmailTemplatesV1Request>;
+
+/** Array of [`Reach.V1.Templates.TemplateResource`](#model/reachv1templatestemplateresource) */
+export type ReachV1TemplatesTemplateCollection = Array<ReachV1TemplatesTemplateResource>;
+export const ReachV1TemplatesTemplateCollection = /*@__PURE__*/ S.Array(
+  ReachV1TemplatesTemplateResource,
+) as any as S.Schema<ReachV1TemplatesTemplateCollection>;
+
+export type ListReachEmailTemplatesV1Response = ReachV1TemplatesTemplateCollection;
+export const ListReachEmailTemplatesV1Response = /*@__PURE__*/ S.suspend(() =>
+  ReachV1TemplatesTemplateCollection.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListReachEmailTemplatesV1Response",
+}) as any as S.Schema<ListReachEmailTemplatesV1Response>;
+
 export interface ListReachFormsV1Request {
   /** Profile uuid parameter */
   profileUuid: string;
@@ -14294,16 +15030,8 @@ export const ListReachFormsV1Request = /*@__PURE__*/ S.suspend(() =>
     profileUuid: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/reach/v1/profiles/{profileUuid}/forms",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListReachFormsV1Request",
-}) as any as S.Schema<ListReachFormsV1Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/reach/v1/profiles/{profileUuid}/forms", code: 200 })),
+).annotate({ identifier: "ListReachFormsV1Request" }) as any as S.Schema<ListReachFormsV1Request>;
 
 /** A `paused` form keeps its template online but stops accepting submissions. */
 export type ReachV1FormsFormResourceStatus = "active" | "paused" | "draft";
@@ -14347,9 +15075,7 @@ export const ReachV1FormsFormResource = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     updated_at: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ReachV1FormsFormResource",
-}) as any as S.Schema<ReachV1FormsFormResource>;
+).annotate({ identifier: "ReachV1FormsFormResource" }) as any as S.Schema<ReachV1FormsFormResource>;
 
 /** Array of [`Reach.V1.Forms.FormResource`](#model/reachv1formsformresource) */
 export type ReachV1FormsFormCollection = Array<ReachV1FormsFormResource>;
@@ -14366,9 +15092,7 @@ export const ListReachFormsV1Response = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(ReachV1FormsFormCollection),
     meta: S.optional(CommonSchemaPaginationMetaSchema),
   }),
-).annotate({
-  identifier: "ListReachFormsV1Response",
-}) as any as S.Schema<ListReachFormsV1Response>;
+).annotate({ identifier: "ListReachFormsV1Response" }) as any as S.Schema<ListReachFormsV1Response>;
 
 export interface ListReachPlanFeatureAccessV1Request {
   /** Profile uuid parameter */
@@ -14378,11 +15102,7 @@ export const ListReachPlanFeatureAccessV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     profileUuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/reach/v1/profiles/{profileUuid}/features",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/reach/v1/profiles/{profileUuid}/features", code: 200 }),
   ),
 ).annotate({
   identifier: "ListReachPlanFeatureAccessV1Request",
@@ -14462,11 +15182,7 @@ export const ListReachProfileContactsV1Request = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/reach/v1/profiles/{profileUuid}/contacts",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/reach/v1/profiles/{profileUuid}/contacts", code: 200 }),
   ),
 ).annotate({
   identifier: "ListReachProfileContactsV1Request",
@@ -14786,13 +15502,7 @@ export interface ListReachProfileTagsV1Request {
 export const ListReachProfileTagsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     profileUuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/reach/v1/profiles/{profileUuid}/tags",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/reach/v1/profiles/{profileUuid}/tags", code: 200 })),
 ).annotate({
   identifier: "ListReachProfileTagsV1Request",
 }) as any as S.Schema<ListReachProfileTagsV1Request>;
@@ -14992,11 +15702,7 @@ export const MailChangeMailboxPasswordV1Request = /*@__PURE__*/ S.suspend(() =>
     mailboxId: S.String.pipe(T.Label()),
     password: S.String.pipe(T.SensitiveValue({})),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/mail/v1/mailboxes/{mailboxId}/password",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/mail/v1/mailboxes/{mailboxId}/password", code: 200 }),
   ),
 ).annotate({
   identifier: "MailChangeMailboxPasswordV1Request",
@@ -15013,11 +15719,7 @@ export const MailUpdateForwarderKeepCopySettingV1Request = /*@__PURE__*/ S.suspe
     forwarderId: S.String.pipe(T.Label()),
     is_keep_copy_enabled: S.Boolean,
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/mail/v1/forwarders/{forwarderId}/keep-copy",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/mail/v1/forwarders/{forwarderId}/keep-copy", code: 200 }),
   ),
 ).annotate({
   identifier: "MailUpdateForwarderKeepCopySettingV1Request",
@@ -15200,6 +15902,45 @@ export const PreviewReachContactsMatchingConditionsV1Response = /*@__PURE__*/ S.
   identifier: "PreviewReachContactsMatchingConditionsV1Response",
 }) as any as S.Schema<PreviewReachContactsMatchingConditionsV1Response>;
 
+export interface PublishHorizonWebsiteV1Request {
+  /** The website ID */
+  websiteId: string;
+}
+export const PublishHorizonWebsiteV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    websiteId: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/api/horizons/v1/websites/{websiteId}/publish", code: 200 }),
+  ),
+).annotate({
+  identifier: "PublishHorizonWebsiteV1Request",
+}) as any as S.Schema<PublishHorizonWebsiteV1Request>;
+
+/** Always `publishing` - the build runs asynchronously after this response */
+export type HorizonsV1WebsitesPublishedWebsiteResourceStatus = "publishing";
+export const HorizonsV1WebsitesPublishedWebsiteResourceStatus = S.String;
+
+export interface HorizonsV1WebsitesPublishedWebsiteResource {
+  /** Always `publishing` - the build runs asynchronously after this response */
+  status: HorizonsV1WebsitesPublishedWebsiteResourceStatus;
+  /** The URL the published website will be live on in a few minutes */
+  published_url: string;
+  /** The website URL for the user to track progress in Hostinger Horizons interface */
+  website_url: string;
+  /** The website ID */
+  website_id: string;
+}
+export const HorizonsV1WebsitesPublishedWebsiteResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: HorizonsV1WebsitesPublishedWebsiteResourceStatus,
+    published_url: S.String,
+    website_url: S.String,
+    website_id: S.String,
+  }),
+).annotate({
+  identifier: "HorizonsV1WebsitesPublishedWebsiteResource",
+}) as any as S.Schema<HorizonsV1WebsitesPublishedWebsiteResource>;
+
 export interface PurgeHostingLiteSpeedCacheV1Request {
   username: string;
   /** WordPress installation (software) identifier */
@@ -15323,13 +16064,7 @@ export const ReachCreateOrFindTagsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     profileUuid: S.String.pipe(T.Label()),
     names: ReachCreateOrFindTagsV1RequestNamesList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/reach/v1/profiles/{profileUuid}/tags",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/reach/v1/profiles/{profileUuid}/tags", code: 200 })),
 ).annotate({
   identifier: "ReachCreateOrFindTagsV1Request",
 }) as any as S.Schema<ReachCreateOrFindTagsV1Request>;
@@ -15516,9 +16251,7 @@ export const RenameReachATagV1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RenameReachATagV1Request",
-}) as any as S.Schema<RenameReachATagV1Request>;
+).annotate({ identifier: "RenameReachATagV1Request" }) as any as S.Schema<RenameReachATagV1Request>;
 
 /** Discount coupon codes */
 export type RenewBillingSubscriptionV1RequestCouponsList = Array<unknown>;
@@ -15726,13 +16459,7 @@ export const ReplaceVPSAllFirewallRulesInGroupV1Request = /*@__PURE__*/ S.suspen
     firewallId: S.Number.pipe(T.Label()),
     rules: ReplaceVPSAllFirewallRulesInGroupV1RequestRulesList,
     sync: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/vps/v1/firewall/{firewallId}/rules",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/vps/v1/firewall/{firewallId}/rules", code: 200 })),
 ).annotate({
   identifier: "ReplaceVPSAllFirewallRulesInGroupV1Request",
 }) as any as S.Schema<ReplaceVPSAllFirewallRulesInGroupV1Request>;
@@ -15795,13 +16522,7 @@ export const ResetDNSDNSRecordsV1Request = /*@__PURE__*/ S.suspend(() =>
     sync: S.optional(S.Boolean),
     reset_email_records: S.optional(S.Boolean),
     whitelisted_record_types: S.optional(ResetDNSDNSRecordsV1RequestWhitelistedRecordTypesList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/dns/v1/zones/{domain}/reset",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/dns/v1/zones/{domain}/reset", code: 200 })),
 ).annotate({
   identifier: "ResetDNSDNSRecordsV1Request",
 }) as any as S.Schema<ResetDNSDNSRecordsV1Request>;
@@ -15970,13 +16691,7 @@ export interface RevokeMailAPITokenV1Request {
 export const RevokeMailAPITokenV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tokenId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/mail/v1/api-tokens/{tokenId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/mail/v1/api-tokens/{tokenId}", code: 200 })),
 ).annotate({
   identifier: "RevokeMailAPITokenV1Request",
 }) as any as S.Schema<RevokeMailAPITokenV1Request>;
@@ -15988,13 +16703,7 @@ export interface SearchHostingWordPressPluginsV1Request {
 export const SearchHostingWordPressPluginsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     search: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/hosting/v1/wordpress/plugins",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/hosting/v1/wordpress/plugins", code: 200 })),
 ).annotate({
   identifier: "SearchHostingWordPressPluginsV1Request",
 }) as any as S.Schema<SearchHostingWordPressPluginsV1Request>;
@@ -16055,11 +16764,7 @@ export const SetBillingDefaultPaymentMethodV1Request = /*@__PURE__*/ S.suspend((
   S.Struct({
     paymentMethodId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/billing/v1/payment-methods/{paymentMethodId}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/billing/v1/payment-methods/{paymentMethodId}", code: 200 }),
   ),
 ).annotate({
   identifier: "SetBillingDefaultPaymentMethodV1Request",
@@ -16072,13 +16777,7 @@ export interface SetDomainWHOISProfileAsDefaultV1Request {
 export const SetDomainWHOISProfileAsDefaultV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     whoisId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/domains/v1/whois/default/{whoisId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/domains/v1/whois/default/{whoisId}", code: 200 })),
 ).annotate({
   identifier: "SetDomainWHOISProfileAsDefaultV1Request",
 }) as any as S.Schema<SetDomainWHOISProfileAsDefaultV1Request>;
@@ -16094,11 +16793,7 @@ export const SetEcommerceStoreShippingV1Request = /*@__PURE__*/ S.suspend(() =>
     store_id: S.String.pipe(T.Label()),
     price: S.Number,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/ecommerce/v1/stores/{store_id}/shipping",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/ecommerce/v1/stores/{store_id}/shipping", code: 200 }),
   ),
 ).annotate({
   identifier: "SetEcommerceStoreShippingV1Request",
@@ -16182,9 +16877,7 @@ export const SetVPSHostnameV1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "SetVPSHostnameV1Request",
-}) as any as S.Schema<SetVPSHostnameV1Request>;
+).annotate({ identifier: "SetVPSHostnameV1Request" }) as any as S.Schema<SetVPSHostnameV1Request>;
 
 export interface SetVPSNameserversV1Request {
   /** Virtual Machine ID */
@@ -16252,6 +16945,33 @@ export const SetVPSRootPasswordV1Request = /*@__PURE__*/ S.suspend(() =>
   identifier: "SetVPSRootPasswordV1Request",
 }) as any as S.Schema<SetVPSRootPasswordV1Request>;
 
+/** Domain contact information */
+export type StartDomainDomainTransferV1RequestDomainContacts =
+  ClaimDomainFreeDomainTransferV1RequestDomainContacts;
+export const StartDomainDomainTransferV1RequestDomainContacts =
+  ClaimDomainFreeDomainTransferV1RequestDomainContacts;
+
+export interface StartDomainDomainTransferV1Request {
+  /** Domain name */
+  domain: string;
+  /** Authorization code from the current registrar */
+  auth_code: string;
+  /** Domain contact information */
+  domain_contacts?: ClaimDomainFreeDomainTransferV1RequestDomainContacts;
+  /** Keep the existing nameservers of the domain */
+  should_keep_ns?: boolean;
+}
+export const StartDomainDomainTransferV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    auth_code: S.String,
+    domain_contacts: S.optional(ClaimDomainFreeDomainTransferV1RequestDomainContacts),
+    should_keep_ns: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/api/domains/v1/transfers", code: 200 })),
+).annotate({
+  identifier: "StartDomainDomainTransferV1Request",
+}) as any as S.Schema<StartDomainDomainTransferV1Request>;
+
 /** Node.js version */
 export type StartHostingNodeJsBuildV1RequestNodeVersion = 18 | 20 | 22 | 24;
 export const StartHostingNodeJsBuildV1RequestNodeVersion = S.Number;
@@ -16283,18 +17003,30 @@ export const StartHostingNodeJsBuildV1RequestAppType = S.String;
 export type StartHostingNodeJsBuildV1RequestPackageManager = "npm" | "yarn" | "pnpm";
 export const StartHostingNodeJsBuildV1RequestPackageManager = S.String;
 
-/** The source type of the files */
-export type StartHostingNodeJsBuildV1RequestSourceType = "archive";
+/** Where the files come from: `archive` (an uploaded archive on the website) or `git` (a branch of a repository reachable through a Git installation). */
+export type StartHostingNodeJsBuildV1RequestSourceType = "archive" | "git";
 export const StartHostingNodeJsBuildV1RequestSourceType = S.String;
 
-/** Source-specific options */
+/** Source-specific options. For `archive` send `archive_path`. For `git` send `owner`, `repository`, `branch` and `installation_uuid`, taken from `List Git installations` and `List Git installation repositories`. */
 export interface StartHostingNodeJsBuildV1RequestSourceOptions {
   /** The path to the archive file relative to the document root of the vhost (required if source is "archive") */
   archive_path?: string;
+  /** Repository owner login (required if source is "git"). GitLab group paths use slashes. */
+  owner?: string;
+  /** Repository name without the .git suffix (required if source is "git") */
+  repository?: string;
+  /** Branch to build (required if source is "git") */
+  branch?: string;
+  /** Git installation used to access the repository (required if source is "git") */
+  installation_uuid?: string;
 }
 export const StartHostingNodeJsBuildV1RequestSourceOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     archive_path: S.optional(S.String),
+    owner: S.optional(S.String),
+    repository: S.optional(S.String),
+    branch: S.optional(S.String),
+    installation_uuid: S.optional(S.String),
   }),
 ).annotate({
   identifier: "StartHostingNodeJsBuildV1RequestSourceOptions",
@@ -16318,9 +17050,9 @@ export interface StartHostingNodeJsBuildV1Request {
   entry_file?: string | null;
   /** Package manager */
   package_manager?: StartHostingNodeJsBuildV1RequestPackageManager | (string & {}) | null;
-  /** The source type of the files */
+  /** Where the files come from: `archive` (an uploaded archive on the website) or `git` (a branch of a repository reachable through a Git installation). */
   source_type: StartHostingNodeJsBuildV1RequestSourceType | (string & {});
-  /** Source-specific options */
+  /** Source-specific options. For `archive` send `archive_path`. For `git` send `owner`, `repository`, `branch` and `installation_uuid`, taken from `List Git installations` and `List Git installation repositories`. */
   source_options: StartHostingNodeJsBuildV1RequestSourceOptions | null;
 }
 export const StartHostingNodeJsBuildV1Request = /*@__PURE__*/ S.suspend(() =>
@@ -16364,9 +17096,7 @@ export const StartVPSProjectV1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "StartVPSProjectV1Request",
-}) as any as S.Schema<StartVPSProjectV1Request>;
+).annotate({ identifier: "StartVPSProjectV1Request" }) as any as S.Schema<StartVPSProjectV1Request>;
 
 export interface StartVPSRecoveryModeV1Request {
   /** Virtual Machine ID */
@@ -16424,9 +17154,7 @@ export const StopVPSProjectV1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "StopVPSProjectV1Request",
-}) as any as S.Schema<StopVPSProjectV1Request>;
+).annotate({ identifier: "StopVPSProjectV1Request" }) as any as S.Schema<StopVPSProjectV1Request>;
 
 export interface StopVPSRecoveryModeV1Request {
   /** Virtual Machine ID */
@@ -16464,26 +17192,17 @@ export const StopVPSVirtualMachineV1Request = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopVPSVirtualMachineV1Request",
 }) as any as S.Schema<StopVPSVirtualMachineV1Request>;
 
-export interface SyncVPSFirewallV1Request {
+export interface SyncVPSFirewallToAllAssignedVMsV1Request {
   /** Firewall ID */
   firewallId: number;
-  /** Virtual Machine ID */
-  virtualMachineId: number;
 }
-export const SyncVPSFirewallV1Request = /*@__PURE__*/ S.suspend(() =>
+export const SyncVPSFirewallToAllAssignedVMsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     firewallId: S.Number.pipe(T.Label()),
-    virtualMachineId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/vps/v1/firewall/{firewallId}/sync/{virtualMachineId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/vps/v1/firewall/{firewallId}/sync", code: 200 })),
 ).annotate({
-  identifier: "SyncVPSFirewallV1Request",
-}) as any as S.Schema<SyncVPSFirewallV1Request>;
+  identifier: "SyncVPSFirewallToAllAssignedVMsV1Request",
+}) as any as S.Schema<SyncVPSFirewallToAllAssignedVMsV1Request>;
 
 export interface TestMailWebhookV1Request {
   /** Webhook ID (returned when the webhook was created) */
@@ -16492,16 +17211,8 @@ export interface TestMailWebhookV1Request {
 export const TestMailWebhookV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     webhookId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/mail/v1/webhooks/{webhookId}/test",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "TestMailWebhookV1Request",
-}) as any as S.Schema<TestMailWebhookV1Request>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/mail/v1/webhooks/{webhookId}/test", code: 200 })),
+).annotate({ identifier: "TestMailWebhookV1Request" }) as any as S.Schema<TestMailWebhookV1Request>;
 
 export interface MailV1WebhooksWebhookTestResultResource {
   /** HTTP status code returned by the webhook endpoint */
@@ -16543,6 +17254,29 @@ export const ToggleHostingCachelessModeV1Request = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ToggleHostingCachelessModeV1Request",
 }) as any as S.Schema<ToggleHostingCachelessModeV1Request>;
+
+export interface ToggleHostingHTTPSRedirectV1Request {
+  username: string;
+  /** Domain name */
+  domain: string;
+  /** Turn the HTTP to HTTPS redirect on (true) or off (false) for the website. */
+  is_enabled: boolean;
+}
+export const ToggleHostingHTTPSRedirectV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+    is_enabled: S.Boolean,
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/api/hosting/v1/accounts/{username}/websites/{domain}/ssl/https-redirect/toggle",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ToggleHostingHTTPSRedirectV1Request",
+}) as any as S.Schema<ToggleHostingHTTPSRedirectV1Request>;
 
 export interface ToggleHostingMaintenanceModeV1Request {
   username: string;
@@ -16612,6 +17346,47 @@ export const ToggleHostingWebsiteCacheV1Request = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ToggleHostingWebsiteCacheV1Request",
 }) as any as S.Schema<ToggleHostingWebsiteCacheV1Request>;
+
+export interface UninstallAgencyHostingWebsiteSSLV1Request {
+  /** Agency Plan website UID */
+  website_uid: string;
+  /** Domain name */
+  domain: string;
+}
+export const UninstallAgencyHostingWebsiteSSLV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    website_uid: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/api/agency-hosting/v1/websites/{website_uid}/domains/{domain}/ssl",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UninstallAgencyHostingWebsiteSSLV1Request",
+}) as any as S.Schema<UninstallAgencyHostingWebsiteSSLV1Request>;
+
+export interface UninstallHostingSSLV1Request {
+  username: string;
+  /** Domain name */
+  domain: string;
+}
+export const UninstallHostingSSLV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/api/hosting/v1/accounts/{username}/websites/{domain}/ssl",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UninstallHostingSSLV1Request",
+}) as any as S.Schema<UninstallHostingSSLV1Request>;
 
 /** Slugs of the installed plugins to uninstall. */
 export type UninstallHostingWordPressPluginsV1RequestPluginsList = Array<string>;
@@ -16824,13 +17599,7 @@ export const UpdateDomainDomainForwardingV1Request = /*@__PURE__*/ S.suspend(() 
     domain: S.String.pipe(T.Label()),
     redirect_type: UpdateDomainDomainForwardingV1RequestRedirectType,
     redirect_url: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/domains/v1/forwarding/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/domains/v1/forwarding/{domain}", code: 200 })),
 ).annotate({
   identifier: "UpdateDomainDomainForwardingV1Request",
 }) as any as S.Schema<UpdateDomainDomainForwardingV1Request>;
@@ -16855,11 +17624,7 @@ export const UpdateDomainDomainNameserversV1Request = /*@__PURE__*/ S.suspend(()
     ns3: S.optional(S.String),
     ns4: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/domains/v1/portfolio/{domain}/nameservers",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/domains/v1/portfolio/{domain}/nameservers", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateDomainDomainNameserversV1Request",
@@ -17091,6 +17856,44 @@ export const EcommerceV1SalesChannelSalesChannelUpdateResource = /*@__PURE__*/ S
   identifier: "EcommerceV1SalesChannelSalesChannelUpdateResource",
 }) as any as S.Schema<EcommerceV1SalesChannelSalesChannelUpdateResource>;
 
+export interface UpdateHostingGitAutoDeploymentSettingsV1Request {
+  username: string;
+  /** Domain name */
+  domain: string;
+  /** Active Git installation from `List Git installations` */
+  installation_uuid: string;
+  /** Repository owner login, as returned by `List Git installation repositories`. GitLab group paths use slashes. */
+  owner: string;
+  /** Repository name without the .git suffix */
+  repository: string;
+  /** Branch to deploy */
+  branch: string;
+  /** Subdirectory under the website document root to deploy into. Empty, null or omitted means the document root. */
+  directory?: string | null;
+  /** Whether pushes to the branch deploy automatically */
+  is_enabled?: boolean;
+}
+export const UpdateHostingGitAutoDeploymentSettingsV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+    installation_uuid: S.String,
+    owner: S.String,
+    repository: S.String,
+    branch: S.String,
+    directory: S.optional(S.NullOr(S.String)),
+    is_enabled: S.optional(S.Boolean),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/api/hosting/v1/accounts/{username}/websites/{domain}/git/auto-deployments/settings",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateHostingGitAutoDeploymentSettingsV1Request",
+}) as any as S.Schema<UpdateHostingGitAutoDeploymentSettingsV1Request>;
+
 /** Slug of the Hostinger plugin to update to its latest version. */
 export type UpdateHostingHostingerWordPressPluginV1RequestSlug =
   | "hostinger"
@@ -17122,6 +17925,78 @@ export const UpdateHostingHostingerWordPressPluginV1Request = /*@__PURE__*/ S.su
 ).annotate({
   identifier: "UpdateHostingHostingerWordPressPluginV1Request",
 }) as any as S.Schema<UpdateHostingHostingerWordPressPluginV1Request>;
+
+/** Node.js major version */
+export type UpdateHostingNodeJsBuildSettingsV1RequestNodeVersion = 18 | 20 | 22 | 24;
+export const UpdateHostingNodeJsBuildSettingsV1RequestNodeVersion = S.Number;
+
+/** Node.js application framework. Set it explicitly when auto-detection picked the wrong one. */
+export type UpdateHostingNodeJsBuildSettingsV1RequestAppType =
+  | "create-react-app"
+  | "gatsby"
+  | "vite"
+  | "angular"
+  | "react"
+  | "vue"
+  | "parcel"
+  | "next"
+  | "nuxt"
+  | "nest"
+  | "express"
+  | "fastify"
+  | "astro"
+  | "svelte"
+  | "svelte-kit"
+  | "hono"
+  | "react-router"
+  | "nitro"
+  | "other";
+export const UpdateHostingNodeJsBuildSettingsV1RequestAppType = S.String;
+
+/** Package manager used to install dependencies */
+export type UpdateHostingNodeJsBuildSettingsV1RequestPackageManager = "npm" | "yarn" | "pnpm";
+export const UpdateHostingNodeJsBuildSettingsV1RequestPackageManager = S.String;
+
+export interface UpdateHostingNodeJsBuildSettingsV1Request {
+  username: string;
+  /** Domain name */
+  domain: string;
+  /** Node.js major version */
+  node_version: UpdateHostingNodeJsBuildSettingsV1RequestNodeVersion | (number & {});
+  /** Node.js application framework. Set it explicitly when auto-detection picked the wrong one. */
+  app_type?: UpdateHostingNodeJsBuildSettingsV1RequestAppType | (string & {}) | null;
+  /** Application root directory (where package.json is located) relative to public_html. Omit it, or send ".", for public_html itself. */
+  root_directory?: string | null;
+  /** Build output directory relative to the root directory */
+  output_directory?: string | null;
+  /** The package.json script that builds the application */
+  build_script?: string | null;
+  /** The main entry point file for the application (required for express, fastify, nest, nuxt and hono app types) */
+  entry_file?: string | null;
+  /** Package manager used to install dependencies */
+  package_manager?: UpdateHostingNodeJsBuildSettingsV1RequestPackageManager | (string & {}) | null;
+}
+export const UpdateHostingNodeJsBuildSettingsV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+    node_version: UpdateHostingNodeJsBuildSettingsV1RequestNodeVersion,
+    app_type: S.optional(S.NullOr(UpdateHostingNodeJsBuildSettingsV1RequestAppType)),
+    root_directory: S.optional(S.NullOr(S.String)),
+    output_directory: S.optional(S.NullOr(S.String)),
+    build_script: S.optional(S.NullOr(S.String)),
+    entry_file: S.optional(S.NullOr(S.String)),
+    package_manager: S.optional(S.NullOr(UpdateHostingNodeJsBuildSettingsV1RequestPackageManager)),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/api/hosting/v1/accounts/{username}/websites/{domain}/nodejs/builds/settings",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateHostingNodeJsBuildSettingsV1Request",
+}) as any as S.Schema<UpdateHostingNodeJsBuildSettingsV1Request>;
 
 /** PHP extensions to enable. */
 export type UpdateHostingPHPExtensionsV1RequestEnableList = Array<string>;
@@ -17326,13 +18201,7 @@ export const UpdateMailAutoreplyV1Request = /*@__PURE__*/ S.suspend(() =>
     display_name: S.optional(S.NullOr(S.String)),
     starts_at: S.optional(S.NullOr(S.String)),
     ends_at: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/mail/v1/autoreplies/{autoreplyId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/mail/v1/autoreplies/{autoreplyId}", code: 200 })),
 ).annotate({
   identifier: "UpdateMailAutoreplyV1Request",
 }) as any as S.Schema<UpdateMailAutoreplyV1Request>;
@@ -17374,13 +18243,7 @@ export const UpdateMailWebhookV1Request = /*@__PURE__*/ S.suspend(() =>
     events: S.optional(UpdateMailWebhookV1RequestEventsList),
     status: S.optional(UpdateMailWebhookV1RequestStatus),
     url: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/mail/v1/webhooks/{webhookId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/mail/v1/webhooks/{webhookId}", code: 200 })),
 ).annotate({
   identifier: "UpdateMailWebhookV1Request",
 }) as any as S.Schema<UpdateMailWebhookV1Request>;
@@ -17664,11 +18527,7 @@ export const UpdateVPSFirewallRuleV1Request = /*@__PURE__*/ S.suspend(() =>
     source: UpdateVPSFirewallRuleV1RequestSource,
     source_detail: S.String,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/vps/v1/firewall/{firewallId}/rules/{ruleId}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/vps/v1/firewall/{firewallId}/rules/{ruleId}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateVPSFirewallRuleV1Request",
@@ -17759,13 +18618,7 @@ export const ValidateDNSDNSRecordsV1Request = /*@__PURE__*/ S.suspend(() =>
     domain: S.String.pipe(T.Label()),
     overwrite: S.optional(S.Boolean),
     zone: ValidateDNSDNSRecordsV1RequestZoneList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/dns/v1/zones/{domain}/validate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/dns/v1/zones/{domain}/validate", code: 200 })),
 ).annotate({
   identifier: "ValidateDNSDNSRecordsV1Request",
 }) as any as S.Schema<ValidateDNSDNSRecordsV1Request>;
@@ -17777,13 +18630,7 @@ export interface VerifyHostingDomainOwnershipV1Request {
 export const VerifyHostingDomainOwnershipV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/hosting/v1/domains/verify-ownership",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/hosting/v1/domains/verify-ownership", code: 200 })),
 ).annotate({
   identifier: "VerifyHostingDomainOwnershipV1Request",
 }) as any as S.Schema<VerifyHostingDomainOwnershipV1Request>;
@@ -17816,13 +18663,7 @@ export const VPSCreatePostInstallScriptV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     content: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/vps/v1/post-install-scripts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/vps/v1/post-install-scripts", code: 200 })),
 ).annotate({
   identifier: "VPSCreatePostInstallScriptV1Request",
 }) as any as S.Schema<VPSCreatePostInstallScriptV1Request>;
@@ -17949,13 +18790,7 @@ export interface VPSGetPostInstallScriptsV1Request {
 export const VPSGetPostInstallScriptsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/vps/v1/post-install-scripts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/vps/v1/post-install-scripts", code: 200 })),
 ).annotate({
   identifier: "VPSGetPostInstallScriptsV1Request",
 }) as any as S.Schema<VPSGetPostInstallScriptsV1Request>;
@@ -18137,13 +18972,7 @@ export const VPSPurchaseNewVirtualMachineV1Request = /*@__PURE__*/ S.suspend(() 
     payment_method_id: S.optional(S.Number),
     setup: VPSV1VirtualMachineSetupRequest,
     coupons: S.optional(VPSPurchaseNewVirtualMachineV1RequestCouponsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/vps/v1/virtual-machines",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/vps/v1/virtual-machines", code: 200 })),
 ).annotate({
   identifier: "VPSPurchaseNewVirtualMachineV1Request",
 }) as any as S.Schema<VPSPurchaseNewVirtualMachineV1Request>;
@@ -18374,6 +19203,21 @@ export const agencyHostingLinkDomainToWebsiteV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type AgencyHostingReinstallWebsiteSSLV1Error = UnprocessableEntity | HostingerOpError;
+/** Reinstall website SSL Replaces the Let's Encrypt certificate of the domain: the current platform certificate, when one is recorded, is revoked and removed, then a new setup starts in the background. Returns at once; `Get website SSL status` reports `installing` while it runs, then `active` or `failed`. Returns 422 for free subdomains, when a certificate process is recorded for the domain (a failed setup counts until it is cleaned up), or when the domain hit its limit of three setups per seven days. Returns 429 when the same domain was requested less than a minute ago, and 403 when the website is suspended or locked, and 404 when the website or the domain does not exist. */
+export const agencyHostingReinstallWebsiteSSLV1: API.OperationMethod<
+  AgencyHostingReinstallWebsiteSSLV1Request,
+  CommonSuccessEmptyResource,
+  AgencyHostingReinstallWebsiteSSLV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AgencyHostingReinstallWebsiteSSLV1Request,
+  output: CommonSuccessEmptyResource,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
 export type AssignReachAContactToATagV1Error = HostingerOpError;
 /** Assign a contact to a tag Assign a tag to a single contact. Unlike the bulk endpoint this is applied immediately rather than queued. Assigning a tag the contact already carries succeeds without duplicating it. */
 export const assignReachAContactToATagV1: API.OperationMethod<
@@ -18586,6 +19430,21 @@ export const clearAgencyHostingWebsiteCacheV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ClearHostingNodeJsRuntimeLogsV1Error = HostingerOpError;
+/** Clear Node.js runtime logs Empties the Node.js application's runtime log file. This cannot be undone, so confirm with the user before calling it. Returns success even when no log file exists yet. Use it before reproducing a problem so the next `Get Node.js runtime logs` call returns only fresh entries; start that call with `period` again instead of reusing a `from_line` from before the clear. */
+export const clearHostingNodeJsRuntimeLogsV1: API.OperationMethod<
+  ClearHostingNodeJsRuntimeLogsV1Request,
+  CommonSuccessEmptyResource,
+  ClearHostingNodeJsRuntimeLogsV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ClearHostingNodeJsRuntimeLogsV1Request,
+  output: CommonSuccessEmptyResource,
+  errors: [UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ClearHostingWebsiteCacheV1Error = HostingerOpError;
 /** Clear website cache Permanently clears all server-side cache for the website at once. Use it when content was updated and needs to be visible immediately, or after making major changes. Also purges the Hostinger CDN cache when CDN is enabled on the website. For a WordPress installation living in a subdirectory, pass the directory query parameter to clear its cache. */
 export const clearHostingWebsiteCacheV1: API.OperationMethod<
@@ -18597,6 +19456,36 @@ export const clearHostingWebsiteCacheV1: API.OperationMethod<
   input: ClearHostingWebsiteCacheV1Request,
   output: CommonSuccessEmptyResource,
   errors: [UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CloneHorizonWebsiteV1Error = HostingerOpError;
+/** Clone website Clone a Hostinger Horizons website into a new website.\n Use this tool when the user wants a copy of an existing website, for example to try out changes without touching the original.\n This tool returns the ID and URL of the newly created copy. The original website is left untouched.\n To edit the copy, use the `Edit website` tool with the returned website ID, or the user can open the provided website URL in Hostinger Horizons interface. */
+export const cloneHorizonWebsiteV1: API.OperationMethod<
+  CloneHorizonWebsiteV1Request,
+  HorizonsV1WebsitesCreatedWebsiteResource,
+  CloneHorizonWebsiteV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CloneHorizonWebsiteV1Request,
+  output: HorizonsV1WebsitesCreatedWebsiteResource,
+  errors: [UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CompleteDomainDomainSetupV1Error = NotFound | UnprocessableEntity | HostingerOpError;
+/** Complete domain setup Register a domain you have already paid for but which has not been set up yet. Use this endpoint when an order completed without registering the domain, for example when `Purchase new domain` returned `202 Accepted` and the domain was added to your account without being registered, or when an earlier setup attempt failed. No new order is placed and no payment is taken: the subscription you already own is used, for the period you already paid for. A domain is left awaiting setup when the details needed to register it were missing or invalid as the order completed. Domains ordered elsewhere can be awaiting setup for the same reason. Complete the missing information, then call this endpoint. If the order itself has not completed yet, the domain is not on your account, wait until it appears in `Get domain list`. If `domain_contacts` is omitted, the default WHOIS profile of that TLD is used for all four roles. The profile must exist and be complete for the TLD, an incomplete profile is the most common reason a domain is left awaiting setup. Create one with `Create WHOIS profile`. Some TLDs require `additional_details`. These are validated before setup, so a missing or invalid value is rejected without any registration being attempted. The domain is set up with the default nameservers and without privacy protection. Use `Update domain nameservers` and `Enable privacy protection` afterwards to change either. A successful response means the setup request was accepted, not that the domain is already registered. Poll `Get domain list` for the outcome, the domain appears in `Get domain details` only once it is registered. Use this endpoint to finish registering a domain that is awaiting setup on your account. */
+export const completeDomainDomainSetupV1: API.OperationMethod<
+  CompleteDomainDomainSetupV1Request,
+  CommonSuccessEmptyResource,
+  CompleteDomainDomainSetupV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CompleteDomainDomainSetupV1Request,
+  output: CommonSuccessEmptyResource,
+  errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
 }));
@@ -18662,7 +19551,7 @@ export const createAgencyHostingWebsiteDatabaseV1: API.OperationMethod<
 }));
 
 export type CreateBillingPurchaseOrderV1Error = UnprocessableEntity | HostingerOpError;
-/** Create purchase order Create a purchase order for any Hostinger product. This unified endpoint places an order for one or more catalog items and works across all Hostinger products, leveraging the existing billing infrastructure. Use the [catalog endpoint](#tag/billing-catalog) to look up the `item_id` values available for purchase. If no payment method is provided, your default payment method will be used automatically. This endpoint only places the order. Product-specific provisioning (e.g. VPS setup or domain registration) is not performed here — once the order completes, use the relevant product endpoints or [hPanel](https://hpanel.hostinger.com/) to finalize setup. Use this endpoint to purchase any product available in the catalog. */
+/** Create purchase order Create a purchase order for any Hostinger product. This unified endpoint places an order for one or more catalog items and works across all Hostinger products, leveraging the existing billing infrastructure. Use the [catalog endpoint](#tag/billing-catalog) to look up the `item_id` values available for purchase. If no payment method is provided, your default payment method will be used automatically. If the response is `202 Accepted`, the payment is still being processed and the order will complete asynchronously once the payment is confirmed. This endpoint only places the order. Product-specific provisioning (e.g. VPS setup or domain registration) is not performed here — once the order completes, use the relevant product endpoints or [hPanel](https://hpanel.hostinger.com/) to finalize setup. Use this endpoint to purchase any product available in the catalog. */
 export const createBillingPurchaseOrderV1: API.OperationMethod<
   CreateBillingPurchaseOrderV1Request,
   BillingV1OrderOrderResource,
@@ -18797,7 +19686,7 @@ export const createEcommerceStoreV1: API.OperationMethod<
 }));
 
 export type CreateHorizonWebsiteV1Error = UnprocessableEntity | HostingerOpError;
-/** Create website Create new Hostinger Horizons website from the given message.\n Use this tool when user asks you to create a website, landing page, blog or any other type of application.\n This tool initiates the website creation process and returns a website URL and ID. The generation happens asynchronously.\n After invoking this tool, your chat reply must be EXACTLY 1 sentence summarizing that Hostinger Horizons is now creating their website and it will be ready in a few minutes and you should provide the website URL to the user immediately Do not write code.\n\nTo edit afterwards, users must go to Hostinger Horizons interface in the provided website URL. If the tool call fails with an error, you should provide a clear explanation of the error and do not generate code yourself in the chat. \n TECHNOLOGY STACK CONSTRAINTS (STRICTLY ENFORCED):\n The environment is limited to the following technologies. You MUST NOT use, suggest, or implement any technology outside this list:\n \n - Language: JavaScript ONLY. - Languages like TypeScript, Rust, Python, Java, PHP, etc., are STRICTLY PROHIBITED.\n - Framework: React.\n - Navigation: React Router.\n - Styling: TailwindCSS.\n - Components: shadcn/ui (built with @radix-ui primitives).\n - Icons: Lucide React.\n - Animations: Framer Motion.\n \n BACKEND & DATA STORAGE:\n - Horizons integrated backend is the EXCLUSIVE solution for persistent data storage, authentication, and database needs.\n - Local databases (SQLite, MySQL, etc.) are STRICTLY PROHIBITED.\n - Third-party services (Firebase, AWS Amplify) are allowed ONLY if explicitly requested by the user.\n \n MAPS:\n - OpenStreetMap is the default provider.\n - Alternative providers (Google Maps, Mapbox) are allowed ONLY if explicitly requested by the user.\n */
+/** Create website Create new Hostinger Horizons website from the given message.\n Use this tool when user asks you to create a website, landing page, blog or any other type of application.\n This tool initiates the website creation process and returns a website URL and ID. The generation happens asynchronously.\n After invoking this tool, your chat reply must be EXACTLY 1 sentence summarizing that Hostinger Horizons is now creating their website and it will be ready in a few minutes and you should provide the website URL to the user immediately Do not write code.\n\nTo edit afterwards, use the `Edit website` tool with the returned website ID, or the user can go to Hostinger Horizons interface in the provided website URL. If the tool call fails with an error, you should provide a clear explanation of the error and do not generate code yourself in the chat. \n TECHNOLOGY STACK CONSTRAINTS (STRICTLY ENFORCED):\n The environment is limited to the following technologies. You MUST NOT use, suggest, or implement any technology outside this list:\n \n - Language: JavaScript ONLY. - Languages like TypeScript, Rust, Python, Java, PHP, etc., are STRICTLY PROHIBITED.\n - Framework: React.\n - Navigation: React Router.\n - Styling: TailwindCSS.\n - Components: shadcn/ui (built with @radix-ui primitives).\n - Icons: Lucide React.\n - Animations: Framer Motion.\n \n BACKEND & DATA STORAGE:\n - Horizons integrated backend is the EXCLUSIVE solution for persistent data storage, authentication, and database needs.\n - Local databases (SQLite, MySQL, etc.) are STRICTLY PROHIBITED.\n - Third-party services (Firebase, AWS Amplify) are allowed ONLY if explicitly requested by the user.\n \n MAPS:\n - OpenStreetMap is the default provider.\n - Alternative providers (Google Maps, Mapbox) are allowed ONLY if explicitly requested by the user.\n */
 export const createHorizonWebsiteV1: API.OperationMethod<
   CreateHorizonWebsiteV1Request,
   HorizonsV1WebsitesCreatedWebsiteResource,
@@ -18842,7 +19731,7 @@ export const createHostingAccountDatabaseV1: API.OperationMethod<
 }));
 
 export type CreateHostingDatabaseRemoteConnectionV1Error = UnprocessableEntity | HostingerOpError;
-/** Create database remote connection Allows a remote host to connect to the specified database. Provide an IPv4/IPv6 address, or "%" to allow any host. The database name must be the full name returned by the list databases endpoint. */
+/** Create database remote connection Allows a remote host to connect to the specified database. Provide an IPv4/IPv6 address, or "%" to allow any host. The database name must be the full name returned by the list databases endpoint. Database creation is synchronous, so a 404 here means no database with that name exists under the username, not that it is still being created. */
 export const createHostingDatabaseRemoteConnectionV1: API.OperationMethod<
   CreateHostingDatabaseRemoteConnectionV1Request,
   CommonSuccessEmptyResource,
@@ -18917,7 +19806,7 @@ export const createHostingWebsiteSubdomainV1: API.OperationMethod<
 }));
 
 export type CreateHostingWebsiteV1Error = UnprocessableEntity | HostingerOpError;
-/** Create website Create a new website for the authenticated client. Provide the domain name and associated order ID to create a new website. The datacenter_code parameter is required when creating the first website on a new hosting plan - this will set up and configure new hosting account in the selected datacenter. Subsequent websites will be hosted on the same datacenter automatically. Website creation takes up to a few minutes to complete. Check the websites list endpoint to see when your new website becomes available. */
+/** Create website Create a new website for the authenticated client. You must choose which hosting order to create this website on. Pass that order as `order_id` together with the domain name. List orders to see available IDs; the website is provisioned on that order's hosting plan. Only Web and Cloud hosting orders are accepted. To create a website on an Agency Plan order, use `POST /api/agency-hosting/v1/orders/{order_id}/websites/setups`. The datacenter_code parameter is required when creating the first website on a new hosting plan - this will set up and configure new hosting account in the selected datacenter. Subsequent websites will be hosted on the same datacenter automatically. Website creation is asynchronous and takes up to a few minutes. Poll the list website setups endpoint with the `domain` filter every 10 to 15 seconds and wait for `status: completed` before uploading files, deploying or creating databases. While the setup is `running`, endpoints that operate on the website may respond with `404` or `409`. `is_enabled` on the websites list reflects suspension, not readiness. */
 export const createHostingWebsiteV1: API.OperationMethod<
   CreateHostingWebsiteV1Request,
   CommonSuccessEmptyResource,
@@ -19068,6 +19957,36 @@ export const createReachAContactFieldV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateReachAContactFieldV1Request,
   output: ReachV1ContactsFieldsContactFieldResource,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateReachADraftCampaignV1Error = UnprocessableEntity | HostingerOpError;
+/** Create a draft campaign Create a campaign in a profile. The campaign is created as a draft, so nothing is sent and no contact is touched. It has no audience yet either - targeting and scheduling are not part of this request, the draft is finished and sent from the Reach interface. */
+export const createReachADraftCampaignV1: API.OperationMethod<
+  CreateReachADraftCampaignV1Request,
+  ReachV1CampaignsCreatedCampaignResource,
+  CreateReachADraftCampaignV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateReachADraftCampaignV1Request,
+  output: ReachV1CampaignsCreatedCampaignResource,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateReachAnEmailTemplateV1Error = UnprocessableEntity | HostingerOpError;
+/** Create an email template Create an email template in a profile. The template holds the HTML body a campaign reuses, so it can be created before any campaign exists. Only the template metadata comes back - keep the returned `uuid` to reference it as the `template_uuid` of a campaign. */
+export const createReachAnEmailTemplateV1: API.OperationMethod<
+  CreateReachAnEmailTemplateV1Request,
+  ReachV1TemplatesTemplateResource,
+  CreateReachAnEmailTemplateV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateReachAnEmailTemplateV1Request,
+  output: ReachV1TemplatesTemplateResource,
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
@@ -19433,6 +20352,21 @@ export const deleteHostingDatabaseRemoteConnectionV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteHostingGitAutoDeploymentSettingsV1Error = HostingerOpError;
+/** Delete Git auto-deployment settings Removes the Git auto-deployment settings of the website. Files already deployed stay on the website; pushes stop deploying until settings are saved again. Succeeds also when nothing is configured. */
+export const deleteHostingGitAutoDeploymentSettingsV1: API.OperationMethod<
+  DeleteHostingGitAutoDeploymentSettingsV1Request,
+  CommonSuccessEmptyResource,
+  DeleteHostingGitAutoDeploymentSettingsV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteHostingGitAutoDeploymentSettingsV1Request,
+  output: CommonSuccessEmptyResource,
+  errors: [UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteHostingWebsiteParkedDomainV1Error = HostingerOpError;
 /** Delete website parked domain Delete an existing parked or alias domain from the selected website. Use this endpoint to remove parked domains that are no longer needed. */
 export const deleteHostingWebsiteParkedDomainV1: API.OperationMethod<
@@ -19763,6 +20697,21 @@ export const deleteVPSSnapshotV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeployHostingWebsiteGitRepositoryV1Error = UnprocessableEntity | HostingerOpError;
+/** Deploy website Git repository Clones a Git repository into a directory of the website, or pulls it again. An empty or missing directory gets a clone of the branch. A directory that already holds this repository and branch is reset to its last commit and pulled: changes made on the server to files the repository tracks are discarded, files it does not track stay. A directory that holds other files, including another repository or another branch of this one, is rejected. `composer install` runs after the clone or pull when the repository has a `composer.json`. The call waits for the deployment and returns its log. `is_success` false means Git or composer failed and the log says why. A second call for the same directory is rejected while the first is still waiting for the server. If the request times out, the deployment may still finish on the server; calling again later with the same repository and branch pulls. Private repositories need an SSH URL and the account's Git SSH key from `Generate Git SSH key`, added to the repository as a deploy key. */
+export const deployHostingWebsiteGitRepositoryV1: API.OperationMethod<
+  DeployHostingWebsiteGitRepositoryV1Request,
+  HostingV1GitGitDeployOutputResource,
+  DeployHostingWebsiteGitRepositoryV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeployHostingWebsiteGitRepositoryV1Request,
+  output: HostingV1GitGitDeployOutputResource,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeployHostingWordPressPluginV1Error = UnprocessableEntity | HostingerOpError;
 /** Deploy WordPress plugin Deploy a WordPress plugin from an already uploaded directory. This endpoint allows you to deploy a WordPress plugin that has been uploaded to the website's directory. The plugin will be activated and made available in the WordPress admin panel. */
 export const deployHostingWordPressPluginV1: API.OperationMethod<
@@ -20004,7 +20953,7 @@ export const domainsGetWHOISProfileListV1: API.OperationMethod<
 }));
 
 export type DomainsPurchaseNewDomainV1Error = UnprocessableEntity | HostingerOpError;
-/** Purchase new domain Purchase and register a new domain name. If registration fails, login to [hPanel](https://hpanel.hostinger.com/) and check domain registration status. If no payment method is provided, your default payment method will be used automatically. If no WHOIS information is provided, default contact information for that TLD will be used. Before making request, ensure WHOIS information for desired TLD exists in your account. Some TLDs require `additional_details` to be provided and these will be validated before completing purchase. Use this endpoint to register new domains for users. */
+/** Purchase new domain Purchase and register a new domain name. If registration fails, login to [hPanel](https://hpanel.hostinger.com/) and check domain registration status. If no payment method is provided, your default payment method will be used automatically. If the response is `202 Accepted`, the payment is still being processed and the domain was **not** registered. Once the order completes, register the domain from [hPanel](https://hpanel.hostinger.com/). If no WHOIS information is provided, default contact information for that TLD will be used. Before making request, ensure WHOIS information for desired TLD exists in your account. Some TLDs require `additional_details` to be provided and these will be validated before completing purchase. Use this endpoint to register new domains for users. */
 export const domainsPurchaseNewDomainV1: API.OperationMethod<
   DomainsPurchaseNewDomainV1Request,
   BillingV1OrderOrderResource,
@@ -20140,8 +21089,11 @@ export const ecommerceFulfilAnOrderV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type EcommerceUploadAndAttachAProductImageV1Error = UnprocessableEntity | HostingerOpError;
-/** Upload and attach a product image Fetch a raster image (JPEG, PNG, GIF or WebP, max 15MB) from a URL and attach it to a product in a single call. The image is virus-scanned and validated by content, then stored on the CDN. Set is_thumbnail to make it the product's primary image. */
+export type EcommerceUploadAndAttachAProductImageV1Error =
+  | BadRequest
+  | UnprocessableEntity
+  | HostingerOpError;
+/** Upload and attach a product image Fetch a raster image (JPEG, PNG, GIF or WebP, max 15MB) from a URL and attach it to a product in a single call. Image downloads require HTTPS on port 443 without embedded credentials. At most one redirect is allowed, and its destination must meet the same requirements. Private or reserved network destinations, unsupported URLs and longer redirect chains are rejected. The image is virus-scanned and validated by content, then stored on the CDN. Set is_thumbnail to make it the product's primary image. */
 export const ecommerceUploadAndAttachAProductImageV1: API.OperationMethod<
   EcommerceUploadAndAttachAProductImageV1Request,
   EcommerceV1ProductProductImageUploadResource,
@@ -20150,6 +21102,21 @@ export const ecommerceUploadAndAttachAProductImageV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: EcommerceUploadAndAttachAProductImageV1Request,
   output: EcommerceV1ProductProductImageUploadResource,
+  errors: [BadRequest, UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type EditHorizonWebsiteV1Error = UnprocessableEntity | HostingerOpError;
+/** Edit website Edit an existing Hostinger Horizons website with a follow-up message.\n Use this tool when the user wants to change, extend or fix a website that already exists.\n This tool queues the requested changes and returns the website URL and ID. The changes are applied asynchronously.\n After invoking this tool, your chat reply must be EXACTLY 1 sentence summarizing that Hostinger Horizons is now applying the requested changes and they will be ready in a few minutes, and you should provide the website URL to the user immediately. Do not write code.\n If the tool call fails with an error, you should provide a clear explanation of the error and do not generate code yourself in the chat. */
+export const editHorizonWebsiteV1: API.OperationMethod<
+  EditHorizonWebsiteV1Request,
+  HorizonsV1WebsitesCreatedWebsiteResource,
+  EditHorizonWebsiteV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EditHorizonWebsiteV1Request,
+  output: HorizonsV1WebsitesCreatedWebsiteResource,
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
@@ -20230,6 +21197,21 @@ export const generateHostingAFreeSubdomainV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GenerateHostingGitSSHKeyV1Error = UnprocessableEntity | HostingerOpError;
+/** Generate Git SSH key Creates the SSH key pair of the hosting account and returns the public key. When the account already has a key, returns that key unchanged. One key serves every website of the account; add the public key to a private repository as a deploy key before deploying it. */
+export const generateHostingGitSSHKeyV1: API.OperationMethod<
+  GenerateHostingGitSSHKeyV1Request,
+  HostingV1GitGitSshKeyResource,
+  GenerateHostingGitSSHKeyV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GenerateHostingGitSSHKeyV1Request,
+  output: HostingV1GitGitSshKeyResource,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetAgencyHostingWebsiteDetailsV1Error = HostingerOpError;
 /** Get website details Retrieves detailed information about a specific Agency Plan website, including configuration, status, metadata, hosting plan details, and resource quotas. */
 export const getAgencyHostingWebsiteDetailsV1: API.OperationMethod<
@@ -20255,6 +21237,21 @@ export const getAgencyHostingWebsiteSetupStatusV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAgencyHostingWebsiteSetupStatusV1Request,
   output: AgencyHostingV1SetupsWebsiteSetupStatusResource,
+  errors: [UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAgencyHostingWebsiteSSLStatusV1Error = HostingerOpError;
+/** Get website SSL status Returns the SSL state of one domain of an Agency Plan website: the certificate `status`, whether the certificate was uploaded by the customer, and when it stops being valid. `installing` means a certificate setup is running or retrying; the `ssl_setup` entry of `List website processes` shows the same progress. `active` means a valid certificate is in place: uploaded by the customer, issued by the platform, or a lifetime certificate bought for the domain. `failed` means the last setup gave up and no valid certificate is in place. `expired` means the certificate has run out. `not_installed` means the domain has no certificate and no setup process. Returns 404 when the website or the domain does not exist. */
+export const getAgencyHostingWebsiteSSLStatusV1: API.OperationMethod<
+  GetAgencyHostingWebsiteSSLStatusV1Request,
+  AgencyHostingV1SslSslStatusResource,
+  GetAgencyHostingWebsiteSSLStatusV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAgencyHostingWebsiteSSLStatusV1Request,
+  output: AgencyHostingV1SslSslStatusResource,
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
@@ -20486,7 +21483,7 @@ export const getEcommerceStoresV1: API.OperationMethod<
 }));
 
 export type GetHorizonWebsiteV1Error = HostingerOpError;
-/** Get website Get a link for the user to edit their website in Hostinger Horizons interface.\n Use this tool when user wants to modify, edit or add new features to an existing website.\n Websites can only be edited in Hostinger Horizons interface in the provided website URL. */
+/** Get website Get the link for the user to open their website in Hostinger Horizons interface.\n Use this tool when the user wants the link to an existing website, or when you need its website URL before or after editing it.\n Websites can be edited with the `Edit website` tool, or by the user in Hostinger Horizons interface in the provided website URL. */
 export const getHorizonWebsiteV1: API.OperationMethod<
   GetHorizonWebsiteV1Request,
   HorizonsV1WebsitesWebsiteUrlResource,
@@ -20525,6 +21522,36 @@ export const getHostingCronJobOutputV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetHostingCronJobOutputV1Request,
   output: HostingV1CronJobsCronJobOutputResource,
+  errors: [UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHostingGitAutoDeploymentSettingsV1Error = HostingerOpError;
+/** Get Git auto-deployment settings Returns the Git auto-deployment settings of the website: which repository and branch deploy into which directory, and whether pushes trigger a deployment. `is_enabled` false keeps the repository link but ignores pushes. When the website has no auto-deployment configured every field is null. Save settings with `Update Git auto-deployment settings`. */
+export const getHostingGitAutoDeploymentSettingsV1: API.OperationMethod<
+  GetHostingGitAutoDeploymentSettingsV1Request,
+  HostingV1GitGitAutoDeploymentSettingsResource,
+  GetHostingGitAutoDeploymentSettingsV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHostingGitAutoDeploymentSettingsV1Request,
+  output: HostingV1GitGitAutoDeploymentSettingsResource,
+  errors: [UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHostingGitSSHPublicKeyV1Error = HostingerOpError;
+/** Get Git SSH public key Returns the public SSH key of the hosting account. `Deploy website Git repository` uses this key to clone and pull over SSH, so a private repository works once the key is added to it as a deploy key on the Git host. `public_key` is null when the account has no key yet. */
+export const getHostingGitSSHPublicKeyV1: API.OperationMethod<
+  GetHostingGitSSHPublicKeyV1Request,
+  HostingV1GitGitSshKeyResource,
+  GetHostingGitSSHPublicKeyV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHostingGitSSHPublicKeyV1Request,
+  output: HostingV1GitGitSshKeyResource,
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
@@ -20590,6 +21617,21 @@ export const getHostingMemcachedObjectCacheStatusV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetHostingNodeJsBuildDetailsV1Error = HostingerOpError;
+/** Get Node.js build details Returns one build by UUID: its state (`pending`, `running`, `completed`, `failed`), the options it ran with and timestamps. Poll this while a build is pending or running. When it is failed, read `Get NodeJS build logs` and `Analyse failed Node.js build` for the cause. Returns 404 when the UUID does not belong to a build of this website. */
+export const getHostingNodeJsBuildDetailsV1: API.OperationMethod<
+  GetHostingNodeJsBuildDetailsV1Request,
+  HostingV1NodeJsBuildResource,
+  GetHostingNodeJsBuildDetailsV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHostingNodeJsBuildDetailsV1Request,
+  output: HostingV1NodeJsBuildResource,
+  errors: [UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetHostingNodeJSBuildLogsV1Error = UnprocessableEntity | HostingerOpError;
 /** Get NodeJS build logs Retrieve logs from a specific Node.js build process. To stream live output while a build is running, poll this endpoint repeatedly while the build state is `running`, passing the previously returned `lines` count as `from_line` to fetch only new output since the last call. Log content may contain ANSI escape sequences (color codes). */
 export const getHostingNodeJSBuildLogsV1: API.OperationMethod<
@@ -20600,6 +21642,36 @@ export const getHostingNodeJSBuildLogsV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetHostingNodeJSBuildLogsV1Request,
   output: HostingV1NodeJsBuildLogsResource,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHostingNodeJsBuildSettingsV1Error = HostingerOpError;
+/** Get Node.js build settings Returns the build settings stored for the website: framework (`app_type`), Node.js version, root and output directory, build script, entry file and package manager. Stored settings drive Git auto-deployment builds. A build started through the API uses the values sent in that request and saves them here only when no settings exist yet. Returns 404 until the first build or the first settings update stores them. Use this after a failed build to check whether the framework or the entry file were detected wrong, then fix them with the `Update Node.js build settings` endpoint. */
+export const getHostingNodeJsBuildSettingsV1: API.OperationMethod<
+  GetHostingNodeJsBuildSettingsV1Request,
+  HostingV1NodeJsStoredBuildSettingsResource,
+  GetHostingNodeJsBuildSettingsV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHostingNodeJsBuildSettingsV1Request,
+  output: HostingV1NodeJsStoredBuildSettingsResource,
+  errors: [UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHostingNodeJsRuntimeLogsV1Error = UnprocessableEntity | HostingerOpError;
+/** Get Node.js runtime logs Returns the Node.js application's runtime console log entries, oldest first, each with timestamp, level and message. On the first call send `period` (`1h`, `1d`, `1w` or `1m`) and optionally `levels` and `limit` (1-5000, default 1000); when more entries match than `limit`, the newest are kept. To poll for new entries send `total_lines + 1` from the previous response as `from_line` and omit `period`; `period` and `from_line` cannot be combined. Lines that are not JSON with a timestamp, level and message are skipped, so `logs` may hold fewer than `limit` entries while `total_lines` counts every raw line. Entries with a timestamp before `last_deployed_at` belong to the previous deployment. Returns an empty `logs` list when the application has not written a log file yet. */
+export const getHostingNodeJsRuntimeLogsV1: API.OperationMethod<
+  GetHostingNodeJsRuntimeLogsV1Request,
+  HostingV1NodeJsRuntimeLogsResource,
+  GetHostingNodeJsRuntimeLogsV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHostingNodeJsRuntimeLogsV1Request,
+  output: HostingV1NodeJsRuntimeLogsResource,
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
@@ -20645,6 +21717,21 @@ export const getHostingPhpMyAdminLinkV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetHostingPhpMyAdminLinkV1Request,
   output: HostingV1DatabasesPhpMyAdminLinkResource,
+  errors: [UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHostingSSLStatusV1Error = HostingerOpError;
+/** Get SSL status Returns the SSL state of the website: the certificate `status` and `provider`, whether the certificate is a lifetime one managed by the platform, whether HTTP requests are redirected to HTTPS, when the certificate stops being valid and the last installation error. `installing` and `waiting_for_retry` mean an installation is in progress. `failed` means the last installation gave up, or the website was not updated for 60 minutes while `installing`; `last_error` holds the reason when it is a known message, otherwise it is null. `expired` means the assigned certificate's validity has ended. `not_installed` means no certificate is assigned. Free subdomains use a platform-managed certificate: with no installation recorded they report `active` with `provider` and `expires_at` null. */
+export const getHostingSSLStatusV1: API.OperationMethod<
+  GetHostingSSLStatusV1Request,
+  HostingV1SslSslStatusResource,
+  GetHostingSSLStatusV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHostingSSLStatusV1Request,
+  output: HostingV1SslSslStatusResource,
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
@@ -21100,6 +22187,36 @@ export const getVPSVirtualMachinesV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type HorizonsGetWebsiteListV1Error = HostingerOpError;
+/** Get website list List the Hostinger Horizons websites the user owns.\n Use this tool when the user asks which websites they have, or when you need a website ID before editing, publishing or cloning a website.\n Each website is returned with its ID, status, domain and the URL to open it in Hostinger Horizons interface.\n The complete list of websites is returned in a single response - it is not paginated. */
+export const horizonsGetWebsiteListV1: API.OperationMethod<
+  HorizonsGetWebsiteListV1Request,
+  HorizonsGetWebsiteListV1Response,
+  HorizonsGetWebsiteListV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: HorizonsGetWebsiteListV1Request,
+  output: HorizonsGetWebsiteListV1Response,
+  errors: [UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type HostingAnalyseFailedNodeJsBuildV1Error = UnprocessableEntity | HostingerOpError;
+/** Analyse failed Node.js build Returns an AI analysis of why a build failed and how to fix it, based on the build logs, the project file list and package.json. Only builds in the `failed` state can be analysed; any other state returns 422. When no analysis could be produced both `analysis` and `solution` are null, in which case read `Get NodeJS build logs` instead. Each call runs the analysis again, so call it once per failed build and keep the result. Limited to 5 calls per minute per API client (429 above that). */
+export const hostingAnalyseFailedNodeJsBuildV1: API.OperationMethod<
+  HostingAnalyseFailedNodeJsBuildV1Request,
+  HostingV1NodeJsBuildAnalysisResource,
+  HostingAnalyseFailedNodeJsBuildV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: HostingAnalyseFailedNodeJsBuildV1Request,
+  output: HostingV1NodeJsBuildAnalysisResource,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
 export type HostingChangeDatabasePasswordV1Error = UnprocessableEntity | HostingerOpError;
 /** Change database password Changes the password for the specified database user. The database name must be the full name returned by the list databases endpoint. The password must also be updated in any website configuration that uses this database. */
 export const hostingChangeDatabasePasswordV1: API.OperationMethod<
@@ -21145,8 +22262,8 @@ export const hostingDetectWordPressInstallationsV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type HostingGenerateUploadURLV1Error = UnprocessableEntity | HostingerOpError;
-/** Generate upload URL Generate a file browser upload URL with authentication credentials for uploading files directly to a website's file storage. Returns `url`, `auth_key` and `rest_auth_key`. Use these to upload a file to the website's `public_html` directory via the TUS resumable upload protocol (TUS 1.0.0). Send `X-Auth: {auth_key}` and `X-Auth-Rest: {rest_auth_key}` headers on every request below. 1. Create the upload: `POST` to `{url}/{relative_file_path}?override=true` with headers `upload-length: {file size in bytes}` and `upload-offset: 0`. Expect `201 Created`. 2. Upload the file: send the file bytes to the same location (any TUS 1.0.0 client, or `PATCH` requests with an `upload-offset` header tracking progress) until complete. `relative_file_path` is the destination path inside `public_html`, e.g. `app.zip`. Instead of a TUS client, plain `curl` also works: ``` FILE=app.zip SIZE=$(stat -f%z "$FILE") # stat -c%s on Linux curl -i -X POST "{url}/${FILE}?override=true" \ -H "X-Auth: {auth_key}" \ -H "X-Auth-Rest: {rest_auth_key}" \ -H "Tus-Resumable: 1.0.0" \ -H "Upload-Length: ${SIZE}" \ -H "Upload-Offset: 0" # -> 201 Created curl -i -X PATCH "{url}/${FILE}?override=true" \ -H "X-Auth: {auth_key}" \ -H "X-Auth-Rest: {rest_auth_key}" \ -H "Tus-Resumable: 1.0.0" \ -H "Content-Type: application/offset+octet-stream" \ -H "Upload-Offset: 0" \ --data-binary "@${FILE}" # -> 204 No Content, Upload-Offset response header equals SIZE when done ``` */
+export type HostingGenerateUploadURLV1Error = Conflict | UnprocessableEntity | HostingerOpError;
+/** Generate upload URL Generate a file browser upload URL with authentication credentials for uploading files directly to a website's file storage. While the website is still being set up (`status: running` on the list website setups endpoint) this endpoint returns 409 with a `Retry-After` header: wait that many seconds and retry, or poll the website setups until the status is `completed`. Returns `url`, `auth_key` and `rest_auth_key`. Use these to upload a file to the website's `public_html` directory via the TUS resumable upload protocol (TUS 1.0.0). Send `X-Auth: {auth_key}` and `X-Auth-Rest: {rest_auth_key}` headers on every request below. 1. Create the upload: `POST` to `{url}/{relative_file_path}?override=true` with headers `upload-length: {file size in bytes}` and `upload-offset: 0`. Expect `201 Created`. 2. Upload the file: send the file bytes to the same location (any TUS 1.0.0 client, or `PATCH` requests with an `upload-offset` header tracking progress) until complete. `relative_file_path` is the destination path inside `public_html`, e.g. `app.zip`. Instead of a TUS client, plain `curl` also works: ``` FILE=app.zip SIZE=$(stat -f%z "$FILE") # stat -c%s on Linux curl -i -X POST "{url}/${FILE}?override=true" \ -H "X-Auth: {auth_key}" \ -H "X-Auth-Rest: {rest_auth_key}" \ -H "Tus-Resumable: 1.0.0" \ -H "Upload-Length: ${SIZE}" \ -H "Upload-Offset: 0" # -> 201 Created curl -i -X PATCH "{url}/${FILE}?override=true" \ -H "X-Auth: {auth_key}" \ -H "X-Auth-Rest: {rest_auth_key}" \ -H "Tus-Resumable: 1.0.0" \ -H "Content-Type: application/offset+octet-stream" \ -H "Upload-Offset: 0" \ --data-binary "@${FILE}" # -> 204 No Content, Upload-Offset response header equals SIZE when done ``` */
 export const hostingGenerateUploadURLV1: API.OperationMethod<
   HostingGenerateUploadURLV1Request,
   HostingV1FilesUploadUrlResource,
@@ -21155,7 +22272,7 @@ export const hostingGenerateUploadURLV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: HostingGenerateUploadURLV1Request,
   output: HostingV1FilesUploadUrlResource,
-  errors: [UnprocessableEntity, UnknownHostingerError],
+  errors: [Conflict, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
 }));
@@ -21207,6 +22324,21 @@ export const hostingRepairDatabaseV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type HostingSetupWebsiteDatabaseV1Error = UnprocessableEntity | HostingerOpError;
+/** Setup website database Creates a new MySQL database for the website and writes its connection details into the website's environment variables, then restarts the application. The platform generates the password (and the database name and user, unless supplied). The password is never returned; the application reads it from the environment. Written variables: `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` and `DATABASE_URL` (`mysql://user:password@host:port/name`, user and password percent-encoded). Existing variables are kept. If the website already has any variable with one of these names the call fails with 422 and nothing is created; the `Replace Node.js environment variables` endpoint removes them. After this call the variables are ordinary environment variables: the `Replace Node.js environment variables` endpoint changes or removes them like any other. A restart is enough for apps that read environment variables at process start, such as Express or NestJS. Frameworks that bake variables into the build output (Next.js, `NEXT_PUBLIC_*`) see the new values only after a fresh build (`Start Node.js build` endpoint). A password in the request is ignored; the platform always generates it. The optional `name` and `user` are identifiers, not secrets. */
+export const hostingSetupWebsiteDatabaseV1: API.OperationMethod<
+  HostingSetupWebsiteDatabaseV1Request,
+  HostingV1DatabasesWebsiteDatabaseResource,
+  HostingSetupWebsiteDatabaseV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: HostingSetupWebsiteDatabaseV1Request,
+  output: HostingV1DatabasesWebsiteDatabaseResource,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ImportHostingWordPressWebsiteV1Error = UnprocessableEntity | HostingerOpError;
 /** Import WordPress website Import WordPress website to the specified domain. WARNING: this overwrites the website's existing contents and cannot be undone — verify this is intended before calling this endpoint. This endpoint allows you to import a WordPress website from archive and database files that have been uploaded to the website's directory. */
 export const importHostingWordPressWebsiteV1: API.OperationMethod<
@@ -21216,6 +22348,36 @@ export const importHostingWordPressWebsiteV1: API.OperationMethod<
   HostingerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ImportHostingWordPressWebsiteV1Request,
+  output: CommonSuccessEmptyResource,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type InstallAgencyHostingWebsiteSSLV1Error = UnprocessableEntity | HostingerOpError;
+/** Install website SSL Starts a Let's Encrypt certificate setup for the domain and returns at once; the setup runs in the background. `Get website SSL status` reports `installing` while it runs, then `active` or `failed`; the `ssl_setup` entry of `List website processes` shows the same progress. Returns 422 when the domain already has a platform certificate that is not expired, when a certificate process is recorded for the domain (a failed setup counts until it is cleaned up), or when the domain hit its limit of three setups per seven days. Returns 429 when the same domain was requested less than a minute ago, 403 when the website is suspended or locked, and 404 when the website or the domain does not exist. */
+export const installAgencyHostingWebsiteSSLV1: API.OperationMethod<
+  InstallAgencyHostingWebsiteSSLV1Request,
+  CommonSuccessEmptyResource,
+  InstallAgencyHostingWebsiteSSLV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: InstallAgencyHostingWebsiteSSLV1Request,
+  output: CommonSuccessEmptyResource,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type InstallHostingSSLV1Error = UnprocessableEntity | HostingerOpError;
+/** Install SSL Requests a lifetime SSL certificate for the website. The installation runs in the background; `Get SSL status` reports `active` or `failed` when it ends. An `active` lifetime certificate does not block the request: a new installation is requested, which is how a certificate is reinstalled. Returns 422 for free subdomains (their certificate is managed by the platform), while an installation is `installing` or `waiting_for_retry`, when the website's certificate was revoked (it cannot be reissued), and when an uploaded custom certificate is installed; that one has to be uninstalled first. */
+export const installHostingSSLV1: API.OperationMethod<
+  InstallHostingSSLV1Request,
+  CommonSuccessEmptyResource,
+  InstallHostingSSLV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: InstallHostingSSLV1Request,
   output: CommonSuccessEmptyResource,
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
@@ -21253,7 +22415,7 @@ export const installHostingWordPressThemeV1: API.OperationMethod<
 }));
 
 export type InstallHostingWordPressV1Error = UnprocessableEntity | HostingerOpError;
-/** Install WordPress Install WordPress on an existing website. The website must already exist before calling this endpoint. To create a new website first, use POST /api/hosting/v1/websites and poll GET /api/hosting/v1/websites until it appears. Call GET /api/hosting/v1/wordpress/installations filtered by username and domain before proceeding to check whether WordPress is already installed on the target domain/path. If WordPress already exists and `overwrite` is false (the default), the async job will fail. This operation is asynchronous: a successful response only means the install job has been queued, not that WordPress is ready. Installation typically takes 1-2 minutes. Poll GET /api/hosting/v1/wordpress/installations filtered by username and domain to track progress. When the installation appears in that list, WordPress is ready. */
+/** Install WordPress Install WordPress on an existing website. The website must already exist before calling this endpoint. To create a new website first, use POST /api/hosting/v1/websites and poll GET /api/hosting/v1/websites until it appears. Call GET /api/hosting/v1/wordpress/installations filtered by username and domain before proceeding to check whether WordPress is already installed on the target domain/path. If WordPress already exists and `overwrite` is false (the default), the async job will fail. This operation is asynchronous: a successful response only means the install job has been queued, not that WordPress is ready. Installation typically takes 1-2 minutes. Poll GET /api/hosting/v1/wordpress/installations filtered by username and domain to track progress. When the installation appears in that list, WordPress is ready. Returns 422 when the account already uses all the databases its plan allows, unless `database.name` is an existing database on the account. */
 export const installHostingWordPressV1: API.OperationMethod<
   InstallHostingWordPressV1Request,
   CommonSuccessEmptyResource,
@@ -21676,6 +22838,36 @@ export const listHostingDatabaseRemoteConnectionsV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListHostingGitInstallationRepositoriesV1Error = NotFound | HostingerOpError;
+/** List Git installation repositories Lists the repositories the Git installation can access, read live from the provider. Works for github and gitlab installations. Use an active installation: a suspended or pending one is still queried and the call fails with whatever the provider answers. The list is cut at the first 500 repositories in the order the provider returns them; when the account has more, name the repository directly instead of searching this list. `owner`, `name` and a branch (`default_branch` or another one) go into `source_options` of `Start Node.js build` or into `Update Git auto-deployment settings`. Returns 404 when the installation does not belong to the customer. Limited to 10 calls per minute per API client (429 above that). */
+export const listHostingGitInstallationRepositoriesV1: API.OperationMethod<
+  ListHostingGitInstallationRepositoriesV1Request,
+  ListHostingGitInstallationRepositoriesV1Response,
+  ListHostingGitInstallationRepositoriesV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListHostingGitInstallationRepositoriesV1Request,
+  output: ListHostingGitInstallationRepositoriesV1Response,
+  errors: [NotFound, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListHostingGitInstallationsV1Error = UnprocessableEntity | HostingerOpError;
+/** List Git installations Lists the Git provider accounts the customer has connected. Only installations with status `active` are returned unless the `status` filter says otherwise. An empty list means the customer has no active installation. Check `status=suspended` and `status=pending` as well. If there is none at all, a Git provider (GitHub or GitLab) has to be connected once in hPanel (Websites, Manage, Advanced, Git; or Add Website, Node.js Web App, Import Git Repository); this endpoint then lists the new installation. Use `uuid` as the path parameter of `List Git installation repositories`, and as `installation_uuid` in `Start Node.js build` with `source_type` `git` and in `Update Git auto-deployment settings`. */
+export const listHostingGitInstallationsV1: API.OperationMethod<
+  ListHostingGitInstallationsV1Request,
+  ListHostingGitInstallationsV1Response,
+  ListHostingGitInstallationsV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListHostingGitInstallationsV1Request,
+  output: ListHostingGitInstallationsV1Response,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListHostingInstalledWordPressPluginsV1Error = HostingerOpError;
 /** List installed WordPress plugins List plugins installed on a WordPress installation, including their status, available updates and known vulnerabilities. Provide the WordPress installation (software) identifier in the path. It can be obtained from GET /api/hosting/v1/wordpress/installations (the `id` field). */
 export const listHostingInstalledWordPressPluginsV1: API.OperationMethod<
@@ -21752,7 +22944,7 @@ export const listHostingNodeJsVulnerabilitiesV1: API.OperationMethod<
 }));
 
 export type ListHostingOrdersV1Error = HostingerOpError;
-/** List orders Retrieve a paginated list of orders accessible to the authenticated client. This endpoint returns orders of your hosting accounts as well as orders of other client hosting accounts that have shared access with you. Use the available query parameters to filter results by order statuses or specific order IDs for more targeted results. */
+/** List orders Retrieve a paginated list of orders accessible to the authenticated client. Only Web and Cloud hosting orders are listed. Agency Plan orders are listed by `GET /api/agency-hosting/v1/orders`. This endpoint returns orders of your hosting accounts as well as orders of other client hosting accounts that have shared access with you. Use the available query parameters to filter results by order statuses or specific order IDs for more targeted results. */
 export const listHostingOrdersV1: API.OperationMethod<
   ListHostingOrdersV1Request,
   ListHostingOrdersV1Response,
@@ -21776,6 +22968,21 @@ export const listHostingSuggestedWordPressPluginsV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListHostingSuggestedWordPressPluginsV1Request,
   output: ListHostingSuggestedWordPressPluginsV1Response,
+  errors: [UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListHostingWebsiteGitRepositoriesV1Error = HostingerOpError;
+/** List website Git repositories Lists the Git repositories linked to directories of the website, with `Deploy website Git repository` or in the Git section of hPanel: clone URL, branch and directory of each one. A repository whose clone failed stays listed; deploying it again retries the clone. GitHub and GitLab auto-deployments are not listed here; see `Get Git auto-deployment settings`. */
+export const listHostingWebsiteGitRepositoriesV1: API.OperationMethod<
+  ListHostingWebsiteGitRepositoriesV1Request,
+  ListHostingWebsiteGitRepositoriesV1Response,
+  ListHostingWebsiteGitRepositoriesV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListHostingWebsiteGitRepositoriesV1Request,
+  output: ListHostingWebsiteGitRepositoriesV1Response,
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
@@ -21811,6 +23018,21 @@ export const listHostingWebsiteRedirectsV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListHostingWebsiteSetupsV1Error = UnprocessableEntity | HostingerOpError;
+/** List website setups Returns the website setups started in the last 24 hours for the hosting accounts accessible to the authenticated client, newest first. Meant for polling right after creating a website: the website shows up in the websites list before its server-side setup has finished, and while the setup is `running` endpoints that operate on that website may respond with `404` or `409`. Poll this endpoint with the `domain` filter every 10 to 15 seconds and wait for `status: completed` before uploading files, deploying or creating databases. `failed` means the setup stopped before finishing or has not reported progress for over an hour. Setups older than 24 hours are not listed. */
+export const listHostingWebsiteSetupsV1: API.OperationMethod<
+  ListHostingWebsiteSetupsV1Request,
+  ListHostingWebsiteSetupsV1Response,
+  ListHostingWebsiteSetupsV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListHostingWebsiteSetupsV1Request,
+  output: ListHostingWebsiteSetupsV1Response,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListHostingWebsiteSubdomainsV1Error = HostingerOpError;
 /** List website subdomains Retrieve all subdomains created under the selected website. Use this endpoint to inspect subdomain configuration for a specific website, including the parent domain and root directory assigned to each subdomain. */
 export const listHostingWebsiteSubdomainsV1: API.OperationMethod<
@@ -21827,7 +23049,7 @@ export const listHostingWebsiteSubdomainsV1: API.OperationMethod<
 }));
 
 export type ListHostingWebsitesV1Error = HostingerOpError;
-/** List websites Retrieve a paginated list of websites (CloudLinux, Builder, and Horizons) accessible to the authenticated client. This endpoint returns websites from your hosting accounts as well as websites from other client hosting accounts that have shared access with you. Each website includes a `website_type` field describing the type of website detected on the underlying platform (`wordpress`, `builder`, `horizons`, `nodejs`, or `other`). Some fields, such as `vhost_type`, `username`, and `root_directory`, only apply to CloudLinux websites and are null for other platforms. Use `website_types` to list only websites of a given detected type, e.g. only WordPress websites (`website_types=wordpress`) or only Node.js websites (`website_types=nodejs`). Combine with the other available query parameters to filter by username, order ID, enabled status, or domain name for more targeted results. */
+/** List websites Retrieve a paginated list of websites (CloudLinux, Builder, and Horizons) accessible to the authenticated client. This endpoint returns websites from your hosting accounts as well as websites from other client hosting accounts that have shared access with you. Each website includes a `website_type` field describing the type of website detected on the underlying platform (`wordpress`, `builder`, `horizons`, `nodejs`, or `other`). Some fields, such as `vhost_type`, `username`, and `root_directory`, only apply to CloudLinux websites and are null for other platforms. Use `website_types` to list only websites of a given detected type, e.g. only WordPress websites (`website_types=wordpress`) or only Node.js websites (`website_types=nodejs`). Combine with the other available query parameters to filter by username, order ID, enabled status, or domain name for more targeted results. A website appears in this list before its server-side setup has finished, and `is_enabled` reflects suspension, not readiness. To know when a newly created website is ready for file, deploy or database operations, poll the list website setups endpoint instead. */
 export const listHostingWebsitesV1: API.OperationMethod<
   ListHostingWebsitesV1Request,
   ListHostingWebsitesV1Response,
@@ -22141,6 +23363,21 @@ export const listReachContactFieldsV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListReachEmailTemplatesV1Error = HostingerOpError;
+/** List email templates Get a list of the email templates in a profile, most recently updated first. Templates are the reusable email bodies a campaign is built from. The list is not paginated and only the metadata is returned - the template content itself is not exposed. Use the `uuid` of a template as the `template_uuid` when creating a campaign. */
+export const listReachEmailTemplatesV1: API.OperationMethod<
+  ListReachEmailTemplatesV1Request,
+  ListReachEmailTemplatesV1Response,
+  ListReachEmailTemplatesV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListReachEmailTemplatesV1Request,
+  output: ListReachEmailTemplatesV1Response,
+  errors: [UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListReachFormsV1Error = HostingerOpError;
 /** List forms Get a paginated list of the signup forms in a profile. Each form carries a reference to the template that renders it. Get the form details for a directly usable template URL and for the tags the form puts on the contacts it captures. */
 export const listReachFormsV1: API.OperationMethod<
@@ -22328,6 +23565,21 @@ export const previewReachContactsMatchingConditionsV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PublishHorizonWebsiteV1Error = HostingerOpError;
+/** Publish website Publish a Hostinger Horizons website so its latest changes go live.\n Use this tool when the user asks to publish, deploy or make their website live.\n This tool starts the publish process and returns the URL the website will be live on. Publishing happens asynchronously and takes a few minutes.\n After invoking this tool, your chat reply must be EXACTLY 1 sentence summarizing that the website is being published and you should provide the published URL to the user immediately. */
+export const publishHorizonWebsiteV1: API.OperationMethod<
+  PublishHorizonWebsiteV1Request,
+  HorizonsV1WebsitesPublishedWebsiteResource,
+  PublishHorizonWebsiteV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PublishHorizonWebsiteV1Request,
+  output: HorizonsV1WebsitesPublishedWebsiteResource,
+  errors: [UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PurgeHostingLiteSpeedCacheV1Error = HostingerOpError;
 /** Purge LiteSpeed Cache Purge the LiteSpeed Cache for the specified WordPress installation. Provide the WordPress installation (software) identifier in the path. It can be obtained from GET /api/hosting/v1/wordpress/installations (the `id` field). */
 export const purgeHostingLiteSpeedCacheV1: API.OperationMethod<
@@ -22464,7 +23716,7 @@ export const renameReachATagV1: API.OperationMethod<
 }));
 
 export type RenewBillingSubscriptionV1Error = UnprocessableEntity | HostingerOpError;
-/** Renew subscription Create a renewal order for an existing Hostinger subscription. This endpoint places a renewal order for a single subscription, leveraging the existing billing infrastructure. Use the [subscriptions endpoint](#tag/billing-subscriptions) to look up the `subscriptionId` values available for renewal. If no payment method is provided, your default payment method will be used automatically. Use this endpoint to renew any subscription available in your account. */
+/** Renew subscription Create a renewal order for an existing Hostinger subscription. This endpoint places a renewal order for a single subscription, leveraging the existing billing infrastructure. Use the [subscriptions endpoint](#tag/billing-subscriptions) to look up the `subscriptionId` values available for renewal. If no payment method is provided, your default payment method will be used automatically. If the response is `202 Accepted`, the payment is still being processed and the renewal will complete asynchronously once the payment is confirmed. Use this endpoint to renew any subscription available in your account. */
 export const renewBillingSubscriptionV1: API.OperationMethod<
   RenewBillingSubscriptionV1Request,
   BillingV1OrderOrderResource,
@@ -22865,8 +24117,23 @@ export const setVPSRootPasswordV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type StartDomainDomainTransferV1Error = UnprocessableEntity | HostingerOpError;
+/** Start domain transfer Transfer a domain from another registrar to your account. The transfer runs on a domain transfer service you have already purchased. Before making request, unlock the domain at the current registrar and get its authorization code. A successful response means the transfer has been started. Completion depends on the current registrar and can be followed with the [transfer list endpoint](#tag/domains-transfer). If no WHOIS information is provided, default contact information for that TLD will be used. Before making request, ensure WHOIS information for desired TLD exists in your account. Use this endpoint to bring domains registered elsewhere into your account. */
+export const startDomainDomainTransferV1: API.OperationMethod<
+  StartDomainDomainTransferV1Request,
+  CommonSuccessEmptyResource,
+  StartDomainDomainTransferV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: StartDomainDomainTransferV1Request,
+  output: CommonSuccessEmptyResource,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
 export type StartHostingNodeJsBuildV1Error = UnprocessableEntity | HostingerOpError;
-/** Start Node.js build Start a Node.js build process using files already present on the website's file storage. WARNING: on success this overwrites the website's existing contents and cannot be undone — verify this is intended before calling this endpoint. The `source_type` must be `archive` and `source_options.archive_path` must point to an existing archive file on the server (relative to the website document root). Use the `Generate Upload URL` endpoint to obtain credentials and upload the archive first. To auto-detect build settings from an archive before starting, first call the `Get Node.js Build Settings from Archive` endpoint. The returned build `uuid` can be used to poll progress and retrieve logs via the `Get Node.js Build Logs` endpoint. */
+/** Start Node.js build Start a Node.js build process using files already present on the website's file storage. WARNING: on success this overwrites the website's existing contents and cannot be undone — verify this is intended before calling this endpoint. With `source_type` `archive`, `source_options.archive_path` must point to an existing archive file on the server (relative to the website document root). Use the `Generate Upload URL` endpoint to obtain credentials and upload the archive first. To auto-detect build settings from an archive before starting, first call the `Get Node.js Build Settings from Archive` endpoint. With `source_type` `git`, `source_options` carries `owner`, `repository`, `branch` and `installation_uuid`. Take the installation from `List Git installations` and the owner and repository from `List Git installation repositories`; the branch is cloned at its current head. The installation must belong to the same customer as the website. The returned build `uuid` can be used to poll progress and retrieve logs via the `Get Node.js Build Logs` endpoint. */
 export const startHostingNodeJsBuildV1: API.OperationMethod<
   StartHostingNodeJsBuildV1Request,
   HostingV1NodeJsBuildResource,
@@ -22970,16 +24237,16 @@ export const stopVPSVirtualMachineV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type SyncVPSFirewallV1Error = UnprocessableEntity | HostingerOpError;
-/** Sync firewall Sync a firewall for a specified virtual machine. Firewall can lose sync with virtual machine if the firewall has new rules added, removed or updated. Use this endpoint to apply updated firewall rules to VPS instances. */
-export const syncVPSFirewallV1: API.OperationMethod<
-  SyncVPSFirewallV1Request,
-  VPSV1ActionActionResource,
-  SyncVPSFirewallV1Error,
+export type SyncVPSFirewallToAllAssignedVMsV1Error = UnprocessableEntity | HostingerOpError;
+/** Sync firewall to all assigned VMs Sync a firewall's rules to every virtual machine it's assigned to. Firewall can lose sync with a virtual machine if the firewall has new rules added, removed or updated. Use this endpoint to apply updated firewall rules to all VPS instances assigned to the firewall. */
+export const syncVPSFirewallToAllAssignedVMsV1: API.OperationMethod<
+  SyncVPSFirewallToAllAssignedVMsV1Request,
+  CommonSuccessEmptyResource,
+  SyncVPSFirewallToAllAssignedVMsV1Error,
   HostingerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: SyncVPSFirewallV1Request,
-  output: VPSV1ActionActionResource,
+  input: SyncVPSFirewallToAllAssignedVMsV1Request,
+  output: CommonSuccessEmptyResource,
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
@@ -23009,6 +24276,21 @@ export const toggleHostingCachelessModeV1: API.OperationMethod<
   HostingerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ToggleHostingCachelessModeV1Request,
+  output: CommonSuccessEmptyResource,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ToggleHostingHTTPSRedirectV1Error = UnprocessableEntity | HostingerOpError;
+/** Toggle HTTPS redirect Turns the HTTP to HTTPS redirect of the website on or off, based on `is_enabled`. Does nothing when the redirect is already in the requested state. Turning it on requires an installed certificate (`status` `active` or `expired` on `Get SSL status`) and returns 422 when there is none; turning it off is always accepted. */
+export const toggleHostingHTTPSRedirectV1: API.OperationMethod<
+  ToggleHostingHTTPSRedirectV1Request,
+  CommonSuccessEmptyResource,
+  ToggleHostingHTTPSRedirectV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ToggleHostingHTTPSRedirectV1Request,
   output: CommonSuccessEmptyResource,
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
@@ -23054,6 +24336,36 @@ export const toggleHostingWebsiteCacheV1: API.OperationMethod<
   HostingerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ToggleHostingWebsiteCacheV1Request,
+  output: CommonSuccessEmptyResource,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UninstallAgencyHostingWebsiteSSLV1Error = UnprocessableEntity | HostingerOpError;
+/** Uninstall website SSL Removes the platform-issued Let's Encrypt certificate of the domain: the certificate is revoked and deleted before the response, so the domain is no longer served with a platform certificate until a new setup completes. Also succeeds when the domain has no platform certificate to remove. Uploaded (custom) certificates are not affected. Returns 422 when a certificate process is recorded for the domain (a failed setup counts until it is cleaned up), 429 when the same domain was requested less than a minute ago, and 403 when the website is suspended or locked, and 404 when the website or the domain does not exist. */
+export const uninstallAgencyHostingWebsiteSSLV1: API.OperationMethod<
+  UninstallAgencyHostingWebsiteSSLV1Request,
+  CommonSuccessEmptyResource,
+  UninstallAgencyHostingWebsiteSSLV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UninstallAgencyHostingWebsiteSSLV1Request,
+  output: CommonSuccessEmptyResource,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UninstallHostingSSLV1Error = UnprocessableEntity | HostingerOpError;
+/** Uninstall SSL Removes the SSL certificate assigned to the website, turns the HTTPS redirect off and cancels a pending installation retry. The website serves plain HTTP until a new installation completes. `Get SSL status` reports `not_installed` as soon as the call returns; the call also succeeds when no certificate is assigned, so repeating it is safe. Returns 422 for free subdomains (their certificate is managed by the platform) and while an installation is `installing`. */
+export const uninstallHostingSSLV1: API.OperationMethod<
+  UninstallHostingSSLV1Request,
+  CommonSuccessEmptyResource,
+  UninstallHostingSSLV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UninstallHostingSSLV1Request,
   output: CommonSuccessEmptyResource,
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
@@ -23225,6 +24537,21 @@ export const updateEcommerceSalesChannelV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type UpdateHostingGitAutoDeploymentSettingsV1Error = UnprocessableEntity | HostingerOpError;
+/** Update Git auto-deployment settings Creates or replaces the Git auto-deployment settings of the website: repository, branch, the directory under the document root to deploy into, and `is_enabled`. Send the full set; `is_enabled` defaults to true and `directory` to the document root. `installation_uuid` must be an installation from `List Git installations` that belongs to the same customer as the website. For PHP and static websites, saving with `is_enabled` true deploys the branch right away and every later push to that branch deploys again. For Node.js and Website Builder websites saving does not clone anything. On a Node.js website start the first deploy with `Start Node.js build` using `source_type` `git`; pushes then trigger new builds with the build settings stored for the website. */
+export const updateHostingGitAutoDeploymentSettingsV1: API.OperationMethod<
+  UpdateHostingGitAutoDeploymentSettingsV1Request,
+  CommonSuccessEmptyResource,
+  UpdateHostingGitAutoDeploymentSettingsV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateHostingGitAutoDeploymentSettingsV1Request,
+  output: CommonSuccessEmptyResource,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UpdateHostingHostingerWordPressPluginV1Error = UnprocessableEntity | HostingerOpError;
 /** Update Hostinger WordPress plugin Update a Hostinger plugin to its latest version on a WordPress installation. Provide the WordPress installation (software) identifier in the path. It can be obtained from GET /api/hosting/v1/wordpress/installations (the `id` field). This operation is asynchronous: a successful response only means the update job has been queued. */
 export const updateHostingHostingerWordPressPluginV1: API.OperationMethod<
@@ -23235,6 +24562,21 @@ export const updateHostingHostingerWordPressPluginV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateHostingHostingerWordPressPluginV1Request,
   output: CommonSuccessEmptyResource,
+  errors: [UnprocessableEntity, UnknownHostingerError],
+  protocol: HostingerProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateHostingNodeJsBuildSettingsV1Error = UnprocessableEntity | HostingerOpError;
+/** Update Node.js build settings Replaces the build settings stored for the website. Send the full set: `node_version` is required and every nullable field you omit is stored as null. Creates the settings when none exist yet. This does not start a build. Stored settings drive Git auto-deployment builds; a build started through the API uses the values sent in that request, so to rebuild with corrected settings call `Start Node.js build` with the same values. Typical fixes: a wrong `app_type` after auto-detection, or a missing `entry_file` for express, fastify, nest, nuxt and hono apps. */
+export const updateHostingNodeJsBuildSettingsV1: API.OperationMethod<
+  UpdateHostingNodeJsBuildSettingsV1Request,
+  HostingV1NodeJsStoredBuildSettingsResource,
+  UpdateHostingNodeJsBuildSettingsV1Error,
+  HostingerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateHostingNodeJsBuildSettingsV1Request,
+  output: HostingV1NodeJsStoredBuildSettingsResource,
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
@@ -23575,7 +24917,7 @@ export const vPSGetProjectListV1: API.OperationMethod<
 }));
 
 export type VPSPurchaseNewVirtualMachineV1Error = UnprocessableEntity | HostingerOpError;
-/** Purchase new virtual machine Purchase and setup a new virtual machine. If virtual machine setup fails for any reason, login to [hPanel](https://hpanel.hostinger.com/) and complete the setup manually. If no payment method is provided, your default payment method will be used automatically. Use this endpoint to create new VPS instances. */
+/** Purchase new virtual machine Purchase and setup a new virtual machine. If virtual machine setup fails for any reason, login to [hPanel](https://hpanel.hostinger.com/) and complete the setup manually. If no payment method is provided, your default payment method will be used automatically. If the response is `202 Accepted`, the payment is still being processed and the virtual machine was not set up. Login to [hPanel](https://hpanel.hostinger.com/) and complete the setup manually. Use this endpoint to create new VPS instances. */
 export const vPSPurchaseNewVirtualMachineV1: API.OperationMethod<
   VPSPurchaseNewVirtualMachineV1Request,
   BillingV1OrderVirtualMachineOrderResource,
