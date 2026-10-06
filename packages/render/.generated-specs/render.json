@@ -159,7 +159,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "A Blueprint has status `created` until its first Sync is approved."
+      }
     },
     "com.render.api#ListBlueprintsResponseBodyList": {
       "type": "list",
@@ -674,7 +676,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "A Blueprint has status `created` until its first Sync is approved."
+      }
     },
     "com.render.api#GetBlueprintResponseResourcesItemType": {
       "type": "enum",
@@ -733,10 +737,16 @@
             "smithy.api#enumValue": "environment_group"
           }
         },
-        "ARTIFACT_SOURCE": {
+        "BUILD_SOURCE": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "artifact_source"
+            "smithy.api#enumValue": "build_source"
+          }
+        },
+        "WORKFLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workflow"
           }
         }
       },
@@ -794,6 +804,7 @@
         "status": {
           "target": "com.render.api#GetBlueprintResponseStatus",
           "traits": {
+            "smithy.api#documentation": "A Blueprint has status `created` until its first Sync is approved.",
             "smithy.api#required": {}
           }
         },
@@ -877,7 +888,7 @@
         "autoSync": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Automatically sync changes to render.yaml"
+            "smithy.api#documentation": "Configuration value that controls whether or not this blueprint will be re-synced on each git push to the configured branch.\nEven when true, autoSync will not apply when the blueprint has the Created status, which indicates its first sync has not yet been approved.\nOther conditions, such as a locked workspace, can also prevent automatic syncing even when this is true.\n"
           }
         },
         "path": {
@@ -2251,6 +2262,13 @@
     "com.render.api#User": {
       "type": "structure",
       "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The authenticated user's ID.",
+            "smithy.api#required": {}
+          }
+        },
         "email": {
           "target": "smithy.api#String",
           "traits": {
@@ -4735,11 +4753,17 @@
             "smithy.api#required": {}
           }
         },
+        "buildSourceId": {
+          "target": "smithy.api#String"
+        },
         "autoDeploy": {
           "target": "com.render.api#AutoDeploy",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "autoDeployTrigger": {
+          "target": "com.render.api#AutoDeployTrigger"
         },
         "branch": {
           "target": "smithy.api#String"
@@ -4851,7 +4875,35 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Deprecated: use `autoDeployTrigger` instead. You can't set both `autoDeploy` and `autoDeployTrigger` in the same request.\n\n- `yes` is equivalent to `autoDeployTrigger: commit`.\n- `no` is equivalent to `autoDeployTrigger: off`.\n"
+      }
+    },
+    "com.render.api#AutoDeployTrigger": {
+      "type": "enum",
+      "members": {
+        "COMMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "commit"
+          }
+        },
+        "OFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "off"
+          }
+        },
+        "CHECKSPASS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checksPass"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls autodeploy behavior.\n\n- `commit`: Deploy each time a commit is pushed to the service's linked branch.\n- `checksPass`: Deploy each time a commit is pushed to the linked branch, but only after the commit's CI checks pass.\n- `off`: Disable autodeploys.\n"
+      }
     },
     "com.render.api#BuildFilter": {
       "type": "structure",
@@ -6083,6 +6135,32 @@
         "smithy.api#documentation": "List services\n\nList services matching the provided filters. If no filters are provided, returns all services you have permissions to view."
       }
     },
+    "com.render.api#CreateServiceRequestAutoDeployTrigger": {
+      "type": "enum",
+      "members": {
+        "COMMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "commit"
+          }
+        },
+        "OFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "off"
+          }
+        },
+        "CHECKSPASS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checksPass"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls autodeploy behavior.\n\n- `commit`: Deploy each time a commit is pushed to the service's linked branch.\n- `checksPass`: Deploy each time a commit is pushed to the linked branch, but only after the commit's CI checks pass.\n- `off`: Disable autodeploys.\n"
+      }
+    },
     "com.render.api#Image": {
       "type": "structure",
       "members": {
@@ -6322,6 +6400,12 @@
     "com.render.api#WebServiceDetailsPOST": {
       "type": "structure",
       "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set."
+          }
+        },
         "autoscaling": {
           "target": "com.render.api#Schema5"
         },
@@ -6469,6 +6553,12 @@
     "com.render.api#PrivateServiceDetailsPOST": {
       "type": "structure",
       "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set."
+          }
+        },
         "autoscaling": {
           "target": "com.render.api#Schema5"
         },
@@ -6645,6 +6735,12 @@
     "com.render.api#BackgroundWorkerDetailsPOST": {
       "type": "structure",
       "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set."
+          }
+        },
         "autoscaling": {
           "target": "com.render.api#Schema5"
         },
@@ -6693,6 +6789,12 @@
     "com.render.api#CronJobDetailsPOST": {
       "type": "structure",
       "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set."
+          }
+        },
         "env": {
           "target": "com.render.api#ServiceEnv"
         },
@@ -6772,6 +6874,12 @@
         },
         "autoDeploy": {
           "target": "com.render.api#AutoDeploy"
+        },
+        "autoDeployTrigger": {
+          "target": "com.render.api#CreateServiceRequestAutoDeployTrigger",
+          "traits": {
+            "smithy.api#documentation": "Controls autodeploy behavior.\n\n- `commit`: Deploy each time a commit is pushed to the service's linked branch.\n- `checksPass`: Deploy each time a commit is pushed to the linked branch, but only after the commit's CI checks pass.\n- `off`: Disable autodeploys.\n"
+          }
         },
         "branch": {
           "target": "smithy.api#String",
@@ -6987,7 +7095,10 @@
           "target": "smithy.api#String"
         },
         "registryCredentialId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional reference to the registry credential for this build. Omit the field to leave the stored credential unchanged; send an empty string to clear it."
+          }
         }
       },
       "traits": {}
@@ -7115,8 +7226,20 @@
             "smithy.api#documentation": "The ID of the service"
           }
         },
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Build Source to attach this service to. Cannot be combined with other build-configuration changes. Attaching to a Build Source with no builds triggers one."
+          }
+        },
+        "buildId": {
+          "target": "smithy.api#String"
+        },
         "autoDeploy": {
           "target": "com.render.api#AutoDeploy"
+        },
+        "autoDeployTrigger": {
+          "target": "com.render.api#AutoDeployTrigger"
         },
         "repo": {
           "target": "smithy.api#String"
@@ -7660,7 +7783,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Controls deployment behavior when triggering a deploy.\n\n- `deploy_only`: Deploy the last successful build without rebuilding (minimizes downtime)\n- `build_and_deploy`: Build new code and deploy it (default behavior when not specified)\n\n**Note:** `deploy_only` cannot be combined with `commitId`, `imageUrl` or `clearCache` parameters,\nas those are build related fields.\n"
+        "smithy.api#documentation": "Controls deployment behavior when triggering a deploy.\n\n- `deploy_only`: Deploy the last successful build without rebuilding (minimizes downtime)\n- `build_and_deploy`: Build new code and deploy it (default behavior when not specified)\n\n**Note:** `deployMode` cannot be combined with `buildId`. `deploy_only` cannot be combined with\n`commitId`, `imageUrl`, or `clearCache`, as those are build related fields.\n"
       }
     },
     "com.render.api#CreateDeployRequest": {
@@ -7674,6 +7797,12 @@
             "smithy.api#documentation": "The ID of the service"
           }
         },
+        "buildId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the build to deploy. Cannot be combined with `commitId`, `imageUrl`, or `deployMode`.\n"
+          }
+        },
         "clearCache": {
           "target": "com.render.api#CreateDeployRequestClearCache",
           "traits": {
@@ -7683,19 +7812,19 @@
         "commitId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The SHA of a specific Git commit to deploy for a service. Defaults to the latest commit on the service's connected branch.\n\nNote that deploying a specific commit with this endpoint does not disable autodeploys for the service.\n\nYou can toggle autodeploys for your service with the [Update service](https://api-docs.render.com/reference/update-service) endpoint or in the Render Dashboard.\n\nNot supported for cron jobs.\n"
+            "smithy.api#documentation": "The SHA of a specific Git commit to deploy for a service. Defaults to the latest commit on the service's connected branch. Cannot be combined with `buildId`, `imageUrl`, or `deployMode: deploy_only`.\n\nNote that deploying a specific commit with this endpoint does not disable autodeploys for the service.\n\nYou can toggle autodeploys for your service with the [Update service](https://api-docs.render.com/reference/update-service) endpoint or in the Render Dashboard.\n\nNot supported for cron jobs.\n"
           }
         },
         "imageUrl": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The URL of the image to deploy for an image-backed service.\n\nThe host, repository, and image name all must match the currently configured image for the service.\n"
+            "smithy.api#documentation": "The URL of the image to deploy for an image-backed service. Cannot be combined with `buildId`, `commitId`, or `deployMode: deploy_only`.\n\nThe host, repository, and image name all must match the currently configured image for the service.\n"
           }
         },
         "deployMode": {
           "target": "com.render.api#DeployMode",
           "traits": {
-            "smithy.api#documentation": "Deployment mode controlling build and deploy behavior.\n\nDefaults to `build_and_deploy` when not specified.\n\n**Validation:** `deploy_mode` cannot be combined with `commitId` or `imageUrl` or `clearCache`.\n"
+            "smithy.api#documentation": "Deployment mode controlling build and deploy behavior.\n\nDefaults to `build_and_deploy` when not specified.\n\n**Validation:** `deployMode` cannot be combined with `buildId`. `deploy_only` cannot be combined with `commitId`, `imageUrl`, or `clearCache`.\n"
           }
         }
       },
@@ -9005,6 +9134,12 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -9407,9 +9542,10 @@
     "com.render.api#_0Case0": {
       "type": "structure",
       "members": {
-        "artifactId": {
+        "buildId": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The build published by the build source that could not be fetched.",
             "smithy.api#required": {}
           }
         },
@@ -9425,16 +9561,16 @@
     "com.render.api#_0Case1": {
       "type": "structure",
       "members": {
-        "fromArtifactSourceId": {
+        "fromBuildSourceId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The previously linked artifact source. Absent when the service was newly attached."
+            "smithy.api#documentation": "The previously linked build source. Absent when the service was newly attached."
           }
         },
-        "toArtifactSourceId": {
+        "toBuildSourceId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The newly linked artifact source. Absent when the service was detached."
+            "smithy.api#documentation": "The newly linked build source. Absent when the service was detached."
           }
         }
       },
@@ -10022,10 +10158,10 @@
             "smithy.api#required": {}
           }
         },
-        "artifactId": {
+        "buildId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Set when the deploy shipped an artifact published by the service's linked artifact source."
+            "smithy.api#documentation": "Set when the deploy shipped a build published by the service's linked build source."
           }
         }
       },
@@ -10115,10 +10251,10 @@
             "smithy.api#required": {}
           }
         },
-        "artifactId": {
+        "buildId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Set when the deploy ships an artifact published by the service's linked artifact source."
+            "smithy.api#documentation": "Set when the deploy ships a build published by the service's linked build source."
           }
         }
       },
@@ -10671,32 +10807,6 @@
       },
       "traits": {}
     },
-    "com.render.api#NewTrigger": {
-      "type": "enum",
-      "members": {
-        "COMMIT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "commit"
-          }
-        },
-        "OFF": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "off"
-          }
-        },
-        "CHECKSPASS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "checksPass"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The auto-deploy trigger value after it was re-enabled"
-      }
-    },
     "com.render.api#_0Case44": {
       "type": "structure",
       "members": {
@@ -10708,7 +10818,7 @@
           }
         },
         "fromTrigger": {
-          "target": "com.render.api#NewTrigger",
+          "target": "com.render.api#AutoDeployTrigger",
           "traits": {
             "smithy.api#documentation": "The auto-deploy trigger value immediately before it was disabled"
           }
@@ -10716,37 +10826,11 @@
       },
       "traits": {}
     },
-    "com.render.api#_0Case45NewTrigger": {
-      "type": "enum",
-      "members": {
-        "COMMIT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "commit"
-          }
-        },
-        "OFF": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "off"
-          }
-        },
-        "CHECKSPASS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "checksPass"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The auto-deploy trigger value after it was re-enabled"
-      }
-    },
     "com.render.api#_0Case45": {
       "type": "structure",
       "members": {
         "newTrigger": {
-          "target": "com.render.api#_0Case45NewTrigger",
+          "target": "com.render.api#AutoDeployTrigger",
           "traits": {
             "smithy.api#documentation": "The auto-deploy trigger value after it was re-enabled"
           }
@@ -13745,9 +13829,10 @@
     "com.render.api#GetEventResponseDetailsCase0Case0": {
       "type": "structure",
       "members": {
-        "artifactId": {
+        "buildId": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The build published by the build source that could not be fetched.",
             "smithy.api#required": {}
           }
         },
@@ -13763,16 +13848,16 @@
     "com.render.api#GetEventResponseDetailsCase0Case1": {
       "type": "structure",
       "members": {
-        "fromArtifactSourceId": {
+        "fromBuildSourceId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The previously linked artifact source. Absent when the service was newly attached."
+            "smithy.api#documentation": "The previously linked build source. Absent when the service was newly attached."
           }
         },
-        "toArtifactSourceId": {
+        "toBuildSourceId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The newly linked artifact source. Absent when the service was detached."
+            "smithy.api#documentation": "The newly linked build source. Absent when the service was detached."
           }
         }
       },
@@ -14220,10 +14305,10 @@
             "smithy.api#required": {}
           }
         },
-        "artifactId": {
+        "buildId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Set when the deploy shipped an artifact published by the service's linked artifact source."
+            "smithy.api#documentation": "Set when the deploy shipped a build published by the service's linked build source."
           }
         }
       },
@@ -14244,10 +14329,10 @@
             "smithy.api#required": {}
           }
         },
-        "artifactId": {
+        "buildId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Set when the deploy ships an artifact published by the service's linked artifact source."
+            "smithy.api#documentation": "Set when the deploy ships a build published by the service's linked build source."
           }
         }
       },
@@ -14752,7 +14837,7 @@
           }
         },
         "fromTrigger": {
-          "target": "com.render.api#NewTrigger",
+          "target": "com.render.api#AutoDeployTrigger",
           "traits": {
             "smithy.api#documentation": "The auto-deploy trigger value immediately before it was disabled"
           }
@@ -14760,37 +14845,11 @@
       },
       "traits": {}
     },
-    "com.render.api#GetEventResponseDetailsCase0Case45NewTrigger": {
-      "type": "enum",
-      "members": {
-        "COMMIT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "commit"
-          }
-        },
-        "OFF": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "off"
-          }
-        },
-        "CHECKSPASS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "checksPass"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The auto-deploy trigger value after it was re-enabled"
-      }
-    },
     "com.render.api#GetEventResponseDetailsCase0Case45": {
       "type": "structure",
       "members": {
         "newTrigger": {
-          "target": "com.render.api#GetEventResponseDetailsCase0Case45NewTrigger",
+          "target": "com.render.api#AutoDeployTrigger",
           "traits": {
             "smithy.api#documentation": "The auto-deploy trigger value after it was re-enabled"
           }
@@ -22429,20 +22488,7 @@
             "smithy.api#documentation": "The display name of the replica instance.",
             "smithy.api#required": {}
           }
-        },
-        "parameterOverrides": {
-          "target": "com.render.api#PostgresParameterOverrides"
         }
-      },
-      "traits": {}
-    },
-    "com.render.api#PostgresParameterOverrides": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -22930,9 +22976,6 @@
             "smithy.api#documentation": "The display name of the replica instance.",
             "smithy.api#required": {}
           }
-        },
-        "parameterOverrides": {
-          "target": "com.render.api#PostgresParameterOverrides"
         }
       },
       "traits": {}
@@ -23004,9 +23047,6 @@
         },
         "ipAllowList": {
           "target": "com.render.api#CreatePostgresRequestIpAllowListList"
-        },
-        "parameterOverrides": {
-          "target": "com.render.api#PostgresParameterOverrides"
         },
         "readReplicas": {
           "target": "com.render.api#ReadReplicasInput"
@@ -23106,9 +23146,6 @@
         },
         "diskSizeGB": {
           "target": "smithy.api#Integer"
-        },
-        "parameterOverrides": {
-          "target": "com.render.api#PostgresParameterOverrides"
         },
         "primaryPostgresID": {
           "target": "smithy.api#String"
@@ -23323,9 +23360,6 @@
         },
         "ipAllowList": {
           "target": "com.render.api#UpdatePostgresRequestIpAllowListList"
-        },
-        "parameterOverrides": {
-          "target": "com.render.api#PostgresParameterOverrides"
         },
         "readReplicas": {
           "target": "com.render.api#ReadReplicasInput"
@@ -23583,8 +23617,7 @@
         "restoreTime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The point in time to restore the database to. See `/recovery-info` for restore availability",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The point in time to restore the database to. See `/recovery-info` for restore availability"
           }
         },
         "datadogApiKey": {
@@ -27238,6 +27271,2389 @@
         "smithy.api#documentation": "Trigger maintenance run\n\nTrigger the scheduled maintenance run with the provided ID.\n\nTriggering maintenance is asynchronous. To check whether maintenance has started, use the [Retrieve maintenance run](https://api-docs.render.com/reference/retrieve-maintenance) endpoint.\n\nAs maintenance progresses, the run's `state` will change from `scheduled` to other values, such as `in_progress` and `succeeded`."
       }
     },
+    "com.render.api#ListBuildSourcesRequestNameList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.render.api#ListBuildSourcesRequestOwnerIdList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.render.api#ListBuildSourcesRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "com.render.api#ListBuildSourcesRequestNameList",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Filter by name"
+          }
+        },
+        "ownerId": {
+          "target": "com.render.api#ListBuildSourcesRequestOwnerIdList",
+          "traits": {
+            "smithy.api#httpQuery": "ownerId",
+            "smithy.api#documentation": "The ID of the workspaces to return resources for"
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "projectId"
+          }
+        },
+        "includePreviews": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includePreviews",
+            "smithy.api#documentation": "Include previews in the response"
+          }
+        },
+        "createdBefore": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "createdBefore",
+            "smithy.api#documentation": "Filter for resources created before a certain time (specified as an ISO 8601 timestamp)"
+          }
+        },
+        "createdAfter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "createdAfter",
+            "smithy.api#documentation": "Filter for resources created after a certain time (specified as an ISO 8601 timestamp)"
+          }
+        },
+        "updatedBefore": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updatedBefore",
+            "smithy.api#documentation": "Filter for resources updated before a certain time (specified as an ISO 8601 timestamp)"
+          }
+        },
+        "updatedAfter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updatedAfter",
+            "smithy.api#documentation": "Filter for resources updated after a certain time (specified as an ISO 8601 timestamp)"
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination)."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#Schema12": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the workspace this build source belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the project this build source is scoped to, if any."
+          }
+        },
+        "git": {
+          "target": "com.render.api#Git",
+          "traits": {
+            "smithy.api#documentation": "Present when the build source is currently build-based. Mutually exclusive with `image`.\n"
+          }
+        },
+        "image": {
+          "target": "com.render.api#Image2",
+          "traits": {
+            "smithy.api#documentation": "Present when the build source is currently image-based. Mutually exclusive with `git`.\n"
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "serviceLinks": {
+          "target": "com.render.api#SchemaServiceLinksList",
+          "traits": {
+            "smithy.api#documentation": "Services currently linked to this build source.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.render.api#Git": {
+      "type": "structure",
+      "members": {
+        "baseDir": {
+          "target": "smithy.api#String"
+        },
+        "branch": {
+          "target": "smithy.api#String"
+        },
+        "buildCommand": {
+          "target": "smithy.api#String"
+        },
+        "buildFilter": {
+          "target": "com.render.api#BuildFilter2"
+        },
+        "dockerfilePath": {
+          "target": "smithy.api#String"
+        },
+        "runtime": {
+          "target": "com.render.api#GitRuntime",
+          "traits": {
+            "smithy.api#documentation": "Build runtime for the build source. Static sites are not supported for build sources.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "registryCredentialId": {
+          "target": "smithy.api#String"
+        },
+        "region": {
+          "target": "com.render.api#GitRegion",
+          "traits": {
+            "smithy.api#documentation": "Defaults to \"oregon\""
+          }
+        },
+        "repoUrl": {
+          "target": "smithy.api#String"
+        },
+        "rootDir": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.render.api#BuildFilter2": {
+      "type": "structure",
+      "members": {
+        "paths": {
+          "target": "com.render.api#BuildFilterPathsList2",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ignoredPaths": {
+          "target": "com.render.api#BuildFilterIgnoredPathsList2",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Glob patterns matched against files changed by a commit. When set, a commit only triggers a build when at least one changed file matches `paths` and none match `ignoredPaths`. Useful for monorepos where a single repo backs many services.\n"
+      }
+    },
+    "com.render.api#BuildFilterPathsList2": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.render.api#BuildFilterIgnoredPathsList2": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.render.api#GitRuntime": {
+      "type": "enum",
+      "members": {
+        "DOCKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "docker"
+          }
+        },
+        "ELIXIR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "elixir"
+          }
+        },
+        "GO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go"
+          }
+        },
+        "NODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node"
+          }
+        },
+        "PYTHON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "python"
+          }
+        },
+        "RUBY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ruby"
+          }
+        },
+        "RUST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rust"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Build runtime for the build source. Static sites are not supported for build sources.\n"
+      }
+    },
+    "com.render.api#GitRegion": {
+      "type": "enum",
+      "members": {
+        "FRANKFURT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frankfurt"
+          }
+        },
+        "OREGON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oregon"
+          }
+        },
+        "OHIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ohio"
+          }
+        },
+        "SINGAPORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "singapore"
+          }
+        },
+        "VIRGINIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "virginia"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defaults to \"oregon\""
+      }
+    },
+    "com.render.api#Image2": {
+      "type": "structure",
+      "members": {
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "registryCredentialId": {
+          "target": "smithy.api#String"
+        },
+        "imageUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.render.api#SchemaServiceLinksItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.render.api#SchemaServiceLinksList": {
+      "type": "list",
+      "member": {
+        "target": "com.render.api#SchemaServiceLinksItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Services currently linked to this build source."
+      }
+    },
+    "com.render.api#ListBuildSourcesResponseBodyItem": {
+      "type": "structure",
+      "members": {
+        "buildSource": {
+          "target": "com.render.api#Schema12",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.render.api#ListBuildSourcesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.render.api#ListBuildSourcesResponseBodyItem"
+      },
+      "traits": {}
+    },
+    "com.render.api#ListBuildSourcesResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.render.api#ListBuildSourcesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.render.api#ListBuildSources": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#ListBuildSourcesRequest"
+      },
+      "output": {
+        "target": "com.render.api#ListBuildSourcesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/build-sources",
+          "code": 200
+        },
+        "smithy.api#documentation": "List build sources\n\nList build sources matching the provided filters. If `ownerId` is\nomitted, returns build sources across every workspace you can view."
+      }
+    },
+    "com.render.api#CreateBuildSourceRequestGitRuntime": {
+      "type": "enum",
+      "members": {
+        "DOCKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "docker"
+          }
+        },
+        "ELIXIR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "elixir"
+          }
+        },
+        "GO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go"
+          }
+        },
+        "NODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node"
+          }
+        },
+        "PYTHON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "python"
+          }
+        },
+        "RUBY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ruby"
+          }
+        },
+        "RUST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rust"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Build runtime for the build source. Static sites are not supported for build sources.\n"
+      }
+    },
+    "com.render.api#CreateBuildSourceRequestGitRegion": {
+      "type": "enum",
+      "members": {
+        "FRANKFURT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frankfurt"
+          }
+        },
+        "OREGON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oregon"
+          }
+        },
+        "OHIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ohio"
+          }
+        },
+        "SINGAPORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "singapore"
+          }
+        },
+        "VIRGINIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "virginia"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defaults to \"oregon\""
+      }
+    },
+    "com.render.api#CreateBuildSourceRequestGit": {
+      "type": "structure",
+      "members": {
+        "baseDir": {
+          "target": "smithy.api#String"
+        },
+        "branch": {
+          "target": "smithy.api#String"
+        },
+        "buildCommand": {
+          "target": "smithy.api#String"
+        },
+        "buildFilter": {
+          "target": "com.render.api#BuildFilter2"
+        },
+        "dockerfilePath": {
+          "target": "smithy.api#String"
+        },
+        "runtime": {
+          "target": "com.render.api#CreateBuildSourceRequestGitRuntime",
+          "traits": {
+            "smithy.api#documentation": "Build runtime for the build source. Static sites are not supported for build sources.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "registryCredentialId": {
+          "target": "smithy.api#String"
+        },
+        "region": {
+          "target": "com.render.api#CreateBuildSourceRequestGitRegion",
+          "traits": {
+            "smithy.api#documentation": "Defaults to \"oregon\""
+          }
+        },
+        "repoUrl": {
+          "target": "smithy.api#String"
+        },
+        "rootDir": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.render.api#CreateBuildSourceRequestImage": {
+      "type": "structure",
+      "members": {
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "registryCredentialId": {
+          "target": "smithy.api#String"
+        },
+        "imageUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.render.api#CreateBuildSourceRequestServiceIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.render.api#CreateBuildSourceRequestSecretFilesList": {
+      "type": "list",
+      "member": {
+        "target": "com.render.api#Items"
+      },
+      "traits": {
+        "smithy.api#documentation": "Secret files for the build source's build. Only valid for `git` sources.\n"
+      }
+    },
+    "com.render.api#CreateBuildSourceRequestEnvGroupIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IDs of env groups to link to the build source. Only valid for `git` sources; env groups must belong to the same workspace and must not be scoped to an environment.\n"
+      }
+    },
+    "com.render.api#CreateBuildSourceRequest": {
+      "type": "structure",
+      "members": {
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String"
+        },
+        "git": {
+          "target": "com.render.api#CreateBuildSourceRequestGit"
+        },
+        "image": {
+          "target": "com.render.api#CreateBuildSourceRequestImage"
+        },
+        "serviceIds": {
+          "target": "com.render.api#CreateBuildSourceRequestServiceIdsList"
+        },
+        "envVars": {
+          "target": "com.render.api#Schema6"
+        },
+        "secretFiles": {
+          "target": "com.render.api#CreateBuildSourceRequestSecretFilesList",
+          "traits": {
+            "smithy.api#documentation": "Secret files for the build source's build. Only valid for `git` sources.\n"
+          }
+        },
+        "envGroupIds": {
+          "target": "com.render.api#CreateBuildSourceRequestEnvGroupIdsList",
+          "traits": {
+            "smithy.api#documentation": "IDs of env groups to link to the build source. Only valid for `git` sources; env groups must belong to the same workspace and must not be scoped to an environment.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#CreateBuildSourceResponseServiceLinksItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.render.api#CreateBuildSourceResponseServiceLinksList": {
+      "type": "list",
+      "member": {
+        "target": "com.render.api#CreateBuildSourceResponseServiceLinksItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Services currently linked to this build source."
+      }
+    },
+    "com.render.api#CreateBuildSourceResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the workspace this build source belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the project this build source is scoped to, if any."
+          }
+        },
+        "git": {
+          "target": "com.render.api#Git",
+          "traits": {
+            "smithy.api#documentation": "Present when the build source is currently build-based. Mutually exclusive with `image`.\n"
+          }
+        },
+        "image": {
+          "target": "com.render.api#Image2",
+          "traits": {
+            "smithy.api#documentation": "Present when the build source is currently image-based. Mutually exclusive with `git`.\n"
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "serviceLinks": {
+          "target": "com.render.api#CreateBuildSourceResponseServiceLinksList",
+          "traits": {
+            "smithy.api#documentation": "Services currently linked to this build source.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.render.api#CreateBuildSource": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#CreateBuildSourceRequest"
+      },
+      "output": {
+        "target": "com.render.api#CreateBuildSourceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#BadRequest"
+        },
+        {
+          "target": "com.render.api#Forbidden"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/build-sources",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a build source\n\nCreate a build source that can be linked to one or more\nservices in the same workspace.\n\nExactly one of `git` or `image` must be set:\n- `git`: the build source is git-backed. The code is built in\n   the requested `region` (defaults to `oregon`).\n- `image`: the build source is image-backed. It points at an\n  existing image in an external registry; no build is performed.\n\n`envVars`, `secretFiles`, and `envGroupIds` set the build-time\nenvironment and are only valid for `git` sources; the request fails\nif any are provided with `image`."
+      }
+    },
+    "com.render.api#GetBuildSourceRequest": {
+      "type": "structure",
+      "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#GetBuildSource": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#GetBuildSourceRequest"
+      },
+      "output": {
+        "target": "com.render.api#Schema12"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#BadRequest"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/build-sources/{buildSourceId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve a build source\n\nRetrieve a shared build source by ID"
+      }
+    },
+    "com.render.api#UpdateBuildSourceRequestGitBuildFilterPathsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.render.api#UpdateBuildSourceRequestGitBuildFilterIgnoredPathsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.render.api#UpdateBuildSourceRequestGitBuildFilter": {
+      "type": "structure",
+      "members": {
+        "paths": {
+          "target": "com.render.api#UpdateBuildSourceRequestGitBuildFilterPathsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ignoredPaths": {
+          "target": "com.render.api#UpdateBuildSourceRequestGitBuildFilterIgnoredPathsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Glob patterns matched against files changed by a commit. When set, a commit only triggers a build when at least one changed file matches `paths` and none match `ignoredPaths`. Useful for monorepos where a single repo backs many services.\n"
+      }
+    },
+    "com.render.api#UpdateBuildSourceRequestGitRuntime": {
+      "type": "enum",
+      "members": {
+        "DOCKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "docker"
+          }
+        },
+        "ELIXIR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "elixir"
+          }
+        },
+        "GO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go"
+          }
+        },
+        "NODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node"
+          }
+        },
+        "PYTHON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "python"
+          }
+        },
+        "RUBY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ruby"
+          }
+        },
+        "RUST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rust"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Build runtime for the build source. Static sites are not supported for build sources.\n"
+      }
+    },
+    "com.render.api#UpdateBuildSourceRequestGitRegion": {
+      "type": "enum",
+      "members": {
+        "FRANKFURT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frankfurt"
+          }
+        },
+        "OREGON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oregon"
+          }
+        },
+        "OHIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ohio"
+          }
+        },
+        "SINGAPORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "singapore"
+          }
+        },
+        "VIRGINIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "virginia"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Region for the build. Honored only when this PATCH performs an image→build transition; rejected on a pure build patch (the cluster is pinned for an existing build), and must match the prior build region when switching back to build after time as an external image. Defaults to \"oregon\" for first-time builds.\n"
+      }
+    },
+    "com.render.api#UpdateBuildSourceRequestGit": {
+      "type": "structure",
+      "members": {
+        "baseDir": {
+          "target": "smithy.api#String"
+        },
+        "branch": {
+          "target": "smithy.api#String"
+        },
+        "buildCommand": {
+          "target": "smithy.api#String"
+        },
+        "buildFilter": {
+          "target": "com.render.api#UpdateBuildSourceRequestGitBuildFilter",
+          "traits": {
+            "smithy.api#documentation": "Glob patterns matched against files changed by a commit. When set, a commit only triggers a build when at least one changed file matches `paths` and none match `ignoredPaths`. Useful for monorepos where a single repo backs many services.\n"
+          }
+        },
+        "dockerfilePath": {
+          "target": "smithy.api#String"
+        },
+        "runtime": {
+          "target": "com.render.api#UpdateBuildSourceRequestGitRuntime",
+          "traits": {
+            "smithy.api#documentation": "Build runtime for the build source. Static sites are not supported for build sources.\n"
+          }
+        },
+        "registryCredentialId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional reference to the registry credential for this build. Omit the field to leave the stored credential unchanged; send an empty string to clear it.\n"
+          }
+        },
+        "region": {
+          "target": "com.render.api#UpdateBuildSourceRequestGitRegion",
+          "traits": {
+            "smithy.api#documentation": "Region for the build. Honored only when this PATCH performs an image→build transition; rejected on a pure build patch (the cluster is pinned for an existing build), and must match the prior build region when switching back to build after time as an external image. Defaults to \"oregon\" for first-time builds.\n"
+          }
+        },
+        "repoUrl": {
+          "target": "smithy.api#String"
+        },
+        "rootDir": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.render.api#UpdateBuildSourceRequestImage": {
+      "type": "structure",
+      "members": {
+        "imageUrl": {
+          "target": "smithy.api#String"
+        },
+        "registryCredentialId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional reference to the registry credential passed to the image repository to retrieve this image. Omit the field to leave the stored credential unchanged; send an empty string to clear it.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Patch shape for a build source's image identity. Unset fields are left unchanged on the underlying image reference. ownerId is intentionally omitted — a build source's owner is fixed at creation, and changing the image's owner would amount to a different identity.\n"
+      }
+    },
+    "com.render.api#UpdateBuildSourceRequest": {
+      "type": "structure",
+      "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "git": {
+          "target": "com.render.api#UpdateBuildSourceRequestGit"
+        },
+        "image": {
+          "target": "com.render.api#UpdateBuildSourceRequestImage",
+          "traits": {
+            "smithy.api#documentation": "Patch shape for a build source's image identity. Unset fields are left unchanged on the underlying image reference. ownerId is intentionally omitted — a build source's owner is fixed at creation, and changing the image's owner would amount to a different identity.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#UpdateBuildSource": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#UpdateBuildSourceRequest"
+      },
+      "output": {
+        "target": "com.render.api#Schema12"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#BadRequest"
+        },
+        {
+          "target": "com.render.api#Forbidden"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/build-sources/{buildSourceId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update a build source\n\nUpdate a shared build source. Each top-level field is a true patch,\nunset fields are left unchanged.\n\nSupplying `git` or `image` can change the build source's\nunderlying identity:\n- `image` on a git-backed build source switches it to image-backed\n- `git` on an image-backed build source switches it to git-backed\n- `git` on a build source that's already git-backed is a pure\n  patch onto the existing config"
+      }
+    },
+    "com.render.api#DeleteBuildSourceRequest": {
+      "type": "structure",
+      "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#DeleteBuildSource": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#DeleteBuildSourceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#BadRequest"
+        },
+        {
+          "target": "com.render.api#Forbidden"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/build-sources/{buildSourceId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a build source\n\nDelete the build source with the provided ID."
+      }
+    },
+    "com.render.api#ListBuildsInBuildSourceRequest": {
+      "type": "structure",
+      "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination)."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#Schema13": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "buildRun": {
+          "target": "com.render.api#SchemaBuildRun",
+          "traits": {
+            "smithy.api#documentation": "The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`.\n"
+          }
+        },
+        "image": {
+          "target": "com.render.api#SchemaImage",
+          "traits": {
+            "smithy.api#documentation": "Present when the build source is currently image-based. Mutually exclusive with `buildRun`.\n"
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "assetsDeletedAt": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.render.api#SchemaBuildRunStatus": {
+      "type": "enum",
+      "members": {
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "INPROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inProgress"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.render.api#SchemaBuildRunRuntime": {
+      "type": "enum",
+      "members": {
+        "DOCKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "docker"
+          }
+        },
+        "ELIXIR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "elixir"
+          }
+        },
+        "GO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go"
+          }
+        },
+        "NODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node"
+          }
+        },
+        "PYTHON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "python"
+          }
+        },
+        "RUBY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ruby"
+          }
+        },
+        "RUST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rust"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.render.api#SchemaBuildRun": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.render.api#SchemaBuildRunStatus"
+        },
+        "buildStartedAt": {
+          "target": "smithy.api#String"
+        },
+        "buildFinishedAt": {
+          "target": "smithy.api#String"
+        },
+        "runtime": {
+          "target": "com.render.api#SchemaBuildRunRuntime"
+        },
+        "commitId": {
+          "target": "smithy.api#String"
+        },
+        "commitUrl": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`.\n"
+      }
+    },
+    "com.render.api#SchemaImage": {
+      "type": "structure",
+      "members": {
+        "imageVersionId": {
+          "target": "smithy.api#String"
+        },
+        "SHA": {
+          "target": "smithy.api#String"
+        },
+        "ref": {
+          "target": "smithy.api#String"
+        },
+        "imageUrl": {
+          "target": "smithy.api#String"
+        },
+        "registryCredentialId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Present when the build source is currently image-based. Mutually exclusive with `buildRun`.\n"
+      }
+    },
+    "com.render.api#ListBuildsInBuildSourceResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.render.api#Schema13"
+      },
+      "traits": {}
+    },
+    "com.render.api#ListBuildsInBuildSourceResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.render.api#ListBuildsInBuildSourceResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.render.api#ListBuildsInBuildSource": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#ListBuildsInBuildSourceRequest"
+      },
+      "output": {
+        "target": "com.render.api#ListBuildsInBuildSourceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#Forbidden"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/build-sources/{buildSourceId}/builds",
+          "code": 200
+        },
+        "smithy.api#documentation": "List builds in a build source\n\nList builds in a build source."
+      }
+    },
+    "com.render.api#TriggerBuildSourceBuildRequest": {
+      "type": "structure",
+      "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#TriggerBuildSourceBuildResponseBuildRunStatus": {
+      "type": "enum",
+      "members": {
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "INPROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inProgress"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.render.api#TriggerBuildSourceBuildResponseBuildRunRuntime": {
+      "type": "enum",
+      "members": {
+        "DOCKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "docker"
+          }
+        },
+        "ELIXIR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "elixir"
+          }
+        },
+        "GO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go"
+          }
+        },
+        "NODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node"
+          }
+        },
+        "PYTHON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "python"
+          }
+        },
+        "RUBY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ruby"
+          }
+        },
+        "RUST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rust"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.render.api#TriggerBuildSourceBuildResponseBuildRun": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.render.api#TriggerBuildSourceBuildResponseBuildRunStatus"
+        },
+        "buildStartedAt": {
+          "target": "smithy.api#String"
+        },
+        "buildFinishedAt": {
+          "target": "smithy.api#String"
+        },
+        "runtime": {
+          "target": "com.render.api#TriggerBuildSourceBuildResponseBuildRunRuntime"
+        },
+        "commitId": {
+          "target": "smithy.api#String"
+        },
+        "commitUrl": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`.\n"
+      }
+    },
+    "com.render.api#TriggerBuildSourceBuildResponseImage": {
+      "type": "structure",
+      "members": {
+        "imageVersionId": {
+          "target": "smithy.api#String"
+        },
+        "SHA": {
+          "target": "smithy.api#String"
+        },
+        "ref": {
+          "target": "smithy.api#String"
+        },
+        "imageUrl": {
+          "target": "smithy.api#String"
+        },
+        "registryCredentialId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Present when the build source is currently image-based. Mutually exclusive with `buildRun`.\n"
+      }
+    },
+    "com.render.api#TriggerBuildSourceBuildResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "buildRun": {
+          "target": "com.render.api#TriggerBuildSourceBuildResponseBuildRun",
+          "traits": {
+            "smithy.api#documentation": "The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`.\n"
+          }
+        },
+        "image": {
+          "target": "com.render.api#TriggerBuildSourceBuildResponseImage",
+          "traits": {
+            "smithy.api#documentation": "Present when the build source is currently image-based. Mutually exclusive with `buildRun`.\n"
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "assetsDeletedAt": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.render.api#TriggerBuildSourceBuild": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#TriggerBuildSourceBuildRequest"
+      },
+      "output": {
+        "target": "com.render.api#TriggerBuildSourceBuildResponse"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#BadRequest"
+        },
+        {
+          "target": "com.render.api#Forbidden"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/build-sources/{buildSourceId}/builds",
+          "code": 200
+        },
+        "smithy.api#documentation": "Trigger a build\n\nStart a new build of the build source at the current HEAD of its\nbranch, even if an up-to-date build already exists. Services linked to\nthe build source with autodeploy enabled are deployed with the result.\n\nUpdating a build source or its build-time environment (env vars,\nsecret files, env groups) with the REST API does not build it. Call\nthis endpoint after those changes to build them.\n\nOnly `git` build sources can be built."
+      }
+    },
+    "com.render.api#GetEnvVarsForBuildSourceRequest": {
+      "type": "structure",
+      "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination)."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#GetEnvVarsForBuildSourceResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.render.api#EnvVarWithCursor"
+      },
+      "traits": {}
+    },
+    "com.render.api#GetEnvVarsForBuildSourceResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.render.api#GetEnvVarsForBuildSourceResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.render.api#GetEnvVarsForBuildSource": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#GetEnvVarsForBuildSourceRequest"
+      },
+      "output": {
+        "target": "com.render.api#GetEnvVarsForBuildSourceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#Forbidden"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/build-sources/{buildSourceId}/env-vars",
+          "code": 200
+        },
+        "smithy.api#documentation": "List environment variables\n\nList all environment variables for the build source with the provided ID."
+      }
+    },
+    "com.render.api#UpdateEnvVarsForBuildSourceRequest": {
+      "type": "structure",
+      "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.render.api#Schema6",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#UpdateEnvVarsForBuildSourceResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.render.api#EnvVarWithCursor"
+      },
+      "traits": {}
+    },
+    "com.render.api#UpdateEnvVarsForBuildSourceResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.render.api#UpdateEnvVarsForBuildSourceResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.render.api#UpdateEnvVarsForBuildSource": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#UpdateEnvVarsForBuildSourceRequest"
+      },
+      "output": {
+        "target": "com.render.api#UpdateEnvVarsForBuildSourceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#BadRequest"
+        },
+        {
+          "target": "com.render.api#Forbidden"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/build-sources/{buildSourceId}/env-vars",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update environment variables\n\nReplace all environment variables for a build source with the provided list of environment variables."
+      }
+    },
+    "com.render.api#GetBuildSourceEnvVarRequest": {
+      "type": "structure",
+      "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "envVarKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the environment variable"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#GetBuildSourceEnvVar": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#GetBuildSourceEnvVarRequest"
+      },
+      "output": {
+        "target": "com.render.api#EnvVar"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#Forbidden"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/build-sources/{buildSourceId}/env-vars/{envVarKey}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve environment variable\n\nRetrieve a particular environment variable for a particular build source.\n\nThis only applies to environment variables set directly on the build source, not to environment variables in a linked environment group."
+      }
+    },
+    "com.render.api#UpdateBuildSourceEnvVarRequest": {
+      "type": "structure",
+      "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "envVarKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the environment variable"
+          }
+        },
+        "body": {
+          "target": "com.render.api#AddUpdateEnvVarInput",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#UpdateBuildSourceEnvVar": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#UpdateBuildSourceEnvVarRequest"
+      },
+      "output": {
+        "target": "com.render.api#EnvVar"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#BadRequest"
+        },
+        {
+          "target": "com.render.api#Forbidden"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/build-sources/{buildSourceId}/env-vars/{envVarKey}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Add or update environment variable\n\nAdd or update a particular environment variable for a particular build source.\n\nThis only applies to environment variables set directly on the build source, not to environment variables in a linked environment group."
+      }
+    },
+    "com.render.api#DeleteBuildSourceEnvVarRequest": {
+      "type": "structure",
+      "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "envVarKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the environment variable"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#DeleteBuildSourceEnvVar": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#DeleteBuildSourceEnvVarRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#Forbidden"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/build-sources/{buildSourceId}/env-vars/{envVarKey}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete environment variable\n\nDelete a particular environment variable from a particular build source.\n\nThis only applies to environment variables set directly on the build source, not to environment variables in a linked environment group."
+      }
+    },
+    "com.render.api#ListSecretFilesForBuildSourceRequest": {
+      "type": "structure",
+      "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination)."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#ListSecretFilesForBuildSourceResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.render.api#SecretFileWithCursor"
+      },
+      "traits": {}
+    },
+    "com.render.api#ListSecretFilesForBuildSourceResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.render.api#ListSecretFilesForBuildSourceResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.render.api#ListSecretFilesForBuildSource": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#ListSecretFilesForBuildSourceRequest"
+      },
+      "output": {
+        "target": "com.render.api#ListSecretFilesForBuildSourceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#Forbidden"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/build-sources/{buildSourceId}/secret-files",
+          "code": 200
+        },
+        "smithy.api#documentation": "List secret files\n\nList all secret files for the build source with the provided ID."
+      }
+    },
+    "com.render.api#UpdateSecretFilesForBuildSourceRequestBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.render.api#Items"
+      },
+      "traits": {}
+    },
+    "com.render.api#UpdateSecretFilesForBuildSourceRequest": {
+      "type": "structure",
+      "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.render.api#UpdateSecretFilesForBuildSourceRequestBodyList",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#UpdateSecretFilesForBuildSourceResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.render.api#SecretFileWithCursor"
+      },
+      "traits": {}
+    },
+    "com.render.api#UpdateSecretFilesForBuildSourceResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.render.api#UpdateSecretFilesForBuildSourceResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.render.api#UpdateSecretFilesForBuildSource": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#UpdateSecretFilesForBuildSourceRequest"
+      },
+      "output": {
+        "target": "com.render.api#UpdateSecretFilesForBuildSourceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#BadRequest"
+        },
+        {
+          "target": "com.render.api#Forbidden"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/build-sources/{buildSourceId}/secret-files",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update secret files\n\nReplace all secret files for a build source with the provided list of secret files.\n\n**Any of the build source's existing secret files not included in this request will be deleted.**\n\nThis only applies to secret files set directly on the build source, not to secret files in a linked environment group."
+      }
+    },
+    "com.render.api#GetBuildSourceSecretFileRequest": {
+      "type": "structure",
+      "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "envVarKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The file name of the secret file"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#GetBuildSourceSecretFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#GetBuildSourceSecretFileRequest"
+      },
+      "output": {
+        "target": "com.render.api#SecretFile"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#Forbidden"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/build-sources/{buildSourceId}/secret-files/{envVarKey}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve secret file\n\nRetrieve a particular secret file for a particular build source.\n\nThis only applies to secret files set directly on the build source, not to secret files in a linked environment group."
+      }
+    },
+    "com.render.api#AddOrUpdateBuildSourceSecretFileRequest": {
+      "type": "structure",
+      "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "envVarKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The file name of the secret file"
+          }
+        },
+        "content": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#AddOrUpdateBuildSourceSecretFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#AddOrUpdateBuildSourceSecretFileRequest"
+      },
+      "output": {
+        "target": "com.render.api#SecretFile"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#BadRequest"
+        },
+        {
+          "target": "com.render.api#Forbidden"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/build-sources/{buildSourceId}/secret-files/{envVarKey}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Add or update secret file\n\nAdd or update a particular secret file for a particular build source.\n\nThis only applies to secret files set directly on the build source, not to secret files in a linked environment group."
+      }
+    },
+    "com.render.api#DeleteBuildSourceSecretFileRequest": {
+      "type": "structure",
+      "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "envVarKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The file name of the secret file"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#DeleteBuildSourceSecretFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#DeleteBuildSourceSecretFileRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#Forbidden"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/build-sources/{buildSourceId}/secret-files/{envVarKey}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete secret file\n\nDelete a particular secret file from a particular build source.\n\nThis only applies to secret files set directly on the build source, not to secret files in a linked environment group."
+      }
+    },
+    "com.render.api#LinkEnvGroupToBuildSourceRequest": {
+      "type": "structure",
+      "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "envGroupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Filter for resources that belong to an environment group"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#LinkEnvGroupToBuildSourceResponseServiceLinksList": {
+      "type": "list",
+      "member": {
+        "target": "com.render.api#EnvGroupLink"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of serviceIds linked to the envGroup"
+      }
+    },
+    "com.render.api#LinkEnvGroupToBuildSourceResponseEnvVarsList": {
+      "type": "list",
+      "member": {
+        "target": "com.render.api#EnvVar"
+      },
+      "traits": {}
+    },
+    "com.render.api#LinkEnvGroupToBuildSourceResponseSecretFilesList": {
+      "type": "list",
+      "member": {
+        "target": "com.render.api#SecretFile"
+      },
+      "traits": {}
+    },
+    "com.render.api#LinkEnvGroupToBuildSourceResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "serviceLinks": {
+          "target": "com.render.api#LinkEnvGroupToBuildSourceResponseServiceLinksList",
+          "traits": {
+            "smithy.api#documentation": "List of serviceIds linked to the envGroup",
+            "smithy.api#required": {}
+          }
+        },
+        "environmentId": {
+          "target": "smithy.api#String"
+        },
+        "envVars": {
+          "target": "com.render.api#LinkEnvGroupToBuildSourceResponseEnvVarsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "secretFiles": {
+          "target": "com.render.api#LinkEnvGroupToBuildSourceResponseSecretFilesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.render.api#LinkEnvGroupToBuildSource": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#LinkEnvGroupToBuildSourceRequest"
+      },
+      "output": {
+        "target": "com.render.api#LinkEnvGroupToBuildSourceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#BadRequest"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/build-sources/{buildSourceId}/env-groups/{envGroupId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Link environment group\n\nLink a particular environment group to a particular build source.\n\nThe build source will have access to the environment variables and secret files in the group at build time."
+      }
+    },
+    "com.render.api#UnlinkEnvGroupFromBuildSourceRequest": {
+      "type": "structure",
+      "members": {
+        "buildSourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "envGroupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Filter for resources that belong to an environment group"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.render.api#UnlinkEnvGroupFromBuildSource": {
+      "type": "operation",
+      "input": {
+        "target": "com.render.api#UnlinkEnvGroupFromBuildSourceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.render.api#BadRequest"
+        },
+        {
+          "target": "com.render.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/build-sources/{buildSourceId}/env-groups/{envGroupId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Unlink environment group\n\nUnlink a particular environment group from a particular build source.\n\nThe build source will lose access to the environment variables and secret files in the group."
+      }
+    },
     "com.render.api#ListWebhooksRequestOwnerIdList": {
       "type": "list",
       "member": {
@@ -27278,7 +29694,7 @@
       "type": "structure",
       "members": {
         "webhook": {
-          "target": "com.render.api#Schema12",
+          "target": "com.render.api#Schema14",
           "traits": {
             "smithy.api#required": {}
           }
@@ -27292,7 +29708,7 @@
       },
       "traits": {}
     },
-    "com.render.api#Schema12": {
+    "com.render.api#Schema14": {
       "type": "structure",
       "members": {
         "id": {
@@ -27940,7 +30356,7 @@
         "target": "com.render.api#GetWebhookRequest"
       },
       "output": {
-        "target": "com.render.api#Schema12"
+        "target": "com.render.api#Schema14"
       },
       "errors": [
         {
@@ -27990,7 +30406,7 @@
         "target": "com.render.api#UpdateWebhookRequest"
       },
       "output": {
-        "target": "com.render.api#Schema12"
+        "target": "com.render.api#Schema14"
       },
       "errors": [
         {
@@ -28282,7 +30698,7 @@
       "type": "structure",
       "members": {
         "workflow": {
-          "target": "com.render.api#Schema13",
+          "target": "com.render.api#Schema15",
           "traits": {
             "smithy.api#required": {}
           }
@@ -28296,7 +30712,7 @@
       },
       "traits": {}
     },
-    "com.render.api#Schema13": {
+    "com.render.api#Schema15": {
       "type": "structure",
       "members": {
         "id": {
@@ -28355,7 +30771,7 @@
           "target": "smithy.api#String"
         },
         "autoDeployTrigger": {
-          "target": "com.render.api#AutoDeployTrigger"
+          "target": "com.render.api#AutoDeployTrigger2"
         }
       },
       "traits": {}
@@ -28372,7 +30788,7 @@
         "buildCommand": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The command to run to build the workflow.",
+            "smithy.api#documentation": "The command to run to build the workflow. Required for every runtime except docker, which builds from its Dockerfile.",
             "smithy.api#required": {}
           }
         },
@@ -28474,7 +30890,7 @@
         "smithy.api#documentation": "Defaults to \"oregon\""
       }
     },
-    "com.render.api#AutoDeployTrigger": {
+    "com.render.api#AutoDeployTrigger2": {
       "type": "enum",
       "members": {
         "COMMIT": {
@@ -28559,7 +30975,7 @@
         "buildCommand": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The command to run to build the workflow.",
+            "smithy.api#documentation": "The command to run to build the workflow. Required for every runtime except docker, which builds from its Dockerfile.",
             "smithy.api#required": {}
           }
         },
@@ -28757,7 +31173,7 @@
           "target": "smithy.api#String"
         },
         "autoDeployTrigger": {
-          "target": "com.render.api#AutoDeployTrigger"
+          "target": "com.render.api#AutoDeployTrigger2"
         }
       },
       "traits": {
@@ -28811,7 +31227,7 @@
         "target": "com.render.api#GetWorkflowRequest"
       },
       "output": {
-        "target": "com.render.api#Schema13"
+        "target": "com.render.api#Schema15"
       },
       "errors": [
         {
@@ -28880,7 +31296,7 @@
         "buildCommand": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The command to run to build the workflow."
+            "smithy.api#documentation": "The command to run to build the workflow. Required for every runtime except docker, which builds from its Dockerfile."
           }
         },
         "repo": {
@@ -28933,7 +31349,7 @@
           }
         },
         "autoDeployTrigger": {
-          "target": "com.render.api#AutoDeployTrigger"
+          "target": "com.render.api#AutoDeployTrigger2"
         }
       },
       "traits": {
@@ -28946,7 +31362,7 @@
         "target": "com.render.api#UpdateWorkflowRequest"
       },
       "output": {
-        "target": "com.render.api#Schema13"
+        "target": "com.render.api#Schema15"
       },
       "errors": [
         {
@@ -29074,7 +31490,7 @@
       "type": "structure",
       "members": {
         "workflowVersion": {
-          "target": "com.render.api#Schema14",
+          "target": "com.render.api#Schema16",
           "traits": {
             "smithy.api#required": {}
           }
@@ -29088,7 +31504,7 @@
       },
       "traits": {}
     },
-    "com.render.api#Schema14": {
+    "com.render.api#Schema16": {
       "type": "structure",
       "members": {
         "id": {
@@ -29458,7 +31874,7 @@
       "type": "structure",
       "members": {
         "task": {
-          "target": "com.render.api#Schema15",
+          "target": "com.render.api#Schema17",
           "traits": {
             "smithy.api#required": {}
           }
@@ -29472,7 +31888,7 @@
       },
       "traits": {}
     },
-    "com.render.api#Schema15": {
+    "com.render.api#Schema17": {
       "type": "structure",
       "members": {
         "id": {
@@ -29718,7 +32134,7 @@
       "type": "structure",
       "members": {
         "taskRun": {
-          "target": "com.render.api#Schema16",
+          "target": "com.render.api#Schema18",
           "traits": {
             "smithy.api#required": {}
           }
@@ -29732,7 +32148,7 @@
       },
       "traits": {}
     },
-    "com.render.api#Schema16": {
+    "com.render.api#Schema18": {
       "type": "structure",
       "members": {
         "id": {
@@ -29916,6 +32332,9 @@
       },
       "errors": [
         {
+          "target": "com.render.api#BadRequest"
+        },
+        {
           "target": "com.render.api#Forbidden"
         },
         {
@@ -29981,6 +32400,12 @@
           "traits": {
             "smithy.api#documentation": "Input data for a task. Can be either an array (for positional arguments) or an object (for named parameters).",
             "smithy.api#required": {}
+          }
+        },
+        "idempotencyKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A client-generated key that makes starting a task run safe to retry. Repeating a request with the same key within 24 hours returns the task run that the first request started instead of starting another one; the repeated request's input is ignored. Keys are scoped to a single workflow version, so the same key used against a different version starts a separate run. Omit the key to always start a new run."
           }
         }
       },
@@ -30170,7 +32595,7 @@
           "uri": "/task-runs/events",
           "code": 200
         },
-        "smithy.api#documentation": "Stream realtime events (SSE)\n\nEstablishes a unidirectional event stream. The server sends events as lines\nformatted per the SSE spec. Clients SHOULD set `Accept: text/event-stream`\nand keep the connection open."
+        "smithy.api#documentation": "Stream realtime events (SSE)\n\nEstablishes a unidirectional event stream. The server sends events as lines\nformatted per the SSE spec. Clients should set `Accept: text/event-stream`\nand keep the connection open.\n\nThe server sends a `task.completed` event whenever a requested task run reaches\nany terminal state (`completed`, `failed`, or `canceled`).\nThe `status` field of the payload indicates which state was reached.\n\nThe server automatically closes the stream in the following cases:\n\n- All requested task runs have reached a terminal state.\n- The stream has not sent any events for 30 minutes.\n\nFor tasks with a timeout higher than 30 minutes, waiting clients should fall back\nto polling with the [Retrieve task run](https://api-docs.render.com/reference/gettaskrun)\nendpoint."
       }
     },
     "com.render.api#GetTaskRunRequest": {
@@ -30429,6 +32854,9 @@
       },
       "errors": [
         {
+          "target": "com.render.api#BadRequest"
+        },
+        {
           "target": "com.render.api#Forbidden"
         },
         {
@@ -30469,6 +32897,9 @@
         "target": "smithy.api#Unit"
       },
       "errors": [
+        {
+          "target": "com.render.api#BadRequest"
+        },
         {
           "target": "com.render.api#Forbidden"
         },
@@ -31077,6 +33508,63 @@
         },
         {
           "target": "com.render.api#TriggerMaintenance"
+        },
+        {
+          "target": "com.render.api#ListBuildSources"
+        },
+        {
+          "target": "com.render.api#CreateBuildSource"
+        },
+        {
+          "target": "com.render.api#GetBuildSource"
+        },
+        {
+          "target": "com.render.api#UpdateBuildSource"
+        },
+        {
+          "target": "com.render.api#DeleteBuildSource"
+        },
+        {
+          "target": "com.render.api#ListBuildsInBuildSource"
+        },
+        {
+          "target": "com.render.api#TriggerBuildSourceBuild"
+        },
+        {
+          "target": "com.render.api#GetEnvVarsForBuildSource"
+        },
+        {
+          "target": "com.render.api#UpdateEnvVarsForBuildSource"
+        },
+        {
+          "target": "com.render.api#GetBuildSourceEnvVar"
+        },
+        {
+          "target": "com.render.api#UpdateBuildSourceEnvVar"
+        },
+        {
+          "target": "com.render.api#DeleteBuildSourceEnvVar"
+        },
+        {
+          "target": "com.render.api#ListSecretFilesForBuildSource"
+        },
+        {
+          "target": "com.render.api#UpdateSecretFilesForBuildSource"
+        },
+        {
+          "target": "com.render.api#GetBuildSourceSecretFile"
+        },
+        {
+          "target": "com.render.api#AddOrUpdateBuildSourceSecretFile"
+        },
+        {
+          "target": "com.render.api#DeleteBuildSourceSecretFile"
+        },
+        {
+          "target": "com.render.api#LinkEnvGroupToBuildSource"
+        },
+        {
+          "target": "com.render.api#UnlinkEnvGroupFromBuildSource"
         },
         {
           "target": "com.render.api#ListWebhooks"
