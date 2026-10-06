@@ -24925,6 +24925,15 @@
         "smithy.api#output": {}
       }
     },
+    "com.cloudflare.workers_for_platforms#ContainerImageMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataStringList": {
       "type": "list",
       "member": {
@@ -27180,6 +27189,15 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "images": {
+          "target": "com.cloudflare.workers_for_platforms#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
           }
         }
       }

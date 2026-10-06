@@ -11580,12 +11580,22 @@ export const PutDispatchNamespaceScriptMetadataBindingsList = /*@__PURE__*/ S.Ar
   PutDispatchNamespaceScriptBinding,
 ) as any as S.Schema<PutDispatchNamespaceScriptMetadataBindingsList>;
 
+export type ContainerImageMap = { [key: string]: string | undefined };
+export const ContainerImageMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<ContainerImageMap>;
+
 export interface PutDispatchNamespaceScriptContainer {
   className: string;
+  name?: string;
+  images?: ContainerImageMap;
 }
 export const PutDispatchNamespaceScriptContainer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     className: S.String.pipe(T.Body("class_name")),
+    name: S.optional(S.String),
+    images: S.optional(ContainerImageMap.pipe(T.KeyDictionary({}))),
   }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptContainer",
