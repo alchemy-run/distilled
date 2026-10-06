@@ -29,7 +29,11 @@ import {
   type ResolvedCredentials,
 } from "./credentials-service.ts";
 import { parseIni, parseSSOSessionData } from "./util/parse-ini.ts";
-import { getHomeDir, parseKnownFiles } from "./util/shared-config.ts";
+import {
+  getConfigFilepath,
+  getHomeDir,
+  parseKnownFiles,
+} from "./util/shared-config.ts";
 
 export * from "./auth.browser.ts";
 
@@ -117,8 +121,7 @@ export const makeAuthService = () =>
         });
       }
 
-      const awsDir = path.join(getHomeDir(), ".aws");
-      const configPath = path.join(awsDir, "config");
+      const configPath = getConfigFilepath();
 
       // A profile is an SSO profile in one of two config formats:
       //   - modern: `sso_session = <name>` referencing an `[sso-session <name>]`
