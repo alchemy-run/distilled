@@ -52,13 +52,7 @@ export interface GetCourseLessonInteractionRequest {
 export const GetCourseLessonInteractionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/course_lesson_interactions/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/course_lesson_interactions/{id}", code: 200 })),
 ).annotate({
   identifier: "GetCourseLessonInteractionRequest",
 }) as any as S.Schema<GetCourseLessonInteractionRequest>;
@@ -170,9 +164,7 @@ export const CourseLessonInteraction = /*@__PURE__*/ S.suspend(() =>
     lesson: CourseLessonInteractionLesson,
     user: CourseLessonInteractionUser,
   }),
-).annotate({
-  identifier: "CourseLessonInteraction",
-}) as any as S.Schema<CourseLessonInteraction>;
+).annotate({ identifier: "CourseLessonInteraction" }) as any as S.Schema<CourseLessonInteraction>;
 
 export interface ListCourseLessonInteractionRequest {
   after?: string;

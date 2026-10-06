@@ -180,9 +180,7 @@ export const CreateApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
     resource_type: CreateApiKeyRequestResourceType,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/api_keys", code: 200 })),
-).annotate({
-  identifier: "CreateApiKeyRequest",
-}) as any as S.Schema<CreateApiKeyRequest>;
+).annotate({ identifier: "CreateApiKeyRequest" }) as any as S.Schema<CreateApiKeyRequest>;
 
 /** Dated API version used when requests authenticated with this key omit the `Api-Version-Date` header. */
 export type ApiKeyApiVersionDate =
@@ -228,9 +226,7 @@ export const ApiKeyGrantAction = /*@__PURE__*/ S.suspend(() =>
     action: S.String,
     granted: S.Boolean,
   }),
-).annotate({
-  identifier: "ApiKeyGrantAction",
-}) as any as S.Schema<ApiKeyGrantAction>;
+).annotate({ identifier: "ApiKeyGrantAction" }) as any as S.Schema<ApiKeyGrantAction>;
 
 export type ApiKeyGrantActionsList = Array<ApiKeyGrantAction>;
 export const ApiKeyGrantActionsList = /*@__PURE__*/ S.Array(
@@ -315,9 +311,7 @@ export const DeleteApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api_keys/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteApiKeyRequest",
-}) as any as S.Schema<DeleteApiKeyRequest>;
+).annotate({ identifier: "DeleteApiKeyRequest" }) as any as S.Schema<DeleteApiKeyRequest>;
 
 export interface DeleteApiKeyResponse {
   /** Always `true`: the key was revoked. */
@@ -330,9 +324,7 @@ export const DeleteApiKeyResponse = /*@__PURE__*/ S.suspend(() =>
     deleted: S.Boolean,
     id: S.String,
   }),
-).annotate({
-  identifier: "DeleteApiKeyResponse",
-}) as any as S.Schema<DeleteApiKeyResponse>;
+).annotate({ identifier: "DeleteApiKeyResponse" }) as any as S.Schema<DeleteApiKeyResponse>;
 
 export interface GetApiKeyRequest {
   /** API key ID, prefixed `apik_`. */
@@ -342,9 +334,7 @@ export const GetApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api_keys/{id}", code: 200 })),
-).annotate({
-  identifier: "GetApiKeyRequest",
-}) as any as S.Schema<GetApiKeyRequest>;
+).annotate({ identifier: "GetApiKeyRequest" }) as any as S.Schema<GetApiKeyRequest>;
 
 export interface ListApiKeyPermissionsRequest {}
 export const ListApiKeyPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -476,9 +466,7 @@ export const ListApiKeysRequest = /*@__PURE__*/ S.suspend(() =>
     order: S.optional(ListApiKeysRequestOrder.pipe(T.Query())),
     direction: S.optional(ListApiKeysRequestDirection.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api_keys", code: 200 })),
-).annotate({
-  identifier: "ListApiKeysRequest",
-}) as any as S.Schema<ListApiKeysRequest>;
+).annotate({ identifier: "ListApiKeysRequest" }) as any as S.Schema<ListApiKeysRequest>;
 
 export type ListApiKeysResponseDataList = Array<ApiKey>;
 export const ListApiKeysResponseDataList = /*@__PURE__*/ S.Array(
@@ -497,9 +485,7 @@ export const ListApiKeysResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListApiKeysResponseDataList,
     page_info: ListApiKeyPermissionsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListApiKeysResponse",
-}) as any as S.Schema<ListApiKeysResponse>;
+).annotate({ identifier: "ListApiKeysResponse" }) as any as S.Schema<ListApiKeysResponse>;
 
 export interface RotateApiKeyRequest {
   /** API key ID, prefixed `apik_`. */
@@ -512,9 +498,7 @@ export const RotateApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/api_keys/{id}/rotate", code: 200 })),
-).annotate({
-  identifier: "RotateApiKeyRequest",
-}) as any as S.Schema<RotateApiKeyRequest>;
+).annotate({ identifier: "RotateApiKeyRequest" }) as any as S.Schema<RotateApiKeyRequest>;
 
 /** Dated API version used when requests authenticated with this key omit the `Api-Version-Date` header. New keys default to the latest version. */
 export type UpdateApiKeyRequestApiVersionDate =
@@ -640,9 +624,7 @@ export const UpdateApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     permissions: S.optional(UpdateApiKeyRequestPermissions),
   }).pipe(T.Http({ method: "PATCH", uri: "/api_keys/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateApiKeyRequest",
-}) as any as S.Schema<UpdateApiKeyRequest>;
+).annotate({ identifier: "UpdateApiKeyRequest" }) as any as S.Schema<UpdateApiKeyRequest>;
 
 export type CreateApiKeyError = BadRequest | Forbidden | Conflict | WhopOpError;
 /** Create API Key Creates an API key for an account or app. The response is the only place the full `secret_key` is returned — store it immediately. Requires a user session; API keys cannot manage API keys. */

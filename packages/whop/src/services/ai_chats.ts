@@ -92,9 +92,7 @@ export const CreateAiChatRequest = /*@__PURE__*/ S.suspend(() =>
     suggestion_type: S.optional(S.NullOr(S.String)),
     title: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/ai_chats", code: 200 })),
-).annotate({
-  identifier: "CreateAiChatRequest",
-}) as any as S.Schema<CreateAiChatRequest>;
+).annotate({ identifier: "CreateAiChatRequest" }) as any as S.Schema<CreateAiChatRequest>;
 
 /** The notification preference for an AI chat */
 export type AiChatNotificationPreferences = "all" | "none";
@@ -154,16 +152,12 @@ export const DeleteAiChatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/ai_chats/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteAiChatRequest",
-}) as any as S.Schema<DeleteAiChatRequest>;
+).annotate({ identifier: "DeleteAiChatRequest" }) as any as S.Schema<DeleteAiChatRequest>;
 
 export type DeleteAiChatResponse = boolean;
 export const DeleteAiChatResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteAiChatResponse",
-}) as any as S.Schema<DeleteAiChatResponse>;
+).annotate({ identifier: "DeleteAiChatResponse" }) as any as S.Schema<DeleteAiChatResponse>;
 
 export interface GetAiChatRequest {
   /** The unique identifier of the AI chat to retrieve. */
@@ -173,9 +167,7 @@ export const GetAiChatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/ai_chats/{id}", code: 200 })),
-).annotate({
-  identifier: "GetAiChatRequest",
-}) as any as S.Schema<GetAiChatRequest>;
+).annotate({ identifier: "GetAiChatRequest" }) as any as S.Schema<GetAiChatRequest>;
 
 export interface ListAiChatRequest {
   after?: string;
@@ -192,9 +184,7 @@ export const ListAiChatRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     only_active_crons: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/ai_chats", code: 200 })),
-).annotate({
-  identifier: "ListAiChatRequest",
-}) as any as S.Schema<ListAiChatRequest>;
+).annotate({ identifier: "ListAiChatRequest" }) as any as S.Schema<ListAiChatRequest>;
 
 /** The user who owns this AI chat conversation. */
 export type AiChatListItemUser = AiChatUser;
@@ -272,9 +262,7 @@ export const ListAiChatResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListAiChatResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListAiChatResponse",
-}) as any as S.Schema<ListAiChatResponse>;
+).annotate({ identifier: "ListAiChatResponse" }) as any as S.Schema<ListAiChatResponse>;
 
 export interface UpdateAiChatRequest {
   /** The unique identifier of the AI chat to update (e.g., "ai_chat_XXXXX"). */
@@ -293,9 +281,7 @@ export const UpdateAiChatRequest = /*@__PURE__*/ S.suspend(() =>
     notification_preference: S.optional(S.NullOr(AiChatNotificationPreferences)),
     title: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/ai_chats/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateAiChatRequest",
-}) as any as S.Schema<UpdateAiChatRequest>;
+).annotate({ identifier: "UpdateAiChatRequest" }) as any as S.Schema<UpdateAiChatRequest>;
 
 export type CreateAiChatError =
   | BadRequest

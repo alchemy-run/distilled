@@ -450,9 +450,7 @@ export const GetVerificationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/verifications/{id}", code: 200 })),
-).annotate({
-  identifier: "GetVerificationRequest",
-}) as any as S.Schema<GetVerificationRequest>;
+).annotate({ identifier: "GetVerificationRequest" }) as any as S.Schema<GetVerificationRequest>;
 
 /** Address on the verification profile. `null` when no address is set. */
 export type GetVerificationResponseAddress = CreateVerificationResponseAddress;
@@ -609,9 +607,7 @@ export const GetVerificationResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(GetVerificationResponseStatus),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetVerificationResponse",
-}) as any as S.Schema<GetVerificationResponse>;
+).annotate({ identifier: "GetVerificationResponse" }) as any as S.Schema<GetVerificationResponse>;
 
 export type ListVerificationsRequestOrder = "updated_at" | "created_at";
 export const ListVerificationsRequestOrder = S.String;
@@ -633,9 +629,7 @@ export const ListVerificationsRequest = /*@__PURE__*/ S.suspend(() =>
     order: S.optional(ListVerificationsRequestOrder.pipe(T.Query())),
     direction: S.optional(ListVerificationsRequestDirection.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/verifications", code: 200 })),
-).annotate({
-  identifier: "ListVerificationsRequest",
-}) as any as S.Schema<ListVerificationsRequest>;
+).annotate({ identifier: "ListVerificationsRequest" }) as any as S.Schema<ListVerificationsRequest>;
 
 /** Address on the verification profile. `null` when no address is set. */
 export type ListVerificationsResponseDataItemAddress = CreateVerificationResponseAddress;

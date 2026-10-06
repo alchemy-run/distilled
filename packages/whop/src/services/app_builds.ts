@@ -116,9 +116,7 @@ export const CreateAppBuildRequest = /*@__PURE__*/ S.suspend(() =>
     supported_app_view_types: S.optional(CreateAppBuildRequestSupportedAppViewTypesList),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/app_builds", code: 200 })),
-).annotate({
-  identifier: "CreateAppBuildRequest",
-}) as any as S.Schema<CreateAppBuildRequest>;
+).annotate({ identifier: "CreateAppBuildRequest" }) as any as S.Schema<CreateAppBuildRequest>;
 
 /** The target platform for this build. */
 export type AppBuildPlatform = "ios" | "android" | "web";
@@ -188,9 +186,7 @@ export const GetAppBuildRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/app_builds/{id}", code: 200 })),
-).annotate({
-  identifier: "GetAppBuildRequest",
-}) as any as S.Schema<GetAppBuildRequest>;
+).annotate({ identifier: "GetAppBuildRequest" }) as any as S.Schema<GetAppBuildRequest>;
 
 export type ListAppBuildsRequestPlatform = "ios" | "android" | "web";
 export const ListAppBuildsRequestPlatform = S.String;
@@ -230,9 +226,7 @@ export const ListAppBuildsRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/app_builds", code: 200 })),
-).annotate({
-  identifier: "ListAppBuildsRequest",
-}) as any as S.Schema<ListAppBuildsRequest>;
+).annotate({ identifier: "ListAppBuildsRequest" }) as any as S.Schema<ListAppBuildsRequest>;
 
 export type ListAppBuildsResponseDataList = Array<AppBuild>;
 export const ListAppBuildsResponseDataList = /*@__PURE__*/ S.Array(
@@ -265,9 +259,7 @@ export const ListAppBuildsResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListAppBuildsResponseDataList,
     page_info: ListAppBuildsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListAppBuildsResponse",
-}) as any as S.Schema<ListAppBuildsResponse>;
+).annotate({ identifier: "ListAppBuildsResponse" }) as any as S.Schema<ListAppBuildsResponse>;
 
 export interface PromoteAppBuildRequest {
   /** App build ID, prefixed `abld_`. */
@@ -280,9 +272,7 @@ export const PromoteAppBuildRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/app_builds/{id}/promote", code: 200 })),
-).annotate({
-  identifier: "PromoteAppBuildRequest",
-}) as any as S.Schema<PromoteAppBuildRequest>;
+).annotate({ identifier: "PromoteAppBuildRequest" }) as any as S.Schema<PromoteAppBuildRequest>;
 
 export type CreateAppBuildError = BadRequest | Forbidden | Conflict | WhopOpError;
 /** Create App Build Uploads a new build artifact for an app. Upload the file first (POST /files or a direct upload), then reference it here; iOS and Android take a .zip bundle, web takes a JavaScript file or a .zip archive of the hosted site. */

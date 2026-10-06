@@ -56,9 +56,7 @@ export const CancelBountyRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/bounties/{id}/cancel", code: 200 })),
-).annotate({
-  identifier: "CancelBountyRequest",
-}) as any as S.Schema<CancelBountyRequest>;
+).annotate({ identifier: "CancelBountyRequest" }) as any as S.Schema<CancelBountyRequest>;
 
 /** The deliverable shapes this bounty accepts. Every bounty accepts any combination of `content_url` (posted links) and `media` (uploaded files), except `data_capture` bounties, whose proof is clips recorded in the Whop app that accumulate on the attempt. */
 export type BountyAcceptedDeliverableTypesItem = "content_url" | "media" | "data_capture";
@@ -77,9 +75,7 @@ export const UserProfilePicture = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.String,
   }),
-).annotate({
-  identifier: "UserProfilePicture",
-}) as any as S.Schema<UserProfilePicture>;
+).annotate({ identifier: "UserProfilePicture" }) as any as S.Schema<UserProfilePicture>;
 
 export interface UserSummary {
   /** User ID, prefixed `user_`. */
@@ -227,9 +223,7 @@ export const CaptureSpecVideo = /*@__PURE__*/ S.suspend(() =>
     stabilization_required: S.Boolean,
     width: S.Number,
   }),
-).annotate({
-  identifier: "CaptureSpecVideo",
-}) as any as S.Schema<CaptureSpecVideo>;
+).annotate({ identifier: "CaptureSpecVideo" }) as any as S.Schema<CaptureSpecVideo>;
 
 export interface CaptureSpec {
   /** The naming convention for uploaded files, built from the required metadata fields. */
@@ -376,9 +370,7 @@ export const StorefrontAccount = /*@__PURE__*/ S.suspend(() =>
     route: S.String,
     title: S.String,
   }),
-).annotate({
-  identifier: "StorefrontAccount",
-}) as any as S.Schema<StorefrontAccount>;
+).annotate({ identifier: "StorefrontAccount" }) as any as S.Schema<StorefrontAccount>;
 
 /** How often the schedule creates a new bounty. Each occurrence is a separate bounty; the original is not republished. */
 export type BountyScheduledFrequency = "once" | "hourly" | "daily" | "weekly" | "monthly";
@@ -600,9 +592,7 @@ export const CreateBountyRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.String,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/bounties", code: 200 })),
-).annotate({
-  identifier: "CreateBountyRequest",
-}) as any as S.Schema<CreateBountyRequest>;
+).annotate({ identifier: "CreateBountyRequest" }) as any as S.Schema<CreateBountyRequest>;
 
 export interface GetBountyRequest {
   /** Bounty ID (`bnty_` tag). */
@@ -612,9 +602,7 @@ export const GetBountyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/bounties/{id}", code: 200 })),
-).annotate({
-  identifier: "GetBountyRequest",
-}) as any as S.Schema<GetBountyRequest>;
+).annotate({ identifier: "GetBountyRequest" }) as any as S.Schema<GetBountyRequest>;
 
 export interface GetPublicBountySubmissionRequest {
   /** The bounty the submission belongs to (`bnty_` tag). */
@@ -626,13 +614,7 @@ export const GetPublicBountySubmissionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bounty_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/bounties/{bounty_id}/submissions/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/bounties/{bounty_id}/submissions/{id}", code: 200 })),
 ).annotate({
   identifier: "GetPublicBountySubmissionRequest",
 }) as any as S.Schema<GetPublicBountySubmissionRequest>;
@@ -717,9 +699,7 @@ export const PublicBountySubmission = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.String,
     worker: UserSummary,
   }),
-).annotate({
-  identifier: "PublicBountySubmission",
-}) as any as S.Schema<PublicBountySubmission>;
+).annotate({ identifier: "PublicBountySubmission" }) as any as S.Schema<PublicBountySubmission>;
 
 export type ListBountiesRequestStatus = "scheduled" | "open" | "closed" | "completed" | "canceled";
 export const ListBountiesRequestStatus = S.String;
@@ -793,9 +773,7 @@ export const ListBountiesRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/bounties", code: 200 })),
-).annotate({
-  identifier: "ListBountiesRequest",
-}) as any as S.Schema<ListBountiesRequest>;
+).annotate({ identifier: "ListBountiesRequest" }) as any as S.Schema<ListBountiesRequest>;
 
 /** The deliverable shapes this bounty accepts. Every bounty accepts any combination of `content_url` (posted links) and `media` (uploaded files), except `data_capture` bounties, whose proof is clips recorded in the Whop app that accumulate on the attempt. */
 export type BountyListItemAcceptedDeliverableTypesItem = "content_url" | "media" | "data_capture";
@@ -963,9 +941,7 @@ export const ListBountiesResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListBountiesResponseDataList,
     page_info: ListBountiesResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListBountiesResponse",
-}) as any as S.Schema<ListBountiesResponse>;
+).annotate({ identifier: "ListBountiesResponse" }) as any as S.Schema<ListBountiesResponse>;
 
 export type ListPublicBountySubmissionsRequestStatus = "submitted" | "approved" | "denied";
 export const ListPublicBountySubmissionsRequestStatus = S.String;
@@ -1010,13 +986,7 @@ export const ListPublicBountySubmissionsRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/bounties/{bounty_id}/submissions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/bounties/{bounty_id}/submissions", code: 200 })),
 ).annotate({
   identifier: "ListPublicBountySubmissionsRequest",
 }) as any as S.Schema<ListPublicBountySubmissionsRequest>;
@@ -1101,9 +1071,7 @@ export const UpdateBountyRequest = /*@__PURE__*/ S.suspend(() =>
     publish_at_timezone: S.optional(S.NullOr(S.String)),
     title: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/bounties/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateBountyRequest",
-}) as any as S.Schema<UpdateBountyRequest>;
+).annotate({ identifier: "UpdateBountyRequest" }) as any as S.Schema<UpdateBountyRequest>;
 
 export type CancelBountyError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
 /** Cancel Cancels a bounty. With no in-flight work, it cancels immediately and refunds the funder. Otherwise it stops new submissions and cancels once the in-flight work resolves and pays out. Repeating the request is a no-op. A bounty that already paid out every slot returns `400`. */

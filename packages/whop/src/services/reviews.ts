@@ -53,9 +53,7 @@ export const GetReviewRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/reviews/{id}", code: 200 })),
-).annotate({
-  identifier: "GetReviewRequest",
-}) as any as S.Schema<GetReviewRequest>;
+).annotate({ identifier: "GetReviewRequest" }) as any as S.Schema<GetReviewRequest>;
 
 /** Represents an image attachment */
 export interface ReviewAttachmentsItem {
@@ -75,9 +73,7 @@ export const ReviewAttachmentsItem = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ReviewAttachmentsItem",
-}) as any as S.Schema<ReviewAttachmentsItem>;
+).annotate({ identifier: "ReviewAttachmentsItem" }) as any as S.Schema<ReviewAttachmentsItem>;
 
 /** A list of files and media attached to the review. */
 export type ReviewAttachmentsList = Array<ReviewAttachmentsItem>;
@@ -210,9 +206,7 @@ export const ListReviewRequest = /*@__PURE__*/ S.suspend(() =>
     created_before: S.optional(S.String.pipe(T.Query())),
     created_after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/reviews", code: 200 })),
-).annotate({
-  identifier: "ListReviewRequest",
-}) as any as S.Schema<ListReviewRequest>;
+).annotate({ identifier: "ListReviewRequest" }) as any as S.Schema<ListReviewRequest>;
 
 /** Represents an image attachment */
 export type ReviewListItemAttachmentsItem = ReviewAttachmentsItem;
@@ -309,9 +303,7 @@ export const ListReviewResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListReviewResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListReviewResponse",
-}) as any as S.Schema<ListReviewResponse>;
+).annotate({ identifier: "ListReviewResponse" }) as any as S.Schema<ListReviewResponse>;
 
 export type GetReviewError = BadRequest | Forbidden | NotFound | UnprocessableEntity | WhopOpError;
 /** Retrieve review [Legacy API — https://docs.whop.com/api-reference] Retrieves the details of an existing review. */

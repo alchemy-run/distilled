@@ -119,9 +119,7 @@ export const GetSupportChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/support_channels/{id}", code: 200 })),
-).annotate({
-  identifier: "GetSupportChannelRequest",
-}) as any as S.Schema<GetSupportChannelRequest>;
+).annotate({ identifier: "GetSupportChannelRequest" }) as any as S.Schema<GetSupportChannelRequest>;
 
 /** The perspective to filter support channels by. */
 export type SupportChannelView = "all" | "admin" | "customer";
@@ -190,9 +188,7 @@ export const SupportChannelListItem = /*@__PURE__*/ S.suspend(() =>
     last_message_at: S.NullOr(S.String),
     resolved_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "SupportChannelListItem",
-}) as any as S.Schema<SupportChannelListItem>;
+).annotate({ identifier: "SupportChannelListItem" }) as any as S.Schema<SupportChannelListItem>;
 
 /** A list of nodes. */
 export type ListSupportChannelResponseDataList = Array<SupportChannelListItem>;

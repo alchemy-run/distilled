@@ -28,9 +28,7 @@ export const ListPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
     resource_id: S.String.pipe(T.Query()),
     actions: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/permissions", code: 200 })),
-).annotate({
-  identifier: "ListPermissionsRequest",
-}) as any as S.Schema<ListPermissionsRequest>;
+).annotate({ identifier: "ListPermissionsRequest" }) as any as S.Schema<ListPermissionsRequest>;
 
 /** A permission action identifier, such as `company:basic:read`. */
 export type PermissionAction =
@@ -317,9 +315,7 @@ export const ListPermissionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: ListPermissionsResponseDataList,
   }),
-).annotate({
-  identifier: "ListPermissionsResponse",
-}) as any as S.Schema<ListPermissionsResponse>;
+).annotate({ identifier: "ListPermissionsResponse" }) as any as S.Schema<ListPermissionsResponse>;
 
 export type ListPermissionsError = BadRequest | WhopOpError;
 /** Check Permissions Lists permission actions and whether the calling credential is granted each one for a resource. Answers for whichever identity authenticated the request — a user session, an OAuth token, or an account or app API key — so it never describes who else can reach the resource. */

@@ -53,16 +53,12 @@ export const ArchiveAffiliateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/affiliates/{id}/archive", code: 200 })),
-).annotate({
-  identifier: "ArchiveAffiliateRequest",
-}) as any as S.Schema<ArchiveAffiliateRequest>;
+).annotate({ identifier: "ArchiveAffiliateRequest" }) as any as S.Schema<ArchiveAffiliateRequest>;
 
 export type ArchiveAffiliateResponse = boolean;
 export const ArchiveAffiliateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ArchiveAffiliateResponse",
-}) as any as S.Schema<ArchiveAffiliateResponse>;
+).annotate({ identifier: "ArchiveAffiliateResponse" }) as any as S.Schema<ArchiveAffiliateResponse>;
 
 export interface CreateAffiliateRequest {
   /** The ID of the company to create the affiliate for. */
@@ -75,9 +71,7 @@ export const CreateAffiliateRequest = /*@__PURE__*/ S.suspend(() =>
     company_id: S.String,
     user_identifier: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/affiliates", code: 200 })),
-).annotate({
-  identifier: "CreateAffiliateRequest",
-}) as any as S.Schema<CreateAffiliateRequest>;
+).annotate({ identifier: "CreateAffiliateRequest" }) as any as S.Schema<CreateAffiliateRequest>;
 
 /** The company attached to this affiliate */
 export interface AffiliateCompany {
@@ -91,9 +85,7 @@ export const AffiliateCompany = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     title: S.String,
   }),
-).annotate({
-  identifier: "AffiliateCompany",
-}) as any as S.Schema<AffiliateCompany>;
+).annotate({ identifier: "AffiliateCompany" }) as any as S.Schema<AffiliateCompany>;
 
 /** Statuses for resources */
 export type Status = "active" | "archived" | "deleted";
@@ -316,13 +308,7 @@ export const DeleteOverrideAffiliateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     override_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/affiliates/{id}/overrides/{override_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/affiliates/{id}/overrides/{override_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteOverrideAffiliateRequest",
 }) as any as S.Schema<DeleteOverrideAffiliateRequest>;
@@ -342,9 +328,7 @@ export const GetAffiliateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/affiliates/{id}", code: 200 })),
-).annotate({
-  identifier: "GetAffiliateRequest",
-}) as any as S.Schema<GetAffiliateRequest>;
+).annotate({ identifier: "GetAffiliateRequest" }) as any as S.Schema<GetAffiliateRequest>;
 
 export interface GetOverrideAffiliateRequest {
   /** The affiliate ID. */
@@ -356,13 +340,7 @@ export const GetOverrideAffiliateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     override_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/affiliates/{id}/overrides/{override_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/affiliates/{id}/overrides/{override_id}", code: 200 })),
 ).annotate({
   identifier: "GetOverrideAffiliateRequest",
 }) as any as S.Schema<GetOverrideAffiliateRequest>;
@@ -447,9 +425,7 @@ export const ListAffiliateRequest = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(S.String.pipe(T.Query())),
     status: S.optional(Status.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/affiliates", code: 200 })),
-).annotate({
-  identifier: "ListAffiliateRequest",
-}) as any as S.Schema<ListAffiliateRequest>;
+).annotate({ identifier: "ListAffiliateRequest" }) as any as S.Schema<ListAffiliateRequest>;
 
 /** The company attached to this affiliate */
 export type AffiliateListItemCompany = AffiliateCompany;
@@ -507,9 +483,7 @@ export const AffiliateListItem = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.String,
     user: AffiliateUser,
   }),
-).annotate({
-  identifier: "AffiliateListItem",
-}) as any as S.Schema<AffiliateListItem>;
+).annotate({ identifier: "AffiliateListItem" }) as any as S.Schema<AffiliateListItem>;
 
 /** A list of nodes. */
 export type ListAffiliateResponseDataList = Array<AffiliateListItem>;
@@ -548,9 +522,7 @@ export const ListAffiliateResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListAffiliateResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListAffiliateResponse",
-}) as any as S.Schema<ListAffiliateResponse>;
+).annotate({ identifier: "ListAffiliateResponse" }) as any as S.Schema<ListAffiliateResponse>;
 
 export interface ListOverridesAffiliateRequest {
   /** The affiliate ID. */
@@ -682,13 +654,7 @@ export const UpdateOverrideAffiliateRequest = /*@__PURE__*/ S.suspend(() =>
     commission_type: S.optional(S.NullOr(AffiliatePayoutTypes)),
     commission_value: S.optional(S.NullOr(S.Number)),
     revenue_basis: S.optional(S.NullOr(AffiliateRevenueBases)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/affiliates/{id}/overrides/{override_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/affiliates/{id}/overrides/{override_id}", code: 200 })),
 ).annotate({
   identifier: "UpdateOverrideAffiliateRequest",
 }) as any as S.Schema<UpdateOverrideAffiliateRequest>;

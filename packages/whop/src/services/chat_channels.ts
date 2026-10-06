@@ -53,9 +53,7 @@ export const GetChatChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/chat_channels/{id}", code: 200 })),
-).annotate({
-  identifier: "GetChatChannelRequest",
-}) as any as S.Schema<GetChatChannelRequest>;
+).annotate({ identifier: "GetChatChannelRequest" }) as any as S.Schema<GetChatChannelRequest>;
 
 /** A list of words that are automatically filtered from messages in this chat. */
 export type ChatChannelBannedWordsList = Array<string>;
@@ -75,9 +73,7 @@ export const ChatChannelExperience = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "ChatChannelExperience",
-}) as any as S.Schema<ChatChannelExperience>;
+).annotate({ identifier: "ChatChannelExperience" }) as any as S.Schema<ChatChannelExperience>;
 
 /** Who can post on a chat feed */
 export type WhoCanPostTypes = "everyone" | "admins";
@@ -136,9 +132,7 @@ export const ListChatChannelRequest = /*@__PURE__*/ S.suspend(() =>
     company_id: S.String.pipe(T.Query()),
     product_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/chat_channels", code: 200 })),
-).annotate({
-  identifier: "ListChatChannelRequest",
-}) as any as S.Schema<ListChatChannelRequest>;
+).annotate({ identifier: "ListChatChannelRequest" }) as any as S.Schema<ListChatChannelRequest>;
 
 /** A list of words that are automatically filtered from messages in this chat. */
 export type ChatChannelListItemBannedWordsList = Array<string>;
@@ -180,9 +174,7 @@ export const ChatChannelListItem = /*@__PURE__*/ S.suspend(() =>
     who_can_post: WhoCanPostTypes,
     who_can_react: WhoCanReactTypes,
   }),
-).annotate({
-  identifier: "ChatChannelListItem",
-}) as any as S.Schema<ChatChannelListItem>;
+).annotate({ identifier: "ChatChannelListItem" }) as any as S.Schema<ChatChannelListItem>;
 
 /** A list of nodes. */
 export type ListChatChannelResponseDataList = Array<ChatChannelListItem>;
@@ -221,9 +213,7 @@ export const ListChatChannelResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListChatChannelResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListChatChannelResponse",
-}) as any as S.Schema<ListChatChannelResponse>;
+).annotate({ identifier: "ListChatChannelResponse" }) as any as S.Schema<ListChatChannelResponse>;
 
 /** A list of words that are automatically blocked from messages in this chat channel. For example, ['spam', 'scam']. */
 export type UpdateChatChannelRequestBannedWordsList = Array<string>;
@@ -257,9 +247,7 @@ export const UpdateChatChannelRequest = /*@__PURE__*/ S.suspend(() =>
     who_can_post: S.optional(S.NullOr(WhoCanPostTypes)),
     who_can_react: S.optional(S.NullOr(WhoCanReactTypes)),
   }).pipe(T.Http({ method: "PATCH", uri: "/chat_channels/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateChatChannelRequest",
-}) as any as S.Schema<UpdateChatChannelRequest>;
+).annotate({ identifier: "UpdateChatChannelRequest" }) as any as S.Schema<UpdateChatChannelRequest>;
 
 export type GetChatChannelError =
   | BadRequest

@@ -80,9 +80,7 @@ export const GetPaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
     company_id: S.optional(S.String.pipe(T.Query())),
     member_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/payment_methods/{id}", code: 200 })),
-).annotate({
-  identifier: "GetPaymentMethodRequest",
-}) as any as S.Schema<GetPaymentMethodRequest>;
+).annotate({ identifier: "GetPaymentMethodRequest" }) as any as S.Schema<GetPaymentMethodRequest>;
 
 /** The colorway for dark surfaces. */
 export interface PaymentMethodCase0IconsCardDark {
@@ -150,9 +148,7 @@ export const PaymentMethodCase0Icons = /*@__PURE__*/ S.suspend(() =>
     card: PaymentMethodCase0IconsCard,
     square: PaymentMethodCase0IconsCard,
   }),
-).annotate({
-  identifier: "PaymentMethodCase0Icons",
-}) as any as S.Schema<PaymentMethodCase0Icons>;
+).annotate({ identifier: "PaymentMethodCase0Icons" }) as any as S.Schema<PaymentMethodCase0Icons>;
 
 /** The different types of payment methods that can be used. */
 export type PaymentMethodTypes =
@@ -296,9 +292,7 @@ export const PaymentMethodCase0 = /*@__PURE__*/ S.suspend(() =>
     payment_method_type: PaymentMethodTypes,
     typename: S.String,
   }),
-).annotate({
-  identifier: "PaymentMethodCase0",
-}) as any as S.Schema<PaymentMethodCase0>;
+).annotate({ identifier: "PaymentMethodCase0" }) as any as S.Schema<PaymentMethodCase0>;
 
 /** Possible card brands that a payment token can have */
 export type CardBrands =
@@ -384,9 +378,7 @@ export const PaymentMethodCase1Card = /*@__PURE__*/ S.suspend(() =>
     last4: S.NullOr(S.String),
     three_ds_verified: S.Boolean,
   }),
-).annotate({
-  identifier: "PaymentMethodCase1Card",
-}) as any as S.Schema<PaymentMethodCase1Card>;
+).annotate({ identifier: "PaymentMethodCase1Card" }) as any as S.Schema<PaymentMethodCase1Card>;
 
 /** The colorway for dark surfaces. */
 export type PaymentMethodCase1IconsCardDark = PaymentMethodCase0IconsCardDark;
@@ -443,9 +435,7 @@ export const PaymentMethodCase1 = /*@__PURE__*/ S.suspend(() =>
     payment_method_type: PaymentMethodTypes,
     typename: S.String,
   }),
-).annotate({
-  identifier: "PaymentMethodCase1",
-}) as any as S.Schema<PaymentMethodCase1>;
+).annotate({ identifier: "PaymentMethodCase1" }) as any as S.Schema<PaymentMethodCase1>;
 
 /** The colorway for dark surfaces. */
 export type PaymentMethodCase2IconsCardDark = PaymentMethodCase0IconsCardDark;
@@ -518,9 +508,7 @@ export const PaymentMethodCase2 = /*@__PURE__*/ S.suspend(() =>
     typename: S.String,
     us_bank_account: PaymentMethodCase2UsBankAccount,
   }),
-).annotate({
-  identifier: "PaymentMethodCase2",
-}) as any as S.Schema<PaymentMethodCase2>;
+).annotate({ identifier: "PaymentMethodCase2" }) as any as S.Schema<PaymentMethodCase2>;
 
 /** The Cash App-specific details for this payment method, including cashtag and buyer ID. */
 export interface PaymentMethodCase3Cashapp {
@@ -590,9 +578,7 @@ export const PaymentMethodCase3 = /*@__PURE__*/ S.suspend(() =>
     payment_method_type: PaymentMethodTypes,
     typename: S.String,
   }),
-).annotate({
-  identifier: "PaymentMethodCase3",
-}) as any as S.Schema<PaymentMethodCase3>;
+).annotate({ identifier: "PaymentMethodCase3" }) as any as S.Schema<PaymentMethodCase3>;
 
 /** The colorway for dark surfaces. */
 export type PaymentMethodCase4IconsCardDark = PaymentMethodCase0IconsCardDark;
@@ -634,9 +620,7 @@ export const PaymentMethodCase4Ideal = /*@__PURE__*/ S.suspend(() =>
     bank: S.NullOr(S.String),
     bic: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "PaymentMethodCase4Ideal",
-}) as any as S.Schema<PaymentMethodCase4Ideal>;
+).annotate({ identifier: "PaymentMethodCase4Ideal" }) as any as S.Schema<PaymentMethodCase4Ideal>;
 
 /** A saved iDEAL payment method, including the customer's bank name and BIC code. */
 export interface PaymentMethodCase4 {
@@ -662,9 +646,7 @@ export const PaymentMethodCase4 = /*@__PURE__*/ S.suspend(() =>
     payment_method_type: PaymentMethodTypes,
     typename: S.String,
   }),
-).annotate({
-  identifier: "PaymentMethodCase4",
-}) as any as S.Schema<PaymentMethodCase4>;
+).annotate({ identifier: "PaymentMethodCase4" }) as any as S.Schema<PaymentMethodCase4>;
 
 /** The colorway for dark surfaces. */
 export type PaymentMethodCase5IconsCardDark = PaymentMethodCase0IconsCardDark;
@@ -740,9 +722,7 @@ export const PaymentMethodCase5 = /*@__PURE__*/ S.suspend(() =>
     sepa_debit: PaymentMethodCase5SepaDebit,
     typename: S.String,
   }),
-).annotate({
-  identifier: "PaymentMethodCase5",
-}) as any as S.Schema<PaymentMethodCase5>;
+).annotate({ identifier: "PaymentMethodCase5" }) as any as S.Schema<PaymentMethodCase5>;
 
 export type PaymentMethod =
   | PaymentMethodCase0
@@ -756,9 +736,7 @@ export const PaymentMethod = S.Unknown as any as S.Schema<PaymentMethod>;
 export type GetPaymentMethodResponse = PaymentMethod;
 export const GetPaymentMethodResponse = /*@__PURE__*/ S.suspend(() =>
   PaymentMethod.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetPaymentMethodResponse",
-}) as any as S.Schema<GetPaymentMethodResponse>;
+).annotate({ identifier: "GetPaymentMethodResponse" }) as any as S.Schema<GetPaymentMethodResponse>;
 
 /** The direction of the sort. */
 export type Direction = "asc" | "desc";
@@ -827,9 +805,7 @@ export const ListPaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
     expired: S.optional(S.Boolean.pipe(T.Query())),
     broken: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/payment_methods", code: 200 })),
-).annotate({
-  identifier: "ListPaymentMethodRequest",
-}) as any as S.Schema<ListPaymentMethodRequest>;
+).annotate({ identifier: "ListPaymentMethodRequest" }) as any as S.Schema<ListPaymentMethodRequest>;
 
 /** The colorway for dark surfaces. */
 export type PaymentMethodListItemCase0IconsCardDark = PaymentMethodCase0IconsCardDark;

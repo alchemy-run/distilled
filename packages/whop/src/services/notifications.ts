@@ -53,9 +53,7 @@ export const GetNotificationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/notifications/{id}", code: 200 })),
-).annotate({
-  identifier: "GetNotificationRequest",
-}) as any as S.Schema<GetNotificationRequest>;
+).annotate({ identifier: "GetNotificationRequest" }) as any as S.Schema<GetNotificationRequest>;
 
 export interface NotificationAccount {
   /** Account ID, prefixed `biz_`. */
@@ -74,9 +72,7 @@ export const NotificationAccount = /*@__PURE__*/ S.suspend(() =>
     route: S.NullOr(S.String),
     title: S.String,
   }),
-).annotate({
-  identifier: "NotificationAccount",
-}) as any as S.Schema<NotificationAccount>;
+).annotate({ identifier: "NotificationAccount" }) as any as S.Schema<NotificationAccount>;
 
 export interface NotificationExperienceApp {
   /** Icon image URL. Always present — the default app icon when none is uploaded. */
@@ -107,9 +103,7 @@ export const NotificationExperience = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "NotificationExperience",
-}) as any as S.Schema<NotificationExperience>;
+).annotate({ identifier: "NotificationExperience" }) as any as S.Schema<NotificationExperience>;
 
 export interface NotificationSender {
   /** User ID, prefixed `user_`. */
@@ -125,9 +119,7 @@ export const NotificationSender = /*@__PURE__*/ S.suspend(() =>
     name: S.NullOr(S.String),
     username: S.String,
   }),
-).annotate({
-  identifier: "NotificationSender",
-}) as any as S.Schema<NotificationSender>;
+).annotate({ identifier: "NotificationSender" }) as any as S.Schema<NotificationSender>;
 
 /** Scope of the topic: whether it applies to an account, a user, or an account's team. */
 export type NotificationTopicSummaryTopicType = "account" | "user" | "account_team";
@@ -150,9 +142,7 @@ export const NotificationTopicSummary = /*@__PURE__*/ S.suspend(() =>
     is_mention: S.Boolean,
     topic_type: NotificationTopicSummaryTopicType,
   }),
-).annotate({
-  identifier: "NotificationTopicSummary",
-}) as any as S.Schema<NotificationTopicSummary>;
+).annotate({ identifier: "NotificationTopicSummary" }) as any as S.Schema<NotificationTopicSummary>;
 
 export interface Notification {
   /** Account the notification belongs to. `null` when the notification is not associated with an account. */
@@ -240,9 +230,7 @@ export const NotificationBadge = /*@__PURE__*/ S.suspend(() =>
     important_count: S.Number,
     last_viewed_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "NotificationBadge",
-}) as any as S.Schema<NotificationBadge>;
+).annotate({ identifier: "NotificationBadge" }) as any as S.Schema<NotificationBadge>;
 
 export type ListNotificationBadgesResponseDataList = Array<NotificationBadge>;
 export const ListNotificationBadgesResponseDataList = /*@__PURE__*/ S.Array(
@@ -283,9 +271,7 @@ export const ListNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
     first: S.optional(S.Number.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/notifications", code: 200 })),
-).annotate({
-  identifier: "ListNotificationsRequest",
-}) as any as S.Schema<ListNotificationsRequest>;
+).annotate({ identifier: "ListNotificationsRequest" }) as any as S.Schema<ListNotificationsRequest>;
 
 export type ListNotificationsResponseDataList = Array<Notification>;
 export const ListNotificationsResponseDataList = /*@__PURE__*/ S.Array(
@@ -373,9 +359,7 @@ export const NotificationTopic = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     topic_type: NotificationTopicTopicType,
   }),
-).annotate({
-  identifier: "NotificationTopic",
-}) as any as S.Schema<NotificationTopic>;
+).annotate({ identifier: "NotificationTopic" }) as any as S.Schema<NotificationTopic>;
 
 export type ListNotificationTopicsResponseDataList = Array<NotificationTopic>;
 export const ListNotificationTopicsResponseDataList = /*@__PURE__*/ S.Array(
@@ -470,9 +454,7 @@ export const SendNotificationRequest = /*@__PURE__*/ S.suspend(() =>
     user_ids: S.optional(SendNotificationRequestUserIdsList),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/notifications", code: 200 })),
-).annotate({
-  identifier: "SendNotificationRequest",
-}) as any as S.Schema<SendNotificationRequest>;
+).annotate({ identifier: "SendNotificationRequest" }) as any as S.Schema<SendNotificationRequest>;
 
 export interface SendNotificationResponse {
   success: boolean;
@@ -481,9 +463,7 @@ export const SendNotificationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     success: S.Boolean,
   }),
-).annotate({
-  identifier: "SendNotificationResponse",
-}) as any as S.Schema<SendNotificationResponse>;
+).annotate({ identifier: "SendNotificationResponse" }) as any as S.Schema<SendNotificationResponse>;
 
 export type GetNotificationError = NotFound | WhopOpError;
 /** Retrieve Notification Retrieves a single notification by id — either an `id` returned by List Notifications, or the ephemeral id delivered with a push/websocket event. Requires a user credential. */

@@ -64,13 +64,7 @@ export const AddFreeDaysMembershipRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     free_days: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/memberships/{id}/add_free_days",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/memberships/{id}/add_free_days", code: 200 })),
 ).annotate({
   identifier: "AddFreeDaysMembershipRequest",
 }) as any as S.Schema<AddFreeDaysMembershipRequest>;
@@ -102,9 +96,7 @@ export const LegacyMembershipCompany = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     title: S.String,
   }),
-).annotate({
-  identifier: "LegacyMembershipCompany",
-}) as any as S.Schema<LegacyMembershipCompany>;
+).annotate({ identifier: "LegacyMembershipCompany" }) as any as S.Schema<LegacyMembershipCompany>;
 
 /** The available currencies on the platform */
 export type Currencies =
@@ -235,23 +227,17 @@ export const LegacyMembershipMember = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "LegacyMembershipMember",
-}) as any as S.Schema<LegacyMembershipMember>;
+).annotate({ identifier: "LegacyMembershipMember" }) as any as S.Schema<LegacyMembershipMember>;
 
 /** Custom key-value pairs for the membership (commonly used for software licensing, e.g., HWID). Max 50 keys, 100 chars per key, 500 chars per string value. */
-export type LegacyMembershipMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type LegacyMembershipMetadataMap = { [key: string]: unknown | undefined };
 export const LegacyMembershipMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<LegacyMembershipMetadataMap>;
 
 /** Custom key-value pairs stored on the plan. Included in webhook payloads for payment and membership events. Max 50 keys, 100 chars per key, 500 chars per string value. The reserved keys `custom_cta` and `custom_cta_url`, when set, override the product's checkout call to action for this plan. */
-export type LegacyMembershipPlanMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type LegacyMembershipPlanMetadataMap = { [key: string]: unknown | undefined };
 export const LegacyMembershipPlanMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -269,14 +255,10 @@ export const LegacyMembershipPlan = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     metadata: S.NullOr(LegacyMembershipPlanMetadataMap),
   }),
-).annotate({
-  identifier: "LegacyMembershipPlan",
-}) as any as S.Schema<LegacyMembershipPlan>;
+).annotate({ identifier: "LegacyMembershipPlan" }) as any as S.Schema<LegacyMembershipPlan>;
 
 /** Custom key-value pairs stored on the product and included in payment and membership webhook payloads. Max 50 keys, 100 characters per key, 500 characters per string value. */
-export type LegacyMembershipProductMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type LegacyMembershipProductMetadataMap = { [key: string]: unknown | undefined };
 export const LegacyMembershipProductMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -297,9 +279,7 @@ export const LegacyMembershipProduct = /*@__PURE__*/ S.suspend(() =>
     metadata: S.NullOr(LegacyMembershipProductMetadataMap),
     title: S.String,
   }),
-).annotate({
-  identifier: "LegacyMembershipProduct",
-}) as any as S.Schema<LegacyMembershipProduct>;
+).annotate({ identifier: "LegacyMembershipProduct" }) as any as S.Schema<LegacyMembershipProduct>;
 
 /** The promotional code currently applied to this membership's billing. Null if no promo code is active. */
 export interface LegacyMembershipPromoCode {
@@ -348,9 +328,7 @@ export const LegacyMembershipUser = /*@__PURE__*/ S.suspend(() =>
     profile_pic: S.String,
     username: S.String,
   }),
-).annotate({
-  identifier: "LegacyMembershipUser",
-}) as any as S.Schema<LegacyMembershipUser>;
+).annotate({ identifier: "LegacyMembershipUser" }) as any as S.Schema<LegacyMembershipUser>;
 
 /** A membership represents an active relationship between a user and a product. It tracks the user's access, billing status, and renewal schedule. */
 export interface LegacyMembership {
@@ -439,9 +417,7 @@ export const LegacyMembership = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.String,
     user: S.NullOr(LegacyMembershipUser),
   }),
-).annotate({
-  identifier: "LegacyMembership",
-}) as any as S.Schema<LegacyMembership>;
+).annotate({ identifier: "LegacyMembership" }) as any as S.Schema<LegacyMembership>;
 
 export interface CancelMembershipRequest {
   /** Membership ID (`mem_` tag). */
@@ -460,9 +436,7 @@ export const CancelMembershipRequest = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/memberships/{id}/cancel", code: 200 })),
-).annotate({
-  identifier: "CancelMembershipRequest",
-}) as any as S.Schema<CancelMembershipRequest>;
+).annotate({ identifier: "CancelMembershipRequest" }) as any as S.Schema<CancelMembershipRequest>;
 
 export interface MembershipAccount {
   /** Account ID, prefixed `biz_`. */
@@ -481,9 +455,7 @@ export const MembershipAccount = /*@__PURE__*/ S.suspend(() =>
     route: S.String,
     title: S.String,
   }),
-).annotate({
-  identifier: "MembershipAccount",
-}) as any as S.Schema<MembershipAccount>;
+).annotate({ identifier: "MembershipAccount" }) as any as S.Schema<MembershipAccount>;
 
 /** What the member can reach on the account: `customer` for paying members, `admin` for team members, `no_access` once every grant has lapsed. */
 export type MembershipMemberAccessLevel = "no_access" | "admin" | "customer";
@@ -503,9 +475,7 @@ export const MembershipMember = /*@__PURE__*/ S.suspend(() =>
     last_accessed_at: S.NullOr(S.String),
     position: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "MembershipMember",
-}) as any as S.Schema<MembershipMember>;
+).annotate({ identifier: "MembershipMember" }) as any as S.Schema<MembershipMember>;
 
 /** Billing state of the membership. `active`/`trialing` memberships grant access; `past_due` is the grace period after a failed payment; `completed` one-time purchases keep access; `canceled`/`expired` do not. */
 export type MembershipStatus =
@@ -575,9 +545,7 @@ export const ExtendMembershipRequest = /*@__PURE__*/ S.suspend(() =>
     days: S.Number,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/memberships/{id}/extend", code: 200 })),
-).annotate({
-  identifier: "ExtendMembershipRequest",
-}) as any as S.Schema<ExtendMembershipRequest>;
+).annotate({ identifier: "ExtendMembershipRequest" }) as any as S.Schema<ExtendMembershipRequest>;
 
 export interface GetMembershipRequest {
   /** Membership ID (`mem_` tag), or a software license key. */
@@ -587,9 +555,7 @@ export const GetMembershipRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/memberships/{id}", code: 200 })),
-).annotate({
-  identifier: "GetMembershipRequest",
-}) as any as S.Schema<GetMembershipRequest>;
+).annotate({ identifier: "GetMembershipRequest" }) as any as S.Schema<GetMembershipRequest>;
 
 export interface InviteMembershipRequest {
   /** Recipient email address. Mutually exclusive with `user_id`. */
@@ -608,9 +574,7 @@ export const InviteMembershipRequest = /*@__PURE__*/ S.suspend(() =>
     user_id: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/memberships/invite", code: 200 })),
-).annotate({
-  identifier: "InviteMembershipRequest",
-}) as any as S.Schema<InviteMembershipRequest>;
+).annotate({ identifier: "InviteMembershipRequest" }) as any as S.Schema<InviteMembershipRequest>;
 
 export interface InviteMembershipResponse {
   invitation_sent: boolean;
@@ -619,9 +583,7 @@ export const InviteMembershipResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     invitation_sent: S.Boolean,
   }),
-).annotate({
-  identifier: "InviteMembershipResponse",
-}) as any as S.Schema<InviteMembershipResponse>;
+).annotate({ identifier: "InviteMembershipResponse" }) as any as S.Schema<InviteMembershipResponse>;
 
 export type ListMembershipsRequestStatus =
   | "active"
@@ -684,9 +646,7 @@ export const ListMembershipsRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/memberships", code: 200 })),
-).annotate({
-  identifier: "ListMembershipsRequest",
-}) as any as S.Schema<ListMembershipsRequest>;
+).annotate({ identifier: "ListMembershipsRequest" }) as any as S.Schema<ListMembershipsRequest>;
 
 export type ListMembershipsResponseDataList = Array<Membership>;
 export const ListMembershipsResponseDataList = /*@__PURE__*/ S.Array(
@@ -719,9 +679,7 @@ export const ListMembershipsResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListMembershipsResponseDataList,
     page_info: ListMembershipsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListMembershipsResponse",
-}) as any as S.Schema<ListMembershipsResponse>;
+).annotate({ identifier: "ListMembershipsResponse" }) as any as S.Schema<ListMembershipsResponse>;
 
 export interface PauseMembershipRequest {
   /** Membership ID (`mem_` tag). */
@@ -737,9 +695,7 @@ export const PauseMembershipRequest = /*@__PURE__*/ S.suspend(() =>
     until: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/memberships/{id}/pause", code: 200 })),
-).annotate({
-  identifier: "PauseMembershipRequest",
-}) as any as S.Schema<PauseMembershipRequest>;
+).annotate({ identifier: "PauseMembershipRequest" }) as any as S.Schema<PauseMembershipRequest>;
 
 export interface ResumeMembershipRequest {
   /** Membership ID (`mem_` tag). */
@@ -752,9 +708,7 @@ export const ResumeMembershipRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/memberships/{id}/resume", code: 200 })),
-).annotate({
-  identifier: "ResumeMembershipRequest",
-}) as any as S.Schema<ResumeMembershipRequest>;
+).annotate({ identifier: "ResumeMembershipRequest" }) as any as S.Schema<ResumeMembershipRequest>;
 
 export interface ResyncAccessMembershipRequest {
   /** The unique identifier of the membership to resync access for. */
@@ -763,13 +717,7 @@ export interface ResyncAccessMembershipRequest {
 export const ResyncAccessMembershipRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/memberships/{id}/resync_access",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/memberships/{id}/resync_access", code: 200 })),
 ).annotate({
   identifier: "ResyncAccessMembershipRequest",
 }) as any as S.Schema<ResyncAccessMembershipRequest>;
@@ -827,9 +775,7 @@ export const UpdateMembershipRequest = /*@__PURE__*/ S.suspend(() =>
     cancel_at_period_end: S.optional(S.Boolean),
     metadata: S.optional(S.Unknown),
   }).pipe(T.Http({ method: "PATCH", uri: "/memberships/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateMembershipRequest",
-}) as any as S.Schema<UpdateMembershipRequest>;
+).annotate({ identifier: "UpdateMembershipRequest" }) as any as S.Schema<UpdateMembershipRequest>;
 
 export type AddFreeDaysMembershipError =
   | BadRequest

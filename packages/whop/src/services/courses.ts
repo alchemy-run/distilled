@@ -91,9 +91,7 @@ export const CreateCourseRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.String,
     visibility: S.optional(S.NullOr(CourseVisibilities)),
   }).pipe(T.Http({ method: "POST", uri: "/courses", code: 200 })),
-).annotate({
-  identifier: "CreateCourseRequest",
-}) as any as S.Schema<CreateCourseRequest>;
+).annotate({ identifier: "CreateCourseRequest" }) as any as S.Schema<CreateCourseRequest>;
 
 /** The available types for a lesson */
 export type LessonTypes = "text" | "video" | "pdf" | "multi" | "quiz" | "knowledge_check";
@@ -183,9 +181,7 @@ export const CourseChaptersItem = /*@__PURE__*/ S.suspend(() =>
     order: S.Number,
     title: S.String,
   }),
-).annotate({
-  identifier: "CourseChaptersItem",
-}) as any as S.Schema<CourseChaptersItem>;
+).annotate({ identifier: "CourseChaptersItem" }) as any as S.Schema<CourseChaptersItem>;
 
 /** An ordered list of all chapters in this course, sorted by their display position. */
 export type CourseChaptersList = Array<CourseChaptersItem>;
@@ -234,9 +230,7 @@ export const CourseResumeLesson = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "CourseResumeLesson",
-}) as any as S.Schema<CourseResumeLesson>;
+).annotate({ identifier: "CourseResumeLesson" }) as any as S.Schema<CourseResumeLesson>;
 
 /** The thumbnail image displayed on course cards and previews. Null if no thumbnail has been uploaded. */
 export interface CourseThumbnail {
@@ -259,9 +253,7 @@ export const CourseThumbnail = /*@__PURE__*/ S.suspend(() =>
     optimized_url: S.NullOr(S.String),
     source_url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CourseThumbnail",
-}) as any as S.Schema<CourseThumbnail>;
+).annotate({ identifier: "CourseThumbnail" }) as any as S.Schema<CourseThumbnail>;
 
 /** A structured learning module containing chapters and lessons, belonging to an experience. */
 export interface Course {
@@ -345,16 +337,12 @@ export const DeleteCourseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/courses/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteCourseRequest",
-}) as any as S.Schema<DeleteCourseRequest>;
+).annotate({ identifier: "DeleteCourseRequest" }) as any as S.Schema<DeleteCourseRequest>;
 
 export type DeleteCourseResponse = boolean;
 export const DeleteCourseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteCourseResponse",
-}) as any as S.Schema<DeleteCourseResponse>;
+).annotate({ identifier: "DeleteCourseResponse" }) as any as S.Schema<DeleteCourseResponse>;
 
 export interface GetCourseRequest {
   /** The unique identifier of the course to retrieve. */
@@ -364,9 +352,7 @@ export const GetCourseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/courses/{id}", code: 200 })),
-).annotate({
-  identifier: "GetCourseRequest",
-}) as any as S.Schema<GetCourseRequest>;
+).annotate({ identifier: "GetCourseRequest" }) as any as S.Schema<GetCourseRequest>;
 
 export interface ListCourseRequest {
   after?: string;
@@ -385,9 +371,7 @@ export const ListCourseRequest = /*@__PURE__*/ S.suspend(() =>
     experience_id: S.optional(S.String.pipe(T.Query())),
     company_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/courses", code: 200 })),
-).annotate({
-  identifier: "ListCourseRequest",
-}) as any as S.Schema<ListCourseRequest>;
+).annotate({ identifier: "ListCourseRequest" }) as any as S.Schema<ListCourseRequest>;
 
 /** The distinct drip schedules, in days after the course start, of lessons visible to the current user. Combine with startedAt to work out which have unlocked. Empty when the user has not started the course or no lesson is on a schedule. */
 export type CourseListItemLessonUnlockDaysList = Array<number>;
@@ -511,9 +495,7 @@ export const ListCourseResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListCourseResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListCourseResponse",
-}) as any as S.Schema<ListCourseResponse>;
+).annotate({ identifier: "ListCourseResponse" }) as any as S.Schema<ListCourseResponse>;
 
 /** Input for updating a lesson while updating a course */
 export interface UpdateCourseRequestChaptersItemLessonsItem {
@@ -614,9 +596,7 @@ export const UpdateCourseRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.NullOr(S.String)),
     visibility: S.optional(S.NullOr(CourseVisibilities)),
   }).pipe(T.Http({ method: "PATCH", uri: "/courses/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateCourseRequest",
-}) as any as S.Schema<UpdateCourseRequest>;
+).annotate({ identifier: "UpdateCourseRequest" }) as any as S.Schema<UpdateCourseRequest>;
 
 export type CreateCourseError =
   | BadRequest

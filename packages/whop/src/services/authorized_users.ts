@@ -121,9 +121,7 @@ export const AuthorizedUserCompany = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     title: S.String,
   }),
-).annotate({
-  identifier: "AuthorizedUserCompany",
-}) as any as S.Schema<AuthorizedUserCompany>;
+).annotate({ identifier: "AuthorizedUserCompany" }) as any as S.Schema<AuthorizedUserCompany>;
 
 /** Possible roles an authorized user can have */
 export type AuthorizedUserRoles =
@@ -157,9 +155,7 @@ export const AuthorizedUserUser = /*@__PURE__*/ S.suspend(() =>
     name: S.NullOr(S.String),
     username: S.String,
   }),
-).annotate({
-  identifier: "AuthorizedUserUser",
-}) as any as S.Schema<AuthorizedUserUser>;
+).annotate({ identifier: "AuthorizedUserUser" }) as any as S.Schema<AuthorizedUserUser>;
 
 /** A user who belongs to a company's team with access determined by their assigned role. */
 export interface AuthorizedUser {
@@ -210,9 +206,7 @@ export const GetAuthorizedUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/authorized_users/{id}", code: 200 })),
-).annotate({
-  identifier: "GetAuthorizedUserRequest",
-}) as any as S.Schema<GetAuthorizedUserRequest>;
+).annotate({ identifier: "GetAuthorizedUserRequest" }) as any as S.Schema<GetAuthorizedUserRequest>;
 
 export interface ListAuthorizedUserRequest {
   after?: string;
@@ -267,9 +261,7 @@ export const AuthorizedUserListItem = /*@__PURE__*/ S.suspend(() =>
     role: AuthorizedUserRoles,
     user: AuthorizedUserUser,
   }),
-).annotate({
-  identifier: "AuthorizedUserListItem",
-}) as any as S.Schema<AuthorizedUserListItem>;
+).annotate({ identifier: "AuthorizedUserListItem" }) as any as S.Schema<AuthorizedUserListItem>;
 
 /** A list of nodes. */
 export type ListAuthorizedUserResponseDataList = Array<AuthorizedUserListItem>;

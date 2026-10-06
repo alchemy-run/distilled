@@ -56,9 +56,7 @@ export const AttachExperienceRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     product_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/experiences/{id}/attach", code: 200 })),
-).annotate({
-  identifier: "AttachExperienceRequest",
-}) as any as S.Schema<AttachExperienceRequest>;
+).annotate({ identifier: "AttachExperienceRequest" }) as any as S.Schema<AttachExperienceRequest>;
 
 /** The icon image for this app, displayed on the app store, product pages, checkout, and as the default icon for experiences using this app. */
 export interface ExperienceAppIcon {
@@ -69,9 +67,7 @@ export const ExperienceAppIcon = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ExperienceAppIcon",
-}) as any as S.Schema<ExperienceAppIcon>;
+).annotate({ identifier: "ExperienceAppIcon" }) as any as S.Schema<ExperienceAppIcon>;
 
 /** The app that powers this experience, defining its interface and behavior. */
 export interface ExperienceApp {
@@ -105,9 +101,7 @@ export const ExperienceCompany = /*@__PURE__*/ S.suspend(() =>
     route: S.String,
     title: S.String,
   }),
-).annotate({
-  identifier: "ExperienceCompany",
-}) as any as S.Schema<ExperienceCompany>;
+).annotate({ identifier: "ExperienceCompany" }) as any as S.Schema<ExperienceCompany>;
 
 /** The custom logo image for this experience. Null if no custom logo has been uploaded. */
 export type ExperienceImage = ExperienceAppIcon;
@@ -128,9 +122,7 @@ export const ExperienceProductsItem = /*@__PURE__*/ S.suspend(() =>
     route: S.String,
     title: S.String,
   }),
-).annotate({
-  identifier: "ExperienceProductsItem",
-}) as any as S.Schema<ExperienceProductsItem>;
+).annotate({ identifier: "ExperienceProductsItem" }) as any as S.Schema<ExperienceProductsItem>;
 
 /** The list of products this experience is attached to, which determines which customers have access. Empty if the experience is only visible to authorized company team members. */
 export type ExperienceProductsList = Array<ExperienceProductsItem>;
@@ -212,9 +204,7 @@ export const CreateExperienceRequest = /*@__PURE__*/ S.suspend(() =>
     notifications_enabled: S.optional(S.NullOr(S.Boolean)),
     section_id: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/experiences", code: 200 })),
-).annotate({
-  identifier: "CreateExperienceRequest",
-}) as any as S.Schema<CreateExperienceRequest>;
+).annotate({ identifier: "CreateExperienceRequest" }) as any as S.Schema<CreateExperienceRequest>;
 
 export interface DeleteExperienceRequest {
   /** The unique identifier of the experience to delete. */
@@ -224,16 +214,12 @@ export const DeleteExperienceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/experiences/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteExperienceRequest",
-}) as any as S.Schema<DeleteExperienceRequest>;
+).annotate({ identifier: "DeleteExperienceRequest" }) as any as S.Schema<DeleteExperienceRequest>;
 
 export type DeleteExperienceResponse = boolean;
 export const DeleteExperienceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteExperienceResponse",
-}) as any as S.Schema<DeleteExperienceResponse>;
+).annotate({ identifier: "DeleteExperienceResponse" }) as any as S.Schema<DeleteExperienceResponse>;
 
 export interface DetachExperienceRequest {
   /** The unique identifier of the experience to detach. */
@@ -246,9 +232,7 @@ export const DetachExperienceRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     product_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/experiences/{id}/detach", code: 200 })),
-).annotate({
-  identifier: "DetachExperienceRequest",
-}) as any as S.Schema<DetachExperienceRequest>;
+).annotate({ identifier: "DetachExperienceRequest" }) as any as S.Schema<DetachExperienceRequest>;
 
 export interface DuplicateExperienceRequest {
   /** The unique identifier of the experience to duplicate. */
@@ -273,9 +257,7 @@ export const GetExperienceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/experiences/{id}", code: 200 })),
-).annotate({
-  identifier: "GetExperienceRequest",
-}) as any as S.Schema<GetExperienceRequest>;
+).annotate({ identifier: "GetExperienceRequest" }) as any as S.Schema<GetExperienceRequest>;
 
 export interface ListExperienceRequest {
   after?: string;
@@ -300,9 +282,7 @@ export const ListExperienceRequest = /*@__PURE__*/ S.suspend(() =>
     created_before: S.optional(S.String.pipe(T.Query())),
     created_after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/experiences", code: 200 })),
-).annotate({
-  identifier: "ListExperienceRequest",
-}) as any as S.Schema<ListExperienceRequest>;
+).annotate({ identifier: "ListExperienceRequest" }) as any as S.Schema<ListExperienceRequest>;
 
 /** The icon image for this app, displayed on the app store, product pages, checkout, and as the default icon for experiences using this app. */
 export type ExperienceListItemAppIcon = ExperienceAppIcon;
@@ -350,9 +330,7 @@ export const ExperienceListItem = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     order: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ExperienceListItem",
-}) as any as S.Schema<ExperienceListItem>;
+).annotate({ identifier: "ExperienceListItem" }) as any as S.Schema<ExperienceListItem>;
 
 /** A list of nodes. */
 export type ListExperienceResponseDataList = Array<ExperienceListItem>;
@@ -391,9 +369,7 @@ export const ListExperienceResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListExperienceResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListExperienceResponse",
-}) as any as S.Schema<ListExperienceResponse>;
+).annotate({ identifier: "ListExperienceResponse" }) as any as S.Schema<ListExperienceResponse>;
 
 /** The different access levels for experiences (PUBLIC IS NEVER USED ANYMORE). */
 export type ExperienceAccessLevels = "public" | "private";
@@ -432,9 +408,7 @@ export const UpdateExperienceRequest = /*@__PURE__*/ S.suspend(() =>
     order: S.optional(S.NullOr(S.String)),
     section_id: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/experiences/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateExperienceRequest",
-}) as any as S.Schema<UpdateExperienceRequest>;
+).annotate({ identifier: "UpdateExperienceRequest" }) as any as S.Schema<UpdateExperienceRequest>;
 
 export type AttachExperienceError =
   | BadRequest

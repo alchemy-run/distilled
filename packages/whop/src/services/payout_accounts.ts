@@ -52,9 +52,7 @@ export const GetPayoutAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/payout_accounts/{id}", code: 200 })),
-).annotate({
-  identifier: "GetPayoutAccountRequest",
-}) as any as S.Schema<GetPayoutAccountRequest>;
+).annotate({ identifier: "GetPayoutAccountRequest" }) as any as S.Schema<GetPayoutAccountRequest>;
 
 /** The physical address associated with this payout account */
 export interface PayoutAccountAddress {
@@ -80,9 +78,7 @@ export const PayoutAccountAddress = /*@__PURE__*/ S.suspend(() =>
     postal_code: S.NullOr(S.String),
     state: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "PayoutAccountAddress",
-}) as any as S.Schema<PayoutAccountAddress>;
+).annotate({ identifier: "PayoutAccountAddress" }) as any as S.Schema<PayoutAccountAddress>;
 
 /** The business representative for this payout account */
 export interface PayoutAccountBusinessRepresentative {

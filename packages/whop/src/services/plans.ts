@@ -229,9 +229,7 @@ export const CalculatePlanTaxRequest = /*@__PURE__*/ S.suspend(() =>
     tax_ids: S.optional(S.NullOr(CalculatePlanTaxRequestTaxIdsList)),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/plans/{id}/calculate_tax", code: 200 })),
-).annotate({
-  identifier: "CalculatePlanTaxRequest",
-}) as any as S.Schema<CalculatePlanTaxRequest>;
+).annotate({ identifier: "CalculatePlanTaxRequest" }) as any as S.Schema<CalculatePlanTaxRequest>;
 
 /** Whether Whop calculated tax for this preview. `not_calculated` means no tax could be determined, so `tax_amount` is 0 and `total` equals `subtotal`. */
 export type CalculatePlanTaxResponseStatus = "calculated" | "not_calculated";
@@ -264,9 +262,7 @@ export const CalculatePlanTaxResponse = /*@__PURE__*/ S.suspend(() =>
     tax_behavior: CalculatePlanTaxResponseTaxBehavior,
     total: S.Number,
   }),
-).annotate({
-  identifier: "CalculatePlanTaxResponse",
-}) as any as S.Schema<CalculatePlanTaxResponse>;
+).annotate({ identifier: "CalculatePlanTaxResponse" }) as any as S.Schema<CalculatePlanTaxResponse>;
 
 /** The type of the custom field. */
 export type CreatePlanRequestCustomFieldsItemFieldType = "text";
@@ -315,9 +311,7 @@ export const CreatePlanRequestImage = /*@__PURE__*/ S.suspend(() =>
     direct_upload_id: S.optional(S.String),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreatePlanRequestImage",
-}) as any as S.Schema<CreatePlanRequestImage>;
+).annotate({ identifier: "CreatePlanRequestImage" }) as any as S.Schema<CreatePlanRequestImage>;
 
 export type CreatePlanRequestPaymentMethodConfigurationDisabledList = Array<string>;
 export const CreatePlanRequestPaymentMethodConfigurationDisabledList = /*@__PURE__*/ S.Array(
@@ -432,9 +426,7 @@ export const CreatePlanRequest = /*@__PURE__*/ S.suspend(() =>
     visibility: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/plans", code: 200 })),
-).annotate({
-  identifier: "CreatePlanRequest",
-}) as any as S.Schema<CreatePlanRequest>;
+).annotate({ identifier: "CreatePlanRequest" }) as any as S.Schema<CreatePlanRequest>;
 
 export interface AccountSummary {
   /** Account ID, prefixed `biz_`. */
@@ -570,9 +562,7 @@ export const PlanCustomField = /*@__PURE__*/ S.suspend(() =>
     placeholder: S.NullOr(S.String),
     required: S.Boolean,
   }),
-).annotate({
-  identifier: "PlanCustomField",
-}) as any as S.Schema<PlanCustomField>;
+).annotate({ identifier: "PlanCustomField" }) as any as S.Schema<PlanCustomField>;
 
 export type PlanCustomFieldsList = Array<PlanCustomField>;
 export const PlanCustomFieldsList = /*@__PURE__*/ S.Array(
@@ -759,9 +749,7 @@ export const DeletePlanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/plans/{id}", code: 200 })),
-).annotate({
-  identifier: "DeletePlanRequest",
-}) as any as S.Schema<DeletePlanRequest>;
+).annotate({ identifier: "DeletePlanRequest" }) as any as S.Schema<DeletePlanRequest>;
 
 export interface DeletePlanResponse {
   /** Always true. */
@@ -774,9 +762,7 @@ export const DeletePlanResponse = /*@__PURE__*/ S.suspend(() =>
     deleted: S.Boolean,
     id: S.String,
   }),
-).annotate({
-  identifier: "DeletePlanResponse",
-}) as any as S.Schema<DeletePlanResponse>;
+).annotate({ identifier: "DeletePlanResponse" }) as any as S.Schema<DeletePlanResponse>;
 
 export interface GetPlanRequest {
   /** Plan ID, prefixed `plan_`. */
@@ -863,9 +849,7 @@ export const ListPlansRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/plans", code: 200 })),
-).annotate({
-  identifier: "ListPlansRequest",
-}) as any as S.Schema<ListPlansRequest>;
+).annotate({ identifier: "ListPlansRequest" }) as any as S.Schema<ListPlansRequest>;
 
 export type PlanListItemCustomFieldsList = Array<PlanCustomField>;
 export const PlanListItemCustomFieldsList = /*@__PURE__*/ S.Array(
@@ -1033,9 +1017,7 @@ export const ListPlansResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListPlansResponseDataList,
     page_info: ListPlansResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListPlansResponse",
-}) as any as S.Schema<ListPlansResponse>;
+).annotate({ identifier: "ListPlansResponse" }) as any as S.Schema<ListPlansResponse>;
 
 /** The type of the custom field. */
 export type UpdatePlanRequestCustomFieldsItemFieldType = "text";
@@ -1194,9 +1176,7 @@ export const UpdatePlanRequest = /*@__PURE__*/ S.suspend(() =>
     unlimited_stock: S.optional(S.NullOr(S.Boolean)),
     visibility: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/plans/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdatePlanRequest",
-}) as any as S.Schema<UpdatePlanRequest>;
+).annotate({ identifier: "UpdatePlanRequest" }) as any as S.Schema<UpdatePlanRequest>;
 
 export type CalculatePlanTaxError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
 /** Calculate Tax Previews tax for a plan before checkout, based on the buyer's location. */

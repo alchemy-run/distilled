@@ -55,9 +55,7 @@ export type FeeMarkupTypes =
 export const FeeMarkupTypes = S.String;
 
 /** Custom key-value metadata to attach to this fee markup. */
-export type CreateFeeMarkupRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateFeeMarkupRequestMetadataMap = { [key: string]: unknown | undefined };
 export const CreateFeeMarkupRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -86,9 +84,7 @@ export const CreateFeeMarkupRequest = /*@__PURE__*/ S.suspend(() =>
     notes: S.optional(S.NullOr(S.String)),
     percentage_fee: S.optional(S.NullOr(S.Number)),
   }).pipe(T.Http({ method: "POST", uri: "/fee_markups", code: 200 })),
-).annotate({
-  identifier: "CreateFeeMarkupRequest",
-}) as any as S.Schema<CreateFeeMarkupRequest>;
+).annotate({ identifier: "CreateFeeMarkupRequest" }) as any as S.Schema<CreateFeeMarkupRequest>;
 
 /** A fee markup configuration that defines additional charges applied to transactions for a platform's connected accounts. */
 export interface FeeMarkup {
@@ -127,16 +123,12 @@ export const DeleteFeeMarkupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/fee_markups/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteFeeMarkupRequest",
-}) as any as S.Schema<DeleteFeeMarkupRequest>;
+).annotate({ identifier: "DeleteFeeMarkupRequest" }) as any as S.Schema<DeleteFeeMarkupRequest>;
 
 export type DeleteFeeMarkupResponse = boolean;
 export const DeleteFeeMarkupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteFeeMarkupResponse",
-}) as any as S.Schema<DeleteFeeMarkupResponse>;
+).annotate({ identifier: "DeleteFeeMarkupResponse" }) as any as S.Schema<DeleteFeeMarkupResponse>;
 
 export interface ListFeeMarkupRequest {
   after?: string;
@@ -153,9 +145,7 @@ export const ListFeeMarkupRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     company_id: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/fee_markups", code: 200 })),
-).annotate({
-  identifier: "ListFeeMarkupRequest",
-}) as any as S.Schema<ListFeeMarkupRequest>;
+).annotate({ identifier: "ListFeeMarkupRequest" }) as any as S.Schema<ListFeeMarkupRequest>;
 
 /** A fee markup configuration that defines additional charges applied to transactions for a platform's connected accounts. */
 export interface FeeMarkupListItem {
@@ -184,9 +174,7 @@ export const FeeMarkupListItem = /*@__PURE__*/ S.suspend(() =>
     percentage_fee: S.NullOr(S.Number),
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "FeeMarkupListItem",
-}) as any as S.Schema<FeeMarkupListItem>;
+).annotate({ identifier: "FeeMarkupListItem" }) as any as S.Schema<FeeMarkupListItem>;
 
 /** A list of nodes. */
 export type ListFeeMarkupResponseDataList = Array<FeeMarkupListItem>;
@@ -225,9 +213,7 @@ export const ListFeeMarkupResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListFeeMarkupResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListFeeMarkupResponse",
-}) as any as S.Schema<ListFeeMarkupResponse>;
+).annotate({ identifier: "ListFeeMarkupResponse" }) as any as S.Schema<ListFeeMarkupResponse>;
 
 export type CreateFeeMarkupError =
   | BadRequest

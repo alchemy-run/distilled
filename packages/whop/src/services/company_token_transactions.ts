@@ -218,9 +218,7 @@ export const CompanyTokenTransaction = /*@__PURE__*/ S.suspend(() =>
     transaction_type: CompanyTokenTransactionTypes,
     user: CompanyTokenTransactionUser,
   }),
-).annotate({
-  identifier: "CompanyTokenTransaction",
-}) as any as S.Schema<CompanyTokenTransaction>;
+).annotate({ identifier: "CompanyTokenTransaction" }) as any as S.Schema<CompanyTokenTransaction>;
 
 export interface GetCompanyTokenTransactionRequest {
   /** The unique identifier of the token transaction to retrieve. */
@@ -229,13 +227,7 @@ export interface GetCompanyTokenTransactionRequest {
 export const GetCompanyTokenTransactionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/company_token_transactions/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/company_token_transactions/{id}", code: 200 })),
 ).annotate({
   identifier: "GetCompanyTokenTransactionRequest",
 }) as any as S.Schema<GetCompanyTokenTransactionRequest>;

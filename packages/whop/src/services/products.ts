@@ -132,9 +132,7 @@ export const CreateProductRequest = /*@__PURE__*/ S.suspend(() =>
     visibility: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/products", code: 200 })),
-).annotate({
-  identifier: "CreateProductRequest",
-}) as any as S.Schema<CreateProductRequest>;
+).annotate({ identifier: "CreateProductRequest" }) as any as S.Schema<CreateProductRequest>;
 
 /** Call-to-action button label shown on the product purchase page. */
 export type ProductCustomCta =
@@ -212,9 +210,7 @@ export const ProductPublicPlan = /*@__PURE__*/ S.suspend(() =>
     unlimited_stock: S.Boolean,
     visibility: ProductPublicPlanVisibility,
   }),
-).annotate({
-  identifier: "ProductPublicPlan",
-}) as any as S.Schema<ProductPublicPlan>;
+).annotate({ identifier: "ProductPublicPlan" }) as any as S.Schema<ProductPublicPlan>;
 
 export interface ProductGalleryImage {
   /** Uploaded file MIME type, such as image/jpeg. */
@@ -230,9 +226,7 @@ export const ProductGalleryImage = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ProductGalleryImage",
-}) as any as S.Schema<ProductGalleryImage>;
+).annotate({ identifier: "ProductGalleryImage" }) as any as S.Schema<ProductGalleryImage>;
 
 export type ProductGalleryImagesList = Array<ProductGalleryImage>;
 export const ProductGalleryImagesList = /*@__PURE__*/ S.Array(
@@ -350,9 +344,7 @@ export const DeleteProductRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/products/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteProductRequest",
-}) as any as S.Schema<DeleteProductRequest>;
+).annotate({ identifier: "DeleteProductRequest" }) as any as S.Schema<DeleteProductRequest>;
 
 export interface DeleteProductResponse {
   /** Always true. */
@@ -365,9 +357,7 @@ export const DeleteProductResponse = /*@__PURE__*/ S.suspend(() =>
     deleted: S.Boolean,
     id: S.String,
   }),
-).annotate({
-  identifier: "DeleteProductResponse",
-}) as any as S.Schema<DeleteProductResponse>;
+).annotate({ identifier: "DeleteProductResponse" }) as any as S.Schema<DeleteProductResponse>;
 
 export interface GetProductRequest {
   /** The unique identifier of the product. */
@@ -377,9 +367,7 @@ export const GetProductRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/products/{id}", code: 200 })),
-).annotate({
-  identifier: "GetProductRequest",
-}) as any as S.Schema<GetProductRequest>;
+).annotate({ identifier: "GetProductRequest" }) as any as S.Schema<GetProductRequest>;
 
 export type ListProductsRequestPlanTypesItem = "renewal" | "one_time";
 export const ListProductsRequestPlanTypesItem = S.String;
@@ -465,9 +453,7 @@ export const ListProductsRequest = /*@__PURE__*/ S.suspend(() =>
     created_after: S.optional(S.String.pipe(T.Query())),
     created_before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/products", code: 200 })),
-).annotate({
-  identifier: "ListProductsRequest",
-}) as any as S.Schema<ListProductsRequest>;
+).annotate({ identifier: "ListProductsRequest" }) as any as S.Schema<ListProductsRequest>;
 
 export type ProductListItemGalleryImagesList = Array<ProductGalleryImage>;
 export const ProductListItemGalleryImagesList = /*@__PURE__*/ S.Array(
@@ -533,9 +519,7 @@ export const ProductListItem = /*@__PURE__*/ S.suspend(() =>
     verified: S.Boolean,
     visibility: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ProductListItem",
-}) as any as S.Schema<ProductListItem>;
+).annotate({ identifier: "ProductListItem" }) as any as S.Schema<ProductListItem>;
 
 export type ListProductsResponseDataList = Array<ProductListItem>;
 export const ListProductsResponseDataList = /*@__PURE__*/ S.Array(
@@ -568,9 +552,7 @@ export const ListProductsResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListProductsResponseDataList,
     page_info: ListProductsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListProductsResponse",
-}) as any as S.Schema<ListProductsResponse>;
+).annotate({ identifier: "ListProductsResponse" }) as any as S.Schema<ListProductsResponse>;
 
 export interface PublishProductRequest {
   /** The unique identifier of the product, prefixed `prod_`. */
@@ -583,9 +565,7 @@ export const PublishProductRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/products/{id}/publish", code: 200 })),
-).annotate({
-  identifier: "PublishProductRequest",
-}) as any as S.Schema<PublishProductRequest>;
+).annotate({ identifier: "PublishProductRequest" }) as any as S.Schema<PublishProductRequest>;
 
 export interface UnpublishProductRequest {
   /** The unique identifier of the product, prefixed `prod_`. */
@@ -598,9 +578,7 @@ export const UnpublishProductRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/products/{id}/unpublish", code: 200 })),
-).annotate({
-  identifier: "UnpublishProductRequest",
-}) as any as S.Schema<UnpublishProductRequest>;
+).annotate({ identifier: "UnpublishProductRequest" }) as any as S.Schema<UnpublishProductRequest>;
 
 /** A wide image for the product, shown on the product page and on listing cards. Pass `{ id }` for an existing attachment or `{ direct_upload_id }` for a completed direct upload; `null` removes it. */
 export interface UpdateProductRequestBannerImage {
@@ -659,9 +637,7 @@ export const UpdateProductRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     visibility: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/products/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateProductRequest",
-}) as any as S.Schema<UpdateProductRequest>;
+).annotate({ identifier: "UpdateProductRequest" }) as any as S.Schema<UpdateProductRequest>;
 
 export type CreateProductError = Conflict | WhopOpError;
 /** Create Product Creates a new product for an account. */

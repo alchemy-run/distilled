@@ -93,9 +93,7 @@ export const GetAdReportRequest = /*@__PURE__*/ S.suspend(() =>
     granularity: S.optional(Granularities.pipe(T.Query())),
     to: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/ad_reports", code: 200 })),
-).annotate({
-  identifier: "GetAdReportRequest",
-}) as any as S.Schema<GetAdReportRequest>;
+).annotate({ identifier: "GetAdReportRequest" }) as any as S.Schema<GetAdReportRequest>;
 
 /** Types of optimization results tracked from external ad platforms */
 export type ResultLabelKeys =
@@ -354,9 +352,7 @@ export const AdReportBreakdownItem = /*@__PURE__*/ S.suspend(() =>
     name: S.NullOr(S.String),
     summary: AdReportBreakdownItemSummary,
   }),
-).annotate({
-  identifier: "AdReportBreakdownItem",
-}) as any as S.Schema<AdReportBreakdownItem>;
+).annotate({ identifier: "AdReportBreakdownItem" }) as any as S.Schema<AdReportBreakdownItem>;
 
 /** Per-entity rows over the date range. `null` when the `breakdown` arg on `adReport` is omitted; otherwise contains one row per ad campaign, ad group, or ad inside the requested scope at the requested level. */
 export type AdReportBreakdownList = Array<AdReportBreakdownItem>;

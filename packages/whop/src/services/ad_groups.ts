@@ -69,9 +69,7 @@ export const AdGroupAudiencesBody = /*@__PURE__*/ S.suspend(() =>
     exclude: S.optional(AdGroupAudiencesBodyExcludeList),
     include: S.optional(AdGroupAudiencesBodyIncludeList),
   }),
-).annotate({
-  identifier: "AdGroupAudiencesBody",
-}) as any as S.Schema<AdGroupAudiencesBody>;
+).annotate({ identifier: "AdGroupAudiencesBody" }) as any as S.Schema<AdGroupAudiencesBody>;
 
 /** How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`. */
 export type CreateAdGroupRequestBidType = "minimum_cost" | "average_target" | "maximum_target";
@@ -139,9 +137,7 @@ export const AdGroupDemographicsBody = /*@__PURE__*/ S.suspend(() =>
     maximum_age: S.optional(S.Number),
     minimum_age: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AdGroupDemographicsBody",
-}) as any as S.Schema<AdGroupDemographicsBody>;
+).annotate({ identifier: "AdGroupDemographicsBody" }) as any as S.Schema<AdGroupDemographicsBody>;
 
 /** On ad platforms that scope behavior categories, what this one is measured on. Send back the value the targeting_options endpoint returned alongside the id. */
 export type AdGroupDetailedTargetingBodyBehaviorsItemBehaviorType = "video" | "creator" | "hashtag";
@@ -301,9 +297,7 @@ export const AdGroupDevicesBody = /*@__PURE__*/ S.suspend(() =>
     operating_systems: S.optional(AdGroupDevicesBodyOperatingSystemsList),
     platforms: S.optional(AdGroupDevicesBodyPlatformsList),
   }),
-).annotate({
-  identifier: "AdGroupDevicesBody",
-}) as any as S.Schema<AdGroupDevicesBody>;
+).annotate({ identifier: "AdGroupDevicesBody" }) as any as S.Schema<AdGroupDevicesBody>;
 
 /** Cap on how often one person sees ads from this ad group. Only available on campaigns with the `awareness` objective. */
 export interface CreateAdGroupRequestFrequencyCap {
@@ -526,9 +520,7 @@ export const AdGroupGeoLocationsBody = /*@__PURE__*/ S.suspend(() =>
     regions: S.optional(AdGroupGeoLocationsBodyRegionsList),
     zips: S.optional(AdGroupGeoLocationsBodyZipsList),
   }),
-).annotate({
-  identifier: "AdGroupGeoLocationsBody",
-}) as any as S.Schema<AdGroupGeoLocationsBody>;
+).annotate({ identifier: "AdGroupGeoLocationsBody" }) as any as S.Schema<AdGroupGeoLocationsBody>;
 
 /** Locations to target and exclude. */
 export interface AdGroupRegionsBody {
@@ -542,9 +534,7 @@ export const AdGroupRegionsBody = /*@__PURE__*/ S.suspend(() =>
     exclude: S.optional(AdGroupGeoLocationsBody),
     include: S.optional(AdGroupGeoLocationsBody),
   }),
-).annotate({
-  identifier: "AdGroupRegionsBody",
-}) as any as S.Schema<AdGroupRegionsBody>;
+).annotate({ identifier: "AdGroupRegionsBody" }) as any as S.Schema<AdGroupRegionsBody>;
 
 /** Initial status (default: `active`). */
 export type CreateAdGroupRequestStatus = "active" | "paused";
@@ -626,9 +616,7 @@ export const CreateAdGroupRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/ad_groups", code: 200 })),
-).annotate({
-  identifier: "CreateAdGroupRequest",
-}) as any as S.Schema<CreateAdGroupRequest>;
+).annotate({ identifier: "CreateAdGroupRequest" }) as any as S.Schema<CreateAdGroupRequest>;
 
 export interface AdEntityReference {
   /** The referenced entity's id. */
@@ -638,9 +626,7 @@ export const AdEntityReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "AdEntityReference",
-}) as any as S.Schema<AdEntityReference>;
+).annotate({ identifier: "AdEntityReference" }) as any as S.Schema<AdEntityReference>;
 
 export type AdGroupAudiencesExcludeList = Array<string>;
 export const AdGroupAudiencesExcludeList = /*@__PURE__*/ S.Array(
@@ -661,9 +647,7 @@ export const AdGroupAudiences = /*@__PURE__*/ S.suspend(() =>
     exclude: AdGroupAudiencesExcludeList,
     include: AdGroupAudiencesIncludeList,
   }),
-).annotate({
-  identifier: "AdGroupAudiences",
-}) as any as S.Schema<AdGroupAudiences>;
+).annotate({ identifier: "AdGroupAudiences" }) as any as S.Schema<AdGroupAudiences>;
 
 /** How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`. */
 export type AdGroupBidType = "minimum_cost" | "average_target" | "maximum_target";
@@ -725,9 +709,7 @@ export const AdGroupDemographics = /*@__PURE__*/ S.suspend(() =>
     maximum_age: S.NullOr(S.Number),
     minimum_age: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "AdGroupDemographics",
-}) as any as S.Schema<AdGroupDemographics>;
+).annotate({ identifier: "AdGroupDemographics" }) as any as S.Schema<AdGroupDemographics>;
 
 /** On ad platforms that scope behavior categories, what this one is measured on. Send back the value the targeting_options endpoint returned alongside the id. Absent on platforms that don't scope them. */
 export type AdGroupBehaviorCategoryBehaviorType = "video" | "creator" | "hashtag";
@@ -750,9 +732,7 @@ export const AdGroupBehaviorCategory = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     period: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AdGroupBehaviorCategory",
-}) as any as S.Schema<AdGroupBehaviorCategory>;
+).annotate({ identifier: "AdGroupBehaviorCategory" }) as any as S.Schema<AdGroupBehaviorCategory>;
 
 export type AdGroupDetailedTargetingBehaviorsList = Array<AdGroupBehaviorCategory>;
 export const AdGroupDetailedTargetingBehaviorsList = /*@__PURE__*/ S.Array(
@@ -814,9 +794,7 @@ export const AdGroupDetailedTargeting = /*@__PURE__*/ S.suspend(() =>
     demographics: AdGroupDetailedTargetingDemographicsList,
     interests: AdGroupDetailedTargetingInterestsList,
   }),
-).annotate({
-  identifier: "AdGroupDetailedTargeting",
-}) as any as S.Schema<AdGroupDetailedTargeting>;
+).annotate({ identifier: "AdGroupDetailedTargeting" }) as any as S.Schema<AdGroupDetailedTargeting>;
 
 /** Operating system targeted. */
 export type AdGroupOperatingSystemOs = "ios" | "android";
@@ -833,9 +811,7 @@ export const AdGroupOperatingSystem = /*@__PURE__*/ S.suspend(() =>
     minimum_version: S.optional(S.String),
     os: AdGroupOperatingSystemOs,
   }),
-).annotate({
-  identifier: "AdGroupOperatingSystem",
-}) as any as S.Schema<AdGroupOperatingSystem>;
+).annotate({ identifier: "AdGroupOperatingSystem" }) as any as S.Schema<AdGroupOperatingSystem>;
 
 export type AdGroupDevicesOperatingSystemsList = Array<AdGroupOperatingSystem>;
 export const AdGroupDevicesOperatingSystemsList = /*@__PURE__*/ S.Array(
@@ -873,9 +849,7 @@ export const AdGroupFrequencyCap = /*@__PURE__*/ S.suspend(() =>
     maximum_impressions: S.Number,
     per_days: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "AdGroupFrequencyCap",
-}) as any as S.Schema<AdGroupFrequencyCap>;
+).annotate({ identifier: "AdGroupFrequencyCap" }) as any as S.Schema<AdGroupFrequencyCap>;
 
 /** The type of resource the issue is attached to. */
 export type AdPlatformIssueResourceType = "ad_campaign" | "ad_group" | "ad";
@@ -898,9 +872,7 @@ export const AdPlatformIssue = /*@__PURE__*/ S.suspend(() =>
     resource_id: S.NullOr(S.String),
     resource_type: AdPlatformIssueResourceType,
   }),
-).annotate({
-  identifier: "AdPlatformIssue",
-}) as any as S.Schema<AdPlatformIssue>;
+).annotate({ identifier: "AdPlatformIssue" }) as any as S.Schema<AdPlatformIssue>;
 
 export type AdGroupIssuesList = Array<AdPlatformIssue>;
 export const AdGroupIssuesList = /*@__PURE__*/ S.Array(
@@ -968,9 +940,7 @@ export const AdGroupPlacement = /*@__PURE__*/ S.suspend(() =>
     platform: AdGroupPlacementPlatform,
     positions: AdGroupPlacementPositionsList,
   }),
-).annotate({
-  identifier: "AdGroupPlacement",
-}) as any as S.Schema<AdGroupPlacement>;
+).annotate({ identifier: "AdGroupPlacement" }) as any as S.Schema<AdGroupPlacement>;
 
 export type AdGroupPlacementsList = Array<AdGroupPlacement>;
 export const AdGroupPlacementsList = /*@__PURE__*/ S.Array(
@@ -1029,9 +999,7 @@ export const AdGroupCustomLocation = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     radius: S.Number,
   }),
-).annotate({
-  identifier: "AdGroupCustomLocation",
-}) as any as S.Schema<AdGroupCustomLocation>;
+).annotate({ identifier: "AdGroupCustomLocation" }) as any as S.Schema<AdGroupCustomLocation>;
 
 export type AdGroupGeoLocationsCustomLocationsList = Array<AdGroupCustomLocation>;
 export const AdGroupGeoLocationsCustomLocationsList = /*@__PURE__*/ S.Array(
@@ -1065,9 +1033,7 @@ export const AdGroupGeoLocations = /*@__PURE__*/ S.suspend(() =>
     regions: AdGroupGeoLocationsRegionsList,
     zips: AdGroupGeoLocationsZipsList,
   }),
-).annotate({
-  identifier: "AdGroupGeoLocations",
-}) as any as S.Schema<AdGroupGeoLocations>;
+).annotate({ identifier: "AdGroupGeoLocations" }) as any as S.Schema<AdGroupGeoLocations>;
 
 export interface AdGroupRegions {
   /** Locations excluded from targeting. Country groups can't be excluded. */
@@ -1326,9 +1292,7 @@ export const DeleteAdGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/ad_groups/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteAdGroupRequest",
-}) as any as S.Schema<DeleteAdGroupRequest>;
+).annotate({ identifier: "DeleteAdGroupRequest" }) as any as S.Schema<DeleteAdGroupRequest>;
 
 export interface DeleteAdGroupResponse {
   /** Always true. */
@@ -1341,9 +1305,7 @@ export const DeleteAdGroupResponse = /*@__PURE__*/ S.suspend(() =>
     deleted: S.Boolean,
     id: S.String,
   }),
-).annotate({
-  identifier: "DeleteAdGroupResponse",
-}) as any as S.Schema<DeleteAdGroupResponse>;
+).annotate({ identifier: "DeleteAdGroupResponse" }) as any as S.Schema<DeleteAdGroupResponse>;
 
 export interface DuplicateAdGroupRequest {
   /** The ad group ID. */
@@ -1365,9 +1327,7 @@ export const DuplicateAdGroupRequest = /*@__PURE__*/ S.suspend(() =>
     target_ad_campaign_id: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/ad_groups/{id}/duplicate", code: 200 })),
-).annotate({
-  identifier: "DuplicateAdGroupRequest",
-}) as any as S.Schema<DuplicateAdGroupRequest>;
+).annotate({ identifier: "DuplicateAdGroupRequest" }) as any as S.Schema<DuplicateAdGroupRequest>;
 
 export type DuplicateAdGroupResponseDataList = Array<AdGroup>;
 export const DuplicateAdGroupResponseDataList = /*@__PURE__*/ S.Array(
@@ -1381,9 +1341,7 @@ export const DuplicateAdGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: DuplicateAdGroupResponseDataList,
   }),
-).annotate({
-  identifier: "DuplicateAdGroupResponse",
-}) as any as S.Schema<DuplicateAdGroupResponse>;
+).annotate({ identifier: "DuplicateAdGroupResponse" }) as any as S.Schema<DuplicateAdGroupResponse>;
 
 /** Languages to target, as ISO 639 codes such as `en` or `es`. Empty or omitted targets all languages. */
 export type EstimateAdGroupReachRequestLanguagesList = Array<string>;
@@ -1467,9 +1425,7 @@ export const GetAdGroupRequest = /*@__PURE__*/ S.suspend(() =>
     time_zone: S.optional(S.String.pipe(T.Query())),
     attribution_model: S.optional(GetAdGroupRequestAttributionModel.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/ad_groups/{id}", code: 200 })),
-).annotate({
-  identifier: "GetAdGroupRequest",
-}) as any as S.Schema<GetAdGroupRequest>;
+).annotate({ identifier: "GetAdGroupRequest" }) as any as S.Schema<GetAdGroupRequest>;
 
 export type ListAdGroupsRequestAdCampaignIdsList = Array<string>;
 export const ListAdGroupsRequestAdCampaignIdsList = /*@__PURE__*/ S.Array(
@@ -1558,9 +1514,7 @@ export const ListAdGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/ad_groups", code: 200 })),
-).annotate({
-  identifier: "ListAdGroupsRequest",
-}) as any as S.Schema<ListAdGroupsRequest>;
+).annotate({ identifier: "ListAdGroupsRequest" }) as any as S.Schema<ListAdGroupsRequest>;
 
 export type ListAdGroupsResponseDataList = Array<AdGroup>;
 export const ListAdGroupsResponseDataList = /*@__PURE__*/ S.Array(
@@ -1593,9 +1547,7 @@ export const ListAdGroupsResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListAdGroupsResponseDataList,
     page_info: ListAdGroupsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListAdGroupsResponse",
-}) as any as S.Schema<ListAdGroupsResponse>;
+).annotate({ identifier: "ListAdGroupsResponse" }) as any as S.Schema<ListAdGroupsResponse>;
 
 export interface PauseAdGroupRequest {
   /** The ad group ID. */
@@ -1608,9 +1560,7 @@ export const PauseAdGroupRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/ad_groups/{id}/pause", code: 200 })),
-).annotate({
-  identifier: "PauseAdGroupRequest",
-}) as any as S.Schema<PauseAdGroupRequest>;
+).annotate({ identifier: "PauseAdGroupRequest" }) as any as S.Schema<PauseAdGroupRequest>;
 
 export type SearchAdGroupTargetingOptionsRequestPlatform = "meta";
 export const SearchAdGroupTargetingOptionsRequestPlatform = S.String;
@@ -1749,9 +1699,7 @@ export const DetailedTargetingOption = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     type: DetailedTargetingOptionType,
   }),
-).annotate({
-  identifier: "DetailedTargetingOption",
-}) as any as S.Schema<DetailedTargetingOption>;
+).annotate({ identifier: "DetailedTargetingOption" }) as any as S.Schema<DetailedTargetingOption>;
 
 /** Always `languages`. The option goes in the ad-group `languages` field. */
 export type LanguageTargetingOptionType = "languages";
@@ -1771,9 +1719,7 @@ export const LanguageTargetingOption = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     type: LanguageTargetingOptionType,
   }),
-).annotate({
-  identifier: "LanguageTargetingOption",
-}) as any as S.Schema<LanguageTargetingOption>;
+).annotate({ identifier: "LanguageTargetingOption" }) as any as S.Schema<LanguageTargetingOption>;
 
 /** Granularity of the location. Which of these an ad platform reports depends on how finely it divides its location taxonomy. */
 export type LocationTargetingOptionLocationType =
@@ -1821,9 +1767,7 @@ export const LocationTargetingOption = /*@__PURE__*/ S.suspend(() =>
     region: S.NullOr(S.String),
     type: LocationTargetingOptionType,
   }),
-).annotate({
-  identifier: "LocationTargetingOption",
-}) as any as S.Schema<LocationTargetingOption>;
+).annotate({ identifier: "LocationTargetingOption" }) as any as S.Schema<LocationTargetingOption>;
 
 /** One result from the ad-group targeting-options search. `type` picks the shape: detailed-targeting taxonomy options carry the ad platform's `id`, languages carry an ISO 639 `code`, and locations carry the platform `key` plus geographic context. */
 export type TargetingOption =
@@ -1859,9 +1803,7 @@ export const UnpauseAdGroupRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/ad_groups/{id}/unpause", code: 200 })),
-).annotate({
-  identifier: "UnpauseAdGroupRequest",
-}) as any as S.Schema<UnpauseAdGroupRequest>;
+).annotate({ identifier: "UnpauseAdGroupRequest" }) as any as S.Schema<UnpauseAdGroupRequest>;
 
 /** How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`. */
 export type UpdateAdGroupRequestBidType = "minimum_cost" | "average_target" | "maximum_target";
@@ -2048,9 +1990,7 @@ export const UpdateAdGroupRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(UpdateAdGroupRequestStatus),
     title: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/ad_groups/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateAdGroupRequest",
-}) as any as S.Schema<UpdateAdGroupRequest>;
+).annotate({ identifier: "UpdateAdGroupRequest" }) as any as S.Schema<UpdateAdGroupRequest>;
 
 export type CreateAdGroupError = NotFound | Conflict | WhopOpError;
 /** Create an Ad Group Creates an ad group (ad set) in a campaign. */

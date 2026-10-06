@@ -696,9 +696,7 @@ export const LedgerActivityCurrency = /*@__PURE__*/ S.suspend(() =>
     code: S.String,
     precision: S.String,
   }),
-).annotate({
-  identifier: "LedgerActivityCurrency",
-}) as any as S.Schema<LedgerActivityCurrency>;
+).annotate({ identifier: "LedgerActivityCurrency" }) as any as S.Schema<LedgerActivityCurrency>;
 
 /** The ledger line category this activity was posted under. */
 export type LedgerActivityLineType =
@@ -914,9 +912,7 @@ export const LedgerActivityPayment = /*@__PURE__*/ S.suspend(() =>
     product: S.NullOr(LedgerActivityPaymentProduct),
     user: S.NullOr(LedgerActivityPaymentUser),
   }),
-).annotate({
-  identifier: "LedgerActivityPayment",
-}) as any as S.Schema<LedgerActivityPayment>;
+).annotate({ identifier: "LedgerActivityPayment" }) as any as S.Schema<LedgerActivityPayment>;
 
 export type LedgerActivityResourceCase0Object = "account";
 export const LedgerActivityResourceCase0Object = S.String;
@@ -1325,9 +1321,7 @@ export const LedgerActivitySource = /*@__PURE__*/ S.suspend(() =>
     to_currency: S.optional(S.NullOr(S.String)),
     tx_hash: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "LedgerActivitySource",
-}) as any as S.Schema<LedgerActivitySource>;
+).annotate({ identifier: "LedgerActivitySource" }) as any as S.Schema<LedgerActivitySource>;
 
 export interface LedgerActivity {
   /** The viewer account that owns this row's ledger. Present only when the response aggregates owned accounts (include_owned_accounts=true); omitted otherwise. */

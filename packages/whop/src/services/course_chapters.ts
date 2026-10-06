@@ -75,9 +75,7 @@ export const CourseChapterLessonsItem = /*@__PURE__*/ S.suspend(() =>
     order: S.Number,
     title: S.String,
   }),
-).annotate({
-  identifier: "CourseChapterLessonsItem",
-}) as any as S.Schema<CourseChapterLessonsItem>;
+).annotate({ identifier: "CourseChapterLessonsItem" }) as any as S.Schema<CourseChapterLessonsItem>;
 
 /** An ordered list of lessons in this chapter, sorted by display position. Hidden lessons are excluded for non-admin users. */
 export type CourseChapterLessonsList = Array<CourseChapterLessonsItem>;
@@ -132,9 +130,7 @@ export const GetCourseChapterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/course_chapters/{id}", code: 200 })),
-).annotate({
-  identifier: "GetCourseChapterRequest",
-}) as any as S.Schema<GetCourseChapterRequest>;
+).annotate({ identifier: "GetCourseChapterRequest" }) as any as S.Schema<GetCourseChapterRequest>;
 
 export interface ListCourseChapterRequest {
   after?: string;
@@ -151,9 +147,7 @@ export const ListCourseChapterRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     course_id: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/course_chapters", code: 200 })),
-).annotate({
-  identifier: "ListCourseChapterRequest",
-}) as any as S.Schema<ListCourseChapterRequest>;
+).annotate({ identifier: "ListCourseChapterRequest" }) as any as S.Schema<ListCourseChapterRequest>;
 
 /** A grouping of related lessons within a course, used to organize content into sections. */
 export interface CourseChapterListItem {
@@ -170,9 +164,7 @@ export const CourseChapterListItem = /*@__PURE__*/ S.suspend(() =>
     order: S.Number,
     title: S.String,
   }),
-).annotate({
-  identifier: "CourseChapterListItem",
-}) as any as S.Schema<CourseChapterListItem>;
+).annotate({ identifier: "CourseChapterListItem" }) as any as S.Schema<CourseChapterListItem>;
 
 /** A list of nodes. */
 export type ListCourseChapterResponseDataList = Array<CourseChapterListItem>;

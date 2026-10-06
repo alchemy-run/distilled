@@ -47,9 +47,7 @@ export class NotFound
   ) {}
 
 /** Arbitrary key/value metadata to store on the account. */
-export type CreateAccountRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateAccountRequestMetadataMap = { [key: string]: unknown | undefined };
 export const CreateAccountRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -81,9 +79,7 @@ export const CreateAccountRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/accounts", code: 200 })),
-).annotate({
-  identifier: "CreateAccountRequest",
-}) as any as S.Schema<CreateAccountRequest>;
+).annotate({ identifier: "CreateAccountRequest" }) as any as S.Schema<CreateAccountRequest>;
 
 export interface AccountBalanceSettlement {
   /** Amount expected that day, in native units, as a decimal string. */
@@ -96,9 +92,7 @@ export const AccountBalanceSettlement = /*@__PURE__*/ S.suspend(() =>
     amount: S.String,
     date: S.String,
   }),
-).annotate({
-  identifier: "AccountBalanceSettlement",
-}) as any as S.Schema<AccountBalanceSettlement>;
+).annotate({ identifier: "AccountBalanceSettlement" }) as any as S.Schema<AccountBalanceSettlement>;
 
 export type AccountBalanceBreakdownPendingSettlementsList = Array<AccountBalanceSettlement>;
 export const AccountBalanceBreakdownPendingSettlementsList = /*@__PURE__*/ S.Array(
@@ -124,9 +118,7 @@ export const AccountBalanceBreakdown = /*@__PURE__*/ S.suspend(() =>
     pending_settlements: AccountBalanceBreakdownPendingSettlementsList,
     reserve: S.String,
   }),
-).annotate({
-  identifier: "AccountBalanceBreakdown",
-}) as any as S.Schema<AccountBalanceBreakdown>;
+).annotate({ identifier: "AccountBalanceBreakdown" }) as any as S.Schema<AccountBalanceBreakdown>;
 
 export interface AccountBalanceToken {
   /** Total amount held in native units, as a decimal string. */
@@ -154,9 +146,7 @@ export const AccountBalanceToken = /*@__PURE__*/ S.suspend(() =>
     symbol: S.String,
     value_usd: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AccountBalanceToken",
-}) as any as S.Schema<AccountBalanceToken>;
+).annotate({ identifier: "AccountBalanceToken" }) as any as S.Schema<AccountBalanceToken>;
 
 export type AccountBalancesList = Array<AccountBalanceToken>;
 export const AccountBalancesList = /*@__PURE__*/ S.Array(
@@ -276,9 +266,7 @@ export const AccountCapabilities = /*@__PURE__*/ S.suspend(() =>
     standard_payout: AccountCapabilitiesStandardPayout,
     transfer: AccountCapabilitiesTransfer,
   }),
-).annotate({
-  identifier: "AccountCapabilities",
-}) as any as S.Schema<AccountCapabilities>;
+).annotate({ identifier: "AccountCapabilities" }) as any as S.Schema<AccountCapabilities>;
 
 /** Whether the card application verifies a business (`business`, KYB) or a person (`individual`, consumer identity). `null` when the application is not yet linked to a verification. */
 export type AccountCardsKind = "individual" | "business";
@@ -401,9 +389,7 @@ export const AccountCompanyFormation = /*@__PURE__*/ S.suspend(() =>
     state_registered: S.optional(S.Boolean),
     status: S.optional(AccountCompanyFormationStatus),
   }),
-).annotate({
-  identifier: "AccountCompanyFormation",
-}) as any as S.Schema<AccountCompanyFormation>;
+).annotate({ identifier: "AccountCompanyFormation" }) as any as S.Schema<AccountCompanyFormation>;
 
 export interface FileMultipartUrl {
   /** The 1-based index of this part within the multipart upload. */
@@ -416,9 +402,7 @@ export const FileMultipartUrl = /*@__PURE__*/ S.suspend(() =>
     part_number: S.Number,
     url: S.String,
   }),
-).annotate({
-  identifier: "FileMultipartUrl",
-}) as any as S.Schema<FileMultipartUrl>;
+).annotate({ identifier: "FileMultipartUrl" }) as any as S.Schema<FileMultipartUrl>;
 
 export type FileMultipartUploadUrlsList = Array<FileMultipartUrl>;
 export const FileMultipartUploadUrlsList = /*@__PURE__*/ S.Array(
@@ -2615,9 +2599,7 @@ export const UserProfilePicture = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.String,
   }),
-).annotate({
-  identifier: "UserProfilePicture",
-}) as any as S.Schema<UserProfilePicture>;
+).annotate({ identifier: "UserProfilePicture" }) as any as S.Schema<UserProfilePicture>;
 
 export interface UserSummary {
   /** User ID, prefixed `user_`. */
@@ -2683,9 +2665,7 @@ export const AccountReserveControl = /*@__PURE__*/ S.suspend(() =>
     hold_period_days: S.Number,
     percentage: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "AccountReserveControl",
-}) as any as S.Schema<AccountReserveControl>;
+).annotate({ identifier: "AccountReserveControl" }) as any as S.Schema<AccountReserveControl>;
 
 export interface AccountResolutionCenterAutoRefundControl {
   /** Maximum card-funded resolution center case amount automatically refunded in USD. `null` when automatic refunds are disabled for cards. */
@@ -2756,9 +2736,7 @@ export const AccountPaymentControls = /*@__PURE__*/ S.suspend(() =>
     resolution_center_auto_refund: AccountResolutionCenterAutoRefundControl,
     restricted_payment_methods: AccountPaymentControlsRestrictedPaymentMethodsList,
   }),
-).annotate({
-  identifier: "AccountPaymentControls",
-}) as any as S.Schema<AccountPaymentControls>;
+).annotate({ identifier: "AccountPaymentControls" }) as any as S.Schema<AccountPaymentControls>;
 
 /** The recommendation; new values may be added, so handle unknown actions gracefully */
 export type AccountRecommendedActionAction =
@@ -2827,9 +2805,7 @@ export const AccountRecommendedAction = /*@__PURE__*/ S.suspend(() =>
     status: AccountRecommendedActionStatus,
     title: S.String,
   }),
-).annotate({
-  identifier: "AccountRecommendedAction",
-}) as any as S.Schema<AccountRecommendedAction>;
+).annotate({ identifier: "AccountRecommendedAction" }) as any as S.Schema<AccountRecommendedAction>;
 
 /** DEPRECATED: Use the `GET /recommended_actions?account_id={account_id}` endpoint instead. */
 export type AccountRecommendedActionsList = Array<AccountRecommendedAction>;
@@ -2889,9 +2865,7 @@ export const AccountRequiredAction = /*@__PURE__*/ S.suspend(() =>
     status: AccountRequiredActionStatus,
     title: S.String,
   }),
-).annotate({
-  identifier: "AccountRequiredAction",
-}) as any as S.Schema<AccountRequiredAction>;
+).annotate({ identifier: "AccountRequiredAction" }) as any as S.Schema<AccountRequiredAction>;
 
 export type AccountRequiredActionsList = Array<AccountRequiredAction>;
 export const AccountRequiredActionsList = /*@__PURE__*/ S.Array(
@@ -2928,9 +2902,7 @@ export const AccountSocialLink = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     website: AccountSocialLinkWebsite,
   }),
-).annotate({
-  identifier: "AccountSocialLink",
-}) as any as S.Schema<AccountSocialLink>;
+).annotate({ identifier: "AccountSocialLink" }) as any as S.Schema<AccountSocialLink>;
 
 export type AccountSocialLinksList = Array<AccountSocialLink>;
 export const AccountSocialLinksList = /*@__PURE__*/ S.Array(
@@ -2994,9 +2966,7 @@ export const AccountStorePageConfig = /*@__PURE__*/ S.suspend(() =>
     profile_variant: S.NullOr(AccountStorePageConfigProfileVariant),
     whop_affiliate_link: S.Boolean,
   }),
-).annotate({
-  identifier: "AccountStorePageConfig",
-}) as any as S.Schema<AccountStorePageConfig>;
+).annotate({ identifier: "AccountStorePageConfig" }) as any as S.Schema<AccountStorePageConfig>;
 
 export type AccountTaxCollectionEnabledStatesList = Array<string>;
 export const AccountTaxCollectionEnabledStatesList = /*@__PURE__*/ S.Array(
@@ -3134,9 +3104,7 @@ export const AccountTaxIdentifier = /*@__PURE__*/ S.suspend(() =>
     tax_id_type: AccountTaxIdentifierTaxIdType,
     tax_id_value: S.String,
   }),
-).annotate({
-  identifier: "AccountTaxIdentifier",
-}) as any as S.Schema<AccountTaxIdentifier>;
+).annotate({ identifier: "AccountTaxIdentifier" }) as any as S.Schema<AccountTaxIdentifier>;
 
 export type AccountTaxIdentifiersList = Array<AccountTaxIdentifier>;
 export const AccountTaxIdentifiersList = /*@__PURE__*/ S.Array(
@@ -3589,9 +3557,7 @@ export const FormCompanyRequest = /*@__PURE__*/ S.suspend(() =>
     use_registered_agent: S.optional(S.Boolean),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/accounts/{id}/form_company", code: 200 })),
-).annotate({
-  identifier: "FormCompanyRequest",
-}) as any as S.Schema<FormCompanyRequest>;
+).annotate({ identifier: "FormCompanyRequest" }) as any as S.Schema<FormCompanyRequest>;
 
 export interface FormCompanyResponse {
   /** Checkout session ID, prefixed `ch_`. */
@@ -3610,9 +3576,7 @@ export const FormCompanyResponse = /*@__PURE__*/ S.suspend(() =>
     currency: S.String,
     total: S.Number,
   }),
-).annotate({
-  identifier: "FormCompanyResponse",
-}) as any as S.Schema<FormCompanyResponse>;
+).annotate({ identifier: "FormCompanyResponse" }) as any as S.Schema<FormCompanyResponse>;
 
 export interface GetAccountRequest {
   /** Account ID, prefixed `biz_`, its public route, or `me` for the account associated with the current API key. */
@@ -3622,9 +3586,7 @@ export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/accounts/{id}", code: 200 })),
-).annotate({
-  identifier: "GetAccountRequest",
-}) as any as S.Schema<GetAccountRequest>;
+).annotate({ identifier: "GetAccountRequest" }) as any as S.Schema<GetAccountRequest>;
 
 export interface GetAccountPreferencesRequest {
   /** Account ID, prefixed `biz_`. */
@@ -3633,13 +3595,7 @@ export interface GetAccountPreferencesRequest {
 export const GetAccountPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/accounts/{account_id}/preferences",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/preferences", code: 200 })),
 ).annotate({
   identifier: "GetAccountPreferencesRequest",
 }) as any as S.Schema<GetAccountPreferencesRequest>;
@@ -3824,13 +3780,7 @@ export interface ListAccountReservesRequest {
 export const ListAccountReservesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/accounts/{account_id}/reserves",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/reserves", code: 200 })),
 ).annotate({
   identifier: "ListAccountReservesRequest",
 }) as any as S.Schema<ListAccountReservesRequest>;
@@ -3861,9 +3811,7 @@ export const AccountReserveType = /*@__PURE__*/ S.suspend(() =>
     percentage: S.NullOr(S.Number),
     type: AccountReserveTypeType,
   }),
-).annotate({
-  identifier: "AccountReserveType",
-}) as any as S.Schema<AccountReserveType>;
+).annotate({ identifier: "AccountReserveType" }) as any as S.Schema<AccountReserveType>;
 
 export type AccountReserveByTypeList = Array<AccountReserveType>;
 export const AccountReserveByTypeList = /*@__PURE__*/ S.Array(
@@ -3881,9 +3829,7 @@ export const AccountReserveUnlock = /*@__PURE__*/ S.suspend(() =>
     amount: S.String,
     date: S.String,
   }),
-).annotate({
-  identifier: "AccountReserveUnlock",
-}) as any as S.Schema<AccountReserveUnlock>;
+).annotate({ identifier: "AccountReserveUnlock" }) as any as S.Schema<AccountReserveUnlock>;
 
 export type AccountReserveUnlocksByDateList = Array<AccountReserveUnlock>;
 export const AccountReserveUnlocksByDateList = /*@__PURE__*/ S.Array(
@@ -3976,9 +3922,7 @@ export const ListAccountsRequest = /*@__PURE__*/ S.suspend(() =>
     volume_max: S.optional(S.Number.pipe(T.Query())),
     parent_account_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/accounts", code: 200 })),
-).annotate({
-  identifier: "ListAccountsRequest",
-}) as any as S.Schema<ListAccountsRequest>;
+).annotate({ identifier: "ListAccountsRequest" }) as any as S.Schema<ListAccountsRequest>;
 
 export type ListAccountsResponseDataList = Array<Account>;
 export const ListAccountsResponseDataList = /*@__PURE__*/ S.Array(
@@ -4011,9 +3955,7 @@ export const ListAccountsResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListAccountsResponseDataList,
     page_info: ListAccountsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListAccountsResponse",
-}) as any as S.Schema<ListAccountsResponse>;
+).annotate({ identifier: "ListAccountsResponse" }) as any as S.Schema<ListAccountsResponse>;
 
 export interface TransferAccountOwnershipRequest {
   /** Account ID, prefixed `biz_`. */
@@ -4031,13 +3973,7 @@ export const TransferAccountOwnershipRequest = /*@__PURE__*/ S.suspend(() =>
     as_partner: S.optional(S.Boolean),
     identifier: S.String,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{id}/transfer_ownership",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/accounts/{id}/transfer_ownership", code: 200 })),
 ).annotate({
   identifier: "TransferAccountOwnershipRequest",
 }) as any as S.Schema<TransferAccountOwnershipRequest>;
@@ -6243,9 +6179,7 @@ export type UpdateAccountRequestLogo = UpdateAccountRequestBannerImage;
 export const UpdateAccountRequestLogo = UpdateAccountRequestBannerImage;
 
 /** Arbitrary key/value metadata to store on the account. */
-export type UpdateAccountRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateAccountRequestMetadataMap = { [key: string]: unknown | undefined };
 export const UpdateAccountRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -6263,9 +6197,7 @@ export const UpdateAccountRequestOpengraphImage = UpdateAccountRequestBannerImag
 export type UpdateAccountRequestOpengraphImageVariant = "white" | "black" | "orange";
 export const UpdateAccountRequestOpengraphImageVariant = S.String;
 
-export type UpdateAccountRequestSocialLinksItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateAccountRequestSocialLinksItemMap = { [key: string]: unknown | undefined };
 export const UpdateAccountRequestSocialLinksItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -6671,9 +6603,7 @@ export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.NullOr(S.String)),
     use_logo_as_opengraph_image_fallback: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PATCH", uri: "/accounts/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateAccountRequest",
-}) as any as S.Schema<UpdateAccountRequest>;
+).annotate({ identifier: "UpdateAccountRequest" }) as any as S.Schema<UpdateAccountRequest>;
 
 /** The funding source kind. */
 export type UpdateAccountPreferencesRequestAdsPaymentMethodsBackupType =
@@ -6774,13 +6704,7 @@ export const UpdateAccountPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     cards_auto_top_up: S.optional(S.Boolean),
     dispute_fighter_enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/accounts/{account_id}/preferences",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/accounts/{account_id}/preferences", code: 200 })),
 ).annotate({
   identifier: "UpdateAccountPreferencesRequest",
 }) as any as S.Schema<UpdateAccountPreferencesRequest>;

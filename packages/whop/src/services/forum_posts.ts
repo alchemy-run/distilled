@@ -241,9 +241,7 @@ export const CreateForumPostRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.NullOr(S.String)),
     visibility: S.optional(S.NullOr(ForumPostVisibilityTypes)),
   }).pipe(T.Http({ method: "POST", uri: "/forum_posts", code: 200 })),
-).annotate({
-  identifier: "CreateForumPostRequest",
-}) as any as S.Schema<CreateForumPostRequest>;
+).annotate({ identifier: "CreateForumPostRequest" }) as any as S.Schema<CreateForumPostRequest>;
 
 /** Represents an image attachment */
 export interface ForumPostAttachmentsItem {
@@ -263,9 +261,7 @@ export const ForumPostAttachmentsItem = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ForumPostAttachmentsItem",
-}) as any as S.Schema<ForumPostAttachmentsItem>;
+).annotate({ identifier: "ForumPostAttachmentsItem" }) as any as S.Schema<ForumPostAttachmentsItem>;
 
 /** All file attachments on this post, such as images, documents, and videos. */
 export type ForumPostAttachmentsList = Array<ForumPostAttachmentsItem>;
@@ -348,9 +344,7 @@ export const GetForumPostRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/forum_posts/{id}", code: 200 })),
-).annotate({
-  identifier: "GetForumPostRequest",
-}) as any as S.Schema<GetForumPostRequest>;
+).annotate({ identifier: "GetForumPostRequest" }) as any as S.Schema<GetForumPostRequest>;
 
 export interface ListForumPostRequest {
   after?: string;
@@ -373,9 +367,7 @@ export const ListForumPostRequest = /*@__PURE__*/ S.suspend(() =>
     parent_id: S.optional(S.String.pipe(T.Query())),
     pinned: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/forum_posts", code: 200 })),
-).annotate({
-  identifier: "ListForumPostRequest",
-}) as any as S.Schema<ListForumPostRequest>;
+).annotate({ identifier: "ListForumPostRequest" }) as any as S.Schema<ListForumPostRequest>;
 
 /** Represents an image attachment */
 export type ForumPostListItemAttachmentsItem = ForumPostAttachmentsItem;
@@ -439,9 +431,7 @@ export const ForumPostListItem = /*@__PURE__*/ S.suspend(() =>
     user: ForumPostUser,
     view_count: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "ForumPostListItem",
-}) as any as S.Schema<ForumPostListItem>;
+).annotate({ identifier: "ForumPostListItem" }) as any as S.Schema<ForumPostListItem>;
 
 /** A list of nodes. */
 export type ListForumPostResponseDataList = Array<ForumPostListItem>;
@@ -480,9 +470,7 @@ export const ListForumPostResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListForumPostResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListForumPostResponse",
-}) as any as S.Schema<ListForumPostResponse>;
+).annotate({ identifier: "ListForumPostResponse" }) as any as S.Schema<ListForumPostResponse>;
 
 /** Input for an attachment */
 export type UpdateForumPostRequestAttachmentsItem = CreateForumPostRequestAttachmentsItem;
@@ -517,9 +505,7 @@ export const UpdateForumPostRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.NullOr(S.String)),
     visibility: S.optional(S.NullOr(ForumPostVisibilityTypes)),
   }).pipe(T.Http({ method: "PATCH", uri: "/forum_posts/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateForumPostRequest",
-}) as any as S.Schema<UpdateForumPostRequest>;
+).annotate({ identifier: "UpdateForumPostRequest" }) as any as S.Schema<UpdateForumPostRequest>;
 
 export type CreateForumPostError =
   | BadRequest

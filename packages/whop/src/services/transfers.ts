@@ -46,9 +46,7 @@ export class NotFound
   ) {}
 
 /** Ledger transfers only. Custom key-value pairs attached to the transfer. Max 50 keys, 100 chars per key, 500 chars per string value. */
-export type CreateTransferRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateTransferRequestMetadataMap = { [key: string]: unknown | undefined };
 export const CreateTransferRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -96,9 +94,7 @@ export const CreateTransferRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(CreateTransferRequestType),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/transfers", code: 200 })),
-).annotate({
-  identifier: "CreateTransferRequest",
-}) as any as S.Schema<CreateTransferRequest>;
+).annotate({ identifier: "CreateTransferRequest" }) as any as S.Schema<CreateTransferRequest>;
 
 /** The user who initiated the transfer, such as the team member who sent a manual payout. Null if the creator is unavailable. */
 export interface CreateTransferResponseBodyCase0CreatedByUser {
@@ -173,9 +169,7 @@ export const CreateTransferResponseBodyCase0Destination =
   S.Unknown as any as S.Schema<CreateTransferResponseBodyCase0Destination>;
 
 /** Custom metadata attached to the transfer. */
-export type CreateTransferResponseBodyCase0MetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateTransferResponseBodyCase0MetadataMap = { [key: string]: unknown | undefined };
 export const CreateTransferResponseBodyCase0MetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -400,9 +394,7 @@ export const CreateTransferResponseBody = S.Unknown as any as S.Schema<CreateTra
 export type CreateTransferResponse = CreateTransferResponseBody;
 export const CreateTransferResponse = /*@__PURE__*/ S.suspend(() =>
   CreateTransferResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CreateTransferResponse",
-}) as any as S.Schema<CreateTransferResponse>;
+).annotate({ identifier: "CreateTransferResponse" }) as any as S.Schema<CreateTransferResponse>;
 
 export interface GetTransferRequest {
   /** The transfer ID. */
@@ -412,9 +404,7 @@ export const GetTransferRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/transfers/{id}", code: 200 })),
-).annotate({
-  identifier: "GetTransferRequest",
-}) as any as S.Schema<GetTransferRequest>;
+).annotate({ identifier: "GetTransferRequest" }) as any as S.Schema<GetTransferRequest>;
 
 /** The user who initiated the transfer, such as the team member who sent a manual payout. Null if the creator is unavailable. */
 export type GetTransferResponseCreatedByUser = CreateTransferResponseBodyCase0CreatedByUser;
@@ -474,9 +464,7 @@ export const GetTransferResponseDestination =
   S.Unknown as any as S.Schema<GetTransferResponseDestination>;
 
 /** Custom metadata attached to the transfer. */
-export type GetTransferResponseMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetTransferResponseMetadataMap = { [key: string]: unknown | undefined };
 export const GetTransferResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -598,9 +586,7 @@ export const GetTransferResponse = /*@__PURE__*/ S.suspend(() =>
     origin_ledger_account_id: S.String,
     status: GetTransferResponseStatus,
   }),
-).annotate({
-  identifier: "GetTransferResponse",
-}) as any as S.Schema<GetTransferResponse>;
+).annotate({ identifier: "GetTransferResponse" }) as any as S.Schema<GetTransferResponse>;
 
 export type ListTransferRequestOrder = "created_at" | "amount";
 export const ListTransferRequestOrder = S.String;
@@ -643,9 +629,7 @@ export const ListTransferRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/transfers", code: 200 })),
-).annotate({
-  identifier: "ListTransferRequest",
-}) as any as S.Schema<ListTransferRequest>;
+).annotate({ identifier: "ListTransferRequest" }) as any as S.Schema<ListTransferRequest>;
 
 /** The user who initiated the transfer, such as the team member who sent a manual payout. Null if the creator is unavailable. */
 export type ListTransferResponseDataItemCreatedByUser =
@@ -654,9 +638,7 @@ export const ListTransferResponseDataItemCreatedByUser =
   CreateTransferResponseBodyCase0CreatedByUser;
 
 /** Custom metadata attached to the transfer. */
-export type ListTransferResponseDataItemMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListTransferResponseDataItemMetadataMap = { [key: string]: unknown | undefined };
 export const ListTransferResponseDataItemMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -756,9 +738,7 @@ export const ListTransferResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListTransferResponseDataList,
     page_info: ListTransferResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListTransferResponse",
-}) as any as S.Schema<ListTransferResponse>;
+).annotate({ identifier: "ListTransferResponse" }) as any as S.Schema<ListTransferResponse>;
 
 export interface ListTransferRecipientsRequest {
   /** The account sending the money: a company account ID (`biz_`), or a user ID (`user_`) for that user's own personal balance. */

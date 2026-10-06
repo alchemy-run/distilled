@@ -67,9 +67,7 @@ export const CreateAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
     scoped_actions: S.optional(S.NullOr(CreateAccessTokenRequestScopedActionsList)),
     user_id: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/access_tokens", code: 200 })),
-).annotate({
-  identifier: "CreateAccessTokenRequest",
-}) as any as S.Schema<CreateAccessTokenRequest>;
+).annotate({ identifier: "CreateAccessTokenRequest" }) as any as S.Schema<CreateAccessTokenRequest>;
 
 /** A short-lived access token used to authenticate API requests on behalf of a user. */
 export interface AccessToken {

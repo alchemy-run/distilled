@@ -84,9 +84,7 @@ export const CreateSwapRequest = /*@__PURE__*/ S.suspend(() =>
     to_token: S.String,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/swaps", code: 200 })),
-).annotate({
-  identifier: "CreateSwapRequest",
-}) as any as S.Schema<CreateSwapRequest>;
+).annotate({ identifier: "CreateSwapRequest" }) as any as S.Schema<CreateSwapRequest>;
 
 /** Fiat pairs only: the source currency. */
 export interface CreateSwapResponseFromToken {
@@ -151,9 +149,7 @@ export const CreateSwapResponse = /*@__PURE__*/ S.suspend(() =>
     to_chain: S.optional(S.String),
     to_token: S.optional(S.NullOr(CreateSwapResponseFromToken)),
   }),
-).annotate({
-  identifier: "CreateSwapResponse",
-}) as any as S.Schema<CreateSwapResponse>;
+).annotate({ identifier: "CreateSwapResponse" }) as any as S.Schema<CreateSwapResponse>;
 
 /** Source chain name or chain ID. Defaults to the source token's chain when omitted. */
 export type CreateSwapQuoteRequestFromChain = string | number;
@@ -161,9 +157,7 @@ export const CreateSwapQuoteRequestFromChain =
   S.Unknown as any as S.Schema<CreateSwapQuoteRequestFromChain>;
 
 /** Metadata to include with the quote response. */
-export type CreateSwapQuoteRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateSwapQuoteRequestMetadataMap = { [key: string]: unknown | undefined };
 export const CreateSwapQuoteRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -209,23 +203,17 @@ export const CreateSwapQuoteRequest = /*@__PURE__*/ S.suspend(() =>
     to_token: S.String,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/swaps/quote", code: 200 })),
-).annotate({
-  identifier: "CreateSwapQuoteRequest",
-}) as any as S.Schema<CreateSwapQuoteRequest>;
+).annotate({ identifier: "CreateSwapQuoteRequest" }) as any as S.Schema<CreateSwapQuoteRequest>;
 
 /** Resolved source token details. */
-export type CreateSwapQuoteResponseFromTokenMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateSwapQuoteResponseFromTokenMap = { [key: string]: unknown | undefined };
 export const CreateSwapQuoteResponseFromTokenMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<CreateSwapQuoteResponseFromTokenMap>;
 
 /** Metadata from the request. */
-export type CreateSwapQuoteResponseMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateSwapQuoteResponseMetadataMap = { [key: string]: unknown | undefined };
 export const CreateSwapQuoteResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -235,9 +223,7 @@ export type CreateSwapQuoteResponseObject = "swap_quote";
 export const CreateSwapQuoteResponseObject = S.String;
 
 /** Resolved destination token details. */
-export type CreateSwapQuoteResponseToTokenMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateSwapQuoteResponseToTokenMap = { [key: string]: unknown | undefined };
 export const CreateSwapQuoteResponseToTokenMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -289,9 +275,7 @@ export const CreateSwapQuoteResponse = /*@__PURE__*/ S.suspend(() =>
     to_address: S.optional(S.NullOr(S.String)),
     to_token: CreateSwapQuoteResponseToTokenMap,
   }),
-).annotate({
-  identifier: "CreateSwapQuoteResponse",
-}) as any as S.Schema<CreateSwapQuoteResponse>;
+).annotate({ identifier: "CreateSwapQuoteResponse" }) as any as S.Schema<CreateSwapQuoteResponse>;
 
 export interface GetSwapRequest {
   /** Swap ID returned from POST /swaps. */
@@ -338,9 +322,7 @@ export const GetSwapResponse = /*@__PURE__*/ S.suspend(() =>
     status: GetSwapResponseStatus,
     tx_hashes: GetSwapResponseTxHashesList,
   }),
-).annotate({
-  identifier: "GetSwapResponse",
-}) as any as S.Schema<GetSwapResponse>;
+).annotate({ identifier: "GetSwapResponse" }) as any as S.Schema<GetSwapResponse>;
 
 export interface ListSwapsRequest {
   /** Business or user account ID (biz_* / user_*). */
@@ -350,9 +332,7 @@ export const ListSwapsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account_id: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/swaps", code: 200 })),
-).annotate({
-  identifier: "ListSwapsRequest",
-}) as any as S.Schema<ListSwapsRequest>;
+).annotate({ identifier: "ListSwapsRequest" }) as any as S.Schema<ListSwapsRequest>;
 
 export type ListSwapsResponseDataItemObject = "swap";
 export const ListSwapsResponseDataItemObject = S.String;
@@ -407,9 +387,7 @@ export const ListSwapsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: ListSwapsResponseDataList,
   }),
-).annotate({
-  identifier: "ListSwapsResponse",
-}) as any as S.Schema<ListSwapsResponse>;
+).annotate({ identifier: "ListSwapsResponse" }) as any as S.Schema<ListSwapsResponse>;
 
 export type CreateSwapError = BadRequest | Forbidden | Conflict | WhopOpError;
 /** Create Swap Swaps one token for another from the account's wallet, or converts between fiat currencies in the account's ledger at the mid-market rate. Crypto swaps finish in the background — check the swap for its status. */

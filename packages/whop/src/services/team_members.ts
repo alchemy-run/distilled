@@ -75,9 +75,7 @@ export const CreateTeamMemberRequest = /*@__PURE__*/ S.suspend(() =>
     user_id: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/team_members", code: 200 })),
-).annotate({
-  identifier: "CreateTeamMemberRequest",
-}) as any as S.Schema<CreateTeamMemberRequest>;
+).annotate({ identifier: "CreateTeamMemberRequest" }) as any as S.Schema<CreateTeamMemberRequest>;
 
 export interface TeamMemberAuthorizedRole {
   /** Custom role ID, prefixed `aurl_`. */
@@ -90,9 +88,7 @@ export const TeamMemberAuthorizedRole = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "TeamMemberAuthorizedRole",
-}) as any as S.Schema<TeamMemberAuthorizedRole>;
+).annotate({ identifier: "TeamMemberAuthorizedRole" }) as any as S.Schema<TeamMemberAuthorizedRole>;
 
 /** The member's role on the account. `custom` means a bespoke dashboard-managed role; the API can read but not grant it. */
 export type TeamMemberRole =
@@ -120,9 +116,7 @@ export const UserProfilePicture = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.String,
   }),
-).annotate({
-  identifier: "UserProfilePicture",
-}) as any as S.Schema<UserProfilePicture>;
+).annotate({ identifier: "UserProfilePicture" }) as any as S.Schema<UserProfilePicture>;
 
 export interface UserSummary {
   /** User ID, prefixed `user_`. */
@@ -188,9 +182,7 @@ export const DeleteTeamMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/team_members/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteTeamMemberRequest",
-}) as any as S.Schema<DeleteTeamMemberRequest>;
+).annotate({ identifier: "DeleteTeamMemberRequest" }) as any as S.Schema<DeleteTeamMemberRequest>;
 
 export interface DeleteTeamMemberResponse {
   success: boolean;
@@ -199,9 +191,7 @@ export const DeleteTeamMemberResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     success: S.Boolean,
   }),
-).annotate({
-  identifier: "DeleteTeamMemberResponse",
-}) as any as S.Schema<DeleteTeamMemberResponse>;
+).annotate({ identifier: "DeleteTeamMemberResponse" }) as any as S.Schema<DeleteTeamMemberResponse>;
 
 export interface GetTeamMemberRequest {
   /** Team member ID — `ausr_` for accepted members, `ausri_` for pending invites. */
@@ -211,9 +201,7 @@ export const GetTeamMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/team_members/{id}", code: 200 })),
-).annotate({
-  identifier: "GetTeamMemberRequest",
-}) as any as S.Schema<GetTeamMemberRequest>;
+).annotate({ identifier: "GetTeamMemberRequest" }) as any as S.Schema<GetTeamMemberRequest>;
 
 export type ListTeamMembersRequestStatus = "joined" | "pending";
 export const ListTeamMembersRequestStatus = S.String;
@@ -278,9 +266,7 @@ export const ListTeamMembersRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/team_members", code: 200 })),
-).annotate({
-  identifier: "ListTeamMembersRequest",
-}) as any as S.Schema<ListTeamMembersRequest>;
+).annotate({ identifier: "ListTeamMembersRequest" }) as any as S.Schema<ListTeamMembersRequest>;
 
 export type ListTeamMembersResponseDataList = Array<TeamMember>;
 export const ListTeamMembersResponseDataList = /*@__PURE__*/ S.Array(
@@ -313,9 +299,7 @@ export const ListTeamMembersResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListTeamMembersResponseDataList,
     page_info: ListTeamMembersResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListTeamMembersResponse",
-}) as any as S.Schema<ListTeamMembersResponse>;
+).annotate({ identifier: "ListTeamMembersResponse" }) as any as S.Schema<ListTeamMembersResponse>;
 
 /** The system role to grant. */
 export type UpdateTeamMemberRequestRole =
@@ -338,9 +322,7 @@ export const UpdateTeamMemberRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     role: UpdateTeamMemberRequestRole,
   }).pipe(T.Http({ method: "PATCH", uri: "/team_members/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateTeamMemberRequest",
-}) as any as S.Schema<UpdateTeamMemberRequest>;
+).annotate({ identifier: "UpdateTeamMemberRequest" }) as any as S.Schema<UpdateTeamMemberRequest>;
 
 export type CreateTeamMemberError = BadRequest | Conflict | WhopOpError;
 /** Create Team Member Adds a member to an account's team with a system role. Identify them by exactly one of `user_id` or `email`. If the person has not yet accepted — or the email does not belong to a Whop account yet — an invitation is sent instead and the response is `202` with `{ "object": "team_member_invite", "invitation_sent": true }`. If they already have a pending invite, the request fails with a `400`. Custom roles cannot be granted via the API. Granting the `workforce` role is also allowed with the `bounty:create` scope. */

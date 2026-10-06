@@ -68,9 +68,7 @@ export const CreateDmChannelRequest = /*@__PURE__*/ S.suspend(() =>
     notifications_enabled: S.optional(S.NullOr(S.Boolean)),
     with_user_ids: CreateDmChannelRequestWithUserIdsList,
   }).pipe(T.Http({ method: "POST", uri: "/dm_channels", code: 200 })),
-).annotate({
-  identifier: "CreateDmChannelRequest",
-}) as any as S.Schema<CreateDmChannelRequest>;
+).annotate({ identifier: "CreateDmChannelRequest" }) as any as S.Schema<CreateDmChannelRequest>;
 
 /** A messaging channel that can be a one-on-one DM, group chat, company support conversation, or platform-level direct message. */
 export interface DmChannel {
@@ -100,16 +98,12 @@ export const DeleteDmChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/dm_channels/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteDmChannelRequest",
-}) as any as S.Schema<DeleteDmChannelRequest>;
+).annotate({ identifier: "DeleteDmChannelRequest" }) as any as S.Schema<DeleteDmChannelRequest>;
 
 export type DeleteDmChannelResponse = boolean;
 export const DeleteDmChannelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteDmChannelResponse",
-}) as any as S.Schema<DeleteDmChannelResponse>;
+).annotate({ identifier: "DeleteDmChannelResponse" }) as any as S.Schema<DeleteDmChannelResponse>;
 
 export interface GetDmChannelRequest {
   /** The unique identifier of the DM channel to retrieve. */
@@ -119,9 +113,7 @@ export const GetDmChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/dm_channels/{id}", code: 200 })),
-).annotate({
-  identifier: "GetDmChannelRequest",
-}) as any as S.Schema<GetDmChannelRequest>;
+).annotate({ identifier: "GetDmChannelRequest" }) as any as S.Schema<GetDmChannelRequest>;
 
 export interface ListDmChannelRequest {
   after?: string;
@@ -138,9 +130,7 @@ export const ListDmChannelRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     company_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/dm_channels", code: 200 })),
-).annotate({
-  identifier: "ListDmChannelRequest",
-}) as any as S.Schema<ListDmChannelRequest>;
+).annotate({ identifier: "ListDmChannelRequest" }) as any as S.Schema<ListDmChannelRequest>;
 
 /** A messaging channel that can be a one-on-one DM, group chat, company support conversation, or platform-level direct message. */
 export interface DmChannelListItem {
@@ -160,9 +150,7 @@ export const DmChannelListItem = /*@__PURE__*/ S.suspend(() =>
     last_message_at: S.NullOr(S.String),
     name: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "DmChannelListItem",
-}) as any as S.Schema<DmChannelListItem>;
+).annotate({ identifier: "DmChannelListItem" }) as any as S.Schema<DmChannelListItem>;
 
 /** A list of nodes. */
 export type ListDmChannelResponseDataList = Array<DmChannelListItem>;
@@ -201,9 +189,7 @@ export const ListDmChannelResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListDmChannelResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListDmChannelResponse",
-}) as any as S.Schema<ListDmChannelResponse>;
+).annotate({ identifier: "ListDmChannelResponse" }) as any as S.Schema<ListDmChannelResponse>;
 
 export interface UpdateDmChannelRequest {
   /** The unique identifier of the DM channel to update. */
@@ -216,9 +202,7 @@ export const UpdateDmChannelRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     custom_name: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/dm_channels/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateDmChannelRequest",
-}) as any as S.Schema<UpdateDmChannelRequest>;
+).annotate({ identifier: "UpdateDmChannelRequest" }) as any as S.Schema<UpdateDmChannelRequest>;
 
 export type CreateDmChannelError =
   | BadRequest

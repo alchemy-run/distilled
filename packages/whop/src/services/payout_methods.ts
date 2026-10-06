@@ -53,9 +53,7 @@ export const GetPayoutMethodRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/payout_methods/{id}", code: 200 })),
-).annotate({
-  identifier: "GetPayoutMethodRequest",
-}) as any as S.Schema<GetPayoutMethodRequest>;
+).annotate({ identifier: "GetPayoutMethodRequest" }) as any as S.Schema<GetPayoutMethodRequest>;
 
 /** The company associated with this payout destination. Null if not linked to a specific company. */
 export interface PayoutMethodCompany {
@@ -66,9 +64,7 @@ export const PayoutMethodCompany = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "PayoutMethodCompany",
-}) as any as S.Schema<PayoutMethodCompany>;
+).annotate({ identifier: "PayoutMethodCompany" }) as any as S.Schema<PayoutMethodCompany>;
 
 /** The category of a payout destination. */
 export type PayoutDestinationCategory =
@@ -95,9 +91,7 @@ export const PayoutMethodDestination = /*@__PURE__*/ S.suspend(() =>
     country_code: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "PayoutMethodDestination",
-}) as any as S.Schema<PayoutMethodDestination>;
+).annotate({ identifier: "PayoutMethodDestination" }) as any as S.Schema<PayoutMethodDestination>;
 
 /** A configured payout destination where a user receives earned funds, such as a bank account or digital wallet. */
 export interface PayoutMethod {
@@ -149,9 +143,7 @@ export const ListPayoutMethodRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     company_id: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/payout_methods", code: 200 })),
-).annotate({
-  identifier: "ListPayoutMethodRequest",
-}) as any as S.Schema<ListPayoutMethodRequest>;
+).annotate({ identifier: "ListPayoutMethodRequest" }) as any as S.Schema<ListPayoutMethodRequest>;
 
 /** The company associated with this payout destination. Null if not linked to a specific company. */
 export type PayoutMethodListItemCompany = PayoutMethodCompany;
@@ -194,9 +186,7 @@ export const PayoutMethodListItem = /*@__PURE__*/ S.suspend(() =>
     is_default: S.Boolean,
     nickname: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "PayoutMethodListItem",
-}) as any as S.Schema<PayoutMethodListItem>;
+).annotate({ identifier: "PayoutMethodListItem" }) as any as S.Schema<PayoutMethodListItem>;
 
 /** A list of nodes. */
 export type ListPayoutMethodResponseDataList = Array<PayoutMethodListItem>;
@@ -235,9 +225,7 @@ export const ListPayoutMethodResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListPayoutMethodResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListPayoutMethodResponse",
-}) as any as S.Schema<ListPayoutMethodResponse>;
+).annotate({ identifier: "ListPayoutMethodResponse" }) as any as S.Schema<ListPayoutMethodResponse>;
 
 export type GetPayoutMethodError =
   | BadRequest

@@ -221,9 +221,7 @@ export const CourseLessonThumbnail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CourseLessonThumbnail",
-}) as any as S.Schema<CourseLessonThumbnail>;
+).annotate({ identifier: "CourseLessonThumbnail" }) as any as S.Schema<CourseLessonThumbnail>;
 
 /** Mux asset statuses */
 export type MuxAssetStatuses = "uploading" | "created" | "ready";
@@ -274,9 +272,7 @@ export const CourseLessonVideoAsset = /*@__PURE__*/ S.suspend(() =>
     status: MuxAssetStatuses,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "CourseLessonVideoAsset",
-}) as any as S.Schema<CourseLessonVideoAsset>;
+).annotate({ identifier: "CourseLessonVideoAsset" }) as any as S.Schema<CourseLessonVideoAsset>;
 
 /** The available visibilities for a lesson. Determines how / whether a lesson is visible to users. */
 export type LessonVisibilities = "visible" | "hidden";
@@ -362,9 +358,7 @@ export const GetCourseLessonRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/course_lessons/{id}", code: 200 })),
-).annotate({
-  identifier: "GetCourseLessonRequest",
-}) as any as S.Schema<GetCourseLessonRequest>;
+).annotate({ identifier: "GetCourseLessonRequest" }) as any as S.Schema<GetCourseLessonRequest>;
 
 export interface ListCourseLessonRequest {
   after?: string;
@@ -383,9 +377,7 @@ export const ListCourseLessonRequest = /*@__PURE__*/ S.suspend(() =>
     course_id: S.optional(S.String.pipe(T.Query())),
     chapter_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/course_lessons", code: 200 })),
-).annotate({
-  identifier: "ListCourseLessonRequest",
-}) as any as S.Schema<ListCourseLessonRequest>;
+).annotate({ identifier: "ListCourseLessonRequest" }) as any as S.Schema<ListCourseLessonRequest>;
 
 /** The thumbnail image displayed on lesson cards and previews. Null if no thumbnail has been uploaded. */
 export type CourseLessonListItemThumbnail = CourseLessonThumbnail;
@@ -430,9 +422,7 @@ export const CourseLessonListItem = /*@__PURE__*/ S.suspend(() =>
     title: S.String,
     visibility: LessonVisibilities,
   }),
-).annotate({
-  identifier: "CourseLessonListItem",
-}) as any as S.Schema<CourseLessonListItem>;
+).annotate({ identifier: "CourseLessonListItem" }) as any as S.Schema<CourseLessonListItem>;
 
 /** A list of nodes. */
 export type ListCourseLessonResponseDataList = Array<CourseLessonListItem>;
@@ -471,9 +461,7 @@ export const ListCourseLessonResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListCourseLessonResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListCourseLessonResponse",
-}) as any as S.Schema<ListCourseLessonResponse>;
+).annotate({ identifier: "ListCourseLessonResponse" }) as any as S.Schema<ListCourseLessonResponse>;
 
 export interface MarkAsCompletedCourseLessonRequest {
   /** The unique identifier of the lesson to mark as completed (e.g., "les_XXXXX"). */
@@ -483,11 +471,7 @@ export const MarkAsCompletedCourseLessonRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     lesson_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/course_lessons/{lesson_id}/mark_as_completed",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/course_lessons/{lesson_id}/mark_as_completed", code: 200 }),
   ),
 ).annotate({
   identifier: "MarkAsCompletedCourseLessonRequest",
@@ -507,16 +491,8 @@ export interface StartCourseLessonRequest {
 export const StartCourseLessonRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     lesson_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/course_lessons/{lesson_id}/start",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StartCourseLessonRequest",
-}) as any as S.Schema<StartCourseLessonRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/course_lessons/{lesson_id}/start", code: 200 })),
+).annotate({ identifier: "StartCourseLessonRequest" }) as any as S.Schema<StartCourseLessonRequest>;
 
 export type StartCourseLessonResponse = boolean;
 export const StartCourseLessonResponse = /*@__PURE__*/ S.suspend(() =>
@@ -571,11 +547,7 @@ export const SubmitAssessmentCourseLessonRequest = /*@__PURE__*/ S.suspend(() =>
     lesson_id: S.String.pipe(T.Label()),
     answers: SubmitAssessmentCourseLessonRequestAnswersList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/course_lessons/{lesson_id}/submit_assessment",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/course_lessons/{lesson_id}/submit_assessment", code: 200 }),
   ),
 ).annotate({
   identifier: "SubmitAssessmentCourseLessonRequest",

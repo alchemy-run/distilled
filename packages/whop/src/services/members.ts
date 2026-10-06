@@ -44,9 +44,7 @@ export const GetMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/members/{id}", code: 200 })),
-).annotate({
-  identifier: "GetMemberRequest",
-}) as any as S.Schema<GetMemberRequest>;
+).annotate({ identifier: "GetMemberRequest" }) as any as S.Schema<GetMemberRequest>;
 
 /** What the member can reach on the account: `customer` for paying members, `admin` for team members, `no_access` once every grant has lapsed. */
 export type MemberAccessLevel = "no_access" | "admin" | "customer";
@@ -64,9 +62,7 @@ export const UserProfilePicture = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.String,
   }),
-).annotate({
-  identifier: "UserProfilePicture",
-}) as any as S.Schema<UserProfilePicture>;
+).annotate({ identifier: "UserProfilePicture" }) as any as S.Schema<UserProfilePicture>;
 
 export interface UserSummary {
   /** User ID, prefixed `user_`. */
@@ -138,9 +134,7 @@ export const ListMemberLogsRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/members/{id}/logs", code: 200 })),
-).annotate({
-  identifier: "ListMemberLogsRequest",
-}) as any as S.Schema<ListMemberLogsRequest>;
+).annotate({ identifier: "ListMemberLogsRequest" }) as any as S.Schema<ListMemberLogsRequest>;
 
 export interface ListMemberLogsResponseDataItemActor {
   id: string;
@@ -203,9 +197,7 @@ export const ListMemberLogsResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListMemberLogsResponseDataList,
     page_info: ListMemberLogsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListMemberLogsResponse",
-}) as any as S.Schema<ListMemberLogsResponse>;
+).annotate({ identifier: "ListMemberLogsResponse" }) as any as S.Schema<ListMemberLogsResponse>;
 
 export type ListMembersRequestAccessLevel = "no_access" | "admin" | "customer";
 export const ListMembersRequestAccessLevel = S.String;
@@ -264,9 +256,7 @@ export const ListMembersRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/members", code: 200 })),
-).annotate({
-  identifier: "ListMembersRequest",
-}) as any as S.Schema<ListMembersRequest>;
+).annotate({ identifier: "ListMembersRequest" }) as any as S.Schema<ListMembersRequest>;
 
 export type ListMembersResponseDataList = Array<Member>;
 export const ListMembersResponseDataList = /*@__PURE__*/ S.Array(
@@ -285,9 +275,7 @@ export const ListMembersResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListMembersResponseDataList,
     page_info: ListMemberLogsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListMembersResponse",
-}) as any as S.Schema<ListMembersResponse>;
+).annotate({ identifier: "ListMembersResponse" }) as any as S.Schema<ListMembersResponse>;
 
 export type GetMemberError = Forbidden | NotFound | WhopOpError;
 /** Retrieve Member Retrieves a member by ID. Accessible to the account and to the member's own user. */

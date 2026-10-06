@@ -58,9 +58,7 @@ export const CreateDepositRequestDestination =
   S.Unknown as any as S.Schema<CreateDepositRequestDestination>;
 
 /** Metadata to include with the deposit response. */
-export type CreateDepositRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateDepositRequestMetadataMap = { [key: string]: unknown | undefined };
 export const CreateDepositRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -90,14 +88,10 @@ export const CreateDepositRequest = /*@__PURE__*/ S.suspend(() =>
     network: S.optional(S.NullOr(CreateDepositRequestNetwork)),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/deposits", code: 200 })),
-).annotate({
-  identifier: "CreateDepositRequest",
-}) as any as S.Schema<CreateDepositRequest>;
+).annotate({ identifier: "CreateDepositRequest" }) as any as S.Schema<CreateDepositRequest>;
 
 /** Metadata from the request. */
-export type CreateDepositResponseMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateDepositResponseMetadataMap = { [key: string]: unknown | undefined };
 export const CreateDepositResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -302,9 +296,7 @@ export const CreateDepositResponse = /*@__PURE__*/ S.suspend(() =>
     methods: CreateDepositResponseMethods,
     object: CreateDepositResponseObject,
   }),
-).annotate({
-  identifier: "CreateDepositResponse",
-}) as any as S.Schema<CreateDepositResponse>;
+).annotate({ identifier: "CreateDepositResponse" }) as any as S.Schema<CreateDepositResponse>;
 
 export type CreateDepositError = BadRequest | Conflict | WhopOpError;
 /** Create Deposit Retrieve the deposit methods for an account, including crypto and bank transfer. */

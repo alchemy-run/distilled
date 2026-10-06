@@ -65,9 +65,7 @@ export const ActivatePromoCodeRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/promo_codes/{id}/activate", code: 200 })),
-).annotate({
-  identifier: "ActivatePromoCodeRequest",
-}) as any as S.Schema<ActivatePromoCodeRequest>;
+).annotate({ identifier: "ActivatePromoCodeRequest" }) as any as S.Schema<ActivatePromoCodeRequest>;
 
 export interface AccountSummary {
   /** Account ID, prefixed `biz_`. */
@@ -191,9 +189,7 @@ export const PromoCodeProduct = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     title: S.String,
   }),
-).annotate({
-  identifier: "PromoCodeProduct",
-}) as any as S.Schema<PromoCodeProduct>;
+).annotate({ identifier: "PromoCodeProduct" }) as any as S.Schema<PromoCodeProduct>;
 
 /** Whether the discount is percentage-based or a fixed amount. */
 export type PromoCodePromoType = "percentage" | "flat_amount";
@@ -412,9 +408,7 @@ export const CreatePromoCodeRequest = /*@__PURE__*/ S.suspend(() =>
     unlimited_stock: S.optional(S.Boolean),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/promo_codes", code: 200 })),
-).annotate({
-  identifier: "CreatePromoCodeRequest",
-}) as any as S.Schema<CreatePromoCodeRequest>;
+).annotate({ identifier: "CreatePromoCodeRequest" }) as any as S.Schema<CreatePromoCodeRequest>;
 
 export interface DeactivatePromoCodeRequest {
   /** Promo code ID (`promo_` tag). */
@@ -439,9 +433,7 @@ export const DeletePromoCodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/promo_codes/{id}", code: 200 })),
-).annotate({
-  identifier: "DeletePromoCodeRequest",
-}) as any as S.Schema<DeletePromoCodeRequest>;
+).annotate({ identifier: "DeletePromoCodeRequest" }) as any as S.Schema<DeletePromoCodeRequest>;
 
 export interface DeletePromoCodeResponse {
   deleted: boolean;
@@ -452,9 +444,7 @@ export const DeletePromoCodeResponse = /*@__PURE__*/ S.suspend(() =>
     deleted: S.Boolean,
     id: S.String,
   }),
-).annotate({
-  identifier: "DeletePromoCodeResponse",
-}) as any as S.Schema<DeletePromoCodeResponse>;
+).annotate({ identifier: "DeletePromoCodeResponse" }) as any as S.Schema<DeletePromoCodeResponse>;
 
 export interface GetPromoCodeRequest {
   /** Promo code ID (`promo_` tag). */
@@ -464,9 +454,7 @@ export const GetPromoCodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/promo_codes/{id}", code: 200 })),
-).annotate({
-  identifier: "GetPromoCodeRequest",
-}) as any as S.Schema<GetPromoCodeRequest>;
+).annotate({ identifier: "GetPromoCodeRequest" }) as any as S.Schema<GetPromoCodeRequest>;
 
 export type ListPromoCodesRequestStatus = "active" | "inactive" | "archived" | "expired";
 export const ListPromoCodesRequestStatus = S.String;
@@ -528,9 +516,7 @@ export const ListPromoCodesRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/promo_codes", code: 200 })),
-).annotate({
-  identifier: "ListPromoCodesRequest",
-}) as any as S.Schema<ListPromoCodesRequest>;
+).annotate({ identifier: "ListPromoCodesRequest" }) as any as S.Schema<ListPromoCodesRequest>;
 
 /** Currency used for a fixed-amount discount. */
 export type PromoCodeListItemCurrency =
@@ -703,9 +689,7 @@ export const PromoCodeListItem = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.String,
     uses: S.Number,
   }),
-).annotate({
-  identifier: "PromoCodeListItem",
-}) as any as S.Schema<PromoCodeListItem>;
+).annotate({ identifier: "PromoCodeListItem" }) as any as S.Schema<PromoCodeListItem>;
 
 export type ListPromoCodesResponseDataList = Array<PromoCodeListItem>;
 export const ListPromoCodesResponseDataList = /*@__PURE__*/ S.Array(
@@ -738,9 +722,7 @@ export const ListPromoCodesResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListPromoCodesResponseDataList,
     page_info: ListPromoCodesResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListPromoCodesResponse",
-}) as any as S.Schema<ListPromoCodesResponse>;
+).annotate({ identifier: "ListPromoCodesResponse" }) as any as S.Schema<ListPromoCodesResponse>;
 
 /** Statuses that can be applied to promo codes through update operations. */
 export type PromoCodeUpdateStatus = "active" | "inactive";
@@ -757,9 +739,7 @@ export const UpdatePromoCodeRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     status: PromoCodeUpdateStatus,
   }).pipe(T.Http({ method: "PATCH", uri: "/promo_codes/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdatePromoCodeRequest",
-}) as any as S.Schema<UpdatePromoCodeRequest>;
+).annotate({ identifier: "UpdatePromoCodeRequest" }) as any as S.Schema<UpdatePromoCodeRequest>;
 
 /** The company for the promo code. */
 export interface LegacyPromoCodeCompany {
@@ -773,9 +753,7 @@ export const LegacyPromoCodeCompany = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     title: S.String,
   }),
-).annotate({
-  identifier: "LegacyPromoCodeCompany",
-}) as any as S.Schema<LegacyPromoCodeCompany>;
+).annotate({ identifier: "LegacyPromoCodeCompany" }) as any as S.Schema<LegacyPromoCodeCompany>;
 
 /** The available currencies on the platform */
 export type Currencies =
@@ -887,9 +865,7 @@ export const LegacyPromoCodeProduct = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     title: S.String,
   }),
-).annotate({
-  identifier: "LegacyPromoCodeProduct",
-}) as any as S.Schema<LegacyPromoCodeProduct>;
+).annotate({ identifier: "LegacyPromoCodeProduct" }) as any as S.Schema<LegacyPromoCodeProduct>;
 
 /** The type of promo code used to discount a plan */
 export type PromoTypes = "percentage" | "flat_amount";
@@ -962,9 +938,7 @@ export const LegacyPromoCode = /*@__PURE__*/ S.suspend(() =>
     unlimited_stock: S.Boolean,
     uses: S.Number,
   }),
-).annotate({
-  identifier: "LegacyPromoCode",
-}) as any as S.Schema<LegacyPromoCode>;
+).annotate({ identifier: "LegacyPromoCode" }) as any as S.Schema<LegacyPromoCode>;
 
 export type ActivatePromoCodeError = BadRequest | Conflict | WhopOpError;
 /** Activate Promo Code Turns an inactive promo code back on so it can be redeemed at checkout. */

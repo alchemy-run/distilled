@@ -130,13 +130,7 @@ export const ListRecommendedActionExecutionsRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     id: S.String.pipe(T.Label()),
     account_id: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/recommended_actions/{id}/executions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/recommended_actions/{id}/executions", code: 200 })),
 ).annotate({
   identifier: "ListRecommendedActionExecutionsRequest",
 }) as any as S.Schema<ListRecommendedActionExecutionsRequest>;

@@ -120,9 +120,7 @@ export const CreateAdCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.String,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/ad_campaigns", code: 200 })),
-).annotate({
-  identifier: "CreateAdCampaignRequest",
-}) as any as S.Schema<CreateAdCampaignRequest>;
+).annotate({ identifier: "CreateAdCampaignRequest" }) as any as S.Schema<CreateAdCampaignRequest>;
 
 /** How delivery bids in the ad auction: `minimum_cost` gets the most results for the budget, `average_target` holds an average cost per result, and `maximum_target` never bids above a cap. */
 export type AdCampaignBidType = "minimum_cost" | "average_target" | "maximum_target";
@@ -173,9 +171,7 @@ export const AdPlatformIssue = /*@__PURE__*/ S.suspend(() =>
     resource_id: S.NullOr(S.String),
     resource_type: AdPlatformIssueResourceType,
   }),
-).annotate({
-  identifier: "AdPlatformIssue",
-}) as any as S.Schema<AdPlatformIssue>;
+).annotate({ identifier: "AdPlatformIssue" }) as any as S.Schema<AdPlatformIssue>;
 
 export type AdCampaignIssuesList = Array<AdPlatformIssue>;
 export const AdCampaignIssuesList = /*@__PURE__*/ S.Array(
@@ -423,9 +419,7 @@ export const DeleteAdCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/ad_campaigns/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteAdCampaignRequest",
-}) as any as S.Schema<DeleteAdCampaignRequest>;
+).annotate({ identifier: "DeleteAdCampaignRequest" }) as any as S.Schema<DeleteAdCampaignRequest>;
 
 export interface DeleteAdCampaignResponse {
   /** Always true. */
@@ -438,9 +432,7 @@ export const DeleteAdCampaignResponse = /*@__PURE__*/ S.suspend(() =>
     deleted: S.Boolean,
     id: S.String,
   }),
-).annotate({
-  identifier: "DeleteAdCampaignResponse",
-}) as any as S.Schema<DeleteAdCampaignResponse>;
+).annotate({ identifier: "DeleteAdCampaignResponse" }) as any as S.Schema<DeleteAdCampaignResponse>;
 
 export interface DuplicateAdCampaignRequest {
   /** The ad campaign ID. */
@@ -502,9 +494,7 @@ export const GetAdCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     time_zone: S.optional(S.String.pipe(T.Query())),
     attribution_model: S.optional(GetAdCampaignRequestAttributionModel.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/ad_campaigns/{id}", code: 200 })),
-).annotate({
-  identifier: "GetAdCampaignRequest",
-}) as any as S.Schema<GetAdCampaignRequest>;
+).annotate({ identifier: "GetAdCampaignRequest" }) as any as S.Schema<GetAdCampaignRequest>;
 
 export type ListAdCampaignsRequestStatus = "draft" | "active" | "paused" | "payment_failed";
 export const ListAdCampaignsRequestStatus = S.String;
@@ -582,9 +572,7 @@ export const ListAdCampaignsRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/ad_campaigns", code: 200 })),
-).annotate({
-  identifier: "ListAdCampaignsRequest",
-}) as any as S.Schema<ListAdCampaignsRequest>;
+).annotate({ identifier: "ListAdCampaignsRequest" }) as any as S.Schema<ListAdCampaignsRequest>;
 
 export type ListAdCampaignsResponseDataList = Array<AdCampaign>;
 export const ListAdCampaignsResponseDataList = /*@__PURE__*/ S.Array(
@@ -617,9 +605,7 @@ export const ListAdCampaignsResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListAdCampaignsResponseDataList,
     page_info: ListAdCampaignsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListAdCampaignsResponse",
-}) as any as S.Schema<ListAdCampaignsResponse>;
+).annotate({ identifier: "ListAdCampaignsResponse" }) as any as S.Schema<ListAdCampaignsResponse>;
 
 export interface PauseAdCampaignRequest {
   /** The ad campaign ID. */
@@ -632,9 +618,7 @@ export const PauseAdCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/ad_campaigns/{id}/pause", code: 200 })),
-).annotate({
-  identifier: "PauseAdCampaignRequest",
-}) as any as S.Schema<PauseAdCampaignRequest>;
+).annotate({ identifier: "PauseAdCampaignRequest" }) as any as S.Schema<PauseAdCampaignRequest>;
 
 export interface RetryAdCampaignPaymentRequest {
   /** The ad campaign ID. */
@@ -646,13 +630,7 @@ export const RetryAdCampaignPaymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ad_campaigns/{id}/retry_payment",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/ad_campaigns/{id}/retry_payment", code: 200 })),
 ).annotate({
   identifier: "RetryAdCampaignPaymentRequest",
 }) as any as S.Schema<RetryAdCampaignPaymentRequest>;
@@ -668,9 +646,7 @@ export const UnpauseAdCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/ad_campaigns/{id}/unpause", code: 200 })),
-).annotate({
-  identifier: "UnpauseAdCampaignRequest",
-}) as any as S.Schema<UnpauseAdCampaignRequest>;
+).annotate({ identifier: "UnpauseAdCampaignRequest" }) as any as S.Schema<UnpauseAdCampaignRequest>;
 
 /** How delivery bids in the ad auction: `minimum_cost` gets the most results for the budget, `average_target` holds an average cost per result, `maximum_target` never bids above a cap. Switching to `minimum_cost` clears the cap amounts stored on the campaign's ad groups. Only for campaigns that own the budget. */
 export type UpdateAdCampaignRequestBidType = "minimum_cost" | "average_target" | "maximum_target";
@@ -738,9 +714,7 @@ export const UpdateAdCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(UpdateAdCampaignRequestStatus),
     title: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/ad_campaigns/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateAdCampaignRequest",
-}) as any as S.Schema<UpdateAdCampaignRequest>;
+).annotate({ identifier: "UpdateAdCampaignRequest" }) as any as S.Schema<UpdateAdCampaignRequest>;
 
 export type CreateAdCampaignError = BadRequest | Conflict | WhopOpError;
 /** Create an Ad Campaign Creates an ad campaign for an account. */

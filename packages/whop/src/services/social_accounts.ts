@@ -155,9 +155,7 @@ export const SocialAccountParent = /*@__PURE__*/ S.suspend(() =>
     username: S.NullOr(S.String),
     verified: S.Boolean,
   }),
-).annotate({
-  identifier: "SocialAccountParent",
-}) as any as S.Schema<SocialAccountParent>;
+).annotate({ identifier: "SocialAccountParent" }) as any as S.Schema<SocialAccountParent>;
 
 /** The platform the social account exists on. */
 export type SocialAccountPlatform =
@@ -257,13 +255,7 @@ export const ListSocialAccountLeadFormsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     account_id: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/social_accounts/{id}/lead_forms",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/social_accounts/{id}/lead_forms", code: 200 })),
 ).annotate({
   identifier: "ListSocialAccountLeadFormsRequest",
 }) as any as S.Schema<ListSocialAccountLeadFormsRequest>;
@@ -285,9 +277,7 @@ export const AdLeadFormCompletion = /*@__PURE__*/ S.suspend(() =>
     headline: S.NullOr(S.String),
     url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AdLeadFormCompletion",
-}) as any as S.Schema<AdLeadFormCompletion>;
+).annotate({ identifier: "AdLeadFormCompletion" }) as any as S.Schema<AdLeadFormCompletion>;
 
 export interface AdLeadFormDisclaimerCheckbox {
   /** Whether the checkbox starts ticked. */
@@ -328,9 +318,7 @@ export const AdLeadFormDisclaimer = /*@__PURE__*/ S.suspend(() =>
     checkboxes: AdLeadFormDisclaimerCheckboxesList,
     title: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AdLeadFormDisclaimer",
-}) as any as S.Schema<AdLeadFormDisclaimer>;
+).annotate({ identifier: "AdLeadFormDisclaimer" }) as any as S.Schema<AdLeadFormDisclaimer>;
 
 /** `more_volume` is quickest to submit; `higher_intent` adds a confirmation step before submission. */
 export type SocialAccountLeadFormFormType = "more_volume" | "higher_intent";
@@ -347,9 +335,7 @@ export const AdLeadFormIntro = /*@__PURE__*/ S.suspend(() =>
     description: S.NullOr(S.String),
     headline: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AdLeadFormIntro",
-}) as any as S.Schema<AdLeadFormIntro>;
+).annotate({ identifier: "AdLeadFormIntro" }) as any as S.Schema<AdLeadFormIntro>;
 
 export type SocialAccountLeadFormQuestionLabelsList = Array<string>;
 export const SocialAccountLeadFormQuestionLabelsList = /*@__PURE__*/ S.Array(
@@ -374,9 +360,7 @@ export const AdLeadFormOptionLogic = /*@__PURE__*/ S.suspend(() =>
     target_end_page_index: S.optional(S.Number),
     target_question_index: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AdLeadFormOptionLogic",
-}) as any as S.Schema<AdLeadFormOptionLogic>;
+).annotate({ identifier: "AdLeadFormOptionLogic" }) as any as S.Schema<AdLeadFormOptionLogic>;
 
 export interface AdLeadFormQuestionOption {
   /** Stable identifier the choice's answers are stored under. Absent for simple choices. */
@@ -392,9 +376,7 @@ export const AdLeadFormQuestionOption = /*@__PURE__*/ S.suspend(() =>
     logic: S.optional(AdLeadFormOptionLogic),
     value: S.String,
   }),
-).annotate({
-  identifier: "AdLeadFormQuestionOption",
-}) as any as S.Schema<AdLeadFormQuestionOption>;
+).annotate({ identifier: "AdLeadFormQuestionOption" }) as any as S.Schema<AdLeadFormQuestionOption>;
 
 export type AdLeadFormQuestionOptionsList = Array<AdLeadFormQuestionOption>;
 export const AdLeadFormQuestionOptionsList = /*@__PURE__*/ S.Array(
@@ -417,9 +399,7 @@ export const AdLeadFormQuestion = /*@__PURE__*/ S.suspend(() =>
     options: S.optional(AdLeadFormQuestionOptionsList),
     type: S.String,
   }),
-).annotate({
-  identifier: "AdLeadFormQuestion",
-}) as any as S.Schema<AdLeadFormQuestion>;
+).annotate({ identifier: "AdLeadFormQuestion" }) as any as S.Schema<AdLeadFormQuestion>;
 
 export type SocialAccountLeadFormQuestionsList = Array<AdLeadFormQuestion>;
 export const SocialAccountLeadFormQuestionsList = /*@__PURE__*/ S.Array(
@@ -465,9 +445,7 @@ export const SocialAccountLeadForm = /*@__PURE__*/ S.suspend(() =>
     question_labels: SocialAccountLeadFormQuestionLabelsList,
     questions: SocialAccountLeadFormQuestionsList,
   }),
-).annotate({
-  identifier: "SocialAccountLeadForm",
-}) as any as S.Schema<SocialAccountLeadForm>;
+).annotate({ identifier: "SocialAccountLeadForm" }) as any as S.Schema<SocialAccountLeadForm>;
 
 export type ListSocialAccountLeadFormsResponseDataList = Array<SocialAccountLeadForm>;
 export const ListSocialAccountLeadFormsResponseDataList = /*@__PURE__*/ S.Array(
@@ -584,9 +562,7 @@ export const SocialAccountPost = /*@__PURE__*/ S.suspend(() =>
     restrictions: SocialAccountPostRestrictionsList,
     thumbnail_url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "SocialAccountPost",
-}) as any as S.Schema<SocialAccountPost>;
+).annotate({ identifier: "SocialAccountPost" }) as any as S.Schema<SocialAccountPost>;
 
 export type ListSocialAccountPostsResponseDataList = Array<SocialAccountPost>;
 export const ListSocialAccountPostsResponseDataList = /*@__PURE__*/ S.Array(

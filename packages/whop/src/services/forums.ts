@@ -53,9 +53,7 @@ export const GetForumRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/forums/{id}", code: 200 })),
-).annotate({
-  identifier: "GetForumRequest",
-}) as any as S.Schema<GetForumRequest>;
+).annotate({ identifier: "GetForumRequest" }) as any as S.Schema<GetForumRequest>;
 
 /** Email notification preference option for a forum feed */
 export type ForumEmailNotificationPreferences = "all_admin_posts" | "only_weekly_summary" | "none";
@@ -76,9 +74,7 @@ export const ForumExperience = /*@__PURE__*/ S.suspend(() =>
     is_public: S.Boolean,
     name: S.String,
   }),
-).annotate({
-  identifier: "ForumExperience",
-}) as any as S.Schema<ForumExperience>;
+).annotate({ identifier: "ForumExperience" }) as any as S.Schema<ForumExperience>;
 
 /** Who can comment on a forum feed */
 export type ForumWhoCanCommentTypes = "everyone" | "admins";
@@ -128,9 +124,7 @@ export const ListForumRequest = /*@__PURE__*/ S.suspend(() =>
     company_id: S.String.pipe(T.Query()),
     product_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/forums", code: 200 })),
-).annotate({
-  identifier: "ListForumRequest",
-}) as any as S.Schema<ListForumRequest>;
+).annotate({ identifier: "ListForumRequest" }) as any as S.Schema<ListForumRequest>;
 
 /** The parent experience that this forum belongs to. */
 export type ForumListItemExperience = ForumExperience;
@@ -196,9 +190,7 @@ export const ListForumResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListForumResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListForumResponse",
-}) as any as S.Schema<ListForumResponse>;
+).annotate({ identifier: "ListForumResponse" }) as any as S.Schema<ListForumResponse>;
 
 /** A list of words that are automatically blocked from posts in this forum. For example, ['spam', 'scam']. */
 export type UpdateForumRequestBannedWordsList = Array<string>;
@@ -242,9 +234,7 @@ export const UpdateForumRequest = /*@__PURE__*/ S.suspend(() =>
     who_can_comment: S.optional(S.NullOr(ForumWhoCanCommentTypes)),
     who_can_post: S.optional(S.NullOr(ForumWhoCanPostTypes)),
   }).pipe(T.Http({ method: "PATCH", uri: "/forums/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateForumRequest",
-}) as any as S.Schema<UpdateForumRequest>;
+).annotate({ identifier: "UpdateForumRequest" }) as any as S.Schema<UpdateForumRequest>;
 
 export type GetForumError = BadRequest | Forbidden | NotFound | UnprocessableEntity | WhopOpError;
 /** Retrieve forum [Legacy API — https://docs.whop.com/api-reference] Retrieves the details of an existing forum. Required permissions: - `forum:read` */
