@@ -72,6 +72,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "expo-eas" },
   { package: "fly-io" },
   { package: "forgejo" },
+  { package: "freestyle" },
   { package: "gcp" },
   { package: "github" },
   { package: "google-workspace" },
