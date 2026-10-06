@@ -530,9 +530,7 @@ export const CreateProductRequest = /*@__PURE__*/ S.suspend(() =>
     image_url: S.optional(S.String),
     home_url: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v1/catalogs/products", code: 200 })),
-).annotate({
-  identifier: "CreateProductRequest",
-}) as any as S.Schema<CreateProductRequest>;
+).annotate({ identifier: "CreateProductRequest" }) as any as S.Schema<CreateProductRequest>;
 
 /** The product type. Indicates whether the product is physical or digital goods, or a service. */
 export type ProductType = "PHYSICAL" | "DIGITAL" | "SERVICE";
@@ -565,9 +563,7 @@ export const LinkDescription = /*@__PURE__*/ S.suspend(() =>
     rel: S.String,
     method: S.optional(LinkDescriptionMethod),
   }),
-).annotate({
-  identifier: "LinkDescription",
-}) as any as S.Schema<LinkDescription>;
+).annotate({ identifier: "LinkDescription" }) as any as S.Schema<LinkDescription>;
 
 /** An array of request-related [HATEOAS links](/docs/api/overview/#hateoas-links). */
 export type LinkDescriptionList = Array<LinkDescription>;
@@ -618,16 +614,8 @@ export interface GetProductRequest {
 export const GetProductRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     product_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/catalogs/products/{product_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetProductRequest",
-}) as any as S.Schema<GetProductRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/catalogs/products/{product_id}", code: 200 })),
+).annotate({ identifier: "GetProductRequest" }) as any as S.Schema<GetProductRequest>;
 
 export interface ListProductsRequest {
   /** The number of items to return in the response. */
@@ -643,9 +631,7 @@ export const ListProductsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     total_required: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/catalogs/products", code: 200 })),
-).annotate({
-  identifier: "ListProductsRequest",
-}) as any as S.Schema<ListProductsRequest>;
+).annotate({ identifier: "ListProductsRequest" }) as any as S.Schema<ListProductsRequest>;
 
 /** The details for a product in the collection response. */
 export interface ProductCollectionElement {
@@ -667,9 +653,7 @@ export const ProductCollectionElement = /*@__PURE__*/ S.suspend(() =>
     create_time: S.optional(S.String),
     links: S.optional(LinkDescriptionList),
   }),
-).annotate({
-  identifier: "ProductCollectionElement",
-}) as any as S.Schema<ProductCollectionElement>;
+).annotate({ identifier: "ProductCollectionElement" }) as any as S.Schema<ProductCollectionElement>;
 
 /** An array of products. */
 export type ProductCollectionElementList = Array<ProductCollectionElement>;
@@ -693,9 +677,7 @@ export const ProductCollection = /*@__PURE__*/ S.suspend(() =>
     total_pages: S.optional(S.Number),
     links: S.optional(LinkDescriptionList),
   }),
-).annotate({
-  identifier: "ProductCollection",
-}) as any as S.Schema<ProductCollection>;
+).annotate({ identifier: "ProductCollection" }) as any as S.Schema<ProductCollection>;
 
 /** The operation. */
 export type PatchOp = "add" | "remove" | "replace" | "move" | "copy" | "test";
@@ -734,16 +716,8 @@ export const PatchProductRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     product_id: S.String.pipe(T.Label()),
     body: S.optional(PatchRequest.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/catalogs/products/{product_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PatchProductRequest",
-}) as any as S.Schema<PatchProductRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/catalogs/products/{product_id}", code: 200 })),
+).annotate({ identifier: "PatchProductRequest" }) as any as S.Schema<PatchProductRequest>;
 
 export interface PatchProductResponse {}
 export const PatchProductResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

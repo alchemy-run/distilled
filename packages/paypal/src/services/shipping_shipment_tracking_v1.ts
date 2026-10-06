@@ -47,9 +47,7 @@ export const GetTrackerRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     account_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/shipping/trackers/{id}", code: 200 })),
-).annotate({
-  identifier: "GetTrackerRequest",
-}) as any as S.Schema<GetTrackerRequest>;
+).annotate({ identifier: "GetTrackerRequest" }) as any as S.Schema<GetTrackerRequest>;
 
 /** The tracking number type. */
 export type TrackingNumberType = "CARRIER_PROVIDED" | "E2E_PARTNER_PROVIDED";
@@ -931,9 +929,7 @@ export const LinkDescription = /*@__PURE__*/ S.suspend(() =>
     rel: S.String,
     method: S.optional(LinkDescriptionMethod),
   }),
-).annotate({
-  identifier: "LinkDescription",
-}) as any as S.Schema<LinkDescription>;
+).annotate({ identifier: "LinkDescription" }) as any as S.Schema<LinkDescription>;
 
 /** An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type LinkDescriptionList = Array<LinkDescription>;
@@ -1011,9 +1007,7 @@ export const GetTrackerBatchRequest = /*@__PURE__*/ S.suspend(() =>
     tracking_number: S.optional(S.String.pipe(T.Query())),
     account_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/shipping/trackers", code: 200 })),
-).annotate({
-  identifier: "GetTrackerBatchRequest",
-}) as any as S.Schema<GetTrackerBatchRequest>;
+).annotate({ identifier: "GetTrackerBatchRequest" }) as any as S.Schema<GetTrackerBatchRequest>;
 
 /** To denote whether the shipment is sent forward to the receiver or returned back. */
 export type TrackerInputShipmentDirection = "FORWARD" | "RETURN";
@@ -1071,9 +1065,7 @@ export const PostTrackerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     trackers: S.optional(TrackerListInput),
   }).pipe(T.Http({ method: "POST", uri: "/v1/shipping/trackers", code: 200 })),
-).annotate({
-  identifier: "PostTrackerRequest",
-}) as any as S.Schema<PostTrackerRequest>;
+).annotate({ identifier: "PostTrackerRequest" }) as any as S.Schema<PostTrackerRequest>;
 
 /** The tracking identifiers for a shipment. */
 export interface TrackerIdentifier {
@@ -1089,9 +1081,7 @@ export const TrackerIdentifier = /*@__PURE__*/ S.suspend(() =>
     tracking_number: S.optional(S.String),
     links: S.optional(LinkDescriptionList),
   }),
-).annotate({
-  identifier: "TrackerIdentifier",
-}) as any as S.Schema<TrackerIdentifier>;
+).annotate({ identifier: "TrackerIdentifier" }) as any as S.Schema<TrackerIdentifier>;
 
 /** An array of tracking IDs. */
 export type DefinitionsTrackerIdentifierList = Array<TrackerIdentifier>;
@@ -1126,9 +1116,7 @@ export const PostTrackerBatchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     trackers: S.optional(TrackerListInput),
   }).pipe(T.Http({ method: "POST", uri: "/v1/shipping/trackers-batch", code: 200 })),
-).annotate({
-  identifier: "PostTrackerBatchRequest",
-}) as any as S.Schema<PostTrackerBatchRequest>;
+).annotate({ identifier: "PostTrackerBatchRequest" }) as any as S.Schema<PostTrackerBatchRequest>;
 
 /** The batch header. */
 export type TrackerIdentifierList = Array<TrackerIdentifier>;
@@ -1163,9 +1151,7 @@ export const LinkDescription2 = /*@__PURE__*/ S.suspend(() =>
     rel: S.String,
     method: S.optional(LinkDescription2Method),
   }),
-).annotate({
-  identifier: "LinkDescription2",
-}) as any as S.Schema<LinkDescription2>;
+).annotate({ identifier: "LinkDescription2" }) as any as S.Schema<LinkDescription2>;
 
 /** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links) that are either relevant to the issue by providing additional information or offering potential resolutions. */
 export type DefinitionsLinkDescriptionList = Array<LinkDescription2>;
@@ -1256,9 +1242,7 @@ export const BatchTrackerCollection = /*@__PURE__*/ S.suspend(() =>
     errors: S.optional(ErrorList),
     links: S.optional(BatchTrackerCollectionDefinitionsLinkDescriptionList),
   }),
-).annotate({
-  identifier: "BatchTrackerCollection",
-}) as any as S.Schema<BatchTrackerCollection>;
+).annotate({ identifier: "BatchTrackerCollection" }) as any as S.Schema<BatchTrackerCollection>;
 
 /** To denote whether the shipment is sent forward to the receiver or returned back. */
 export type PutTrackerRequestShipmentDirection = "FORWARD" | "RETURN";
@@ -1303,9 +1287,7 @@ export const PutTrackerRequest = /*@__PURE__*/ S.suspend(() =>
     shipment_direction: S.optional(PutTrackerRequestShipmentDirection),
     tracking_url: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/v1/shipping/trackers/{id}", code: 200 })),
-).annotate({
-  identifier: "PutTrackerRequest",
-}) as any as S.Schema<PutTrackerRequest>;
+).annotate({ identifier: "PutTrackerRequest" }) as any as S.Schema<PutTrackerRequest>;
 
 export interface PutTrackerResponse {}
 export const PutTrackerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

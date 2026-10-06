@@ -90,16 +90,8 @@ export const CreateWebProfileRequest = /*@__PURE__*/ S.suspend(() =>
     flow_config: S.optional(FlowConfig),
     input_fields: S.optional(InputFields),
     presentation: S.optional(Presentation),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/payment-experience/web-profiles",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateWebProfileRequest",
-}) as any as S.Schema<CreateWebProfileRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/payment-experience/web-profiles", code: 200 })),
+).annotate({ identifier: "CreateWebProfileRequest" }) as any as S.Schema<CreateWebProfileRequest>;
 
 /** A payment web experience profile. */
 export interface WebProfile {
@@ -131,16 +123,8 @@ export interface DeleteWebProfileRequest {
 export const DeleteWebProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/payment-experience/web-profiles/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteWebProfileRequest",
-}) as any as S.Schema<DeleteWebProfileRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/payment-experience/web-profiles/{id}", code: 200 })),
+).annotate({ identifier: "DeleteWebProfileRequest" }) as any as S.Schema<DeleteWebProfileRequest>;
 
 export interface DeleteWebProfileResponse {}
 export const DeleteWebProfileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -154,16 +138,8 @@ export interface GetWebProfileRequest {
 export const GetWebProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/payment-experience/web-profiles/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetWebProfileRequest",
-}) as any as S.Schema<GetWebProfileRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/payment-experience/web-profiles/{id}", code: 200 })),
+).annotate({ identifier: "GetWebProfileRequest" }) as any as S.Schema<GetWebProfileRequest>;
 
 export interface UpdateWebProfileRequest {
   /** The ID of the profile to delete. */
@@ -184,16 +160,8 @@ export const UpdateWebProfileRequest = /*@__PURE__*/ S.suspend(() =>
     flow_config: S.optional(FlowConfig),
     input_fields: S.optional(InputFields),
     presentation: S.optional(Presentation),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/payment-experience/web-profiles/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateWebProfileRequest",
-}) as any as S.Schema<UpdateWebProfileRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/payment-experience/web-profiles/{id}", code: 200 })),
+).annotate({ identifier: "UpdateWebProfileRequest" }) as any as S.Schema<UpdateWebProfileRequest>;
 
 export interface UpdateWebProfileResponse {}
 export const UpdateWebProfileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -237,36 +205,22 @@ export const UpdateWebProfilePartialRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     body: S.optional(PatchRequest.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/payment-experience/web-profiles/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/payment-experience/web-profiles/{id}", code: 200 })),
 ).annotate({
   identifier: "UpdateWebProfilePartialRequest",
 }) as any as S.Schema<UpdateWebProfilePartialRequest>;
 
 export interface UpdateWebProfilePartialResponse {}
 export const UpdateWebProfilePartialResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "UpdateWebProfilePartialResponse",
-  },
+  { identifier: "UpdateWebProfilePartialResponse" },
 ) as any as S.Schema<UpdateWebProfilePartialResponse>;
 
 export interface WebProfileGetListRequest {}
 export const WebProfileGetListRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/payment-experience/web-profiles",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/payment-experience/web-profiles", code: 200 }),
   ),
-).annotate({
-  identifier: "WebProfileGetListRequest",
-}) as any as S.Schema<WebProfileGetListRequest>;
+).annotate({ identifier: "WebProfileGetListRequest" }) as any as S.Schema<WebProfileGetListRequest>;
 
 /** An array of web profiles. */
 export type WebProfileList = Array<WebProfile>;

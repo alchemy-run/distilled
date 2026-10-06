@@ -72,16 +72,8 @@ export const CancelInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
     send_to_invoicer: S.optional(S.Boolean),
     send_to_recipient: S.optional(S.Boolean),
     additional_recipients: S.optional(EmailAddressList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/invoicing/invoices/{invoice_id}/cancel",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CancelInvoiceRequest",
-}) as any as S.Schema<CancelInvoiceRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/invoicing/invoices/{invoice_id}/cancel", code: 200 })),
+).annotate({ identifier: "CancelInvoiceRequest" }) as any as S.Schema<CancelInvoiceRequest>;
 
 export interface CancelInvoiceResponse {}
 export const CancelInvoiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -142,9 +134,7 @@ export const InvoicePaymentTerm = /*@__PURE__*/ S.suspend(() =>
     term_type: S.optional(PaymentTermType),
     due_date: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InvoicePaymentTerm",
-}) as any as S.Schema<InvoicePaymentTerm>;
+).annotate({ identifier: "InvoicePaymentTerm" }) as any as S.Schema<InvoicePaymentTerm>;
 
 /** The details of the invoice. Includes invoice number, date, payment terms, and audit metadata. */
 export interface InvoiceDetailInput {
@@ -178,9 +168,7 @@ export const InvoiceDetailInput = /*@__PURE__*/ S.suspend(() =>
     invoice_date: S.optional(S.String),
     payment_term: S.optional(InvoicePaymentTerm),
   }),
-).annotate({
-  identifier: "InvoiceDetailInput",
-}) as any as S.Schema<InvoiceDetailInput>;
+).annotate({ identifier: "InvoiceDetailInput" }) as any as S.Schema<InvoiceDetailInput>;
 
 /** The name of the party. */
 export interface Name {
@@ -271,9 +259,7 @@ export const AddressPortable = /*@__PURE__*/ S.suspend(() =>
     country_code: S.String,
     address_details: S.optional(AddressDetails),
   }),
-).annotate({
-  identifier: "AddressPortable",
-}) as any as S.Schema<AddressPortable>;
+).annotate({ identifier: "AddressPortable" }) as any as S.Schema<AddressPortable>;
 
 /** The phone type. */
 export type PhoneType = "FAX" | "HOME" | "MOBILE" | "OTHER" | "PAGER";
@@ -387,9 +373,7 @@ export const ContactNameAddress = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(Name),
     address: S.optional(AddressPortable),
   }),
-).annotate({
-  identifier: "ContactNameAddress",
-}) as any as S.Schema<ContactNameAddress>;
+).annotate({ identifier: "ContactNameAddress" }) as any as S.Schema<ContactNameAddress>;
 
 /** The billing and shipping information. Includes name, email, address, phone, and language. */
 export interface RecipientInfo {
@@ -550,9 +534,7 @@ export const AggregatedDiscount = /*@__PURE__*/ S.suspend(() =>
     invoice_discount: S.optional(Discount),
     item_discount: S.optional(Money),
   }),
-).annotate({
-  identifier: "AggregatedDiscount",
-}) as any as S.Schema<AggregatedDiscount>;
+).annotate({ identifier: "AggregatedDiscount" }) as any as S.Schema<AggregatedDiscount>;
 
 /** The shipping fee for all items. Includes tax on shipping. */
 export interface ShippingCost {
@@ -603,9 +585,7 @@ export const AmountWithBreakdown = /*@__PURE__*/ S.suspend(() =>
     shipping: S.optional(ShippingCost),
     custom: S.optional(CustomAmount),
   }),
-).annotate({
-  identifier: "AmountWithBreakdown",
-}) as any as S.Schema<AmountWithBreakdown>;
+).annotate({ identifier: "AmountWithBreakdown" }) as any as S.Schema<AmountWithBreakdown>;
 
 /** The invoice amount summary of item total, discount, tax total, and shipping. */
 export interface AmountSummaryDetail {
@@ -621,9 +601,7 @@ export const AmountSummaryDetail = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     breakdown: S.optional(AmountWithBreakdown),
   }),
-).annotate({
-  identifier: "AmountSummaryDetail",
-}) as any as S.Schema<AmountSummaryDetail>;
+).annotate({ identifier: "AmountSummaryDetail" }) as any as S.Schema<AmountSummaryDetail>;
 
 /** An array of payments registered against the invoice. */
 export interface PaymentsInput {}
@@ -664,9 +642,7 @@ export const CreateInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
     payments: S.optional(PaymentsInput),
     refunds: S.optional(PaymentsInput),
   }).pipe(T.Http({ method: "POST", uri: "/v2/invoicing/invoices", code: 200 })),
-).annotate({
-  identifier: "CreateInvoiceRequest",
-}) as any as S.Schema<CreateInvoiceRequest>;
+).annotate({ identifier: "CreateInvoiceRequest" }) as any as S.Schema<CreateInvoiceRequest>;
 
 /** The status of the invoice. */
 export type InvoiceStatus =
@@ -945,9 +921,7 @@ export const LinkDescription = /*@__PURE__*/ S.suspend(() =>
     rel: S.String,
     method: S.optional(LinkDescriptionMethod),
   }),
-).annotate({
-  identifier: "LinkDescription",
-}) as any as S.Schema<LinkDescription>;
+).annotate({ identifier: "LinkDescription" }) as any as S.Schema<LinkDescription>;
 
 /** An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type LinkDescriptionList = Array<LinkDescription>;
@@ -1047,9 +1021,7 @@ export const TemplateDetailInput = /*@__PURE__*/ S.suspend(() =>
     payment_term: S.optional(PaymentTerm),
     metadata: S.optional(PaymentsInput),
   }),
-).annotate({
-  identifier: "TemplateDetailInput",
-}) as any as S.Schema<TemplateDetailInput>;
+).annotate({ identifier: "TemplateDetailInput" }) as any as S.Schema<TemplateDetailInput>;
 
 /** The billing and shipping information. Includes name, email, address, phone, and language. */
 export type DefinitionsRecipientInfoList = Array<RecipientInfo>;
@@ -1084,9 +1056,7 @@ export const TemplateConfiguration = /*@__PURE__*/ S.suspend(() =>
     partial_payment: S.optional(PartialPayment),
     has_conditional_rule: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TemplateConfiguration",
-}) as any as S.Schema<TemplateConfiguration>;
+).annotate({ identifier: "TemplateConfiguration" }) as any as S.Schema<TemplateConfiguration>;
 
 /** The template details. Includes invoicer business information, invoice recipients, items, and configuration. */
 export interface TemplateInfoInput {
@@ -1112,9 +1082,7 @@ export const TemplateInfoInput = /*@__PURE__*/ S.suspend(() =>
     configuration: S.optional(TemplateConfiguration),
     amount: S.optional(AmountSummaryDetail),
   }),
-).annotate({
-  identifier: "TemplateInfoInput",
-}) as any as S.Schema<TemplateInfoInput>;
+).annotate({ identifier: "TemplateInfoInput" }) as any as S.Schema<TemplateInfoInput>;
 
 /** The field names for the invoice line items in the template. */
 export type TemplateItemField =
@@ -1150,9 +1118,7 @@ export const TemplateItemSetting = /*@__PURE__*/ S.suspend(() =>
     field_name: S.optional(TemplateItemField),
     display_preference: S.optional(TemplateDisplayPreference),
   }),
-).annotate({
-  identifier: "TemplateItemSetting",
-}) as any as S.Schema<TemplateItemSetting>;
+).annotate({ identifier: "TemplateItemSetting" }) as any as S.Schema<TemplateItemSetting>;
 
 /** The template item headers display preference. */
 export type TemplateItemSettingList = Array<TemplateItemSetting>;
@@ -1176,9 +1142,7 @@ export const TemplateSubtotalSetting = /*@__PURE__*/ S.suspend(() =>
     field_name: S.optional(TemplateSubtotalField),
     display_preference: S.optional(TemplateDisplayPreference),
   }),
-).annotate({
-  identifier: "TemplateSubtotalSetting",
-}) as any as S.Schema<TemplateSubtotalSetting>;
+).annotate({ identifier: "TemplateSubtotalSetting" }) as any as S.Schema<TemplateSubtotalSetting>;
 
 /** The template subtotal headers display preference. */
 export type TemplateSubtotalSettingList = Array<TemplateSubtotalSetting>;
@@ -1196,9 +1160,7 @@ export const TemplateSettings = /*@__PURE__*/ S.suspend(() =>
     template_item_settings: S.optional(TemplateItemSettingList),
     template_subtotal_settings: S.optional(TemplateSubtotalSettingList),
   }),
-).annotate({
-  identifier: "TemplateSettings",
-}) as any as S.Schema<TemplateSettings>;
+).annotate({ identifier: "TemplateSettings" }) as any as S.Schema<TemplateSettings>;
 
 export interface CreateTemplateRequest {
   /** The template name.<blockquote><strong>Note:</strong> The template name must be unique.</blockquote> */
@@ -1220,9 +1182,7 @@ export const CreateTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     settings: S.optional(TemplateSettings),
     unit_of_measure: S.optional(UnitOfMeasure),
   }).pipe(T.Http({ method: "POST", uri: "/v2/invoicing/templates", code: 200 })),
-).annotate({
-  identifier: "CreateTemplateRequest",
-}) as any as S.Schema<CreateTemplateRequest>;
+).annotate({ identifier: "CreateTemplateRequest" }) as any as S.Schema<CreateTemplateRequest>;
 
 /** The audit metadata. Captures all template actions on create and update. */
 export interface TemplateMetadata {
@@ -1242,9 +1202,7 @@ export const TemplateMetadata = /*@__PURE__*/ S.suspend(() =>
     last_update_time: S.optional(S.String),
     last_updated_by: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TemplateMetadata",
-}) as any as S.Schema<TemplateMetadata>;
+).annotate({ identifier: "TemplateMetadata" }) as any as S.Schema<TemplateMetadata>;
 
 /** The template-related details. Includes notes, terms and conditions, memo, and attachments. */
 export interface TemplateDetail {
@@ -1350,16 +1308,8 @@ export interface DeleteInvoiceRequest {
 export const DeleteInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     invoice_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/invoicing/invoices/{invoice_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteInvoiceRequest",
-}) as any as S.Schema<DeleteInvoiceRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/invoicing/invoices/{invoice_id}", code: 200 })),
+).annotate({ identifier: "DeleteInvoiceRequest" }) as any as S.Schema<DeleteInvoiceRequest>;
 
 export interface DeleteInvoiceResponse {}
 export const DeleteInvoiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1425,16 +1375,8 @@ export interface DeleteTemplateRequest {
 export const DeleteTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     template_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/invoicing/templates/{template_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteTemplateRequest",
-}) as any as S.Schema<DeleteTemplateRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/invoicing/templates/{template_id}", code: 200 })),
+).annotate({ identifier: "DeleteTemplateRequest" }) as any as S.Schema<DeleteTemplateRequest>;
 
 export interface DeleteTemplateResponse {}
 export const DeleteTemplateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1444,15 +1386,9 @@ export const DeleteTemplateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 export interface GetConnectionRequest {}
 export const GetConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/invoicing/accounting-sync/merchant/connections",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/invoicing/accounting-sync/merchant/connections", code: 200 }),
   ),
-).annotate({
-  identifier: "GetConnectionRequest",
-}) as any as S.Schema<GetConnectionRequest>;
+).annotate({ identifier: "GetConnectionRequest" }) as any as S.Schema<GetConnectionRequest>;
 
 /** The status of the last sync. This property supports Unicode. */
 export type ConnectionLastSyncStatus = "IN_PROGRESS" | "SUCCESS" | "FAILED";
@@ -1496,16 +1432,8 @@ export interface GetInvoiceRequest {
 export const GetInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     invoice_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/invoicing/invoices/{invoice_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetInvoiceRequest",
-}) as any as S.Schema<GetInvoiceRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/invoicing/invoices/{invoice_id}", code: 200 })),
+).annotate({ identifier: "GetInvoiceRequest" }) as any as S.Schema<GetInvoiceRequest>;
 
 export interface GetTemplateRequest {
   /** The ID of the template to delete. */
@@ -1514,16 +1442,8 @@ export interface GetTemplateRequest {
 export const GetTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     template_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/invoicing/templates/{template_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetTemplateRequest",
-}) as any as S.Schema<GetTemplateRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/invoicing/templates/{template_id}", code: 200 })),
+).annotate({ identifier: "GetTemplateRequest" }) as any as S.Schema<GetTemplateRequest>;
 
 export interface InvoiceConnectionDetailsGetRequest {
   /** The invoice id of the account. */
@@ -1560,9 +1480,7 @@ export const InvoiceConnectionDetails = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     connection_status: S.optional(ConnectionsList),
   }),
-).annotate({
-  identifier: "InvoiceConnectionDetails",
-}) as any as S.Schema<InvoiceConnectionDetails>;
+).annotate({ identifier: "InvoiceConnectionDetails" }) as any as S.Schema<InvoiceConnectionDetails>;
 
 export interface InvoicesGenerateQrCodeRequest {
   /** The ID of the draft invoice to delete. */
@@ -1622,15 +1540,9 @@ export const InvoicesPaymentsRequest = /*@__PURE__*/ S.suspend(() =>
     amount: S.optional(Money),
     shipping_info: S.optional(ContactNameAddress),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/invoicing/invoices/{invoice_id}/payments",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/invoicing/invoices/{invoice_id}/payments", code: 200 }),
   ),
-).annotate({
-  identifier: "InvoicesPaymentsRequest",
-}) as any as S.Schema<InvoicesPaymentsRequest>;
+).annotate({ identifier: "InvoicesPaymentsRequest" }) as any as S.Schema<InvoicesPaymentsRequest>;
 
 /** The reference to the payment detail. */
 export interface PaymentReference {
@@ -1641,9 +1553,7 @@ export const PaymentReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     payment_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PaymentReference",
-}) as any as S.Schema<PaymentReference>;
+).annotate({ identifier: "PaymentReference" }) as any as S.Schema<PaymentReference>;
 
 export interface InvoicesRefundsRequest {
   /** The ID of the draft invoice to delete. */
@@ -1662,15 +1572,9 @@ export const InvoicesRefundsRequest = /*@__PURE__*/ S.suspend(() =>
     amount: S.optional(Money),
     method: PaymentMethod,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/invoicing/invoices/{invoice_id}/refunds",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/invoicing/invoices/{invoice_id}/refunds", code: 200 }),
   ),
-).annotate({
-  identifier: "InvoicesRefundsRequest",
-}) as any as S.Schema<InvoicesRefundsRequest>;
+).annotate({ identifier: "InvoicesRefundsRequest" }) as any as S.Schema<InvoicesRefundsRequest>;
 
 /** The reference to the refund payment detail. */
 export interface RefundReference {
@@ -1681,9 +1585,7 @@ export const RefundReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     refund_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RefundReference",
-}) as any as S.Schema<RefundReference>;
+).annotate({ identifier: "RefundReference" }) as any as S.Schema<RefundReference>;
 
 export interface InvoicesRemindRequest {
   /** The ID of the draft invoice to delete. */
@@ -1706,16 +1608,8 @@ export const InvoicesRemindRequest = /*@__PURE__*/ S.suspend(() =>
     send_to_invoicer: S.optional(S.Boolean),
     send_to_recipient: S.optional(S.Boolean),
     additional_recipients: S.optional(EmailAddressList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/invoicing/invoices/{invoice_id}/remind",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "InvoicesRemindRequest",
-}) as any as S.Schema<InvoicesRemindRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/invoicing/invoices/{invoice_id}/remind", code: 200 })),
+).annotate({ identifier: "InvoicesRemindRequest" }) as any as S.Schema<InvoicesRemindRequest>;
 
 export interface InvoicesRemindResponse {}
 export const InvoicesRemindResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1729,13 +1623,7 @@ export interface InvoicingGenerateNextInvoiceNumberRequest {
 export const InvoicingGenerateNextInvoiceNumberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     fetch_id: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/invoicing/generate-next-invoice-number",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/invoicing/generate-next-invoice-number", code: 200 })),
 ).annotate({
   identifier: "InvoicingGenerateNextInvoiceNumberRequest",
 }) as any as S.Schema<InvoicingGenerateNextInvoiceNumberRequest>;
@@ -1771,9 +1659,7 @@ export const ListInvoicesRequest = /*@__PURE__*/ S.suspend(() =>
     total_required: S.optional(S.Boolean.pipe(T.Query())),
     fields: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/invoicing/invoices", code: 200 })),
-).annotate({
-  identifier: "ListInvoicesRequest",
-}) as any as S.Schema<ListInvoicesRequest>;
+).annotate({ identifier: "ListInvoicesRequest" }) as any as S.Schema<ListInvoicesRequest>;
 
 /** The list of invoices that match the search criteria. */
 export type InvoiceList = Array<Invoice>;
@@ -1811,9 +1697,7 @@ export const ListTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/invoicing/templates", code: 200 })),
-).annotate({
-  identifier: "ListTemplatesRequest",
-}) as any as S.Schema<ListTemplatesRequest>;
+).annotate({ identifier: "ListTemplatesRequest" }) as any as S.Schema<ListTemplatesRequest>;
 
 /** An array of addresses in the user's PayPal profile. */
 export type AddressPortableList = Array<AddressPortable>;
@@ -1961,9 +1845,7 @@ export const SearchInvoicesRequest = /*@__PURE__*/ S.suspend(() =>
     archived: S.optional(S.Boolean),
     fields: S.optional(FieldsList),
   }).pipe(T.Http({ method: "POST", uri: "/v2/invoicing/search-invoices", code: 200 })),
-).annotate({
-  identifier: "SearchInvoicesRequest",
-}) as any as S.Schema<SearchInvoicesRequest>;
+).annotate({ identifier: "SearchInvoicesRequest" }) as any as S.Schema<SearchInvoicesRequest>;
 
 export interface SendInvoiceRequest {
   /** The ID of the draft invoice to delete. */
@@ -1986,16 +1868,8 @@ export const SendInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
     send_to_invoicer: S.optional(S.Boolean),
     send_to_recipient: S.optional(S.Boolean),
     additional_recipients: S.optional(EmailAddressList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/invoicing/invoices/{invoice_id}/send",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SendInvoiceRequest",
-}) as any as S.Schema<SendInvoiceRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/invoicing/invoices/{invoice_id}/send", code: 200 })),
+).annotate({ identifier: "SendInvoiceRequest" }) as any as S.Schema<SendInvoiceRequest>;
 
 export interface UpdateInvoiceRequest {
   /** The ID of the draft invoice to delete. */
@@ -2034,16 +1908,8 @@ export const UpdateInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
     amount: S.optional(AmountSummaryDetail),
     payments: S.optional(PaymentsInput),
     refunds: S.optional(PaymentsInput),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/invoicing/invoices/{invoice_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateInvoiceRequest",
-}) as any as S.Schema<UpdateInvoiceRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/invoicing/invoices/{invoice_id}", code: 200 })),
+).annotate({ identifier: "UpdateInvoiceRequest" }) as any as S.Schema<UpdateInvoiceRequest>;
 
 export interface UpdateTemplateRequest {
   /** The ID of the template to delete. */
@@ -2067,16 +1933,8 @@ export const UpdateTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     template_info: S.optional(TemplateInfoInput),
     settings: S.optional(TemplateSettings),
     unit_of_measure: S.optional(UnitOfMeasure),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/invoicing/templates/{template_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateTemplateRequest",
-}) as any as S.Schema<UpdateTemplateRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/invoicing/templates/{template_id}", code: 200 })),
+).annotate({ identifier: "UpdateTemplateRequest" }) as any as S.Schema<UpdateTemplateRequest>;
 
 export type CancelInvoiceError =
   | BadRequest

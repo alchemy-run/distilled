@@ -176,9 +176,7 @@ export const DefinitionsPaymentSource = /*@__PURE__*/ S.suspend(() =>
     card: S.optional(DefinitionsPaymentSourceCard),
     token: S.optional(TokenIdRequest),
   }),
-).annotate({
-  identifier: "DefinitionsPaymentSource",
-}) as any as S.Schema<DefinitionsPaymentSource>;
+).annotate({ identifier: "DefinitionsPaymentSource" }) as any as S.Schema<DefinitionsPaymentSource>;
 
 export interface CreatePaymentTokenRequest {
   /** The server stores keys for 3 hours. */
@@ -337,9 +335,7 @@ export const CardVerificationDetails = /*@__PURE__*/ S.suspend(() =>
     processor_response: S.optional(CardVerificationDetailsProcessorResponse),
     three_d_secure: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "CardVerificationDetails",
-}) as any as S.Schema<CardVerificationDetails>;
+).annotate({ identifier: "CardVerificationDetails" }) as any as S.Schema<CardVerificationDetails>;
 
 /** Previous network transaction reference including id and network. */
 export interface NetworkTransactionReferenceEntity {
@@ -569,9 +565,7 @@ export const PaypalWalletResponseName = /*@__PURE__*/ S.suspend(() =>
     given_name: S.optional(S.String),
     surname: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PaypalWalletResponseName",
-}) as any as S.Schema<PaypalWalletResponseName>;
+).annotate({ identifier: "PaypalWalletResponseName" }) as any as S.Schema<PaypalWalletResponseName>;
 
 /** The phone type. */
 export type PhoneType = "FAX" | "HOME" | "MOBILE" | "OTHER" | "PAGER";
@@ -586,9 +580,7 @@ export const PhoneWithTypePhoneNumber = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     national_number: S.String,
   }),
-).annotate({
-  identifier: "PhoneWithTypePhoneNumber",
-}) as any as S.Schema<PhoneWithTypePhoneNumber>;
+).annotate({ identifier: "PhoneWithTypePhoneNumber" }) as any as S.Schema<PhoneWithTypePhoneNumber>;
 
 /** The phone information. */
 export interface PhoneWithType {
@@ -668,9 +660,7 @@ export const PaypalWalletResponse = /*@__PURE__*/ S.suspend(() =>
     account_id: S.optional(S.String),
     phone_number: S.optional(Phone),
   }),
-).annotate({
-  identifier: "PaypalWalletResponse",
-}) as any as S.Schema<PaypalWalletResponse>;
+).annotate({ identifier: "PaypalWalletResponse" }) as any as S.Schema<PaypalWalletResponse>;
 
 /** Expected business/charge model for the billing agreement. */
 export type VenmoResponseUsagePattern =
@@ -726,9 +716,7 @@ export const VenmoResponseShipping = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(VenmoResponseShippingType),
     address: S.optional(DefinitionsPaymentSourceCardBillingAddress),
   }),
-).annotate({
-  identifier: "VenmoResponseShipping",
-}) as any as S.Schema<VenmoResponseShipping>;
+).annotate({ identifier: "VenmoResponseShipping" }) as any as S.Schema<VenmoResponseShipping>;
 
 /** The usage type associated with a digital wallet payment token. */
 export type VenmoResponseUsageType = "MERCHANT" | "PLATFORM";
@@ -876,9 +864,7 @@ export const LinkDescription = /*@__PURE__*/ S.suspend(() =>
     rel: S.String,
     method: S.optional(LinkDescriptionMethod),
   }),
-).annotate({
-  identifier: "LinkDescription",
-}) as any as S.Schema<LinkDescription>;
+).annotate({ identifier: "LinkDescription" }) as any as S.Schema<LinkDescription>;
 
 /** An array of related [HATEOAS links](/api/rest/responses/#hateoas). */
 export type LinkDescriptionList = Array<LinkDescription>;
@@ -902,9 +888,7 @@ export const PaymentTokenResponse = /*@__PURE__*/ S.suspend(() =>
     payment_source: S.optional(PaymentSource),
     links: S.optional(LinkDescriptionList),
   }),
-).annotate({
-  identifier: "PaymentTokenResponse",
-}) as any as S.Schema<PaymentTokenResponse>;
+).annotate({ identifier: "PaymentTokenResponse" }) as any as S.Schema<PaymentTokenResponse>;
 
 /** This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details. */
 export type CreateSetupTokenRequestCustomer = CreatePaymentTokenRequestCustomer;
@@ -1182,9 +1166,7 @@ export const ExperienceContext = /*@__PURE__*/ S.suspend(() =>
     shipping_preference: S.optional(ExperienceContextShippingPreference),
     vault_instruction: S.optional(VaultInstruction),
   }),
-).annotate({
-  identifier: "ExperienceContext",
-}) as any as S.Schema<ExperienceContext>;
+).annotate({ identifier: "ExperienceContext" }) as any as S.Schema<ExperienceContext>;
 
 /** A resource representing a request to vault PayPal Wallet. */
 export interface PaypalWalletRequest {
@@ -1214,9 +1196,7 @@ export const PaypalWalletRequest = /*@__PURE__*/ S.suspend(() =>
     billing_plan: S.optional(Plan),
     experience_context: S.optional(ExperienceContext),
   }),
-).annotate({
-  identifier: "PaypalWalletRequest",
-}) as any as S.Schema<PaypalWalletRequest>;
+).annotate({ identifier: "PaypalWalletRequest" }) as any as S.Schema<PaypalWalletRequest>;
 
 /** Expected business/charge model for the billing agreement. */
 export type VenmoRequestUsagePattern =
@@ -1272,9 +1252,7 @@ export const VenmoRequestShipping = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(VenmoRequestShippingType),
     address: S.optional(DefinitionsPaymentSourceCardBillingAddress),
   }),
-).annotate({
-  identifier: "VenmoRequestShipping",
-}) as any as S.Schema<VenmoRequestShipping>;
+).annotate({ identifier: "VenmoRequestShipping" }) as any as S.Schema<VenmoRequestShipping>;
 
 /** The usage type associated with a digital wallet payment token. */
 export type VenmoRequestUsageType = "MERCHANT" | "PLATFORM";
@@ -1371,9 +1349,7 @@ export const CreateSetupTokenRequest = /*@__PURE__*/ S.suspend(() =>
     customer: S.optional(CreatePaymentTokenRequestCustomer),
     payment_source: CreateSetupTokenRequestPaymentSource,
   }).pipe(T.Http({ method: "POST", uri: "/v3/vault/setup-tokens", code: 200 })),
-).annotate({
-  identifier: "CreateSetupTokenRequest",
-}) as any as S.Schema<CreateSetupTokenRequest>;
+).annotate({ identifier: "CreateSetupTokenRequest" }) as any as S.Schema<CreateSetupTokenRequest>;
 
 /** This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details. */
 export type SetupTokenResponseCustomer = CreatePaymentTokenRequestCustomer;
@@ -1474,9 +1450,7 @@ export const SetupTokenResponse = /*@__PURE__*/ S.suspend(() =>
     payment_source: S.optional(SetupTokenResponsePaymentSource),
     links: S.optional(LinkDescriptionList),
   }),
-).annotate({
-  identifier: "SetupTokenResponse",
-}) as any as S.Schema<SetupTokenResponse>;
+).annotate({ identifier: "SetupTokenResponse" }) as any as S.Schema<SetupTokenResponse>;
 
 export interface DeletePaymentTokenRequest {
   /** ID of the setup token. */
@@ -1485,13 +1459,7 @@ export interface DeletePaymentTokenRequest {
 export const DeletePaymentTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v3/vault/payment-tokens/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v3/vault/payment-tokens/{id}", code: 200 })),
 ).annotate({
   identifier: "DeletePaymentTokenRequest",
 }) as any as S.Schema<DeletePaymentTokenRequest>;
@@ -1562,9 +1530,7 @@ export const GetPaymentTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v3/vault/payment-tokens/{id}", code: 200 })),
-).annotate({
-  identifier: "GetPaymentTokenRequest",
-}) as any as S.Schema<GetPaymentTokenRequest>;
+).annotate({ identifier: "GetPaymentTokenRequest" }) as any as S.Schema<GetPaymentTokenRequest>;
 
 export interface GetSetupTokenRequest {
   /** ID of the setup token. */
@@ -1574,9 +1540,7 @@ export const GetSetupTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v3/vault/setup-tokens/{id}", code: 200 })),
-).annotate({
-  identifier: "GetSetupTokenRequest",
-}) as any as S.Schema<GetSetupTokenRequest>;
+).annotate({ identifier: "GetSetupTokenRequest" }) as any as S.Schema<GetSetupTokenRequest>;
 
 export type CreatePaymentTokenError =
   | BadRequest

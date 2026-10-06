@@ -15,16 +15,8 @@ export interface DeleteWebhookRequest {
 export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     webhook_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/notifications/webhooks/{webhook_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteWebhookRequest",
-}) as any as S.Schema<DeleteWebhookRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/notifications/webhooks/{webhook_id}", code: 200 })),
+).annotate({ identifier: "DeleteWebhookRequest" }) as any as S.Schema<DeleteWebhookRequest>;
 
 export interface DeleteWebhookResponse {}
 export const DeleteWebhookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -61,16 +53,8 @@ export interface GetWebhookRequest {
 export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     webhook_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/notifications/webhooks/{webhook_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetWebhookRequest",
-}) as any as S.Schema<GetWebhookRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/notifications/webhooks/{webhook_id}", code: 200 })),
+).annotate({ identifier: "GetWebhookRequest" }) as any as S.Schema<GetWebhookRequest>;
 
 /** Identifier for the event type example: 1.0/2.0 etc. */
 export type ResourceVersionsList = Array<string>;
@@ -130,9 +114,7 @@ export const LinkDescription = /*@__PURE__*/ S.suspend(() =>
     rel: S.String,
     method: S.optional(LinkDescriptionMethod),
   }),
-).annotate({
-  identifier: "LinkDescription",
-}) as any as S.Schema<LinkDescription>;
+).annotate({ identifier: "LinkDescription" }) as any as S.Schema<LinkDescription>;
 
 /** An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links/). */
 export type DefinitionsLinkDescriptionList = Array<LinkDescription>;
@@ -166,15 +148,9 @@ export const GetWebhooksEventRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     event_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/notifications/webhooks-events/{event_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/notifications/webhooks-events/{event_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetWebhooksEventRequest",
-}) as any as S.Schema<GetWebhooksEventRequest>;
+).annotate({ identifier: "GetWebhooksEventRequest" }) as any as S.Schema<GetWebhooksEventRequest>;
 
 /** The resource that triggered the webhook event notification. */
 export type Resource = { [key: string]: unknown | undefined };
@@ -231,9 +207,7 @@ export const GetWebhooksLookupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetWebhooksLookupRequest",
-}) as any as S.Schema<GetWebhooksLookupRequest>;
+).annotate({ identifier: "GetWebhooksLookupRequest" }) as any as S.Schema<GetWebhooksLookupRequest>;
 
 /** The webhook lookup details. */
 export interface WebhooksLookup {
@@ -265,9 +239,7 @@ export const ListEventTypesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListEventTypesRequest",
-}) as any as S.Schema<ListEventTypesRequest>;
+).annotate({ identifier: "ListEventTypesRequest" }) as any as S.Schema<ListEventTypesRequest>;
 
 /** An array of webhook events. */
 export type EventTypeList2 = Array<EventType>;
@@ -294,9 +266,7 @@ export const ListWebhooksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     anchor_type: S.optional(ListWebhooksRequestAnchorType.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/notifications/webhooks", code: 200 })),
-).annotate({
-  identifier: "ListWebhooksRequest",
-}) as any as S.Schema<ListWebhooksRequest>;
+).annotate({ identifier: "ListWebhooksRequest" }) as any as S.Schema<ListWebhooksRequest>;
 
 /** An array of webhooks. */
 export type WebhookList2 = Array<Webhook>;
@@ -331,13 +301,7 @@ export const ListWebhooksEventsRequest = /*@__PURE__*/ S.suspend(() =>
     end_time: S.optional(S.String.pipe(T.Query())),
     transaction_id: S.optional(S.String.pipe(T.Query())),
     event_type: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/notifications/webhooks-events",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/notifications/webhooks-events", code: 200 })),
 ).annotate({
   identifier: "ListWebhooksEventsRequest",
 }) as any as S.Schema<ListWebhooksEventsRequest>;
@@ -364,11 +328,7 @@ export const EventList = /*@__PURE__*/ S.suspend(() =>
 export interface ListWebhooksEventTypesRequest {}
 export const ListWebhooksEventTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/notifications/webhooks-event-types",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/notifications/webhooks-event-types", code: 200 }),
   ),
 ).annotate({
   identifier: "ListWebhooksEventTypesRequest",
@@ -376,13 +336,7 @@ export const ListWebhooksEventTypesRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface ListWebhooksLookupRequest {}
 export const ListWebhooksLookupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/notifications/webhooks-lookup",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/notifications/webhooks-lookup", code: 200 })),
 ).annotate({
   identifier: "ListWebhooksLookupRequest",
 }) as any as S.Schema<ListWebhooksLookupRequest>;
@@ -401,9 +355,7 @@ export const WebhookLookupList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     webhooks_lookups: S.optional(WebhooksLookupList),
   }),
-).annotate({
-  identifier: "WebhookLookupList",
-}) as any as S.Schema<WebhookLookupList>;
+).annotate({ identifier: "WebhookLookupList" }) as any as S.Schema<WebhookLookupList>;
 
 export interface PostSimulateEventRequest {
   /** The ID of the webhook. If omitted, the URL is required. */
@@ -421,16 +373,8 @@ export const PostSimulateEventRequest = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
     event_type: S.String,
     resource_version: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/notifications/simulate-event",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PostSimulateEventRequest",
-}) as any as S.Schema<PostSimulateEventRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/notifications/simulate-event", code: 200 })),
+).annotate({ identifier: "PostSimulateEventRequest" }) as any as S.Schema<PostSimulateEventRequest>;
 
 export interface PostSimulateEventResponse {}
 export const PostSimulateEventResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -464,18 +408,12 @@ export const PostWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     event_types: DefinitionsEventTypeListInput,
   }).pipe(T.Http({ method: "POST", uri: "/v1/notifications/webhooks", code: 200 })),
-).annotate({
-  identifier: "PostWebhookRequest",
-}) as any as S.Schema<PostWebhookRequest>;
+).annotate({ identifier: "PostWebhookRequest" }) as any as S.Schema<PostWebhookRequest>;
 
 export interface PostWebhooksLookupRequest {}
 export const PostWebhooksLookupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/notifications/webhooks-lookup",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/notifications/webhooks-lookup", code: 200 }),
   ),
 ).annotate({
   identifier: "PostWebhooksLookupRequest",
@@ -547,16 +485,8 @@ export const UpdateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     webhook_id: S.String.pipe(T.Label()),
     body: S.optional(PatchRequest.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/notifications/webhooks/{webhook_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateWebhookRequest",
-}) as any as S.Schema<UpdateWebhookRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/notifications/webhooks/{webhook_id}", code: 200 })),
+).annotate({ identifier: "UpdateWebhookRequest" }) as any as S.Schema<UpdateWebhookRequest>;
 
 /** A webhook event notification. */
 export interface EventInput {
@@ -594,13 +524,7 @@ export const VerifyWebhookSignaturePostRequest = /*@__PURE__*/ S.suspend(() =>
     transmission_time: S.String,
     webhook_id: S.String,
     webhook_event: EventInput,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/notifications/verify-webhook-signature",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/notifications/verify-webhook-signature", code: 200 })),
 ).annotate({
   identifier: "VerifyWebhookSignaturePostRequest",
 }) as any as S.Schema<VerifyWebhookSignaturePostRequest>;
