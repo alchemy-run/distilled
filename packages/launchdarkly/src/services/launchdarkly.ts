@@ -86,11 +86,7 @@ export const AssociateRepositoriesAndProjectsRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     mappings: AssociateRepositoriesAndProjectsRequestMappingsList,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v2/engineering-insights/repositories/projects",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/v2/engineering-insights/repositories/projects", code: 200 }),
   ),
 ).annotate({
   identifier: "AssociateRepositoriesAndProjectsRequest",
@@ -114,9 +110,7 @@ export const Link = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Link" }) as any as S.Schema<Link>;
 
 /** The location and content type of related resources */
-export type InsightsRepositoryProjectCollectionLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type InsightsRepositoryProjectCollectionLinksMap = { [key: string]: Link | undefined };
 export const InsightsRepositoryProjectCollectionLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -217,15 +211,9 @@ export const CopyFeatureFlagRequest = /*@__PURE__*/ S.suspend(() =>
     includedActions: S.optional(CopyFeatureFlagRequestIncludedActionsList),
     excludedActions: S.optional(CopyFeatureFlagRequestExcludedActionsList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/flags/{projectKey}/{featureFlagKey}/copy",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v2/flags/{projectKey}/{featureFlagKey}/copy", code: 200 }),
   ),
-).annotate({
-  identifier: "CopyFeatureFlagRequest",
-}) as any as S.Schema<CopyFeatureFlagRequest>;
+).annotate({ identifier: "CopyFeatureFlagRequest" }) as any as S.Schema<CopyFeatureFlagRequest>;
 
 /** Kind of feature flag */
 export type FeatureFlagKind = "boolean" | "multivariate";
@@ -240,9 +228,7 @@ export const ClientSideAvailability = /*@__PURE__*/ S.suspend(() =>
     usingMobileKey: S.optional(S.Boolean),
     usingEnvironmentId: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ClientSideAvailability",
-}) as any as S.Schema<ClientSideAvailability>;
+).annotate({ identifier: "ClientSideAvailability" }) as any as S.Schema<ClientSideAvailability>;
 
 export interface Variation {
   /** The ID of the variation. Leave empty when you are creating a flag. */
@@ -407,9 +393,7 @@ export const AccessDeniedReason = /*@__PURE__*/ S.suspend(() =>
     effect: AccessDeniedReasonEffect,
     role_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccessDeniedReason",
-}) as any as S.Schema<AccessDeniedReason>;
+).annotate({ identifier: "AccessDeniedReason" }) as any as S.Schema<AccessDeniedReason>;
 
 export interface AccessDenied {
   action: string;
@@ -477,9 +461,7 @@ export const AccessAllowedReason = /*@__PURE__*/ S.suspend(() =>
     effect: AccessAllowedReasonEffect,
     role_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccessAllowedReason",
-}) as any as S.Schema<AccessAllowedReason>;
+).annotate({ identifier: "AccessAllowedReason" }) as any as S.Schema<AccessAllowedReason>;
 
 export interface AccessAllowedRep {
   action: string;
@@ -490,9 +472,7 @@ export const AccessAllowedRep = /*@__PURE__*/ S.suspend(() =>
     action: S.String,
     reason: AccessAllowedReason,
   }),
-).annotate({
-  identifier: "AccessAllowedRep",
-}) as any as S.Schema<AccessAllowedRep>;
+).annotate({ identifier: "AccessAllowedRep" }) as any as S.Schema<AccessAllowedRep>;
 
 export type AccessAllowedList = Array<AccessAllowedRep>;
 export const AccessAllowedList = /*@__PURE__*/ S.Array(
@@ -595,9 +575,7 @@ export const MetricEventDefaultRep = /*@__PURE__*/ S.suspend(() =>
     disabled: S.optional(S.Boolean),
     value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MetricEventDefaultRep",
-}) as any as S.Schema<MetricEventDefaultRep>;
+).annotate({ identifier: "MetricEventDefaultRep" }) as any as S.Schema<MetricEventDefaultRep>;
 
 export interface MetricDataSourceRefRep {
   key: string;
@@ -612,9 +590,7 @@ export const MetricDataSourceRefRep = /*@__PURE__*/ S.suspend(() =>
     _name: S.optional(S.String),
     _integrationKey: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricDataSourceRefRep",
-}) as any as S.Schema<MetricDataSourceRefRep>;
+).annotate({ identifier: "MetricDataSourceRefRep" }) as any as S.Schema<MetricDataSourceRefRep>;
 
 export type UrlMatcher = { [key: string]: unknown | undefined };
 export const UrlMatcher = /*@__PURE__*/ S.Record(
@@ -666,9 +642,7 @@ export const MetricDenominatorRep = /*@__PURE__*/ S.suspend(() =>
     winsorUpperPercentile: S.optional(S.Number),
     winsorIncludeImputed: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MetricDenominatorRep",
-}) as any as S.Schema<MetricDenominatorRep>;
+).annotate({ identifier: "MetricDenominatorRep" }) as any as S.Schema<MetricDenominatorRep>;
 
 export interface MetricListingRep {
   /** The number of experiments using this metric */
@@ -813,9 +787,7 @@ export const MetricListingRep = /*@__PURE__*/ S.suspend(() =>
     unitAggregationField: S.optional(S.String),
     denominator: S.optional(MetricDenominatorRep),
   }),
-).annotate({
-  identifier: "MetricListingRep",
-}) as any as S.Schema<MetricListingRep>;
+).annotate({ identifier: "MetricListingRep" }) as any as S.Schema<MetricListingRep>;
 
 export type LegacyExperimentRepEnvironmentsList = Array<string>;
 export const LegacyExperimentRepEnvironmentsList = /*@__PURE__*/ S.Array(
@@ -876,9 +848,7 @@ export const LegacyExperimentRep = /*@__PURE__*/ S.suspend(() =>
     environments: S.optional(LegacyExperimentRepEnvironmentsList),
     _environmentSettings: S.optional(LegacyExperimentRepEnvironmentSettingsMap),
   }),
-).annotate({
-  identifier: "LegacyExperimentRep",
-}) as any as S.Schema<LegacyExperimentRep>;
+).annotate({ identifier: "LegacyExperimentRep" }) as any as S.Schema<LegacyExperimentRep>;
 
 export type ExperimentInfoRepItemsList = Array<LegacyExperimentRep>;
 export const ExperimentInfoRepItemsList = /*@__PURE__*/ S.Array(
@@ -894,9 +864,7 @@ export const ExperimentInfoRep = /*@__PURE__*/ S.suspend(() =>
     baselineIdx: S.Number,
     items: ExperimentInfoRepItemsList,
   }),
-).annotate({
-  identifier: "ExperimentInfoRep",
-}) as any as S.Schema<ExperimentInfoRep>;
+).annotate({ identifier: "ExperimentInfoRep" }) as any as S.Schema<ExperimentInfoRep>;
 
 /** An array of values for the custom property data to associate with this flag. */
 export type CustomPropertyValueList = Array<string>;
@@ -947,9 +915,7 @@ export const FlagMigrationSettingsRep = /*@__PURE__*/ S.suspend(() =>
     contextKind: S.optional(S.String),
     stageCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "FlagMigrationSettingsRep",
-}) as any as S.Schema<FlagMigrationSettingsRep>;
+).annotate({ identifier: "FlagMigrationSettingsRep" }) as any as S.Schema<FlagMigrationSettingsRep>;
 
 export interface StaleFlagData {
   /** Whether the flag is ready for code removal */
@@ -1012,9 +978,7 @@ export const WeightedVariation = /*@__PURE__*/ S.suspend(() =>
     weight: S.Number,
     _untracked: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "WeightedVariation",
-}) as any as S.Schema<WeightedVariation>;
+).annotate({ identifier: "WeightedVariation" }) as any as S.Schema<WeightedVariation>;
 
 export type RolloutVariationsList = Array<WeightedVariation>;
 export const RolloutVariationsList = /*@__PURE__*/ S.Array(
@@ -1030,9 +994,7 @@ export const ExperimentAllocationRep = /*@__PURE__*/ S.suspend(() =>
     defaultVariation: S.Number,
     canReshuffle: S.Boolean,
   }),
-).annotate({
-  identifier: "ExperimentAllocationRep",
-}) as any as S.Schema<ExperimentAllocationRep>;
+).annotate({ identifier: "ExperimentAllocationRep" }) as any as S.Schema<ExperimentAllocationRep>;
 
 export interface Rollout {
   variations: RolloutVariationsList;
@@ -1090,7 +1052,7 @@ export interface Rule {
   rollout?: Rollout;
   /** An array of clauses used for individual targeting based on attributes */
   clauses: RuleClausesList;
-  /** Whether LaunchDarkly tracks events for this rule */
+  /** Whether the SDK sends a detailed event for every evaluation of this rule, instead of only summary counts. Required for Data Export, but doesn't enable Data Export on its own. */
   trackEvents: boolean;
   /** The rule description */
   description?: string;
@@ -1126,9 +1088,7 @@ export const VariationOrRolloutRep = /*@__PURE__*/ S.suspend(() =>
     variation: S.optional(S.Number),
     rollout: S.optional(Rollout),
   }),
-).annotate({
-  identifier: "VariationOrRolloutRep",
-}) as any as S.Schema<VariationOrRolloutRep>;
+).annotate({ identifier: "VariationOrRolloutRep" }) as any as S.Schema<VariationOrRolloutRep>;
 
 export interface Prerequisite {
   key: string;
@@ -1168,13 +1128,9 @@ export const VariationSummary = /*@__PURE__*/ S.suspend(() =>
     rollout: S.optional(S.Number),
     bucketBy: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VariationSummary",
-}) as any as S.Schema<VariationSummary>;
+).annotate({ identifier: "VariationSummary" }) as any as S.Schema<VariationSummary>;
 
-export type AllVariationsSummary = {
-  [key: string]: VariationSummary | undefined;
-};
+export type AllVariationsSummary = { [key: string]: VariationSummary | undefined };
 export const AllVariationsSummary = /*@__PURE__*/ S.Record(
   S.String,
   VariationSummary,
@@ -1205,9 +1161,7 @@ export const FlagConfigEvaluation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contextKinds: S.optional(FlagConfigEvaluationContextKindsList),
   }),
-).annotate({
-  identifier: "FlagConfigEvaluation",
-}) as any as S.Schema<FlagConfigEvaluation>;
+).annotate({ identifier: "FlagConfigEvaluation" }) as any as S.Schema<FlagConfigEvaluation>;
 
 export interface FlagConfigMigrationSettingsRep {
   checkRatio?: number;
@@ -1243,15 +1197,15 @@ export interface FeatureFlagConfig {
   offVariation?: number;
   /** An array of the prerequisite flags and their variations that are required before this flag takes effect */
   prerequisites?: FeatureFlagConfigPrerequisitesList;
-  /** Details on how to access the flag configuration in the LaunchDarkly UI */
+  /** A link to access the flag configuration in the LaunchDarkly UI. The href is an opaque URL; do not parse or rely on its structure. Use resource keys or _links for programmatic navigation. */
   _site: Link;
   /** Details on the allowed and denied actions for this flag */
   _access?: Access;
   /** The environment name */
   _environmentName: string;
-  /** Whether LaunchDarkly tracks events for the feature flag, for all rules */
+  /** Whether the SDK sends a detailed event for every evaluation of this flag, across all rules, instead of only summary counts. Required for Data Export, but doesn't enable Data Export on its own. */
   trackEvents: boolean;
-  /** Whether LaunchDarkly tracks events for the feature flag, for the default rule */
+  /** Whether the SDK sends a detailed event for every evaluation of this flag's default rule, instead of only summary counts. Required for Data Export, but doesn't enable Data Export on its own. */
   trackEventsFallthrough: boolean;
   _debugEventsUntilDate?: number;
   /** A summary of the prerequisites and variations for this flag */
@@ -1285,14 +1239,10 @@ export const FeatureFlagConfig = /*@__PURE__*/ S.suspend(() =>
     evaluation: S.optional(FlagConfigEvaluation),
     migrationSettings: S.optional(FlagConfigMigrationSettingsRep),
   }),
-).annotate({
-  identifier: "FeatureFlagConfig",
-}) as any as S.Schema<FeatureFlagConfig>;
+).annotate({ identifier: "FeatureFlagConfig" }) as any as S.Schema<FeatureFlagConfig>;
 
 /** Details on the environments for this flag. Only returned if the request is filtered by environment, using the <code>filterEnv</code> query parameter. */
-export type FeatureFlagEnvironmentsMap = {
-  [key: string]: FeatureFlagConfig | undefined;
-};
+export type FeatureFlagEnvironmentsMap = { [key: string]: FeatureFlagConfig | undefined };
 export const FeatureFlagEnvironmentsMap = /*@__PURE__*/ S.Record(
   S.String,
   FeatureFlagConfig,
@@ -1490,9 +1440,7 @@ export const AnnouncementAccessDenied = /*@__PURE__*/ S.suspend(() =>
     action: S.String,
     reason: AnnouncementAccessDeniedReason,
   }),
-).annotate({
-  identifier: "AnnouncementAccessDenied",
-}) as any as S.Schema<AnnouncementAccessDenied>;
+).annotate({ identifier: "AnnouncementAccessDenied" }) as any as S.Schema<AnnouncementAccessDenied>;
 
 export type AnnouncementAccessDeniedList = Array<AnnouncementAccessDenied>;
 export const AnnouncementAccessDeniedList = /*@__PURE__*/ S.Array(
@@ -1580,9 +1528,7 @@ export const AnnouncementAccess = /*@__PURE__*/ S.suspend(() =>
     denied: AnnouncementAccessDeniedList,
     allowed: AnnouncementAccessAllowedList,
   }),
-).annotate({
-  identifier: "AnnouncementAccess",
-}) as any as S.Schema<AnnouncementAccess>;
+).annotate({ identifier: "AnnouncementAccess" }) as any as S.Schema<AnnouncementAccess>;
 
 export type AnnouncementLink = Link;
 export const AnnouncementLink = Link;
@@ -1632,9 +1578,7 @@ export const AnnouncementResponse = /*@__PURE__*/ S.suspend(() =>
     _access: S.optional(AnnouncementAccess),
     _links: AnnouncementResponseLinks,
   }),
-).annotate({
-  identifier: "AnnouncementResponse",
-}) as any as S.Schema<AnnouncementResponse>;
+).annotate({ identifier: "AnnouncementResponse" }) as any as S.Schema<AnnouncementResponse>;
 
 export type Instruction = { [key: string]: unknown | undefined };
 export const Instruction = /*@__PURE__*/ S.Record(
@@ -1738,6 +1682,12 @@ export const ApprovalRequestResponseNotifyMemberIdsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ApprovalRequestResponseNotifyMemberIdsList>;
 
+/** An array of team keys, if teams were specified when the approval request was created. The members of these teams are listed in <code>notifyMemberIds</code>, resolved when the request was made. Team membership may have changed since then. */
+export type ApprovalRequestResponseNotifyTeamKeysList = Array<string>;
+export const ApprovalRequestResponseNotifyTeamKeysList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ApprovalRequestResponseNotifyTeamKeysList>;
+
 /** Current status of the approval request */
 export type ApprovalRequestResponseStatus = "pending" | "completed" | "failed" | "scheduled";
 export const ApprovalRequestResponseStatus = S.String;
@@ -1762,9 +1712,7 @@ export const ApprovalRequestResponseConflictsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ApprovalRequestResponseConflictsList>;
 
 /** The location and content type of related resources */
-export type ApprovalRequestResponseLinksMap = {
-  [key: string]: unknown | undefined;
-};
+export type ApprovalRequestResponseLinksMap = { [key: string]: unknown | undefined };
 export const ApprovalRequestResponseLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1779,9 +1727,7 @@ export const IntegrationStatus = /*@__PURE__*/ S.suspend(() =>
     display: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "IntegrationStatus",
-}) as any as S.Schema<IntegrationStatus>;
+).annotate({ identifier: "IntegrationStatus" }) as any as S.Schema<IntegrationStatus>;
 
 export interface IntegrationMetadata {
   externalId: string;
@@ -1796,9 +1742,7 @@ export const IntegrationMetadata = /*@__PURE__*/ S.suspend(() =>
     externalUrl: S.String,
     lastChecked: S.Number,
   }),
-).annotate({
-  identifier: "IntegrationMetadata",
-}) as any as S.Schema<IntegrationMetadata>;
+).annotate({ identifier: "IntegrationMetadata" }) as any as S.Schema<IntegrationMetadata>;
 
 export interface CopiedFromEnv {
   /** Key of feature flag copied */
@@ -1824,9 +1768,7 @@ export const CustomWorkflowStageMeta = /*@__PURE__*/ S.suspend(() =>
     index: S.optional(S.Number),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomWorkflowStageMeta",
-}) as any as S.Schema<CustomWorkflowStageMeta>;
+).annotate({ identifier: "CustomWorkflowStageMeta" }) as any as S.Schema<CustomWorkflowStageMeta>;
 
 export interface CustomWorkflowMeta {
   /** The name of the workflow stage that required this approval request */
@@ -1839,13 +1781,9 @@ export const CustomWorkflowMeta = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     stage: S.optional(CustomWorkflowStageMeta),
   }),
-).annotate({
-  identifier: "CustomWorkflowMeta",
-}) as any as S.Schema<CustomWorkflowMeta>;
+).annotate({ identifier: "CustomWorkflowMeta" }) as any as S.Schema<CustomWorkflowMeta>;
 
-export type ApprovalSettingsServiceConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type ApprovalSettingsServiceConfigMap = { [key: string]: unknown | undefined };
 export const ApprovalSettingsServiceConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1891,9 +1829,7 @@ export const ApprovalSettings = /*@__PURE__*/ S.suspend(() =>
     requiredApprovalTags: ApprovalSettingsRequiredApprovalTagsList,
     serviceKindConfigurationId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApprovalSettings",
-}) as any as S.Schema<ApprovalSettings>;
+).annotate({ identifier: "ApprovalSettings" }) as any as S.Schema<ApprovalSettings>;
 
 export interface ApprovalRequestResponse {
   /** The ID of this approval request */
@@ -1914,6 +1850,8 @@ export interface ApprovalRequestResponse {
   allReviews: ApprovalRequestResponseAllReviewsList;
   /** An array of member IDs. These members are notified to review the approval request. */
   notifyMemberIds: ApprovalRequestResponseNotifyMemberIdsList;
+  /** An array of team keys, if teams were specified when the approval request was created. The members of these teams are listed in <code>notifyMemberIds</code>, resolved when the request was made. Team membership may have changed since then. */
+  notifyTeamKeys?: ApprovalRequestResponseNotifyTeamKeysList;
   /** Timestamp of when the approval request was applied */
   appliedDate?: number;
   /** The member ID of the member who applied the approval request */
@@ -1954,6 +1892,7 @@ export const ApprovalRequestResponse = /*@__PURE__*/ S.suspend(() =>
     reviewStatus: ApprovalRequestResponseReviewStatus,
     allReviews: ApprovalRequestResponseAllReviewsList,
     notifyMemberIds: ApprovalRequestResponseNotifyMemberIdsList,
+    notifyTeamKeys: S.optional(ApprovalRequestResponseNotifyTeamKeysList),
     appliedDate: S.optional(S.Number),
     appliedByMemberId: S.optional(S.String),
     appliedByServiceTokenId: S.optional(S.String),
@@ -1969,9 +1908,7 @@ export const ApprovalRequestResponse = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.optional(S.String),
     approvalSettings: S.optional(ApprovalSettings),
   }),
-).annotate({
-  identifier: "ApprovalRequestResponse",
-}) as any as S.Schema<ApprovalRequestResponse>;
+).annotate({ identifier: "ApprovalRequestResponse" }) as any as S.Schema<ApprovalRequestResponse>;
 
 export interface CreateApprovalRequestApplyRequest {
   /** The approval request ID */
@@ -1983,13 +1920,7 @@ export const CreateApprovalRequestApplyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     comment: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/approval-requests/{id}/apply",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v2/approval-requests/{id}/apply", code: 200 })),
 ).annotate({
   identifier: "CreateApprovalRequestApplyRequest",
 }) as any as S.Schema<CreateApprovalRequestApplyRequest>;
@@ -2011,13 +1942,7 @@ export const CreateApprovalRequestReviewRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     kind: S.optional(CreateApprovalRequestReviewRequestKind),
     comment: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/approval-requests/{id}/reviews",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v2/approval-requests/{id}/reviews", code: 200 })),
 ).annotate({
   identifier: "CreateApprovalRequestReviewRequest",
 }) as any as S.Schema<CreateApprovalRequestReviewRequest>;
@@ -2170,9 +2095,7 @@ export const StoreIntegrationError = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     timestamp: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "StoreIntegrationError",
-}) as any as S.Schema<StoreIntegrationError>;
+).annotate({ identifier: "StoreIntegrationError" }) as any as S.Schema<StoreIntegrationError>;
 
 export type BigSegmentStoreStatusErrorsList = Array<StoreIntegrationError>;
 export const BigSegmentStoreStatusErrorsList = /*@__PURE__*/ S.Array(
@@ -2198,9 +2121,7 @@ export const BigSegmentStoreStatus = /*@__PURE__*/ S.suspend(() =>
     lastError: S.optional(S.Number),
     errors: S.optional(BigSegmentStoreStatusErrorsList),
   }),
-).annotate({
-  identifier: "BigSegmentStoreStatus",
-}) as any as S.Schema<BigSegmentStoreStatus>;
+).annotate({ identifier: "BigSegmentStoreStatus" }) as any as S.Schema<BigSegmentStoreStatus>;
 
 export interface BigSegmentStoreIntegration {
   /** The location and content type of related resources */
@@ -2256,9 +2177,7 @@ export type CreateDeploymentEventRequestEventType = "started" | "failed" | "fini
 export const CreateDeploymentEventRequestEventType = S.String;
 
 /** A JSON object containing metadata about the event */
-export type CreateDeploymentEventRequestEventMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateDeploymentEventRequestEventMetadataMap = { [key: string]: unknown | undefined };
 export const CreateDeploymentEventRequestEventMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2311,11 +2230,7 @@ export const CreateDeploymentEventRequest = /*@__PURE__*/ S.suspend(() =>
     eventMetadata: S.optional(CreateDeploymentEventRequestEventMetadataMap),
     deploymentMetadata: S.optional(CreateDeploymentEventRequestDeploymentMetadataMap),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/engineering-insights/deployment-events",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v2/engineering-insights/deployment-events", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDeploymentEventRequest",
@@ -2359,9 +2274,7 @@ export const TreatmentParameterInput = /*@__PURE__*/ S.suspend(() =>
     flagKey: S.String,
     variationId: S.String,
   }),
-).annotate({
-  identifier: "TreatmentParameterInput",
-}) as any as S.Schema<TreatmentParameterInput>;
+).annotate({ identifier: "TreatmentParameterInput" }) as any as S.Schema<TreatmentParameterInput>;
 
 /** Details on the flag and variation to use for this treatment */
 export type TreatmentInputParametersList = Array<TreatmentParameterInput>;
@@ -2515,9 +2428,7 @@ export const AnalysisConfigInput = /*@__PURE__*/ S.suspend(() =>
     ),
     sequentialTestingEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AnalysisConfigInput",
-}) as any as S.Schema<AnalysisConfigInput>;
+).annotate({ identifier: "AnalysisConfigInput" }) as any as S.Schema<AnalysisConfigInput>;
 
 /** The source of metric data in order to analyze results. Defaults to "launchdarkly" when not provided. */
 export type CreateExperimentRequestDataSource = "launchdarkly" | "snowflake";
@@ -2577,9 +2488,7 @@ export const CreateExperimentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateExperimentRequest",
-}) as any as S.Schema<CreateExperimentRequest>;
+).annotate({ identifier: "CreateExperimentRequest" }) as any as S.Schema<CreateExperimentRequest>;
 
 /** The results analysis approach. */
 export type ExperimentMethodology = "bayesian" | "frequentist" | "export_only";
@@ -2662,9 +2571,7 @@ export type DependentMetricOrMetricGroupRepKind =
 export const DependentMetricOrMetricGroupRepKind = S.String;
 
 /** The location and content type of related resources */
-export type DependentMetricOrMetricGroupRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type DependentMetricOrMetricGroupRepLinksMap = { [key: string]: Link | undefined };
 export const DependentMetricOrMetricGroupRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -2745,9 +2652,7 @@ export const MetricInGroupRep = /*@__PURE__*/ S.suspend(() =>
     randomizationUnits: S.optional(MetricInGroupRepRandomizationUnitsList),
     analysisUnits: S.optional(MetricInGroupRepAnalysisUnitsList),
   }),
-).annotate({
-  identifier: "MetricInGroupRep",
-}) as any as S.Schema<MetricInGroupRep>;
+).annotate({ identifier: "MetricInGroupRep" }) as any as S.Schema<MetricInGroupRep>;
 
 /** An ordered list of the metrics in this metric group */
 export type DependentMetricOrMetricGroupRepMetricsList = Array<MetricInGroupRep>;
@@ -2862,9 +2767,7 @@ export type DependentMetricGroupRepWithMetricsKind = "funnel" | "standard";
 export const DependentMetricGroupRepWithMetricsKind = S.String;
 
 /** The location and content type of related resources */
-export type DependentMetricGroupRepWithMetricsLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type DependentMetricGroupRepWithMetricsLinksMap = { [key: string]: Link | undefined };
 export const DependentMetricGroupRepWithMetricsLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -2980,9 +2883,7 @@ export const LayerSnapshotRep = /*@__PURE__*/ S.suspend(() =>
     reservationPercent: S.Number,
     otherReservationPercent: S.Number,
   }),
-).annotate({
-  identifier: "LayerSnapshotRep",
-}) as any as S.Schema<LayerSnapshotRep>;
+).annotate({ identifier: "LayerSnapshotRep" }) as any as S.Schema<LayerSnapshotRep>;
 
 export interface CovariateInfoRep {
   /** The ID of the covariate matrix */
@@ -2998,9 +2899,7 @@ export const CovariateInfoRep = /*@__PURE__*/ S.suspend(() =>
     fileName: S.String,
     createdAt: S.Number,
   }),
-).annotate({
-  identifier: "CovariateInfoRep",
-}) as any as S.Schema<CovariateInfoRep>;
+).annotate({ identifier: "CovariateInfoRep" }) as any as S.Schema<CovariateInfoRep>;
 
 export interface IterationRep {
   /** The iteration ID */
@@ -3121,9 +3020,7 @@ export const AnalysisConfigRep = /*@__PURE__*/ S.suspend(() =>
     ),
     sequentialTestingEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AnalysisConfigRep",
-}) as any as S.Schema<AnalysisConfigRep>;
+).annotate({ identifier: "AnalysisConfigRep" }) as any as S.Schema<AnalysisConfigRep>;
 
 export type MutableFieldsByStatusRepNotStartedValueList = Array<string>;
 export const MutableFieldsByStatusRepNotStartedValueList = /*@__PURE__*/ S.Array(
@@ -3175,9 +3072,7 @@ export const MutableFieldsByStatusRep = /*@__PURE__*/ S.suspend(() =>
     running: S.optional(MutableFieldsByStatusRepRunningMap),
     stopped: S.optional(MutableFieldsByStatusRepStoppedMap),
   }),
-).annotate({
-  identifier: "MutableFieldsByStatusRep",
-}) as any as S.Schema<MutableFieldsByStatusRep>;
+).annotate({ identifier: "MutableFieldsByStatusRep" }) as any as S.Schema<MutableFieldsByStatusRep>;
 
 export interface Experiment {
   /** The experiment ID */
@@ -3346,9 +3241,7 @@ export const FlagImportStatus = /*@__PURE__*/ S.suspend(() =>
     lastError: S.optional(S.Number),
     errors: S.optional(FlagImportStatusErrorsList),
   }),
-).annotate({
-  identifier: "FlagImportStatus",
-}) as any as S.Schema<FlagImportStatus>;
+).annotate({ identifier: "FlagImportStatus" }) as any as S.Schema<FlagImportStatus>;
 
 export interface FlagImportIntegration {
   /** The location and content type of related resources */
@@ -3385,14 +3278,10 @@ export const FlagImportIntegration = /*@__PURE__*/ S.suspend(() =>
     _access: S.optional(Access),
     _status: FlagImportStatus,
   }),
-).annotate({
-  identifier: "FlagImportIntegration",
-}) as any as S.Schema<FlagImportIntegration>;
+).annotate({ identifier: "FlagImportIntegration" }) as any as S.Schema<FlagImportIntegration>;
 
 /** The metadata required by this integration in order to create a flag link, if this is a flag link for an existing integration. Defined in the integration's <code>manifest.json</code> file under <code>flagLink</code>. */
-export type CreateFlagLinkRequestMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type CreateFlagLinkRequestMetadataMap = { [key: string]: string | undefined };
 export const CreateFlagLinkRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3436,9 +3325,7 @@ export const CreateFlagLinkRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateFlagLinkRequest",
-}) as any as S.Schema<CreateFlagLinkRequest>;
+).annotate({ identifier: "CreateFlagLinkRequest" }) as any as S.Schema<CreateFlagLinkRequest>;
 
 /** The location and content type of related resources */
 export type FlagLinkRepLinksMap = { [key: string]: Link | undefined };
@@ -3556,11 +3443,7 @@ export const CreateInsightGroupRequest = /*@__PURE__*/ S.suspend(() =>
     environmentKey: S.String,
     applicationKeys: S.optional(CreateInsightGroupRequestApplicationKeysList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/engineering-insights/insights/group",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v2/engineering-insights/insights/group", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateInsightGroupRequest",
@@ -3608,7 +3491,7 @@ export interface Environment {
   /** Ensures that one end user of the client-side SDK cannot inspect the variations for another end user */
   secureMode: boolean;
   _access?: Access;
-  /** Enables tracking detailed information for new flags by default */
+  /** The initial value of trackEvents for flags created in this environment. Does not affect existing flags. Required for Data Export, but doesn't enable Data Export on its own. */
   defaultTrackEvents: boolean;
   /** Whether members who modify flags and segments through the LaunchDarkly user interface are required to add a comment */
   requireComments: boolean;
@@ -3688,9 +3571,7 @@ export const InsightsMetricScore = /*@__PURE__*/ S.suspend(() =>
     indicatorRange: InsightsMetricIndicatorRange,
     lastPeriod: S.optional(InsightsMetricScore),
   }),
-).annotate({
-  identifier: "InsightsMetricScore",
-}) as any as S.Schema<InsightsMetricScore>;
+).annotate({ identifier: "InsightsMetricScore" }) as any as S.Schema<InsightsMetricScore>;
 
 export interface InsightGroupScores {
   /** The overall score for the insight group */
@@ -3730,9 +3611,7 @@ export const InsightGroupScores = /*@__PURE__*/ S.suspend(() =>
     efficiency: InsightsMetricScore,
     creationRatio: S.optional(InsightsMetricScore),
   }),
-).annotate({
-  identifier: "InsightGroupScores",
-}) as any as S.Schema<InsightGroupScores>;
+).annotate({ identifier: "InsightGroupScores" }) as any as S.Schema<InsightGroupScores>;
 
 export interface InsightPeriod {
   /** The start time of the period */
@@ -3884,9 +3763,7 @@ export const DynamicOptionsParser = /*@__PURE__*/ S.suspend(() =>
     optionsItems: S.optional(OptionsArray),
     optionsPath: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DynamicOptionsParser",
-}) as any as S.Schema<DynamicOptionsParser>;
+).annotate({ identifier: "DynamicOptionsParser" }) as any as S.Schema<DynamicOptionsParser>;
 
 export interface DynamicOptions {
   endpoint?: Endpoint;
@@ -4020,9 +3897,7 @@ export const CapabilityConfigPost = /*@__PURE__*/ S.suspend(() =>
     approvals: S.optional(ApprovalsCapabilityConfig),
     auditLogEventsHook: S.optional(AuditLogEventsHookCapabilityConfigPost),
   }),
-).annotate({
-  identifier: "CapabilityConfigPost",
-}) as any as S.Schema<CapabilityConfigPost>;
+).annotate({ identifier: "CapabilityConfigPost" }) as any as S.Schema<CapabilityConfigPost>;
 
 export interface CreateIntegrationConfigurationRequest {
   /** The integration key */
@@ -4058,9 +3933,7 @@ export const CreateIntegrationConfigurationRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<CreateIntegrationConfigurationRequest>;
 
 /** The location and content type of related resources */
-export type IntegrationConfigurationsRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type IntegrationConfigurationsRepLinksMap = { [key: string]: Link | undefined };
 export const IntegrationConfigurationsRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -4073,9 +3946,7 @@ export const IntegrationConfigurationsRepTagsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<IntegrationConfigurationsRepTagsList>;
 
 /** Details on configuration for an integration of this type. Refer to the <code>formVariables</code> field in the corresponding <code>manifest.json</code> for a full list of fields for each integration. */
-export type IntegrationConfigurationsRepConfigValuesMap = {
-  [key: string]: unknown | undefined;
-};
+export type IntegrationConfigurationsRepConfigValuesMap = { [key: string]: unknown | undefined };
 export const IntegrationConfigurationsRepConfigValuesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -4160,11 +4031,9 @@ export const CapabilityConfigRep = /*@__PURE__*/ S.suspend(() =>
     approvals: S.optional(ApprovalsCapabilityConfig),
     auditLogEventsHook: S.optional(AuditLogEventsHookCapabilityConfigRep),
   }),
-).annotate({
-  identifier: "CapabilityConfigRep",
-}) as any as S.Schema<CapabilityConfigRep>;
+).annotate({ identifier: "CapabilityConfigRep" }) as any as S.Schema<CapabilityConfigRep>;
 
-/** SQL setup scripts (4 parts) for Redshift Native Experimentation setup. Present only for setup endpoint responses. */
+/** SQL setup scripts (4 parts) for Redshift native Experimentation setup. Present on setup endpoint responses and, rehydrated from the persisted config, on active (finalized) Redshift native Experimentation configurations. */
 export type IntegrationConfigurationsRepRedshiftSetupScriptsList = Array<string>;
 export const IntegrationConfigurationsRepRedshiftSetupScriptsList = /*@__PURE__*/ S.Array(
   S.String,
@@ -4193,7 +4062,7 @@ export interface IntegrationConfigurationsRep {
   capabilityConfig?: CapabilityConfigRep;
   /** Consolidated SQL script for Snowflake Warehouse Native Experimentation setup. Present only for setup endpoint responses. */
   snowflakeSetupScript?: string;
-  /** SQL setup scripts (4 parts) for Redshift Native Experimentation setup. Present only for setup endpoint responses. */
+  /** SQL setup scripts (4 parts) for Redshift native Experimentation setup. Present on setup endpoint responses and, rehydrated from the persisted config, on active (finalized) Redshift native Experimentation configurations. */
   redshiftSetupScripts?: IntegrationConfigurationsRepRedshiftSetupScriptsList;
   /** IAM permissions policy JSON for the customer's Redshift IAM role. Present only for setup endpoint responses. */
   redshiftIAMPermissionsPolicy?: string;
@@ -4349,9 +4218,7 @@ export const IpAllowlistEntryResponse = /*@__PURE__*/ S.suspend(() =>
     _createdAt: S.Number,
     _updatedAt: S.Number,
   }),
-).annotate({
-  identifier: "IpAllowlistEntryResponse",
-}) as any as S.Schema<IpAllowlistEntryResponse>;
+).annotate({ identifier: "IpAllowlistEntryResponse" }) as any as S.Schema<IpAllowlistEntryResponse>;
 
 export interface CreateLayerRequest {
   /** The project key */
@@ -4369,16 +4236,8 @@ export const CreateLayerRequest = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     name: S.String,
     description: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/projects/{projectKey}/layers",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateLayerRequest",
-}) as any as S.Schema<CreateLayerRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/layers", code: 200 })),
+).annotate({ identifier: "CreateLayerRequest" }) as any as S.Schema<CreateLayerRequest>;
 
 export interface LayerReservationRep {
   /** The key of the experiment */
@@ -4394,9 +4253,7 @@ export const LayerReservationRep = /*@__PURE__*/ S.suspend(() =>
     flagKey: S.String,
     reservationPercent: S.Number,
   }),
-).annotate({
-  identifier: "LayerReservationRep",
-}) as any as S.Schema<LayerReservationRep>;
+).annotate({ identifier: "LayerReservationRep" }) as any as S.Schema<LayerReservationRep>;
 
 /** The experiment reservations for the layer */
 export type LayerConfigurationRepReservationsList = Array<LayerReservationRep>;
@@ -4412,14 +4269,10 @@ export const LayerConfigurationRep = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reservations: LayerConfigurationRepReservationsList,
   }),
-).annotate({
-  identifier: "LayerConfigurationRep",
-}) as any as S.Schema<LayerConfigurationRep>;
+).annotate({ identifier: "LayerConfigurationRep" }) as any as S.Schema<LayerConfigurationRep>;
 
 /** The layer configurations for each requested environment */
-export type LayerRepEnvironmentsMap = {
-  [key: string]: LayerConfigurationRep | undefined;
-};
+export type LayerRepEnvironmentsMap = { [key: string]: LayerConfigurationRep | undefined };
 export const LayerRepEnvironmentsMap = /*@__PURE__*/ S.Record(
   S.String,
   LayerConfigurationRep,
@@ -4471,9 +4324,7 @@ export const RoleAttributeValues = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<RoleAttributeValues>;
 
-export type RoleAttributeMap = {
-  [key: string]: RoleAttributeValues | undefined;
-};
+export type RoleAttributeMap = { [key: string]: RoleAttributeValues | undefined };
 export const RoleAttributeMap = /*@__PURE__*/ S.Record(
   S.String,
   RoleAttributeValues,
@@ -4522,9 +4373,7 @@ export const CreateMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: NewMemberFormListPost.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/api/v2/members", code: 200 })),
-).annotate({
-  identifier: "CreateMemberRequest",
-}) as any as S.Schema<CreateMemberRequest>;
+).annotate({ identifier: "CreateMemberRequest" }) as any as S.Schema<CreateMemberRequest>;
 
 /** The location and content type of related resources */
 export type MemberLinksMap = { [key: string]: Link | undefined };
@@ -4553,9 +4402,7 @@ export const LastSeenMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tokenId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LastSeenMetadata",
-}) as any as S.Schema<LastSeenMetadata>;
+).annotate({ identifier: "LastSeenMetadata" }) as any as S.Schema<LastSeenMetadata>;
 
 /** A list of keys of the custom roles this team has access to */
 export type MemberTeamSummaryRepCustomRoleKeysList = Array<string>;
@@ -4585,9 +4432,7 @@ export const MemberTeamSummaryRep = /*@__PURE__*/ S.suspend(() =>
     _links: S.optional(MemberTeamSummaryRepLinksMap),
     name: S.String,
   }),
-).annotate({
-  identifier: "MemberTeamSummaryRep",
-}) as any as S.Schema<MemberTeamSummaryRep>;
+).annotate({ identifier: "MemberTeamSummaryRep" }) as any as S.Schema<MemberTeamSummaryRep>;
 
 /** Details on the teams this member is assigned to */
 export type MemberTeamsList = Array<MemberTeamSummaryRep>;
@@ -4752,9 +4597,7 @@ export const CreateMemberTeamRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     teamKeys: CreateMemberTeamRequestTeamKeysList,
   }).pipe(T.Http({ method: "POST", uri: "/api/v2/members/{id}/teams", code: 200 })),
-).annotate({
-  identifier: "CreateMemberTeamRequest",
-}) as any as S.Schema<CreateMemberTeamRequest>;
+).annotate({ identifier: "CreateMemberTeamRequest" }) as any as S.Schema<CreateMemberTeamRequest>;
 
 /** The type of the metric group */
 export type CreateMetricGroupRequestKind = "funnel" | "standard";
@@ -4777,9 +4620,7 @@ export const MetricInMetricGroupInput = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     nameInGroup: S.String,
   }),
-).annotate({
-  identifier: "MetricInMetricGroupInput",
-}) as any as S.Schema<MetricInMetricGroupInput>;
+).annotate({ identifier: "MetricInMetricGroupInput" }) as any as S.Schema<MetricInMetricGroupInput>;
 
 /** An ordered list of the metrics in this metric group */
 export type CreateMetricGroupRequestMetricsList = Array<MetricInMetricGroupInput>;
@@ -4816,15 +4657,9 @@ export const CreateMetricGroupRequest = /*@__PURE__*/ S.suspend(() =>
     tags: CreateMetricGroupRequestTagsList,
     metrics: CreateMetricGroupRequestMetricsList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/projects/{projectKey}/metric-groups",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/metric-groups", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateMetricGroupRequest",
-}) as any as S.Schema<CreateMetricGroupRequest>;
+).annotate({ identifier: "CreateMetricGroupRequest" }) as any as S.Schema<CreateMetricGroupRequest>;
 
 /** The type of the metric group */
 export type MetricGroupRepKind = "funnel" | "standard";
@@ -4873,9 +4708,7 @@ export const MetricGroupRepMetricsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MetricGroupRepMetricsList>;
 
 /** The location and content type of related resources */
-export type DependentExperimentRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type DependentExperimentRepLinksMap = { [key: string]: Link | undefined };
 export const DependentExperimentRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -4907,9 +4740,7 @@ export const DependentExperimentRep = /*@__PURE__*/ S.suspend(() =>
     archivedDate: S.optional(S.Number),
     _links: DependentExperimentRepLinksMap,
   }),
-).annotate({
-  identifier: "DependentExperimentRep",
-}) as any as S.Schema<DependentExperimentRep>;
+).annotate({ identifier: "DependentExperimentRep" }) as any as S.Schema<DependentExperimentRep>;
 
 export type DependentExperimentListRep = Array<DependentExperimentRep>;
 export const DependentExperimentListRep = /*@__PURE__*/ S.Array(
@@ -5081,7 +4912,7 @@ export interface EnvironmentPost {
   defaultTtl?: number;
   /** Ensures that one end user of the client-side SDK cannot inspect the variations for another end user */
   secureMode?: boolean;
-  /** Enables tracking detailed information for new flags by default */
+  /** The initial value of trackEvents for flags created in this environment. Does not affect existing flags. Required for Data Export, but doesn't enable Data Export on its own. */
   defaultTrackEvents?: boolean;
   /** Requires confirmation for all flag and segment changes via the UI in this environment */
   confirmChanges?: boolean;
@@ -5108,9 +4939,7 @@ export const EnvironmentPost = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(SourceEnv),
     critical: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "EnvironmentPost",
-}) as any as S.Schema<EnvironmentPost>;
+).annotate({ identifier: "EnvironmentPost" }) as any as S.Schema<EnvironmentPost>;
 
 /** Creates the provided environments for this project. If omitted default environments will be created instead. */
 export type CreateProjectRequestEnvironmentsList = Array<EnvironmentPost>;
@@ -5138,9 +4967,7 @@ export const NamingConvention = /*@__PURE__*/ S.suspend(() =>
     case: S.optional(NamingConventionCase),
     prefix: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NamingConvention",
-}) as any as S.Schema<NamingConvention>;
+).annotate({ identifier: "NamingConvention" }) as any as S.Schema<NamingConvention>;
 
 export interface CreateProjectRequest {
   /** A human-friendly name for the project. */
@@ -5168,9 +4995,7 @@ export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     environments: S.optional(CreateProjectRequestEnvironmentsList),
     namingConvention: S.optional(NamingConvention),
   }).pipe(T.Http({ method: "POST", uri: "/api/v2/projects", code: 200 })),
-).annotate({
-  identifier: "CreateProjectRequest",
-}) as any as S.Schema<CreateProjectRequest>;
+).annotate({ identifier: "CreateProjectRequest" }) as any as S.Schema<CreateProjectRequest>;
 
 /** The location and content type of related resources */
 export type ProjectRepLinksMap = { [key: string]: Link | undefined };
@@ -5332,9 +5157,7 @@ export const EnvironmentSummary = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     color: S.String,
   }),
-).annotate({
-  identifier: "EnvironmentSummary",
-}) as any as S.Schema<EnvironmentSummary>;
+).annotate({ identifier: "EnvironmentSummary" }) as any as S.Schema<EnvironmentSummary>;
 
 /** An array of member IDs. These members are notified to review the approval request. */
 export type AudienceConfigurationNotifyMemberIdsList = Array<string>;
@@ -5389,9 +5212,7 @@ export const AudienceConfiguration = /*@__PURE__*/ S.suspend(() =>
     notifyTeamKeys: S.optional(AudienceConfigurationNotifyTeamKeysList),
     releaseGuardianConfiguration: S.optional(ReleaseGuardianConfiguration),
   }),
-).annotate({
-  identifier: "AudienceConfiguration",
-}) as any as S.Schema<AudienceConfiguration>;
+).annotate({ identifier: "AudienceConfiguration" }) as any as S.Schema<AudienceConfiguration>;
 
 /** A list of segment keys */
 export type ReleaseAudienceSegmentKeysList = Array<string>;
@@ -5434,9 +5255,7 @@ export const ReleaseAudience = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     _ruleIds: S.optional(ReleaseAudienceRuleIdsList),
   }),
-).annotate({
-  identifier: "ReleaseAudience",
-}) as any as S.Schema<ReleaseAudience>;
+).annotate({ identifier: "ReleaseAudience" }) as any as S.Schema<ReleaseAudience>;
 
 /** A logical grouping of one or more environments that share attributes for rolling out changes */
 export type PipelineReleasePhaseAudiencesList = Array<ReleaseAudience>;
@@ -5482,9 +5301,7 @@ export const PipelineReleasePhase = /*@__PURE__*/ S.suspend(() =>
     _startedDate: S.optional(S.Number),
     configuration: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "PipelineReleasePhase",
-}) as any as S.Schema<PipelineReleasePhase>;
+).annotate({ identifier: "PipelineReleasePhase" }) as any as S.Schema<PipelineReleasePhase>;
 
 /** An ordered list of the release pipeline phases */
 export type ReleasePhasesList = Array<PipelineReleasePhase>;
@@ -5530,9 +5347,7 @@ export const CreateSubscriptionRequestTagsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateSubscriptionRequestTagsList>;
 
 /** The unique set of fields required to configure an audit log subscription integration of this type. Refer to the <code>formVariables</code> field in the corresponding <code>manifest.json</code> at https://github.com/launchdarkly/integration-framework/tree/main/integrations for a full list of fields for the integration you wish to configure. */
-export type CreateSubscriptionRequestConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateSubscriptionRequestConfigMap = { [key: string]: unknown | undefined };
 export const CreateSubscriptionRequestConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5566,13 +5381,7 @@ export const CreateSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     config: CreateSubscriptionRequestConfigMap,
     url: S.optional(S.String),
     apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/integrations/{integrationKey}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v2/integrations/{integrationKey}", code: 200 })),
 ).annotate({
   identifier: "CreateSubscriptionRequest",
 }) as any as S.Schema<CreateSubscriptionRequest>;
@@ -5614,9 +5423,7 @@ export const IntegrationStatusRep = /*@__PURE__*/ S.suspend(() =>
     responseBody: S.optional(S.String),
     timestamp: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "IntegrationStatusRep",
-}) as any as S.Schema<IntegrationStatusRep>;
+).annotate({ identifier: "IntegrationStatusRep" }) as any as S.Schema<IntegrationStatusRep>;
 
 export type IntegrationSubscriptionStatusRepErrorsList = Array<IntegrationStatusRep>;
 export const IntegrationSubscriptionStatusRepErrorsList = /*@__PURE__*/ S.Array(
@@ -5727,9 +5534,7 @@ export const PermissionGrantInput = /*@__PURE__*/ S.suspend(() =>
     actions: S.optional(PermissionGrantInputActionsList),
     memberIDs: S.optional(PermissionGrantInputMemberIDsList),
   }),
-).annotate({
-  identifier: "PermissionGrantInput",
-}) as any as S.Schema<PermissionGrantInput>;
+).annotate({ identifier: "PermissionGrantInput" }) as any as S.Schema<PermissionGrantInput>;
 
 /** A list of permission grants. Permission grants allow access to a specific action, without having to create or update a custom role. */
 export type CreateTeamRequestPermissionGrantsList = Array<PermissionGrantInput>;
@@ -5766,9 +5571,7 @@ export const CreateTeamRequest = /*@__PURE__*/ S.suspend(() =>
     permissionGrants: S.optional(CreateTeamRequestPermissionGrantsList),
     roleAttributes: S.optional(RoleAttributeMap),
   }).pipe(T.Http({ method: "POST", uri: "/api/v2/teams", code: 200 })),
-).annotate({
-  identifier: "CreateTeamRequest",
-}) as any as S.Schema<CreateTeamRequest>;
+).annotate({ identifier: "CreateTeamRequest" }) as any as S.Schema<CreateTeamRequest>;
 
 /** The location and content type of related resources */
 export type TeamLinksMap = { [key: string]: Link | undefined };
@@ -5864,9 +5667,7 @@ export const TeamCustomRoles = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(TeamCustomRolesItemsList),
     _links: S.optional(TeamCustomRolesLinksMap),
   }),
-).annotate({
-  identifier: "TeamCustomRoles",
-}) as any as S.Schema<TeamCustomRoles>;
+).annotate({ identifier: "TeamCustomRoles" }) as any as S.Schema<TeamCustomRoles>;
 
 export interface TeamMembers {
   /** The total count of members that belong to the team */
@@ -5905,9 +5706,7 @@ export const TeamMaintainers = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(TeamMaintainersItemsList),
     _links: S.optional(TeamMaintainersLinksMap),
   }),
-).annotate({
-  identifier: "TeamMaintainers",
-}) as any as S.Schema<TeamMaintainers>;
+).annotate({ identifier: "TeamMaintainers" }) as any as S.Schema<TeamMaintainers>;
 
 export interface Team {
   /** A description of the team */
@@ -5976,9 +5775,7 @@ export const CreateTeamMemberRequest = /*@__PURE__*/ S.suspend(() =>
       contentType: "multipart",
     }),
   ),
-).annotate({
-  identifier: "CreateTeamMemberRequest",
-}) as any as S.Schema<CreateTeamMemberRequest>;
+).annotate({ identifier: "CreateTeamMemberRequest" }) as any as S.Schema<CreateTeamMemberRequest>;
 
 export interface MemberImportItem {
   /** An error message, including CSV line number, if the <code>status</code> is <code>error</code> */
@@ -5994,9 +5791,7 @@ export const MemberImportItem = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "MemberImportItem",
-}) as any as S.Schema<MemberImportItem>;
+).annotate({ identifier: "MemberImportItem" }) as any as S.Schema<MemberImportItem>;
 
 /** An array of details about the members requested to be added to this team */
 export type TeamImportsRepItemsList = Array<MemberImportItem>;
@@ -6056,9 +5851,7 @@ export const CreateTokenRequest = /*@__PURE__*/ S.suspend(() =>
     serviceToken: S.optional(S.Boolean),
     defaultApiVersion: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/api/v2/tokens", code: 200 })),
-).annotate({
-  identifier: "CreateTokenRequest",
-}) as any as S.Schema<CreateTokenRequest>;
+).annotate({ identifier: "CreateTokenRequest" }) as any as S.Schema<CreateTokenRequest>;
 
 /** A list of custom role IDs to use as access limits for the access token */
 export type TokenCustomRoleIdsList = Array<string>;
@@ -6181,9 +5974,7 @@ export type TriggerWorkflowRepStatus = "active" | "inactive" | "failed";
 export const TriggerWorkflowRepStatus = S.String;
 
 /** The marshalled JSON request body for the incoming trigger webhook. If this is empty or contains invalid JSON, the timestamp is recorded but this field will be empty. */
-export type RecentTriggerBodyJsonBodyMap = {
-  [key: string]: unknown | undefined;
-};
+export type RecentTriggerBodyJsonBodyMap = { [key: string]: unknown | undefined };
 export const RecentTriggerBodyJsonBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -6200,9 +5991,7 @@ export const RecentTriggerBody = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.optional(S.Number),
     jsonBody: S.optional(RecentTriggerBodyJsonBodyMap),
   }),
-).annotate({
-  identifier: "RecentTriggerBody",
-}) as any as S.Schema<RecentTriggerBody>;
+).annotate({ identifier: "RecentTriggerBody" }) as any as S.Schema<RecentTriggerBody>;
 
 /** Details on recent flag trigger requests. */
 export type TriggerWorkflowRepRecentTriggerBodiesList = Array<RecentTriggerBody>;
@@ -6267,9 +6056,7 @@ export const TriggerWorkflowRep = /*@__PURE__*/ S.suspend(() =>
     triggerURL: S.optional(S.String),
     _links: S.optional(TriggerWorkflowRepLinksMap),
   }),
-).annotate({
-  identifier: "TriggerWorkflowRep",
-}) as any as S.Schema<TriggerWorkflowRep>;
+).annotate({ identifier: "TriggerWorkflowRep" }) as any as S.Schema<TriggerWorkflowRep>;
 
 /** Tags associated with this view */
 export type CreateViewRequestTagsList = Array<string>;
@@ -6301,16 +6088,8 @@ export const CreateViewRequest = /*@__PURE__*/ S.suspend(() =>
     maintainerId: S.optional(S.String),
     maintainerTeamKey: S.optional(S.String),
     tags: S.optional(CreateViewRequestTagsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/projects/{projectKey}/views",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateViewRequest",
-}) as any as S.Schema<CreateViewRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/views", code: 200 })),
+).annotate({ identifier: "CreateViewRequest" }) as any as S.Schema<CreateViewRequest>;
 
 /** Resource specifier strings */
 export type ViewsAccessDeniedReasonResourcesList = Array<string>;
@@ -6362,9 +6141,7 @@ export const ViewsAccessDeniedReason = /*@__PURE__*/ S.suspend(() =>
     effect: ViewsAccessDeniedReasonEffect,
     role_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ViewsAccessDeniedReason",
-}) as any as S.Schema<ViewsAccessDeniedReason>;
+).annotate({ identifier: "ViewsAccessDeniedReason" }) as any as S.Schema<ViewsAccessDeniedReason>;
 
 export interface ViewsAccessDenied {
   action: string;
@@ -6375,9 +6152,7 @@ export const ViewsAccessDenied = /*@__PURE__*/ S.suspend(() =>
     action: S.String,
     reason: ViewsAccessDeniedReason,
   }),
-).annotate({
-  identifier: "ViewsAccessDenied",
-}) as any as S.Schema<ViewsAccessDenied>;
+).annotate({ identifier: "ViewsAccessDenied" }) as any as S.Schema<ViewsAccessDenied>;
 
 export type ViewsAccessDeniedList = Array<ViewsAccessDenied>;
 export const ViewsAccessDeniedList = /*@__PURE__*/ S.Array(
@@ -6434,9 +6209,7 @@ export const ViewsAccessAllowedReason = /*@__PURE__*/ S.suspend(() =>
     effect: ViewsAccessAllowedReasonEffect,
     role_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ViewsAccessAllowedReason",
-}) as any as S.Schema<ViewsAccessAllowedReason>;
+).annotate({ identifier: "ViewsAccessAllowedReason" }) as any as S.Schema<ViewsAccessAllowedReason>;
 
 export interface ViewsAccessAllowedRep {
   action: string;
@@ -6447,9 +6220,7 @@ export const ViewsAccessAllowedRep = /*@__PURE__*/ S.suspend(() =>
     action: S.String,
     reason: ViewsAccessAllowedReason,
   }),
-).annotate({
-  identifier: "ViewsAccessAllowedRep",
-}) as any as S.Schema<ViewsAccessAllowedRep>;
+).annotate({ identifier: "ViewsAccessAllowedRep" }) as any as S.Schema<ViewsAccessAllowedRep>;
 
 export type ViewsAccessAllowedList = Array<ViewsAccessAllowedRep>;
 export const ViewsAccessAllowedList = /*@__PURE__*/ S.Array(
@@ -6488,9 +6259,7 @@ export const ParentAndSelfLinks = /*@__PURE__*/ S.suspend(() =>
     self: CoreLink,
     parent: CoreLink,
   }),
-).annotate({
-  identifier: "ParentAndSelfLinks",
-}) as any as S.Schema<ParentAndSelfLinks>;
+).annotate({ identifier: "ParentAndSelfLinks" }) as any as S.Schema<ParentAndSelfLinks>;
 
 /** Tags associated with this view */
 export type ViewTagsList = Array<string>;
@@ -6511,9 +6280,7 @@ export const ViewsMaintainerMember = /*@__PURE__*/ S.suspend(() =>
     firstName: S.optional(S.String),
     lastName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ViewsMaintainerMember",
-}) as any as S.Schema<ViewsMaintainerMember>;
+).annotate({ identifier: "ViewsMaintainerMember" }) as any as S.Schema<ViewsMaintainerMember>;
 
 export interface ViewsMaintainerTeam {
   id: string;
@@ -6526,9 +6293,7 @@ export const ViewsMaintainerTeam = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "ViewsMaintainerTeam",
-}) as any as S.Schema<ViewsMaintainerTeam>;
+).annotate({ identifier: "ViewsMaintainerTeam" }) as any as S.Schema<ViewsMaintainerTeam>;
 
 export interface Maintainer {
   id: string;
@@ -6642,9 +6407,7 @@ export const SegmentsSummary = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     linkedSegments: S.optional(ExpandedDirectlyLinkedSegments),
   }),
-).annotate({
-  identifier: "SegmentsSummary",
-}) as any as S.Schema<SegmentsSummary>;
+).annotate({ identifier: "SegmentsSummary" }) as any as S.Schema<SegmentsSummary>;
 
 export interface MetricsSummary {
   count: number;
@@ -6669,9 +6432,7 @@ export const ResourceSummary = /*@__PURE__*/ S.suspend(() =>
     segmentCount: S.optional(S.Number),
     totalCount: S.Number,
   }),
-).annotate({
-  identifier: "ResourceSummary",
-}) as any as S.Schema<ResourceSummary>;
+).annotate({ identifier: "ResourceSummary" }) as any as S.Schema<ResourceSummary>;
 
 /** Tags for the flag */
 export type ExpandedFlagTagsList = Array<string>;
@@ -6716,9 +6477,7 @@ export const ViewsMemberSummary = /*@__PURE__*/ S.suspend(() =>
     role: S.String,
     email: S.String,
   }),
-).annotate({
-  identifier: "ViewsMemberSummary",
-}) as any as S.Schema<ViewsMemberSummary>;
+).annotate({ identifier: "ViewsMemberSummary" }) as any as S.Schema<ViewsMemberSummary>;
 
 /** A list of keys of the custom roles this team has access to */
 export type ViewsMemberTeamSummaryRepCustomRoleKeysList = Array<string>;
@@ -6726,9 +6485,7 @@ export const ViewsMemberTeamSummaryRepCustomRoleKeysList = /*@__PURE__*/ S.Array
   S.String,
 ) as any as S.Schema<ViewsMemberTeamSummaryRepCustomRoleKeysList>;
 
-export type ViewsMemberTeamSummaryRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ViewsMemberTeamSummaryRepLinksMap = { [key: string]: Link | undefined };
 export const ViewsMemberTeamSummaryRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -6769,9 +6526,7 @@ export const ExpandedFlagMaintainer = /*@__PURE__*/ S.suspend(() =>
     _member: S.optional(ViewsMemberSummary),
     _team: S.optional(ViewsMemberTeamSummaryRep),
   }),
-).annotate({
-  identifier: "ExpandedFlagMaintainer",
-}) as any as S.Schema<ExpandedFlagMaintainer>;
+).annotate({ identifier: "ExpandedFlagMaintainer" }) as any as S.Schema<ExpandedFlagMaintainer>;
 
 /** Flag representation for Views API - contains only fields actually used by the Views service */
 export interface ExpandedFlag {
@@ -6827,9 +6582,7 @@ export const ExpandedLinkedFlags = /*@__PURE__*/ S.suspend(() =>
     items: ExpandedLinkedFlagsItemsList,
     totalCount: S.Number,
   }),
-).annotate({
-  identifier: "ExpandedLinkedFlags",
-}) as any as S.Schema<ExpandedLinkedFlags>;
+).annotate({ identifier: "ExpandedLinkedFlags" }) as any as S.Schema<ExpandedLinkedFlags>;
 
 /** Tags for the segment */
 export type ExpandedSegmentTagsList = Array<string>;
@@ -6881,9 +6634,7 @@ export const ExpandedSegment = /*@__PURE__*/ S.suspend(() =>
     generation: S.optional(S.Number),
     _links: S.optional(ParentAndSelfLinks),
   }),
-).annotate({
-  identifier: "ExpandedSegment",
-}) as any as S.Schema<ExpandedSegment>;
+).annotate({ identifier: "ExpandedSegment" }) as any as S.Schema<ExpandedSegment>;
 
 export type ExpandedLinkedSegmentsItemsList = Array<ExpandedSegment>;
 export const ExpandedLinkedSegmentsItemsList = /*@__PURE__*/ S.Array(
@@ -6900,9 +6651,7 @@ export const ExpandedLinkedSegments = /*@__PURE__*/ S.suspend(() =>
     items: ExpandedLinkedSegmentsItemsList,
     totalCount: S.Number,
   }),
-).annotate({
-  identifier: "ExpandedLinkedSegments",
-}) as any as S.Schema<ExpandedLinkedSegments>;
+).annotate({ identifier: "ExpandedLinkedSegments" }) as any as S.Schema<ExpandedLinkedSegments>;
 
 /** Metric representation for Views API - contains only fields actually used by the Views service */
 export interface ExpandedMetric {
@@ -6966,9 +6715,7 @@ export const ExpandedLinkedMetrics = /*@__PURE__*/ S.suspend(() =>
     items: ExpandedLinkedMetricsItemsList,
     totalCount: S.Number,
   }),
-).annotate({
-  identifier: "ExpandedLinkedMetrics",
-}) as any as S.Schema<ExpandedLinkedMetrics>;
+).annotate({ identifier: "ExpandedLinkedMetrics" }) as any as S.Schema<ExpandedLinkedMetrics>;
 
 /** Tags for the AI config */
 export type ExpandedAIConfigTagsList = Array<string>;
@@ -7008,9 +6755,7 @@ export const ExpandedAIConfig = /*@__PURE__*/ S.suspend(() =>
     flagKey: S.optional(S.String),
     _links: S.optional(ParentAndSelfLinks),
   }),
-).annotate({
-  identifier: "ExpandedAIConfig",
-}) as any as S.Schema<ExpandedAIConfig>;
+).annotate({ identifier: "ExpandedAIConfig" }) as any as S.Schema<ExpandedAIConfig>;
 
 export type ExpandedLinkedAIConfigsItemsList = Array<ExpandedAIConfig>;
 export const ExpandedLinkedAIConfigsItemsList = /*@__PURE__*/ S.Array(
@@ -7026,9 +6771,7 @@ export const ExpandedLinkedAIConfigs = /*@__PURE__*/ S.suspend(() =>
     items: ExpandedLinkedAIConfigsItemsList,
     totalCount: S.Number,
   }),
-).annotate({
-  identifier: "ExpandedLinkedAIConfigs",
-}) as any as S.Schema<ExpandedLinkedAIConfigs>;
+).annotate({ identifier: "ExpandedLinkedAIConfigs" }) as any as S.Schema<ExpandedLinkedAIConfigs>;
 
 export type ExpandedLinkedResourcesFlagsItemsList = Array<ExpandedFlag>;
 export const ExpandedLinkedResourcesFlagsItemsList = /*@__PURE__*/ S.Array(
@@ -7089,9 +6832,7 @@ export const ExpandedLinkedResources = /*@__PURE__*/ S.suspend(() =>
     items: ExpandedLinkedResourcesItems,
     totalCount: S.Number,
   }),
-).annotate({
-  identifier: "ExpandedLinkedResources",
-}) as any as S.Schema<ExpandedLinkedResources>;
+).annotate({ identifier: "ExpandedLinkedResources" }) as any as S.Schema<ExpandedLinkedResources>;
 
 export interface View {
   _access?: ViewsAccess;
@@ -7200,9 +6941,7 @@ export const CreateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     on: S.Boolean,
     tags: S.optional(CreateWebhookRequestTagsList),
   }).pipe(T.Http({ method: "POST", uri: "/api/v2/webhooks", code: 200 })),
-).annotate({
-  identifier: "CreateWebhookRequest",
-}) as any as S.Schema<CreateWebhookRequest>;
+).annotate({ identifier: "CreateWebhookRequest" }) as any as S.Schema<CreateWebhookRequest>;
 
 /** The location and content type of related resources */
 export type WebhookLinksMap = { [key: string]: Link | undefined };
@@ -7369,9 +7108,7 @@ export const CreateWorkflowTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateWorkflowTemplateRequest",
 }) as any as S.Schema<CreateWorkflowTemplateRequest>;
 
-export type WorkflowTemplateOutputLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type WorkflowTemplateOutputLinksMap = { [key: string]: Link | undefined };
 export const WorkflowTemplateOutputLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -7388,9 +7125,7 @@ export const ExecutionOutput = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     stopDate: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ExecutionOutput",
-}) as any as S.Schema<ExecutionOutput>;
+).annotate({ identifier: "ExecutionOutput" }) as any as S.Schema<ExecutionOutput>;
 
 export type ConditionOutputNotifyMemberIdsList = Array<string>;
 export const ConditionOutputNotifyMemberIdsList = /*@__PURE__*/ S.Array(
@@ -7452,9 +7187,7 @@ export const ConditionOutput = /*@__PURE__*/ S.suspend(() =>
     appliedDate: S.optional(S.Number),
     creationConfig: S.optional(FormVariableConfig),
   }),
-).annotate({
-  identifier: "ConditionOutput",
-}) as any as S.Schema<ConditionOutput>;
+).annotate({ identifier: "ConditionOutput" }) as any as S.Schema<ConditionOutput>;
 
 /** An array of conditions for the stage */
 export type StageOutputConditionsList = Array<ConditionOutput>;
@@ -7525,9 +7258,7 @@ export const WorkflowTemplateOutput = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     stages: S.optional(WorkflowTemplateOutputStagesList),
   }),
-).annotate({
-  identifier: "WorkflowTemplateOutput",
-}) as any as S.Schema<WorkflowTemplateOutput>;
+).annotate({ identifier: "WorkflowTemplateOutput" }) as any as S.Schema<WorkflowTemplateOutput>;
 
 export interface DeleteAdaptiveTriggerRequest {
   projectKey: string;
@@ -7570,9 +7301,7 @@ export const DeleteAgentGraphRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteAgentGraphRequest",
-}) as any as S.Schema<DeleteAgentGraphRequest>;
+).annotate({ identifier: "DeleteAgentGraphRequest" }) as any as S.Schema<DeleteAgentGraphRequest>;
 
 export interface DeleteAgentGraphResponse {}
 export const DeleteAgentGraphResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7600,9 +7329,7 @@ export const DeleteAgentOptimizationRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteAgentOptimizationResponse {}
 export const DeleteAgentOptimizationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteAgentOptimizationResponse",
-  },
+  { identifier: "DeleteAgentOptimizationResponse" },
 ) as any as S.Schema<DeleteAgentOptimizationResponse>;
 
 export interface DeleteAgentOptimizationRunRequest {
@@ -7648,9 +7375,7 @@ export const DeleteAgentSkillRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteAgentSkillRequest",
-}) as any as S.Schema<DeleteAgentSkillRequest>;
+).annotate({ identifier: "DeleteAgentSkillRequest" }) as any as S.Schema<DeleteAgentSkillRequest>;
 
 export interface DeleteAgentSkillResponse {}
 export const DeleteAgentSkillResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7672,9 +7397,7 @@ export const DeleteAIConfigRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteAIConfigRequest",
-}) as any as S.Schema<DeleteAIConfigRequest>;
+).annotate({ identifier: "DeleteAIConfigRequest" }) as any as S.Schema<DeleteAIConfigRequest>;
 
 export interface DeleteAIConfigResponse {}
 export const DeleteAIConfigResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7704,9 +7427,7 @@ export const DeleteAIConfigVariationRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteAIConfigVariationResponse {}
 export const DeleteAIConfigVariationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteAIConfigVariationResponse",
-  },
+  { identifier: "DeleteAIConfigVariationResponse" },
 ) as any as S.Schema<DeleteAIConfigVariationResponse>;
 
 export interface DeleteAIToolRequest {
@@ -7724,9 +7445,7 @@ export const DeleteAIToolRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteAIToolRequest",
-}) as any as S.Schema<DeleteAIToolRequest>;
+).annotate({ identifier: "DeleteAIToolRequest" }) as any as S.Schema<DeleteAIToolRequest>;
 
 export interface DeleteAIToolResponse {}
 export const DeleteAIToolResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7739,13 +7458,7 @@ export interface DeleteAnnouncementPublicRequest {
 export const DeleteAnnouncementPublicRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     announcementId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v2/announcements/{announcementId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v2/announcements/{announcementId}", code: 200 })),
 ).annotate({
   identifier: "DeleteAnnouncementPublicRequest",
 }) as any as S.Schema<DeleteAnnouncementPublicRequest>;
@@ -7764,16 +7477,8 @@ export interface DeleteApplicationRequest {
 export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationKey: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v2/applications/{applicationKey}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v2/applications/{applicationKey}", code: 200 })),
+).annotate({ identifier: "DeleteApplicationRequest" }) as any as S.Schema<DeleteApplicationRequest>;
 
 export interface DeleteApplicationResponse {}
 export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7815,13 +7520,7 @@ export interface DeleteApprovalRequestRequest {
 export const DeleteApprovalRequestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v2/approval-requests/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v2/approval-requests/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteApprovalRequestRequest",
 }) as any as S.Schema<DeleteApprovalRequestRequest>;
@@ -7920,43 +7619,12 @@ export const DeleteBranchesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteBranchesRequest",
-}) as any as S.Schema<DeleteBranchesRequest>;
+).annotate({ identifier: "DeleteBranchesRequest" }) as any as S.Schema<DeleteBranchesRequest>;
 
 export interface DeleteBranchesResponse {}
 export const DeleteBranchesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteBranchesResponse",
 }) as any as S.Schema<DeleteBranchesResponse>;
-
-export interface DeleteContextInstancesRequest {
-  /** The project key */
-  projectKey: string;
-  /** The environment key */
-  environmentKey: string;
-  /** The context instance ID */
-  id: string;
-}
-export const DeleteContextInstancesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectKey: S.String.pipe(T.Label()),
-    environmentKey: S.String.pipe(T.Label()),
-    id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v2/projects/{projectKey}/environments/{environmentKey}/context-instances/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteContextInstancesRequest",
-}) as any as S.Schema<DeleteContextInstancesRequest>;
-
-export interface DeleteContextInstancesResponse {}
-export const DeleteContextInstancesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteContextInstancesResponse",
-}) as any as S.Schema<DeleteContextInstancesResponse>;
 
 export interface DeleteCustomRoleRequest {
   /** The custom role key */
@@ -7965,16 +7633,8 @@ export interface DeleteCustomRoleRequest {
 export const DeleteCustomRoleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     customRoleKey: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v2/roles/{customRoleKey}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteCustomRoleRequest",
-}) as any as S.Schema<DeleteCustomRoleRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v2/roles/{customRoleKey}", code: 200 })),
+).annotate({ identifier: "DeleteCustomRoleRequest" }) as any as S.Schema<DeleteCustomRoleRequest>;
 
 export interface DeleteCustomRoleResponse {}
 export const DeleteCustomRoleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8001,9 +7661,7 @@ export const DeleteDestinationRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteDestinationRequest",
-}) as any as S.Schema<DeleteDestinationRequest>;
+).annotate({ identifier: "DeleteDestinationRequest" }) as any as S.Schema<DeleteDestinationRequest>;
 
 export interface DeleteDestinationResponse {}
 export const DeleteDestinationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8027,9 +7685,7 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteEnvironmentRequest",
-}) as any as S.Schema<DeleteEnvironmentRequest>;
+).annotate({ identifier: "DeleteEnvironmentRequest" }) as any as S.Schema<DeleteEnvironmentRequest>;
 
 export interface DeleteEnvironmentResponse {}
 export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8047,15 +7703,9 @@ export const DeleteFeatureFlagRequest = /*@__PURE__*/ S.suspend(() =>
     projectKey: S.String.pipe(T.Label()),
     featureFlagKey: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v2/flags/{projectKey}/{featureFlagKey}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v2/flags/{projectKey}/{featureFlagKey}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteFeatureFlagRequest",
-}) as any as S.Schema<DeleteFeatureFlagRequest>;
+).annotate({ identifier: "DeleteFeatureFlagRequest" }) as any as S.Schema<DeleteFeatureFlagRequest>;
 
 export interface DeleteFeatureFlagResponse {}
 export const DeleteFeatureFlagResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8179,9 +7829,7 @@ export const DeleteFlagLinkRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteFlagLinkRequest",
-}) as any as S.Schema<DeleteFlagLinkRequest>;
+).annotate({ identifier: "DeleteFlagLinkRequest" }) as any as S.Schema<DeleteFlagLinkRequest>;
 
 export interface DeleteFlagLinkResponse {}
 export const DeleteFlagLinkResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8277,13 +7925,7 @@ export interface DeleteIpAllowlistEntryRequest {
 export const DeleteIpAllowlistEntryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v2/account/ip-allowlist/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v2/account/ip-allowlist/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteIpAllowlistEntryRequest",
 }) as any as S.Schema<DeleteIpAllowlistEntryRequest>;
@@ -8301,9 +7943,7 @@ export const DeleteMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/v2/members/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteMemberRequest",
-}) as any as S.Schema<DeleteMemberRequest>;
+).annotate({ identifier: "DeleteMemberRequest" }) as any as S.Schema<DeleteMemberRequest>;
 
 export interface DeleteMemberResponse {}
 export const DeleteMemberResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8320,16 +7960,8 @@ export const DeleteMetricRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectKey: S.String.pipe(T.Label()),
     metricKey: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v2/metrics/{projectKey}/{metricKey}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteMetricRequest",
-}) as any as S.Schema<DeleteMetricRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v2/metrics/{projectKey}/{metricKey}", code: 200 })),
+).annotate({ identifier: "DeleteMetricRequest" }) as any as S.Schema<DeleteMetricRequest>;
 
 export interface DeleteMetricResponse {}
 export const DeleteMetricResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8353,9 +7985,7 @@ export const DeleteMetricGroupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteMetricGroupRequest",
-}) as any as S.Schema<DeleteMetricGroupRequest>;
+).annotate({ identifier: "DeleteMetricGroupRequest" }) as any as S.Schema<DeleteMetricGroupRequest>;
 
 export interface DeleteMetricGroupResponse {}
 export const DeleteMetricGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8377,9 +8007,7 @@ export const DeleteModelConfigRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteModelConfigRequest",
-}) as any as S.Schema<DeleteModelConfigRequest>;
+).annotate({ identifier: "DeleteModelConfigRequest" }) as any as S.Schema<DeleteModelConfigRequest>;
 
 export interface DeleteModelConfigResponse {}
 export const DeleteModelConfigResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8393,16 +8021,8 @@ export interface DeleteOAuthClientRequest {
 export const DeleteOAuthClientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v2/oauth/clients/{clientId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteOAuthClientRequest",
-}) as any as S.Schema<DeleteOAuthClientRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v2/oauth/clients/{clientId}", code: 200 })),
+).annotate({ identifier: "DeleteOAuthClientRequest" }) as any as S.Schema<DeleteOAuthClientRequest>;
 
 export interface DeleteOAuthClientResponse {}
 export const DeleteOAuthClientResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8416,16 +8036,8 @@ export interface DeleteProjectRequest {
 export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectKey: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v2/projects/{projectKey}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v2/projects/{projectKey}", code: 200 })),
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Schema<DeleteProjectRequest>;
 
 export interface DeleteProjectResponse {}
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8463,13 +8075,7 @@ export interface DeleteRelayAutoConfigRequest {
 export const DeleteRelayAutoConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v2/account/relay-auto-configs/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v2/account/relay-auto-configs/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteRelayAutoConfigRequest",
 }) as any as S.Schema<DeleteRelayAutoConfigRequest>;
@@ -8490,11 +8096,7 @@ export const DeleteReleaseByFlagKeyRequest = /*@__PURE__*/ S.suspend(() =>
     projectKey: S.String.pipe(T.Label()),
     flagKey: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v2/flags/{projectKey}/{flagKey}/release",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v2/flags/{projectKey}/{flagKey}/release", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteReleaseByFlagKeyRequest",
@@ -8564,16 +8166,8 @@ export interface DeleteRepositoryRequest {
 export const DeleteRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v2/code-refs/repositories/{repo}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteRepositoryRequest",
-}) as any as S.Schema<DeleteRepositoryRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v2/code-refs/repositories/{repo}", code: 200 })),
+).annotate({ identifier: "DeleteRepositoryRequest" }) as any as S.Schema<DeleteRepositoryRequest>;
 
 export interface DeleteRepositoryResponse {}
 export const DeleteRepositoryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8603,9 +8197,7 @@ export const DeleteRepositoryProjectRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteRepositoryProjectResponse {}
 export const DeleteRepositoryProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteRepositoryProjectResponse",
-  },
+  { identifier: "DeleteRepositoryProjectResponse" },
 ) as any as S.Schema<DeleteRepositoryProjectResponse>;
 
 export type DeleteRestrictedModelsRequestKeysList = Array<string>;
@@ -8655,9 +8247,7 @@ export const DeleteSdkKeyByKeyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteSdkKeyByKeyRequest",
-}) as any as S.Schema<DeleteSdkKeyByKeyRequest>;
+).annotate({ identifier: "DeleteSdkKeyByKeyRequest" }) as any as S.Schema<DeleteSdkKeyByKeyRequest>;
 
 export interface DeleteSdkKeyByKeyResponse {}
 export const DeleteSdkKeyByKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8684,9 +8274,7 @@ export const DeleteSegmentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteSegmentRequest",
-}) as any as S.Schema<DeleteSegmentRequest>;
+).annotate({ identifier: "DeleteSegmentRequest" }) as any as S.Schema<DeleteSegmentRequest>;
 
 export interface DeleteSegmentResponse {}
 export const DeleteSegmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8704,11 +8292,7 @@ export const DeleteSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     integrationKey: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v2/integrations/{integrationKey}/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v2/integrations/{integrationKey}/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteSubscriptionRequest",
@@ -8727,9 +8311,7 @@ export const DeleteTeamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     teamKey: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/v2/teams/{teamKey}", code: 200 })),
-).annotate({
-  identifier: "DeleteTeamRequest",
-}) as any as S.Schema<DeleteTeamRequest>;
+).annotate({ identifier: "DeleteTeamRequest" }) as any as S.Schema<DeleteTeamRequest>;
 
 export interface DeleteTeamResponse {}
 export const DeleteTeamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8744,9 +8326,7 @@ export const DeleteTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/v2/tokens/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteTokenRequest",
-}) as any as S.Schema<DeleteTokenRequest>;
+).annotate({ identifier: "DeleteTokenRequest" }) as any as S.Schema<DeleteTokenRequest>;
 
 export interface DeleteTokenResponse {}
 export const DeleteTokenResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8794,15 +8374,9 @@ export const DeleteViewRequest = /*@__PURE__*/ S.suspend(() =>
     projectKey: S.String.pipe(T.Label()),
     viewKey: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v2/projects/{projectKey}/views/{viewKey}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v2/projects/{projectKey}/views/{viewKey}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteViewRequest",
-}) as any as S.Schema<DeleteViewRequest>;
+).annotate({ identifier: "DeleteViewRequest" }) as any as S.Schema<DeleteViewRequest>;
 
 export interface DeleteViewResponse {}
 export const DeleteViewResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8817,9 +8391,7 @@ export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/v2/webhooks/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteWebhookRequest",
-}) as any as S.Schema<DeleteWebhookRequest>;
+).annotate({ identifier: "DeleteWebhookRequest" }) as any as S.Schema<DeleteWebhookRequest>;
 
 export interface DeleteWebhookResponse {}
 export const DeleteWebhookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8849,9 +8421,7 @@ export const DeleteWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteWorkflowRequest",
-}) as any as S.Schema<DeleteWorkflowRequest>;
+).annotate({ identifier: "DeleteWorkflowRequest" }) as any as S.Schema<DeleteWorkflowRequest>;
 
 export interface DeleteWorkflowResponse {}
 export const DeleteWorkflowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8865,13 +8435,7 @@ export interface DeleteWorkflowTemplateRequest {
 export const DeleteWorkflowTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     templateKey: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v2/templates/{templateKey}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v2/templates/{templateKey}", code: 200 })),
 ).annotate({
   identifier: "DeleteWorkflowTemplateRequest",
 }) as any as S.Schema<DeleteWorkflowTemplateRequest>;
@@ -8950,9 +8514,7 @@ export const ContextInstanceEvaluationReason = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ContextInstanceEvaluationReason>;
 
 /** The location and content type of related resources */
-export type ContextInstanceEvaluationLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ContextInstanceEvaluationLinksMap = { [key: string]: Link | undefined };
 export const ContextInstanceEvaluationLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -8989,9 +8551,7 @@ export const ContextInstanceEvaluationsItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ContextInstanceEvaluationsItemsList>;
 
 /** The location and content type of related resources */
-export type ContextInstanceEvaluationsLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ContextInstanceEvaluationsLinksMap = { [key: string]: Link | undefined };
 export const ContextInstanceEvaluationsLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -9051,9 +8611,7 @@ export const ObservabilityAlertSource = /*@__PURE__*/ S.suspend(() =>
     type: ObservabilityAlertSourceType,
     alertId: S.Number,
   }),
-).annotate({
-  identifier: "ObservabilityAlertSource",
-}) as any as S.Schema<ObservabilityAlertSource>;
+).annotate({ identifier: "ObservabilityAlertSource" }) as any as S.Schema<ObservabilityAlertSource>;
 
 export type AdaptiveTriggerInstructionKind =
   | "updateFallthroughVariationOrRollout"
@@ -9088,9 +8646,7 @@ export const AdaptiveTriggerTask = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     instructions: AdaptiveTriggerTaskInstructionsList,
   }),
-).annotate({
-  identifier: "AdaptiveTriggerTask",
-}) as any as S.Schema<AdaptiveTriggerTask>;
+).annotate({ identifier: "AdaptiveTriggerTask" }) as any as S.Schema<AdaptiveTriggerTask>;
 
 export interface AdaptiveTrigger {
   id: string;
@@ -9115,9 +8671,7 @@ export const AdaptiveTrigger = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.Number,
     updatedAt: S.Number,
   }),
-).annotate({
-  identifier: "AdaptiveTrigger",
-}) as any as S.Schema<AdaptiveTrigger>;
+).annotate({ identifier: "AdaptiveTrigger" }) as any as S.Schema<AdaptiveTrigger>;
 
 export interface GetAgentGraphRequest {
   projectKey: string;
@@ -9134,9 +8688,7 @@ export const GetAgentGraphRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetAgentGraphRequest",
-}) as any as S.Schema<GetAgentGraphRequest>;
+).annotate({ identifier: "GetAgentGraphRequest" }) as any as S.Schema<GetAgentGraphRequest>;
 
 /** Resource specifier strings */
 export type AiConfigsAccessDeniedReasonResourcesList = Array<string>;
@@ -9201,9 +8753,7 @@ export const AiConfigsAccessDenied = /*@__PURE__*/ S.suspend(() =>
     action: S.String,
     reason: AiConfigsAccessDeniedReason,
   }),
-).annotate({
-  identifier: "AiConfigsAccessDenied",
-}) as any as S.Schema<AiConfigsAccessDenied>;
+).annotate({ identifier: "AiConfigsAccessDenied" }) as any as S.Schema<AiConfigsAccessDenied>;
 
 export type AiConfigsAccessDeniedList = Array<AiConfigsAccessDenied>;
 export const AiConfigsAccessDeniedList = /*@__PURE__*/ S.Array(
@@ -9291,9 +8841,7 @@ export const AiConfigsAccess = /*@__PURE__*/ S.suspend(() =>
     denied: AiConfigsAccessDeniedList,
     allowed: AiConfigsAccessAllowedList,
   }),
-).annotate({
-  identifier: "AiConfigsAccess",
-}) as any as S.Schema<AiConfigsAccess>;
+).annotate({ identifier: "AiConfigsAccess" }) as any as S.Schema<AiConfigsAccess>;
 
 export interface MaintainerMember {
   _id: string;
@@ -9310,9 +8858,7 @@ export const MaintainerMember = /*@__PURE__*/ S.suspend(() =>
     lastName: S.optional(S.String),
     role: S.String,
   }),
-).annotate({
-  identifier: "MaintainerMember",
-}) as any as S.Schema<MaintainerMember>;
+).annotate({ identifier: "MaintainerMember" }) as any as S.Schema<MaintainerMember>;
 
 export interface AiConfigsMaintainerTeam {
   key: string;
@@ -9323,9 +8869,7 @@ export const AiConfigsMaintainerTeam = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "AiConfigsMaintainerTeam",
-}) as any as S.Schema<AiConfigsMaintainerTeam>;
+).annotate({ identifier: "AiConfigsMaintainerTeam" }) as any as S.Schema<AiConfigsMaintainerTeam>;
 
 export type AgentGraphMaintainer = MaintainerMember | AiConfigsMaintainerTeam;
 export const AgentGraphMaintainer = S.Unknown as any as S.Schema<AgentGraphMaintainer>;
@@ -9413,9 +8957,7 @@ export const AgentOptimizationModelChoicesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<AgentOptimizationModelChoicesList>;
 
-export type AgentOptimizationVariableChoicesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type AgentOptimizationVariableChoicesItemMap = { [key: string]: unknown | undefined };
 export const AgentOptimizationVariableChoicesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9453,9 +8995,7 @@ export const AgentOptimizationJudge = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     threshold: S.Number,
   }),
-).annotate({
-  identifier: "AgentOptimizationJudge",
-}) as any as S.Schema<AgentOptimizationJudge>;
+).annotate({ identifier: "AgentOptimizationJudge" }) as any as S.Schema<AgentOptimizationJudge>;
 
 export type AgentOptimizationJudgesList = Array<AgentOptimizationJudge>;
 export const AgentOptimizationJudgesList = /*@__PURE__*/ S.Array(
@@ -9521,9 +9061,7 @@ export const AgentOptimization = /*@__PURE__*/ S.suspend(() =>
     version: S.Number,
     createdAt: S.Number,
   }),
-).annotate({
-  identifier: "AgentOptimization",
-}) as any as S.Schema<AgentOptimization>;
+).annotate({ identifier: "AgentOptimization" }) as any as S.Schema<AgentOptimization>;
 
 export interface GetAgentSkillRequest {
   projectKey: string;
@@ -9540,9 +9078,7 @@ export const GetAgentSkillRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetAgentSkillRequest",
-}) as any as S.Schema<GetAgentSkillRequest>;
+).annotate({ identifier: "GetAgentSkillRequest" }) as any as S.Schema<GetAgentSkillRequest>;
 
 export type AIConfigMaintainer = MaintainerMember | AiConfigsMaintainerTeam;
 export const AIConfigMaintainer = S.Unknown as any as S.Schema<AIConfigMaintainer>;
@@ -9595,9 +9131,7 @@ export const GetAIConfigRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetAIConfigRequest",
-}) as any as S.Schema<GetAIConfigRequest>;
+).annotate({ identifier: "GetAIConfigRequest" }) as any as S.Schema<GetAIConfigRequest>;
 
 export type AIConfigMode = "agent" | "completion" | "judge";
 export const AIConfigMode = S.String;
@@ -9633,18 +9167,14 @@ export const AIConfigVariationMessagesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AIConfigVariationMessagesList>;
 
 /** JSON Schema defining the structured output format for the variation. */
-export type AIConfigVariationOutputFormatMap = {
-  [key: string]: unknown | undefined;
-};
+export type AIConfigVariationOutputFormatMap = { [key: string]: unknown | undefined };
 export const AIConfigVariationOutputFormatMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<AIConfigVariationOutputFormatMap>;
 
 /** Custom metadata and configuration for application-level use */
-export type VariationToolCustomParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type VariationToolCustomParametersMap = { [key: string]: unknown | undefined };
 export const VariationToolCustomParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9700,9 +9230,7 @@ export const JudgeAttachment = /*@__PURE__*/ S.suspend(() =>
     judgeConfigKey: S.String,
     samplingRate: S.Number,
   }),
-).annotate({
-  identifier: "JudgeAttachment",
-}) as any as S.Schema<JudgeAttachment>;
+).annotate({ identifier: "JudgeAttachment" }) as any as S.Schema<JudgeAttachment>;
 
 /** List of judges for this variation. When updating, this replaces all existing judge attachments, and if empty, removes all judge attachments. */
 export type JudgeConfigurationJudgesList = Array<JudgeAttachment>;
@@ -9718,9 +9246,7 @@ export const JudgeConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     judges: S.optional(JudgeConfigurationJudgesList),
   }),
-).annotate({
-  identifier: "JudgeConfiguration",
-}) as any as S.Schema<JudgeConfiguration>;
+).annotate({ identifier: "JudgeConfiguration" }) as any as S.Schema<JudgeConfiguration>;
 
 export type AIConfigVariationJudgingConfigKeysList = Array<string>;
 export const AIConfigVariationJudgingConfigKeysList = /*@__PURE__*/ S.Array(
@@ -9780,9 +9306,7 @@ export const AIConfigVariation = /*@__PURE__*/ S.suspend(() =>
     judgeConfiguration: S.optional(JudgeConfiguration),
     judgingConfigKeys: S.optional(AIConfigVariationJudgingConfigKeysList),
   }),
-).annotate({
-  identifier: "AIConfigVariation",
-}) as any as S.Schema<AIConfigVariation>;
+).annotate({ identifier: "AIConfigVariation" }) as any as S.Schema<AIConfigVariation>;
 
 export type AIConfigVariationsList = Array<AIConfigVariation>;
 export const AIConfigVariationsList = /*@__PURE__*/ S.Array(
@@ -9811,9 +9335,7 @@ export const AIConfigDependency = /*@__PURE__*/ S.suspend(() =>
     type: AIConfigDependencyType,
     key: S.String,
   }),
-).annotate({
-  identifier: "AIConfigDependency",
-}) as any as S.Schema<AIConfigDependency>;
+).annotate({ identifier: "AIConfigDependency" }) as any as S.Schema<AIConfigDependency>;
 
 /** Resources that depend on this config, grouped by type */
 export type AIConfigDependenciesList = Array<AIConfigDependency>;
@@ -9991,9 +9513,7 @@ export const MetricByVariation = /*@__PURE__*/ S.suspend(() =>
     variationKey: S.optional(S.String),
     metrics: S.optional(Metrics),
   }),
-).annotate({
-  identifier: "MetricByVariation",
-}) as any as S.Schema<MetricByVariation>;
+).annotate({ identifier: "MetricByVariation" }) as any as S.Schema<MetricByVariation>;
 
 export type MetricsByVariation = Array<MetricByVariation>;
 export const MetricsByVariation = /*@__PURE__*/ S.Array(
@@ -10060,16 +9580,8 @@ export const GetAIConfigsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/projects/{projectKey}/ai-configs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetAIConfigsRequest",
-}) as any as S.Schema<GetAIConfigsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/ai-configs", code: 200 })),
+).annotate({ identifier: "GetAIConfigsRequest" }) as any as S.Schema<GetAIConfigsRequest>;
 
 export type AiConfigsLink = Link;
 export const AiConfigsLink = Link;
@@ -10335,9 +9847,7 @@ export type AiConfigsMetricListingRepKind = "pageview" | "click" | "custom" | "t
 export const AiConfigsMetricListingRepKind = S.String;
 
 /** The location and content type of related resources */
-export type AiConfigsMetricListingRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type AiConfigsMetricListingRepLinksMap = { [key: string]: Link | undefined };
 export const AiConfigsMetricListingRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -10353,9 +9863,7 @@ export type AiConfigsModification = Modification;
 export const AiConfigsModification = Modification;
 
 /** The location and content type of related resources */
-export type AiConfigsMemberSummaryLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type AiConfigsMemberSummaryLinksMap = { [key: string]: Link | undefined };
 export const AiConfigsMemberSummaryLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -10384,9 +9892,7 @@ export const AiConfigsMemberSummary = /*@__PURE__*/ S.suspend(() =>
     role: S.String,
     email: S.String,
   }),
-).annotate({
-  identifier: "AiConfigsMemberSummary",
-}) as any as S.Schema<AiConfigsMemberSummary>;
+).annotate({ identifier: "AiConfigsMemberSummary" }) as any as S.Schema<AiConfigsMemberSummary>;
 
 /** For custom and trace metrics, the success criteria */
 export type AiConfigsMetricListingRepSuccessCriteria = "HigherThanBaseline" | "LowerThanBaseline";
@@ -10436,9 +9942,7 @@ export const AiConfigsFilter = /*@__PURE__*/ S.suspend(() =>
     contextKind: S.optional(S.String),
     negate: S.Boolean,
   }),
-).annotate({
-  identifier: "AiConfigsFilter",
-}) as any as S.Schema<AiConfigsFilter>;
+).annotate({ identifier: "AiConfigsFilter" }) as any as S.Schema<AiConfigsFilter>;
 
 /** The method by which multiple unit event values are aggregated */
 export type AiConfigsMetricListingRepUnitAggregationType = "average" | "sum" | "count_distinct";
@@ -10773,9 +10277,7 @@ export const AIConfigTargeting = /*@__PURE__*/ S.suspend(() =>
     variations: AIConfigTargetingVariationsList,
     _version: S.Number,
   }),
-).annotate({
-  identifier: "AIConfigTargeting",
-}) as any as S.Schema<AIConfigTargeting>;
+).annotate({ identifier: "AIConfigTargeting" }) as any as S.Schema<AIConfigTargeting>;
 
 export interface GetAIConfigVariationRequest {
   projectKey: string;
@@ -10851,9 +10353,7 @@ export const GetAIRunsUsageRequest = /*@__PURE__*/ S.suspend(() =>
     aggregationType: S.optional(S.String.pipe(T.Query())),
     granularity: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/ai-runs", code: 200 })),
-).annotate({
-  identifier: "GetAIRunsUsageRequest",
-}) as any as S.Schema<GetAIRunsUsageRequest>;
+).annotate({ identifier: "GetAIRunsUsageRequest" }) as any as S.Schema<GetAIRunsUsageRequest>;
 
 /** The location and content type of related resources */
 export type SeriesListRepLinksMap = { [key: string]: unknown | undefined };
@@ -10911,15 +10411,9 @@ export const GetAIToolRequest = /*@__PURE__*/ S.suspend(() =>
     projectKey: S.String.pipe(T.Label()),
     toolKey: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/projects/{projectKey}/ai-tools/{toolKey}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/ai-tools/{toolKey}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetAIToolRequest",
-}) as any as S.Schema<GetAIToolRequest>;
+).annotate({ identifier: "GetAIToolRequest" }) as any as S.Schema<GetAIToolRequest>;
 
 export type AIToolTagsList = Array<string>;
 export const AIToolTagsList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<AIToolTagsList>;
@@ -10978,9 +10472,7 @@ export const GetAllHoldoutsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetAllHoldoutsRequest",
-}) as any as S.Schema<GetAllHoldoutsRequest>;
+).annotate({ identifier: "GetAllHoldoutsRequest" }) as any as S.Schema<GetAllHoldoutsRequest>;
 
 export interface RelatedExperimentRep {
   key?: string;
@@ -10993,9 +10485,7 @@ export const RelatedExperimentRep = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     environment: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RelatedExperimentRep",
-}) as any as S.Schema<RelatedExperimentRep>;
+).annotate({ identifier: "RelatedExperimentRep" }) as any as S.Schema<RelatedExperimentRep>;
 
 export type SimpleHoldoutRepExperimentsList = Array<RelatedExperimentRep>;
 export const SimpleHoldoutRepExperimentsList = /*@__PURE__*/ S.Array(
@@ -11021,9 +10511,7 @@ export const SimpleHoldoutRep = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.Number),
     experiments: S.optional(SimpleHoldoutRepExperimentsList),
   }),
-).annotate({
-  identifier: "SimpleHoldoutRep",
-}) as any as S.Schema<SimpleHoldoutRep>;
+).annotate({ identifier: "SimpleHoldoutRep" }) as any as S.Schema<SimpleHoldoutRep>;
 
 export type HoldoutsCollectionRepItemsList = Array<SimpleHoldoutRep>;
 export const HoldoutsCollectionRepItemsList = /*@__PURE__*/ S.Array(
@@ -11050,17 +10538,18 @@ export const HoldoutsCollectionRep = /*@__PURE__*/ S.suspend(() =>
     _links: S.optional(HoldoutsCollectionRepLinksMap),
     total_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "HoldoutsCollectionRep",
-}) as any as S.Schema<HoldoutsCollectionRep>;
+).annotate({ identifier: "HoldoutsCollectionRep" }) as any as S.Schema<HoldoutsCollectionRep>;
 
 export interface GetAllIntegrationConfigurationsRequest {
   /** A key that corresponds to the third-party integration you are configuring. For example, `mezmo`. */
   integrationKey: string;
+  /** When `true`, includes pending two-step setup drafts that were created using `/setup` but are not yet finalized. Defaults to `false`, which returns only active configurations. */
+  includePending?: boolean;
 }
 export const GetAllIntegrationConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     integrationKey: S.String.pipe(T.Label()),
+    includePending: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -11079,9 +10568,7 @@ export const IntegrationConfigurationCollectionRepItemsList = /*@__PURE__*/ S.Ar
 ) as any as S.Schema<IntegrationConfigurationCollectionRepItemsList>;
 
 /** The location and content type of related resources */
-export type IntegrationConfigurationCollectionRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type IntegrationConfigurationCollectionRepLinksMap = { [key: string]: Link | undefined };
 export const IntegrationConfigurationCollectionRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -11119,11 +10606,7 @@ export const GetAllReleasePipelinesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/projects/{projectKey}/release-pipelines",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/release-pipelines", code: 200 }),
   ),
 ).annotate({
   identifier: "GetAllReleasePipelinesRequest",
@@ -11223,9 +10706,7 @@ export const ReleasePipeline = /*@__PURE__*/ S.suspend(() =>
     isProjectDefault: S.optional(S.Boolean),
     _isLegacy: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ReleasePipeline",
-}) as any as S.Schema<ReleasePipeline>;
+).annotate({ identifier: "ReleasePipeline" }) as any as S.Schema<ReleasePipeline>;
 
 /** An array of release pipelines */
 export type ReleasePipelineCollectionItemsList = Array<ReleasePipeline>;
@@ -11308,9 +10789,7 @@ export const ReleaseProgression = /*@__PURE__*/ S.suspend(() =>
     activePhaseStatus: S.optional(S.String),
     _links: ReleaseProgressionLinksMap,
   }),
-).annotate({
-  identifier: "ReleaseProgression",
-}) as any as S.Schema<ReleaseProgression>;
+).annotate({ identifier: "ReleaseProgression" }) as any as S.Schema<ReleaseProgression>;
 
 /** A list of details for each release, across all flags, for this release pipeline */
 export type ReleaseProgressionCollectionItemsList = Array<ReleaseProgression>;
@@ -11341,9 +10820,7 @@ export const ReleaseProgressionCollectionPhasesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ReleaseProgressionCollectionPhasesList>;
 
 /** The location and content type of related resources */
-export type ReleaseProgressionCollectionLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ReleaseProgressionCollectionLinksMap = { [key: string]: Link | undefined };
 export const ReleaseProgressionCollectionLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -11379,9 +10856,7 @@ export const ReleaseProgressionCollection = /*@__PURE__*/ S.suspend(() =>
 export interface GetAllWebhooksRequest {}
 export const GetAllWebhooksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v2/webhooks", code: 200 })),
-).annotate({
-  identifier: "GetAllWebhooksRequest",
-}) as any as S.Schema<GetAllWebhooksRequest>;
+).annotate({ identifier: "GetAllWebhooksRequest" }) as any as S.Schema<GetAllWebhooksRequest>;
 
 /** The location and content type of related resources */
 export type WebhooksLinksMap = { [key: string]: Link | undefined };
@@ -11461,16 +10936,8 @@ export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationKey: S.String.pipe(T.Label()),
     expand: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/applications/{applicationKey}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/applications/{applicationKey}", code: 200 })),
+).annotate({ identifier: "GetApplicationRequest" }) as any as S.Schema<GetApplicationRequest>;
 
 export type FlagListingRepLinksMap = { [key: string]: Link | undefined };
 export const FlagListingRepLinksMap = /*@__PURE__*/ S.Record(
@@ -11502,9 +10969,7 @@ export const ApplicationFlagCollectionRepItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ApplicationFlagCollectionRepItemsList>;
 
 /** The location and content type of related resources */
-export type ApplicationFlagCollectionRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ApplicationFlagCollectionRepLinksMap = { [key: string]: Link | undefined };
 export const ApplicationFlagCollectionRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -11550,9 +11015,7 @@ export const ApplicationMaintainerRep = /*@__PURE__*/ S.suspend(() =>
     member: S.optional(MemberSummary),
     team: S.optional(MemberTeamSummaryRep),
   }),
-).annotate({
-  identifier: "ApplicationMaintainerRep",
-}) as any as S.Schema<ApplicationMaintainerRep>;
+).annotate({ identifier: "ApplicationMaintainerRep" }) as any as S.Schema<ApplicationMaintainerRep>;
 
 export interface ApplicationRep {
   /** Details about the flags that have been evaluated by the application */
@@ -11614,14 +11077,10 @@ export const GetApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
     sort: S.optional(S.String.pipe(T.Query())),
     expand: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/applications", code: 200 })),
-).annotate({
-  identifier: "GetApplicationsRequest",
-}) as any as S.Schema<GetApplicationsRequest>;
+).annotate({ identifier: "GetApplicationsRequest" }) as any as S.Schema<GetApplicationsRequest>;
 
 /** The location and content type of related resources */
-export type ApplicationCollectionRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ApplicationCollectionRepLinksMap = { [key: string]: Link | undefined };
 export const ApplicationCollectionRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -11647,9 +11106,7 @@ export const ApplicationCollectionRep = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(ApplicationCollectionRepItemsList),
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApplicationCollectionRep",
-}) as any as S.Schema<ApplicationCollectionRep>;
+).annotate({ identifier: "ApplicationCollectionRep" }) as any as S.Schema<ApplicationCollectionRep>;
 
 export interface GetApplicationVersionsRequest {
   /** The application key */
@@ -11671,20 +11128,14 @@ export const GetApplicationVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     sort: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/applications/{applicationKey}/versions",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/applications/{applicationKey}/versions", code: 200 }),
   ),
 ).annotate({
   identifier: "GetApplicationVersionsRequest",
 }) as any as S.Schema<GetApplicationVersionsRequest>;
 
 /** The location and content type of related resources */
-export type ApplicationVersionsCollectionRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ApplicationVersionsCollectionRepLinksMap = { [key: string]: Link | undefined };
 export const ApplicationVersionsCollectionRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -11726,9 +11177,7 @@ export const ApplicationVersionRep = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     supported: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ApplicationVersionRep",
-}) as any as S.Schema<ApplicationVersionRep>;
+).annotate({ identifier: "ApplicationVersionRep" }) as any as S.Schema<ApplicationVersionRep>;
 
 /** A list of the versions for this application */
 export type ApplicationVersionsCollectionRepItemsList = Array<ApplicationVersionRep>;
@@ -11797,6 +11246,12 @@ export const FlagConfigApprovalRequestResponseNotifyMemberIdsList = /*@__PURE__*
   S.String,
 ) as any as S.Schema<FlagConfigApprovalRequestResponseNotifyMemberIdsList>;
 
+/** An array of team keys, if teams were specified when the approval request was created. The members of these teams are listed in <code>notifyMemberIds</code>, resolved when the request was made. Team membership may have changed since then. */
+export type FlagConfigApprovalRequestResponseNotifyTeamKeysList = Array<string>;
+export const FlagConfigApprovalRequestResponseNotifyTeamKeysList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<FlagConfigApprovalRequestResponseNotifyTeamKeysList>;
+
 /** Current status of the approval request */
 export type FlagConfigApprovalRequestResponseStatus =
   | "pending"
@@ -11812,9 +11267,7 @@ export const FlagConfigApprovalRequestResponseConflictsList = /*@__PURE__*/ S.Ar
 ) as any as S.Schema<FlagConfigApprovalRequestResponseConflictsList>;
 
 /** The location and content type of related resources */
-export type FlagConfigApprovalRequestResponseLinksMap = {
-  [key: string]: unknown | undefined;
-};
+export type FlagConfigApprovalRequestResponseLinksMap = { [key: string]: unknown | undefined };
 export const FlagConfigApprovalRequestResponseLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -11839,6 +11292,8 @@ export interface FlagConfigApprovalRequestResponse {
   allReviews: FlagConfigApprovalRequestResponseAllReviewsList;
   /** An array of member IDs. These members are notified to review the approval request. */
   notifyMemberIds: FlagConfigApprovalRequestResponseNotifyMemberIdsList;
+  /** An array of team keys, if teams were specified when the approval request was created. The members of these teams are listed in <code>notifyMemberIds</code>, resolved when the request was made. Team membership may have changed since then. */
+  notifyTeamKeys?: FlagConfigApprovalRequestResponseNotifyTeamKeysList;
   /** Timestamp of when the approval request was applied */
   appliedDate?: number;
   /** The member ID of the member who applied the approval request */
@@ -11875,6 +11330,7 @@ export const FlagConfigApprovalRequestResponse = /*@__PURE__*/ S.suspend(() =>
     reviewStatus: FlagConfigApprovalRequestResponseReviewStatus,
     allReviews: FlagConfigApprovalRequestResponseAllReviewsList,
     notifyMemberIds: FlagConfigApprovalRequestResponseNotifyMemberIdsList,
+    notifyTeamKeys: S.optional(FlagConfigApprovalRequestResponseNotifyTeamKeysList),
     appliedDate: S.optional(S.Number),
     appliedByMemberId: S.optional(S.String),
     appliedByServiceTokenId: S.optional(S.String),
@@ -11923,6 +11379,12 @@ export const ExpandableApprovalRequestResponseNotifyMemberIdsList = /*@__PURE__*
   S.String,
 ) as any as S.Schema<ExpandableApprovalRequestResponseNotifyMemberIdsList>;
 
+/** An array of team keys, if teams were specified when the approval request was created. The members of these teams are listed in <code>notifyMemberIds</code>, resolved when the request was made. Team membership may have changed since then. */
+export type ExpandableApprovalRequestResponseNotifyTeamKeysList = Array<string>;
+export const ExpandableApprovalRequestResponseNotifyTeamKeysList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ExpandableApprovalRequestResponseNotifyTeamKeysList>;
+
 /** Current status of the approval request */
 export type ExpandableApprovalRequestResponseStatus =
   | "pending"
@@ -11938,9 +11400,7 @@ export const ExpandableApprovalRequestResponseConflictsList = /*@__PURE__*/ S.Ar
 ) as any as S.Schema<ExpandableApprovalRequestResponseConflictsList>;
 
 /** The location and content type of related resources */
-export type ExpandableApprovalRequestResponseLinksMap = {
-  [key: string]: unknown | undefined;
-};
+export type ExpandableApprovalRequestResponseLinksMap = { [key: string]: unknown | undefined };
 export const ExpandableApprovalRequestResponseLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -12111,9 +11571,7 @@ export const ExpandedFlagRep = /*@__PURE__*/ S.suspend(() =>
     archivedDate: S.optional(S.Number),
     defaults: S.optional(Defaults),
   }),
-).annotate({
-  identifier: "ExpandedFlagRep",
-}) as any as S.Schema<ExpandedFlagRep>;
+).annotate({ identifier: "ExpandedFlagRep" }) as any as S.Schema<ExpandedFlagRep>;
 
 export interface AIConfigRep {
   /** The key of the AI Config */
@@ -12141,9 +11599,7 @@ export const ExpandedExperimentRep = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     _access: S.optional(Access),
   }),
-).annotate({
-  identifier: "ExpandedExperimentRep",
-}) as any as S.Schema<ExpandedExperimentRep>;
+).annotate({ identifier: "ExpandedExperimentRep" }) as any as S.Schema<ExpandedExperimentRep>;
 
 /** Tags for the segment. Defaults to an empty array. */
 export type UserSegmentTagsList = Array<string>;
@@ -12218,9 +11674,7 @@ export const UserSegmentRule = /*@__PURE__*/ S.suspend(() =>
     bucketBy: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserSegmentRule",
-}) as any as S.Schema<UserSegmentRule>;
+).annotate({ identifier: "UserSegmentRule" }) as any as S.Schema<UserSegmentRule>;
 
 /** An array of the targeting rules for this segment. */
 export type UserSegmentRulesList = Array<UserSegmentRule>;
@@ -12253,9 +11707,7 @@ export const SegmentMetadata = /*@__PURE__*/ S.suspend(() =>
     lastModified: S.optional(S.Number),
     deleted: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SegmentMetadata",
-}) as any as S.Schema<SegmentMetadata>;
+).annotate({ identifier: "SegmentMetadata" }) as any as S.Schema<SegmentMetadata>;
 
 export interface UserSegment {
   /** A human-friendly name for the segment. */
@@ -12346,9 +11798,7 @@ export const ExpandedResourceRep = /*@__PURE__*/ S.suspend(() =>
     flag: S.optional(ExpandedFlagRep),
     segment: S.optional(UserSegment),
   }),
-).annotate({
-  identifier: "ExpandedResourceRep",
-}) as any as S.Schema<ExpandedResourceRep>;
+).annotate({ identifier: "ExpandedResourceRep" }) as any as S.Schema<ExpandedResourceRep>;
 
 export interface ExpandableApprovalRequestResponse {
   /** The ID of this approval request */
@@ -12369,6 +11819,8 @@ export interface ExpandableApprovalRequestResponse {
   allReviews: ExpandableApprovalRequestResponseAllReviewsList;
   /** An array of member IDs. These members are notified to review the approval request. */
   notifyMemberIds: ExpandableApprovalRequestResponseNotifyMemberIdsList;
+  /** An array of team keys, if teams were specified when the approval request was created. The members of these teams are listed in <code>notifyMemberIds</code>, resolved when the request was made. Team membership may have changed since then. */
+  notifyTeamKeys?: ExpandableApprovalRequestResponseNotifyTeamKeysList;
   /** Timestamp of when the approval request was applied */
   appliedDate?: number;
   /** The member ID of the member who applied the approval request */
@@ -12417,6 +11869,7 @@ export const ExpandableApprovalRequestResponse = /*@__PURE__*/ S.suspend(() =>
     reviewStatus: ExpandableApprovalRequestResponseReviewStatus,
     allReviews: ExpandableApprovalRequestResponseAllReviewsList,
     notifyMemberIds: ExpandableApprovalRequestResponseNotifyMemberIdsList,
+    notifyTeamKeys: S.optional(ExpandableApprovalRequestResponseNotifyTeamKeysList),
     appliedDate: S.optional(S.Number),
     appliedByMemberId: S.optional(S.String),
     appliedByServiceTokenId: S.optional(S.String),
@@ -12468,9 +11921,7 @@ export const ExpandableApprovalRequestsResponseItemsList = /*@__PURE__*/ S.Array
 ) as any as S.Schema<ExpandableApprovalRequestsResponseItemsList>;
 
 /** The location and content type of related resources */
-export type ExpandableApprovalRequestsResponseLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ExpandableApprovalRequestsResponseLinksMap = { [key: string]: Link | undefined };
 export const ExpandableApprovalRequestsResponseLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -12521,9 +11972,7 @@ export const GetApprovalRequestSettingsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetApprovalRequestSettingsRequest>;
 
 /** Arbitrary service-specific configuration */
-export type ApprovalRequestSettingServiceConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type ApprovalRequestSettingServiceConfigMap = { [key: string]: unknown | undefined };
 export const ApprovalRequestSettingServiceConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -12571,9 +12020,7 @@ export const ApprovalRequestSetting = /*@__PURE__*/ S.suspend(() =>
     requiredApprovalTags: ApprovalRequestSettingRequiredApprovalTagsList,
     serviceKindConfigurationId: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ApprovalRequestSetting",
-}) as any as S.Schema<ApprovalRequestSetting>;
+).annotate({ identifier: "ApprovalRequestSetting" }) as any as S.Schema<ApprovalRequestSetting>;
 
 /** Environment-specific overrides. */
 export type ApprovalRequestSettingWithEnvsEnvironmentsMap = {
@@ -12600,9 +12047,7 @@ export const ApprovalRequestSettingWithEnvs = /*@__PURE__*/ S.suspend(() =>
   identifier: "ApprovalRequestSettingWithEnvs",
 }) as any as S.Schema<ApprovalRequestSettingWithEnvs>;
 
-export type ApprovalRequestSettings = {
-  [key: string]: ApprovalRequestSettingWithEnvs | undefined;
-};
+export type ApprovalRequestSettings = { [key: string]: ApprovalRequestSettingWithEnvs | undefined };
 export const ApprovalRequestSettings = /*@__PURE__*/ S.Record(
   S.String,
   ApprovalRequestSettingWithEnvs,
@@ -12646,9 +12091,7 @@ export const FlagConfigApprovalRequestsResponseItemsList = /*@__PURE__*/ S.Array
 ) as any as S.Schema<FlagConfigApprovalRequestsResponseItemsList>;
 
 /** The location and content type of related resources */
-export type FlagConfigApprovalRequestsResponseLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type FlagConfigApprovalRequestsResponseLinksMap = { [key: string]: Link | undefined };
 export const FlagConfigApprovalRequestsResponseLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -12700,9 +12143,7 @@ export const GetAuditLogEntriesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetAuditLogEntriesRequest>;
 
 /** The location and content type of related resources */
-export type AuditLogEntryListingRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type AuditLogEntryListingRepLinksMap = { [key: string]: Link | undefined };
 export const AuditLogEntryListingRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -12802,8 +12243,12 @@ export interface AuthorizedAppDataRep {
   isScim?: boolean;
   /** The authorized application name */
   name?: string;
+  /** The icon for this authorized application, if it has one */
+  iconUrl?: string;
   /** The name of the maintainer for this authorized application */
   maintainerName?: string;
+  /** Whether this application acted on behalf of the member in this entry. When true, the member and the application are co-authors of the change rather than the member acting alone. Omitted for applications that act on their own. */
+  isAgent?: boolean;
 }
 export const AuthorizedAppDataRep = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12811,11 +12256,11 @@ export const AuthorizedAppDataRep = /*@__PURE__*/ S.suspend(() =>
     _id: S.optional(S.String),
     isScim: S.optional(S.Boolean),
     name: S.optional(S.String),
+    iconUrl: S.optional(S.String),
     maintainerName: S.optional(S.String),
+    isAgent: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AuthorizedAppDataRep",
-}) as any as S.Schema<AuthorizedAppDataRep>;
+).annotate({ identifier: "AuthorizedAppDataRep" }) as any as S.Schema<AuthorizedAppDataRep>;
 
 export type TargetResourceRepLinksMap = { [key: string]: Link | undefined };
 export const TargetResourceRepLinksMap = /*@__PURE__*/ S.Record(
@@ -12842,9 +12287,7 @@ export const TargetResourceRep = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     resources: S.optional(TargetResourceRepResourcesList),
   }),
-).annotate({
-  identifier: "TargetResourceRep",
-}) as any as S.Schema<TargetResourceRep>;
+).annotate({ identifier: "TargetResourceRep" }) as any as S.Schema<TargetResourceRep>;
 
 export type ParentResourceRepLinksMap = { [key: string]: Link | undefined };
 export const ParentResourceRepLinksMap = /*@__PURE__*/ S.Record(
@@ -12865,9 +12308,7 @@ export const ParentResourceRep = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     resource: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ParentResourceRep",
-}) as any as S.Schema<ParentResourceRep>;
+).annotate({ identifier: "ParentResourceRep" }) as any as S.Schema<ParentResourceRep>;
 
 export interface AuditLogEntryListingRep {
   /** The location and content type of related resources */
@@ -12936,9 +12377,7 @@ export const AuditLogEntryListingRep = /*@__PURE__*/ S.suspend(() =>
     target: S.optional(TargetResourceRep),
     parent: S.optional(ParentResourceRep),
   }),
-).annotate({
-  identifier: "AuditLogEntryListingRep",
-}) as any as S.Schema<AuditLogEntryListingRep>;
+).annotate({ identifier: "AuditLogEntryListingRep" }) as any as S.Schema<AuditLogEntryListingRep>;
 
 /** An array of audit log entries */
 export type AuditLogEntryListingRepCollectionItemsList = Array<AuditLogEntryListingRep>;
@@ -12947,9 +12386,7 @@ export const AuditLogEntryListingRepCollectionItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AuditLogEntryListingRepCollectionItemsList>;
 
 /** The location and content type of related resources */
-export type AuditLogEntryListingRepCollectionLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type AuditLogEntryListingRepCollectionLinksMap = { [key: string]: Link | undefined };
 export const AuditLogEntryListingRepCollectionLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -12978,9 +12415,7 @@ export const GetAuditLogEntryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/auditlog/{id}", code: 200 })),
-).annotate({
-  identifier: "GetAuditLogEntryRequest",
-}) as any as S.Schema<GetAuditLogEntryRequest>;
+).annotate({ identifier: "GetAuditLogEntryRequest" }) as any as S.Schema<GetAuditLogEntryRequest>;
 
 /** The location and content type of related resources */
 export type AuditLogEntryRepLinksMap = { [key: string]: Link | undefined };
@@ -13084,9 +12519,7 @@ export const AuditLogEntryRep = /*@__PURE__*/ S.suspend(() =>
     currentVersion: S.optional(S.Unknown),
     subentries: S.optional(AuditLogEntryRepSubentriesList),
   }),
-).annotate({
-  identifier: "AuditLogEntryRep",
-}) as any as S.Schema<AuditLogEntryRep>;
+).annotate({ identifier: "AuditLogEntryRep" }) as any as S.Schema<AuditLogEntryRep>;
 
 export interface GetBigSegmentExportRequest {
   /** The project key */
@@ -13285,11 +12718,7 @@ export const GetBigSegmentStoreIntegrationRequest = /*@__PURE__*/ S.suspend(() =
 export interface GetBigSegmentStoreIntegrationsRequest {}
 export const GetBigSegmentStoreIntegrationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/integration-capabilities/big-segment-store",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/integration-capabilities/big-segment-store", code: 200 }),
   ),
 ).annotate({
   identifier: "GetBigSegmentStoreIntegrationsRequest",
@@ -13352,9 +12781,7 @@ export const GetBranchRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetBranchRequest",
-}) as any as S.Schema<GetBranchRequest>;
+).annotate({ identifier: "GetBranchRequest" }) as any as S.Schema<GetBranchRequest>;
 
 /** An array of flag key aliases */
 export type HunkRepAliasesList = Array<string>;
@@ -13450,15 +12877,9 @@ export const GetBranchesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     repo: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/code-refs/repositories/{repo}/branches",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/code-refs/repositories/{repo}/branches", code: 200 }),
   ),
-).annotate({
-  identifier: "GetBranchesRequest",
-}) as any as S.Schema<GetBranchesRequest>;
+).annotate({ identifier: "GetBranchesRequest" }) as any as S.Schema<GetBranchesRequest>;
 
 /** The location and content type of related resources */
 export type BranchCollectionRepLinksMap = { [key: string]: Link | undefined };
@@ -13484,16 +12905,12 @@ export const BranchCollectionRep = /*@__PURE__*/ S.suspend(() =>
     _links: BranchCollectionRepLinksMap,
     items: BranchCollectionRepItemsList,
   }),
-).annotate({
-  identifier: "BranchCollectionRep",
-}) as any as S.Schema<BranchCollectionRep>;
+).annotate({ identifier: "BranchCollectionRep" }) as any as S.Schema<BranchCollectionRep>;
 
 export interface GetCallerIdentityRequest {}
 export const GetCallerIdentityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v2/caller-identity", code: 200 })),
-).annotate({
-  identifier: "GetCallerIdentityRequest",
-}) as any as S.Schema<GetCallerIdentityRequest>;
+).annotate({ identifier: "GetCallerIdentityRequest" }) as any as S.Schema<GetCallerIdentityRequest>;
 
 export type CallerIdentityRepScopesList = Array<string>;
 export const CallerIdentityRepScopesList = /*@__PURE__*/ S.Array(
@@ -13531,16 +12948,14 @@ export const CallerIdentityRep = /*@__PURE__*/ S.suspend(() =>
     serviceToken: S.optional(S.Boolean),
     scopes: S.optional(CallerIdentityRepScopesList),
   }),
-).annotate({
-  identifier: "CallerIdentityRep",
-}) as any as S.Schema<CallerIdentityRep>;
+).annotate({ identifier: "CallerIdentityRep" }) as any as S.Schema<CallerIdentityRep>;
 
 export interface GetContextAttributeNamesRequest {
   /** The project key */
   projectKey: string;
   /** The environment key */
   environmentKey: string;
-  /** A comma-separated list of context filters. This endpoint only accepts `kind` filters, with the `equals` operator, and `name` filters, with the `startsWith` operator. To learn more about the filter syntax, read [Filtering contexts and context instances](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts-and-context-instances). */
+  /** A comma-separated list of context filters. This endpoint only accepts `kind` filters, with the `equals` operator, and `name` filters, with the `startsWith` operator. To learn more about the filter syntax, read [Filtering contexts](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts). */
   filter?: string;
   /** Specifies the maximum number of items in the collection to return (max: 100, default: 100) */
   limit?: number;
@@ -13576,9 +12991,7 @@ export const ContextAttributeName = /*@__PURE__*/ S.suspend(() =>
     weight: S.Number,
     redacted: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ContextAttributeName",
-}) as any as S.Schema<ContextAttributeName>;
+).annotate({ identifier: "ContextAttributeName" }) as any as S.Schema<ContextAttributeName>;
 
 /** A collection of context attribute names. */
 export type ContextAttributeNamesNamesList = Array<ContextAttributeName>;
@@ -13597,9 +13010,7 @@ export const ContextAttributeNames = /*@__PURE__*/ S.suspend(() =>
     kind: S.String,
     names: ContextAttributeNamesNamesList,
   }),
-).annotate({
-  identifier: "ContextAttributeNames",
-}) as any as S.Schema<ContextAttributeNames>;
+).annotate({ identifier: "ContextAttributeNames" }) as any as S.Schema<ContextAttributeNames>;
 
 /** A collection of context attribute name data grouped by kind. */
 export type ContextAttributeNamesCollectionItemsList = Array<ContextAttributeNames>;
@@ -13626,7 +13037,7 @@ export interface GetContextAttributeValuesRequest {
   environmentKey: string;
   /** The attribute name */
   attributeName: string;
-  /** A comma-separated list of context filters. This endpoint only accepts `kind` filters, with the `equals` operator, and `value` filters, with the `startsWith` operator. To learn more about the filter syntax, read [Filtering contexts and context instances](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts-and-context-instances). */
+  /** A comma-separated list of context filters. This endpoint requires a `kind` filter, with the `equals` operator, and also accepts a `value` filter, with the `startsWith` operator. To learn more about the filter syntax, read [Filtering contexts](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts). */
   filter?: string;
   /** Specifies the maximum number of items in the collection to return (max: 100, default: 50) */
   limit?: number;
@@ -13660,9 +13071,7 @@ export const ContextAttributeValue = /*@__PURE__*/ S.suspend(() =>
     name: S.Unknown,
     weight: S.Number,
   }),
-).annotate({
-  identifier: "ContextAttributeValue",
-}) as any as S.Schema<ContextAttributeValue>;
+).annotate({ identifier: "ContextAttributeValue" }) as any as S.Schema<ContextAttributeValue>;
 
 /** A collection of context attribute values. */
 export type ContextAttributeValuesValuesList = Array<ContextAttributeValue>;
@@ -13681,9 +13090,7 @@ export const ContextAttributeValues = /*@__PURE__*/ S.suspend(() =>
     kind: S.String,
     values: ContextAttributeValuesValuesList,
   }),
-).annotate({
-  identifier: "ContextAttributeValues",
-}) as any as S.Schema<ContextAttributeValues>;
+).annotate({ identifier: "ContextAttributeValues" }) as any as S.Schema<ContextAttributeValues>;
 
 /** A collection of context attribute value data grouped by kind. */
 export type ContextAttributeValuesCollectionItemsList = Array<ContextAttributeValues>;
@@ -13702,125 +13109,6 @@ export const ContextAttributeValuesCollection = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ContextAttributeValuesCollection",
 }) as any as S.Schema<ContextAttributeValuesCollection>;
-
-export interface GetContextInstancesRequest {
-  /** The project key */
-  projectKey: string;
-  /** The environment key */
-  environmentKey: string;
-  /** The context instance ID */
-  id: string;
-  /** Specifies the maximum number of context instances to return (max: 50, default: 20) */
-  limit?: number;
-  /** Limits results to context instances with sort values after the value specified. You can use this for pagination, however, we recommend using the `next` link we provide instead. */
-  continuationToken?: string;
-  /** Specifies a field by which to sort. LaunchDarkly supports sorting by timestamp in ascending order by specifying `ts` for this value, or descending order by specifying `-ts`. */
-  sort?: string;
-  /** A comma-separated list of context filters. This endpoint only accepts an `applicationId` filter. To learn more about the filter syntax, read [Filtering contexts and context instances](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts-and-context-instances). */
-  filter?: string;
-  /** Specifies whether to include or omit the total count of matching context instances. Defaults to true. */
-  includeTotalCount?: boolean;
-}
-export const GetContextInstancesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectKey: S.String.pipe(T.Label()),
-    environmentKey: S.String.pipe(T.Label()),
-    id: S.String.pipe(T.Label()),
-    limit: S.optional(S.Number.pipe(T.Query())),
-    continuationToken: S.optional(S.String.pipe(T.Query())),
-    sort: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    includeTotalCount: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/projects/{projectKey}/environments/{environmentKey}/context-instances/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetContextInstancesRequest",
-}) as any as S.Schema<GetContextInstancesRequest>;
-
-/** The location and content type of related resources */
-export type ContextInstancesLinksMap = { [key: string]: Link | undefined };
-export const ContextInstancesLinksMap = /*@__PURE__*/ S.Record(
-  S.String,
-  Link,
-) as any as S.Schema<ContextInstancesLinksMap>;
-
-/** A list of the context kinds this context was associated with that the SDK removed because they were marked as anonymous at flag evaluation */
-export type ContextInstanceRecordAnonymousKindsList = Array<string>;
-export const ContextInstanceRecordAnonymousKindsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ContextInstanceRecordAnonymousKindsList>;
-
-/** The location and content type of related resources */
-export type ContextInstanceRecordLinksMap = { [key: string]: Link | undefined };
-export const ContextInstanceRecordLinksMap = /*@__PURE__*/ S.Record(
-  S.String,
-  Link,
-) as any as S.Schema<ContextInstanceRecordLinksMap>;
-
-export interface ContextInstanceRecord {
-  /** Timestamp of the last time an evaluation occurred for this context instance */
-  lastSeen?: string;
-  /** The context instance ID */
-  id: string;
-  /** An identifier representing the application where the LaunchDarkly SDK is running */
-  applicationId?: string;
-  /** A list of the context kinds this context was associated with that the SDK removed because they were marked as anonymous at flag evaluation */
-  anonymousKinds?: ContextInstanceRecordAnonymousKindsList;
-  /** The context, including its kind and attributes */
-  context: unknown;
-  /** The location and content type of related resources */
-  _links?: ContextInstanceRecordLinksMap;
-  /** Details on the allowed and denied actions for this context instance */
-  _access?: Access;
-}
-export const ContextInstanceRecord = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lastSeen: S.optional(S.String),
-    id: S.String,
-    applicationId: S.optional(S.String),
-    anonymousKinds: S.optional(ContextInstanceRecordAnonymousKindsList),
-    context: S.Unknown,
-    _links: S.optional(ContextInstanceRecordLinksMap),
-    _access: S.optional(Access),
-  }),
-).annotate({
-  identifier: "ContextInstanceRecord",
-}) as any as S.Schema<ContextInstanceRecord>;
-
-/** A collection of context instances. Can include multiple versions of context instances that have the same <code>id</code>, but different <code>applicationId</code>s. */
-export type ContextInstancesItemsList = Array<ContextInstanceRecord>;
-export const ContextInstancesItemsList = /*@__PURE__*/ S.Array(
-  ContextInstanceRecord,
-) as any as S.Schema<ContextInstancesItemsList>;
-
-export interface ContextInstances {
-  /** The location and content type of related resources */
-  _links?: ContextInstancesLinksMap;
-  /** The number of unique context instances */
-  totalCount?: number;
-  /** The environment ID */
-  _environmentId: string;
-  /** An obfuscated string that references the last context instance on the previous page of results. You can use this for pagination, however, we recommend using the <code>next</code> link instead. */
-  continuationToken?: string;
-  /** A collection of context instances. Can include multiple versions of context instances that have the same <code>id</code>, but different <code>applicationId</code>s. */
-  items: ContextInstancesItemsList;
-}
-export const ContextInstances = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _links: S.optional(ContextInstancesLinksMap),
-    totalCount: S.optional(S.Number),
-    _environmentId: S.String,
-    continuationToken: S.optional(S.String),
-    items: ContextInstancesItemsList,
-  }),
-).annotate({
-  identifier: "ContextInstances",
-}) as any as S.Schema<ContextInstances>;
 
 export interface GetContextInstanceSegmentsMembershipByEnvRequest {
   /** The project key */
@@ -13846,9 +13134,7 @@ export const GetContextInstanceSegmentsMembershipByEnvRequest = /*@__PURE__*/ S.
 }) as any as S.Schema<GetContextInstanceSegmentsMembershipByEnvRequest>;
 
 /** The location and content type of related resources */
-export type ContextInstanceSegmentMembershipLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ContextInstanceSegmentMembershipLinksMap = { [key: string]: Link | undefined };
 export const ContextInstanceSegmentMembershipLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -13896,9 +13182,7 @@ export const ContextInstanceSegmentMembershipsItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ContextInstanceSegmentMembershipsItemsList>;
 
 /** The location and content type of related resources */
-export type ContextInstanceSegmentMembershipsLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ContextInstanceSegmentMembershipsLinksMap = { [key: string]: Link | undefined };
 export const ContextInstanceSegmentMembershipsLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -13928,13 +13212,7 @@ export const GetContextKindsByProjectKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectKey: S.String.pipe(T.Label()),
     expand: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/projects/{projectKey}/context-kinds",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/context-kinds", code: 200 })),
 ).annotate({
   identifier: "GetContextKindsByProjectKeyRequest",
 }) as any as S.Schema<GetContextKindsByProjectKeyRequest>;
@@ -14017,9 +13295,7 @@ export const ContextKindsCollectionRepItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ContextKindsCollectionRepItemsList>;
 
 /** The location and content type of related resources */
-export type ContextKindsCollectionRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ContextKindsCollectionRepLinksMap = { [key: string]: Link | undefined };
 export const ContextKindsCollectionRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -14051,11 +13327,11 @@ export interface GetContextsRequest {
   key: string;
   /** Specifies the maximum number of items in the collection to return (max: 50, default: 20) */
   limit?: number;
-  /** Limits results to contexts with sort values after the value specified. You can use this for pagination, however, we recommend using the `next` link we provide instead. */
+  /** An opaque cursor that identifies the next page of results. You can use this for pagination, however, we recommend using the `next` link we provide instead. */
   continuationToken?: string;
-  /** Specifies a field by which to sort. LaunchDarkly supports sorting by timestamp in ascending order by specifying `ts` for this value, or descending order by specifying `-ts`. */
+  /** Deprecated. This endpoint does not support sorting. Requests that include this parameter are rejected with a `400` response, so omit it. Results are always sorted by context kind and key. */
   sort?: string;
-  /** A comma-separated list of context filters. This endpoint only accepts an `applicationId` filter. To learn more about the filter syntax, read [Filtering contexts and context instances](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts-and-context-instances). */
+  /** A comma-separated list of context filters. This endpoint only accepts an `applicationId` filter. To learn more about the filter syntax, read [Filtering contexts](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts). */
   filter?: string;
   /** Specifies whether to include or omit the total count of matching contexts. Defaults to true. */
   includeTotalCount?: boolean;
@@ -14078,9 +13354,7 @@ export const GetContextsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetContextsRequest",
-}) as any as S.Schema<GetContextsRequest>;
+).annotate({ identifier: "GetContextsRequest" }) as any as S.Schema<GetContextsRequest>;
 
 /** The location and content type of related resources */
 export type ContextsLinksMap = { [key: string]: Link | undefined };
@@ -14099,7 +13373,7 @@ export const ContextRecordLinksMap = /*@__PURE__*/ S.Record(
 export interface ContextRecord {
   /** Timestamp of the last time an evaluation occurred for this context */
   lastSeen?: string;
-  /** An identifier representing the application where the LaunchDarkly SDK is running */
+  /** An identifier representing the application where the LaunchDarkly SDK is running. Populated when you get contexts by kind and key. Empty in search results, which return each context's most recently reported data. */
   applicationId?: string;
   /** The context, including its kind and attributes */
   context: unknown;
@@ -14107,7 +13381,7 @@ export interface ContextRecord {
   _links?: ContextRecordLinksMap;
   /** Details on the allowed and denied actions for this context instance */
   _access?: Access;
-  /** The total number of associated contexts. Associated contexts are contexts that have appeared in the same context instance, that is, they were part of the same flag evaluation. */
+  /** Deprecated. This value is always 1. */
   associatedContexts?: number;
 }
 export const ContextRecord = /*@__PURE__*/ S.suspend(() =>
@@ -14130,11 +13404,11 @@ export const ContextsItemsList = /*@__PURE__*/ S.Array(
 export interface Contexts {
   /** The location and content type of related resources */
   _links?: ContextsLinksMap;
-  /** The number of contexts */
+  /** The number of matching contexts. This value is approximate and may be omitted if it is unavailable. */
   totalCount?: number;
   /** The environment ID where the context was evaluated */
   _environmentId: string;
-  /** An obfuscated string that references the last context instance on the previous page of results. You can use this for pagination, however, we recommend using the <code>next</code> link instead. */
+  /** An obfuscated string that references the last context on the previous page of results. You can use this for pagination, however, we recommend using the <code>next</code> link instead. */
   continuationToken?: string;
   /** A collection of contexts. Can include multiple versions of contexts that have the same <code>kind</code> and <code>key</code>, but different <code>applicationId</code>s. */
   items: ContextsItemsList;
@@ -14183,13 +13457,7 @@ export const GetContextsClientsideUsageRequest = /*@__PURE__*/ S.suspend(() =>
     groupBy: S.optional(S.String.pipe(T.Query())),
     aggregationType: S.optional(S.String.pipe(T.Query())),
     granularity: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/usage/clientside-contexts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/clientside-contexts", code: 200 })),
 ).annotate({
   identifier: "GetContextsClientsideUsageRequest",
 }) as any as S.Schema<GetContextsClientsideUsageRequest>;
@@ -14228,13 +13496,7 @@ export const GetContextsServersideUsageRequest = /*@__PURE__*/ S.suspend(() =>
     groupBy: S.optional(S.String.pipe(T.Query())),
     aggregationType: S.optional(S.String.pipe(T.Query())),
     granularity: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/usage/serverside-contexts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/serverside-contexts", code: 200 })),
 ).annotate({
   identifier: "GetContextsServersideUsageRequest",
 }) as any as S.Schema<GetContextsServersideUsageRequest>;
@@ -14289,9 +13551,7 @@ export const GetCustomRoleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     customRoleKey: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/roles/{customRoleKey}", code: 200 })),
-).annotate({
-  identifier: "GetCustomRoleRequest",
-}) as any as S.Schema<GetCustomRoleRequest>;
+).annotate({ identifier: "GetCustomRoleRequest" }) as any as S.Schema<GetCustomRoleRequest>;
 
 /** The location and content type of related resources */
 export type CustomRoleLinksMap = { [key: string]: Link | undefined };
@@ -14379,9 +13639,7 @@ export const GetCustomRolesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/roles", code: 200 })),
-).annotate({
-  identifier: "GetCustomRolesRequest",
-}) as any as S.Schema<GetCustomRolesRequest>;
+).annotate({ identifier: "GetCustomRolesRequest" }) as any as S.Schema<GetCustomRolesRequest>;
 
 /** The location and content type of related resources */
 export type CustomRolesLinksMap = { [key: string]: Link | undefined };
@@ -14435,9 +13693,7 @@ export const GetCustomWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetCustomWorkflowRequest",
-}) as any as S.Schema<GetCustomWorkflowRequest>;
+).annotate({ identifier: "GetCustomWorkflowRequest" }) as any as S.Schema<GetCustomWorkflowRequest>;
 
 export interface ConflictOutput {
   /** The stage ID */
@@ -14520,9 +13776,7 @@ export const ParameterDefault = /*@__PURE__*/ S.suspend(() =>
     booleanVariationValue: S.optional(S.Boolean),
     ruleClause: S.optional(RuleClause),
   }),
-).annotate({
-  identifier: "ParameterDefault",
-}) as any as S.Schema<ParameterDefault>;
+).annotate({ identifier: "ParameterDefault" }) as any as S.Schema<ParameterDefault>;
 
 export interface WorkflowTemplateParameter {
   /** The ID of the condition or instruction referenced by this parameter */
@@ -14557,9 +13811,7 @@ export const WorkflowTemplateMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parameters: S.optional(WorkflowTemplateMetadataParametersList),
   }),
-).annotate({
-  identifier: "WorkflowTemplateMetadata",
-}) as any as S.Schema<WorkflowTemplateMetadata>;
+).annotate({ identifier: "WorkflowTemplateMetadata" }) as any as S.Schema<WorkflowTemplateMetadata>;
 
 export interface CustomWorkflowOutput {
   /** The ID of the workflow */
@@ -14605,22 +13857,22 @@ export const CustomWorkflowOutput = /*@__PURE__*/ S.suspend(() =>
     meta: S.optional(WorkflowTemplateMetadata),
     templateKey: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomWorkflowOutput",
-}) as any as S.Schema<CustomWorkflowOutput>;
+).annotate({ identifier: "CustomWorkflowOutput" }) as any as S.Schema<CustomWorkflowOutput>;
 
 export interface GetDataExportEventsUsageRequest {
   /** The series of data returned starts from this timestamp (Unix milliseconds). Defaults to the beginning of the current month. */
   from?: string;
   /** The series of data returned ends at this timestamp (Unix milliseconds). Defaults to the current time. */
   to?: string;
-  /** A project key to filter results by. Can be specified multiple times, one query parameter per project key. */
+  /** A project key to filter results by. Without `groupBy=projectId`, filters to the project's current environments so retained pre-materialization usage remains visible. Can be specified multiple times, one query parameter per project key. */
   projectKey?: string;
   /** An environment key to filter results by. If specified, exactly one `projectKey` must be provided. Can be specified multiple times, one query parameter per environment key. */
   environmentKey?: string;
   /** An event kind to filter results by. Can be specified multiple times, one query parameter per event kind. */
   eventKind?: string;
-  /** If specified, returns data for each distinct value of the given field. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension.<br/>Valid values: `environmentId`, `eventKind`. */
+  /** A Streaming configuration kind to filter results by. Values preserve raw product identity; `snowflake` is legacy Streaming Snowflake and is distinct from Warehouse `snowflake-v2`. Can be specified multiple times.<br/>Valid values: `kinesis`, `google-pubsub`, `mparticle`, `segment`, `azure-event-hubs`, `snowflake`, `unknown`. */
+  destinationKind?: string;
+  /** If specified, returns data for each distinct value of the given field. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension. `projectId` requires one or more explicit `projectKey` filters and is capped at 100 selected projects. `destinationId` returns one series per streaming destination with `destinationName` metadata, plus `destinationViewable` when the destination is in the current configuration. The destination's own kind is added as `destinationKind` only when you can view the destination. A kind requested with `groupBy=destinationKind` is returned unchanged. A destination ID absent from the current configuration is named `Unknown historical destination`. Destinations you cannot view are reported together in one `Unknown destination` series with `destinationId` `hidden` and `destinationViewable` `false`, one per combination of the other requested dimensions, such as `destinationKind`. Usage without a destination ID is one series with an empty `destinationId` named `Unattributed`.<br/>Valid values: `projectId`, `environmentId`, `eventKind`, `destinationKind`, `destinationId`. */
   groupBy?: string;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`. */
   aggregationType?: string;
@@ -14634,19 +13886,201 @@ export const GetDataExportEventsUsageRequest = /*@__PURE__*/ S.suspend(() =>
     projectKey: S.optional(S.String.pipe(T.Query())),
     environmentKey: S.optional(S.String.pipe(T.Query())),
     eventKind: S.optional(S.String.pipe(T.Query())),
+    destinationKind: S.optional(S.String.pipe(T.Query())),
     groupBy: S.optional(S.String.pipe(T.Query())),
     aggregationType: S.optional(S.String.pipe(T.Query())),
     granularity: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/usage/data-export-events",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/data-export-events", code: 200 })),
 ).annotate({
   identifier: "GetDataExportEventsUsageRequest",
 }) as any as S.Schema<GetDataExportEventsUsageRequest>;
+
+/** The location and content type of related resources */
+export type DataExportSeriesListRepLinksMap = { [key: string]: unknown | undefined };
+export const DataExportSeriesListRepLinksMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<DataExportSeriesListRepLinksMap>;
+
+/** Metadata about each series */
+export type DataExportSeriesListRepMetadataList = Array<SeriesMetadataRep>;
+export const DataExportSeriesListRepMetadataList = /*@__PURE__*/ S.Array(
+  SeriesMetadataRep,
+) as any as S.Schema<DataExportSeriesListRepMetadataList>;
+
+/** An array of data points with timestamps. Each element of the array is an object with a 'time' field, whose value is the timestamp, and one or more key fields. If there are multiple key fields, they are labeled '0', '1', and so on, and are explained in the <code>metadata</code>. */
+export type DataExportSeriesListRepSeriesList = Array<SeriesTimeSliceRep>;
+export const DataExportSeriesListRepSeriesList = /*@__PURE__*/ S.Array(
+  SeriesTimeSliceRep,
+) as any as S.Schema<DataExportSeriesListRepSeriesList>;
+
+export interface DataExportSeriesListRep {
+  /** The location and content type of related resources */
+  _links: DataExportSeriesListRepLinksMap;
+  /** Metadata about each series */
+  metadata: DataExportSeriesListRepMetadataList;
+  /** An array of data points with timestamps. Each element of the array is an object with a 'time' field, whose value is the timestamp, and one or more key fields. If there are multiple key fields, they are labeled '0', '1', and so on, and are explained in the <code>metadata</code>. */
+  series: DataExportSeriesListRepSeriesList;
+  /** The end of the latest hour written by this source's usage pipeline, as an RFC 3339 UTC timestamp. It is measured across all accounts, not only yours, and usage after this time is not counted yet. Omitted when the watermark is unavailable. */
+  dataThrough?: string;
+  /** Whether this source's usage pipeline is late: it wrote every hour of the 24 hours ending at <code>dataThrough</code>, and more than three hours have passed since <code>dataThrough</code>. Always <code>false</code> for a source with gaps in those 24 hours, where gaps usually mean no usage rather than a stalled pipeline. Omitted when <code>dataThrough</code> is omitted. */
+  delayed?: boolean;
+}
+export const DataExportSeriesListRep = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _links: DataExportSeriesListRepLinksMap,
+    metadata: DataExportSeriesListRepMetadataList,
+    series: DataExportSeriesListRepSeriesList,
+    dataThrough: S.optional(S.String),
+    delayed: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "DataExportSeriesListRep" }) as any as S.Schema<DataExportSeriesListRep>;
+
+export type GetDataExportProjectRankingRequestProjectKeyList = Array<string>;
+export const GetDataExportProjectRankingRequestProjectKeyList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetDataExportProjectRankingRequestProjectKeyList>;
+
+export interface GetDataExportProjectRankingRequest {
+  /** Inclusive UTC range start in Unix milliseconds. */
+  from: number;
+  /** Exclusive UTC range end in Unix milliseconds. */
+  to: number;
+  /** The source scope. Only `streaming` is supported. */
+  source?: string;
+  /** The ranking dimension. Only `project` is supported. */
+  dimension?: string;
+  /** A canonical project key to include. Can be specified multiple times, with at most 100 unique explicit selections; duplicates do not consume the limit. When omitted, all account projects with usage in the requested range are ranked. */
+  projectKey?: GetDataExportProjectRankingRequestProjectKeyList;
+  /** A case-insensitive substring matched against canonical project keys before querying usage. Project names are not searched. */
+  search?: string;
+  /** An opaque cursor returned by a previous response. Cursors are bound to the account and ranking inputs. */
+  cursor?: string;
+  /** The maximum number of ranked projects to return. This bounds response rows and look-ahead, not the account-wide candidate universe. */
+  limit?: number;
+}
+export const GetDataExportProjectRankingRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    from: S.Number.pipe(T.Query()),
+    to: S.Number.pipe(T.Query()),
+    source: S.optional(S.String.pipe(T.Query())),
+    dimension: S.optional(S.String.pipe(T.Query())),
+    projectKey: S.optional(GetDataExportProjectRankingRequestProjectKeyList.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/api/v2/usage/data-export-events/projects/ranking", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetDataExportProjectRankingRequest",
+}) as any as S.Schema<GetDataExportProjectRankingRequest>;
+
+export interface DataExportProjectRankComponentsRep {
+  /** Successful Streaming transfers attributed to this project in the requested range. */
+  streaming: number;
+}
+export const DataExportProjectRankComponentsRep = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    streaming: S.Number,
+  }),
+).annotate({
+  identifier: "DataExportProjectRankComponentsRep",
+}) as any as S.Schema<DataExportProjectRankComponentsRep>;
+
+export interface DataExportProjectRankRep {
+  /** The canonical project key. */
+  projectKey: string;
+  /** The current project name. */
+  projectName: string;
+  /** The one-based rank within all matching projects. */
+  rank: number;
+  /** Successful Streaming transfers in the requested range. */
+  usage: number;
+  components: DataExportProjectRankComponentsRep;
+}
+export const DataExportProjectRankRep = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    projectKey: S.String,
+    projectName: S.String,
+    rank: S.Number,
+    usage: S.Number,
+    components: DataExportProjectRankComponentsRep,
+  }),
+).annotate({ identifier: "DataExportProjectRankRep" }) as any as S.Schema<DataExportProjectRankRep>;
+
+/** Projects in deterministic rank order. */
+export type DataExportProjectRankingRepItemsList = Array<DataExportProjectRankRep>;
+export const DataExportProjectRankingRepItemsList = /*@__PURE__*/ S.Array(
+  DataExportProjectRankRep,
+) as any as S.Schema<DataExportProjectRankingRepItemsList>;
+
+export interface DataExportProjectRankingPageRep {
+  /** The bounded page size requested. */
+  limit: number;
+  /** The number of items on this page. */
+  count: number;
+  /** The number of matching projects with usage. */
+  totalCount: number;
+  /** An opaque cursor for the next page. */
+  nextCursor?: string;
+}
+export const DataExportProjectRankingPageRep = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    limit: S.Number,
+    count: S.Number,
+    totalCount: S.Number,
+    nextCursor: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DataExportProjectRankingPageRep",
+}) as any as S.Schema<DataExportProjectRankingPageRep>;
+
+/** The included usage source. */
+export type DataExportProjectRankingScopeRepSource = "streaming";
+export const DataExportProjectRankingScopeRepSource = S.String;
+
+/** The ranked dimension. */
+export type DataExportProjectRankingScopeRepDimension = "project";
+export const DataExportProjectRankingScopeRepDimension = S.String;
+
+export interface DataExportProjectRankingScopeRep {
+  /** The included usage source. */
+  source: DataExportProjectRankingScopeRepSource;
+  /** The ranked dimension. */
+  dimension: DataExportProjectRankingScopeRepDimension;
+  /** Inclusive UTC range start in Unix milliseconds. */
+  from: number;
+  /** Exclusive UTC range end in Unix milliseconds. */
+  to: number;
+}
+export const DataExportProjectRankingScopeRep = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    source: DataExportProjectRankingScopeRepSource,
+    dimension: DataExportProjectRankingScopeRepDimension,
+    from: S.Number,
+    to: S.Number,
+  }),
+).annotate({
+  identifier: "DataExportProjectRankingScopeRep",
+}) as any as S.Schema<DataExportProjectRankingScopeRep>;
+
+/** A bounded Streaming project ranking. */
+export interface DataExportProjectRankingRep {
+  /** Projects in deterministic rank order. */
+  items: DataExportProjectRankingRepItemsList;
+  page: DataExportProjectRankingPageRep;
+  scope: DataExportProjectRankingScopeRep;
+}
+export const DataExportProjectRankingRep = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: DataExportProjectRankingRepItemsList,
+    page: DataExportProjectRankingPageRep,
+    scope: DataExportProjectRankingScopeRep,
+  }),
+).annotate({
+  identifier: "DataExportProjectRankingRep",
+}) as any as S.Schema<DataExportProjectRankingRep>;
 
 export interface GetDependentFlagsRequest {
   /** The project key */
@@ -14665,14 +14099,10 @@ export const GetDependentFlagsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDependentFlagsRequest",
-}) as any as S.Schema<GetDependentFlagsRequest>;
+).annotate({ identifier: "GetDependentFlagsRequest" }) as any as S.Schema<GetDependentFlagsRequest>;
 
 /** The location and content type of related resources */
-export type DependentFlagEnvironmentLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type DependentFlagEnvironmentLinksMap = { [key: string]: Link | undefined };
 export const DependentFlagEnvironmentLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -14685,7 +14115,7 @@ export interface DependentFlagEnvironment {
   key: string;
   /** The location and content type of related resources */
   _links: DependentFlagEnvironmentLinksMap;
-  /** Details on how to access the dependent flag in this environment in the LaunchDarkly UI */
+  /** A link to access the dependent flag in this environment in the LaunchDarkly UI. The href is an opaque URL; do not parse or rely on its structure. */
   _site: Link;
 }
 export const DependentFlagEnvironment = /*@__PURE__*/ S.suspend(() =>
@@ -14695,9 +14125,7 @@ export const DependentFlagEnvironment = /*@__PURE__*/ S.suspend(() =>
     _links: DependentFlagEnvironmentLinksMap,
     _site: Link,
   }),
-).annotate({
-  identifier: "DependentFlagEnvironment",
-}) as any as S.Schema<DependentFlagEnvironment>;
+).annotate({ identifier: "DependentFlagEnvironment" }) as any as S.Schema<DependentFlagEnvironment>;
 
 /** A list of environments in which the dependent flag appears */
 export type MultiEnvironmentDependentFlagEnvironmentsList = Array<DependentFlagEnvironment>;
@@ -14730,9 +14158,7 @@ export const MultiEnvironmentDependentFlagsItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MultiEnvironmentDependentFlagsItemsList>;
 
 /** The location and content type of related resources */
-export type MultiEnvironmentDependentFlagsLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type MultiEnvironmentDependentFlagsLinksMap = { [key: string]: Link | undefined };
 export const MultiEnvironmentDependentFlagsLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -14743,7 +14169,7 @@ export interface MultiEnvironmentDependentFlags {
   items: MultiEnvironmentDependentFlagsItemsList;
   /** The location and content type of related resources */
   _links: MultiEnvironmentDependentFlagsLinksMap;
-  /** Details on how to access the prerequisite flag in the LaunchDarkly UI */
+  /** A link to access the prerequisite flag in the LaunchDarkly UI. The href is an opaque URL; do not parse or rely on its structure. */
   _site: Link;
 }
 export const MultiEnvironmentDependentFlags = /*@__PURE__*/ S.suspend(() =>
@@ -14794,7 +14220,7 @@ export interface DependentFlag {
   key: string;
   /** The location and content type of related resources */
   _links: DependentFlagLinksMap;
-  /** Details on how to access the dependent flag in the LaunchDarkly UI */
+  /** A link to access the dependent flag in the LaunchDarkly UI. The href is an opaque URL; do not parse or rely on its structure. */
   _site: Link;
 }
 export const DependentFlag = /*@__PURE__*/ S.suspend(() =>
@@ -14813,9 +14239,7 @@ export const DependentFlagsByEnvironmentItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DependentFlagsByEnvironmentItemsList>;
 
 /** The location and content type of related resources */
-export type DependentFlagsByEnvironmentLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type DependentFlagsByEnvironmentLinksMap = { [key: string]: Link | undefined };
 export const DependentFlagsByEnvironmentLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -14826,7 +14250,7 @@ export interface DependentFlagsByEnvironment {
   items: DependentFlagsByEnvironmentItemsList;
   /** The location and content type of related resources */
   _links: DependentFlagsByEnvironmentLinksMap;
-  /** Details on how to access the prerequisite flag in the LaunchDarkly UI */
+  /** A link to access the prerequisite flag in the LaunchDarkly UI. The href is an opaque URL; do not parse or rely on its structure. */
   _site: Link;
 }
 export const DependentFlagsByEnvironment = /*@__PURE__*/ S.suspend(() =>
@@ -14856,9 +14280,7 @@ export const GetDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDeploymentRequest",
-}) as any as S.Schema<GetDeploymentRequest>;
+).annotate({ identifier: "GetDeploymentRequest" }) as any as S.Schema<GetDeploymentRequest>;
 
 /** The metadata associated with the deployment */
 export type DeploymentRepMetadataMap = { [key: string]: unknown | undefined };
@@ -14874,9 +14296,7 @@ export const DeploymentCollectionRepItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DeploymentCollectionRepItemsList>;
 
 /** The location and content type of related resources */
-export type DeploymentCollectionRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type DeploymentCollectionRepLinksMap = { [key: string]: Link | undefined };
 export const DeploymentCollectionRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -14896,9 +14316,7 @@ export const DeploymentCollectionRep = /*@__PURE__*/ S.suspend(() =>
     items: DeploymentCollectionRepItemsList,
     _links: S.optional(DeploymentCollectionRepLinksMap),
   }),
-).annotate({
-  identifier: "DeploymentCollectionRep",
-}) as any as S.Schema<DeploymentCollectionRep>;
+).annotate({ identifier: "DeploymentCollectionRep" }) as any as S.Schema<DeploymentCollectionRep>;
 
 export interface FlagReferenceRep {
   /** The project key */
@@ -14917,9 +14335,7 @@ export const FlagReferenceRep = /*@__PURE__*/ S.suspend(() =>
     referencesAdded: S.Number,
     referencesRemoved: S.Number,
   }),
-).annotate({
-  identifier: "FlagReferenceRep",
-}) as any as S.Schema<FlagReferenceRep>;
+).annotate({ identifier: "FlagReferenceRep" }) as any as S.Schema<FlagReferenceRep>;
 
 /** A list of flag references */
 export type FlagReferenceCollectionRepItemsList = Array<FlagReferenceRep>;
@@ -14971,9 +14387,7 @@ export const PullRequestLeadTimeRep = /*@__PURE__*/ S.suspend(() =>
     maxTotalLeadTimeMs: S.optional(S.Number),
     avgTotalLeadTimeMs: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PullRequestLeadTimeRep",
-}) as any as S.Schema<PullRequestLeadTimeRep>;
+).annotate({ identifier: "PullRequestLeadTimeRep" }) as any as S.Schema<PullRequestLeadTimeRep>;
 
 export interface PullRequestRep {
   /** The pull request internal ID */
@@ -15040,9 +14454,7 @@ export const PullRequestCollectionRepItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<PullRequestCollectionRepItemsList>;
 
 /** The location and content type of related resources */
-export type PullRequestCollectionRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type PullRequestCollectionRepLinksMap = { [key: string]: Link | undefined };
 export const PullRequestCollectionRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -15062,9 +14474,7 @@ export const PullRequestCollectionRep = /*@__PURE__*/ S.suspend(() =>
     items: PullRequestCollectionRepItemsList,
     _links: S.optional(PullRequestCollectionRepLinksMap),
   }),
-).annotate({
-  identifier: "PullRequestCollectionRep",
-}) as any as S.Schema<PullRequestCollectionRep>;
+).annotate({ identifier: "PullRequestCollectionRep" }) as any as S.Schema<PullRequestCollectionRep>;
 
 export interface LeadTimeStagesRep {
   /** The coding duration in milliseconds */
@@ -15086,9 +14496,7 @@ export const LeadTimeStagesRep = /*@__PURE__*/ S.suspend(() =>
     deployDurationMs: S.optional(S.Number),
     totalLeadTimeMs: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "LeadTimeStagesRep",
-}) as any as S.Schema<LeadTimeStagesRep>;
+).annotate({ identifier: "LeadTimeStagesRep" }) as any as S.Schema<LeadTimeStagesRep>;
 
 export interface DeploymentRep {
   /** The deployment ID */
@@ -15199,9 +14607,7 @@ export const GetDeploymentFrequencyChartRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDeploymentFrequencyChartRequest",
 }) as any as S.Schema<GetDeploymentFrequencyChartRequest>;
 
-export type InsightsChartMetadataCustomValues = {
-  [key: string]: unknown | undefined;
-};
+export type InsightsChartMetadataCustomValues = { [key: string]: unknown | undefined };
 export const InsightsChartMetadataCustomValues = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -15248,13 +14654,9 @@ export const InsightsChartMetric = /*@__PURE__*/ S.suspend(() =>
     modifier: S.String,
     tiers: InsightsChartMetricTiersList,
   }),
-).annotate({
-  identifier: "InsightsChartMetric",
-}) as any as S.Schema<InsightsChartMetric>;
+).annotate({ identifier: "InsightsChartMetric" }) as any as S.Schema<InsightsChartMetric>;
 
-export type InsightsChartMetrics = {
-  [key: string]: InsightsChartMetric | undefined;
-};
+export type InsightsChartMetrics = { [key: string]: InsightsChartMetric | undefined };
 export const InsightsChartMetrics = /*@__PURE__*/ S.Record(
   S.String,
   InsightsChartMetric,
@@ -15292,9 +14694,7 @@ export const InsightsChartMetadata = /*@__PURE__*/ S.suspend(() =>
     xAxis: InsightsChartSeriesMetadataAxis,
     yAxis: InsightsChartSeriesMetadataAxis,
   }),
-).annotate({
-  identifier: "InsightsChartMetadata",
-}) as any as S.Schema<InsightsChartMetadata>;
+).annotate({ identifier: "InsightsChartMetadata" }) as any as S.Schema<InsightsChartMetadata>;
 
 export interface InsightsChartBounds {
   /** Name of the bound */
@@ -15307,9 +14707,7 @@ export const InsightsChartBounds = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: S.Number,
   }),
-).annotate({
-  identifier: "InsightsChartBounds",
-}) as any as S.Schema<InsightsChartBounds>;
+).annotate({ identifier: "InsightsChartBounds" }) as any as S.Schema<InsightsChartBounds>;
 
 /** Bounds for the series data */
 export type InsightsChartSeriesMetadataBoundsList = Array<InsightsChartBounds>;
@@ -15336,9 +14734,7 @@ export const InsightsChartSeriesMetadata = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<InsightsChartSeriesMetadata>;
 
 /** Additional values for the data point */
-export type InsightsChartSeriesDataPointValuesMap = {
-  [key: string]: unknown | undefined;
-};
+export type InsightsChartSeriesDataPointValuesMap = { [key: string]: unknown | undefined };
 export const InsightsChartSeriesDataPointValuesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -15379,9 +14775,7 @@ export const InsightsChartSeries = /*@__PURE__*/ S.suspend(() =>
     metadata: InsightsChartSeriesMetadata,
     data: InsightsChartSeriesDataList,
   }),
-).annotate({
-  identifier: "InsightsChartSeries",
-}) as any as S.Schema<InsightsChartSeries>;
+).annotate({ identifier: "InsightsChartSeries" }) as any as S.Schema<InsightsChartSeries>;
 
 /** Series data for the chart */
 export type InsightsChartSeriesList = Array<InsightsChartSeries>;
@@ -15439,16 +14833,8 @@ export const GetDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     kind: S.optional(S.String.pipe(T.Query())),
     status: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/engineering-insights/deployments",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDeploymentsRequest",
-}) as any as S.Schema<GetDeploymentsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/engineering-insights/deployments", code: 200 })),
+).annotate({ identifier: "GetDeploymentsRequest" }) as any as S.Schema<GetDeploymentsRequest>;
 
 export interface GetDestinationRequest {
   /** The project key */
@@ -15470,9 +14856,7 @@ export const GetDestinationRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDestinationRequest",
-}) as any as S.Schema<GetDestinationRequest>;
+).annotate({ identifier: "GetDestinationRequest" }) as any as S.Schema<GetDestinationRequest>;
 
 /** The location and content type of related resources */
 export type DestinationLinksMap = { [key: string]: Link | undefined };
@@ -15551,9 +14935,7 @@ export const Destination = /*@__PURE__*/ S.suspend(() =>
 export interface GetDestinationsRequest {}
 export const GetDestinationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v2/destinations", code: 200 })),
-).annotate({
-  identifier: "GetDestinationsRequest",
-}) as any as S.Schema<GetDestinationsRequest>;
+).annotate({ identifier: "GetDestinationsRequest" }) as any as S.Schema<GetDestinationsRequest>;
 
 /** The location and content type of related resources */
 export type DestinationsLinksMap = { [key: string]: Link | undefined };
@@ -15598,9 +14980,7 @@ export const GetEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetEnvironmentRequest",
-}) as any as S.Schema<GetEnvironmentRequest>;
+).annotate({ identifier: "GetEnvironmentRequest" }) as any as S.Schema<GetEnvironmentRequest>;
 
 export interface GetEnvironmentsByProjectRequest {
   /** The project key */
@@ -15621,13 +15001,7 @@ export const GetEnvironmentsByProjectRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     sort: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/projects/{projectKey}/environments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/environments", code: 200 })),
 ).annotate({
   identifier: "GetEnvironmentsByProjectRequest",
 }) as any as S.Schema<GetEnvironmentsByProjectRequest>;
@@ -15679,9 +15053,7 @@ export const GetEventsUsageRequest = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.String.pipe(T.Query())),
     to: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/events/{type}", code: 200 })),
-).annotate({
-  identifier: "GetEventsUsageRequest",
-}) as any as S.Schema<GetEventsUsageRequest>;
+).annotate({ identifier: "GetEventsUsageRequest" }) as any as S.Schema<GetEventsUsageRequest>;
 
 export interface GetExperimentRequest {
   /** The project key */
@@ -15706,16 +15078,14 @@ export const GetExperimentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetExperimentRequest",
-}) as any as S.Schema<GetExperimentRequest>;
+).annotate({ identifier: "GetExperimentRequest" }) as any as S.Schema<GetExperimentRequest>;
 
 export interface GetExperimentationEventsUsageRequest {
   /** The series of data returned starts from this timestamp (Unix milliseconds). Defaults to the beginning of the current month. */
   from?: string;
   /** The series of data returned ends at this timestamp (Unix milliseconds). Defaults to the current time. */
   to?: string;
-  /** A project key to filter results by. Can be specified multiple times, one query parameter per project key. */
+  /** A project key to filter results by. Without `environmentKey`, filters to the project's current environments. Can be specified multiple times, one query parameter per project key. */
   projectKey?: string;
   /** An environment key to filter results by. If specified, exactly one `projectKey` must be provided. Can be specified multiple times, one query parameter per environment key. */
   environmentKey?: string;
@@ -15741,13 +15111,7 @@ export const GetExperimentationEventsUsageRequest = /*@__PURE__*/ S.suspend(() =
     groupBy: S.optional(S.String.pipe(T.Query())),
     aggregationType: S.optional(S.String.pipe(T.Query())),
     granularity: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/usage/experimentation-events",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/experimentation-events", code: 200 })),
 ).annotate({
   identifier: "GetExperimentationEventsUsageRequest",
 }) as any as S.Schema<GetExperimentationEventsUsageRequest>;
@@ -15757,7 +15121,7 @@ export interface GetExperimentationKeysUsageRequest {
   from?: string;
   /** The series of data returned ends at this timestamp (Unix milliseconds). Defaults to the current time. */
   to?: string;
-  /** A project key to filter results by. Can be specified multiple times, one query parameter per project key. */
+  /** A project key to filter results by. Without `environmentKey`, filters by project, including projects that currently have no environments. Can be specified multiple times, one query parameter per project key. */
   projectKey?: string;
   /** An environment key to filter results by. If specified, exactly one `projectKey` must be provided. Can be specified multiple times, one query parameter per environment key. */
   environmentKey?: string;
@@ -15780,13 +15144,7 @@ export const GetExperimentationKeysUsageRequest = /*@__PURE__*/ S.suspend(() =>
     groupBy: S.optional(S.String.pipe(T.Query())),
     aggregationType: S.optional(S.String.pipe(T.Query())),
     granularity: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/usage/experimentation-keys",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/experimentation-keys", code: 200 })),
 ).annotate({
   identifier: "GetExperimentationKeysUsageRequest",
 }) as any as S.Schema<GetExperimentationKeysUsageRequest>;
@@ -15825,9 +15183,7 @@ export const RandomizationUnitRep = /*@__PURE__*/ S.suspend(() =>
     _hidden: S.optional(S.Boolean),
     _displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RandomizationUnitRep",
-}) as any as S.Schema<RandomizationUnitRep>;
+).annotate({ identifier: "RandomizationUnitRep" }) as any as S.Schema<RandomizationUnitRep>;
 
 /** An array of the randomization units in this project */
 export type RandomizationSettingsRepRandomizationUnitsList = Array<RandomizationUnitRep>;
@@ -15836,9 +15192,7 @@ export const RandomizationSettingsRepRandomizationUnitsList = /*@__PURE__*/ S.Ar
 ) as any as S.Schema<RandomizationSettingsRepRandomizationUnitsList>;
 
 /** The location and content type of related resources */
-export type RandomizationSettingsRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type RandomizationSettingsRepLinksMap = { [key: string]: Link | undefined };
 export const RandomizationSettingsRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -15864,9 +15218,7 @@ export const RandomizationSettingsRep = /*@__PURE__*/ S.suspend(() =>
     _creationDate: S.optional(S.Number),
     _links: S.optional(RandomizationSettingsRepLinksMap),
   }),
-).annotate({
-  identifier: "RandomizationSettingsRep",
-}) as any as S.Schema<RandomizationSettingsRep>;
+).annotate({ identifier: "RandomizationSettingsRep" }) as any as S.Schema<RandomizationSettingsRep>;
 
 export interface GetExperimentsRequest {
   /** The project key */
@@ -15900,9 +15252,7 @@ export const GetExperimentsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetExperimentsRequest",
-}) as any as S.Schema<GetExperimentsRequest>;
+).annotate({ identifier: "GetExperimentsRequest" }) as any as S.Schema<GetExperimentsRequest>;
 
 /** An array of experiments */
 export type ExperimentCollectionRepItemsList = Array<Experiment>;
@@ -15911,9 +15261,7 @@ export const ExperimentCollectionRepItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ExperimentCollectionRepItemsList>;
 
 /** The location and content type of related resources */
-export type ExperimentCollectionRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ExperimentCollectionRepLinksMap = { [key: string]: Link | undefined };
 export const ExperimentCollectionRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -15933,9 +15281,7 @@ export const ExperimentCollectionRep = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     _links: S.optional(ExperimentCollectionRepLinksMap),
   }),
-).annotate({
-  identifier: "ExperimentCollectionRep",
-}) as any as S.Schema<ExperimentCollectionRep>;
+).annotate({ identifier: "ExperimentCollectionRep" }) as any as S.Schema<ExperimentCollectionRep>;
 
 export interface GetExperimentsAnyEnvRequest {
   /** The project key */
@@ -15959,13 +15305,7 @@ export const GetExperimentsAnyEnvRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(S.String.pipe(T.Query())),
     expand: S.optional(S.String.pipe(T.Query())),
     lifecycleState: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/projects/{projectKey}/experiments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/experiments", code: 200 })),
 ).annotate({
   identifier: "GetExperimentsAnyEnvRequest",
 }) as any as S.Schema<GetExperimentsAnyEnvRequest>;
@@ -16054,9 +15394,7 @@ export const ExpiringTargetGetResponseItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ExpiringTargetGetResponseItemsList>;
 
 /** The location and content type of related resources */
-export type ExpiringTargetGetResponseLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ExpiringTargetGetResponseLinksMap = { [key: string]: Link | undefined };
 export const ExpiringTargetGetResponseLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -16140,9 +15478,7 @@ export const ResourceIDResponse = /*@__PURE__*/ S.suspend(() =>
     flagKey: S.optional(S.String),
     key: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceIDResponse",
-}) as any as S.Schema<ResourceIDResponse>;
+).annotate({ identifier: "ResourceIDResponse" }) as any as S.Schema<ResourceIDResponse>;
 
 export interface ExpiringUserTargetItem {
   /** The ID of this expiring user target */
@@ -16170,9 +15506,7 @@ export const ExpiringUserTargetItem = /*@__PURE__*/ S.suspend(() =>
     variationId: S.optional(S.String),
     _resourceId: ResourceIDResponse,
   }),
-).annotate({
-  identifier: "ExpiringUserTargetItem",
-}) as any as S.Schema<ExpiringUserTargetItem>;
+).annotate({ identifier: "ExpiringUserTargetItem" }) as any as S.Schema<ExpiringUserTargetItem>;
 
 /** An array of expiring user targets */
 export type ExpiringUserTargetGetResponseItemsList = Array<ExpiringUserTargetItem>;
@@ -16181,9 +15515,7 @@ export const ExpiringUserTargetGetResponseItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ExpiringUserTargetGetResponseItemsList>;
 
 /** The location and content type of related resources */
-export type ExpiringUserTargetGetResponseLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ExpiringUserTargetGetResponseLinksMap = { [key: string]: Link | undefined };
 export const ExpiringUserTargetGetResponseLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -16251,14 +15583,10 @@ export const GetExtinctionsRequest = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.Number.pipe(T.Query())),
     to: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/code-refs/extinctions", code: 200 })),
-).annotate({
-  identifier: "GetExtinctionsRequest",
-}) as any as S.Schema<GetExtinctionsRequest>;
+).annotate({ identifier: "GetExtinctionsRequest" }) as any as S.Schema<GetExtinctionsRequest>;
 
 /** The location and content type of related resources */
-export type ExtinctionCollectionRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ExtinctionCollectionRepLinksMap = { [key: string]: Link | undefined };
 export const ExtinctionCollectionRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -16311,9 +15639,7 @@ export const ExtinctionCollectionRep = /*@__PURE__*/ S.suspend(() =>
     _links: ExtinctionCollectionRepLinksMap,
     items: ExtinctionCollectionRepItemsMap,
   }),
-).annotate({
-  identifier: "ExtinctionCollectionRep",
-}) as any as S.Schema<ExtinctionCollectionRep>;
+).annotate({ identifier: "ExtinctionCollectionRep" }) as any as S.Schema<ExtinctionCollectionRep>;
 
 export interface GetFeatureFlagRequest {
   /** The project key */
@@ -16331,16 +15657,8 @@ export const GetFeatureFlagRequest = /*@__PURE__*/ S.suspend(() =>
     featureFlagKey: S.String.pipe(T.Label()),
     env: S.optional(S.String.pipe(T.Query())),
     expand: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/flags/{projectKey}/{featureFlagKey}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetFeatureFlagRequest",
-}) as any as S.Schema<GetFeatureFlagRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/flags/{projectKey}/{featureFlagKey}", code: 200 })),
+).annotate({ identifier: "GetFeatureFlagRequest" }) as any as S.Schema<GetFeatureFlagRequest>;
 
 export interface GetFeatureFlagsRequest {
   /** The project key */
@@ -16380,9 +15698,7 @@ export const GetFeatureFlagsRequest = /*@__PURE__*/ S.suspend(() =>
     compare: S.optional(S.Boolean.pipe(T.Query())),
     expand: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/flags/{projectKey}", code: 200 })),
-).annotate({
-  identifier: "GetFeatureFlagsRequest",
-}) as any as S.Schema<GetFeatureFlagsRequest>;
+).annotate({ identifier: "GetFeatureFlagsRequest" }) as any as S.Schema<GetFeatureFlagsRequest>;
 
 /** An array of feature flags */
 export type FeatureFlagsItemsList = Array<FeatureFlag>;
@@ -16444,9 +15760,7 @@ export const GetFeatureFlagScheduledChangeRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<GetFeatureFlagScheduledChangeRequest>;
 
 /** The location and content type of related resources */
-export type FeatureFlagScheduledChangeLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type FeatureFlagScheduledChangeLinksMap = { [key: string]: Link | undefined };
 export const FeatureFlagScheduledChangeLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -16554,11 +15868,7 @@ export const GetFeatureFlagStatusAcrossEnvironmentsRequest = /*@__PURE__*/ S.sus
     featureFlagKey: S.String.pipe(T.Label()),
     env: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/flag-status/{projectKey}/{featureFlagKey}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/flag-status/{projectKey}/{featureFlagKey}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetFeatureFlagStatusAcrossEnvironmentsRequest",
@@ -16582,9 +15892,7 @@ export const FeatureFlagStatus = /*@__PURE__*/ S.suspend(() =>
     lastRequested: S.optional(S.String),
     default: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "FeatureFlagStatus",
-}) as any as S.Schema<FeatureFlagStatus>;
+).annotate({ identifier: "FeatureFlagStatus" }) as any as S.Schema<FeatureFlagStatus>;
 
 /** Flag status for environment. */
 export type FeatureFlagStatusAcrossEnvironmentsEnvironmentsMap = {
@@ -16595,9 +15903,7 @@ export const FeatureFlagStatusAcrossEnvironmentsEnvironmentsMap = /*@__PURE__*/ 
   FeatureFlagStatus,
 ) as any as S.Schema<FeatureFlagStatusAcrossEnvironmentsEnvironmentsMap>;
 
-export type FeatureFlagStatusAcrossEnvironmentsLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type FeatureFlagStatusAcrossEnvironmentsLinksMap = { [key: string]: Link | undefined };
 export const FeatureFlagStatusAcrossEnvironmentsLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -16661,9 +15967,7 @@ export const FeatureFlagStatuses = /*@__PURE__*/ S.suspend(() =>
     _links: FeatureFlagStatusesLinksMap,
     items: S.optional(FeatureFlagStatusesItemsList),
   }),
-).annotate({
-  identifier: "FeatureFlagStatuses",
-}) as any as S.Schema<FeatureFlagStatuses>;
+).annotate({ identifier: "FeatureFlagStatuses" }) as any as S.Schema<FeatureFlagStatuses>;
 
 export interface GetFlagConfigScheduledChangesRequest {
   /** The project key */
@@ -16696,9 +16000,7 @@ export const FeatureFlagScheduledChangesItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<FeatureFlagScheduledChangesItemsList>;
 
 /** The location and content type of related resources */
-export type FeatureFlagScheduledChangesLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type FeatureFlagScheduledChangesLinksMap = { [key: string]: Link | undefined };
 export const FeatureFlagScheduledChangesLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -16726,13 +16028,7 @@ export interface GetFlagDefaultsByProjectRequest {
 export const GetFlagDefaultsByProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectKey: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/projects/{projectKey}/flag-defaults",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/flag-defaults", code: 200 })),
 ).annotate({
   identifier: "GetFlagDefaultsByProjectRequest",
 }) as any as S.Schema<GetFlagDefaultsByProjectRequest>;
@@ -16773,9 +16069,7 @@ export const BooleanDefaults = /*@__PURE__*/ S.suspend(() =>
     onVariation: S.optional(S.Number),
     offVariation: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BooleanDefaults",
-}) as any as S.Schema<BooleanDefaults>;
+).annotate({ identifier: "BooleanDefaults" }) as any as S.Schema<BooleanDefaults>;
 
 export interface FlagDefaultsRep {
   /** The location and content type of related resources */
@@ -16800,9 +16094,7 @@ export const FlagDefaultsRep = /*@__PURE__*/ S.suspend(() =>
     defaultClientSideAvailability: S.optional(ClientSideAvailability),
     booleanDefaults: S.optional(BooleanDefaults),
   }),
-).annotate({
-  identifier: "FlagDefaultsRep",
-}) as any as S.Schema<FlagDefaultsRep>;
+).annotate({ identifier: "FlagDefaultsRep" }) as any as S.Schema<FlagDefaultsRep>;
 
 export interface GetFlagEventsRequest {
   /** The project key */
@@ -16847,16 +16139,8 @@ export const GetFlagEventsRequest = /*@__PURE__*/ S.suspend(() =>
     to: S.optional(S.Number.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/engineering-insights/flag-events",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetFlagEventsRequest",
-}) as any as S.Schema<GetFlagEventsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/engineering-insights/flag-events", code: 200 })),
+).annotate({ identifier: "GetFlagEventsRequest" }) as any as S.Schema<GetFlagEventsRequest>;
 
 export interface FlagEventMemberRep {
   /** The member ID */
@@ -16875,9 +16159,7 @@ export const FlagEventMemberRep = /*@__PURE__*/ S.suspend(() =>
     firstName: S.String,
     lastName: S.String,
   }),
-).annotate({
-  identifier: "FlagEventMemberRep",
-}) as any as S.Schema<FlagEventMemberRep>;
+).annotate({ identifier: "FlagEventMemberRep" }) as any as S.Schema<FlagEventMemberRep>;
 
 /** The resource actions */
 export type FlagEventRepActionsList = Array<string>;
@@ -16903,9 +16185,7 @@ export const VariationEvalSummary = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.Number),
     after: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "VariationEvalSummary",
-}) as any as S.Schema<VariationEvalSummary>;
+).annotate({ identifier: "VariationEvalSummary" }) as any as S.Schema<VariationEvalSummary>;
 
 /** A list of variation evaluations */
 export type EvaluationsSummaryVariationsList = Array<VariationEvalSummary>;
@@ -16921,9 +16201,7 @@ export const EvaluationsSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     variations: S.optional(EvaluationsSummaryVariationsList),
   }),
-).annotate({
-  identifier: "EvaluationsSummary",
-}) as any as S.Schema<EvaluationsSummary>;
+).annotate({ identifier: "EvaluationsSummary" }) as any as S.Schema<EvaluationsSummary>;
 
 export interface FlagEventImpactRep {
   /** The size of the flag event impact. Sizes are defined as: none (0%), small (0-20%), medium (20-80%), large (>80%) */
@@ -16942,14 +16220,10 @@ export const FlagEventImpactRep = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(S.String),
     evaluationsSummary: S.optional(EvaluationsSummary),
   }),
-).annotate({
-  identifier: "FlagEventImpactRep",
-}) as any as S.Schema<FlagEventImpactRep>;
+).annotate({ identifier: "FlagEventImpactRep" }) as any as S.Schema<FlagEventImpactRep>;
 
 /** The location and content type of related resources */
-export type FlagEventExperimentIterationLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type FlagEventExperimentIterationLinksMap = { [key: string]: Link | undefined };
 export const FlagEventExperimentIterationLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -17003,9 +16277,7 @@ export const FlagEventExperiment = /*@__PURE__*/ S.suspend(() =>
     iteration: FlagEventExperimentIteration,
     _links: S.optional(FlagEventExperimentLinksMap),
   }),
-).annotate({
-  identifier: "FlagEventExperiment",
-}) as any as S.Schema<FlagEventExperiment>;
+).annotate({ identifier: "FlagEventExperiment" }) as any as S.Schema<FlagEventExperiment>;
 
 /** A list of experiments */
 export type FlagEventExperimentCollectionItemsList = Array<FlagEventExperiment>;
@@ -17084,9 +16356,7 @@ export const FlagEventCollectionRepItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<FlagEventCollectionRepItemsList>;
 
 /** The location and content type of related resources */
-export type FlagEventCollectionRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type FlagEventCollectionRepLinksMap = { [key: string]: Link | undefined };
 export const FlagEventCollectionRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -17106,9 +16376,7 @@ export const FlagEventCollectionRep = /*@__PURE__*/ S.suspend(() =>
     items: FlagEventCollectionRepItemsList,
     _links: S.optional(FlagEventCollectionRepLinksMap),
   }),
-).annotate({
-  identifier: "FlagEventCollectionRep",
-}) as any as S.Schema<FlagEventCollectionRep>;
+).annotate({ identifier: "FlagEventCollectionRep" }) as any as S.Schema<FlagEventCollectionRep>;
 
 export interface GetFlagFollowersRequest {
   /** The project key */
@@ -17130,9 +16398,7 @@ export const GetFlagFollowersRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetFlagFollowersRequest",
-}) as any as S.Schema<GetFlagFollowersRequest>;
+).annotate({ identifier: "GetFlagFollowersRequest" }) as any as S.Schema<GetFlagFollowersRequest>;
 
 /** The location and content type of related resources */
 export type FlagFollowersGetRepLinksMap = { [key: string]: Link | undefined };
@@ -17171,9 +16437,7 @@ export const FollowFlagMember = /*@__PURE__*/ S.suspend(() =>
     role: S.String,
     email: S.String,
   }),
-).annotate({
-  identifier: "FollowFlagMember",
-}) as any as S.Schema<FollowFlagMember>;
+).annotate({ identifier: "FollowFlagMember" }) as any as S.Schema<FollowFlagMember>;
 
 /** An array of members who are following this flag */
 export type FlagFollowersGetRepItemsList = Array<FollowFlagMember>;
@@ -17192,9 +16456,7 @@ export const FlagFollowersGetRep = /*@__PURE__*/ S.suspend(() =>
     _links: FlagFollowersGetRepLinksMap,
     items: FlagFollowersGetRepItemsList,
   }),
-).annotate({
-  identifier: "FlagFollowersGetRep",
-}) as any as S.Schema<FlagFollowersGetRep>;
+).annotate({ identifier: "FlagFollowersGetRep" }) as any as S.Schema<FlagFollowersGetRep>;
 
 export interface GetFlagImportConfigurationRequest {
   /** The project key */
@@ -17223,11 +16485,7 @@ export const GetFlagImportConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetFlagImportConfigurationsRequest {}
 export const GetFlagImportConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/integration-capabilities/flag-import",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/integration-capabilities/flag-import", code: 200 }),
   ),
 ).annotate({
   identifier: "GetFlagImportConfigurationsRequest",
@@ -17274,9 +16532,7 @@ export const GetFlagLinksRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetFlagLinksRequest",
-}) as any as S.Schema<GetFlagLinksRequest>;
+).annotate({ identifier: "GetFlagLinksRequest" }) as any as S.Schema<GetFlagLinksRequest>;
 
 /** An array of flag links */
 export type FlagLinkCollectionRepItemsList = Array<FlagLinkRep>;
@@ -17302,9 +16558,7 @@ export const FlagLinkCollectionRep = /*@__PURE__*/ S.suspend(() =>
     items: FlagLinkCollectionRepItemsList,
     _links: FlagLinkCollectionRepLinksMap,
   }),
-).annotate({
-  identifier: "FlagLinkCollectionRep",
-}) as any as S.Schema<FlagLinkCollectionRep>;
+).annotate({ identifier: "FlagLinkCollectionRep" }) as any as S.Schema<FlagLinkCollectionRep>;
 
 export interface GetFlagStatusChartRequest {
   /** The project key */
@@ -17320,11 +16574,7 @@ export const GetFlagStatusChartRequest = /*@__PURE__*/ S.suspend(() =>
     environmentKey: S.String.pipe(T.Query()),
     applicationKey: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/engineering-insights/charts/flags/status",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/engineering-insights/charts/flags/status", code: 200 }),
   ),
 ).annotate({
   identifier: "GetFlagStatusChartRequest",
@@ -17352,9 +16602,7 @@ export const GetFollowersByProjEnvRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetFollowersByProjEnvRequest>;
 
 /** The location and content type of related resources */
-export type FlagFollowersByProjEnvGetRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type FlagFollowersByProjEnvGetRepLinksMap = { [key: string]: Link | undefined };
 export const FlagFollowersByProjEnvGetRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -17377,9 +16625,7 @@ export const FollowersPerFlag = /*@__PURE__*/ S.suspend(() =>
     flagKey: S.optional(S.String),
     followers: S.optional(FollowersPerFlagFollowersList),
   }),
-).annotate({
-  identifier: "FollowersPerFlag",
-}) as any as S.Schema<FollowersPerFlag>;
+).annotate({ identifier: "FollowersPerFlag" }) as any as S.Schema<FollowersPerFlag>;
 
 /** An array of flags and their followers */
 export type FlagFollowersByProjEnvGetRepItemsList = Array<FollowersPerFlag>;
@@ -17425,9 +16671,7 @@ export const GetHoldoutRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetHoldoutRequest",
-}) as any as S.Schema<GetHoldoutRequest>;
+).annotate({ identifier: "GetHoldoutRequest" }) as any as S.Schema<GetHoldoutRequest>;
 
 export type HoldoutDetailRepStatus = "created" | "enabled" | "running" | "ended";
 export const HoldoutDetailRepStatus = S.String;
@@ -17462,9 +16706,7 @@ export const HoldoutDetailRep = /*@__PURE__*/ S.suspend(() =>
     baseExperiment: Experiment,
     relatedExperiments: S.optional(HoldoutDetailRepRelatedExperimentsList),
   }),
-).annotate({
-  identifier: "HoldoutDetailRep",
-}) as any as S.Schema<HoldoutDetailRep>;
+).annotate({ identifier: "HoldoutDetailRep" }) as any as S.Schema<HoldoutDetailRep>;
 
 export interface GetHoldoutByIdRequest {
   /** The project key */
@@ -17486,9 +16728,7 @@ export const GetHoldoutByIdRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetHoldoutByIdRequest",
-}) as any as S.Schema<GetHoldoutByIdRequest>;
+).annotate({ identifier: "GetHoldoutByIdRequest" }) as any as S.Schema<GetHoldoutByIdRequest>;
 
 export type HoldoutRepStatus = "created" | "enabled" | "running" | "ended";
 export const HoldoutRepStatus = S.String;
@@ -17539,9 +16779,7 @@ export const GetInsightGroupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetInsightGroupRequest",
-}) as any as S.Schema<GetInsightGroupRequest>;
+).annotate({ identifier: "GetInsightGroupRequest" }) as any as S.Schema<GetInsightGroupRequest>;
 
 export interface GetInsightGroupsRequest {
   /** The number of insight groups to return. Default is 20. Must be between 1 and 20 inclusive. */
@@ -17563,15 +16801,9 @@ export const GetInsightGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(S.String.pipe(T.Query())),
     expand: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/engineering-insights/insights/groups",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/engineering-insights/insights/groups", code: 200 }),
   ),
-).annotate({
-  identifier: "GetInsightGroupsRequest",
-}) as any as S.Schema<GetInsightGroupsRequest>;
+).annotate({ identifier: "GetInsightGroupsRequest" }) as any as S.Schema<GetInsightGroupsRequest>;
 
 /** A list of insight groups */
 export type InsightGroupCollectionItemsList = Array<InsightGroup>;
@@ -17580,9 +16812,7 @@ export const InsightGroupCollectionItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<InsightGroupCollectionItemsList>;
 
 /** The location and content type of related resources */
-export type InsightGroupCollectionLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type InsightGroupCollectionLinksMap = { [key: string]: Link | undefined };
 export const InsightGroupCollectionLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -17649,9 +16879,7 @@ export const InsightGroupCollection = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(InsightGroupCollectionMetadata),
     scoreMetadata: S.optional(InsightGroupCollectionScoreMetadata),
   }),
-).annotate({
-  identifier: "InsightGroupCollection",
-}) as any as S.Schema<InsightGroupCollection>;
+).annotate({ identifier: "InsightGroupCollection" }) as any as S.Schema<InsightGroupCollection>;
 
 export interface GetInsightsRepositoriesRequest {
   /** Expand properties in response. Options: `projects` */
@@ -17660,13 +16888,7 @@ export interface GetInsightsRepositoriesRequest {
 export const GetInsightsRepositoriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     expand: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/engineering-insights/repositories",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/engineering-insights/repositories", code: 200 })),
 ).annotate({
   identifier: "GetInsightsRepositoriesRequest",
 }) as any as S.Schema<GetInsightsRepositoriesRequest>;
@@ -17676,9 +16898,7 @@ export const ProjectSummaryCollectionItemsList = /*@__PURE__*/ S.Array(
   ProjectSummary,
 ) as any as S.Schema<ProjectSummaryCollectionItemsList>;
 
-export type ProjectSummaryCollectionLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ProjectSummaryCollectionLinksMap = { [key: string]: Link | undefined };
 export const ProjectSummaryCollectionLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -17695,9 +16915,7 @@ export const ProjectSummaryCollection = /*@__PURE__*/ S.suspend(() =>
     items: ProjectSummaryCollectionItemsList,
     _links: S.optional(ProjectSummaryCollectionLinksMap),
   }),
-).annotate({
-  identifier: "ProjectSummaryCollection",
-}) as any as S.Schema<ProjectSummaryCollection>;
+).annotate({ identifier: "ProjectSummaryCollection" }) as any as S.Schema<ProjectSummaryCollection>;
 
 export interface InsightsRepository {
   /** The repository ID */
@@ -17724,9 +16942,7 @@ export const InsightsRepository = /*@__PURE__*/ S.suspend(() =>
     mainBranch: S.String,
     projects: S.optional(ProjectSummaryCollection),
   }),
-).annotate({
-  identifier: "InsightsRepository",
-}) as any as S.Schema<InsightsRepository>;
+).annotate({ identifier: "InsightsRepository" }) as any as S.Schema<InsightsRepository>;
 
 /** List of repositories */
 export type InsightsRepositoryCollectionItemsList = Array<InsightsRepository>;
@@ -17735,9 +16951,7 @@ export const InsightsRepositoryCollectionItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<InsightsRepositoryCollectionItemsList>;
 
 /** The location and content type of related resources */
-export type InsightsRepositoryCollectionLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type InsightsRepositoryCollectionLinksMap = { [key: string]: Link | undefined };
 export const InsightsRepositoryCollectionLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -17775,15 +16989,9 @@ export const GetInsightsScoresRequest = /*@__PURE__*/ S.suspend(() =>
     environmentKey: S.String.pipe(T.Query()),
     applicationKey: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/engineering-insights/insights/scores",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/engineering-insights/insights/scores", code: 200 }),
   ),
-).annotate({
-  identifier: "GetInsightsScoresRequest",
-}) as any as S.Schema<GetInsightsScoresRequest>;
+).annotate({ identifier: "GetInsightsScoresRequest" }) as any as S.Schema<GetInsightsScoresRequest>;
 
 /** The location and content type of related resources */
 export type InsightScoresLinksMap = { [key: string]: Link | undefined };
@@ -17907,11 +17115,7 @@ export const GetIntegrationDeliveryConfigurationByIdRequest = /*@__PURE__*/ S.su
 export interface GetIntegrationDeliveryConfigurationsRequest {}
 export const GetIntegrationDeliveryConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/integration-capabilities/featureStore",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/integration-capabilities/featureStore", code: 200 }),
   ),
 ).annotate({
   identifier: "GetIntegrationDeliveryConfigurationsRequest",
@@ -17931,9 +17135,7 @@ export const GetIpAllowlistRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/account/ip-allowlist", code: 200 })),
-).annotate({
-  identifier: "GetIpAllowlistRequest",
-}) as any as S.Schema<GetIpAllowlistRequest>;
+).annotate({ identifier: "GetIpAllowlistRequest" }) as any as S.Schema<GetIpAllowlistRequest>;
 
 export type IPAllowlistSelfLink = ViewsSelfLink;
 export const IPAllowlistSelfLink = ViewsSelfLink;
@@ -17959,9 +17161,7 @@ export const IpAllowlistResponse = /*@__PURE__*/ S.suspend(() =>
     totalCount: S.optional(S.Number),
     entries: IpAllowlistResponseEntriesList,
   }),
-).annotate({
-  identifier: "IpAllowlistResponse",
-}) as any as S.Schema<IpAllowlistResponse>;
+).annotate({ identifier: "IpAllowlistResponse" }) as any as S.Schema<IpAllowlistResponse>;
 
 export interface GetIpsRequest {}
 export const GetIpsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -18003,16 +17203,8 @@ export const GetLayersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectKey: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/projects/{projectKey}/layers",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetLayersRequest",
-}) as any as S.Schema<GetLayersRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/layers", code: 200 })),
+).annotate({ identifier: "GetLayersRequest" }) as any as S.Schema<GetLayersRequest>;
 
 /** The layers in the project */
 export type LayerCollectionRepItemsList = Array<LayerRep>;
@@ -18041,9 +17233,7 @@ export const LayerCollectionRep = /*@__PURE__*/ S.suspend(() =>
     totalCount: S.Number,
     _links: LayerCollectionRepLinksMap,
   }),
-).annotate({
-  identifier: "LayerCollectionRep",
-}) as any as S.Schema<LayerCollectionRep>;
+).annotate({ identifier: "LayerCollectionRep" }) as any as S.Schema<LayerCollectionRep>;
 
 export interface GetLeadTimeChartRequest {
   /** The project key */
@@ -18077,15 +17267,9 @@ export const GetLeadTimeChartRequest = /*@__PURE__*/ S.suspend(() =>
     groupBy: S.optional(S.String.pipe(T.Query())),
     expand: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/engineering-insights/charts/lead-time",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/engineering-insights/charts/lead-time", code: 200 }),
   ),
-).annotate({
-  identifier: "GetLeadTimeChartRequest",
-}) as any as S.Schema<GetLeadTimeChartRequest>;
+).annotate({ identifier: "GetLeadTimeChartRequest" }) as any as S.Schema<GetLeadTimeChartRequest>;
 
 export type GetLinkedResourcesRequestResourceType = "flags" | "segments" | "aiConfigs";
 export const GetLinkedResourcesRequestResourceType = S.String;
@@ -18189,9 +17373,7 @@ export const ViewLinkedResource = /*@__PURE__*/ S.suspend(() =>
     linkedAt: S.Number,
     resourceDetails: S.optional(ViewLinkedResourceDetails),
   }),
-).annotate({
-  identifier: "ViewLinkedResource",
-}) as any as S.Schema<ViewLinkedResource>;
+).annotate({ identifier: "ViewLinkedResource" }) as any as S.Schema<ViewLinkedResource>;
 
 export type ViewLinkedResourcesItemsList = Array<ViewLinkedResource>;
 export const ViewLinkedResourcesItemsList = /*@__PURE__*/ S.Array(
@@ -18209,9 +17391,7 @@ export const ViewLinkedResources = /*@__PURE__*/ S.suspend(() =>
     items: ViewLinkedResourcesItemsList,
     totalCount: S.Number,
   }),
-).annotate({
-  identifier: "ViewLinkedResources",
-}) as any as S.Schema<ViewLinkedResources>;
+).annotate({ identifier: "ViewLinkedResources" }) as any as S.Schema<ViewLinkedResources>;
 
 export type GetLinkedViewsRequestResourceType = "flags" | "segments" | "aiConfigs";
 export const GetLinkedViewsRequestResourceType = S.String;
@@ -18242,9 +17422,7 @@ export const GetLinkedViewsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetLinkedViewsRequest",
-}) as any as S.Schema<GetLinkedViewsRequest>;
+).annotate({ identifier: "GetLinkedViewsRequest" }) as any as S.Schema<GetLinkedViewsRequest>;
 
 export type ViewsItemsList = Array<View>;
 export const ViewsItemsList = /*@__PURE__*/ S.Array(View) as any as S.Schema<ViewsItemsList>;
@@ -18312,9 +17490,7 @@ export const GetMauSdksByTypeRequest = /*@__PURE__*/ S.suspend(() =>
     to: S.optional(S.String.pipe(T.Query())),
     sdktype: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/mau/sdks", code: 200 })),
-).annotate({
-  identifier: "GetMauSdksByTypeRequest",
-}) as any as S.Schema<GetMauSdksByTypeRequest>;
+).annotate({ identifier: "GetMauSdksByTypeRequest" }) as any as S.Schema<GetMauSdksByTypeRequest>;
 
 /** The location and content type of related resources */
 export type SdkListRepLinksMap = { [key: string]: unknown | undefined };
@@ -18377,9 +17553,7 @@ export const GetMAUTotalUsageRequest = /*@__PURE__*/ S.suspend(() =>
     aggregationType: S.optional(S.String.pipe(T.Query())),
     granularity: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/total-mau", code: 200 })),
-).annotate({
-  identifier: "GetMAUTotalUsageRequest",
-}) as any as S.Schema<GetMAUTotalUsageRequest>;
+).annotate({ identifier: "GetMAUTotalUsageRequest" }) as any as S.Schema<GetMAUTotalUsageRequest>;
 
 export interface GetMemberRequest {
   /** The member ID */
@@ -18392,9 +17566,7 @@ export const GetMemberRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     expand: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/members/{id}", code: 200 })),
-).annotate({
-  identifier: "GetMemberRequest",
-}) as any as S.Schema<GetMemberRequest>;
+).annotate({ identifier: "GetMemberRequest" }) as any as S.Schema<GetMemberRequest>;
 
 export interface GetMembersRequest {
   /** The number of members to return in the response. Defaults to 20. */
@@ -18416,9 +17588,7 @@ export const GetMembersRequest = /*@__PURE__*/ S.suspend(() =>
     expand: S.optional(S.String.pipe(T.Query())),
     sort: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/members", code: 200 })),
-).annotate({
-  identifier: "GetMembersRequest",
-}) as any as S.Schema<GetMembersRequest>;
+).annotate({ identifier: "GetMembersRequest" }) as any as S.Schema<GetMembersRequest>;
 
 export interface GetMetricRequest {
   /** The project key */
@@ -18436,16 +17606,8 @@ export const GetMetricRequest = /*@__PURE__*/ S.suspend(() =>
     metricKey: S.String.pipe(T.Label()),
     expand: S.optional(S.String.pipe(T.Query())),
     versionId: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/metrics/{projectKey}/{metricKey}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetMetricRequest",
-}) as any as S.Schema<GetMetricRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/metrics/{projectKey}/{metricKey}", code: 200 })),
+).annotate({ identifier: "GetMetricRequest" }) as any as S.Schema<GetMetricRequest>;
 
 /** The kind of event the metric tracks */
 export type MetricRepKind = "pageview" | "click" | "custom" | "trace";
@@ -18493,9 +17655,7 @@ export type DependentMetricGroupRepKind = "funnel" | "standard";
 export const DependentMetricGroupRepKind = S.String;
 
 /** The location and content type of related resources */
-export type DependentMetricGroupRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type DependentMetricGroupRepLinksMap = { [key: string]: Link | undefined };
 export const DependentMetricGroupRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -18518,9 +17678,7 @@ export const DependentMetricGroupRep = /*@__PURE__*/ S.suspend(() =>
     kind: DependentMetricGroupRepKind,
     _links: DependentMetricGroupRepLinksMap,
   }),
-).annotate({
-  identifier: "DependentMetricGroupRep",
-}) as any as S.Schema<DependentMetricGroupRep>;
+).annotate({ identifier: "DependentMetricGroupRep" }) as any as S.Schema<DependentMetricGroupRep>;
 
 /** Metric groups that use this metric */
 export type MetricRepMetricGroupsList = Array<DependentMetricGroupRep>;
@@ -18529,16 +17687,14 @@ export const MetricRepMetricGroupsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MetricRepMetricGroupsList>;
 
 /** The location and content type of related resources */
-export type DependentMeasuredRolloutRepLinksMap = {
-  [key: string]: Link | undefined;
-};
-export const DependentMeasuredRolloutRepLinksMap = /*@__PURE__*/ S.Record(
+export type DependentReleasePhaseRepLinksMap = { [key: string]: Link | undefined };
+export const DependentReleasePhaseRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
-) as any as S.Schema<DependentMeasuredRolloutRepLinksMap>;
+) as any as S.Schema<DependentReleasePhaseRepLinksMap>;
 
-export interface DependentMeasuredRolloutRep {
-  /** The guarded rollout measured rollout Id */
+export interface DependentReleasePhaseRep {
+  /** The guarded rollout release phase ID */
   _id: string;
   /** The guarded rollout flag key */
   flagKey: string;
@@ -18555,9 +17711,9 @@ export interface DependentMeasuredRolloutRep {
   /** Timestamp of when the guarded rollout was created */
   creationDate: number;
   /** The location and content type of related resources */
-  _links: DependentMeasuredRolloutRepLinksMap;
+  _links: DependentReleasePhaseRepLinksMap;
 }
-export const DependentMeasuredRolloutRep = /*@__PURE__*/ S.suspend(() =>
+export const DependentReleasePhaseRep = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     flagKey: S.String,
@@ -18567,11 +17723,9 @@ export const DependentMeasuredRolloutRep = /*@__PURE__*/ S.suspend(() =>
     environmentName: S.String,
     status: S.String,
     creationDate: S.Number,
-    _links: DependentMeasuredRolloutRepLinksMap,
+    _links: DependentReleasePhaseRepLinksMap,
   }),
-).annotate({
-  identifier: "DependentMeasuredRolloutRep",
-}) as any as S.Schema<DependentMeasuredRolloutRep>;
+).annotate({ identifier: "DependentReleasePhaseRep" }) as any as S.Schema<DependentReleasePhaseRep>;
 
 /** Details on the flags attached to this metric */
 export type MetricRepAttachedFeaturesList = Array<FlagListingRep>;
@@ -18678,7 +17832,7 @@ export interface MetricRep {
   /** The most recent experiment that used this metric */
   lastUsedInExperiment?: DependentExperimentRep;
   /** The most recent guarded rollout that used this metric */
-  lastUsedInGuardedRollout?: DependentMeasuredRolloutRep;
+  lastUsedInGuardedRollout?: DependentReleasePhaseRep;
   /** Whether the metric is active */
   isActive?: boolean;
   /** Details on the flags attached to this metric */
@@ -18736,7 +17890,7 @@ export const MetricRep = /*@__PURE__*/ S.suspend(() =>
     experiments: S.optional(DependentExperimentListRep),
     metricGroups: S.optional(MetricRepMetricGroupsList),
     lastUsedInExperiment: S.optional(DependentExperimentRep),
-    lastUsedInGuardedRollout: S.optional(DependentMeasuredRolloutRep),
+    lastUsedInGuardedRollout: S.optional(DependentReleasePhaseRep),
     isActive: S.optional(S.Boolean),
     _attachedFeatures: S.optional(MetricRepAttachedFeaturesList),
   }),
@@ -18762,9 +17916,7 @@ export const GetMetricGroupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetMetricGroupRequest",
-}) as any as S.Schema<GetMetricGroupRequest>;
+).annotate({ identifier: "GetMetricGroupRequest" }) as any as S.Schema<GetMetricGroupRequest>;
 
 export interface GetMetricGroupsRequest {
   /** The project key */
@@ -18788,16 +17940,8 @@ export const GetMetricGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     expand: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/projects/{projectKey}/metric-groups",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetMetricGroupsRequest",
-}) as any as S.Schema<GetMetricGroupsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/metric-groups", code: 200 })),
+).annotate({ identifier: "GetMetricGroupsRequest" }) as any as S.Schema<GetMetricGroupsRequest>;
 
 /** An array of metric groups */
 export type MetricGroupCollectionRepItemsList = Array<MetricGroupRep>;
@@ -18806,9 +17950,7 @@ export const MetricGroupCollectionRepItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MetricGroupCollectionRepItemsList>;
 
 /** The location and content type of related resources */
-export type MetricGroupCollectionRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type MetricGroupCollectionRepLinksMap = { [key: string]: Link | undefined };
 export const MetricGroupCollectionRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -18827,9 +17969,7 @@ export const MetricGroupCollectionRep = /*@__PURE__*/ S.suspend(() =>
     _links: S.optional(MetricGroupCollectionRepLinksMap),
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MetricGroupCollectionRep",
-}) as any as S.Schema<MetricGroupCollectionRep>;
+).annotate({ identifier: "MetricGroupCollectionRep" }) as any as S.Schema<MetricGroupCollectionRep>;
 
 export interface GetMetricsRequest {
   /** The project key */
@@ -18854,9 +17994,7 @@ export const GetMetricsRequest = /*@__PURE__*/ S.suspend(() =>
     sort: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/metrics/{projectKey}", code: 200 })),
-).annotate({
-  identifier: "GetMetricsRequest",
-}) as any as S.Schema<GetMetricsRequest>;
+).annotate({ identifier: "GetMetricsRequest" }) as any as S.Schema<GetMetricsRequest>;
 
 /** An array of metrics */
 export type MetricCollectionRepItemsList = Array<MetricListingRep>;
@@ -18884,9 +18022,7 @@ export const MetricCollectionRep = /*@__PURE__*/ S.suspend(() =>
     _links: S.optional(MetricCollectionRepLinksMap),
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MetricCollectionRep",
-}) as any as S.Schema<MetricCollectionRep>;
+).annotate({ identifier: "MetricCollectionRep" }) as any as S.Schema<MetricCollectionRep>;
 
 export interface GetModelConfigRequest {
   projectKey: string;
@@ -18906,9 +18042,7 @@ export const GetModelConfigRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetModelConfigRequest",
-}) as any as S.Schema<GetModelConfigRequest>;
+).annotate({ identifier: "GetModelConfigRequest" }) as any as S.Schema<GetModelConfigRequest>;
 
 export type ModelConfigTagsList = Array<string>;
 export const ModelConfigTagsList = /*@__PURE__*/ S.Array(
@@ -18974,13 +18108,7 @@ export interface GetOAuthClientByIdRequest {
 export const GetOAuthClientByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/oauth/clients/{clientId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/oauth/clients/{clientId}", code: 200 })),
 ).annotate({
   identifier: "GetOAuthClientByIdRequest",
 }) as any as S.Schema<GetOAuthClientByIdRequest>;
@@ -18988,9 +18116,7 @@ export const GetOAuthClientByIdRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetOAuthClientsRequest {}
 export const GetOAuthClientsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v2/oauth/clients", code: 200 })),
-).annotate({
-  identifier: "GetOAuthClientsRequest",
-}) as any as S.Schema<GetOAuthClientsRequest>;
+).annotate({ identifier: "GetOAuthClientsRequest" }) as any as S.Schema<GetOAuthClientsRequest>;
 
 /** The location and content type of related resources */
 export type ClientCollectionLinksMap = { [key: string]: Link | undefined };
@@ -19016,9 +18142,7 @@ export const ClientCollection = /*@__PURE__*/ S.suspend(() =>
     _links: ClientCollectionLinksMap,
     items: ClientCollectionItemsList,
   }),
-).annotate({
-  identifier: "ClientCollection",
-}) as any as S.Schema<ClientCollection>;
+).annotate({ identifier: "ClientCollection" }) as any as S.Schema<ClientCollection>;
 
 export interface GetObservabilityErrorsUsageRequest {
   /** The series of data returned starts from this timestamp (Unix seconds). Defaults to the beginning of the current month. */
@@ -19039,13 +18163,7 @@ export const GetObservabilityErrorsUsageRequest = /*@__PURE__*/ S.suspend(() =>
     projectKey: S.optional(S.String.pipe(T.Query())),
     granularity: S.optional(S.String.pipe(T.Query())),
     aggregationType: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/usage/observability/errors",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/observability/errors", code: 200 })),
 ).annotate({
   identifier: "GetObservabilityErrorsUsageRequest",
 }) as any as S.Schema<GetObservabilityErrorsUsageRequest>;
@@ -19069,13 +18187,7 @@ export const GetObservabilityLogsUsageRequest = /*@__PURE__*/ S.suspend(() =>
     projectKey: S.optional(S.String.pipe(T.Query())),
     granularity: S.optional(S.String.pipe(T.Query())),
     aggregationType: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/usage/observability/logs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/observability/logs", code: 200 })),
 ).annotate({
   identifier: "GetObservabilityLogsUsageRequest",
 }) as any as S.Schema<GetObservabilityLogsUsageRequest>;
@@ -19099,13 +18211,7 @@ export const GetObservabilityMetricsUsageRequest = /*@__PURE__*/ S.suspend(() =>
     projectKey: S.optional(S.String.pipe(T.Query())),
     granularity: S.optional(S.String.pipe(T.Query())),
     aggregationType: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/usage/observability/metrics",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/observability/metrics", code: 200 })),
 ).annotate({
   identifier: "GetObservabilityMetricsUsageRequest",
 }) as any as S.Schema<GetObservabilityMetricsUsageRequest>;
@@ -19129,13 +18235,7 @@ export const GetObservabilitySessionsUsageRequest = /*@__PURE__*/ S.suspend(() =
     projectKey: S.optional(S.String.pipe(T.Query())),
     granularity: S.optional(S.String.pipe(T.Query())),
     aggregationType: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/usage/observability/sessions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/observability/sessions", code: 200 })),
 ).annotate({
   identifier: "GetObservabilitySessionsUsageRequest",
 }) as any as S.Schema<GetObservabilitySessionsUsageRequest>;
@@ -19159,13 +18259,7 @@ export const GetObservabilityTracesUsageRequest = /*@__PURE__*/ S.suspend(() =>
     projectKey: S.optional(S.String.pipe(T.Query())),
     granularity: S.optional(S.String.pipe(T.Query())),
     aggregationType: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/usage/observability/traces",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/observability/traces", code: 200 })),
 ).annotate({
   identifier: "GetObservabilityTracesUsageRequest",
 }) as any as S.Schema<GetObservabilityTracesUsageRequest>;
@@ -19173,9 +18267,7 @@ export const GetObservabilityTracesUsageRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetOpenapiSpecRequest {}
 export const GetOpenapiSpecRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v2/openapi.json", code: 200 })),
-).annotate({
-  identifier: "GetOpenapiSpecRequest",
-}) as any as S.Schema<GetOpenapiSpecRequest>;
+).annotate({ identifier: "GetOpenapiSpecRequest" }) as any as S.Schema<GetOpenapiSpecRequest>;
 
 export interface GetOpenapiSpecResponse {}
 export const GetOpenapiSpecResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -19193,9 +18285,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
     projectKey: S.String.pipe(T.Label()),
     expand: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}", code: 200 })),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
 
 export interface GetProjectsRequest {
   /** The number of projects to return in the response. Defaults to 20. */
@@ -19217,9 +18307,7 @@ export const GetProjectsRequest = /*@__PURE__*/ S.suspend(() =>
     sort: S.optional(S.String.pipe(T.Query())),
     expand: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects", code: 200 })),
-).annotate({
-  identifier: "GetProjectsRequest",
-}) as any as S.Schema<GetProjectsRequest>;
+).annotate({ identifier: "GetProjectsRequest" }) as any as S.Schema<GetProjectsRequest>;
 
 /** A link to this resource. */
 export type ProjectsLinksMap = { [key: string]: Link | undefined };
@@ -19249,6 +18337,166 @@ export const Projects = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Projects" }) as any as S.Schema<Projects>;
 
+export type GetProjectSdkKeysRequestSort = "createdAt" | "-createdAt" | "environmentKey";
+export const GetProjectSdkKeysRequestSort = S.String;
+
+export interface GetProjectSdkKeysRequest {
+  projectKey: string;
+  /** A queryfilter expression to apply to the list of SDK keys. Supports the following fields and operators: `kind` (`equals`, `anyOf`; values: "sdk", "mobile"), `active` (`equals`, `anyOf`; values: `true`, `false`), `environmentKey` (`equals`, `anyOf`; values: environment keys), `viewKey` (`equals`, `anyOf`; values: view key strings — returns only SDK keys linked to the specified view(s)), `name` (`equals` only; returns SDK keys whose name or key contains the value, matched case-insensitively). Example: `kind anyOf ["sdk","mobile"], environmentKey anyOf ["production","test"], viewKey equals my-view, name equals "production"`. */
+  filter?: string;
+  /** The number of SDK keys to return. Defaults to 20. Maximum is 100. */
+  limit?: number;
+  /** The number of SDK keys to skip. Used for pagination. */
+  offset?: number;
+  /** A comma-separated list of fields to expand in the response. Supported fields: `environmentSummary`, `viewSummaries`. */
+  expand?: string;
+  /** A sort to apply to the list of SDK keys. Supported fields: `createdAt` and `environmentKey`. Prefix `createdAt` with `-` to sort in descending order (for example, `-createdAt`). `environmentKey` orders keys by environment key ascending, then by creation time ascending within each environment, so each page is environment-contiguous. */
+  sort?: GetProjectSdkKeysRequestSort | (string & {});
+}
+export const GetProjectSdkKeysRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    projectKey: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    offset: S.optional(S.Number.pipe(T.Query())),
+    expand: S.optional(S.String.pipe(T.Query())),
+    sort: S.optional(GetProjectSdkKeysRequestSort.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/sdk-keys", code: 200 })),
+).annotate({ identifier: "GetProjectSdkKeysRequest" }) as any as S.Schema<GetProjectSdkKeysRequest>;
+
+export type SdkKeysSelfLink = ViewsSelfLink;
+export const SdkKeysSelfLink = ViewsSelfLink;
+
+/** The kind of SDK key. Can be either "sdk" (server-side) or "mobile" (mobile). */
+export type SdkKeyKind = "sdk" | "mobile";
+export const SdkKeyKind = S.String;
+
+/** The location and content type of related resources */
+export type SdkKeysEnvironmentSummaryLinksMap = { [key: string]: Link | undefined };
+export const SdkKeysEnvironmentSummaryLinksMap = /*@__PURE__*/ S.Record(
+  S.String,
+  Link,
+) as any as S.Schema<SdkKeysEnvironmentSummaryLinksMap>;
+
+export interface SdkKeysEnvironmentSummary {
+  /** The location and content type of related resources */
+  _links: SdkKeysEnvironmentSummaryLinksMap;
+  /** A project-unique key for the environment */
+  key: string;
+  /** A human-friendly name for the environment */
+  name: string;
+  /** The color used to indicate this environment in the UI */
+  color: string;
+}
+export const SdkKeysEnvironmentSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _links: SdkKeysEnvironmentSummaryLinksMap,
+    key: S.String,
+    name: S.String,
+    color: S.String,
+  }),
+).annotate({
+  identifier: "SdkKeysEnvironmentSummary",
+}) as any as S.Schema<SdkKeysEnvironmentSummary>;
+
+export interface ViewResourceSummary {
+  /** The number of flags associated with the view. */
+  flagCount: number;
+  /** The number of segments associated with the view. */
+  segmentCount: number;
+}
+export const ViewResourceSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    flagCount: S.Number,
+    segmentCount: S.Number,
+  }),
+).annotate({ identifier: "ViewResourceSummary" }) as any as S.Schema<ViewResourceSummary>;
+
+export interface ViewSummary {
+  _links?: ParentAndSelfLinks;
+  /** The key of the view. */
+  key: string;
+  /** The human-readable name of the view. */
+  name: string;
+  resourceSummary: ViewResourceSummary;
+}
+export const ViewSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _links: S.optional(ParentAndSelfLinks),
+    key: S.String,
+    name: S.String,
+    resourceSummary: ViewResourceSummary,
+  }),
+).annotate({ identifier: "ViewSummary" }) as any as S.Schema<ViewSummary>;
+
+/** Summaries of views associated with the SDK key. */
+export type SdkKeyListItemViewSummariesList = Array<ViewSummary>;
+export const SdkKeyListItemViewSummariesList = /*@__PURE__*/ S.Array(
+  ViewSummary,
+) as any as S.Schema<SdkKeyListItemViewSummariesList>;
+
+export interface SdkKeyListItem {
+  _links?: ParentAndSelfLinks;
+  kind: SdkKeyKind;
+  /** The user-defined identifying key of the SDK key. This is used solely to identify an SDK key and is distinct from the value field, which is the actual SDK key value. */
+  key: string;
+  /** The human-readable name of the SDK key. */
+  name: string;
+  /** The optional description of the SDK key. */
+  description?: string;
+  expiry?: number;
+  /** The string value of the SDK key. Use this when configuring your SDK. */
+  value: string;
+  /** Indicates if this SDK key is the system-defined default for the environment. There may also be an expiring default SDK key for the environment (not possible with mobile keys). */
+  isDefault: boolean;
+  /** The ID of the member who created the SDK key. This field is immutable. */
+  _createdByMemberId?: string;
+  _createdAt: number;
+  _updatedAt: number;
+  /** The auto-incremented version number of the SDK key. */
+  _version: number;
+  environmentSummary?: SdkKeysEnvironmentSummary;
+  /** Summaries of views associated with the SDK key. */
+  viewSummaries?: SdkKeyListItemViewSummariesList;
+}
+export const SdkKeyListItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _links: S.optional(ParentAndSelfLinks),
+    kind: SdkKeyKind,
+    key: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    expiry: S.optional(S.Number),
+    value: S.String,
+    isDefault: S.Boolean,
+    _createdByMemberId: S.optional(S.String),
+    _createdAt: S.Number,
+    _updatedAt: S.Number,
+    _version: S.Number,
+    environmentSummary: S.optional(SdkKeysEnvironmentSummary),
+    viewSummaries: S.optional(SdkKeyListItemViewSummariesList),
+  }),
+).annotate({ identifier: "SdkKeyListItem" }) as any as S.Schema<SdkKeyListItem>;
+
+export type SdkKeysItemsList = Array<SdkKeyListItem>;
+export const SdkKeysItemsList = /*@__PURE__*/ S.Array(
+  SdkKeyListItem,
+) as any as S.Schema<SdkKeysItemsList>;
+
+export interface SdkKeys {
+  _links?: ViewsSelfLink;
+  items: SdkKeysItemsList;
+  /** The total number of SDK keys matching the query, before pagination. */
+  totalCount: number;
+}
+export const SdkKeys = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _links: S.optional(ViewsSelfLink),
+    items: SdkKeysItemsList,
+    totalCount: S.Number,
+  }),
+).annotate({ identifier: "SdkKeys" }) as any as S.Schema<SdkKeys>;
+
 export interface GetPromptSnippetRequest {
   projectKey: string;
   snippetKey: string;
@@ -19264,9 +18512,7 @@ export const GetPromptSnippetRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetPromptSnippetRequest",
-}) as any as S.Schema<GetPromptSnippetRequest>;
+).annotate({ identifier: "GetPromptSnippetRequest" }) as any as S.Schema<GetPromptSnippetRequest>;
 
 export type PromptSnippetTagsList = Array<string>;
 export const PromptSnippetTagsList = /*@__PURE__*/ S.Array(
@@ -19343,16 +18589,8 @@ export const GetPullRequestsRequest = /*@__PURE__*/ S.suspend(() =>
     to: S.optional(S.String.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/engineering-insights/pull-requests",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetPullRequestsRequest",
-}) as any as S.Schema<GetPullRequestsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/engineering-insights/pull-requests", code: 200 })),
+).annotate({ identifier: "GetPullRequestsRequest" }) as any as S.Schema<GetPullRequestsRequest>;
 
 export interface GetRelayProxyConfigRequest {
   /** The relay auto config id */
@@ -19361,13 +18599,7 @@ export interface GetRelayProxyConfigRequest {
 export const GetRelayProxyConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/account/relay-auto-configs/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/account/relay-auto-configs/{id}", code: 200 })),
 ).annotate({
   identifier: "GetRelayProxyConfigRequest",
 }) as any as S.Schema<GetRelayProxyConfigRequest>;
@@ -19410,18 +18642,12 @@ export const RelayAutoConfigRep = /*@__PURE__*/ S.suspend(() =>
     creationDate: S.Number,
     lastModified: S.Number,
   }),
-).annotate({
-  identifier: "RelayAutoConfigRep",
-}) as any as S.Schema<RelayAutoConfigRep>;
+).annotate({ identifier: "RelayAutoConfigRep" }) as any as S.Schema<RelayAutoConfigRep>;
 
 export interface GetRelayProxyConfigsRequest {}
 export const GetRelayProxyConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/account/relay-auto-configs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/account/relay-auto-configs", code: 200 }),
   ),
 ).annotate({
   identifier: "GetRelayProxyConfigsRequest",
@@ -19456,11 +18682,7 @@ export const GetReleaseByFlagKeyRequest = /*@__PURE__*/ S.suspend(() =>
     projectKey: S.String.pipe(T.Label()),
     flagKey: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/flags/{projectKey}/{flagKey}/release",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/flags/{projectKey}/{flagKey}/release", code: 200 }),
   ),
 ).annotate({
   identifier: "GetReleaseByFlagKeyRequest",
@@ -19546,11 +18768,7 @@ export const GetReleasePoliciesRequest = /*@__PURE__*/ S.suspend(() =>
     projectKey: S.String.pipe(T.Label()),
     excludeDefault: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/projects/{projectKey}/release-policies",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/release-policies", code: 200 }),
   ),
 ).annotate({
   identifier: "GetReleasePoliciesRequest",
@@ -19709,9 +18927,7 @@ export const ReleasePoliciesAccess = /*@__PURE__*/ S.suspend(() =>
     denied: ReleasePoliciesAccessDeniedList,
     allowed: ReleasePoliciesAccessAllowedList,
   }),
-).annotate({
-  identifier: "ReleasePoliciesAccess",
-}) as any as S.Schema<ReleasePoliciesAccess>;
+).annotate({ identifier: "ReleasePoliciesAccess" }) as any as S.Schema<ReleasePoliciesAccess>;
 
 /** List of environment keys this policy applies to */
 export type ReleasePolicyScopeEnvironmentKeysList = Array<string>;
@@ -19736,9 +18952,7 @@ export const ReleasePolicyScope = /*@__PURE__*/ S.suspend(() =>
     environmentKeys: S.optional(ReleasePolicyScopeEnvironmentKeysList),
     flagTagKeys: S.optional(ReleasePolicyScopeFlagTagKeysList),
   }),
-).annotate({
-  identifier: "ReleasePolicyScope",
-}) as any as S.Schema<ReleasePolicyScope>;
+).annotate({ identifier: "ReleasePolicyScope" }) as any as S.Schema<ReleasePolicyScope>;
 
 /** The release method for this policy */
 export type ReleaseMethod = "guarded-release" | "immediate-release" | "progressive-release";
@@ -19765,9 +18979,7 @@ export const ReleasePolicyStage = /*@__PURE__*/ S.suspend(() =>
     allocation: S.Number,
     durationMillis: S.Number,
   }),
-).annotate({
-  identifier: "ReleasePolicyStage",
-}) as any as S.Schema<ReleasePolicyStage>;
+).annotate({ identifier: "ReleasePolicyStage" }) as any as S.Schema<ReleasePolicyStage>;
 
 /** List of stages */
 export type GuardedReleaseConfigStagesList = Array<ReleasePolicyStage>;
@@ -19799,9 +19011,7 @@ export const GuardedReleaseConfig = /*@__PURE__*/ S.suspend(() =>
     metricGroupKeys: S.optional(GuardedReleaseConfigMetricGroupKeysList),
     stages: S.optional(GuardedReleaseConfigStagesList),
   }),
-).annotate({
-  identifier: "GuardedReleaseConfig",
-}) as any as S.Schema<GuardedReleaseConfig>;
+).annotate({ identifier: "GuardedReleaseConfig" }) as any as S.Schema<GuardedReleaseConfig>;
 
 /** List of stages */
 export type ProgressiveReleaseConfigStagesList = Array<ReleasePolicyStage>;
@@ -19821,9 +19031,7 @@ export const ProgressiveReleaseConfig = /*@__PURE__*/ S.suspend(() =>
     rolloutContextKindKey: S.optional(S.String),
     stages: S.optional(ProgressiveReleaseConfigStagesList),
   }),
-).annotate({
-  identifier: "ProgressiveReleaseConfig",
-}) as any as S.Schema<ProgressiveReleaseConfig>;
+).annotate({ identifier: "ProgressiveReleaseConfig" }) as any as S.Schema<ProgressiveReleaseConfig>;
 
 export interface ReleasePolicy {
   _access?: ReleasePoliciesAccess;
@@ -19871,9 +19079,7 @@ export const ReleasePoliciesResponse = /*@__PURE__*/ S.suspend(() =>
     items: ReleasePoliciesResponseItemsList,
     totalCount: S.Number,
   }),
-).annotate({
-  identifier: "ReleasePoliciesResponse",
-}) as any as S.Schema<ReleasePoliciesResponse>;
+).annotate({ identifier: "ReleasePoliciesResponse" }) as any as S.Schema<ReleasePoliciesResponse>;
 
 export interface GetReleasePolicyRequest {
   /** The project key */
@@ -19892,9 +19098,7 @@ export const GetReleasePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetReleasePolicyRequest",
-}) as any as S.Schema<GetReleasePolicyRequest>;
+).annotate({ identifier: "GetReleasePolicyRequest" }) as any as S.Schema<GetReleasePolicyRequest>;
 
 export interface GetRepositoriesRequest {
   /** If set to any value, the endpoint returns repositories with associated branch data */
@@ -19913,13 +19117,9 @@ export const GetRepositoriesRequest = /*@__PURE__*/ S.suspend(() =>
     projKey: S.optional(S.String.pipe(T.Query())),
     flagKey: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/code-refs/repositories", code: 200 })),
-).annotate({
-  identifier: "GetRepositoriesRequest",
-}) as any as S.Schema<GetRepositoriesRequest>;
+).annotate({ identifier: "GetRepositoriesRequest" }) as any as S.Schema<GetRepositoriesRequest>;
 
-export type RepositoryCollectionRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type RepositoryCollectionRepLinksMap = { [key: string]: Link | undefined };
 export const RepositoryCollectionRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -19995,9 +19195,7 @@ export const RepositoryCollectionRep = /*@__PURE__*/ S.suspend(() =>
     _links: RepositoryCollectionRepLinksMap,
     items: RepositoryCollectionRepItemsList,
   }),
-).annotate({
-  identifier: "RepositoryCollectionRep",
-}) as any as S.Schema<RepositoryCollectionRep>;
+).annotate({ identifier: "RepositoryCollectionRep" }) as any as S.Schema<RepositoryCollectionRep>;
 
 export interface GetRepositoryRequest {
   /** The repository name */
@@ -20006,16 +19204,8 @@ export interface GetRepositoryRequest {
 export const GetRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/code-refs/repositories/{repo}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetRepositoryRequest",
-}) as any as S.Schema<GetRepositoryRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/code-refs/repositories/{repo}", code: 200 })),
+).annotate({ identifier: "GetRepositoryRequest" }) as any as S.Schema<GetRepositoryRequest>;
 
 export interface GetRootRequest {}
 export const GetRootRequest = /*@__PURE__*/ S.suspend(() =>
@@ -20040,9 +19230,7 @@ export const RootResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetRootStatisticRequest {}
 export const GetRootStatisticRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v2/code-refs/statistics", code: 200 })),
-).annotate({
-  identifier: "GetRootStatisticRequest",
-}) as any as S.Schema<GetRootStatisticRequest>;
+).annotate({ identifier: "GetRootStatisticRequest" }) as any as S.Schema<GetRootStatisticRequest>;
 
 /** The location and content type of all projects that have code references */
 export type StatisticsRootProjectsList = Array<Link>;
@@ -20086,9 +19274,7 @@ export const GetSdkAllVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     sdkAppId: S.optional(S.String.pipe(T.Query())),
     connectionType: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/sdk-versions/all", code: 200 })),
-).annotate({
-  identifier: "GetSdkAllVersionsRequest",
-}) as any as S.Schema<GetSdkAllVersionsRequest>;
+).annotate({ identifier: "GetSdkAllVersionsRequest" }) as any as S.Schema<GetSdkAllVersionsRequest>;
 
 export interface SdkVersionDetailsRep {
   name?: string;
@@ -20133,9 +19319,7 @@ export const SdkVersionDetailsRep = /*@__PURE__*/ S.suspend(() =>
     relayLatestVersion: S.optional(S.String),
     relayLatestReleaseUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SdkVersionDetailsRep",
-}) as any as S.Schema<SdkVersionDetailsRep>;
+).annotate({ identifier: "SdkVersionDetailsRep" }) as any as S.Schema<SdkVersionDetailsRep>;
 
 export type GetSdkAllVersionsResponseBodyList = Array<SdkVersionDetailsRep>;
 export const GetSdkAllVersionsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -20167,13 +19351,7 @@ export const GetSdkKeyByKeyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetSdkKeyByKeyRequest",
-}) as any as S.Schema<GetSdkKeyByKeyRequest>;
-
-/** The kind of SDK key. Can be either "sdk" (server-side) or "mobile" (mobile). */
-export type SdkKeyKind = "sdk" | "mobile";
-export const SdkKeyKind = S.String;
+).annotate({ identifier: "GetSdkKeyByKeyRequest" }) as any as S.Schema<GetSdkKeyByKeyRequest>;
 
 export interface SdkKey {
   _links?: ParentAndSelfLinks;
@@ -20243,12 +19421,7 @@ export const GetSdkKeysRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetSdkKeysRequest",
-}) as any as S.Schema<GetSdkKeysRequest>;
-
-export type SdkKeysSelfLink = ViewsSelfLink;
-export const SdkKeysSelfLink = ViewsSelfLink;
+).annotate({ identifier: "GetSdkKeysRequest" }) as any as S.Schema<GetSdkKeysRequest>;
 
 export type SdkKeysForGetSdkKeysItemsList = Array<SdkKey>;
 export const SdkKeysForGetSdkKeysItemsList = /*@__PURE__*/ S.Array(
@@ -20267,18 +19440,12 @@ export const SdkKeysForGetSdkKeys = /*@__PURE__*/ S.suspend(() =>
     items: SdkKeysForGetSdkKeysItemsList,
     totalCount: S.Number,
   }),
-).annotate({
-  identifier: "SdkKeysForGetSdkKeys",
-}) as any as S.Schema<SdkKeysForGetSdkKeys>;
+).annotate({ identifier: "SdkKeysForGetSdkKeys" }) as any as S.Schema<SdkKeysForGetSdkKeys>;
 
 export interface GetSdkVersionsDetailsRequest {}
 export const GetSdkVersionsDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/usage/sdk-versions/details",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/usage/sdk-versions/details", code: 200 }),
   ),
 ).annotate({
   identifier: "GetSdkVersionsDetailsRequest",
@@ -20316,9 +19483,7 @@ export const GetSegmentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetSegmentRequest",
-}) as any as S.Schema<GetSegmentRequest>;
+).annotate({ identifier: "GetSegmentRequest" }) as any as S.Schema<GetSegmentRequest>;
 
 export interface GetSegmentMembershipForContextRequest {
   /** The project key */
@@ -20361,9 +19526,7 @@ export const BigSegmentTarget = /*@__PURE__*/ S.suspend(() =>
     included: S.Boolean,
     excluded: S.Boolean,
   }),
-).annotate({
-  identifier: "BigSegmentTarget",
-}) as any as S.Schema<BigSegmentTarget>;
+).annotate({ identifier: "BigSegmentTarget" }) as any as S.Schema<BigSegmentTarget>;
 
 export interface GetSegmentMembershipForUserRequest {
   /** The project key */
@@ -20415,15 +19578,9 @@ export const GetSegmentsRequest = /*@__PURE__*/ S.suspend(() =>
     sort: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/segments/{projectKey}/{environmentKey}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/segments/{projectKey}/{environmentKey}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetSegmentsRequest",
-}) as any as S.Schema<GetSegmentsRequest>;
+).annotate({ identifier: "GetSegmentsRequest" }) as any as S.Schema<GetSegmentsRequest>;
 
 /** An array of segments */
 export type UserSegmentsItemsList = Array<UserSegment>;
@@ -20471,11 +19628,11 @@ export interface GetServiceConnectionsUsageRequest {
   sdkName?: string;
   /** An SDK version to filter results by. Can be specified multiple times, one query parameter per SDK version. */
   sdkVersion?: string;
-  /** An SDK type to filter results by. Can be specified multiple times, one query parameter per SDK type. */
+  /** Deprecated. This endpoint reports server-side connections only, so `server` is the only value that returns data and omitting the parameter is equivalent. Any other value returns an empty series. To report client-side connections, use `GET /api/v2/usage/streams/{source}`. */
   sdkType?: string;
   /** An SDK app ID to filter results by. Can be specified multiple times, one query parameter per SDK app ID. */
   sdkAppId?: string;
-  /** If specified, returns data for each distinct value of the given field. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension.<br/>Valid values: `projectId`, `environmentId`, `connectionType`, `relayVersion`, `sdkName`, `sdkVersion`, `sdkType`, `sdkAppId`. */
+  /** If specified, returns data for each distinct value of the given field. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension.<br/>Valid values: `projectId`, `environmentId`, `connectionType`, `relayVersion`, `sdkName`, `sdkVersion`, `sdkAppId`.<br/>`sdkType` is no longer offered: this endpoint reports server-side connections only, so grouping by it returns a single group. It is still accepted, for compatibility. */
   groupBy?: string;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`. */
   aggregationType?: string;
@@ -20497,13 +19654,7 @@ export const GetServiceConnectionsUsageRequest = /*@__PURE__*/ S.suspend(() =>
     groupBy: S.optional(S.String.pipe(T.Query())),
     aggregationType: S.optional(S.String.pipe(T.Query())),
     granularity: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/usage/service-connections",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/service-connections", code: 200 })),
 ).annotate({
   identifier: "GetServiceConnectionsUsageRequest",
 }) as any as S.Schema<GetServiceConnectionsUsageRequest>;
@@ -20556,9 +19707,7 @@ export const SeriesListRepFloat = /*@__PURE__*/ S.suspend(() =>
     series: SeriesListRepFloatSeriesList,
     projectedSeries: S.optional(SeriesListRepFloatProjectedSeriesList),
   }),
-).annotate({
-  identifier: "SeriesListRepFloat",
-}) as any as S.Schema<SeriesListRepFloat>;
+).annotate({ identifier: "SeriesListRepFloat" }) as any as S.Schema<SeriesListRepFloat>;
 
 export interface GetStaleFlagsChartRequest {
   /** The project key */
@@ -20586,11 +19735,7 @@ export const GetStaleFlagsChartRequest = /*@__PURE__*/ S.suspend(() =>
     maintainerTeamKey: S.optional(S.String.pipe(T.Query())),
     expand: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/engineering-insights/charts/flags/stale",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/engineering-insights/charts/flags/stale", code: 200 }),
   ),
 ).annotate({
   identifier: "GetStaleFlagsChartRequest",
@@ -20606,16 +19751,8 @@ export const GetStatisticsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectKey: S.String.pipe(T.Label()),
     flagKey: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/code-refs/statistics/{projectKey}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetStatisticsRequest",
-}) as any as S.Schema<GetStatisticsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/code-refs/statistics/{projectKey}", code: 200 })),
+).annotate({ identifier: "GetStatisticsRequest" }) as any as S.Schema<GetStatisticsRequest>;
 
 /** The type of repository */
 export type StatisticRepType = "bitbucket" | "custom" | "github" | "gitlab";
@@ -20680,9 +19817,7 @@ export const StatisticCollectionRepFlagsMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<StatisticCollectionRepFlagsMap>;
 
 /** The location and content type of related resources */
-export type StatisticCollectionRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type StatisticCollectionRepLinksMap = { [key: string]: Link | undefined };
 export const StatisticCollectionRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -20699,9 +19834,7 @@ export const StatisticCollectionRep = /*@__PURE__*/ S.suspend(() =>
     flags: StatisticCollectionRepFlagsMap,
     _links: StatisticCollectionRepLinksMap,
   }),
-).annotate({
-  identifier: "StatisticCollectionRep",
-}) as any as S.Schema<StatisticCollectionRep>;
+).annotate({ identifier: "StatisticCollectionRep" }) as any as S.Schema<StatisticCollectionRep>;
 
 export interface GetStreamUsageRequest {
   /** The source of streaming connections to describe. Must be either `client` or `server`. */
@@ -20720,9 +19853,7 @@ export const GetStreamUsageRequest = /*@__PURE__*/ S.suspend(() =>
     to: S.optional(S.String.pipe(T.Query())),
     tz: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/streams/{source}", code: 200 })),
-).annotate({
-  identifier: "GetStreamUsageRequest",
-}) as any as S.Schema<GetStreamUsageRequest>;
+).annotate({ identifier: "GetStreamUsageRequest" }) as any as S.Schema<GetStreamUsageRequest>;
 
 export interface GetStreamUsageBySdkVersionRequest {
   /** The source of streaming connections to describe. Must be either `client` or `server`. */
@@ -20746,13 +19877,7 @@ export const GetStreamUsageBySdkVersionRequest = /*@__PURE__*/ S.suspend(() =>
     tz: S.optional(S.String.pipe(T.Query())),
     sdk: S.optional(S.String.pipe(T.Query())),
     version: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/usage/streams/{source}/bysdkversion",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/streams/{source}/bysdkversion", code: 200 })),
 ).annotate({
   identifier: "GetStreamUsageBySdkVersionRequest",
 }) as any as S.Schema<GetStreamUsageBySdkVersionRequest>;
@@ -20764,13 +19889,7 @@ export interface GetStreamUsageSdkversionRequest {
 export const GetStreamUsageSdkversionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     source: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/usage/streams/{source}/sdkversions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/streams/{source}/sdkversions", code: 200 })),
 ).annotate({
   identifier: "GetStreamUsageSdkversionRequest",
 }) as any as S.Schema<GetStreamUsageSdkversionRequest>;
@@ -20812,9 +19931,7 @@ export const SdkVersionListRep = /*@__PURE__*/ S.suspend(() =>
     _links: SdkVersionListRepLinksMap,
     sdkVersions: SdkVersionListRepSdkVersionsList,
   }),
-).annotate({
-  identifier: "SdkVersionListRep",
-}) as any as S.Schema<SdkVersionListRep>;
+).annotate({ identifier: "SdkVersionListRep" }) as any as S.Schema<SdkVersionListRep>;
 
 export interface GetSubscriptionByIDRequest {
   /** The integration key */
@@ -20826,13 +19943,7 @@ export const GetSubscriptionByIDRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     integrationKey: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/integrations/{integrationKey}/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/integrations/{integrationKey}/{id}", code: 200 })),
 ).annotate({
   identifier: "GetSubscriptionByIDRequest",
 }) as any as S.Schema<GetSubscriptionByIDRequest>;
@@ -20844,16 +19955,8 @@ export interface GetSubscriptionsRequest {
 export const GetSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     integrationKey: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/integrations/{integrationKey}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSubscriptionsRequest",
-}) as any as S.Schema<GetSubscriptionsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/integrations/{integrationKey}", code: 200 })),
+).annotate({ identifier: "GetSubscriptionsRequest" }) as any as S.Schema<GetSubscriptionsRequest>;
 
 export type IntegrationsLinksMap = { [key: string]: Link | undefined };
 export const IntegrationsLinksMap = /*@__PURE__*/ S.Record(
@@ -20965,13 +20068,7 @@ export const GetTeamMaintainersRequest = /*@__PURE__*/ S.suspend(() =>
     teamKey: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/teams/{teamKey}/maintainers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/teams/{teamKey}/maintainers", code: 200 })),
 ).annotate({
   identifier: "GetTeamMaintainersRequest",
 }) as any as S.Schema<GetTeamMaintainersRequest>;
@@ -20990,9 +20087,7 @@ export const GetTeamRolesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/teams/{teamKey}/roles", code: 200 })),
-).annotate({
-  identifier: "GetTeamRolesRequest",
-}) as any as S.Schema<GetTeamRolesRequest>;
+).annotate({ identifier: "GetTeamRolesRequest" }) as any as S.Schema<GetTeamRolesRequest>;
 
 export interface GetTeamsRequest {
   /** The number of teams to return in the response. Defaults to 20. */
@@ -21001,6 +20096,8 @@ export interface GetTeamsRequest {
   offset?: number;
   /** A comma-separated list of filters. Each filter is constructed as `field:value`. */
   filter?: string;
+  /** A comma-separated list of fields to sort by. Fields are sorted in ascending order by default. Prefix a field with `-` to sort in descending order. Supported fields: `name`, `memberCount`. */
+  sort?: string;
   /** A comma-separated list of properties that can reveal additional information in the response. */
   expand?: string;
 }
@@ -21009,11 +20106,10 @@ export const GetTeamsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    sort: S.optional(S.String.pipe(T.Query())),
     expand: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/teams", code: 200 })),
-).annotate({
-  identifier: "GetTeamsRequest",
-}) as any as S.Schema<GetTeamsRequest>;
+).annotate({ identifier: "GetTeamsRequest" }) as any as S.Schema<GetTeamsRequest>;
 
 /** An array of teams */
 export type TeamsItemsList = Array<Team>;
@@ -21050,9 +20146,7 @@ export const GetTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/tokens/{id}", code: 200 })),
-).annotate({
-  identifier: "GetTokenRequest",
-}) as any as S.Schema<GetTokenRequest>;
+).annotate({ identifier: "GetTokenRequest" }) as any as S.Schema<GetTokenRequest>;
 
 export interface GetTokensRequest {
   /** If set to true, and the authentication access token has the 'Admin' role, personal access tokens for all members will be retrieved. */
@@ -21068,9 +20162,7 @@ export const GetTokensRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/tokens", code: 200 })),
-).annotate({
-  identifier: "GetTokensRequest",
-}) as any as S.Schema<GetTokensRequest>;
+).annotate({ identifier: "GetTokensRequest" }) as any as S.Schema<GetTokensRequest>;
 
 /** An array of access tokens */
 export type TokensItemsList = Array<Token>;
@@ -21155,9 +20247,7 @@ export const TriggerWorkflowCollectionRepItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<TriggerWorkflowCollectionRepItemsList>;
 
 /** The location and content type of related resources */
-export type TriggerWorkflowCollectionRepLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type TriggerWorkflowCollectionRepLinksMap = { [key: string]: Link | undefined };
 export const TriggerWorkflowCollectionRepLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -21198,16 +20288,12 @@ export const GetVegaAIUsageRequest = /*@__PURE__*/ S.suspend(() =>
     granularity: S.optional(S.String.pipe(T.Query())),
     aggregationType: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/vega-ai", code: 200 })),
-).annotate({
-  identifier: "GetVegaAIUsageRequest",
-}) as any as S.Schema<GetVegaAIUsageRequest>;
+).annotate({ identifier: "GetVegaAIUsageRequest" }) as any as S.Schema<GetVegaAIUsageRequest>;
 
 export interface GetVersionsRequest {}
 export const GetVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v2/versions", code: 200 })),
-).annotate({
-  identifier: "GetVersionsRequest",
-}) as any as S.Schema<GetVersionsRequest>;
+).annotate({ identifier: "GetVersionsRequest" }) as any as S.Schema<GetVersionsRequest>;
 
 /** A list of all valid API versions. To learn more about our versioning, read [Versioning](https://launchdarkly.com/docs/api#versioning). */
 export type VersionsRepValidVersionsList = Array<number>;
@@ -21280,11 +20366,7 @@ export const GetViewRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(S.String.pipe(T.Query())),
     expand: S.optional(GetViewRequestExpandList.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/projects/{projectKey}/views/{viewKey}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/views/{viewKey}", code: 200 }),
   ),
 ).annotate({ identifier: "GetViewRequest" }) as any as S.Schema<GetViewRequest>;
 
@@ -21325,16 +20407,8 @@ export const GetViewsRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     expand: S.optional(GetViewsRequestExpandList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/projects/{projectKey}/views",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetViewsRequest",
-}) as any as S.Schema<GetViewsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/views", code: 200 })),
+).annotate({ identifier: "GetViewsRequest" }) as any as S.Schema<GetViewsRequest>;
 
 export interface GetWarehouseExportUsageRequest {
   /** The series of data returned starts from this timestamp (Unix milliseconds). Defaults to the beginning of the current month. */
@@ -21345,9 +20419,11 @@ export interface GetWarehouseExportUsageRequest {
   projectKey?: string;
   /** An environment key to filter results by. If specified, exactly one `projectKey` must be provided. Can be specified multiple times, one query parameter per environment key. */
   environmentKey?: string;
-  /** A destination kind to filter results by. Can be specified multiple times, one query parameter per destination kind.<br/>Valid values: `snowflake-v2`, `databricks`, `bigquery`, `redshift`, `clickhouse`. */
+  /** A Warehouse configuration kind to filter results by. Cannot be combined with `destination`. Can be specified multiple times.<br/>Valid values: `snowflake-v2`, `databricks`, `bigquery`, `redshift`, `clickhouse`, `s3`. */
+  destinationKind?: string;
+  /** A Warehouse configuration kind to filter results by. Cannot be combined with `destinationKind`. Existing behavior is unchanged. Can be specified multiple times.<br/>Valid values: `snowflake-v2`, `databricks`, `bigquery`, `redshift`, `clickhouse`. */
   destination?: string;
-  /** If specified, returns data for each distinct value of the given field. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension.<br/>Valid values: `projectId`, `environmentId`, `destination`. */
+  /** If specified, returns data for each distinct value of the given field. Can be specified multiple times.<br/>Valid values: `projectId`, `environmentId`, `destination`, `destinationKind`, `destinationId`. `destination` and `destinationKind` return the same raw Warehouse configuration kinds. `destinationId` returns one series per warehouse destination with `destinationName` metadata. When a current destination you can view matches, its `destinationId` is the LaunchDarkly destination ID, with `destinationViewable`. Otherwise, it is the warehouse provider's destination ID, named `Unknown destination`. The destination's own kind is added as `destinationKind` only when you can view the destination. A kind requested with `groupBy=destinationKind` is returned unchanged. Destinations you cannot view are reported together in one `Unknown destination` series with `destinationId` `hidden` and `destinationViewable` `false`, one per combination of the other requested dimensions, such as `destinationKind`. Usage without a destination ID is one series with an empty `destinationId` named `Unattributed`. */
   groupBy?: string;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`. */
   aggregationType?: string;
@@ -21360,6 +20436,7 @@ export const GetWarehouseExportUsageRequest = /*@__PURE__*/ S.suspend(() =>
     to: S.optional(S.String.pipe(T.Query())),
     projectKey: S.optional(S.String.pipe(T.Query())),
     environmentKey: S.optional(S.String.pipe(T.Query())),
+    destinationKind: S.optional(S.String.pipe(T.Query())),
     destination: S.optional(S.String.pipe(T.Query())),
     groupBy: S.optional(S.String.pipe(T.Query())),
     aggregationType: S.optional(S.String.pipe(T.Query())),
@@ -21377,9 +20454,7 @@ export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v2/webhooks/{id}", code: 200 })),
-).annotate({
-  identifier: "GetWebhookRequest",
-}) as any as S.Schema<GetWebhookRequest>;
+).annotate({ identifier: "GetWebhookRequest" }) as any as S.Schema<GetWebhookRequest>;
 
 export interface GetWorkflowsRequest {
   /** The project key */
@@ -21413,9 +20488,7 @@ export const GetWorkflowsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetWorkflowsRequest",
-}) as any as S.Schema<GetWorkflowsRequest>;
+).annotate({ identifier: "GetWorkflowsRequest" }) as any as S.Schema<GetWorkflowsRequest>;
 
 /** An array of workflows */
 export type CustomWorkflowsListingOutputItemsList = Array<CustomWorkflowOutput>;
@@ -21424,9 +20497,7 @@ export const CustomWorkflowsListingOutputItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CustomWorkflowsListingOutputItemsList>;
 
 /** The location and content type of related resources */
-export type CustomWorkflowsListingOutputLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type CustomWorkflowsListingOutputLinksMap = { [key: string]: Link | undefined };
 export const CustomWorkflowsListingOutputLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -21504,9 +20575,7 @@ export const ViewLinkRequestKeys = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(S.String),
     comment: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ViewLinkRequestKeys",
-}) as any as S.Schema<ViewLinkRequestKeys>;
+).annotate({ identifier: "ViewLinkRequestKeys" }) as any as S.Schema<ViewLinkRequestKeys>;
 
 export interface ViewLinkRequestSegmentIdentifier {
   environmentId: string;
@@ -21563,9 +20632,7 @@ export const ViewLinkRequestFilter = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.optional(S.String),
     comment: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ViewLinkRequestFilter",
-}) as any as S.Schema<ViewLinkRequestFilter>;
+).annotate({ identifier: "ViewLinkRequestFilter" }) as any as S.Schema<ViewLinkRequestFilter>;
 
 export type ViewLinkRequest =
   | ViewLinkRequestKeys
@@ -21592,9 +20659,7 @@ export const LinkResourceRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "LinkResourceRequest",
-}) as any as S.Schema<LinkResourceRequest>;
+).annotate({ identifier: "LinkResourceRequest" }) as any as S.Schema<LinkResourceRequest>;
 
 /** The type of the resource that failed to link. */
 export type FailedResourceLinkResourceType = "flag" | "segment" | "aiConfig";
@@ -21617,9 +20682,7 @@ export const FailedResourceLink = /*@__PURE__*/ S.suspend(() =>
     resourceType: FailedResourceLinkResourceType,
     errorMessage: S.String,
   }),
-).annotate({
-  identifier: "FailedResourceLink",
-}) as any as S.Schema<FailedResourceLink>;
+).annotate({ identifier: "FailedResourceLink" }) as any as S.Schema<FailedResourceLink>;
 
 /** Details of resources that failed to link. */
 export type LinkResourceSuccessResponseFailedResourcesList = Array<FailedResourceLink>;
@@ -21698,9 +20761,7 @@ export const AdaptiveTriggers = /*@__PURE__*/ S.suspend(() =>
     items: AdaptiveTriggersItemsList,
     totalCount: S.Number,
   }),
-).annotate({
-  identifier: "AdaptiveTriggers",
-}) as any as S.Schema<AdaptiveTriggers>;
+).annotate({ identifier: "AdaptiveTriggers" }) as any as S.Schema<AdaptiveTriggers>;
 
 export interface ListAgentGraphsRequest {
   projectKey: string;
@@ -21717,16 +20778,8 @@ export const ListAgentGraphsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/projects/{projectKey}/agent-graphs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListAgentGraphsRequest",
-}) as any as S.Schema<ListAgentGraphsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/agent-graphs", code: 200 })),
+).annotate({ identifier: "ListAgentGraphsRequest" }) as any as S.Schema<ListAgentGraphsRequest>;
 
 export type AgentGraphsItemsList = Array<AgentGraph>;
 export const AgentGraphsItemsList = /*@__PURE__*/ S.Array(
@@ -21784,49 +20837,37 @@ export type AgentOptimizationResultActivity =
   | "COMPLETED";
 export const AgentOptimizationResultActivity = S.String;
 
-export type AgentOptimizationResultParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type AgentOptimizationResultParametersMap = { [key: string]: unknown | undefined };
 export const AgentOptimizationResultParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<AgentOptimizationResultParametersMap>;
 
-export type AgentOptimizationResultVariationMap = {
-  [key: string]: unknown | undefined;
-};
+export type AgentOptimizationResultVariationMap = { [key: string]: unknown | undefined };
 export const AgentOptimizationResultVariationMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<AgentOptimizationResultVariationMap>;
 
-export type AgentOptimizationResultScoresMap = {
-  [key: string]: unknown | undefined;
-};
+export type AgentOptimizationResultScoresMap = { [key: string]: unknown | undefined };
 export const AgentOptimizationResultScoresMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<AgentOptimizationResultScoresMap>;
 
-export type AgentOptimizationResultGenerationTokensMap = {
-  [key: string]: unknown | undefined;
-};
+export type AgentOptimizationResultGenerationTokensMap = { [key: string]: unknown | undefined };
 export const AgentOptimizationResultGenerationTokensMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<AgentOptimizationResultGenerationTokensMap>;
 
-export type AgentOptimizationResultEvaluationTokensMap = {
-  [key: string]: unknown | undefined;
-};
+export type AgentOptimizationResultEvaluationTokensMap = { [key: string]: unknown | undefined };
 export const AgentOptimizationResultEvaluationTokensMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<AgentOptimizationResultEvaluationTokensMap>;
 
-export type AgentOptimizationResultEvaluationLatenciesMap = {
-  [key: string]: unknown | undefined;
-};
+export type AgentOptimizationResultEvaluationLatenciesMap = { [key: string]: unknown | undefined };
 export const AgentOptimizationResultEvaluationLatenciesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -21883,9 +20924,7 @@ export const AgentOptimizationResult = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.Number,
     updatedAt: S.Number,
   }),
-).annotate({
-  identifier: "AgentOptimizationResult",
-}) as any as S.Schema<AgentOptimizationResult>;
+).annotate({ identifier: "AgentOptimizationResult" }) as any as S.Schema<AgentOptimizationResult>;
 
 export type AgentOptimizationResultsItemsList = Array<AgentOptimizationResult>;
 export const AgentOptimizationResultsItemsList = /*@__PURE__*/ S.Array(
@@ -21903,9 +20942,7 @@ export const AgentOptimizationResults = /*@__PURE__*/ S.suspend(() =>
     items: AgentOptimizationResultsItemsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AgentOptimizationResults",
-}) as any as S.Schema<AgentOptimizationResults>;
+).annotate({ identifier: "AgentOptimizationResults" }) as any as S.Schema<AgentOptimizationResults>;
 
 export interface ListAgentOptimizationResultsByRunIdRequest {
   projectKey: string;
@@ -21974,9 +21011,7 @@ export const AgentOptimizationRun = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.Number,
     completedAt: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "AgentOptimizationRun",
-}) as any as S.Schema<AgentOptimizationRun>;
+).annotate({ identifier: "AgentOptimizationRun" }) as any as S.Schema<AgentOptimizationRun>;
 
 export type AgentOptimizationRunsItemsList = Array<AgentOptimizationRun>;
 export const AgentOptimizationRunsItemsList = /*@__PURE__*/ S.Array(
@@ -21994,9 +21029,7 @@ export const AgentOptimizationRuns = /*@__PURE__*/ S.suspend(() =>
     items: AgentOptimizationRunsItemsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AgentOptimizationRuns",
-}) as any as S.Schema<AgentOptimizationRuns>;
+).annotate({ identifier: "AgentOptimizationRuns" }) as any as S.Schema<AgentOptimizationRuns>;
 
 export interface ListAgentOptimizationsRequest {
   projectKey: string;
@@ -22014,11 +21047,7 @@ export const ListAgentOptimizationsRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/projects/{projectKey}/agent-optimizations",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/agent-optimizations", code: 200 }),
   ),
 ).annotate({
   identifier: "ListAgentOptimizationsRequest",
@@ -22040,9 +21069,7 @@ export const AgentOptimizations = /*@__PURE__*/ S.suspend(() =>
     items: AgentOptimizationsItemsList,
     totalCount: S.Number,
   }),
-).annotate({
-  identifier: "AgentOptimizations",
-}) as any as S.Schema<AgentOptimizations>;
+).annotate({ identifier: "AgentOptimizations" }) as any as S.Schema<AgentOptimizations>;
 
 export interface ListAgentSkillReferencesRequest {
   projectKey: string;
@@ -22093,9 +21120,7 @@ export const AgentSkillReference = /*@__PURE__*/ S.suspend(() =>
     variationName: S.String,
     resourceVersion: S.Number,
   }),
-).annotate({
-  identifier: "AgentSkillReference",
-}) as any as S.Schema<AgentSkillReference>;
+).annotate({ identifier: "AgentSkillReference" }) as any as S.Schema<AgentSkillReference>;
 
 export type AgentSkillReferencesItemsList = Array<AgentSkillReference>;
 export const AgentSkillReferencesItemsList = /*@__PURE__*/ S.Array(
@@ -22120,9 +21145,7 @@ export const AgentSkillReferences = /*@__PURE__*/ S.suspend(() =>
     items: AgentSkillReferencesItemsList,
     totalCount: S.Number,
   }),
-).annotate({
-  identifier: "AgentSkillReferences",
-}) as any as S.Schema<AgentSkillReferences>;
+).annotate({ identifier: "AgentSkillReferences" }) as any as S.Schema<AgentSkillReferences>;
 
 export interface ListAgentSkillsRequest {
   projectKey: string;
@@ -22140,15 +21163,9 @@ export const ListAgentSkillsRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/projects/{projectKey}/ai-configs/skills",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/ai-configs/skills", code: 200 }),
   ),
-).annotate({
-  identifier: "ListAgentSkillsRequest",
-}) as any as S.Schema<ListAgentSkillsRequest>;
+).annotate({ identifier: "ListAgentSkillsRequest" }) as any as S.Schema<ListAgentSkillsRequest>;
 
 export type AgentSkillsItemsList = Array<AgentSkill>;
 export const AgentSkillsItemsList = /*@__PURE__*/ S.Array(
@@ -22287,16 +21304,8 @@ export const ListAIToolsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v2/projects/{projectKey}/ai-tools",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListAIToolsRequest",
-}) as any as S.Schema<ListAIToolsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/ai-tools", code: 200 })),
+).annotate({ identifier: "ListAIToolsRequest" }) as any as S.Schema<ListAIToolsRequest>;
 
 export type AIToolsItemsList = Array<AITool>;
 export const AIToolsItemsList = /*@__PURE__*/ S.Array(AITool) as any as S.Schema<AIToolsItemsList>;
@@ -22389,9 +21398,7 @@ export const ListModelConfigsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListModelConfigsRequest",
-}) as any as S.Schema<ListModelConfigsRequest>;
+).annotate({ identifier: "ListModelConfigsRequest" }) as any as S.Schema<ListModelConfigsRequest>;
 
 export type ListModelConfigsResponseBodyList = Array<ModelConfig>;
 export const ListModelConfigsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -22401,9 +21408,7 @@ export const ListModelConfigsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListModelConfigsResponse = ListModelConfigsResponseBodyList;
 export const ListModelConfigsResponse = /*@__PURE__*/ S.suspend(() =>
   ListModelConfigsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListModelConfigsResponse",
-}) as any as S.Schema<ListModelConfigsResponse>;
+).annotate({ identifier: "ListModelConfigsResponse" }) as any as S.Schema<ListModelConfigsResponse>;
 
 export interface ListModelConfigVersionsRequest {
   projectKey: string;
@@ -22497,9 +21502,7 @@ export const SnippetReference = /*@__PURE__*/ S.suspend(() =>
     variationName: S.String,
     resourceVersion: S.Number,
   }),
-).annotate({
-  identifier: "SnippetReference",
-}) as any as S.Schema<SnippetReference>;
+).annotate({ identifier: "SnippetReference" }) as any as S.Schema<SnippetReference>;
 
 export type SnippetReferencesItemsList = Array<SnippetReference>;
 export const SnippetReferencesItemsList = /*@__PURE__*/ S.Array(
@@ -22524,9 +21527,7 @@ export const SnippetReferences = /*@__PURE__*/ S.suspend(() =>
     items: SnippetReferencesItemsList,
     totalCount: S.Number,
   }),
-).annotate({
-  identifier: "SnippetReferences",
-}) as any as S.Schema<SnippetReferences>;
+).annotate({ identifier: "SnippetReferences" }) as any as S.Schema<SnippetReferences>;
 
 export interface ListPromptSnippetsRequest {
   projectKey: string;
@@ -22661,9 +21662,7 @@ export const PatchAgentGraphRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PatchAgentGraphRequest",
-}) as any as S.Schema<PatchAgentGraphRequest>;
+).annotate({ identifier: "PatchAgentGraphRequest" }) as any as S.Schema<PatchAgentGraphRequest>;
 
 export type PatchAgentOptimizationRequestModelChoicesList = Array<string>;
 export const PatchAgentOptimizationRequestModelChoicesList = /*@__PURE__*/ S.Array(
@@ -22762,9 +21761,7 @@ export const PatchAgentOptimizationResultRequestVariationMap = /*@__PURE__*/ S.R
   S.Unknown,
 ) as any as S.Schema<PatchAgentOptimizationResultRequestVariationMap>;
 
-export type PatchAgentOptimizationResultRequestScoresMap = {
-  [key: string]: unknown | undefined;
-};
+export type PatchAgentOptimizationResultRequestScoresMap = { [key: string]: unknown | undefined };
 export const PatchAgentOptimizationResultRequestScoresMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -22868,9 +21865,7 @@ export const PatchAgentSkillRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PatchAgentSkillRequest",
-}) as any as S.Schema<PatchAgentSkillRequest>;
+).annotate({ identifier: "PatchAgentSkillRequest" }) as any as S.Schema<PatchAgentSkillRequest>;
 
 export type PatchAIConfigRequestTagsList = Array<string>;
 export const PatchAIConfigRequestTagsList = /*@__PURE__*/ S.Array(
@@ -22911,9 +21906,7 @@ export const PatchAIConfigRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PatchAIConfigRequest",
-}) as any as S.Schema<PatchAIConfigRequest>;
+).annotate({ identifier: "PatchAIConfigRequest" }) as any as S.Schema<PatchAIConfigRequest>;
 
 export type PatchAIConfigTargetingRequestInstructionsItemMap = {
   [key: string]: unknown | undefined;
@@ -22960,9 +21953,7 @@ export const PatchAIConfigVariationRequestMessagesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<PatchAIConfigVariationRequestMessagesList>;
 
 /** JSON Schema defining the structured output format for the variation. */
-export type PatchAIConfigVariationRequestOutputFormatMap = {
-  [key: string]: unknown | undefined;
-};
+export type PatchAIConfigVariationRequestOutputFormatMap = { [key: string]: unknown | undefined };
 export const PatchAIConfigVariationRequestOutputFormatMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -22979,9 +21970,7 @@ export const VariationToolPost = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     version: S.Number,
   }),
-).annotate({
-  identifier: "VariationToolPost",
-}) as any as S.Schema<VariationToolPost>;
+).annotate({ identifier: "VariationToolPost" }) as any as S.Schema<VariationToolPost>;
 
 /** List of tools to use for this variation. The latest version of the tool will be used. */
 export type PatchAIConfigVariationRequestToolsList = Array<VariationToolPost>;
@@ -23006,9 +21995,7 @@ export const VariationSkillPost = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     version: S.Number,
   }),
-).annotate({
-  identifier: "VariationSkillPost",
-}) as any as S.Schema<VariationSkillPost>;
+).annotate({ identifier: "VariationSkillPost" }) as any as S.Schema<VariationSkillPost>;
 
 /** List of agent skills to attach to this variation. Replaces the current attachments. */
 export type PatchAIConfigVariationRequestSkillsList = Array<VariationSkillPost>;
@@ -23104,15 +22091,9 @@ export const PatchAIToolRequest = /*@__PURE__*/ S.suspend(() =>
     customParameters: S.optional(S.Unknown),
     tags: S.optional(PatchAIToolRequestTagsList),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v2/projects/{projectKey}/ai-tools/{toolKey}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/v2/projects/{projectKey}/ai-tools/{toolKey}", code: 200 }),
   ),
-).annotate({
-  identifier: "PatchAIToolRequest",
-}) as any as S.Schema<PatchAIToolRequest>;
+).annotate({ identifier: "PatchAIToolRequest" }) as any as S.Schema<PatchAIToolRequest>;
 
 /** Require approval only on flags with the provided tags. Otherwise all flags will require approval. */
 export type PatchApprovalRequestSettingsRequestRequiredApprovalTagsList = Array<string>;
@@ -23248,16 +22229,8 @@ export const PatchCustomRoleRequest = /*@__PURE__*/ S.suspend(() =>
     customRoleKey: S.String.pipe(T.Label()),
     patch: JSONPatch,
     comment: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v2/roles/{customRoleKey}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PatchCustomRoleRequest",
-}) as any as S.Schema<PatchCustomRoleRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/roles/{customRoleKey}", code: 200 })),
+).annotate({ identifier: "PatchCustomRoleRequest" }) as any as S.Schema<PatchCustomRoleRequest>;
 
 export interface PatchEnvironmentRequest {
   /** The project key */
@@ -23278,9 +22251,7 @@ export const PatchEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PatchEnvironmentRequest",
-}) as any as S.Schema<PatchEnvironmentRequest>;
+).annotate({ identifier: "PatchEnvironmentRequest" }) as any as S.Schema<PatchEnvironmentRequest>;
 
 export interface PatchExperimentRequest {
   /** The project key */
@@ -23308,9 +22279,7 @@ export const PatchExperimentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PatchExperimentRequest",
-}) as any as S.Schema<PatchExperimentRequest>;
+).annotate({ identifier: "PatchExperimentRequest" }) as any as S.Schema<PatchExperimentRequest>;
 
 /** The instructions to perform when updating */
 export type PatchExpiringTargetsRequestInstructionsList = Array<Instruction>;
@@ -23355,9 +22324,7 @@ export const ExpiringTargetPatchResponseItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ExpiringTargetPatchResponseItemsList>;
 
 /** The location and content type of related resources */
-export type ExpiringTargetPatchResponseLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ExpiringTargetPatchResponseLinksMap = { [key: string]: Link | undefined };
 export const ExpiringTargetPatchResponseLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -23374,9 +22341,7 @@ export const ExpiringTargetError = /*@__PURE__*/ S.suspend(() =>
     instructionIndex: S.Number,
     message: S.String,
   }),
-).annotate({
-  identifier: "ExpiringTargetError",
-}) as any as S.Schema<ExpiringTargetError>;
+).annotate({ identifier: "ExpiringTargetError" }) as any as S.Schema<ExpiringTargetError>;
 
 export type ExpiringTargetPatchResponseErrorsList = Array<ExpiringTargetError>;
 export const ExpiringTargetPatchResponseErrorsList = /*@__PURE__*/ S.Array(
@@ -23524,9 +22489,7 @@ export const ExpiringUserTargetPatchResponseItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ExpiringUserTargetPatchResponseItemsList>;
 
 /** The location and content type of related resources */
-export type ExpiringUserTargetPatchResponseLinksMap = {
-  [key: string]: Link | undefined;
-};
+export type ExpiringUserTargetPatchResponseLinksMap = { [key: string]: Link | undefined };
 export const ExpiringUserTargetPatchResponseLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   Link,
@@ -23596,9 +22559,7 @@ export const PatchSegmentInstruction = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.Number),
     version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PatchSegmentInstruction",
-}) as any as S.Schema<PatchSegmentInstruction>;
+).annotate({ identifier: "PatchSegmentInstruction" }) as any as S.Schema<PatchSegmentInstruction>;
 
 /** Semantic patch instructions for the desired changes to the resource */
 export type PatchExpiringUserTargetsForSegmentRequestInstructionsList =
@@ -23660,15 +22621,9 @@ export const PatchFeatureFlagRequest = /*@__PURE__*/ S.suspend(() =>
     patch: JSONPatch,
     comment: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v2/flags/{projectKey}/{featureFlagKey}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/v2/flags/{projectKey}/{featureFlagKey}", code: 200 }),
   ),
-).annotate({
-  identifier: "PatchFeatureFlagRequest",
-}) as any as S.Schema<PatchFeatureFlagRequest>;
+).annotate({ identifier: "PatchFeatureFlagRequest" }) as any as S.Schema<PatchFeatureFlagRequest>;
 
 export interface PatchFlagConfigApprovalRequestRequest {
   /** The project key */
@@ -23743,11 +22698,7 @@ export const PatchFlagDefaultsByProjectRequest = /*@__PURE__*/ S.suspend(() =>
     projectKey: S.String.pipe(T.Label()),
     body: JSONPatch.pipe(T.HttpBody()),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v2/projects/{projectKey}/flag-defaults",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/v2/projects/{projectKey}/flag-defaults", code: 200 }),
   ),
 ).annotate({
   identifier: "PatchFlagDefaultsByProjectRequest",
@@ -23789,9 +22740,7 @@ export const BooleanFlagDefaults = /*@__PURE__*/ S.suspend(() =>
     onVariation: S.Number,
     offVariation: S.Number,
   }),
-).annotate({
-  identifier: "BooleanFlagDefaults",
-}) as any as S.Schema<BooleanFlagDefaults>;
+).annotate({ identifier: "BooleanFlagDefaults" }) as any as S.Schema<BooleanFlagDefaults>;
 
 export interface DefaultClientSideAvailability {
   /** Whether to enable availability for mobile SDKs */
@@ -23827,9 +22776,7 @@ export const UpsertPayloadRep = /*@__PURE__*/ S.suspend(() =>
     booleanDefaults: BooleanFlagDefaults,
     defaultClientSideAvailability: DefaultClientSideAvailability,
   }),
-).annotate({
-  identifier: "UpsertPayloadRep",
-}) as any as S.Schema<UpsertPayloadRep>;
+).annotate({ identifier: "UpsertPayloadRep" }) as any as S.Schema<UpsertPayloadRep>;
 
 export interface PatchFlagImportConfigurationRequest {
   /** The project key */
@@ -23883,9 +22830,7 @@ export const PatchHoldoutRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PatchHoldoutRequest",
-}) as any as S.Schema<PatchHoldoutRequest>;
+).annotate({ identifier: "PatchHoldoutRequest" }) as any as S.Schema<PatchHoldoutRequest>;
 
 export interface PatchInsightGroupRequest {
   /** The insight group key */
@@ -23903,9 +22848,7 @@ export const PatchInsightGroupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PatchInsightGroupRequest",
-}) as any as S.Schema<PatchInsightGroupRequest>;
+).annotate({ identifier: "PatchInsightGroupRequest" }) as any as S.Schema<PatchInsightGroupRequest>;
 
 export interface PatchIntegrationDeliveryConfigurationRequest {
   /** The project key */
@@ -23960,13 +22903,7 @@ export const PatchIpAllowlistEntryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     description: S.String,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v2/account/ip-allowlist/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/account/ip-allowlist/{id}", code: 200 })),
 ).annotate({
   identifier: "PatchIpAllowlistEntryRequest",
 }) as any as S.Schema<PatchIpAllowlistEntryRequest>;
@@ -23983,16 +22920,8 @@ export const PatchMetricRequest = /*@__PURE__*/ S.suspend(() =>
     projectKey: S.String.pipe(T.Label()),
     metricKey: S.String.pipe(T.Label()),
     body: JSONPatch.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v2/metrics/{projectKey}/{metricKey}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PatchMetricRequest",
-}) as any as S.Schema<PatchMetricRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/metrics/{projectKey}/{metricKey}", code: 200 })),
+).annotate({ identifier: "PatchMetricRequest" }) as any as S.Schema<PatchMetricRequest>;
 
 export interface PatchMetricGroupRequest {
   /** The project key */
@@ -24013,9 +22942,7 @@ export const PatchMetricGroupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PatchMetricGroupRequest",
-}) as any as S.Schema<PatchMetricGroupRequest>;
+).annotate({ identifier: "PatchMetricGroupRequest" }) as any as S.Schema<PatchMetricGroupRequest>;
 
 export type PatchModelConfigRequestTagsList = Array<string>;
 export const PatchModelConfigRequestTagsList = /*@__PURE__*/ S.Array(
@@ -24065,9 +22992,7 @@ export const PatchModelConfigRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PatchModelConfigRequest",
-}) as any as S.Schema<PatchModelConfigRequest>;
+).annotate({ identifier: "PatchModelConfigRequest" }) as any as S.Schema<PatchModelConfigRequest>;
 
 export interface PatchOAuthClientRequest {
   /** The client ID */
@@ -24078,16 +23003,8 @@ export const PatchOAuthClientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientId: S.String.pipe(T.Label()),
     body: JSONPatch.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v2/oauth/clients/{clientId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PatchOAuthClientRequest",
-}) as any as S.Schema<PatchOAuthClientRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/oauth/clients/{clientId}", code: 200 })),
+).annotate({ identifier: "PatchOAuthClientRequest" }) as any as S.Schema<PatchOAuthClientRequest>;
 
 export type PatchPromptSnippetRequestTagsList = Array<string>;
 export const PatchPromptSnippetRequestTagsList = /*@__PURE__*/ S.Array(
@@ -24139,13 +23056,7 @@ export const PatchRelayAutoConfigRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     patch: JSONPatch,
     comment: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v2/account/relay-auto-configs/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/account/relay-auto-configs/{id}", code: 200 })),
 ).annotate({
   identifier: "PatchRelayAutoConfigRequest",
 }) as any as S.Schema<PatchRelayAutoConfigRequest>;
@@ -24163,11 +23074,7 @@ export const PatchReleaseByFlagKeyRequest = /*@__PURE__*/ S.suspend(() =>
     flagKey: S.String.pipe(T.Label()),
     body: JSONPatch.pipe(T.HttpBody()),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v2/flags/{projectKey}/{flagKey}/release",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/v2/flags/{projectKey}/{flagKey}/release", code: 200 }),
   ),
 ).annotate({
   identifier: "PatchReleaseByFlagKeyRequest",
@@ -24182,16 +23089,8 @@ export const PatchRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     repo: S.String.pipe(T.Label()),
     body: JSONPatch.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v2/code-refs/repositories/{repo}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PatchRepositoryRequest",
-}) as any as S.Schema<PatchRepositoryRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/code-refs/repositories/{repo}", code: 200 })),
+).annotate({ identifier: "PatchRepositoryRequest" }) as any as S.Schema<PatchRepositoryRequest>;
 
 export interface PatchSdkKeyByKeyRequest {
   projectKey: string;
@@ -24222,9 +23121,7 @@ export const PatchSdkKeyByKeyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PatchSdkKeyByKeyRequest",
-}) as any as S.Schema<PatchSdkKeyByKeyRequest>;
+).annotate({ identifier: "PatchSdkKeyByKeyRequest" }) as any as S.Schema<PatchSdkKeyByKeyRequest>;
 
 /** The instructions to perform when updating. This should be an array with objects that look like <code>{"kind": "trigger_action"}</code>. */
 export type PatchTriggerWorkflowRequestInstructionsList = Array<Instruction>;
@@ -24331,16 +23228,8 @@ export const PostAgentGraphRequest = /*@__PURE__*/ S.suspend(() =>
     maintainerTeamKey: S.optional(S.String),
     rootConfigKey: S.optional(S.String),
     edges: S.optional(PostAgentGraphRequestEdgesList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/projects/{projectKey}/agent-graphs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PostAgentGraphRequest",
-}) as any as S.Schema<PostAgentGraphRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/agent-graphs", code: 200 })),
+).annotate({ identifier: "PostAgentGraphRequest" }) as any as S.Schema<PostAgentGraphRequest>;
 
 export type PostAgentOptimizationRequestModelChoicesList = Array<string>;
 export const PostAgentOptimizationRequestModelChoicesList = /*@__PURE__*/ S.Array(
@@ -24423,11 +23312,7 @@ export const PostAgentOptimizationRequest = /*@__PURE__*/ S.suspend(() =>
     tokenOptimization: S.optional(S.Boolean),
     autoCommit: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/projects/{projectKey}/agent-optimizations",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/agent-optimizations", code: 200 }),
   ),
 ).annotate({
   identifier: "PostAgentOptimizationRequest",
@@ -24499,15 +23384,9 @@ export const PostAgentSkillRequest = /*@__PURE__*/ S.suspend(() =>
     maintainerTeamKey: S.optional(S.String),
     tags: S.optional(PostAgentSkillRequestTagsList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/projects/{projectKey}/ai-configs/skills",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/ai-configs/skills", code: 200 }),
   ),
-).annotate({
-  identifier: "PostAgentSkillRequest",
-}) as any as S.Schema<PostAgentSkillRequest>;
+).annotate({ identifier: "PostAgentSkillRequest" }) as any as S.Schema<PostAgentSkillRequest>;
 
 export type PostAIConfigRequestMode = "agent" | "completion" | "judge";
 export const PostAIConfigRequestMode = S.String;
@@ -24528,9 +23407,7 @@ export const AIConfigVariationPostMessagesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AIConfigVariationPostMessagesList>;
 
 /** JSON Schema defining the structured output format for the variation. */
-export type AIConfigVariationPostOutputFormatMap = {
-  [key: string]: unknown | undefined;
-};
+export type AIConfigVariationPostOutputFormatMap = { [key: string]: unknown | undefined };
 export const AIConfigVariationPostOutputFormatMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -24595,9 +23472,7 @@ export const AIConfigVariationPost = /*@__PURE__*/ S.suspend(() =>
     skills: S.optional(AIConfigVariationPostSkillsList),
     judgeConfiguration: S.optional(JudgeConfiguration),
   }),
-).annotate({
-  identifier: "AIConfigVariationPost",
-}) as any as S.Schema<AIConfigVariationPost>;
+).annotate({ identifier: "AIConfigVariationPost" }) as any as S.Schema<AIConfigVariationPost>;
 
 export interface PostAIConfigRequest {
   projectKey: string;
@@ -24629,16 +23504,8 @@ export const PostAIConfigRequest = /*@__PURE__*/ S.suspend(() =>
     defaultVariation: S.optional(AIConfigVariationPost),
     evaluationMetricKey: S.optional(S.String),
     isInverted: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/projects/{projectKey}/ai-configs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PostAIConfigRequest",
-}) as any as S.Schema<PostAIConfigRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/ai-configs", code: 200 })),
+).annotate({ identifier: "PostAIConfigRequest" }) as any as S.Schema<PostAIConfigRequest>;
 
 export type PostAIConfigVariationRequestMessagesList = Array<Message>;
 export const PostAIConfigVariationRequestMessagesList = /*@__PURE__*/ S.Array(
@@ -24646,9 +23513,7 @@ export const PostAIConfigVariationRequestMessagesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<PostAIConfigVariationRequestMessagesList>;
 
 /** JSON Schema defining the structured output format for the variation. */
-export type PostAIConfigVariationRequestOutputFormatMap = {
-  [key: string]: unknown | undefined;
-};
+export type PostAIConfigVariationRequestOutputFormatMap = { [key: string]: unknown | undefined };
 export const PostAIConfigVariationRequestOutputFormatMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -24754,16 +23619,8 @@ export const PostAIToolRequest = /*@__PURE__*/ S.suspend(() =>
     schema: S.Unknown,
     customParameters: S.optional(S.Unknown),
     tags: S.optional(PostAIToolRequestTagsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/projects/{projectKey}/ai-tools",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PostAIToolRequest",
-}) as any as S.Schema<PostAIToolRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/ai-tools", code: 200 })),
+).annotate({ identifier: "PostAIToolRequest" }) as any as S.Schema<PostAIToolRequest>;
 
 export interface PostApprovalRequestApplyForFlagRequest {
   /** The project key */
@@ -24974,9 +23831,7 @@ export const CountBucketsResult = /*@__PURE__*/ S.suspend(() =>
     totalCount: S.Number,
     bucketIntervalMs: S.Number,
   }),
-).annotate({
-  identifier: "CountBucketsResult",
-}) as any as S.Schema<CountBucketsResult>;
+).annotate({ identifier: "CountBucketsResult" }) as any as S.Schema<CountBucketsResult>;
 
 export interface PostCompleteWarehouseDestinationSetupRequest {
   /** The project key */
@@ -25027,9 +23882,7 @@ export const PostCustomRoleRequest = /*@__PURE__*/ S.suspend(() =>
     basePermissions: S.optional(S.String),
     resourceCategory: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/api/v2/roles", code: 200 })),
-).annotate({
-  identifier: "PostCustomRoleRequest",
-}) as any as S.Schema<PostCustomRoleRequest>;
+).annotate({ identifier: "PostCustomRoleRequest" }) as any as S.Schema<PostCustomRoleRequest>;
 
 export interface PostDisableAdaptiveTriggerRequest {
   projectKey: string;
@@ -25106,7 +23959,7 @@ export interface PostEnvironmentRequest {
   defaultTtl?: number;
   /** Ensures that one end user of the client-side SDK cannot inspect the variations for another end user */
   secureMode?: boolean;
-  /** Enables tracking detailed information for new flags by default */
+  /** The initial value of trackEvents for flags created in this environment. Does not affect existing flags. Required for Data Export, but doesn't enable Data Export on its own. */
   defaultTrackEvents?: boolean;
   /** Requires confirmation for all flag and segment changes via the UI in this environment */
   confirmChanges?: boolean;
@@ -25133,16 +23986,8 @@ export const PostEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(PostEnvironmentRequestTagsList),
     source: S.optional(SourceEnv),
     critical: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/projects/{projectKey}/environments",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PostEnvironmentRequest",
-}) as any as S.Schema<PostEnvironmentRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/environments", code: 200 })),
+).annotate({ identifier: "PostEnvironmentRequest" }) as any as S.Schema<PostEnvironmentRequest>;
 
 export type ExtinctionListPost = Array<Extinction>;
 export const ExtinctionListPost = /*@__PURE__*/ S.Array(
@@ -25168,9 +24013,7 @@ export const PostExtinctionRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PostExtinctionRequest",
-}) as any as S.Schema<PostExtinctionRequest>;
+).annotate({ identifier: "PostExtinctionRequest" }) as any as S.Schema<PostExtinctionRequest>;
 
 export interface PostExtinctionResponse {}
 export const PostExtinctionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -25218,9 +24061,7 @@ export const MigrationSettingsPost = /*@__PURE__*/ S.suspend(() =>
     contextKind: S.optional(S.String),
     stageCount: S.Number,
   }),
-).annotate({
-  identifier: "MigrationSettingsPost",
-}) as any as S.Schema<MigrationSettingsPost>;
+).annotate({ identifier: "MigrationSettingsPost" }) as any as S.Schema<MigrationSettingsPost>;
 
 export interface FlagPrerequisitePost {
   /** Flag key of the prerequisite flag */
@@ -25233,9 +24074,7 @@ export const FlagPrerequisitePost = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     variationId: S.String,
   }),
-).annotate({
-  identifier: "FlagPrerequisitePost",
-}) as any as S.Schema<FlagPrerequisitePost>;
+).annotate({ identifier: "FlagPrerequisitePost" }) as any as S.Schema<FlagPrerequisitePost>;
 
 /** Initial set of prerequisite flags for all environments */
 export type PostFeatureFlagRequestInitialPrerequisitesList = Array<FlagPrerequisitePost>;
@@ -25302,9 +24141,7 @@ export const PostFeatureFlagRequest = /*@__PURE__*/ S.suspend(() =>
     initialPrerequisites: S.optional(PostFeatureFlagRequestInitialPrerequisitesList),
     isFlagOn: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/api/v2/flags/{projectKey}", code: 200 })),
-).annotate({
-  identifier: "PostFeatureFlagRequest",
-}) as any as S.Schema<PostFeatureFlagRequest>;
+).annotate({ identifier: "PostFeatureFlagRequest" }) as any as S.Schema<PostFeatureFlagRequest>;
 
 export interface PostFlagConfigScheduledChangesRequest {
   /** The project key */
@@ -25527,9 +24364,7 @@ export const TrustPolicyStatement = /*@__PURE__*/ S.suspend(() =>
     Principal: S.optional(S.Unknown),
     Condition: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "TrustPolicyStatement",
-}) as any as S.Schema<TrustPolicyStatement>;
+).annotate({ identifier: "TrustPolicyStatement" }) as any as S.Schema<TrustPolicyStatement>;
 
 /** The statements of the trust policy */
 export type TrustPolicyDetailsStatementList = Array<TrustPolicyStatement>;
@@ -25548,9 +24383,7 @@ export const TrustPolicyDetails = /*@__PURE__*/ S.suspend(() =>
     Version: S.optional(S.String),
     Statement: S.optional(TrustPolicyDetailsStatementList),
   }),
-).annotate({
-  identifier: "TrustPolicyDetails",
-}) as any as S.Schema<TrustPolicyDetails>;
+).annotate({ identifier: "TrustPolicyDetails" }) as any as S.Schema<TrustPolicyDetails>;
 
 export interface GenerateTrustPolicyPostRep {
   /** The AWS trust policy */
@@ -25725,9 +24558,7 @@ export const PostHoldoutRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PostHoldoutRequest",
-}) as any as S.Schema<PostHoldoutRequest>;
+).annotate({ identifier: "PostHoldoutRequest" }) as any as S.Schema<PostHoldoutRequest>;
 
 /** The kind of event your metric will track */
 export type PostMetricRequestKind = "pageview" | "click" | "custom" | "trace";
@@ -25855,9 +24686,7 @@ export const DenominatorPost = /*@__PURE__*/ S.suspend(() =>
     winsorUpperPercentile: S.optional(S.Number),
     winsorIncludeImputed: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DenominatorPost",
-}) as any as S.Schema<DenominatorPost>;
+).annotate({ identifier: "DenominatorPost" }) as any as S.Schema<DenominatorPost>;
 
 export interface PostMetricRequest {
   /** The project key */
@@ -25955,9 +24784,7 @@ export const PostMetricRequest = /*@__PURE__*/ S.suspend(() =>
     valueColumn: S.optional(S.String),
     denominator: S.optional(DenominatorPost),
   }).pipe(T.Http({ method: "POST", uri: "/api/v2/metrics/{projectKey}", code: 200 })),
-).annotate({
-  identifier: "PostMetricRequest",
-}) as any as S.Schema<PostMetricRequest>;
+).annotate({ identifier: "PostMetricRequest" }) as any as S.Schema<PostMetricRequest>;
 
 export interface PostMigrationSafetyIssuesRequest {
   /** The project key */
@@ -26011,9 +24838,7 @@ export const MigrationSafetyIssueRep = /*@__PURE__*/ S.suspend(() =>
     issue: S.optional(S.String),
     oldSystemAffected: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MigrationSafetyIssueRep",
-}) as any as S.Schema<MigrationSafetyIssueRep>;
+).annotate({ identifier: "MigrationSafetyIssueRep" }) as any as S.Schema<MigrationSafetyIssueRep>;
 
 export type PostMigrationSafetyIssuesResponseBodyList = Array<MigrationSafetyIssueRep>;
 export const PostMigrationSafetyIssuesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -26079,9 +24904,7 @@ export const PostModelConfigRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PostModelConfigRequest",
-}) as any as S.Schema<PostModelConfigRequest>;
+).annotate({ identifier: "PostModelConfigRequest" }) as any as S.Schema<PostModelConfigRequest>;
 
 export type PostPromptSnippetRequestTagsList = Array<string>;
 export const PostPromptSnippetRequestTagsList = /*@__PURE__*/ S.Array(
@@ -26116,9 +24939,7 @@ export const PostPromptSnippetRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PostPromptSnippetRequest",
-}) as any as S.Schema<PostPromptSnippetRequest>;
+).annotate({ identifier: "PostPromptSnippetRequest" }) as any as S.Schema<PostPromptSnippetRequest>;
 
 /** A description of what environments and projects the Relay Proxy should include or exclude. To learn more, read [Write an inline policy](https://launchdarkly.com/docs/sdk/relay-proxy/automatic-configuration#write-an-inline-policy). */
 export type PostRelayAutoConfigRequestPolicyList = Array<Statement>;
@@ -26136,13 +24957,7 @@ export const PostRelayAutoConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     policy: PostRelayAutoConfigRequestPolicyList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/account/relay-auto-configs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v2/account/relay-auto-configs", code: 200 })),
 ).annotate({
   identifier: "PostRelayAutoConfigRequest",
 }) as any as S.Schema<PostRelayAutoConfigRequest>;
@@ -26192,9 +25007,7 @@ export const CreatePhaseInput = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     configuration: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "CreatePhaseInput",
-}) as any as S.Schema<CreatePhaseInput>;
+).annotate({ identifier: "CreatePhaseInput" }) as any as S.Schema<CreatePhaseInput>;
 
 /** A logical grouping of one or more environments that share attributes for rolling out changes */
 export type PostReleasePipelineRequestPhasesList = Array<CreatePhaseInput>;
@@ -26237,11 +25050,7 @@ export const PostReleasePipelineRequest = /*@__PURE__*/ S.suspend(() =>
     isProjectDefault: S.optional(S.Boolean),
     isLegacy: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/projects/{projectKey}/release-pipelines",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/release-pipelines", code: 200 }),
   ),
 ).annotate({
   identifier: "PostReleasePipelineRequest",
@@ -26307,15 +25116,9 @@ export const PostReleasePolicyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     key: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/projects/{projectKey}/release-policies",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/release-policies", code: 200 }),
   ),
-).annotate({
-  identifier: "PostReleasePolicyRequest",
-}) as any as S.Schema<PostReleasePolicyRequest>;
+).annotate({ identifier: "PostReleasePolicyRequest" }) as any as S.Schema<PostReleasePolicyRequest>;
 
 /** The type of repository. If not specified, the default value is <code>custom</code>. */
 export type PostRepositoryRequestType = "bitbucket" | "custom" | "github" | "gitlab";
@@ -26343,16 +25146,8 @@ export const PostRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
     hunkUrlTemplate: S.optional(S.String),
     type: S.optional(PostRepositoryRequestType),
     defaultBranch: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/code-refs/repositories",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PostRepositoryRequest",
-}) as any as S.Schema<PostRepositoryRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v2/code-refs/repositories", code: 200 })),
+).annotate({ identifier: "PostRepositoryRequest" }) as any as S.Schema<PostRepositoryRequest>;
 
 export type PostRestrictedModelsRequestKeysList = Array<string>;
 export const PostRestrictedModelsRequestKeysList = /*@__PURE__*/ S.Array(
@@ -26394,9 +25189,7 @@ export const RestrictedModelError = /*@__PURE__*/ S.suspend(() =>
     message: S.String,
     code: S.Number,
   }),
-).annotate({
-  identifier: "RestrictedModelError",
-}) as any as S.Schema<RestrictedModelError>;
+).annotate({ identifier: "RestrictedModelError" }) as any as S.Schema<RestrictedModelError>;
 
 export type RestrictedModelsResponseErrorsList = Array<RestrictedModelError>;
 export const RestrictedModelsResponseErrorsList = /*@__PURE__*/ S.Array(
@@ -26412,13 +25205,17 @@ export const RestrictedModelsResponse = /*@__PURE__*/ S.suspend(() =>
     successes: RestrictedModelsResponseSuccessesList,
     errors: RestrictedModelsResponseErrorsList,
   }),
-).annotate({
-  identifier: "RestrictedModelsResponse",
-}) as any as S.Schema<RestrictedModelsResponse>;
+).annotate({ identifier: "RestrictedModelsResponse" }) as any as S.Schema<RestrictedModelsResponse>;
 
 /** The kind of SDK key. Can be either "sdk" (server-side) or "mobile" (mobile). Defaults to "sdk" when not explicitly defined. */
 export type PostSdkKeyRequestKind = "sdk" | "mobile";
 export const PostSdkKeyRequestKind = S.String;
+
+/** List of view keys to associate with the SDK key. */
+export type PostSdkKeyRequestViewKeysList = Array<string>;
+export const PostSdkKeyRequestViewKeysList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PostSdkKeyRequestViewKeysList>;
 
 export interface PostSdkKeyRequest {
   projectKey: string;
@@ -26432,6 +25229,8 @@ export interface PostSdkKeyRequest {
   /** The optional description of the SDK key. */
   description?: string;
   expiry?: number;
+  /** List of view keys to associate with the SDK key. */
+  viewKeys?: PostSdkKeyRequestViewKeysList;
 }
 export const PostSdkKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -26442,6 +25241,7 @@ export const PostSdkKeyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     description: S.optional(S.String),
     expiry: S.optional(S.Number),
+    viewKeys: S.optional(PostSdkKeyRequestViewKeysList),
   }).pipe(
     T.Http({
       method: "POST",
@@ -26449,9 +25249,7 @@ export const PostSdkKeyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PostSdkKeyRequest",
-}) as any as S.Schema<PostSdkKeyRequest>;
+).annotate({ identifier: "PostSdkKeyRequest" }) as any as S.Schema<PostSdkKeyRequest>;
 
 /** A list of the workflow stages */
 export type PostWorkflowRequestStagesList = Array<StageInput>;
@@ -26497,9 +25295,7 @@ export const PostWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PostWorkflowRequest",
-}) as any as S.Schema<PostWorkflowRequest>;
+).annotate({ identifier: "PostWorkflowRequest" }) as any as S.Schema<PostWorkflowRequest>;
 
 /** An array of flag references found on the branch */
 export type PutBranchRequestReferencesList = Array<ReferenceRep>;
@@ -26542,9 +25338,7 @@ export const PutBranchRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PutBranchRequest",
-}) as any as S.Schema<PutBranchRequest>;
+).annotate({ identifier: "PutBranchRequest" }) as any as S.Schema<PutBranchRequest>;
 
 export interface PutBranchResponse {}
 export const PutBranchResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -26618,15 +25412,9 @@ export const PutContextKindRequest = /*@__PURE__*/ S.suspend(() =>
     archived: S.optional(S.Boolean),
     version: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v2/projects/{projectKey}/context-kinds/{key}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/v2/projects/{projectKey}/context-kinds/{key}", code: 200 }),
   ),
-).annotate({
-  identifier: "PutContextKindRequest",
-}) as any as S.Schema<PutContextKindRequest>;
+).annotate({ identifier: "PutContextKindRequest" }) as any as S.Schema<PutContextKindRequest>;
 
 /** The location and content type of related resources */
 export type UpsertResponseRepLinksMap = { [key: string]: Link | undefined };
@@ -26646,9 +25434,7 @@ export const UpsertResponseRep = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     _links: S.optional(UpsertResponseRepLinksMap),
   }),
-).annotate({
-  identifier: "UpsertResponseRep",
-}) as any as S.Schema<UpsertResponseRep>;
+).annotate({ identifier: "UpsertResponseRep" }) as any as S.Schema<UpsertResponseRep>;
 
 export interface RandomizationUnitInput {
   /** The unit of randomization. Must match the key of an existing context kind in this project. */
@@ -26664,9 +25450,7 @@ export const RandomizationUnitInput = /*@__PURE__*/ S.suspend(() =>
     default: S.optional(S.Boolean),
     standardRandomizationUnit: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RandomizationUnitInput",
-}) as any as S.Schema<RandomizationUnitInput>;
+).annotate({ identifier: "RandomizationUnitInput" }) as any as S.Schema<RandomizationUnitInput>;
 
 /** An array of randomization units allowed for this project. */
 export type PutExperimentationSettingsRequestRandomizationUnitsList = Array<RandomizationUnitInput>;
@@ -26719,13 +25503,7 @@ export const PutFlagDefaultsByProjectRequest = /*@__PURE__*/ S.suspend(() =>
     temporary: S.Boolean,
     booleanDefaults: BooleanFlagDefaults,
     defaultClientSideAvailability: DefaultClientSideAvailability,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v2/projects/{projectKey}/flag-defaults",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v2/projects/{projectKey}/flag-defaults", code: 200 })),
 ).annotate({
   identifier: "PutFlagDefaultsByProjectRequest",
 }) as any as S.Schema<PutFlagDefaultsByProjectRequest>;
@@ -26753,9 +25531,7 @@ export const PutFlagFollowerRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PutFlagFollowerRequest",
-}) as any as S.Schema<PutFlagFollowerRequest>;
+).annotate({ identifier: "PutFlagFollowerRequest" }) as any as S.Schema<PutFlagFollowerRequest>;
 
 export interface PutFlagFollowerResponse {}
 export const PutFlagFollowerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -26835,9 +25611,85 @@ export const PutReleasePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PutReleasePolicyRequest",
-}) as any as S.Schema<PutReleasePolicyRequest>;
+).annotate({ identifier: "PutReleasePolicyRequest" }) as any as S.Schema<PutReleasePolicyRequest>;
+
+/** The complete target list of view keys to associate with this SDK key. An empty array removes all views from the SDK key. */
+export type PutSdkKeyViewsRequestViewKeysList = Array<string>;
+export const PutSdkKeyViewsRequestViewKeysList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PutSdkKeyViewsRequestViewKeysList>;
+
+export interface PutSdkKeyViewsRequest {
+  projectKey: string;
+  environmentKey: string;
+  sdkKeyKey: string;
+  /** A comma-separated list of fields to expand in the response. Supported fields: `viewSummaries`. */
+  expand?: string;
+  /** The complete target list of view keys to associate with this SDK key. An empty array removes all views from the SDK key. */
+  viewKeys: PutSdkKeyViewsRequestViewKeysList;
+}
+export const PutSdkKeyViewsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    projectKey: S.String.pipe(T.Label()),
+    environmentKey: S.String.pipe(T.Label()),
+    sdkKeyKey: S.String.pipe(T.Label()),
+    expand: S.optional(S.String.pipe(T.Query())),
+    viewKeys: PutSdkKeyViewsRequestViewKeysList,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/api/v2/projects/{projectKey}/environments/{environmentKey}/sdk-keys/{sdkKeyKey}/views",
+      code: 200,
+    }),
+  ),
+).annotate({ identifier: "PutSdkKeyViewsRequest" }) as any as S.Schema<PutSdkKeyViewsRequest>;
+
+/** Summaries of views associated with the SDK key. */
+export type PutSdkKeyViewsResponseViewSummariesList = Array<ViewSummary>;
+export const PutSdkKeyViewsResponseViewSummariesList = /*@__PURE__*/ S.Array(
+  ViewSummary,
+) as any as S.Schema<PutSdkKeyViewsResponseViewSummariesList>;
+
+export interface PutSdkKeyViewsResponse {
+  _links?: ParentAndSelfLinks;
+  kind: SdkKeyKind;
+  /** The user-defined identifying key of the SDK key. This is used solely to identify an SDK key and is distinct from the value field, which is the actual SDK key value. */
+  key: string;
+  /** The human-readable name of the SDK key. */
+  name: string;
+  /** The optional description of the SDK key. */
+  description?: string;
+  expiry?: number;
+  /** The string value of the SDK key. Use this when configuring your SDK. */
+  value: string;
+  /** Indicates if this SDK key is the system-defined default for the environment. There may also be an expiring default SDK key for the environment (not possible with mobile keys). */
+  isDefault: boolean;
+  /** The ID of the member who created the SDK key. This field is immutable. */
+  _createdByMemberId?: string;
+  _createdAt: number;
+  _updatedAt: number;
+  /** The auto-incremented version number of the SDK key. */
+  _version: number;
+  /** Summaries of views associated with the SDK key. */
+  viewSummaries?: PutSdkKeyViewsResponseViewSummariesList;
+}
+export const PutSdkKeyViewsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _links: S.optional(ParentAndSelfLinks),
+    kind: SdkKeyKind,
+    key: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    expiry: S.optional(S.Number),
+    value: S.String,
+    isDefault: S.Boolean,
+    _createdByMemberId: S.optional(S.String),
+    _createdAt: S.Number,
+    _updatedAt: S.Number,
+    _version: S.Number,
+    viewSummaries: S.optional(PutSdkKeyViewsResponseViewSummariesList),
+  }),
+).annotate({ identifier: "PutSdkKeyViewsResponse" }) as any as S.Schema<PutSdkKeyViewsResponse>;
 
 export interface ResetEnvironmentMobileKeyRequest {
   /** The project key */
@@ -26895,51 +25747,11 @@ export const ResetRelayAutoConfigRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     expiry: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/account/relay-auto-configs/{id}/reset",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v2/account/relay-auto-configs/{id}/reset", code: 200 }),
   ),
 ).annotate({
   identifier: "ResetRelayAutoConfigRequest",
 }) as any as S.Schema<ResetRelayAutoConfigRequest>;
-
-export interface SearchContextInstancesRequest {
-  /** The project key */
-  projectKey: string;
-  /** The environment key */
-  environmentKey: string;
-  /** Specifies the maximum number of items in the collection to return (max: 50, default: 20) */
-  limit?: number;
-  /** Limits results to context instances with sort values after the value specified. You can use this for pagination, however, we recommend using the `next` link we provide instead. */
-  continuationToken?: string;
-  /** Specifies a field by which to sort. LaunchDarkly supports sorting by timestamp in ascending order by specifying `ts` for this value, or descending order by specifying `-ts`. */
-  sort?: string;
-  /** A comma-separated list of context filters. This endpoint only accepts an `applicationId` filter. To learn more about the filter syntax, read [Filtering contexts and context instances](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts-and-context-instances). */
-  filter?: string;
-  /** Specifies whether to include or omit the total count of matching context instances. Defaults to true. */
-  includeTotalCount?: boolean;
-}
-export const SearchContextInstancesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectKey: S.String.pipe(T.Label()),
-    environmentKey: S.String.pipe(T.Label()),
-    limit: S.optional(S.Number.pipe(T.Query())),
-    continuationToken: S.optional(S.String.pipe(T.Query())),
-    sort: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    includeTotalCount: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/projects/{projectKey}/environments/{environmentKey}/context-instances/search",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SearchContextInstancesRequest",
-}) as any as S.Schema<SearchContextInstancesRequest>;
 
 export interface SearchContextsRequest {
   /** The project key */
@@ -26948,13 +25760,13 @@ export interface SearchContextsRequest {
   environmentKey: string;
   /** Specifies the maximum number of items in the collection to return (max: 50, default: 20) */
   limit?: number;
-  /** Limits results to contexts with sort values after the value specified. You can use this for pagination, however, we recommend using the `next` link we provide instead. */
+  /** An opaque cursor that identifies the next page of results. You can use this for pagination, however, we recommend using the `next` link we provide instead. */
   continuationToken?: string;
-  /** Specifies a field by which to sort. LaunchDarkly supports sorting by timestamp in ascending order by specifying `ts` for this value, or descending order by specifying `-ts`. */
+  /** Deprecated. This endpoint does not support sorting. Requests that include this parameter are rejected with a `400` response, so omit it. Results are always sorted by context kind and key. */
   sort?: string;
-  /** A comma-separated list of context filters. To learn more about the filter syntax, read [Filtering contexts and context instances](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts-and-context-instances). */
+  /** A comma-separated list of context filters. To learn more about the filter syntax, read [Filtering contexts](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts). */
   filter?: string;
-  /** Specifies whether to include or omit the total count of matching contexts. Defaults to true. */
+  /** Specifies whether to include or omit the total count of matching contexts. Defaults to true. The total count is approximate and may be omitted if it is unavailable. */
   includeTotalCount?: boolean;
 }
 export const SearchContextsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -26973,9 +25785,7 @@ export const SearchContextsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "SearchContextsRequest",
-}) as any as S.Schema<SearchContextsRequest>;
+).annotate({ identifier: "SearchContextsRequest" }) as any as S.Schema<SearchContextsRequest>;
 
 export interface TriggerFlagImportJobRequest {
   /** The project key */
@@ -27028,9 +25838,7 @@ export const UnlinkResourceRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UnlinkResourceRequest",
-}) as any as S.Schema<UnlinkResourceRequest>;
+).annotate({ identifier: "UnlinkResourceRequest" }) as any as S.Schema<UnlinkResourceRequest>;
 
 /** Details of resources that failed to unlink. */
 export type UnlinkResourceSuccessResponseFailedResourcesList = Array<FailedResourceLink>;
@@ -27072,13 +25880,7 @@ export const UpdateAnnouncementPublicRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     announcementId: S.String.pipe(T.Label()),
     body: AnnouncementJSONPatch.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v2/announcements/{announcementId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/announcements/{announcementId}", code: 200 })),
 ).annotate({
   identifier: "UpdateAnnouncementPublicRequest",
 }) as any as S.Schema<UpdateAnnouncementPublicRequest>;
@@ -27092,16 +25894,8 @@ export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationKey: S.String.pipe(T.Label()),
     body: JSONPatch.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v2/applications/{applicationKey}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateApplicationRequest",
-}) as any as S.Schema<UpdateApplicationRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/applications/{applicationKey}", code: 200 })),
+).annotate({ identifier: "UpdateApplicationRequest" }) as any as S.Schema<UpdateApplicationRequest>;
 
 export interface UpdateApplicationVersionRequest {
   /** The application key */
@@ -27139,13 +25933,7 @@ export const UpdateApprovalRequestRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     comment: S.optional(S.String),
     instructions: Instructions,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v2/approval-requests/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/approval-requests/{id}", code: 200 })),
 ).annotate({
   identifier: "UpdateApprovalRequestRequest",
 }) as any as S.Schema<UpdateApprovalRequestRequest>;
@@ -27169,9 +25957,7 @@ export const SegmentUserList = /*@__PURE__*/ S.suspend(() =>
     add: S.optional(SegmentUserListAddList),
     remove: S.optional(SegmentUserListRemoveList),
   }),
-).annotate({
-  identifier: "SegmentUserList",
-}) as any as S.Schema<SegmentUserList>;
+).annotate({ identifier: "SegmentUserList" }) as any as S.Schema<SegmentUserList>;
 
 export interface UpdateBigSegmentContextTargetsRequest {
   /** The project key */
@@ -27238,9 +26024,7 @@ export const UpdateBigSegmentTargetsRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface UpdateBigSegmentTargetsResponse {}
 export const UpdateBigSegmentTargetsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "UpdateBigSegmentTargetsResponse",
-  },
+  { identifier: "UpdateBigSegmentTargetsResponse" },
 ) as any as S.Schema<UpdateBigSegmentTargetsResponse>;
 
 export interface UpdateDeploymentRequest {
@@ -27259,9 +26043,7 @@ export const UpdateDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateDeploymentRequest",
-}) as any as S.Schema<UpdateDeploymentRequest>;
+).annotate({ identifier: "UpdateDeploymentRequest" }) as any as S.Schema<UpdateDeploymentRequest>;
 
 /** The type of Data Export destination */
 export type UpdateDestinationRequestKind =
@@ -27305,9 +26087,7 @@ export const UpdateDestinationRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateDestinationRequest",
-}) as any as S.Schema<UpdateDestinationRequest>;
+).annotate({ identifier: "UpdateDestinationRequest" }) as any as S.Schema<UpdateDestinationRequest>;
 
 export interface UpdateDestinationByIdRequest {
   /** The project key */
@@ -27357,9 +26137,7 @@ export const UpdateFlagLinkRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateFlagLinkRequest",
-}) as any as S.Schema<UpdateFlagLinkRequest>;
+).annotate({ identifier: "UpdateFlagLinkRequest" }) as any as S.Schema<UpdateFlagLinkRequest>;
 
 export interface UpdateIntegrationConfigurationRequest {
   /** The ID of the integration configuration */
@@ -27401,15 +26179,9 @@ export const UpdateLayerRequest = /*@__PURE__*/ S.suspend(() =>
     environmentKey: S.optional(S.String),
     instructions: Instructions,
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v2/projects/{projectKey}/layers/{layerKey}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/v2/projects/{projectKey}/layers/{layerKey}", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateLayerRequest",
-}) as any as S.Schema<UpdateLayerRequest>;
+).annotate({ identifier: "UpdateLayerRequest" }) as any as S.Schema<UpdateLayerRequest>;
 
 export interface UpdateMemberRequest {
   /** The member ID */
@@ -27421,9 +26193,7 @@ export const UpdateMemberRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     body: JSONPatch.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/members/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateMemberRequest",
-}) as any as S.Schema<UpdateMemberRequest>;
+).annotate({ identifier: "UpdateMemberRequest" }) as any as S.Schema<UpdateMemberRequest>;
 
 export interface UpdateMembersRequest {
   /** Optional comment describing the update */
@@ -27436,9 +26206,7 @@ export const UpdateMembersRequest = /*@__PURE__*/ S.suspend(() =>
     comment: S.optional(S.String),
     instructions: Instructions,
   }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/members", code: 200 })),
-).annotate({
-  identifier: "UpdateMembersRequest",
-}) as any as S.Schema<UpdateMembersRequest>;
+).annotate({ identifier: "UpdateMembersRequest" }) as any as S.Schema<UpdateMembersRequest>;
 
 /** A list of members IDs of the members who were successfully updated. */
 export type BulkEditMembersRepMembersList = Array<string>;
@@ -27446,9 +26214,7 @@ export const BulkEditMembersRepMembersList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<BulkEditMembersRepMembersList>;
 
-export type BulkEditMembersRepErrorsItemMap = {
-  [key: string]: string | undefined;
-};
+export type BulkEditMembersRepErrorsItemMap = { [key: string]: string | undefined };
 export const BulkEditMembersRepErrorsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27471,9 +26237,7 @@ export const BulkEditMembersRep = /*@__PURE__*/ S.suspend(() =>
     members: S.optional(BulkEditMembersRepMembersList),
     errors: S.optional(BulkEditMembersRepErrorsList),
   }),
-).annotate({
-  identifier: "BulkEditMembersRep",
-}) as any as S.Schema<BulkEditMembersRep>;
+).annotate({ identifier: "BulkEditMembersRep" }) as any as S.Schema<BulkEditMembersRep>;
 
 export interface ReleaseGuardianConfigurationInput {
   /** The monitoring window in milliseconds */
@@ -27561,9 +26325,7 @@ export const UpdatePhaseStatusRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdatePhaseStatusRequest",
-}) as any as S.Schema<UpdatePhaseStatusRequest>;
+).annotate({ identifier: "UpdatePhaseStatusRequest" }) as any as S.Schema<UpdatePhaseStatusRequest>;
 
 export interface UpdateProjectRequest {
   /** The project key */
@@ -27574,16 +26336,8 @@ export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectKey: S.String.pipe(T.Label()),
     body: JSONPatch.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v2/projects/{projectKey}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateProjectRequest",
-}) as any as S.Schema<UpdateProjectRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/projects/{projectKey}", code: 200 })),
+).annotate({ identifier: "UpdateProjectRequest" }) as any as S.Schema<UpdateProjectRequest>;
 
 /** Tags for the segment */
 export type UpdateSegmentRequestTagsList = Array<string>;
@@ -27620,15 +26374,9 @@ export const UpdateSegmentRequest = /*@__PURE__*/ S.suspend(() =>
     unbounded: S.optional(S.Boolean),
     unboundedContextKind: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v2/segments/{projectKey}/{environmentKey}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v2/segments/{projectKey}/{environmentKey}", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateSegmentRequest",
-}) as any as S.Schema<UpdateSegmentRequest>;
+).annotate({ identifier: "UpdateSegmentRequest" }) as any as S.Schema<UpdateSegmentRequest>;
 
 export interface UpdateSegmentBySegmentKeyRequest {
   /** The project key */
@@ -27676,11 +26424,7 @@ export const UpdateSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     body: JSONPatch.pipe(T.HttpBody()),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v2/integrations/{integrationKey}/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/v2/integrations/{integrationKey}/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateSubscriptionRequest",
@@ -27703,9 +26447,7 @@ export const UpdateTeamRequest = /*@__PURE__*/ S.suspend(() =>
     comment: S.optional(S.String),
     instructions: Instructions,
   }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/teams/{teamKey}", code: 200 })),
-).annotate({
-  identifier: "UpdateTeamRequest",
-}) as any as S.Schema<UpdateTeamRequest>;
+).annotate({ identifier: "UpdateTeamRequest" }) as any as S.Schema<UpdateTeamRequest>;
 
 export interface UpdateTeamsRequest {
   /** Optional comment describing the update */
@@ -27718,9 +26460,7 @@ export const UpdateTeamsRequest = /*@__PURE__*/ S.suspend(() =>
     comment: S.optional(S.String),
     instructions: Instructions,
   }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/teams", code: 200 })),
-).annotate({
-  identifier: "UpdateTeamsRequest",
-}) as any as S.Schema<UpdateTeamsRequest>;
+).annotate({ identifier: "UpdateTeamsRequest" }) as any as S.Schema<UpdateTeamsRequest>;
 
 /** A list of member IDs of the members who were added to the teams. */
 export type BulkEditTeamsRepMemberIDsList = Array<string>;
@@ -27734,9 +26474,7 @@ export const BulkEditTeamsRepTeamKeysList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<BulkEditTeamsRepTeamKeysList>;
 
-export type BulkEditTeamsRepErrorsItemMap = {
-  [key: string]: string | undefined;
-};
+export type BulkEditTeamsRepErrorsItemMap = { [key: string]: string | undefined };
 export const BulkEditTeamsRepErrorsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27762,9 +26500,7 @@ export const BulkEditTeamsRep = /*@__PURE__*/ S.suspend(() =>
     teamKeys: S.optional(BulkEditTeamsRepTeamKeysList),
     errors: S.optional(BulkEditTeamsRepErrorsList),
   }),
-).annotate({
-  identifier: "BulkEditTeamsRep",
-}) as any as S.Schema<BulkEditTeamsRep>;
+).annotate({ identifier: "BulkEditTeamsRep" }) as any as S.Schema<BulkEditTeamsRep>;
 
 export interface UpdateTokenRequest {
   /** The ID of the access token to update */
@@ -27776,9 +26512,7 @@ export const UpdateTokenRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     body: JSONPatch.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/tokens/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateTokenRequest",
-}) as any as S.Schema<UpdateTokenRequest>;
+).annotate({ identifier: "UpdateTokenRequest" }) as any as S.Schema<UpdateTokenRequest>;
 
 /** Tags associated with this view */
 export type UpdateViewRequestTagsList = Array<string>;
@@ -27810,15 +26544,9 @@ export const UpdateViewRequest = /*@__PURE__*/ S.suspend(() =>
     maintainerTeamKey: S.optional(S.String),
     tags: S.optional(UpdateViewRequestTagsList),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v2/projects/{projectKey}/views/{viewKey}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/v2/projects/{projectKey}/views/{viewKey}", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateViewRequest",
-}) as any as S.Schema<UpdateViewRequest>;
+).annotate({ identifier: "UpdateViewRequest" }) as any as S.Schema<UpdateViewRequest>;
 
 export interface UpdateWebhookRequest {
   /** The ID of the webhook to update */
@@ -27830,9 +26558,7 @@ export const UpdateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     body: JSONPatch.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/webhooks/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateWebhookRequest",
-}) as any as S.Schema<UpdateWebhookRequest>;
+).annotate({ identifier: "UpdateWebhookRequest" }) as any as S.Schema<UpdateWebhookRequest>;
 
 export interface ValidateIntegrationDeliveryConfigurationRequest {
   /** The project key */
@@ -28641,21 +27367,6 @@ export const deleteBranches: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteContextInstancesError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** Delete context instances Delete context instances by ID. */
-export const deleteContextInstances: API.OperationMethod<
-  DeleteContextInstancesRequest,
-  DeleteContextInstancesResponse,
-  DeleteContextInstancesError,
-  LaunchDarklyOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: DeleteContextInstancesRequest,
-  output: DeleteContextInstancesResponse,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
-  protocol: LaunchDarklyProtocol,
-  retry: Retry.Retry,
-}));
-
 export type DeleteCustomRoleError = NotFound | LaunchDarklyOpError;
 /** Delete custom role Delete a custom role by key */
 export const deleteCustomRole: API.OperationMethod<
@@ -28672,7 +27383,7 @@ export const deleteCustomRole: API.OperationMethod<
 }));
 
 export type DeleteDestinationError = Forbidden | NotFound | LaunchDarklyOpError;
-/** Delete Data Export destination Delete a Data Export destination by ID. */
+/** Delete Data Export destination Delete a Data Export destination by ID. The destination must belong to the environment in the URL. Otherwise, the response is 404. */
 export const deleteDestination: API.OperationMethod<
   DeleteDestinationRequest,
   DeleteDestinationResponse,
@@ -29819,21 +28530,6 @@ export const getContextAttributeValues: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetContextInstancesError = BadRequest | Forbidden | LaunchDarklyOpError;
-/** Get context instances Get context instances by ID. */
-export const getContextInstances: API.OperationMethod<
-  GetContextInstancesRequest,
-  ContextInstances,
-  GetContextInstancesError,
-  LaunchDarklyOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetContextInstancesRequest,
-  output: ContextInstances,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
-  protocol: LaunchDarklyProtocol,
-  retry: Retry.Retry,
-}));
-
 export type GetContextInstanceSegmentsMembershipByEnvError =
   | BadRequest
   | NotFound
@@ -29868,7 +28564,7 @@ export const getContextKindsByProjectKey: API.OperationMethod<
 }));
 
 export type GetContextsError = BadRequest | Forbidden | LaunchDarklyOpError;
-/** Get contexts Get contexts based on kind and key. */
+/** Get contexts Get contexts based on kind and key. Returns one item for each application from which LaunchDarkly has received the context, with the `applicationId` field populated. */
 export const getContexts: API.OperationMethod<
   GetContextsRequest,
   Contexts,
@@ -29972,17 +28668,36 @@ export const getCustomWorkflow: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetDataExportEventsUsageError = BadRequest | Forbidden | LaunchDarklyOpError;
-/** Get data export events usage Get a time series array showing the number of data export events from your account. The supported granularity varies by aggregation type. The maximum time range is 365 days. */
+export type GetDataExportEventsUsageError = BadRequest | Forbidden | Conflict | LaunchDarklyOpError;
+/** Get data export events usage Get a time series array showing the number of data export events from your account. The supported granularity varies by aggregation type. The maximum time range is 365 days. `groupBy=projectId` resolves legacy rows through the account's current environment-to-project mapping and returns `409` instead of a partial series when any successful row remains unattributed. Plain project filtering keeps its current-environment compatibility behavior. */
 export const getDataExportEventsUsage: API.OperationMethod<
   GetDataExportEventsUsageRequest,
-  SeriesListRep,
+  DataExportSeriesListRep,
   GetDataExportEventsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDataExportEventsUsageRequest,
-  output: SeriesListRep,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  output: DataExportSeriesListRep,
+  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
+  protocol: LaunchDarklyProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetDataExportProjectRankingError =
+  | BadRequest
+  | Forbidden
+  | Conflict
+  | LaunchDarklyOpError;
+/** Rank Streaming usage by project Rank projects with usage in the requested range by successful Streaming transfers. Legacy rows are attributed through the account's complete current environment-to-project mapping. If any successful row remains unattributed after resolution, the operation returns `409` instead of a partial ranking. The result limit does not cap the account-wide project universe or environment mapping. This source-specific operation does not provide Combined or Warehouse ranking. */
+export const getDataExportProjectRanking: API.OperationMethod<
+  GetDataExportProjectRankingRequest,
+  DataExportProjectRankingRep,
+  GetDataExportProjectRankingError,
+  LaunchDarklyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetDataExportProjectRankingRequest,
+  output: DataExportProjectRankingRep,
+  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
 }));
@@ -30067,7 +28782,7 @@ export const getDeployments: API.OperationMethod<
 }));
 
 export type GetDestinationError = Forbidden | NotFound | LaunchDarklyOpError;
-/** Get destination Get a single Data Export destination by ID. */
+/** Get destination Get a single Data Export destination by ID. The destination must belong to the environment in the URL. Otherwise, the response is 404. */
 export const getDestination: API.OperationMethod<
   GetDestinationRequest,
   Destination,
@@ -30112,7 +28827,7 @@ export const getEnvironment: API.OperationMethod<
 }));
 
 export type GetEnvironmentsByProjectError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** List environments Return a list of environments for the specified project. By default, this returns the first 20 environments. Page through this list with the `limit` parameter and by following the `first`, `prev`, `next`, and `last` links in the `_links` field that returns. If those links do not appear, the pages they refer to don't exist. For example, the `first` and `prev` links will be missing from the response on the first page, because there is no previous page and you cannot return to the first page when you are already on the first page. ### Filtering environments LaunchDarkly supports two fields for filters: - `query` is a string that matches against the environments' names and keys. It is not case sensitive. - `tags` is a `+`-separated list of environment tags. It filters the list of environments that have all of the tags in the list. For example, the filter `filter=query:abc,tags:tag-1+tag-2` matches environments with the string `abc` in their name or key and also are tagged with `tag-1` and `tag-2`. The filter is not case-sensitive. The documented values for `filter` query parameters are prior to URL encoding. For example, the `+` in `filter=tags:tag-1+tag-2` must be encoded to `%2B`. ### Sorting environments LaunchDarkly supports the following fields for sorting: - `createdOn` sorts by the creation date of the environment. - `critical` sorts by whether the environments are marked as critical. - `name` sorts by environment name. For example, `sort=name` sorts the response by environment name in ascending order. */
+/** List environments Return a list of environments for the specified project. By default, this returns the first 20 environments. Page through this list with the `limit` parameter and by following the `first`, `prev`, `next`, and `last` links in the `_links` field that returns. If those links do not appear, the pages they refer to don't exist. For example, the `first` and `prev` links will be missing from the response on the first page, because there is no previous page and you cannot return to the first page when you are already on the first page. ### Filtering environments LaunchDarkly supports the following fields for filters: - `query` is a string that matches against the environments' names and keys. It is not case sensitive. - `tags` is a `+`-separated list of environment tags. It filters the list of environments that have all of the tags in the list. - `critical` is a boolean filter. `critical:true` returns only environments marked as critical, and `critical:false` returns only non-critical environments. For example, the filter `filter=query:abc,tags:tag-1+tag-2` matches environments with the string `abc` in their name or key and also are tagged with `tag-1` and `tag-2`. The filter is not case-sensitive. The documented values for `filter` query parameters are prior to URL encoding. For example, the `+` in `filter=tags:tag-1+tag-2` must be encoded to `%2B`. ### Sorting environments LaunchDarkly supports the following fields for sorting: - `createdOn` sorts by the creation date of the environment. - `critical` sorts by whether the environments are marked as critical. - `name` sorts by environment name. For example, `sort=name` sorts the response by environment name in ascending order. */
 export const getEnvironmentsByProject: API.OperationMethod<
   GetEnvironmentsByProjectRequest,
   Environments,
@@ -30127,7 +28842,7 @@ export const getEnvironmentsByProject: API.OperationMethod<
 }));
 
 export type GetEvaluationsUsageError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** Get evaluations usage Get time-series arrays of the number of times a flag is evaluated, broken down by the variation that resulted from that evaluation. The granularity of the data depends on the age of the data requested. If the requested range is within the past two hours, minutely data is returned. If it is within the last two days, hourly data is returned. Otherwise, daily data is returned. */
+/** Get evaluations usage Get time-series arrays of the number of times a flag is evaluated, broken down by the variation that resulted from that evaluation. The granularity of the returned data depends on the length of the requested time range: ranges shorter than two hours return minutely data, ranges shorter than two days return hourly data, and ranges of two days or longer return daily data. Minutely data is retained for 70 days; a range shorter than two hours that starts before then is returned at hourly granularity instead, with the start of the range widened to the containing hour. Ranges that predate available data return an empty series list. If a flag has served many distinct variation values in the requested range, the least recently seen values may be aggregated into a single additional series labeled "Other Variations". */
 export const getEvaluationsUsage: API.OperationMethod<
   GetEvaluationsUsageRequest,
   SeriesListRep,
@@ -31134,6 +29849,21 @@ export const getProjects: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetProjectSdkKeysError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
+/** Get all project SDK keys Get all SDK keys for a given project across environments. */
+export const getProjectSdkKeys: API.OperationMethod<
+  GetProjectSdkKeysRequest,
+  SdkKeys,
+  GetProjectSdkKeysError,
+  LaunchDarklyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetProjectSdkKeysRequest,
+  output: SdkKeys,
+  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  protocol: LaunchDarklyProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetPromptSnippetError = Forbidden | NotFound | LaunchDarklyOpError;
 /** Get a prompt snippet Retrieve a specific prompt snippet by its key. */
 export const getPromptSnippet: API.OperationMethod<
@@ -31634,7 +30364,7 @@ export const getTeamRoles: API.OperationMethod<
 }));
 
 export type GetTeamsError = LaunchDarklyOpError;
-/** List teams Return a list of teams. By default, this returns the first 20 teams. Page through this list with the `limit` parameter and by following the `first`, `prev`, `next`, and `last` links in the `_links` field that returns. If those links do not appear, the pages they refer to don't exist. For example, the `first` and `prev` links will be missing from the response on the first page, because there is no previous page and you cannot return to the first page when you are already on the first page. ### Filtering teams LaunchDarkly supports the following fields for filters: - `query` is a string that matches against the teams' names and keys. It is not case-sensitive. - A request with `query:abc` returns teams with the string `abc` in their name or key. - `nomembers` is a boolean that filters the list of teams who have 0 members - A request with `nomembers:true` returns teams that have 0 members - A request with `nomembers:false` returns teams that have 1 or more members ### Expanding the teams response LaunchDarkly supports expanding several fields in the "List teams" response. By default, these fields are **not** included in the response. To expand the response, append the `expand` query parameter and add a comma-separated list with any of the following fields: * `members` includes the total count of members that belong to the team. * `roles` includes a paginated list of the custom roles that you have assigned to the team. * `roleAttributes` includes a list of the role attributes that you have assigned to the team. * `projects` includes a paginated list of the projects that the team has any write access to. * `maintainers` includes a paginated list of the maintainers that you have assigned to the team. For example, `expand=members,maintainers` includes the `members` and `maintainers` fields in the response. */
+/** List teams Return a list of teams. By default, this returns the first 20 teams. Page through this list with the `limit` parameter and by following the `first`, `prev`, `next`, and `last` links in the `_links` field that returns. If those links do not appear, the pages they refer to don't exist. For example, the `first` and `prev` links will be missing from the response on the first page, because there is no previous page and you cannot return to the first page when you are already on the first page. ### Filtering teams LaunchDarkly supports the following fields for filters: - `query` is a string that matches against the teams' names and keys. It is not case-sensitive. - A request with `query:abc` returns teams with the string `abc` in their name or key. - `nomembers` is a boolean that filters the list of teams who have 0 members - A request with `nomembers:true` returns teams that have 0 members - A request with `nomembers:false` returns teams that have 1 or more members ### Sorting teams LaunchDarkly supports the following fields for sorting: - `name` sorts by team name. It is not case-sensitive. - `memberCount` sorts by the number of members on the team. By default, the sort is in ascending order. Use `-` to sort in descending order. For example, `?sort=name` sorts the response by team name in ascending order, and `?sort=-memberCount` sorts by member count from largest to smallest. Combine fields with a comma to break ties, for example `?sort=-memberCount,name`. ### Expanding the teams response LaunchDarkly supports expanding several fields in the "List teams" response. By default, these fields are **not** included in the response. To expand the response, append the `expand` query parameter and add a comma-separated list with any of the following fields: * `members` includes the total count of members that belong to the team. * `roles` includes a paginated list of the custom roles that you have assigned to the team. * `roleAttributes` includes a list of the role attributes that you have assigned to the team. * `projects` includes a paginated list of the projects that the team has any write access to. * `maintainers` includes a paginated list of the maintainers that you have assigned to the team. For example, `expand=members,maintainers` includes the `members` and `maintainers` fields in the response. */
 export const getTeams: API.OperationMethod<
   GetTeamsRequest,
   Teams,
@@ -31772,12 +30502,12 @@ export type GetWarehouseExportUsageError = BadRequest | Forbidden | LaunchDarkly
 /** Get warehouse Data Export usage Get a time series array showing the number of rows exported to your warehouse Data Export destinations. The supported granularity varies by aggregation type. The maximum time range is 365 days. */
 export const getWarehouseExportUsage: API.OperationMethod<
   GetWarehouseExportUsageRequest,
-  SeriesListRep,
+  DataExportSeriesListRep,
   GetWarehouseExportUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetWarehouseExportUsageRequest,
-  output: SeriesListRep,
+  output: DataExportSeriesListRep,
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -31874,7 +30604,7 @@ export const listAgentGraphs: API.OperationMethod<
 }));
 
 export type ListAgentOptimizationResultsError = Forbidden | NotFound | LaunchDarklyOpError;
-/** List agent optimization runs Get the most recent result for each unique run of an agent optimization. */
+/** List latest agent optimization result per run Get the most recent result for each unique run of an agent optimization. */
 export const listAgentOptimizationResults: API.OperationMethod<
   ListAgentOptimizationResultsRequest,
   AgentOptimizationResults,
@@ -32241,7 +30971,7 @@ export const patchAIConfigTargeting: API.OperationMethod<
 }));
 
 export type PatchAIConfigVariationError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** Update AI Config variation Edit an existing variation of an AI Config. This creates a new version of the variation. The request body must be a JSON object of the fields to update. The values you include replace the existing values for the fields. Here's an example: ``` { "messages": [ { "role": "system", "content": "The new message" } ] } ``` */
+/** Update AI Config variation Edit an existing variation of an AI Config. This creates a new version of the variation. The request body must be a JSON object of the fields to update. The values you include replace the existing values for the fields. If the variation is in use in a project environment where approval settings require review for this AI Config, this endpoint returns 403 and the change must be submitted through an approval request. Here's an example: ``` { "messages": [ { "role": "system", "content": "The new message" } ] } ``` */
 export const patchAIConfigVariation: API.OperationMethod<
   PatchAIConfigVariationRequest,
   AIConfigVariation,
@@ -32344,6 +31074,7 @@ export type PatchExperimentError =
   | Forbidden
   | NotFound
   | Conflict
+  | UnprocessableEntity
   | LaunchDarklyOpError;
 /** Patch experiment Update an experiment. Updating an experiment uses the semantic patch format. To make a semantic patch request, you must append `domain-model=launchdarkly.semanticpatch` to your `Content-Type` header. To learn more, read [Updates using semantic patch](https://launchdarkly.com/docs/api#updates-using-semantic-patch). ### Instructions Semantic patch requests support the following `kind` instructions for updating experiments. #### updateName > **Deprecated**: `updateName` will be removed in a future version. Use `updateExperimentFields` instead. Updates the experiment name. ##### Parameters - `value`: The new name. Here's an example: ```json { "instructions": [{ "kind": "updateName", "value": "Example updated experiment name" }] } ``` #### updateDescription > **Deprecated**: `updateDescription` will be removed in a future version. Use `updateExperimentFields` instead. Updates the experiment description. ##### Parameters - `value`: The new description. Here's an example: ```json { "instructions": [{ "kind": "updateDescription", "value": "Example updated description" }] } ``` #### updateExperimentFields Updates one or more fields on an experiment or its current iteration. Each field update specifies an operation (`add`, `update`, or `remove`) and an optional value. Which fields are mutable depends on the current iteration status. To discover which fields and operations are allowed, expand `mutableFieldsByStatus` on the [Get experiment](https://launchdarkly.com/docs/api/experiments/get-experiment) response. ##### Parameters - `value`: An object mapping field names to field updates. Each field update has the following properties: - `operation`: The operation to perform. One of `add`, `update`, or `remove`. - `value`: The new value for the field. Required for `add` and `update` operations. To find which fields are supported and which operations are allowed for each iteration status, expand `mutableFieldsByStatus` on the [Get experiment](https://launchdarkly.com/docs/api/experiments/get-experiment) response. Here's an example: ```json { "instructions": [{ "kind": "updateExperimentFields", "value": { "name": { "operation": "update", "value": "Updated experiment name" }, "tags": { "operation": "add", "value": ["tag1", "tag2"] } } }] } ``` #### saveAndStartNewIteration Stops the current running iteration, creates a new iteration from it, optionally applies field updates, and starts the new iteration. This is a convenience instruction that combines stopping, updating, and starting in a single operation. ##### Parameters - `changeJustification`: (Optional) The reason for stopping and starting a new iteration. - `value`: (Optional) An object mapping field names to field updates, using the same format as `updateExperimentFields`. These updates are applied to the new iteration before it is started. Here's an example: ```json { "instructions": [{ "kind": "saveAndStartNewIteration", "changeJustification": "Adjusting hypothesis based on early results", "value": { "hypothesis": { "operation": "update", "value": "Updated hypothesis text" } } }] } ``` #### startIteration Starts a new iteration for this experiment. You must [create a new iteration](https://launchdarkly.com/docs/api/experiments/create-iteration) before calling this instruction. An iteration may not be started until it meets the following criteria: * Its associated flag is toggled on and is not archived * Its `randomizationUnit` is set * At least one of its `treatments` has a non-zero `allocationPercent` ##### Parameters - `changeJustification`: The reason for starting a new iteration. Required when you call `startIteration` on an already running experiment, otherwise optional. Here's an example: ```json { "instructions": [{ "kind": "startIteration", "changeJustification": "It's time to start a new iteration" }] } ``` #### stopIteration Stops the current iteration for this experiment. ##### Parameters - `winningTreatmentId`: The ID of the winning treatment. Treatment IDs are returned as part of the [Get experiment](https://launchdarkly.com/docs/api/experiments/get-experiment) response. They are the `_id` of each element in the `treatments` array. - `winningReason`: The reason for the winner Here's an example: ```json { "instructions": [{ "kind": "stopIteration", "winningTreatmentId": "3a548ec2-72ac-4e59-8518-5c24f5609ccf", "winningReason": "Example reason to stop the iteration" }] } ``` #### archiveExperiment Archives this experiment. Archived experiments are hidden by default in the LaunchDarkly user interface. You cannot start new iterations for archived experiments. Here's an example: ```json { "instructions": [{ "kind": "archiveExperiment" }] } ``` #### restoreExperiment Restores an archived experiment. After restoring an experiment, you can start new iterations for it again. Here's an example: ```json { "instructions": [{ "kind": "restoreExperiment" }] } ``` */
 export const patchExperiment: API.OperationMethod<
@@ -32354,7 +31085,14 @@ export const patchExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchExperimentRequest,
   output: Experiment,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    UnknownLaunchDarklyError,
+  ],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
 }));
@@ -32430,7 +31168,7 @@ export const patchExpiringUserTargetsForSegment: API.OperationMethod<
 }));
 
 export type PatchFeatureFlagError = BadRequest | NotFound | Conflict | LaunchDarklyOpError;
-/** Update feature flag Perform a partial update to a feature flag. The request body must be a valid semantic patch, JSON patch, or JSON merge patch. To learn more the different formats, read [Updates](https://launchdarkly.com/docs/api#updates). ### Using semantic patches on a feature flag To make a semantic patch request, you must append `domain-model=launchdarkly.semanticpatch` to your `Content-Type` header. To learn more, read [Updates using semantic patch](https://launchdarkly.com/docs/api#updates-using-semantic-patch). The body of a semantic patch request for updating feature flags takes the following properties: * `comment` (string): (Optional) A description of the update. * `environmentKey` (string): (Required for some instructions only) The key of the LaunchDarkly environment. * `instructions` (array): (Required) A list of actions the update should perform. Each action in the list must be an object with a `kind` property that indicates the instruction. If the action requires parameters, you must include those parameters as additional fields in the object. The body of a single semantic patch can contain many different instructions. ### Instructions Semantic patch requests support the following `kind` instructions for updating feature flags. <details> <summary>Click to expand instructions for <strong>turning flags on and off</strong></summary> These instructions require the `environmentKey` parameter. #### turnFlagOff Sets the flag's targeting state to **Off**. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "turnFlagOff" } ] } ``` #### turnFlagOn Sets the flag's targeting state to **On**. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "turnFlagOn" } ] } ``` </details><br /> <details> <summary>Click to expand instructions for <strong>working with targeting and variations</strong></summary> These instructions require the `environmentKey` parameter. Several of the instructions for working with targeting and variations require flag rule IDs, variation IDs, or clause IDs as parameters. Each of these are returned as part of the [Get feature flag](https://launchdarkly.com/docs/api/feature-flags/get-feature-flag) response. The flag rule ID is the `_id` field of each element in the `rules` array within each environment listed in the `environments` object. The variation ID is the `_id` field in each element of the `variations` array. The clause ID is the `_id` field of each element of the `clauses` array within the `rules` array within each environment listed in the `environments` object. #### addClauses Adds the given clauses to the rule indicated by `ruleId`. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauses`: Array of clause objects, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addClauses", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauses": [{ "contextKind": "user", "attribute": "country", "op": "in", "negate": false, "values": ["USA", "Canada"] }] }] } ``` #### addPrerequisite Adds the flag indicated by `key` with variation `variationId` as a prerequisite to the flag in the path parameter. ##### Parameters - `key`: Flag key of the prerequisite flag. - `variationId`: ID of a variation of the prerequisite flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addPrerequisite", "key": "example-prereq-flag-key", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### addRule Adds a new targeting rule to the flag. The rule may contain `clauses` and serve the variation that `variationId` indicates, or serve a percentage rollout that `rolloutWeights`, `rolloutBucketBy`, and `rolloutContextKind` indicate. If you set `beforeRuleId`, this adds the new rule before the indicated rule. Otherwise, adds the new rule to the end of the list. ##### Parameters - `clauses`: Array of clause objects, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. - `beforeRuleId`: (Optional) ID of a flag rule. - Either - `variationId`: ID of a variation of the flag. or - `rolloutWeights`: (Optional) Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example that uses a `variationId`: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addRule", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "clauses": [{ "contextKind": "organization", "attribute": "located_in", "op": "in", "negate": false, "values": ["Sweden", "Norway"] }] }] } ``` Here's an example that uses a percentage rollout: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addRule", "clauses": [{ "contextKind": "organization", "attribute": "located_in", "op": "in", "negate": false, "values": ["Sweden", "Norway"] }], "rolloutContextKind": "organization", "rolloutWeights": { "2f43f67c-3e4e-4945-a18a-26559378ca00": 15000, // serve 15% this variation "e5830889-1ec5-4b0c-9cc9-c48790090c43": 85000 // serve 85% this variation } }] } ``` #### addTargets Adds context keys to the individual context targets for the context kind that `contextKind` specifies and the variation that `variationId` specifies. Returns an error if this causes the flag to target the same context key in multiple variations. ##### Parameters - `values`: List of context keys. - `contextKind`: (Optional) Context kind to target, defaults to `user` - `variationId`: ID of a variation on the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addTargets", "values": ["context-key-123abc", "context-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### addUserTargets Adds user keys to the individual user targets for the variation that `variationId` specifies. Returns an error if this causes the flag to target the same user key in multiple variations. If you are working with contexts, use `addTargets` instead of this instruction. ##### Parameters - `values`: List of user keys. - `variationId`: ID of a variation on the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addUserTargets", "values": ["user-key-123abc", "user-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### addValuesToClause Adds `values` to the values of the clause that `ruleId` and `clauseId` indicate. Does not update the context kind, attribute, or operator. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauseId`: ID of a clause in that rule. - `values`: Array of strings, case sensitive. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addValuesToClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10a58772-3121-400f-846b-b8a04e8944ed", "values": ["beta_testers"] }] } ``` #### addVariation Adds a variation to the flag. ##### Parameters - `value`: The variation value. - `name`: (Optional) The variation name. - `description`: (Optional) A description for the variation. Here's an example: ```json { "instructions": [ { "kind": "addVariation", "value": 20, "name": "New variation" } ] } ``` #### clearTargets Removes all individual targets from the variation that `variationId` specifies. This includes both user and non-user targets. ##### Parameters - `variationId`: ID of a variation on the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "clearTargets", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### clearUserTargets Removes all individual user targets from the variation that `variationId` specifies. If you are working with contexts, use `clearTargets` instead of this instruction. ##### Parameters - `variationId`: ID of a variation on the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "clearUserTargets", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### removeClauses Removes the clauses specified by `clauseIds` from the rule indicated by `ruleId`. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauseIds`: Array of IDs of clauses in the rule. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeClauses", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseIds": ["10a58772-3121-400f-846b-b8a04e8944ed", "36a461dc-235e-4b08-97b9-73ce9365873e"] }] } ``` #### removePrerequisite Removes the prerequisite flag indicated by `key`. Does nothing if this prerequisite does not exist. ##### Parameters - `key`: Flag key of an existing prerequisite flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "removePrerequisite", "key": "prereq-flag-key-123abc" } ] } ``` #### removeRule Removes the targeting rule specified by `ruleId`. Does nothing if the rule does not exist. ##### Parameters - `ruleId`: ID of a rule in the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "removeRule", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29" } ] } ``` #### removeTargets Removes context keys from the individual context targets for the context kind that `contextKind` specifies and the variation that `variationId` specifies. Does nothing if the flag does not target the context keys. ##### Parameters - `values`: List of context keys. - `contextKind`: (Optional) Context kind to target, defaults to `user` - `variationId`: ID of a flag variation. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeTargets", "values": ["context-key-123abc", "context-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### removeUserTargets Removes user keys from the individual user targets for the variation that `variationId` specifies. Does nothing if the flag does not target the user keys. If you are working with contexts, use `removeTargets` instead of this instruction. ##### Parameters - `values`: List of user keys. - `variationId`: ID of a flag variation. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeUserTargets", "values": ["user-key-123abc", "user-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### removeValuesFromClause Removes `values` from the values of the clause indicated by `ruleId` and `clauseId`. Does not update the context kind, attribute, or operator. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauseId`: ID of a clause in that rule. - `values`: Array of strings, case sensitive. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeValuesFromClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10a58772-3121-400f-846b-b8a04e8944ed", "values": ["beta_testers"] }] } ``` #### removeVariation Removes a variation from the flag. ##### Parameters - `variationId`: ID of a variation of the flag to remove. Here's an example: ```json { "instructions": [ { "kind": "removeVariation", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### reorderRules Rearranges the rules to match the order given in `ruleIds`. Returns an error if `ruleIds` does not match the current set of rules on the flag. ##### Parameters - `ruleIds`: Array of IDs of all rules in the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "reorderRules", "ruleIds": ["a902ef4a-2faf-4eaf-88e1-ecc356708a29", "63c238d1-835d-435e-8f21-c8d5e40b2a3d"] }] } ``` #### replacePrerequisites Removes all existing prerequisites and replaces them with the list you provide. ##### Parameters - `prerequisites`: A list of prerequisites. Each item in the list must include a flag `key` and `variationId`. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replacePrerequisites", "prerequisites": [ { "key": "prereq-flag-key-123abc", "variationId": "10a58772-3121-400f-846b-b8a04e8944ed" }, { "key": "another-prereq-flag-key-456def", "variationId": "e5830889-1ec5-4b0c-9cc9-c48790090c43" } ] } ] } ``` #### replaceRules Removes all targeting rules for the flag and replaces them with the list you provide. ##### Parameters - `rules`: A list of rules. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replaceRules", "rules": [ { "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "description": "My new rule", "clauses": [ { "contextKind": "user", "attribute": "segmentMatch", "op": "segmentMatch", "values": ["test"] } ], "trackEvents": true } ] } ] } ``` #### replaceTargets Removes all existing targeting and replaces it with the list of targets you provide. ##### Parameters - `targets`: A list of context targeting. Each item in the list includes an optional `contextKind` that defaults to `user`, a required `variationId`, and a required list of `values`. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replaceTargets", "targets": [ { "contextKind": "user", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "values": ["user-key-123abc"] }, { "contextKind": "device", "variationId": "e5830889-1ec5-4b0c-9cc9-c48790090c43", "values": ["device-key-456def"] } ] } ] } ``` #### replaceUserTargets Removes all existing user targeting and replaces it with the list of targets you provide. In the list of targets, you must include a target for each of the flag's variations. If you are working with contexts, use `replaceTargets` instead of this instruction. ##### Parameters - `targets`: A list of user targeting. Each item in the list must include a `variationId` and a list of `values`. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replaceUserTargets", "targets": [ { "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "values": ["user-key-123abc", "user-key-456def"] }, { "variationId": "e5830889-1ec5-4b0c-9cc9-c48790090c43", "values": ["user-key-789ghi"] } ] } ] } ``` #### updateClause Replaces the clause indicated by `ruleId` and `clauseId` with `clause`. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauseId`: ID of a clause in that rule. - `clause`: New `clause` object, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10c7462a-2062-45ba-a8bb-dfb3de0f8af5", "clause": { "contextKind": "user", "attribute": "country", "op": "in", "negate": false, "values": ["Mexico", "Canada"] } }] } ``` #### updateDefaultVariation Updates the default on or off variation of the flag. ##### Parameters - `onVariationValue`: (Optional) The value of the variation of the new on variation. - `offVariationValue`: (Optional) The value of the variation of the new off variation Here's an example: ```json { "instructions": [ { "kind": "updateDefaultVariation", "OnVariationValue": true, "OffVariationValue": false } ] } ``` #### updateFallthroughVariationOrRollout Updates the default or "fallthrough" rule for the flag, which the flag serves when a context matches none of the targeting rules. The rule can serve either the variation that `variationId` indicates, or a percentage rollout that `rolloutWeights` and `rolloutBucketBy` indicate. ##### Parameters - `variationId`: ID of a variation of the flag. or - `rolloutWeights`: Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example that uses a `variationId`: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateFallthroughVariationOrRollout", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` Here's an example that uses a percentage rollout: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateFallthroughVariationOrRollout", "rolloutContextKind": "user", "rolloutWeights": { "2f43f67c-3e4e-4945-a18a-26559378ca00": 15000, // serve 15% this variation "e5830889-1ec5-4b0c-9cc9-c48790090c43": 85000 // serve 85% this variation } }] } ``` #### updateOffVariation Updates the default off variation to `variationId`. The flag serves the default off variation when the flag's targeting is **Off**. ##### Parameters - `variationId`: ID of a variation of the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateOffVariation", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### updatePrerequisite Changes the prerequisite flag that `key` indicates to use the variation that `variationId` indicates. Returns an error if this prerequisite does not exist. ##### Parameters - `key`: Flag key of an existing prerequisite flag. - `variationId`: ID of a variation of the prerequisite flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updatePrerequisite", "key": "example-prereq-flag-key", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### updateRuleDescription Updates the description of the feature flag rule. ##### Parameters - `description`: The new human-readable description for this rule. - `ruleId`: The ID of the rule. You can retrieve this by making a GET request for the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleDescription", "description": "New rule description", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29" }] } ``` #### updateRuleTrackEvents Updates whether or not LaunchDarkly tracks events for the feature flag associated with this rule. ##### Parameters - `ruleId`: The ID of the rule. You can retrieve this by making a GET request for the flag. - `trackEvents`: Whether or not events are tracked. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleTrackEvents", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "trackEvents": true }] } ``` #### updateRuleVariationOrRollout Updates what `ruleId` serves when its clauses evaluate to true. The rule can serve either the variation that `variationId` indicates, or a percent rollout that `rolloutWeights` and `rolloutBucketBy` indicate. ##### Parameters - `ruleId`: ID of a rule in the flag. - `variationId`: ID of a variation of the flag. or - `rolloutWeights`: Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleVariationOrRollout", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### updateTrackEvents Updates whether or not LaunchDarkly tracks events for the feature flag, for all rules. ##### Parameters - `trackEvents`: Whether or not events are tracked. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateTrackEvents", "trackEvents": true } ] } ``` #### updateTrackEventsFallthrough Updates whether or not LaunchDarkly tracks events for the feature flag, for the default rule. ##### Parameters - `trackEvents`: Whether or not events are tracked. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateTrackEventsFallthrough", "trackEvents": true } ] } ``` #### updateVariation Updates a variation of the flag. ##### Parameters - `variationId`: The ID of the variation to update. - `name`: (Optional) The updated variation name. - `value`: (Optional) The updated variation value. - `description`: (Optional) The updated variation description. Here's an example: ```json { "instructions": [ { "kind": "updateVariation", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "value": 20 } ] } ``` </details><br /> <details> <summary>Click to expand instructions for <strong>updating flag settings</strong></summary> These instructions do not require the `environmentKey` parameter. They make changes that apply to the flag across all environments. #### addCustomProperties Adds a new custom property to the feature flag. Custom properties are used to associate feature flags with LaunchDarkly integrations. For example, if you create an integration with an issue tracking service, you may want to associate a flag with a list of issues related to a feature's development. ##### Parameters - `key`: The custom property key. - `name`: The custom property name. - `values`: A list of the associated values for the custom property. Here's an example: ```json { "instructions": [{ "kind": "addCustomProperties", "key": "example-custom-property", "name": "Example custom property", "values": ["value1", "value2"] }] } ``` #### addTags Adds tags to the feature flag. ##### Parameters - `values`: A list of tags to add. Here's an example: ```json { "instructions": [ { "kind": "addTags", "values": ["tag1", "tag2"] } ] } ``` #### makeFlagPermanent Marks the feature flag as permanent. LaunchDarkly does not prompt you to remove permanent flags, even if one variation is rolled out to all your customers. Here's an example: ```json { "instructions": [ { "kind": "makeFlagPermanent" } ] } ``` #### makeFlagTemporary Marks the feature flag as temporary. Here's an example: ```json { "instructions": [ { "kind": "makeFlagTemporary" } ] } ``` #### removeCustomProperties Removes the associated values from a custom property. If all the associated values are removed, this instruction also removes the custom property. ##### Parameters - `key`: The custom property key. - `values`: A list of the associated values to remove from the custom property. ```json { "instructions": [{ "kind": "replaceCustomProperties", "key": "example-custom-property", "values": ["value1", "value2"] }] } ``` #### removeMaintainer Removes the flag's maintainer. To set a new maintainer, use the `updateMaintainerMember` or `updateMaintainerTeam` instructions. Here's an example: ```json { "instructions": [ { "kind": "removeMaintainer" } ] } ``` #### removeTags Removes tags from the feature flag. ##### Parameters - `values`: A list of tags to remove. Here's an example: ```json { "instructions": [ { "kind": "removeTags", "values": ["tag1", "tag2"] } ] } ``` #### replaceCustomProperties Replaces the existing associated values for a custom property with the new values. ##### Parameters - `key`: The custom property key. - `name`: The custom property name. - `values`: A list of the new associated values for the custom property. Here's an example: ```json { "instructions": [{ "kind": "replaceCustomProperties", "key": "example-custom-property", "name": "Example custom property", "values": ["value1", "value2"] }] } ``` #### turnOffClientSideAvailability Turns off client-side SDK availability for the flag. This is equivalent to unchecking the **SDKs using Mobile key** and/or **SDKs using Client-side ID** boxes for the flag. If you're using a client-side or mobile SDK, you must expose your feature flags in order for the client-side or mobile SDKs to evaluate them. ##### Parameters - `value`: Use "usingMobileKey" to turn off availability for mobile SDKs. Use "usingEnvironmentId" to turn on availability for client-side SDKs. Here's an example: ```json { "instructions": [ { "kind": "turnOffClientSideAvailability", "value": "usingMobileKey" } ] } ``` #### turnOnClientSideAvailability Turns on client-side SDK availability for the flag. This is equivalent to checking the **SDKs using Mobile key** and/or **SDKs using Client-side ID** boxes for the flag. If you're using a client-side or mobile SDK, you must expose your feature flags in order for the client-side or mobile SDKs to evaluate them. ##### Parameters - `value`: Use "usingMobileKey" to turn on availability for mobile SDKs. Use "usingEnvironmentId" to turn on availability for client-side SDKs. Here's an example: ```json { "instructions": [ { "kind": "turnOnClientSideAvailability", "value": "usingMobileKey" } ] } ``` #### updateDescription Updates the feature flag description. ##### Parameters - `value`: The new description. Here's an example: ```json { "instructions": [ { "kind": "updateDescription", "value": "Updated flag description" } ] } ``` #### updateMaintainerMember Updates the maintainer of the flag to an existing member and removes the existing maintainer. ##### Parameters - `value`: The ID of the member. Here's an example: ```json { "instructions": [ { "kind": "updateMaintainerMember", "value": "61e9b714fd47591727db558a" } ] } ``` #### updateMaintainerTeam Updates the maintainer of the flag to an existing team and removes the existing maintainer. ##### Parameters - `value`: The key of the team. Here's an example: ```json { "instructions": [ { "kind": "updateMaintainerTeam", "value": "example-team-key" } ] } ``` #### updateName Updates the feature flag name. ##### Parameters - `value`: The new name. Here's an example: ```json { "instructions": [ { "kind": "updateName", "value": "Updated flag name" } ] } ``` </details><br /> <details> <summary>Click to expand instructions for <strong>updating the flag lifecycle</strong></summary> These instructions do not require the `environmentKey` parameter. They make changes that apply to the flag across all environments. #### archiveFlag Archives the feature flag. This retires it from LaunchDarkly without deleting it. You cannot archive a flag that is a prerequisite of other flags. ```json { "instructions": [ { "kind": "archiveFlag" } ] } ``` #### deleteFlag Deletes the feature flag and its rules. You cannot restore a deleted flag. If this flag is requested again, the flag value defined in code will be returned for all contexts. Here's an example: ```json { "instructions": [ { "kind": "deleteFlag" } ] } ``` #### deprecateFlag Deprecates the feature flag. This hides it from the live flags list without archiving or deleting it. Here's an example: ```json { "instructions": [ { "kind": "deprecateFlag" } ] } ``` #### restoreDeprecatedFlag Restores the feature flag if it was previously deprecated. Here's an example: ```json { "instructions": [ { "kind": "restoreDeprecatedFlag" } ] } ``` #### restoreFlag Restores the feature flag if it was previously archived. Here's an example: ```json { "instructions": [ { "kind": "restoreFlag" } ] } ``` </details> ### Using JSON patches on a feature flag If you do not include the semantic patch header described above, you can use a [JSON patch](https://launchdarkly.com/docs/api#updates-using-json-patch) or [JSON merge patch](https://datatracker.ietf.org/doc/html/rfc7386) representation of the desired changes. In the JSON patch representation, use a JSON pointer in the `path` element to describe what field to change. Use the [Get feature flag](https://launchdarkly.com/docs/api/feature-flags/get-feature-flag) endpoint to find the field you want to update. There are a few special cases to keep in mind when determining the value of the `path` element: * To add an individual target to a specific variation if the flag variation already has individual targets, the path for the JSON patch operation is: ```json [ { "op": "add", "path": "/environments/devint/targets/0/values/-", "value": "TestClient10" } ] ``` * To add an individual target to a specific variation if the flag variation does not already have individual targets, the path for the JSON patch operation is: ```json [ { "op": "add", "path": "/environments/devint/targets/-", "value": { "variation": 0, "values": ["TestClient10"] } } ] ``` * To add a flag to a release pipeline, the path for the JSON patch operation is: ```json [ { "op": "add", "path": "/releasePipelineKey", "value": "example-release-pipeline-key" } ] ``` ### Required approvals If a request attempts to alter a flag configuration in an environment where approvals are required for the flag, the request will fail with a 405. Changes to the flag configuration in that environment will require creating an [approval request](https://launchdarkly.com/docs/api/approvals). ### Conflicts If a flag configuration change made through this endpoint would cause a pending scheduled change or approval request to fail, this endpoint will return a 400. You can ignore this check by adding an `ignoreConflicts` query parameter set to `true`. ### Migration flags For migration flags, the cohort information is included in the `rules` property of a flag's response. You can update cohorts by updating `rules`. Default cohort information is included in the `fallthrough` property of a flag's response. You can update the default cohort by updating `fallthrough`. When you update the rollout for a cohort or the default cohort through the API, provide a rollout instead of a single `variationId`. To learn more, read [Migration flags](https://launchdarkly.com/docs/home/flags/migration). */
+/** Update feature flag Perform a partial update to a feature flag. The request body must be a valid semantic patch, JSON patch, or JSON merge patch. To learn more the different formats, read [Updates](https://launchdarkly.com/docs/api#updates). ### Using semantic patches on a feature flag To make a semantic patch request, you must append `domain-model=launchdarkly.semanticpatch` to your `Content-Type` header. To learn more, read [Updates using semantic patch](https://launchdarkly.com/docs/api#updates-using-semantic-patch). The body of a semantic patch request for updating feature flags takes the following properties: * `comment` (string): (Optional) A description of the update. * `environmentKey` (string): (Required for some instructions only) The key of the LaunchDarkly environment. * `instructions` (array): (Required) A list of actions the update should perform. Each action in the list must be an object with a `kind` property that indicates the instruction. If the action requires parameters, you must include those parameters as additional fields in the object. The body of a single semantic patch can contain many different instructions. ### Instructions Semantic patch requests support the following `kind` instructions for updating feature flags. <details> <summary>Click to expand instructions for <strong>turning flags on and off</strong></summary> These instructions require the `environmentKey` parameter. #### turnFlagOff Sets the flag's targeting state to **Off**. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "turnFlagOff" } ] } ``` #### turnFlagOn Sets the flag's targeting state to **On**. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "turnFlagOn" } ] } ``` </details><br /> <details> <summary>Click to expand instructions for <strong>working with targeting and variations</strong></summary> These instructions require the `environmentKey` parameter. Several of the instructions for working with targeting and variations require flag rule IDs, variation IDs, or clause IDs as parameters. Each of these are returned as part of the [Get feature flag](https://launchdarkly.com/docs/api/feature-flags/get-feature-flag) response. The flag rule ID is the `_id` field of each element in the `rules` array within each environment listed in the `environments` object. The variation ID is the `_id` field in each element of the `variations` array. The clause ID is the `_id` field of each element of the `clauses` array within the `rules` array within each environment listed in the `environments` object. #### addClauses Adds the given clauses to the rule indicated by `ruleId`. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauses`: Array of clause objects, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addClauses", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauses": [{ "contextKind": "user", "attribute": "country", "op": "in", "negate": false, "values": ["USA", "Canada"] }] }] } ``` #### addPrerequisite Adds the flag indicated by `key` with variation `variationId` as a prerequisite to the flag in the path parameter. ##### Parameters - `key`: Flag key of the prerequisite flag. - `variationId`: ID of a variation of the prerequisite flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addPrerequisite", "key": "example-prereq-flag-key", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### addRule Adds a new targeting rule to the flag. The rule may contain `clauses` and serve the variation that `variationId` indicates, or serve a percentage rollout that `rolloutWeights`, `rolloutBucketBy`, and `rolloutContextKind` indicate. If you set `beforeRuleId`, this adds the new rule before the indicated rule. Otherwise, adds the new rule to the end of the list. ##### Parameters - `clauses`: Array of clause objects, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. - `beforeRuleId`: (Optional) ID of a flag rule. - Either - `variationId`: ID of a variation of the flag. or - `rolloutWeights`: (Optional) Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example that uses a `variationId`: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addRule", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "clauses": [{ "contextKind": "organization", "attribute": "located_in", "op": "in", "negate": false, "values": ["Sweden", "Norway"] }] }] } ``` Here's an example that uses a percentage rollout: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addRule", "clauses": [{ "contextKind": "organization", "attribute": "located_in", "op": "in", "negate": false, "values": ["Sweden", "Norway"] }], "rolloutContextKind": "organization", "rolloutWeights": { "2f43f67c-3e4e-4945-a18a-26559378ca00": 15000, // serve 15% this variation "e5830889-1ec5-4b0c-9cc9-c48790090c43": 85000 // serve 85% this variation } }] } ``` #### addTargets Adds context keys to the individual context targets for the context kind that `contextKind` specifies and the variation that `variationId` specifies. Returns an error if this causes the flag to target the same context key in multiple variations. ##### Parameters - `values`: List of context keys. - `contextKind`: (Optional) Context kind to target, defaults to `user` - `variationId`: ID of a variation on the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addTargets", "values": ["context-key-123abc", "context-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### addUserTargets Adds user keys to the individual user targets for the variation that `variationId` specifies. Returns an error if this causes the flag to target the same user key in multiple variations. If you are working with contexts, use `addTargets` instead of this instruction. ##### Parameters - `values`: List of user keys. - `variationId`: ID of a variation on the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addUserTargets", "values": ["user-key-123abc", "user-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### addValuesToClause Adds `values` to the values of the clause that `ruleId` and `clauseId` indicate. Does not update the context kind, attribute, or operator. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauseId`: ID of a clause in that rule. - `values`: Array of strings, case sensitive. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addValuesToClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10a58772-3121-400f-846b-b8a04e8944ed", "values": ["beta_testers"] }] } ``` #### addVariation Adds a variation to the flag. ##### Parameters - `value`: The variation value. - `name`: (Optional) The variation name. - `description`: (Optional) A description for the variation. Here's an example: ```json { "instructions": [ { "kind": "addVariation", "value": 20, "name": "New variation" } ] } ``` #### clearTargets Removes all individual targets from the variation that `variationId` specifies. This includes both user and non-user targets. ##### Parameters - `variationId`: ID of a variation on the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "clearTargets", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### clearUserTargets Removes all individual user targets from the variation that `variationId` specifies. If you are working with contexts, use `clearTargets` instead of this instruction. ##### Parameters - `variationId`: ID of a variation on the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "clearUserTargets", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### removeClauses Removes the clauses specified by `clauseIds` from the rule indicated by `ruleId`. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauseIds`: Array of IDs of clauses in the rule. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeClauses", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseIds": ["10a58772-3121-400f-846b-b8a04e8944ed", "36a461dc-235e-4b08-97b9-73ce9365873e"] }] } ``` #### removePrerequisite Removes the prerequisite flag indicated by `key`. Does nothing if this prerequisite does not exist. ##### Parameters - `key`: Flag key of an existing prerequisite flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "removePrerequisite", "key": "prereq-flag-key-123abc" } ] } ``` #### removeRule Removes the targeting rule specified by `ruleId`. Does nothing if the rule does not exist. ##### Parameters - `ruleId`: ID of a rule in the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "removeRule", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29" } ] } ``` #### removeTargets Removes context keys from the individual context targets for the context kind that `contextKind` specifies and the variation that `variationId` specifies. Does nothing if the flag does not target the context keys. ##### Parameters - `values`: List of context keys. - `contextKind`: (Optional) Context kind to target, defaults to `user` - `variationId`: ID of a flag variation. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeTargets", "values": ["context-key-123abc", "context-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### removeUserTargets Removes user keys from the individual user targets for the variation that `variationId` specifies. Does nothing if the flag does not target the user keys. If you are working with contexts, use `removeTargets` instead of this instruction. ##### Parameters - `values`: List of user keys. - `variationId`: ID of a flag variation. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeUserTargets", "values": ["user-key-123abc", "user-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### removeValuesFromClause Removes `values` from the values of the clause indicated by `ruleId` and `clauseId`. Does not update the context kind, attribute, or operator. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauseId`: ID of a clause in that rule. - `values`: Array of strings, case sensitive. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeValuesFromClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10a58772-3121-400f-846b-b8a04e8944ed", "values": ["beta_testers"] }] } ``` #### removeVariation Removes a variation from the flag. ##### Parameters - `variationId`: ID of a variation of the flag to remove. Here's an example: ```json { "instructions": [ { "kind": "removeVariation", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### reorderRules Rearranges the rules to match the order given in `ruleIds`. Returns an error if `ruleIds` does not match the current set of rules on the flag. ##### Parameters - `ruleIds`: Array of IDs of all rules in the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "reorderRules", "ruleIds": ["a902ef4a-2faf-4eaf-88e1-ecc356708a29", "63c238d1-835d-435e-8f21-c8d5e40b2a3d"] }] } ``` #### replacePrerequisites Removes all existing prerequisites and replaces them with the list you provide. ##### Parameters - `prerequisites`: A list of prerequisites. Each item in the list must include a flag `key` and `variationId`. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replacePrerequisites", "prerequisites": [ { "key": "prereq-flag-key-123abc", "variationId": "10a58772-3121-400f-846b-b8a04e8944ed" }, { "key": "another-prereq-flag-key-456def", "variationId": "e5830889-1ec5-4b0c-9cc9-c48790090c43" } ] } ] } ``` #### replaceRules Removes all targeting rules for the flag and replaces them with the list you provide. ##### Parameters - `rules`: A list of rules. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replaceRules", "rules": [ { "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "description": "My new rule", "clauses": [ { "contextKind": "user", "attribute": "segmentMatch", "op": "segmentMatch", "values": ["test"] } ], "trackEvents": true } ] } ] } ``` #### replaceTargets Removes all existing targeting and replaces it with the list of targets you provide. ##### Parameters - `targets`: A list of context targeting. Each item in the list includes an optional `contextKind` that defaults to `user`, a required `variationId`, and a required list of `values`. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replaceTargets", "targets": [ { "contextKind": "user", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "values": ["user-key-123abc"] }, { "contextKind": "device", "variationId": "e5830889-1ec5-4b0c-9cc9-c48790090c43", "values": ["device-key-456def"] } ] } ] } ``` #### replaceUserTargets Removes all existing user targeting and replaces it with the list of targets you provide. In the list of targets, you must include a target for each of the flag's variations. If you are working with contexts, use `replaceTargets` instead of this instruction. ##### Parameters - `targets`: A list of user targeting. Each item in the list must include a `variationId` and a list of `values`. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replaceUserTargets", "targets": [ { "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "values": ["user-key-123abc", "user-key-456def"] }, { "variationId": "e5830889-1ec5-4b0c-9cc9-c48790090c43", "values": ["user-key-789ghi"] } ] } ] } ``` #### updateClause Replaces the clause indicated by `ruleId` and `clauseId` with `clause`. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauseId`: ID of a clause in that rule. - `clause`: New `clause` object, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10c7462a-2062-45ba-a8bb-dfb3de0f8af5", "clause": { "contextKind": "user", "attribute": "country", "op": "in", "negate": false, "values": ["Mexico", "Canada"] } }] } ``` #### updateDefaultVariation Updates the default on or off variation of the flag. ##### Parameters - `onVariationValue`: (Optional) The value of the variation of the new on variation. - `offVariationValue`: (Optional) The value of the variation of the new off variation Here's an example: ```json { "instructions": [ { "kind": "updateDefaultVariation", "OnVariationValue": true, "OffVariationValue": false } ] } ``` #### updateFallthroughVariationOrRollout Updates the default or "fallthrough" rule for the flag, which the flag serves when a context matches none of the targeting rules. The rule can serve either the variation that `variationId` indicates, or a percentage rollout that `rolloutWeights` and `rolloutBucketBy` indicate. ##### Parameters - `variationId`: ID of a variation of the flag. or - `rolloutWeights`: Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example that uses a `variationId`: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateFallthroughVariationOrRollout", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` Here's an example that uses a percentage rollout: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateFallthroughVariationOrRollout", "rolloutContextKind": "user", "rolloutWeights": { "2f43f67c-3e4e-4945-a18a-26559378ca00": 15000, // serve 15% this variation "e5830889-1ec5-4b0c-9cc9-c48790090c43": 85000 // serve 85% this variation } }] } ``` #### updateOffVariation Updates the default off variation to `variationId`. The flag serves the default off variation when the flag's targeting is **Off**. ##### Parameters - `variationId`: ID of a variation of the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateOffVariation", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### updatePrerequisite Changes the prerequisite flag that `key` indicates to use the variation that `variationId` indicates. Returns an error if this prerequisite does not exist. ##### Parameters - `key`: Flag key of an existing prerequisite flag. - `variationId`: ID of a variation of the prerequisite flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updatePrerequisite", "key": "example-prereq-flag-key", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### updateRuleDescription Updates the description of the feature flag rule. ##### Parameters - `description`: The new human-readable description for this rule. - `ruleId`: The ID of the rule. You can retrieve this by making a GET request for the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleDescription", "description": "New rule description", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29" }] } ``` #### updateRuleTrackEvents Updates whether the SDK sends a detailed event for every evaluation of this rule, instead of only summary counts. Required for Data Export, but doesn't enable Data Export on its own. ##### Parameters - `ruleId`: The ID of the rule. You can retrieve this by making a GET request for the flag. - `trackEvents`: Whether or not detailed events are sent for this rule. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleTrackEvents", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "trackEvents": true }] } ``` #### updateRuleVariationOrRollout Updates what `ruleId` serves when its clauses evaluate to true. The rule can serve either the variation that `variationId` indicates, or a percent rollout that `rolloutWeights` and `rolloutBucketBy` indicate. ##### Parameters - `ruleId`: ID of a rule in the flag. - `variationId`: ID of a variation of the flag. or - `rolloutWeights`: Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleVariationOrRollout", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### updateTrackEvents Updates whether the SDK sends detailed evaluation events for this flag, for all rules. Required for Data Export, but doesn't enable Data Export on its own. ##### Parameters - `trackEvents`: Whether or not detailed events are sent for this flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateTrackEvents", "trackEvents": true } ] } ``` #### updateTrackEventsFallthrough Updates whether the SDK sends detailed evaluation events for the flag's default rule. Required for Data Export, but doesn't enable Data Export on its own. ##### Parameters - `trackEvents`: Whether or not detailed events are sent for the default rule. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateTrackEventsFallthrough", "trackEvents": true } ] } ``` #### updateVariation Updates a variation of the flag. ##### Parameters - `variationId`: The ID of the variation to update. - `name`: (Optional) The updated variation name. - `value`: (Optional) The updated variation value. - `description`: (Optional) The updated variation description. Here's an example: ```json { "instructions": [ { "kind": "updateVariation", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "value": 20 } ] } ``` </details><br /> <details> <summary>Click to expand instructions for <strong>updating flag settings</strong></summary> These instructions do not require the `environmentKey` parameter. They make changes that apply to the flag across all environments. #### addCustomProperties Adds a new custom property to the feature flag. Custom properties are used to associate feature flags with LaunchDarkly integrations. For example, if you create an integration with an issue tracking service, you may want to associate a flag with a list of issues related to a feature's development. ##### Parameters - `key`: The custom property key. - `name`: The custom property name. - `values`: A list of the associated values for the custom property. Here's an example: ```json { "instructions": [{ "kind": "addCustomProperties", "key": "example-custom-property", "name": "Example custom property", "values": ["value1", "value2"] }] } ``` #### addTags Adds tags to the feature flag. ##### Parameters - `values`: A list of tags to add. Here's an example: ```json { "instructions": [ { "kind": "addTags", "values": ["tag1", "tag2"] } ] } ``` #### makeFlagPermanent Marks the feature flag as permanent. LaunchDarkly does not prompt you to remove permanent flags, even if one variation is rolled out to all your customers. Here's an example: ```json { "instructions": [ { "kind": "makeFlagPermanent" } ] } ``` #### makeFlagTemporary Marks the feature flag as temporary. Here's an example: ```json { "instructions": [ { "kind": "makeFlagTemporary" } ] } ``` #### removeCustomProperties Removes the associated values from a custom property. If all the associated values are removed, this instruction also removes the custom property. ##### Parameters - `key`: The custom property key. - `values`: A list of the associated values to remove from the custom property. ```json { "instructions": [{ "kind": "replaceCustomProperties", "key": "example-custom-property", "values": ["value1", "value2"] }] } ``` #### removeMaintainer Removes the flag's maintainer. To set a new maintainer, use the `updateMaintainerMember` or `updateMaintainerTeam` instructions. Here's an example: ```json { "instructions": [ { "kind": "removeMaintainer" } ] } ``` #### removeTags Removes tags from the feature flag. ##### Parameters - `values`: A list of tags to remove. Here's an example: ```json { "instructions": [ { "kind": "removeTags", "values": ["tag1", "tag2"] } ] } ``` #### replaceCustomProperties Replaces the existing associated values for a custom property with the new values. ##### Parameters - `key`: The custom property key. - `name`: The custom property name. - `values`: A list of the new associated values for the custom property. Here's an example: ```json { "instructions": [{ "kind": "replaceCustomProperties", "key": "example-custom-property", "name": "Example custom property", "values": ["value1", "value2"] }] } ``` #### turnOffClientSideAvailability Turns off client-side SDK availability for the flag. This is equivalent to unchecking the **SDKs using Mobile key** and/or **SDKs using Client-side ID** boxes for the flag. If you're using a client-side or mobile SDK, you must expose your feature flags in order for the client-side or mobile SDKs to evaluate them. ##### Parameters - `value`: Use "usingMobileKey" to turn off availability for mobile SDKs. Use "usingEnvironmentId" to turn on availability for client-side SDKs. Here's an example: ```json { "instructions": [ { "kind": "turnOffClientSideAvailability", "value": "usingMobileKey" } ] } ``` #### turnOnClientSideAvailability Turns on client-side SDK availability for the flag. This is equivalent to checking the **SDKs using Mobile key** and/or **SDKs using Client-side ID** boxes for the flag. If you're using a client-side or mobile SDK, you must expose your feature flags in order for the client-side or mobile SDKs to evaluate them. ##### Parameters - `value`: Use "usingMobileKey" to turn on availability for mobile SDKs. Use "usingEnvironmentId" to turn on availability for client-side SDKs. Here's an example: ```json { "instructions": [ { "kind": "turnOnClientSideAvailability", "value": "usingMobileKey" } ] } ``` #### updateDescription Updates the feature flag description. ##### Parameters - `value`: The new description. Here's an example: ```json { "instructions": [ { "kind": "updateDescription", "value": "Updated flag description" } ] } ``` #### updateMaintainerMember Updates the maintainer of the flag to an existing member and removes the existing maintainer. ##### Parameters - `value`: The ID of the member. Here's an example: ```json { "instructions": [ { "kind": "updateMaintainerMember", "value": "61e9b714fd47591727db558a" } ] } ``` #### updateMaintainerTeam Updates the maintainer of the flag to an existing team and removes the existing maintainer. ##### Parameters - `value`: The key of the team. Here's an example: ```json { "instructions": [ { "kind": "updateMaintainerTeam", "value": "example-team-key" } ] } ``` #### updateName Updates the feature flag name. ##### Parameters - `value`: The new name. Here's an example: ```json { "instructions": [ { "kind": "updateName", "value": "Updated flag name" } ] } ``` </details><br /> <details> <summary>Click to expand instructions for <strong>updating the flag lifecycle</strong></summary> These instructions do not require the `environmentKey` parameter. They make changes that apply to the flag across all environments. #### archiveFlag Archives the feature flag. This retires it from LaunchDarkly without deleting it. You cannot archive a flag that is a prerequisite of other flags. ```json { "instructions": [ { "kind": "archiveFlag" } ] } ``` #### deleteFlag Deletes the feature flag and its rules. You cannot restore a deleted flag. If this flag is requested again, the flag value defined in code will be returned for all contexts. Here's an example: ```json { "instructions": [ { "kind": "deleteFlag" } ] } ``` #### deprecateFlag Deprecates the feature flag. This hides it from the live flags list without archiving or deleting it. Here's an example: ```json { "instructions": [ { "kind": "deprecateFlag" } ] } ``` #### restoreDeprecatedFlag Restores the feature flag if it was previously deprecated. Here's an example: ```json { "instructions": [ { "kind": "restoreDeprecatedFlag" } ] } ``` #### restoreFlag Restores the feature flag if it was previously archived. Here's an example: ```json { "instructions": [ { "kind": "restoreFlag" } ] } ``` </details> ### Using JSON patches on a feature flag If you do not include the semantic patch header described above, you can use a [JSON patch](https://launchdarkly.com/docs/api#updates-using-json-patch) or [JSON merge patch](https://datatracker.ietf.org/doc/html/rfc7386) representation of the desired changes. In the JSON patch representation, use a JSON pointer in the `path` element to describe what field to change. Use the [Get feature flag](https://launchdarkly.com/docs/api/feature-flags/get-feature-flag) endpoint to find the field you want to update. There are a few special cases to keep in mind when determining the value of the `path` element: * To add an individual target to a specific variation if the flag variation already has individual targets, the path for the JSON patch operation is: ```json [ { "op": "add", "path": "/environments/devint/targets/0/values/-", "value": "TestClient10" } ] ``` * To add an individual target to a specific variation if the flag variation does not already have individual targets, the path for the JSON patch operation is: ```json [ { "op": "add", "path": "/environments/devint/targets/-", "value": { "variation": 0, "values": ["TestClient10"] } } ] ``` * To add a flag to a release pipeline, the path for the JSON patch operation is: ```json [ { "op": "add", "path": "/releasePipelineKey", "value": "example-release-pipeline-key" } ] ``` ### Required approvals If a request attempts to alter a flag configuration in an environment where approvals are required for the flag, the request will fail with a 405. Changes to the flag configuration in that environment will require creating an [approval request](https://launchdarkly.com/docs/api/approvals). ### Conflicts If a flag configuration change made through this endpoint would cause a pending scheduled change or approval request to fail, this endpoint will return a 400. You can ignore this check by adding an `ignoreConflicts` query parameter set to `true`. ### Migration flags For migration flags, the cohort information is included in the `rules` property of a flag's response. You can update cohorts by updating `rules`. Default cohort information is included in the `fallthrough` property of a flag's response. You can update the default cohort by updating `fallthrough`. When you update the rollout for a cohort or the default cohort through the API, provide a rollout instead of a single `variationId`. To learn more, read [Migration flags](https://launchdarkly.com/docs/home/flags/migration). */
 export const patchFeatureFlag: API.OperationMethod<
   PatchFeatureFlagRequest,
   FeatureFlag,
@@ -33571,6 +32309,21 @@ export const putReleasePolicy: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PutSdkKeyViewsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
+/** Replace SDK key views Replace the set of views associated with an SDK key. The `viewKeys` field is required. To remove all views from the SDK key, pass an empty `viewKeys` array. */
+export const putSdkKeyViews: API.OperationMethod<
+  PutSdkKeyViewsRequest,
+  PutSdkKeyViewsResponse,
+  PutSdkKeyViewsError,
+  LaunchDarklyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutSdkKeyViewsRequest,
+  output: PutSdkKeyViewsResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  protocol: LaunchDarklyProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ResetEnvironmentMobileKeyError =
   | BadRequest
   | Forbidden
@@ -33626,23 +32379,8 @@ export const resetRelayAutoConfig: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type SearchContextInstancesError = BadRequest | Forbidden | LaunchDarklyOpError;
-/** Search for context instances Search for context instances. You can use either the query parameters or the request body parameters. If both are provided, there is an error. To learn more about the filter syntax, read [Filtering contexts and context instances](https://launchdarkly.com/docs/api/contexts#filtering-contexts-and-context-instances). To learn more about context instances, read [Context instances](https://launchdarkly.com/docs/home/observability/multi-contexts#context-instances). */
-export const searchContextInstances: API.OperationMethod<
-  SearchContextInstancesRequest,
-  ContextInstances,
-  SearchContextInstancesError,
-  LaunchDarklyOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SearchContextInstancesRequest,
-  output: ContextInstances,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
-  protocol: LaunchDarklyProtocol,
-  retry: Retry.Retry,
-}));
-
 export type SearchContextsError = BadRequest | Forbidden | LaunchDarklyOpError;
-/** Search for contexts Search for contexts. You can use either the query parameters or the request body parameters. If both are provided, there is an error. To learn more about the filter syntax, read [Filtering contexts and context instances](https://launchdarkly.com/docs/api/contexts#filtering-contexts-and-context-instances). To learn more about contexts, read [Contexts and context kinds](https://launchdarkly.com/docs/home/observability/contexts#contexts-and-context-kinds). */
+/** Search for contexts Search for contexts. You can use either the query parameters or the request body parameters. If both are provided, there is an error. Results are sorted by context kind and key. Each context appears once, with its most recently reported attributes. Results include contexts that LaunchDarkly has received within the last 30 days. To learn more about the filter syntax, read [Filtering contexts](https://launchdarkly.com/docs/api/contexts#filtering-contexts). To learn more about contexts, read [Contexts and context kinds](https://launchdarkly.com/docs/home/observability/contexts#contexts-and-context-kinds). */
 export const searchContexts: API.OperationMethod<
   SearchContextsRequest,
   Contexts,
@@ -33822,7 +32560,7 @@ export type UpdateDestinationByIdError =
   | NotFound
   | Conflict
   | LaunchDarklyOpError;
-/** Update Data Export destination Update a Data Export destination. Updating a destination uses a [JSON patch](https://datatracker.ietf.org/doc/html/rfc6902) or [JSON merge patch](https://datatracker.ietf.org/doc/html/rfc7386) representation of the desired changes. To learn more, read [Updates](https://launchdarkly.com/docs/api#updates). */
+/** Update Data Export destination Update a Data Export destination. The destination must belong to the environment in the URL. Otherwise, the response is 404. Updating a destination uses a [JSON patch](https://datatracker.ietf.org/doc/html/rfc6902) or [JSON merge patch](https://datatracker.ietf.org/doc/html/rfc7386) representation of the desired changes. To learn more, read [Updates](https://launchdarkly.com/docs/api#updates). */
 export const updateDestinationById: API.OperationMethod<
   UpdateDestinationByIdRequest,
   Destination,
