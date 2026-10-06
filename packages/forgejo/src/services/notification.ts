@@ -67,9 +67,7 @@ export const NotifyGetListRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/notifications", code: 200 })),
-).annotate({
-  identifier: "NotifyGetListRequest",
-}) as any as S.Schema<NotifyGetListRequest>;
+).annotate({ identifier: "NotifyGetListRequest" }) as any as S.Schema<NotifyGetListRequest>;
 
 /** ExternalTracker represents settings for external tracker */
 export interface ExternalTracker {
@@ -89,9 +87,7 @@ export const ExternalTracker = /*@__PURE__*/ S.suspend(() =>
     external_tracker_style: S.optional(S.String),
     external_tracker_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExternalTracker",
-}) as any as S.Schema<ExternalTracker>;
+).annotate({ identifier: "ExternalTracker" }) as any as S.Schema<ExternalTracker>;
 
 /** ExternalWiki represents setting for external wiki */
 export interface ExternalWiki {
@@ -119,9 +115,7 @@ export const InternalTracker = /*@__PURE__*/ S.suspend(() =>
     enable_issue_dependencies: S.optional(S.Boolean),
     enable_time_tracker: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "InternalTracker",
-}) as any as S.Schema<InternalTracker>;
+).annotate({ identifier: "InternalTracker" }) as any as S.Schema<InternalTracker>;
 
 /** ObjectFormatName of the underlying git repository */
 export type RepositoryObjectFormatName = "sha1" | "sha256";
@@ -471,9 +465,7 @@ export const NotificationSubject = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NotificationSubject",
-}) as any as S.Schema<NotificationSubject>;
+).annotate({ identifier: "NotificationSubject" }) as any as S.Schema<NotificationSubject>;
 
 /** NotificationThread expose Notification on API */
 export interface NotificationThread {
@@ -495,9 +487,7 @@ export const NotificationThread = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NotificationThread",
-}) as any as S.Schema<NotificationThread>;
+).annotate({ identifier: "NotificationThread" }) as any as S.Schema<NotificationThread>;
 
 export type NotifyGetListResponseBodyList = Array<NotificationThread>;
 export const NotifyGetListResponseBodyList = /*@__PURE__*/ S.Array(
@@ -507,9 +497,7 @@ export const NotifyGetListResponseBodyList = /*@__PURE__*/ S.Array(
 export type NotifyGetListResponse = NotifyGetListResponseBodyList;
 export const NotifyGetListResponse = /*@__PURE__*/ S.suspend(() =>
   NotifyGetListResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "NotifyGetListResponse",
-}) as any as S.Schema<NotifyGetListResponse>;
+).annotate({ identifier: "NotifyGetListResponse" }) as any as S.Schema<NotifyGetListResponse>;
 
 export type NotifyGetRepoListRequestStatusTypesList = Array<string>;
 export const NotifyGetRepoListRequestStatusTypesList = /*@__PURE__*/ S.Array(
@@ -557,16 +545,8 @@ export const NotifyGetRepoListRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/notifications",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "NotifyGetRepoListRequest",
-}) as any as S.Schema<NotifyGetRepoListRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/notifications", code: 200 })),
+).annotate({ identifier: "NotifyGetRepoListRequest" }) as any as S.Schema<NotifyGetRepoListRequest>;
 
 export type NotifyGetRepoListResponseBodyList = Array<NotificationThread>;
 export const NotifyGetRepoListResponseBodyList = /*@__PURE__*/ S.Array(
@@ -588,9 +568,7 @@ export const NotifyGetThreadRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/notifications/threads/{id}", code: 200 })),
-).annotate({
-  identifier: "NotifyGetThreadRequest",
-}) as any as S.Schema<NotifyGetThreadRequest>;
+).annotate({ identifier: "NotifyGetThreadRequest" }) as any as S.Schema<NotifyGetThreadRequest>;
 
 export interface NotifyNewAvailableRequest {}
 export const NotifyNewAvailableRequest = /*@__PURE__*/ S.suspend(() =>
@@ -607,9 +585,7 @@ export const NotificationCount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     new: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NotificationCount",
-}) as any as S.Schema<NotificationCount>;
+).annotate({ identifier: "NotificationCount" }) as any as S.Schema<NotificationCount>;
 
 export type NotifyReadListRequestStatusTypesList = Array<string>;
 export const NotifyReadListRequestStatusTypesList = /*@__PURE__*/ S.Array(
@@ -633,9 +609,7 @@ export const NotifyReadListRequest = /*@__PURE__*/ S.suspend(() =>
     status_types: S.optional(NotifyReadListRequestStatusTypesList.pipe(T.Query("status-types"))),
     to_status: S.optional(S.String.pipe(T.Query("to-status"))),
   }).pipe(T.Http({ method: "PUT", uri: "/notifications", code: 200 })),
-).annotate({
-  identifier: "NotifyReadListRequest",
-}) as any as S.Schema<NotifyReadListRequest>;
+).annotate({ identifier: "NotifyReadListRequest" }) as any as S.Schema<NotifyReadListRequest>;
 
 export interface NotifyReadListResponse {}
 export const NotifyReadListResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -671,13 +645,7 @@ export const NotifyReadRepoListRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     to_status: S.optional(S.String.pipe(T.Query("to-status"))),
     last_read_at: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/notifications",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/notifications", code: 200 })),
 ).annotate({
   identifier: "NotifyReadRepoListRequest",
 }) as any as S.Schema<NotifyReadRepoListRequest>;
@@ -698,9 +666,7 @@ export const NotifyReadThreadRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     to_status: S.optional(S.String.pipe(T.Query("to-status"))),
   }).pipe(T.Http({ method: "PATCH", uri: "/notifications/threads/{id}", code: 200 })),
-).annotate({
-  identifier: "NotifyReadThreadRequest",
-}) as any as S.Schema<NotifyReadThreadRequest>;
+).annotate({ identifier: "NotifyReadThreadRequest" }) as any as S.Schema<NotifyReadThreadRequest>;
 
 export interface NotifyReadThreadResponse {}
 export const NotifyReadThreadResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

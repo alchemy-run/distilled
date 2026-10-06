@@ -70,9 +70,7 @@ export const ActivitypubPersonRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user_id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/activitypub/user-id/{user_id}", code: 200 })),
-).annotate({
-  identifier: "ActivitypubPersonRequest",
-}) as any as S.Schema<ActivitypubPersonRequest>;
+).annotate({ identifier: "ActivitypubPersonRequest" }) as any as S.Schema<ActivitypubPersonRequest>;
 
 export interface ActivitypubPersonActivityRequest {
   /** user ID of the user */
@@ -123,13 +121,7 @@ export interface ActivitypubPersonFeedRequest {
 export const ActivitypubPersonFeedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/activitypub/user-id/{user_id}/outbox",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/activitypub/user-id/{user_id}/outbox", code: 200 })),
 ).annotate({
   identifier: "ActivitypubPersonFeedRequest",
 }) as any as S.Schema<ActivitypubPersonFeedRequest>;
@@ -148,13 +140,7 @@ export interface ActivitypubPersonInboxRequest {
 export const ActivitypubPersonInboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/activitypub/user-id/{user_id}/inbox",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/activitypub/user-id/{user_id}/inbox", code: 200 })),
 ).annotate({
   identifier: "ActivitypubPersonInboxRequest",
 }) as any as S.Schema<ActivitypubPersonInboxRequest>;
@@ -171,13 +157,7 @@ export interface ActivitypubRepositoryRequest {
 export const ActivitypubRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     repository_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/activitypub/repository-id/{repository_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/activitypub/repository-id/{repository_id}", code: 200 })),
 ).annotate({
   identifier: "ActivitypubRepositoryRequest",
 }) as any as S.Schema<ActivitypubRepositoryRequest>;
@@ -190,11 +170,7 @@ export const ActivitypubRepositoryInboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     repository_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/activitypub/repository-id/{repository_id}/inbox",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/activitypub/repository-id/{repository_id}/inbox", code: 200 }),
   ),
 ).annotate({
   identifier: "ActivitypubRepositoryInboxRequest",
@@ -215,11 +191,7 @@ export const ActivitypubRepositoryOutboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     repository_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/activitypub/repository-id/{repository_id}/outbox",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/activitypub/repository-id/{repository_id}/outbox", code: 200 }),
   ),
 ).annotate({
   identifier: "ActivitypubRepositoryOutboxRequest",

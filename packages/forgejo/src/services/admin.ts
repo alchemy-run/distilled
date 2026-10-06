@@ -65,11 +65,7 @@ export const AdminAddRuleToQuotaGroupRequest = /*@__PURE__*/ S.suspend(() =>
     quotagroup: S.String.pipe(T.Label()),
     quotarule: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/admin/quota/groups/{quotagroup}/rules/{quotarule}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/admin/quota/groups/{quotagroup}/rules/{quotarule}", code: 200 }),
   ),
 ).annotate({
   identifier: "AdminAddRuleToQuotaGroupRequest",
@@ -93,11 +89,7 @@ export const AdminAddUserToQuotaGroupRequest = /*@__PURE__*/ S.suspend(() =>
     quotagroup: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/admin/quota/groups/{quotagroup}/users/{username}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/admin/quota/groups/{quotagroup}/users/{username}", code: 200 }),
   ),
 ).annotate({
   identifier: "AdminAddUserToQuotaGroupRequest",
@@ -120,13 +112,7 @@ export const AdminAdoptRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin/unadopted/{owner}/{repo}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin/unadopted/{owner}/{repo}", code: 200 })),
 ).annotate({
   identifier: "AdminAdoptRepositoryRequest",
 }) as any as S.Schema<AdminAdoptRepositoryRequest>;
@@ -179,9 +165,7 @@ export const AdminCreateHookRequest = /*@__PURE__*/ S.suspend(() =>
     events: S.optional(AdminCreateHookRequestEventsList),
     type: AdminCreateHookRequestType,
   }).pipe(T.Http({ method: "POST", uri: "/admin/hooks", code: 200 })),
-).annotate({
-  identifier: "AdminCreateHookRequest",
-}) as any as S.Schema<AdminCreateHookRequest>;
+).annotate({ identifier: "AdminCreateHookRequest" }) as any as S.Schema<AdminCreateHookRequest>;
 
 /** Deprecated: use Metadata instead */
 export type HookConfigMap = { [key: string]: string | undefined };
@@ -255,9 +239,7 @@ export const AdminCreateOrgRequest = /*@__PURE__*/ S.suspend(() =>
     visibility: S.optional(AdminCreateOrgRequestVisibility),
     website: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/admin/users/{owner}/orgs", code: 200 })),
-).annotate({
-  identifier: "AdminCreateOrgRequest",
-}) as any as S.Schema<AdminCreateOrgRequest>;
+).annotate({ identifier: "AdminCreateOrgRequest" }) as any as S.Schema<AdminCreateOrgRequest>;
 
 /** Organization represents an organization */
 export interface Organization {
@@ -436,9 +418,7 @@ export const CreateQuotaRuleOptions = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     subjects: S.optional(CreateQuotaRuleOptionsSubjectsList),
   }),
-).annotate({
-  identifier: "CreateQuotaRuleOptions",
-}) as any as S.Schema<CreateQuotaRuleOptions>;
+).annotate({ identifier: "CreateQuotaRuleOptions" }) as any as S.Schema<CreateQuotaRuleOptions>;
 
 /** Rules to add to the newly created group. If a rule does not exist, it will be created. */
 export type AdminCreateQuotaGroupRequestRulesList = Array<CreateQuotaRuleOptions>;
@@ -584,9 +564,7 @@ export const AdminCreateRepoRequest = /*@__PURE__*/ S.suspend(() =>
     template: S.optional(S.Boolean),
     trust_model: S.optional(AdminCreateRepoRequestTrustModel),
   }).pipe(T.Http({ method: "POST", uri: "/admin/users/{username}/repos", code: 200 })),
-).annotate({
-  identifier: "AdminCreateRepoRequest",
-}) as any as S.Schema<AdminCreateRepoRequest>;
+).annotate({ identifier: "AdminCreateRepoRequest" }) as any as S.Schema<AdminCreateRepoRequest>;
 
 /** ExternalTracker represents settings for external tracker */
 export interface ExternalTracker {
@@ -606,9 +584,7 @@ export const ExternalTracker = /*@__PURE__*/ S.suspend(() =>
     external_tracker_style: S.optional(S.String),
     external_tracker_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExternalTracker",
-}) as any as S.Schema<ExternalTracker>;
+).annotate({ identifier: "ExternalTracker" }) as any as S.Schema<ExternalTracker>;
 
 /** ExternalWiki represents setting for external wiki */
 export interface ExternalWiki {
@@ -636,9 +612,7 @@ export const InternalTracker = /*@__PURE__*/ S.suspend(() =>
     enable_issue_dependencies: S.optional(S.Boolean),
     enable_time_tracker: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "InternalTracker",
-}) as any as S.Schema<InternalTracker>;
+).annotate({ identifier: "InternalTracker" }) as any as S.Schema<InternalTracker>;
 
 /** ObjectFormatName of the underlying git repository */
 export type RepositoryObjectFormatName = "sha1" | "sha256";
@@ -891,9 +865,7 @@ export const AdminCreateUserRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.String,
     visibility: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/admin/users", code: 200 })),
-).annotate({
-  identifier: "AdminCreateUserRequest",
-}) as any as S.Schema<AdminCreateUserRequest>;
+).annotate({ identifier: "AdminCreateUserRequest" }) as any as S.Schema<AdminCreateUserRequest>;
 
 export interface RepoTargetOption {
   /** Name of repository */
@@ -906,9 +878,7 @@ export const RepoTargetOption = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     owner: S.String,
   }),
-).annotate({
-  identifier: "RepoTargetOption",
-}) as any as S.Schema<RepoTargetOption>;
+).annotate({ identifier: "RepoTargetOption" }) as any as S.Schema<RepoTargetOption>;
 
 /** If provided and not-empty, creates an access token with access only to specified repositories. */
 export type AdminCreateUserAccessTokenRequestRepositoriesList = Array<RepoTargetOption>;
@@ -935,13 +905,7 @@ export const AdminCreateUserAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     repositories: S.optional(AdminCreateUserAccessTokenRequestRepositoriesList),
     scopes: S.optional(AdminCreateUserAccessTokenRequestScopesList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin/users/{username}/tokens",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin/users/{username}/tokens", code: 200 })),
 ).annotate({
   identifier: "AdminCreateUserAccessTokenRequest",
 }) as any as S.Schema<AdminCreateUserAccessTokenRequest>;
@@ -1003,9 +967,7 @@ export const AdminDeleteHookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/admin/hooks/{id}", code: 200 })),
-).annotate({
-  identifier: "AdminDeleteHookRequest",
-}) as any as S.Schema<AdminDeleteHookRequest>;
+).annotate({ identifier: "AdminDeleteHookRequest" }) as any as S.Schema<AdminDeleteHookRequest>;
 
 export interface AdminDeleteHookResponse {}
 export const AdminDeleteHookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1019,13 +981,7 @@ export interface AdminDeleteQuotaGroupRequest {
 export const AdminDeleteQuotaGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     quotagroup: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/admin/quota/groups/{quotagroup}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/admin/quota/groups/{quotagroup}", code: 200 })),
 ).annotate({
   identifier: "AdminDeleteQuotaGroupRequest",
 }) as any as S.Schema<AdminDeleteQuotaGroupRequest>;
@@ -1042,13 +998,7 @@ export interface AdminDeleteQuotaRuleRequest {
 export const AdminDeleteQuotaRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     quotarule: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/admin/quota/rules/{quotarule}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/admin/quota/rules/{quotarule}", code: 200 })),
 ).annotate({
   identifier: "AdminDeleteQuotaRuleRequest",
 }) as any as S.Schema<AdminDeleteQuotaRuleRequest>;
@@ -1068,13 +1018,7 @@ export const AdminDeleteUnadoptedRepositoryRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/admin/unadopted/{owner}/{repo}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/admin/unadopted/{owner}/{repo}", code: 200 })),
 ).annotate({
   identifier: "AdminDeleteUnadoptedRepositoryRequest",
 }) as any as S.Schema<AdminDeleteUnadoptedRepositoryRequest>;
@@ -1097,9 +1041,7 @@ export const AdminDeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.String.pipe(T.Label()),
     purge: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/admin/users/{username}", code: 200 })),
-).annotate({
-  identifier: "AdminDeleteUserRequest",
-}) as any as S.Schema<AdminDeleteUserRequest>;
+).annotate({ identifier: "AdminDeleteUserRequest" }) as any as S.Schema<AdminDeleteUserRequest>;
 
 export interface AdminDeleteUserResponse {}
 export const AdminDeleteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1116,13 +1058,7 @@ export const AdminDeleteUserAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
     token: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/admin/users/{username}/tokens/{token}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/admin/users/{username}/tokens/{token}", code: 200 })),
 ).annotate({
   identifier: "AdminDeleteUserAccessTokenRequest",
 }) as any as S.Schema<AdminDeleteUserAccessTokenRequest>;
@@ -1150,13 +1086,7 @@ export const AdminDeleteUserEmailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
     emails: S.optional(AdminDeleteUserEmailsRequestEmailsList),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/admin/users/{username}/emails",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/admin/users/{username}/emails", code: 200 })),
 ).annotate({
   identifier: "AdminDeleteUserEmailsRequest",
 }) as any as S.Schema<AdminDeleteUserEmailsRequest>;
@@ -1176,13 +1106,7 @@ export const AdminDeleteUserPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/admin/users/{username}/keys/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/admin/users/{username}/keys/{id}", code: 200 })),
 ).annotate({
   identifier: "AdminDeleteUserPublicKeyRequest",
 }) as any as S.Schema<AdminDeleteUserPublicKeyRequest>;
@@ -1194,9 +1118,7 @@ export const AdminDeleteUserPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "AdminDeleteUserPublicKeyResponse",
 }) as any as S.Schema<AdminDeleteUserPublicKeyResponse>;
 
-export type AdminEditHookRequestConfigMap = {
-  [key: string]: string | undefined;
-};
+export type AdminEditHookRequestConfigMap = { [key: string]: string | undefined };
 export const AdminEditHookRequestConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1225,9 +1147,7 @@ export const AdminEditHookRequest = /*@__PURE__*/ S.suspend(() =>
     config: S.optional(AdminEditHookRequestConfigMap),
     events: S.optional(AdminEditHookRequestEventsList),
   }).pipe(T.Http({ method: "PATCH", uri: "/admin/hooks/{id}", code: 200 })),
-).annotate({
-  identifier: "AdminEditHookRequest",
-}) as any as S.Schema<AdminEditHookRequest>;
+).annotate({ identifier: "AdminEditHookRequest" }) as any as S.Schema<AdminEditHookRequest>;
 
 /** The subjects affected by the rule */
 export type AdminEditQuotaRuleRequestSubjectsList = Array<string>;
@@ -1248,13 +1168,7 @@ export const AdminEditQuotaRuleRequest = /*@__PURE__*/ S.suspend(() =>
     quotarule: S.String.pipe(T.Label()),
     limit: S.optional(S.Number),
     subjects: S.optional(AdminEditQuotaRuleRequestSubjectsList),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/admin/quota/rules/{quotarule}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/admin/quota/rules/{quotarule}", code: 200 })),
 ).annotate({
   identifier: "AdminEditQuotaRuleRequest",
 }) as any as S.Schema<AdminEditQuotaRuleRequest>;
@@ -1307,9 +1221,7 @@ export const AdminEditUserRequest = /*@__PURE__*/ S.suspend(() =>
     visibility: S.optional(S.String),
     website: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/admin/users/{username}", code: 200 })),
-).annotate({
-  identifier: "AdminEditUserRequest",
-}) as any as S.Schema<AdminEditUserRequest>;
+).annotate({ identifier: "AdminEditUserRequest" }) as any as S.Schema<AdminEditUserRequest>;
 
 export interface AdminGetActionRunJobsRequest {
   /** a comma separated list of labels to search for */
@@ -1399,9 +1311,7 @@ export const AdminGetAllEmailsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/admin/emails", code: 200 })),
-).annotate({
-  identifier: "AdminGetAllEmailsRequest",
-}) as any as S.Schema<AdminGetAllEmailsRequest>;
+).annotate({ identifier: "AdminGetAllEmailsRequest" }) as any as S.Schema<AdminGetAllEmailsRequest>;
 
 /** Email an email address belonging to a user */
 export interface Email {
@@ -1444,9 +1354,7 @@ export const AdminGetAllOrgsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/admin/orgs", code: 200 })),
-).annotate({
-  identifier: "AdminGetAllOrgsRequest",
-}) as any as S.Schema<AdminGetAllOrgsRequest>;
+).annotate({ identifier: "AdminGetAllOrgsRequest" }) as any as S.Schema<AdminGetAllOrgsRequest>;
 
 export type AdminGetAllOrgsResponseBodyList = Array<Organization>;
 export const AdminGetAllOrgsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1456,9 +1364,7 @@ export const AdminGetAllOrgsResponseBodyList = /*@__PURE__*/ S.Array(
 export type AdminGetAllOrgsResponse = AdminGetAllOrgsResponseBodyList;
 export const AdminGetAllOrgsResponse = /*@__PURE__*/ S.suspend(() =>
   AdminGetAllOrgsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "AdminGetAllOrgsResponse",
-}) as any as S.Schema<AdminGetAllOrgsResponse>;
+).annotate({ identifier: "AdminGetAllOrgsResponse" }) as any as S.Schema<AdminGetAllOrgsResponse>;
 
 export interface AdminGetHookRequest {
   /** id of the hook to get */
@@ -1468,9 +1374,7 @@ export const AdminGetHookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/admin/hooks/{id}", code: 200 })),
-).annotate({
-  identifier: "AdminGetHookRequest",
-}) as any as S.Schema<AdminGetHookRequest>;
+).annotate({ identifier: "AdminGetHookRequest" }) as any as S.Schema<AdminGetHookRequest>;
 
 export interface AdminGetQuotaGroupRequest {
   /** quota group to query */
@@ -1479,13 +1383,7 @@ export interface AdminGetQuotaGroupRequest {
 export const AdminGetQuotaGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     quotagroup: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/admin/quota/groups/{quotagroup}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/admin/quota/groups/{quotagroup}", code: 200 })),
 ).annotate({
   identifier: "AdminGetQuotaGroupRequest",
 }) as any as S.Schema<AdminGetQuotaGroupRequest>;
@@ -1498,9 +1396,7 @@ export const AdminGetQuotaRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     quotarule: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/admin/quota/rules/{quotarule}", code: 200 })),
-).annotate({
-  identifier: "AdminGetQuotaRuleRequest",
-}) as any as S.Schema<AdminGetQuotaRuleRequest>;
+).annotate({ identifier: "AdminGetQuotaRuleRequest" }) as any as S.Schema<AdminGetQuotaRuleRequest>;
 
 export interface AdminGetUserQuotaRequest {
   /** username of user to query */
@@ -1510,9 +1406,7 @@ export const AdminGetUserQuotaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/admin/users/{username}/quota", code: 200 })),
-).annotate({
-  identifier: "AdminGetUserQuotaRequest",
-}) as any as S.Schema<AdminGetUserQuotaRequest>;
+).annotate({ identifier: "AdminGetUserQuotaRequest" }) as any as S.Schema<AdminGetUserQuotaRequest>;
 
 /** QuotaGroupList represents a list of quota groups */
 export type QuotaGroupList = Array<QuotaGroup>;
@@ -1560,9 +1454,7 @@ export const QuotaUsedSizeAssets = /*@__PURE__*/ S.suspend(() =>
     attachments: S.optional(QuotaUsedSizeAssetsAttachments),
     packages: S.optional(QuotaUsedSizeAssetsPackages),
   }),
-).annotate({
-  identifier: "QuotaUsedSizeAssets",
-}) as any as S.Schema<QuotaUsedSizeAssets>;
+).annotate({ identifier: "QuotaUsedSizeAssets" }) as any as S.Schema<QuotaUsedSizeAssets>;
 
 /** QuotaUsedSizeGit represents the size-based git (lfs) quota usage of a user */
 export interface QuotaUsedSizeGit {
@@ -1573,9 +1465,7 @@ export const QuotaUsedSizeGit = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     LFS: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "QuotaUsedSizeGit",
-}) as any as S.Schema<QuotaUsedSizeGit>;
+).annotate({ identifier: "QuotaUsedSizeGit" }) as any as S.Schema<QuotaUsedSizeGit>;
 
 /** QuotaUsedSizeRepos represents the size-based repository quota usage of a user */
 export interface QuotaUsedSizeRepos {
@@ -1589,9 +1479,7 @@ export const QuotaUsedSizeRepos = /*@__PURE__*/ S.suspend(() =>
     private: S.optional(S.Number),
     public: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "QuotaUsedSizeRepos",
-}) as any as S.Schema<QuotaUsedSizeRepos>;
+).annotate({ identifier: "QuotaUsedSizeRepos" }) as any as S.Schema<QuotaUsedSizeRepos>;
 
 /** QuotaUsedSize represents the size-based quota usage of a user */
 export interface QuotaUsedSize {
@@ -1640,9 +1528,7 @@ export const AdminListHooksRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/admin/hooks", code: 200 })),
-).annotate({
-  identifier: "AdminListHooksRequest",
-}) as any as S.Schema<AdminListHooksRequest>;
+).annotate({ identifier: "AdminListHooksRequest" }) as any as S.Schema<AdminListHooksRequest>;
 
 export type AdminListHooksResponseBodyList = Array<Hook>;
 export const AdminListHooksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1652,9 +1538,7 @@ export const AdminListHooksResponseBodyList = /*@__PURE__*/ S.Array(
 export type AdminListHooksResponse = AdminListHooksResponseBodyList;
 export const AdminListHooksResponse = /*@__PURE__*/ S.suspend(() =>
   AdminListHooksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "AdminListHooksResponse",
-}) as any as S.Schema<AdminListHooksResponse>;
+).annotate({ identifier: "AdminListHooksResponse" }) as any as S.Schema<AdminListHooksResponse>;
 
 export interface AdminListQuotaGroupsRequest {}
 export const AdminListQuotaGroupsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1750,13 +1634,7 @@ export interface AdminListUsersInQuotaGroupRequest {
 export const AdminListUsersInQuotaGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     quotagroup: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/admin/quota/groups/{quotagroup}/users",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/admin/quota/groups/{quotagroup}/users", code: 200 })),
 ).annotate({
   identifier: "AdminListUsersInQuotaGroupRequest",
 }) as any as S.Schema<AdminListUsersInQuotaGroupRequest>;
@@ -1839,16 +1717,8 @@ export const AdminRenameUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
     new_username: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin/users/{username}/rename",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AdminRenameUserRequest",
-}) as any as S.Schema<AdminRenameUserRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin/users/{username}/rename", code: 200 })),
+).annotate({ identifier: "AdminRenameUserRequest" }) as any as S.Schema<AdminRenameUserRequest>;
 
 export interface AdminRenameUserResponse {}
 export const AdminRenameUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1869,9 +1739,7 @@ export const AdminSearchEmailsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/admin/emails/search", code: 200 })),
-).annotate({
-  identifier: "AdminSearchEmailsRequest",
-}) as any as S.Schema<AdminSearchEmailsRequest>;
+).annotate({ identifier: "AdminSearchEmailsRequest" }) as any as S.Schema<AdminSearchEmailsRequest>;
 
 export type AdminSearchEmailsResponseBodyList = Array<Email>;
 export const AdminSearchEmailsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1917,9 +1785,7 @@ export const AdminSearchUsersRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/admin/users", code: 200 })),
-).annotate({
-  identifier: "AdminSearchUsersRequest",
-}) as any as S.Schema<AdminSearchUsersRequest>;
+).annotate({ identifier: "AdminSearchUsersRequest" }) as any as S.Schema<AdminSearchUsersRequest>;
 
 export type AdminSearchUsersResponseBodyList = Array<User>;
 export const AdminSearchUsersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1929,9 +1795,7 @@ export const AdminSearchUsersResponseBodyList = /*@__PURE__*/ S.Array(
 export type AdminSearchUsersResponse = AdminSearchUsersResponseBodyList;
 export const AdminSearchUsersResponse = /*@__PURE__*/ S.suspend(() =>
   AdminSearchUsersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "AdminSearchUsersResponse",
-}) as any as S.Schema<AdminSearchUsersResponse>;
+).annotate({ identifier: "AdminSearchUsersResponse" }) as any as S.Schema<AdminSearchUsersResponse>;
 
 /** Quota groups the user shall have */
 export type AdminSetUserQuotaGroupsRequestGroupsList = Array<string>;
@@ -1949,22 +1813,14 @@ export const AdminSetUserQuotaGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
     groups: AdminSetUserQuotaGroupsRequestGroupsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin/users/{username}/quota/groups",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin/users/{username}/quota/groups", code: 200 })),
 ).annotate({
   identifier: "AdminSetUserQuotaGroupsRequest",
 }) as any as S.Schema<AdminSetUserQuotaGroupsRequest>;
 
 export interface AdminSetUserQuotaGroupsResponse {}
 export const AdminSetUserQuotaGroupsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "AdminSetUserQuotaGroupsResponse",
-  },
+  { identifier: "AdminSetUserQuotaGroupsResponse" },
 ) as any as S.Schema<AdminSetUserQuotaGroupsResponse>;
 
 export interface DeleteAdminRunnerRequest {
@@ -1974,16 +1830,8 @@ export interface DeleteAdminRunnerRequest {
 export const DeleteAdminRunnerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     runner_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/admin/actions/runners/{runner_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteAdminRunnerRequest",
-}) as any as S.Schema<DeleteAdminRunnerRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/admin/actions/runners/{runner_id}", code: 200 })),
+).annotate({ identifier: "DeleteAdminRunnerRequest" }) as any as S.Schema<DeleteAdminRunnerRequest>;
 
 export interface DeleteAdminRunnerResponse {}
 export const DeleteAdminRunnerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1997,16 +1845,8 @@ export interface GetAdminRunnerRequest {
 export const GetAdminRunnerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     runner_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/admin/actions/runners/{runner_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetAdminRunnerRequest",
-}) as any as S.Schema<GetAdminRunnerRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/admin/actions/runners/{runner_id}", code: 200 })),
+).annotate({ identifier: "GetAdminRunnerRequest" }) as any as S.Schema<GetAdminRunnerRequest>;
 
 /** Labels is a list of labels attached to this runner. */
 export type ActionRunnerLabelsList = Array<string>;
@@ -2070,9 +1910,7 @@ export const GetAdminRunnersRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/admin/actions/runners", code: 200 })),
-).annotate({
-  identifier: "GetAdminRunnersRequest",
-}) as any as S.Schema<GetAdminRunnersRequest>;
+).annotate({ identifier: "GetAdminRunnersRequest" }) as any as S.Schema<GetAdminRunnersRequest>;
 
 export type GetAdminRunnersResponseBodyList = Array<ActionRunner>;
 export const GetAdminRunnersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2082,9 +1920,7 @@ export const GetAdminRunnersResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetAdminRunnersResponse = GetAdminRunnersResponseBodyList;
 export const GetAdminRunnersResponse = /*@__PURE__*/ S.suspend(() =>
   GetAdminRunnersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetAdminRunnersResponse",
-}) as any as S.Schema<GetAdminRunnersResponse>;
+).annotate({ identifier: "GetAdminRunnersResponse" }) as any as S.Schema<GetAdminRunnersResponse>;
 
 export interface ListAdminCronRequest {
   /** page number of results to return (1-based) */
@@ -2097,9 +1933,7 @@ export const ListAdminCronRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/admin/cron", code: 200 })),
-).annotate({
-  identifier: "ListAdminCronRequest",
-}) as any as S.Schema<ListAdminCronRequest>;
+).annotate({ identifier: "ListAdminCronRequest" }) as any as S.Schema<ListAdminCronRequest>;
 
 /** Cron represents a Cron task */
 export interface Cron {
@@ -2127,9 +1961,7 @@ export const ListAdminCronResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListAdminCronResponse = ListAdminCronResponseBodyList;
 export const ListAdminCronResponse = /*@__PURE__*/ S.suspend(() =>
   ListAdminCronResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListAdminCronResponse",
-}) as any as S.Schema<ListAdminCronResponse>;
+).annotate({ identifier: "ListAdminCronResponse" }) as any as S.Schema<ListAdminCronResponse>;
 
 export interface ListAdminUnadoptedRequest {
   /** page number of results to return (1-based) */
@@ -2190,9 +2022,7 @@ export const RegisterRunnerResponse = /*@__PURE__*/ S.suspend(() =>
     token: S.optional(S.String),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RegisterRunnerResponse",
-}) as any as S.Schema<RegisterRunnerResponse>;
+).annotate({ identifier: "RegisterRunnerResponse" }) as any as S.Schema<RegisterRunnerResponse>;
 
 export interface RunAdminCronRequest {
   /** task to run */
@@ -2202,9 +2032,7 @@ export const RunAdminCronRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     task: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/admin/cron/{task}", code: 200 })),
-).annotate({
-  identifier: "RunAdminCronRequest",
-}) as any as S.Schema<RunAdminCronRequest>;
+).annotate({ identifier: "RunAdminCronRequest" }) as any as S.Schema<RunAdminCronRequest>;
 
 export interface RunAdminCronResponse {}
 export const RunAdminCronResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
