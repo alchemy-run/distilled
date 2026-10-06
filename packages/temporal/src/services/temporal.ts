@@ -18,11 +18,7 @@ export const CountActivityExecutionsRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     query: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/namespaces/{namespace}/activity-count",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/namespaces/{namespace}/activity-count", code: 200 }),
   ),
 ).annotate({
   identifier: "CountActivityExecutionsRequest",
@@ -139,15 +135,9 @@ export const CountSchedulesRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     query: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/namespaces/{namespace}/schedule-count",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/namespaces/{namespace}/schedule-count", code: 200 }),
   ),
-).annotate({
-  identifier: "CountSchedulesRequest",
-}) as any as S.Schema<CountSchedulesRequest>;
+).annotate({ identifier: "CountSchedulesRequest" }) as any as S.Schema<CountSchedulesRequest>;
 
 export type CountSchedulesResponseAggregationGroupGroupValuesList = Array<unknown>;
 export const CountSchedulesResponseAggregationGroupGroupValuesList = /*@__PURE__*/ S.Array(
@@ -184,9 +174,7 @@ export const CountSchedulesResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.String),
     groups: S.optional(CountSchedulesResponseGroupsList),
   }),
-).annotate({
-  identifier: "CountSchedulesResponse",
-}) as any as S.Schema<CountSchedulesResponse>;
+).annotate({ identifier: "CountSchedulesResponse" }) as any as S.Schema<CountSchedulesResponse>;
 
 export interface CountWorkflowExecutionsRequest {
   namespace: string;
@@ -197,11 +185,7 @@ export const CountWorkflowExecutionsRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     query: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/namespaces/{namespace}/workflow-count",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/namespaces/{namespace}/workflow-count", code: 200 }),
   ),
 ).annotate({
   identifier: "CountWorkflowExecutionsRequest",
@@ -259,9 +243,7 @@ export const EndpointTargetWorker = /*@__PURE__*/ S.suspend(() =>
     namespace: S.optional(S.String),
     taskQueue: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EndpointTargetWorker",
-}) as any as S.Schema<EndpointTargetWorker>;
+).annotate({ identifier: "EndpointTargetWorker" }) as any as S.Schema<EndpointTargetWorker>;
 
 /** Target an external server by URL. At a later point, this will support providing credentials, in the meantime, an http.RoundTripper can be injected into the server to modify the request. */
 export interface EndpointTargetExternal {
@@ -272,9 +254,7 @@ export const EndpointTargetExternal = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EndpointTargetExternal",
-}) as any as S.Schema<EndpointTargetExternal>;
+).annotate({ identifier: "EndpointTargetExternal" }) as any as S.Schema<EndpointTargetExternal>;
 
 /** Target to route requests to. */
 export interface EndpointTarget {
@@ -444,9 +424,7 @@ export const StructuredCalendarSpec = /*@__PURE__*/ S.suspend(() =>
     dayOfWeek: S.optional(StructuredCalendarSpecDayOfWeekList),
     comment: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StructuredCalendarSpec",
-}) as any as S.Schema<StructuredCalendarSpec>;
+).annotate({ identifier: "StructuredCalendarSpec" }) as any as S.Schema<StructuredCalendarSpec>;
 
 /** Calendar-based specifications of times. */
 export type ScheduleSpecStructuredCalendarList = Array<StructuredCalendarSpec>;
@@ -669,9 +647,7 @@ export const Memo = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Memo" }) as any as S.Schema<Memo>;
 
-export type SearchAttributesIndexedFieldsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchAttributesIndexedFieldsMap = { [key: string]: unknown | undefined };
 export const SearchAttributesIndexedFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -685,9 +661,7 @@ export const SearchAttributes = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     indexedFields: S.optional(SearchAttributesIndexedFieldsMap),
   }),
-).annotate({
-  identifier: "SearchAttributes",
-}) as any as S.Schema<SearchAttributes>;
+).annotate({ identifier: "SearchAttributes" }) as any as S.Schema<SearchAttributes>;
 
 export type HeaderFieldsMap = { [key: string]: unknown | undefined };
 export const HeaderFieldsMap = /*@__PURE__*/ S.Record(
@@ -737,9 +711,7 @@ export const WorkerDeploymentVersion = /*@__PURE__*/ S.suspend(() =>
     buildId: S.optional(S.String),
     deploymentName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkerDeploymentVersion",
-}) as any as S.Schema<WorkerDeploymentVersion>;
+).annotate({ identifier: "WorkerDeploymentVersion" }) as any as S.Schema<WorkerDeploymentVersion>;
 
 export interface VersioningOverridePinnedOverride {
   /** Defaults to PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED. See `PinnedOverrideBehavior` for details. */
@@ -798,9 +770,7 @@ export const VersioningOverride = /*@__PURE__*/ S.suspend(() =>
     deployment: S.optional(Deployment),
     pinnedVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VersioningOverride",
-}) as any as S.Schema<VersioningOverride>;
+).annotate({ identifier: "VersioningOverride" }) as any as S.Schema<VersioningOverride>;
 
 /** Priority contains metadata that controls relative ordering of task processing when tasks are backed up in a queue. Initially, Priority will be used in matching (workflow and activity) task queues. Later it may be used in history task queues and in rate limiting decisions. Priority is attached to workflows and activities. By default, activities inherit Priority from the workflow that created them, but may override fields when an activity is started or modified. Despite being named "Priority", this message also contains fields that control "fairness" mechanisms. For all fields, the field not present or equal to zero/empty string means to inherit the value from the calling workflow, or if there is no calling workflow, then use the default value. For all fields other than fairness_key, the zero value isn't meaningful so there's no confusion between inherit/default and a meaningful value. For fairness_key, the empty string will be interpreted as "inherit". This means that if a workflow has a non-empty fairness key, you can't override the fairness key of its activity to the empty string. The overall semantics of Priority are: 1. First, consider "priority": higher priority (lower number) goes first. 2. Then, consider fairness: try to dispatch tasks for different fairness keys in proportion to their weight. Applications may use any subset of mechanisms that are useful to them and leave the other fields to use default values. Not all queues in the system may support the "full" semantics of all priority fields. (Currently only support in matching task queues is planned.) */
 export interface Priority {
@@ -867,9 +837,7 @@ export const NewWorkflowExecutionInfo = /*@__PURE__*/ S.suspend(() =>
     versioningOverride: S.optional(VersioningOverride),
     priority: S.optional(Priority),
   }),
-).annotate({
-  identifier: "NewWorkflowExecutionInfo",
-}) as any as S.Schema<NewWorkflowExecutionInfo>;
+).annotate({ identifier: "NewWorkflowExecutionInfo" }) as any as S.Schema<NewWorkflowExecutionInfo>;
 
 export interface ScheduleAction {
   /** All fields of NewWorkflowExecutionInfo are valid except for: - workflow_id_reuse_policy - cron_schedule The workflow id of the started workflow may not match this exactly, it may have a timestamp appended for uniqueness. */
@@ -909,9 +877,7 @@ export const SchedulePolicies = /*@__PURE__*/ S.suspend(() =>
     pauseOnFailure: S.optional(S.Boolean),
     keepOriginalWorkflowId: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SchedulePolicies",
-}) as any as S.Schema<SchedulePolicies>;
+).annotate({ identifier: "SchedulePolicies" }) as any as S.Schema<SchedulePolicies>;
 
 export interface ScheduleState {
   /** Informative human-readable message with contextual notes, e.g. the reason a schedule is paused. The system may overwrite this message on certain conditions, e.g. when pause-on-failure happens. */
@@ -996,9 +962,7 @@ export const BackfillRequest = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(S.String),
     overlapPolicy: S.optional(BackfillRequestOverlapPolicy),
   }),
-).annotate({
-  identifier: "BackfillRequest",
-}) as any as S.Schema<BackfillRequest>;
+).annotate({ identifier: "BackfillRequest" }) as any as S.Schema<BackfillRequest>;
 
 /** If set, runs though the specified time period(s) and takes actions as if that time passed by right now, all at once. The overlap policy can be overridden for the scope of the backfill. */
 export type SchedulePatchBackfillRequestList = Array<BackfillRequest>;
@@ -1058,9 +1022,7 @@ export const CreateScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateScheduleRequest",
-}) as any as S.Schema<CreateScheduleRequest>;
+).annotate({ identifier: "CreateScheduleRequest" }) as any as S.Schema<CreateScheduleRequest>;
 
 export interface CreateScheduleResponse {
   conflictToken?: string;
@@ -1069,9 +1031,7 @@ export const CreateScheduleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     conflictToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateScheduleResponse",
-}) as any as S.Schema<CreateScheduleResponse>;
+).annotate({ identifier: "CreateScheduleResponse" }) as any as S.Schema<CreateScheduleResponse>;
 
 export interface CreateWorkerDeploymentRequest {
   namespace: string;
@@ -1141,9 +1101,7 @@ export const ComputeProvider = /*@__PURE__*/ S.suspend(() =>
     details: S.optional(S.Unknown),
     nexusEndpoint: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ComputeProvider",
-}) as any as S.Schema<ComputeProvider>;
+).annotate({ identifier: "ComputeProvider" }) as any as S.Schema<ComputeProvider>;
 
 /** ComputeScaler instructs the Temporal Service when to scale up or down the number of Workers that comprise a WorkerDeployment. */
 export interface ComputeScaler {
@@ -1255,9 +1213,7 @@ export const WorkflowRuleAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     activityPause: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "WorkflowRuleAction",
-}) as any as S.Schema<WorkflowRuleAction>;
+).annotate({ identifier: "WorkflowRuleAction" }) as any as S.Schema<WorkflowRuleAction>;
 
 /** WorkflowRuleAction to be taken when the rule is triggered and predicate is matched. */
 export type WorkflowRuleSpecActionsList = Array<WorkflowRuleAction>;
@@ -1284,9 +1240,7 @@ export const WorkflowRuleSpec = /*@__PURE__*/ S.suspend(() =>
     actions: S.optional(WorkflowRuleSpecActionsList),
     expirationTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkflowRuleSpec",
-}) as any as S.Schema<WorkflowRuleSpec>;
+).annotate({ identifier: "WorkflowRuleSpec" }) as any as S.Schema<WorkflowRuleSpec>;
 
 export interface CreateWorkflowRuleRequest {
   namespace: string;
@@ -1310,11 +1264,7 @@ export const CreateWorkflowRuleRequest = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(S.String),
     description: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/namespaces/{namespace}/workflow-rules",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/namespaces/{namespace}/workflow-rules", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateWorkflowRuleRequest",
@@ -1365,13 +1315,7 @@ export const DeleteNexusEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     version: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/nexus/endpoints/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/nexus/endpoints/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteNexusEndpointRequest",
 }) as any as S.Schema<DeleteNexusEndpointRequest>;
@@ -1403,16 +1347,12 @@ export const DeleteScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteScheduleRequest",
-}) as any as S.Schema<DeleteScheduleRequest>;
+).annotate({ identifier: "DeleteScheduleRequest" }) as any as S.Schema<DeleteScheduleRequest>;
 
 export type DeleteScheduleResponse2 = unknown;
 export const DeleteScheduleResponse2 = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteScheduleResponse2",
-}) as any as S.Schema<DeleteScheduleResponse2>;
+).annotate({ identifier: "DeleteScheduleResponse2" }) as any as S.Schema<DeleteScheduleResponse2>;
 
 export interface DeleteWorkerDeploymentRequest {
   namespace: string;
@@ -1592,9 +1532,7 @@ export const ApplicationFailureInfo = /*@__PURE__*/ S.suspend(() =>
     nextRetryDelay: S.optional(S.String),
     category: S.optional(ApplicationFailureInfoCategory),
   }),
-).annotate({
-  identifier: "ApplicationFailureInfo",
-}) as any as S.Schema<ApplicationFailureInfo>;
+).annotate({ identifier: "ApplicationFailureInfo" }) as any as S.Schema<ApplicationFailureInfo>;
 
 export type TimeoutFailureInfoTimeoutType =
   | "TIMEOUT_TYPE_UNSPECIFIED"
@@ -1613,9 +1551,7 @@ export const TimeoutFailureInfo = /*@__PURE__*/ S.suspend(() =>
     timeoutType: S.optional(TimeoutFailureInfoTimeoutType),
     lastHeartbeatDetails: S.optional(Payloads),
   }),
-).annotate({
-  identifier: "TimeoutFailureInfo",
-}) as any as S.Schema<TimeoutFailureInfo>;
+).annotate({ identifier: "TimeoutFailureInfo" }) as any as S.Schema<TimeoutFailureInfo>;
 
 export interface CanceledFailureInfo {
   details?: Payloads;
@@ -1627,9 +1563,7 @@ export const CanceledFailureInfo = /*@__PURE__*/ S.suspend(() =>
     details: S.optional(Payloads),
     identity: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CanceledFailureInfo",
-}) as any as S.Schema<CanceledFailureInfo>;
+).annotate({ identifier: "CanceledFailureInfo" }) as any as S.Schema<CanceledFailureInfo>;
 
 export interface TerminatedFailureInfo {
   /** The identity of the worker or client that requested the termination. */
@@ -1639,9 +1573,7 @@ export const TerminatedFailureInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     identity: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TerminatedFailureInfo",
-}) as any as S.Schema<TerminatedFailureInfo>;
+).annotate({ identifier: "TerminatedFailureInfo" }) as any as S.Schema<TerminatedFailureInfo>;
 
 export interface ServerFailureInfo {
   nonRetryable?: boolean;
@@ -1650,9 +1582,7 @@ export const ServerFailureInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nonRetryable: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ServerFailureInfo",
-}) as any as S.Schema<ServerFailureInfo>;
+).annotate({ identifier: "ServerFailureInfo" }) as any as S.Schema<ServerFailureInfo>;
 
 export interface ResetWorkflowFailureInfo {
   lastHeartbeatDetails?: Payloads;
@@ -1661,9 +1591,7 @@ export const ResetWorkflowFailureInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     lastHeartbeatDetails: S.optional(Payloads),
   }),
-).annotate({
-  identifier: "ResetWorkflowFailureInfo",
-}) as any as S.Schema<ResetWorkflowFailureInfo>;
+).annotate({ identifier: "ResetWorkflowFailureInfo" }) as any as S.Schema<ResetWorkflowFailureInfo>;
 
 export type ActivityFailureInfoRetryState =
   | "RETRY_STATE_UNSPECIFIED"
@@ -1693,9 +1621,7 @@ export const ActivityFailureInfo = /*@__PURE__*/ S.suspend(() =>
     activityId: S.optional(S.String),
     retryState: S.optional(ActivityFailureInfoRetryState),
   }),
-).annotate({
-  identifier: "ActivityFailureInfo",
-}) as any as S.Schema<ActivityFailureInfo>;
+).annotate({ identifier: "ActivityFailureInfo" }) as any as S.Schema<ActivityFailureInfo>;
 
 /** Identifies a specific workflow within a namespace. Practically speaking, because run_id is a uuid, a workflow execution is globally unique. Note that many commands allow specifying an empty run id as a way of saying "target the latest run of the workflow". */
 export interface WorkflowExecution {
@@ -1707,9 +1633,7 @@ export const WorkflowExecution = /*@__PURE__*/ S.suspend(() =>
     workflowId: S.optional(S.String),
     runId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkflowExecution",
-}) as any as S.Schema<WorkflowExecution>;
+).annotate({ identifier: "WorkflowExecution" }) as any as S.Schema<WorkflowExecution>;
 
 export type ChildWorkflowExecutionFailureInfoRetryState =
   | "RETRY_STATE_UNSPECIFIED"
@@ -1789,9 +1713,7 @@ export const NexusHandlerFailureInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     retryBehavior: S.optional(NexusHandlerFailureInfoRetryBehavior),
   }),
-).annotate({
-  identifier: "NexusHandlerFailureInfo",
-}) as any as S.Schema<NexusHandlerFailureInfo>;
+).annotate({ identifier: "NexusHandlerFailureInfo" }) as any as S.Schema<NexusHandlerFailureInfo>;
 
 export interface Failure {
   message?: string;
@@ -2003,9 +1925,7 @@ export const LinkWorkflowEvent = /*@__PURE__*/ S.suspend(() =>
     eventRef: S.optional(WorkflowEventEventReference),
     requestIdRef: S.optional(WorkflowEventRequestIdReference),
   }),
-).annotate({
-  identifier: "LinkWorkflowEvent",
-}) as any as S.Schema<LinkWorkflowEvent>;
+).annotate({ identifier: "LinkWorkflowEvent" }) as any as S.Schema<LinkWorkflowEvent>;
 
 /** A link to a built-in batch job. Batch jobs can be used to perform operations on a set of workflows (e.g. terminate, signal, cancel, etc). This link can be put on workflow history events generated by actions taken by a batch job. */
 export interface LinkBatchJob {
@@ -2043,9 +1963,7 @@ export const LinkNexusOperation = /*@__PURE__*/ S.suspend(() =>
     operationId: S.optional(S.String),
     runId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LinkNexusOperation",
-}) as any as S.Schema<LinkNexusOperation>;
+).annotate({ identifier: "LinkNexusOperation" }) as any as S.Schema<LinkNexusOperation>;
 
 /** Link can be associated with history events. It might contain information about an external entity related to the history event. For example, workflow A makes a Nexus call that starts workflow B: in this case, a history event in workflow A could contain a Link to the workflow started event in workflow B, and vice-versa. */
 export interface Link {
@@ -2172,9 +2090,7 @@ export const ActivityExecutionInfo = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(ActivityExecutionInfoLinksList),
     totalHeartbeatCount: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ActivityExecutionInfo",
-}) as any as S.Schema<ActivityExecutionInfo>;
+).annotate({ identifier: "ActivityExecutionInfo" }) as any as S.Schema<ActivityExecutionInfo>;
 
 /** The outcome of a completed activity execution: either a successful result or a failure. */
 export interface ActivityExecutionOutcome {
@@ -2188,9 +2104,7 @@ export const ActivityExecutionOutcome = /*@__PURE__*/ S.suspend(() =>
     result: S.optional(Payloads),
     failure: S.optional(Failure),
   }),
-).annotate({
-  identifier: "ActivityExecutionOutcome",
-}) as any as S.Schema<ActivityExecutionOutcome>;
+).annotate({ identifier: "ActivityExecutionOutcome" }) as any as S.Schema<ActivityExecutionOutcome>;
 
 /** Header to attach to callback request. */
 export type CallbackNexusHeaderMap = { [key: string]: string | undefined };
@@ -2221,9 +2135,7 @@ export const CallbackInternal = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CallbackInternal",
-}) as any as S.Schema<CallbackInternal>;
+).annotate({ identifier: "CallbackInternal" }) as any as S.Schema<CallbackInternal>;
 
 /** Links associated with the callback. It can be used to link to underlying resources of the callback. */
 export type CallbackLinksList = Array<Link>;
@@ -2508,9 +2420,7 @@ export const DescribeNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String.pipe(T.Query())),
     weakConsistency: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/namespaces/{namespace}", code: 200 })),
-).annotate({
-  identifier: "DescribeNamespaceRequest",
-}) as any as S.Schema<DescribeNamespaceRequest>;
+).annotate({ identifier: "DescribeNamespaceRequest" }) as any as S.Schema<DescribeNamespaceRequest>;
 
 export type NamespaceInfoState =
   | "NAMESPACE_STATE_UNSPECIFIED"
@@ -2577,9 +2487,7 @@ export const NamespaceInfoLimits = /*@__PURE__*/ S.suspend(() =>
     blobSizeLimitError: S.optional(S.String),
     memoSizeLimitError: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NamespaceInfoLimits",
-}) as any as S.Schema<NamespaceInfoLimits>;
+).annotate({ identifier: "NamespaceInfoLimits" }) as any as S.Schema<NamespaceInfoLimits>;
 
 export interface NamespaceInfo {
   name?: string;
@@ -2623,9 +2531,7 @@ export const BadBinaryInfo = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "BadBinaryInfo" }) as any as S.Schema<BadBinaryInfo>;
 
-export type BadBinariesBinariesMap = {
-  [key: string]: BadBinaryInfo | undefined;
-};
+export type BadBinariesBinariesMap = { [key: string]: BadBinaryInfo | undefined };
 export const BadBinariesBinariesMap = /*@__PURE__*/ S.Record(
   S.String,
   BadBinaryInfo,
@@ -2655,9 +2561,7 @@ export type NamespaceConfigVisibilityArchivalState =
 export const NamespaceConfigVisibilityArchivalState = S.String;
 
 /** Map from field name to alias. */
-export type NamespaceConfigCustomSearchAttributeAliasesMap = {
-  [key: string]: string | undefined;
-};
+export type NamespaceConfigCustomSearchAttributeAliasesMap = { [key: string]: string | undefined };
 export const NamespaceConfigCustomSearchAttributeAliasesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2685,9 +2589,7 @@ export const NamespaceConfig = /*@__PURE__*/ S.suspend(() =>
     visibilityArchivalUri: S.optional(S.String),
     customSearchAttributeAliases: S.optional(NamespaceConfigCustomSearchAttributeAliasesMap),
   }),
-).annotate({
-  identifier: "NamespaceConfig",
-}) as any as S.Schema<NamespaceConfig>;
+).annotate({ identifier: "NamespaceConfig" }) as any as S.Schema<NamespaceConfig>;
 
 export interface ClusterReplicationConfig {
   clusterName?: string;
@@ -2696,9 +2598,7 @@ export const ClusterReplicationConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clusterName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterReplicationConfig",
-}) as any as S.Schema<ClusterReplicationConfig>;
+).annotate({ identifier: "ClusterReplicationConfig" }) as any as S.Schema<ClusterReplicationConfig>;
 
 export type NamespaceReplicationConfigClustersList = Array<ClusterReplicationConfig>;
 export const NamespaceReplicationConfigClustersList = /*@__PURE__*/ S.Array(
@@ -2862,9 +2762,7 @@ export const NexusOperationExecutionCancellationInfo = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<NexusOperationExecutionCancellationInfo>;
 
 /** Header for context propagation and tracing purposes. */
-export type NexusOperationExecutionInfoNexusHeaderMap = {
-  [key: string]: string | undefined;
-};
+export type NexusOperationExecutionInfoNexusHeaderMap = { [key: string]: string | undefined };
 export const NexusOperationExecutionInfoNexusHeaderMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3011,9 +2909,7 @@ export const DescribeScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DescribeScheduleRequest",
-}) as any as S.Schema<DescribeScheduleRequest>;
+).annotate({ identifier: "DescribeScheduleRequest" }) as any as S.Schema<DescribeScheduleRequest>;
 
 /** Currently-running workflows started by this schedule. (There might be more than one if the overlap policy allows overlaps.) Note that the run_ids in here are the original execution run ids as started by the schedule. If the workflows retried, did continue-as-new, or were reset, they might still be running but with a different run_id. */
 export type ScheduleInfoRunningWorkflowsList = Array<WorkflowExecution>;
@@ -3051,9 +2947,7 @@ export const ScheduleActionResult = /*@__PURE__*/ S.suspend(() =>
     startWorkflowResult: S.optional(WorkflowExecution),
     startWorkflowStatus: S.optional(ScheduleActionResultStartWorkflowStatus),
   }),
-).annotate({
-  identifier: "ScheduleActionResult",
-}) as any as S.Schema<ScheduleActionResult>;
+).annotate({ identifier: "ScheduleActionResult" }) as any as S.Schema<ScheduleActionResult>;
 
 /** Most recent ten actual action times (including manual triggers). */
 export type ScheduleInfoRecentActionsList = Array<ScheduleActionResult>;
@@ -3125,9 +3019,7 @@ export const DescribeScheduleResponse = /*@__PURE__*/ S.suspend(() =>
     searchAttributes: S.optional(SearchAttributes),
     conflictToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DescribeScheduleResponse",
-}) as any as S.Schema<DescribeScheduleResponse>;
+).annotate({ identifier: "DescribeScheduleResponse" }) as any as S.Schema<DescribeScheduleResponse>;
 
 export type DescribeTaskQueueRequestTaskQueueKind =
   | "TASK_QUEUE_KIND_UNSPECIFIED"
@@ -3227,9 +3119,7 @@ export const DescribeTaskQueueRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DescribeTaskQueueRequest",
-}) as any as S.Schema<DescribeTaskQueueRequest>;
+).annotate({ identifier: "DescribeTaskQueueRequest" }) as any as S.Schema<DescribeTaskQueueRequest>;
 
 /** Identifies the version that a worker is compatible with when polling or identifying itself, and whether or not this worker is opting into the build-id based versioning feature. This is used by matching to determine which workers ought to receive what tasks. Deprecated. Use WorkerDeploymentOptions instead. */
 export interface WorkerVersionCapabilities {
@@ -3272,9 +3162,7 @@ export const WorkerDeploymentOptions = /*@__PURE__*/ S.suspend(() =>
     buildId: S.optional(S.String),
     workerVersioningMode: S.optional(WorkerDeploymentOptionsWorkerVersioningMode),
   }),
-).annotate({
-  identifier: "WorkerDeploymentOptions",
-}) as any as S.Schema<WorkerDeploymentOptions>;
+).annotate({ identifier: "WorkerDeploymentOptions" }) as any as S.Schema<WorkerDeploymentOptions>;
 
 export interface PollerInfo {
   lastAccessTime?: string;
@@ -3352,9 +3240,7 @@ export const TaskQueueVersioningInfo = /*@__PURE__*/ S.suspend(() =>
     rampingVersionPercentage: S.optional(S.Number),
     updateTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TaskQueueVersioningInfo",
-}) as any as S.Schema<TaskQueueVersioningInfo>;
+).annotate({ identifier: "TaskQueueVersioningInfo" }) as any as S.Schema<TaskQueueVersioningInfo>;
 
 export interface RateLimit {
   /** Zero is a valid rate limit. */
@@ -3391,14 +3277,10 @@ export const RateLimitConfig = /*@__PURE__*/ S.suspend(() =>
     rateLimit: S.optional(RateLimit),
     metadata: S.optional(ConfigMetadata),
   }),
-).annotate({
-  identifier: "RateLimitConfig",
-}) as any as S.Schema<RateLimitConfig>;
+).annotate({ identifier: "RateLimitConfig" }) as any as S.Schema<RateLimitConfig>;
 
 /** If set, overrides the fairness weights for the corresponding fairness keys. */
-export type TaskQueueConfigFairnessWeightOverridesMap = {
-  [key: string]: number | undefined;
-};
+export type TaskQueueConfigFairnessWeightOverridesMap = { [key: string]: number | undefined };
 export const TaskQueueConfigFairnessWeightOverridesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -3418,9 +3300,7 @@ export const TaskQueueConfig = /*@__PURE__*/ S.suspend(() =>
     fairnessKeysRateLimitDefault: S.optional(RateLimitConfig),
     fairnessWeightOverrides: S.optional(TaskQueueConfigFairnessWeightOverridesMap),
   }),
-).annotate({
-  identifier: "TaskQueueConfig",
-}) as any as S.Schema<TaskQueueConfig>;
+).annotate({ identifier: "TaskQueueConfig" }) as any as S.Schema<TaskQueueConfig>;
 
 /** Source of the RateLimit Configuration,which can be one of the following values: - SOURCE_API: The rate limit that is set via the TaskQueueConfig api. - SOURCE_WORKER: The rate limit is the value set using the workerOptions in TaskQueueActivitiesPerSecond. - SOURCE_SYSTEM: The rate limit is the default value set by the system */
 export type DescribeTaskQueueResponseEffectiveRateLimitRateLimitSource =
@@ -3472,9 +3352,7 @@ export const TaskQueueStatus = /*@__PURE__*/ S.suspend(() =>
     ratePerSecond: S.optional(S.Number),
     taskIdBlock: S.optional(TaskIdBlock),
   }),
-).annotate({
-  identifier: "TaskQueueStatus",
-}) as any as S.Schema<TaskQueueStatus>;
+).annotate({ identifier: "TaskQueueStatus" }) as any as S.Schema<TaskQueueStatus>;
 
 /** Unversioned workers (with `useVersioning=false`) are reported in unversioned result even if they set a Build ID. */
 export type TaskQueueTypeInfoPollersList = Array<PollerInfo>;
@@ -3492,14 +3370,10 @@ export const TaskQueueTypeInfo = /*@__PURE__*/ S.suspend(() =>
     pollers: S.optional(TaskQueueTypeInfoPollersList),
     stats: S.optional(TaskQueueStats),
   }),
-).annotate({
-  identifier: "TaskQueueTypeInfo",
-}) as any as S.Schema<TaskQueueTypeInfo>;
+).annotate({ identifier: "TaskQueueTypeInfo" }) as any as S.Schema<TaskQueueTypeInfo>;
 
 /** Task Queue info per Task Type. Key is the numerical value of the temporal.api.enums.v1.TaskQueueType enum. */
-export type TaskQueueVersionInfoTypesInfoMap = {
-  [key: string]: TaskQueueTypeInfo | undefined;
-};
+export type TaskQueueVersionInfoTypesInfoMap = { [key: string]: TaskQueueTypeInfo | undefined };
 export const TaskQueueVersionInfoTypesInfoMap = /*@__PURE__*/ S.Record(
   S.String,
   TaskQueueTypeInfo,
@@ -3524,9 +3398,7 @@ export const TaskQueueVersionInfo = /*@__PURE__*/ S.suspend(() =>
     typesInfo: S.optional(TaskQueueVersionInfoTypesInfoMap),
     taskReachability: S.optional(TaskQueueVersionInfoTaskReachability),
   }),
-).annotate({
-  identifier: "TaskQueueVersionInfo",
-}) as any as S.Schema<TaskQueueVersionInfo>;
+).annotate({ identifier: "TaskQueueVersionInfo" }) as any as S.Schema<TaskQueueVersionInfo>;
 
 /** Deprecated. Only returned in ENHANCED mode. This map contains Task Queue information for each Build ID. Empty string as key value means unversioned. */
 export type DescribeTaskQueueResponseVersionsInfoMap = {
@@ -3585,9 +3457,7 @@ export const DescribeWorkerRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DescribeWorkerRequest",
-}) as any as S.Schema<DescribeWorkerRequest>;
+).annotate({ identifier: "DescribeWorkerRequest" }) as any as S.Schema<DescribeWorkerRequest>;
 
 /** Holds everything needed to identify the worker host/process context */
 export interface WorkerHostInfo {
@@ -3646,9 +3516,7 @@ export const WorkerSlotsInfo = /*@__PURE__*/ S.suspend(() =>
     lastIntervalProcessedTasks: S.optional(S.Number),
     lastIntervalFailureTasks: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "WorkerSlotsInfo",
-}) as any as S.Schema<WorkerSlotsInfo>;
+).annotate({ identifier: "WorkerSlotsInfo" }) as any as S.Schema<WorkerSlotsInfo>;
 
 export interface WorkerPollerInfo {
   /** Number of polling RPCs that are currently in flight. */
@@ -3663,9 +3531,7 @@ export const WorkerPollerInfo = /*@__PURE__*/ S.suspend(() =>
     lastSuccessfulPollTime: S.optional(S.String),
     isAutoscaling: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "WorkerPollerInfo",
-}) as any as S.Schema<WorkerPollerInfo>;
+).annotate({ identifier: "WorkerPollerInfo" }) as any as S.Schema<WorkerPollerInfo>;
 
 export interface PluginInfo {
   /** The name of the plugin, required. */
@@ -3694,9 +3560,7 @@ export const StorageDriverInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageDriverInfo",
-}) as any as S.Schema<StorageDriverInfo>;
+).annotate({ identifier: "StorageDriverInfo" }) as any as S.Schema<StorageDriverInfo>;
 
 /** Storage drivers in use by this SDK. */
 export type WorkerHeartbeatDriversList = Array<StorageDriverInfo>;
@@ -3771,9 +3635,7 @@ export const WorkerHeartbeat = /*@__PURE__*/ S.suspend(() =>
     plugins: S.optional(WorkerHeartbeatPluginsList),
     drivers: S.optional(WorkerHeartbeatDriversList),
   }),
-).annotate({
-  identifier: "WorkerHeartbeat",
-}) as any as S.Schema<WorkerHeartbeat>;
+).annotate({ identifier: "WorkerHeartbeat" }) as any as S.Schema<WorkerHeartbeat>;
 
 /** Detailed worker information. */
 export interface WorkerInfo {
@@ -3792,9 +3654,7 @@ export const DescribeWorkerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workerInfo: S.optional(WorkerInfo),
   }),
-).annotate({
-  identifier: "DescribeWorkerResponse",
-}) as any as S.Schema<DescribeWorkerResponse>;
+).annotate({ identifier: "DescribeWorkerResponse" }) as any as S.Schema<DescribeWorkerResponse>;
 
 export interface DescribeWorkerDeploymentRequest {
   namespace: string;
@@ -3855,9 +3715,7 @@ export const VersionDrainageInfo = /*@__PURE__*/ S.suspend(() =>
     lastChangedTime: S.optional(S.String),
     lastCheckedTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VersionDrainageInfo",
-}) as any as S.Schema<VersionDrainageInfo>;
+).annotate({ identifier: "VersionDrainageInfo" }) as any as S.Schema<VersionDrainageInfo>;
 
 export type ComputeConfigScalingGroupSummaryTaskQueueTypesItem =
   | "TASK_QUEUE_TYPE_UNSPECIFIED"
@@ -3901,9 +3759,7 @@ export const ComputeConfigSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scalingGroups: S.optional(ComputeConfigSummaryScalingGroupsMap),
   }),
-).annotate({
-  identifier: "ComputeConfigSummary",
-}) as any as S.Schema<ComputeConfigSummary>;
+).annotate({ identifier: "ComputeConfigSummary" }) as any as S.Schema<ComputeConfigSummary>;
 
 export interface WorkerDeploymentInfoWorkerDeploymentVersionSummary {
   /** Deprecated. Use `deployment_version`. */
@@ -4024,9 +3880,7 @@ export const WorkerDeploymentInfo = /*@__PURE__*/ S.suspend(() =>
     managerIdentity: S.optional(S.String),
     routingConfigUpdateState: S.optional(WorkerDeploymentInfoRoutingConfigUpdateState),
   }),
-).annotate({
-  identifier: "WorkerDeploymentInfo",
-}) as any as S.Schema<WorkerDeploymentInfo>;
+).annotate({ identifier: "WorkerDeploymentInfo" }) as any as S.Schema<WorkerDeploymentInfo>;
 
 export interface DescribeWorkerDeploymentResponse {
   /** This value is returned so that it can be optionally passed to APIs that write to the Worker Deployment state to ensure that the state did not change between this read and a future write. */
@@ -4130,9 +3984,7 @@ export const VersionMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     entries: S.optional(VersionMetadataEntriesMap),
   }),
-).annotate({
-  identifier: "VersionMetadata",
-}) as any as S.Schema<VersionMetadata>;
+).annotate({ identifier: "VersionMetadata" }) as any as S.Schema<VersionMetadata>;
 
 /** A Worker Deployment Version (Version, for short) represents all workers of the same code and config within a Deployment. Workers of the same Version are expected to behave exactly the same so when executions move between them there are no non-determinism issues. Worker Deployment Versions are created in Temporal server automatically when their first poller arrives to the server. */
 export interface WorkerDeploymentVersionInfo {
@@ -4292,9 +4144,7 @@ export const WorkflowExecutionConfig = /*@__PURE__*/ S.suspend(() =>
     defaultWorkflowTaskTimeout: S.optional(S.String),
     userMetadata: S.optional(UserMetadata),
   }),
-).annotate({
-  identifier: "WorkflowExecutionConfig",
-}) as any as S.Schema<WorkflowExecutionConfig>;
+).annotate({ identifier: "WorkflowExecutionConfig" }) as any as S.Schema<WorkflowExecutionConfig>;
 
 export type WorkflowExecutionInfoStatus =
   | "WORKFLOW_EXECUTION_STATUS_UNSPECIFIED"
@@ -4362,9 +4212,7 @@ export const WorkerVersionStamp = /*@__PURE__*/ S.suspend(() =>
     buildId: S.optional(S.String),
     useVersioning: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "WorkerVersionStamp",
-}) as any as S.Schema<WorkerVersionStamp>;
+).annotate({ identifier: "WorkerVersionStamp" }) as any as S.Schema<WorkerVersionStamp>;
 
 /** Versioning behavior determines how the server should treat this execution when workers are upgraded. When present it means this workflow execution is versioned; UNSPECIFIED means unversioned. See the comments in `VersioningBehavior` enum for more info about different behaviors. Child workflows or CaN executions **inherit** their parent/previous run's effective Versioning Behavior and Version (except when the new execution runs on a task queue not belonging to the same deployment version as the parent/previous run's task queue). The first workflow task will be dispatched according to the inherited behavior (or to the current version of the task-queue's deployment in the case of AutoUpgrade.) After completion of their first workflow task the Deployment Version and Behavior of the execution will update according to configuration on the worker. Note that `behavior` is overridden by `versioning_override` if the latter is present. */
 export type WorkflowExecutionVersioningInfoBehavior =
@@ -4382,9 +4230,7 @@ export const DeploymentTransition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deployment: S.optional(Deployment),
   }),
-).annotate({
-  identifier: "DeploymentTransition",
-}) as any as S.Schema<DeploymentTransition>;
+).annotate({ identifier: "DeploymentTransition" }) as any as S.Schema<DeploymentTransition>;
 
 /** Holds information about ongoing transition of a workflow execution from one worker deployment version to another. Experimental. Might change in the future. */
 export interface DeploymentVersionTransition {
@@ -4517,9 +4363,7 @@ export const WorkflowExecutionInfo = /*@__PURE__*/ S.suspend(() =>
     externalPayloadSizeBytes: S.optional(S.String),
     externalPayloadCount: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkflowExecutionInfo",
-}) as any as S.Schema<WorkflowExecutionInfo>;
+).annotate({ identifier: "WorkflowExecutionInfo" }) as any as S.Schema<WorkflowExecutionInfo>;
 
 export type PendingActivityInfoState =
   | "PENDING_ACTIVITY_STATE_UNSPECIFIED"
@@ -4541,9 +4385,7 @@ export const PauseInfoManual = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(S.String),
     reason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PauseInfoManual",
-}) as any as S.Schema<PauseInfoManual>;
+).annotate({ identifier: "PauseInfoManual" }) as any as S.Schema<PauseInfoManual>;
 
 export interface PauseInfoRule {
   /** The rule that paused the activity. */
@@ -4604,9 +4446,7 @@ export const ActivityOptions = /*@__PURE__*/ S.suspend(() =>
     retryPolicy: S.optional(RetryPolicy),
     priority: S.optional(Priority),
   }),
-).annotate({
-  identifier: "ActivityOptions",
-}) as any as S.Schema<ActivityOptions>;
+).annotate({ identifier: "ActivityOptions" }) as any as S.Schema<ActivityOptions>;
 
 export interface PendingActivityInfo {
   activityId?: string;
@@ -4672,9 +4512,7 @@ export const PendingActivityInfo = /*@__PURE__*/ S.suspend(() =>
     pauseInfo: S.optional(PendingActivityInfoPauseInfo),
     activityOptions: S.optional(ActivityOptions),
   }),
-).annotate({
-  identifier: "PendingActivityInfo",
-}) as any as S.Schema<PendingActivityInfo>;
+).annotate({ identifier: "PendingActivityInfo" }) as any as S.Schema<PendingActivityInfo>;
 
 export type DescribeWorkflowExecutionResponsePendingActivitiesList = Array<PendingActivityInfo>;
 export const DescribeWorkflowExecutionResponsePendingActivitiesList = /*@__PURE__*/ S.Array(
@@ -4736,9 +4574,7 @@ export const PendingWorkflowTaskInfo = /*@__PURE__*/ S.suspend(() =>
     startedTime: S.optional(S.String),
     attempt: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PendingWorkflowTaskInfo",
-}) as any as S.Schema<PendingWorkflowTaskInfo>;
+).annotate({ identifier: "PendingWorkflowTaskInfo" }) as any as S.Schema<PendingWorkflowTaskInfo>;
 
 export type DescribeWorkflowExecutionResponseCallbacksList = Array<CallbackInfo>;
 export const DescribeWorkflowExecutionResponseCallbacksList = /*@__PURE__*/ S.Array(
@@ -5096,9 +4932,7 @@ export const FetchWorkerConfigRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "FetchWorkerConfigRequest",
-}) as any as S.Schema<FetchWorkerConfigRequest>;
+).annotate({ identifier: "FetchWorkerConfigRequest" }) as any as S.Schema<FetchWorkerConfigRequest>;
 
 export interface WorkerConfigSimplePollerBehavior {
   maxPollers?: number;
@@ -5157,14 +4991,10 @@ export const FetchWorkerConfigResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetClusterInfoRequest {}
 export const GetClusterInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/cluster-info", code: 200 })),
-).annotate({
-  identifier: "GetClusterInfoRequest",
-}) as any as S.Schema<GetClusterInfoRequest>;
+).annotate({ identifier: "GetClusterInfoRequest" }) as any as S.Schema<GetClusterInfoRequest>;
 
 /** Key is client name i.e "temporal-go", "temporal-java", or "temporal-cli". Value is ranges of supported versions of this client i.e ">1.1.1 <=1.4.0 || ^5.0.0". */
-export type GetClusterInfoResponseSupportedClientsMap = {
-  [key: string]: string | undefined;
-};
+export type GetClusterInfoResponseSupportedClientsMap = { [key: string]: string | undefined };
 export const GetClusterInfoResponseSupportedClientsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5253,9 +5083,7 @@ export const GetClusterInfoResponse = /*@__PURE__*/ S.suspend(() =>
     initialFailoverVersion: S.optional(S.String),
     failoverVersionIncrement: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetClusterInfoResponse",
-}) as any as S.Schema<GetClusterInfoResponse>;
+).annotate({ identifier: "GetClusterInfoResponse" }) as any as S.Schema<GetClusterInfoResponse>;
 
 export interface GetCurrentDeploymentRequest {
   namespace: string;
@@ -5347,9 +5175,7 @@ export const GetNexusEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/nexus/endpoints/{id}", code: 200 })),
-).annotate({
-  identifier: "GetNexusEndpointRequest",
-}) as any as S.Schema<GetNexusEndpointRequest>;
+).annotate({ identifier: "GetNexusEndpointRequest" }) as any as S.Schema<GetNexusEndpointRequest>;
 
 export interface GetNexusEndpointResponse {
   endpoint?: Endpoint;
@@ -5358,16 +5184,12 @@ export const GetNexusEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpoint: S.optional(Endpoint),
   }),
-).annotate({
-  identifier: "GetNexusEndpointResponse",
-}) as any as S.Schema<GetNexusEndpointResponse>;
+).annotate({ identifier: "GetNexusEndpointResponse" }) as any as S.Schema<GetNexusEndpointResponse>;
 
 export interface GetSystemInfoRequest {}
 export const GetSystemInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/system-info", code: 200 })),
-).annotate({
-  identifier: "GetSystemInfoRequest",
-}) as any as S.Schema<GetSystemInfoRequest>;
+).annotate({ identifier: "GetSystemInfoRequest" }) as any as S.Schema<GetSystemInfoRequest>;
 
 /** System capability details. */
 export interface GetSystemInfoResponseCapabilities {
@@ -5426,9 +5248,7 @@ export const GetSystemInfoResponse = /*@__PURE__*/ S.suspend(() =>
     serverVersion: S.optional(S.String),
     capabilities: S.optional(GetSystemInfoResponseCapabilities),
   }),
-).annotate({
-  identifier: "GetSystemInfoResponse",
-}) as any as S.Schema<GetSystemInfoResponse>;
+).annotate({ identifier: "GetSystemInfoResponse" }) as any as S.Schema<GetSystemInfoResponse>;
 
 export interface GetWorkerBuildIdCompatibilityRequest {
   namespace: string;
@@ -5468,9 +5288,7 @@ export const CompatibleVersionSet = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     buildIds: S.optional(CompatibleVersionSetBuildIdsList),
   }),
-).annotate({
-  identifier: "CompatibleVersionSet",
-}) as any as S.Schema<CompatibleVersionSet>;
+).annotate({ identifier: "CompatibleVersionSet" }) as any as S.Schema<CompatibleVersionSet>;
 
 /** Major version sets, in order from oldest to newest. The last element of the list will always be the current default major version. IE: New workflows will target the most recent version in that version set. There may be fewer sets returned than exist, if the request chose to limit this response. */
 export type GetWorkerBuildIdCompatibilityResponseMajorVersionSetsList = Array<CompatibleVersionSet>;
@@ -5560,9 +5378,7 @@ export const TaskQueueReachability = /*@__PURE__*/ S.suspend(() =>
     taskQueue: S.optional(S.String),
     reachability: S.optional(TaskQueueReachabilityReachabilityList),
   }),
-).annotate({
-  identifier: "TaskQueueReachability",
-}) as any as S.Schema<TaskQueueReachability>;
+).annotate({ identifier: "TaskQueueReachability" }) as any as S.Schema<TaskQueueReachability>;
 
 /** Reachability per task queue. */
 export type BuildIdReachabilityTaskQueueReachabilityList = Array<TaskQueueReachability>;
@@ -5582,9 +5398,7 @@ export const BuildIdReachability = /*@__PURE__*/ S.suspend(() =>
     buildId: S.optional(S.String),
     taskQueueReachability: S.optional(BuildIdReachabilityTaskQueueReachabilityList),
   }),
-).annotate({
-  identifier: "BuildIdReachability",
-}) as any as S.Schema<BuildIdReachability>;
+).annotate({ identifier: "BuildIdReachability" }) as any as S.Schema<BuildIdReachability>;
 
 /** Task reachability, broken down by build id and then task queue. When requesting a large number of task queues or all task queues associated with the given build ids in a namespace, all task queues will be listed in the response but some of them may not contain reachability information due to a server enforced limit. When reaching the limit, task queues that reachability information could not be retrieved for will be marked with a single TASK_REACHABILITY_UNSPECIFIED entry. The caller may issue another call to get the reachability for those task queues. Open source users can adjust this limit by setting the server's dynamic config value for `limit.reachabilityTaskQueueScan` with the caveat that this call can strain the visibility store. */
 export type GetWorkerTaskReachabilityResponseBuildIdReachabilityList = Array<BuildIdReachability>;
@@ -5632,9 +5446,7 @@ export const RampByPercentage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rampPercentage: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "RampByPercentage",
-}) as any as S.Schema<RampByPercentage>;
+).annotate({ identifier: "RampByPercentage" }) as any as S.Schema<RampByPercentage>;
 
 /** Assignment rules are applied to *new* Workflow and Activity executions at schedule time to assign them to a Build ID. Assignment rules will not be used in the following cases: - Child Workflows or Continue-As-New Executions who inherit their parent/previous Workflow's assigned Build ID (by setting the `inherit_build_id` flag - default behavior in SDKs when the same Task Queue is used.) - An Activity that inherits the assigned Build ID of its Workflow (by setting the `use_workflow_build_id` flag - default behavior in SDKs when the same Task Queue is used.) In absence of (applicable) redirect rules (`CompatibleBuildIdRedirectRule`s) the task will be dispatched to Workers of the Build ID determined by the assignment rules (or inherited). Otherwise, the final Build ID will be determined by the redirect rules. Once a Workflow completes its first Workflow Task in a particular Build ID it stays in that Build ID regardless of changes to assignment rules. Redirect rules can be used to move the workflow to another compatible Build ID. When using Worker Versioning on a Task Queue, in the steady state, there should typically be a single assignment rule to send all new executions to the latest Build ID. Existence of at least one such "unconditional" rule at all times is enforces by the system, unless the `force` flag is used by the user when replacing/deleting these rules (for exceptional cases). During a deployment, one or more additional rules can be added to assign a subset of the tasks to a new Build ID based on a "ramp percentage". When there are multiple assignment rules for a Task Queue, the rules are evaluated in order, starting from index 0. The first applicable rule will be applied and the rest will be ignored. In the event that no assignment rule is applicable on a task (or the Task Queue is simply not versioned), the tasks will be dispatched to an unversioned Worker. */
 export interface BuildIdAssignmentRule {
@@ -5647,9 +5459,7 @@ export const BuildIdAssignmentRule = /*@__PURE__*/ S.suspend(() =>
     targetBuildId: S.optional(S.String),
     percentageRamp: S.optional(RampByPercentage),
   }),
-).annotate({
-  identifier: "BuildIdAssignmentRule",
-}) as any as S.Schema<BuildIdAssignmentRule>;
+).annotate({ identifier: "BuildIdAssignmentRule" }) as any as S.Schema<BuildIdAssignmentRule>;
 
 export interface TimestampedBuildIdAssignmentRule {
   rule?: BuildIdAssignmentRule;
@@ -5888,9 +5698,7 @@ export const InheritedAutoUpgradeInfo = /*@__PURE__*/ S.suspend(() =>
       InheritedAutoUpgradeInfoContinueAsNewInitialVersioningBehavior,
     ),
   }),
-).annotate({
-  identifier: "InheritedAutoUpgradeInfo",
-}) as any as S.Schema<InheritedAutoUpgradeInfo>;
+).annotate({ identifier: "InheritedAutoUpgradeInfo" }) as any as S.Schema<InheritedAutoUpgradeInfo>;
 
 /** Wrapper for a target deployment version that the SDK declined to upgrade to. See declined_target_version_upgrade on WorkflowExecutionStartedEventAttributes. */
 export interface DeclinedTargetVersionUpgrade {
@@ -5922,9 +5730,7 @@ export const TimeSkippingConfig = /*@__PURE__*/ S.suspend(() =>
     maxSkippedDuration: S.optional(S.String),
     maxElapsedDuration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TimeSkippingConfig",
-}) as any as S.Schema<TimeSkippingConfig>;
+).annotate({ identifier: "TimeSkippingConfig" }) as any as S.Schema<TimeSkippingConfig>;
 
 /** Always the first event in workflow history */
 export interface WorkflowExecutionStartedEventAttributes {
@@ -6235,9 +6041,7 @@ export const MeteringMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nonfirstLocalActivityExecutionAttempts: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MeteringMetadata",
-}) as any as S.Schema<MeteringMetadata>;
+).annotate({ identifier: "MeteringMetadata" }) as any as S.Schema<MeteringMetadata>;
 
 /** Versioning behavior sent by the worker that completed this task for this particular workflow execution. UNSPECIFIED means the task was completed by an unversioned worker. This value updates workflow execution's `versioning_info.behavior`. */
 export type WorkflowTaskCompletedEventAttributesVersioningBehavior =
@@ -6658,9 +6462,7 @@ export const TimerCanceledEventAttributes = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TimerCanceledEventAttributes>;
 
 /** Serialized information recorded in the marker */
-export type MarkerRecordedEventAttributesDetailsMap = {
-  [key: string]: Payloads | undefined;
-};
+export type MarkerRecordedEventAttributesDetailsMap = { [key: string]: Payloads | undefined };
 export const MarkerRecordedEventAttributesDetailsMap = /*@__PURE__*/ S.Record(
   S.String,
   Payloads,
@@ -8141,13 +7943,7 @@ export const ListActivityExecutionsRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     nextPageToken: S.optional(S.String.pipe(T.Query())),
     query: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/namespaces/{namespace}/activities",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/namespaces/{namespace}/activities", code: 200 })),
 ).annotate({
   identifier: "ListActivityExecutionsRequest",
 }) as any as S.Schema<ListActivityExecutionsRequest>;
@@ -8238,11 +8034,7 @@ export const ListArchivedWorkflowExecutionsRequest = /*@__PURE__*/ S.suspend(() 
     nextPageToken: S.optional(S.String.pipe(T.Query())),
     query: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/namespaces/{namespace}/archived-workflows",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/namespaces/{namespace}/archived-workflows", code: 200 }),
   ),
 ).annotate({
   identifier: "ListArchivedWorkflowExecutionsRequest",
@@ -8280,11 +8072,7 @@ export const ListBatchOperationsRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     nextPageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/namespaces/{namespace}/batch-operations",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/namespaces/{namespace}/batch-operations", code: 200 }),
   ),
 ).annotate({
   identifier: "ListBatchOperationsRequest",
@@ -8315,9 +8103,7 @@ export const BatchOperationInfo = /*@__PURE__*/ S.suspend(() =>
     startTime: S.optional(S.String),
     closeTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BatchOperationInfo",
-}) as any as S.Schema<BatchOperationInfo>;
+).annotate({ identifier: "BatchOperationInfo" }) as any as S.Schema<BatchOperationInfo>;
 
 /** BatchOperationInfo contains the basic info about batch operation */
 export type ListBatchOperationsResponseOperationInfoList = Array<BatchOperationInfo>;
@@ -8352,16 +8138,8 @@ export const ListDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     nextPageToken: S.optional(S.String.pipe(T.Query())),
     seriesName: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/namespaces/{namespace}/deployments",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListDeploymentsRequest",
-}) as any as S.Schema<ListDeploymentsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/namespaces/{namespace}/deployments", code: 200 })),
+).annotate({ identifier: "ListDeploymentsRequest" }) as any as S.Schema<ListDeploymentsRequest>;
 
 /** DeploymentListInfo is an abbreviated set of fields from DeploymentInfo that's returned in ListDeployments. Deprecated. */
 export interface DeploymentListInfo {
@@ -8376,9 +8154,7 @@ export const DeploymentListInfo = /*@__PURE__*/ S.suspend(() =>
     createTime: S.optional(S.String),
     isCurrent: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DeploymentListInfo",
-}) as any as S.Schema<DeploymentListInfo>;
+).annotate({ identifier: "DeploymentListInfo" }) as any as S.Schema<DeploymentListInfo>;
 
 export type ListDeploymentsResponseDeploymentsList = Array<DeploymentListInfo>;
 export const ListDeploymentsResponseDeploymentsList = /*@__PURE__*/ S.Array(
@@ -8395,9 +8171,7 @@ export const ListDeploymentsResponse = /*@__PURE__*/ S.suspend(() =>
     nextPageToken: S.optional(S.String),
     deployments: S.optional(ListDeploymentsResponseDeploymentsList),
   }),
-).annotate({
-  identifier: "ListDeploymentsResponse",
-}) as any as S.Schema<ListDeploymentsResponse>;
+).annotate({ identifier: "ListDeploymentsResponse" }) as any as S.Schema<ListDeploymentsResponse>;
 
 export interface ListNamespacesRequest {
   pageSize?: number;
@@ -8413,9 +8187,7 @@ export const ListNamespacesRequest = /*@__PURE__*/ S.suspend(() =>
       S.Boolean.pipe(T.Query("namespaceFilter.includeDeleted")),
     ),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/namespaces", code: 200 })),
-).annotate({
-  identifier: "ListNamespacesRequest",
-}) as any as S.Schema<ListNamespacesRequest>;
+).annotate({ identifier: "ListNamespacesRequest" }) as any as S.Schema<ListNamespacesRequest>;
 
 export type ListNamespacesResponseNamespacesList = Array<DescribeNamespaceResponse>;
 export const ListNamespacesResponseNamespacesList = /*@__PURE__*/ S.Array(
@@ -8431,9 +8203,7 @@ export const ListNamespacesResponse = /*@__PURE__*/ S.suspend(() =>
     namespaces: S.optional(ListNamespacesResponseNamespacesList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListNamespacesResponse",
-}) as any as S.Schema<ListNamespacesResponse>;
+).annotate({ identifier: "ListNamespacesResponse" }) as any as S.Schema<ListNamespacesResponse>;
 
 export interface ListNexusEndpointsRequest {
   pageSize?: number;
@@ -8487,11 +8257,7 @@ export const ListNexusOperationExecutionsRequest = /*@__PURE__*/ S.suspend(() =>
     nextPageToken: S.optional(S.String.pipe(T.Query())),
     query: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/namespaces/{namespace}/nexus-operations",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/namespaces/{namespace}/nexus-operations", code: 200 }),
   ),
 ).annotate({
   identifier: "ListNexusOperationExecutionsRequest",
@@ -8629,16 +8395,8 @@ export const ListSchedulesRequest = /*@__PURE__*/ S.suspend(() =>
     maximumPageSize: S.optional(S.Number.pipe(T.Query())),
     nextPageToken: S.optional(S.String.pipe(T.Query())),
     query: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/namespaces/{namespace}/schedules",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListSchedulesRequest",
-}) as any as S.Schema<ListSchedulesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/namespaces/{namespace}/schedules", code: 200 })),
+).annotate({ identifier: "ListSchedulesRequest" }) as any as S.Schema<ListSchedulesRequest>;
 
 /** From info (maybe fewer entries): */
 export type ScheduleListInfoRecentActionsList = Array<ScheduleActionResult>;
@@ -8673,9 +8431,7 @@ export const ScheduleListInfo = /*@__PURE__*/ S.suspend(() =>
     recentActions: S.optional(ScheduleListInfoRecentActionsList),
     futureActionTimes: S.optional(ScheduleListInfoFutureActionTimesList),
   }),
-).annotate({
-  identifier: "ScheduleListInfo",
-}) as any as S.Schema<ScheduleListInfo>;
+).annotate({ identifier: "ScheduleListInfo" }) as any as S.Schema<ScheduleListInfo>;
 
 /** ScheduleListEntry is returned by ListSchedules. */
 export interface ScheduleListEntry {
@@ -8691,9 +8447,7 @@ export const ScheduleListEntry = /*@__PURE__*/ S.suspend(() =>
     searchAttributes: S.optional(SearchAttributes),
     info: S.optional(ScheduleListInfo),
   }),
-).annotate({
-  identifier: "ScheduleListEntry",
-}) as any as S.Schema<ScheduleListEntry>;
+).annotate({ identifier: "ScheduleListEntry" }) as any as S.Schema<ScheduleListEntry>;
 
 export type ListSchedulesResponseSchedulesList = Array<ScheduleListEntry>;
 export const ListSchedulesResponseSchedulesList = /*@__PURE__*/ S.Array(
@@ -8709,9 +8463,7 @@ export const ListSchedulesResponse = /*@__PURE__*/ S.suspend(() =>
     schedules: S.optional(ListSchedulesResponseSchedulesList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListSchedulesResponse",
-}) as any as S.Schema<ListSchedulesResponse>;
+).annotate({ identifier: "ListSchedulesResponse" }) as any as S.Schema<ListSchedulesResponse>;
 
 export interface ListSearchAttributesRequest {
   namespace: string;
@@ -8720,11 +8472,7 @@ export const ListSearchAttributesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/namespaces/{namespace}/search-attributes",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/namespaces/{namespace}/search-attributes", code: 200 }),
   ),
 ).annotate({
   identifier: "ListSearchAttributesRequest",
@@ -8771,9 +8519,7 @@ export const ListSearchAttributesResponseSystemAttributesMap = /*@__PURE__*/ S.R
 ) as any as S.Schema<ListSearchAttributesResponseSystemAttributesMap>;
 
 /** Mapping from the attribute name to the visibility storage native type. */
-export type ListSearchAttributesResponseStorageSchemaMap = {
-  [key: string]: string | undefined;
-};
+export type ListSearchAttributesResponseStorageSchemaMap = { [key: string]: string | undefined };
 export const ListSearchAttributesResponseStorageSchemaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8808,11 +8554,7 @@ export const ListWorkerDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     nextPageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/namespaces/{namespace}/worker-deployments",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/namespaces/{namespace}/worker-deployments", code: 200 }),
   ),
 ).annotate({
   identifier: "ListWorkerDeploymentsRequest",
@@ -8880,16 +8622,8 @@ export const ListWorkersRequest = /*@__PURE__*/ S.suspend(() =>
     nextPageToken: S.optional(S.String.pipe(T.Query())),
     query: S.optional(S.String.pipe(T.Query())),
     includeSystemWorkers: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/namespaces/{namespace}/workers",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListWorkersRequest",
-}) as any as S.Schema<ListWorkersRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/namespaces/{namespace}/workers", code: 200 })),
+).annotate({ identifier: "ListWorkersRequest" }) as any as S.Schema<ListWorkersRequest>;
 
 /** Deprecated: Use workers instead. This field returns full WorkerInfo which includes expensive runtime metrics. We will stop populating this field in the future. */
 export type ListWorkersResponseWorkersInfoList = Array<WorkerInfo>;
@@ -8981,9 +8715,7 @@ export const ListWorkersResponse = /*@__PURE__*/ S.suspend(() =>
     workers: S.optional(ListWorkersResponseWorkersList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListWorkersResponse",
-}) as any as S.Schema<ListWorkersResponse>;
+).annotate({ identifier: "ListWorkersResponse" }) as any as S.Schema<ListWorkersResponse>;
 
 export interface ListWorkflowExecutionsRequest {
   namespace: string;
@@ -8997,13 +8729,7 @@ export const ListWorkflowExecutionsRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     nextPageToken: S.optional(S.String.pipe(T.Query())),
     query: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/namespaces/{namespace}/workflows",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/namespaces/{namespace}/workflows", code: 200 })),
 ).annotate({
   identifier: "ListWorkflowExecutionsRequest",
 }) as any as S.Schema<ListWorkflowExecutionsRequest>;
@@ -9035,15 +8761,9 @@ export const ListWorkflowRulesRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     nextPageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/namespaces/{namespace}/workflow-rules",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/namespaces/{namespace}/workflow-rules", code: 200 }),
   ),
-).annotate({
-  identifier: "ListWorkflowRulesRequest",
-}) as any as S.Schema<ListWorkflowRulesRequest>;
+).annotate({ identifier: "ListWorkflowRulesRequest" }) as any as S.Schema<ListWorkflowRulesRequest>;
 
 export type ListWorkflowRulesResponseRulesList = Array<WorkflowRule>;
 export const ListWorkflowRulesResponseRulesList = /*@__PURE__*/ S.Array(
@@ -9088,16 +8808,12 @@ export const PatchScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PatchScheduleRequest",
-}) as any as S.Schema<PatchScheduleRequest>;
+).annotate({ identifier: "PatchScheduleRequest" }) as any as S.Schema<PatchScheduleRequest>;
 
 export type PatchScheduleResponse2 = unknown;
 export const PatchScheduleResponse2 = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "PatchScheduleResponse2",
-}) as any as S.Schema<PatchScheduleResponse2>;
+).annotate({ identifier: "PatchScheduleResponse2" }) as any as S.Schema<PatchScheduleResponse2>;
 
 export interface PauseActivityRequest {
   /** Namespace of the workflow which scheduled this activity. */
@@ -9131,16 +8847,12 @@ export const PauseActivityRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PauseActivityRequest",
-}) as any as S.Schema<PauseActivityRequest>;
+).annotate({ identifier: "PauseActivityRequest" }) as any as S.Schema<PauseActivityRequest>;
 
 export type PauseActivityResponse2 = unknown;
 export const PauseActivityResponse2 = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "PauseActivityResponse2",
-}) as any as S.Schema<PauseActivityResponse2>;
+).annotate({ identifier: "PauseActivityResponse2" }) as any as S.Schema<PauseActivityResponse2>;
 
 export interface PauseActivityExecutionRequest {
   /** Namespace of the workflow which scheduled this activity. */
@@ -9375,9 +9087,7 @@ export const QueryWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "QueryWorkflowRequest",
-}) as any as S.Schema<QueryWorkflowRequest>;
+).annotate({ identifier: "QueryWorkflowRequest" }) as any as S.Schema<QueryWorkflowRequest>;
 
 export type QueryRejectedStatus =
   | "WORKFLOW_EXECUTION_STATUS_UNSPECIFIED"
@@ -9409,9 +9119,7 @@ export const QueryWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
     queryResult: S.optional(Payloads),
     queryRejected: S.optional(QueryRejected),
   }),
-).annotate({
-  identifier: "QueryWorkflowResponse",
-}) as any as S.Schema<QueryWorkflowResponse>;
+).annotate({ identifier: "QueryWorkflowResponse" }) as any as S.Schema<QueryWorkflowResponse>;
 
 export interface RecordActivityTaskHeartbeatRequest {
   namespace: string;
@@ -9432,11 +9140,7 @@ export const RecordActivityTaskHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(S.String),
     resourceId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/namespaces/{namespace}/activity-heartbeat",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/namespaces/{namespace}/activity-heartbeat", code: 200 }),
   ),
 ).annotate({
   identifier: "RecordActivityTaskHeartbeatRequest",
@@ -9535,11 +9239,7 @@ export const RecordWorkerHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
     workerHeartbeat: S.optional(RecordWorkerHeartbeatRequestWorkerHeartbeatList),
     resourceId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/namespaces/{namespace}/workers/heartbeat",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/namespaces/{namespace}/workers/heartbeat", code: 200 }),
   ),
 ).annotate({
   identifier: "RecordWorkerHeartbeatRequest",
@@ -9558,9 +9258,7 @@ export const RegisterNamespaceRequestClustersList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<RegisterNamespaceRequestClustersList>;
 
 /** A key-value map for any customized purpose. */
-export type RegisterNamespaceRequestDataMap = {
-  [key: string]: string | undefined;
-};
+export type RegisterNamespaceRequestDataMap = { [key: string]: string | undefined };
 export const RegisterNamespaceRequestDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9614,9 +9312,7 @@ export const RegisterNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
     visibilityArchivalState: S.optional(RegisterNamespaceRequestVisibilityArchivalState),
     visibilityArchivalUri: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/namespaces", code: 200 })),
-).annotate({
-  identifier: "RegisterNamespaceRequest",
-}) as any as S.Schema<RegisterNamespaceRequest>;
+).annotate({ identifier: "RegisterNamespaceRequest" }) as any as S.Schema<RegisterNamespaceRequest>;
 
 export type RegisterNamespaceResponse2 = unknown;
 export const RegisterNamespaceResponse2 = /*@__PURE__*/ S.suspend(() =>
@@ -9791,16 +9487,12 @@ export const ResetActivityRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ResetActivityRequest",
-}) as any as S.Schema<ResetActivityRequest>;
+).annotate({ identifier: "ResetActivityRequest" }) as any as S.Schema<ResetActivityRequest>;
 
 export type ResetActivityResponse2 = unknown;
 export const ResetActivityResponse2 = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ResetActivityResponse2",
-}) as any as S.Schema<ResetActivityResponse2>;
+).annotate({ identifier: "ResetActivityResponse2" }) as any as S.Schema<ResetActivityResponse2>;
 
 export interface ResetActivityExecutionRequest {
   /** Namespace of the workflow which scheduled this activity. */
@@ -9920,9 +9612,7 @@ export const WorkflowExecutionOptions = /*@__PURE__*/ S.suspend(() =>
     priority: S.optional(Priority),
     timeSkippingConfig: S.optional(TimeSkippingConfig),
   }),
-).annotate({
-  identifier: "WorkflowExecutionOptions",
-}) as any as S.Schema<WorkflowExecutionOptions>;
+).annotate({ identifier: "WorkflowExecutionOptions" }) as any as S.Schema<WorkflowExecutionOptions>;
 
 /** UpdateWorkflowOptions represents updating workflow execution options after a workflow reset. Keep the parameters in sync with temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest. */
 export interface PostResetOperationUpdateWorkflowOptions {
@@ -9950,9 +9640,7 @@ export const PostResetOperation = /*@__PURE__*/ S.suspend(() =>
     signalWorkflow: S.optional(PostResetOperationSignalWorkflow),
     updateWorkflowOptions: S.optional(PostResetOperationUpdateWorkflowOptions),
   }),
-).annotate({
-  identifier: "PostResetOperation",
-}) as any as S.Schema<PostResetOperation>;
+).annotate({ identifier: "PostResetOperation" }) as any as S.Schema<PostResetOperation>;
 
 /** Operations to perform after the workflow has been reset. These operations will be applied to the *new* run of the workflow execution in the order they are provided. All operations are applied to the workflow before the first new workflow task is generated */
 export type ResetWorkflowExecutionRequestPostResetOperationsList = Array<PostResetOperation>;
@@ -10132,11 +9820,7 @@ export const RespondActivityTaskCompletedRequest = /*@__PURE__*/ S.suspend(() =>
     deployment: S.optional(Deployment),
     deploymentOptions: S.optional(WorkerDeploymentOptions),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/namespaces/{namespace}/activity-complete",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/namespaces/{namespace}/activity-complete", code: 200 }),
   ),
 ).annotate({
   identifier: "RespondActivityTaskCompletedRequest",
@@ -10223,11 +9907,7 @@ export const RespondActivityTaskFailedRequest = /*@__PURE__*/ S.suspend(() =>
     deployment: S.optional(Deployment),
     deploymentOptions: S.optional(WorkerDeploymentOptions),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/namespaces/{namespace}/activity-fail",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/namespaces/{namespace}/activity-fail", code: 200 }),
   ),
 ).annotate({
   identifier: "RespondActivityTaskFailedRequest",
@@ -10308,9 +9988,7 @@ export const RespondActivityTaskFailedByIdResponse = /*@__PURE__*/ S.suspend(() 
   identifier: "RespondActivityTaskFailedByIdResponse",
 }) as any as S.Schema<RespondActivityTaskFailedByIdResponse>;
 
-export type UpdateDeploymentMetadataUpsertEntriesMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateDeploymentMetadataUpsertEntriesMap = { [key: string]: unknown | undefined };
 export const UpdateDeploymentMetadataUpsertEntriesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -10333,9 +10011,7 @@ export const UpdateDeploymentMetadata = /*@__PURE__*/ S.suspend(() =>
     upsertEntries: S.optional(UpdateDeploymentMetadataUpsertEntriesMap),
     removeEntries: S.optional(UpdateDeploymentMetadataRemoveEntriesList),
   }),
-).annotate({
-  identifier: "UpdateDeploymentMetadata",
-}) as any as S.Schema<UpdateDeploymentMetadata>;
+).annotate({ identifier: "UpdateDeploymentMetadata" }) as any as S.Schema<UpdateDeploymentMetadata>;
 
 export interface SetCurrentDeploymentRequest {
   namespace: string;
@@ -10777,9 +10453,7 @@ export const OnConflictOptions = /*@__PURE__*/ S.suspend(() =>
     attachCompletionCallbacks: S.optional(S.Boolean),
     attachLinks: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "OnConflictOptions",
-}) as any as S.Schema<OnConflictOptions>;
+).annotate({ identifier: "OnConflictOptions" }) as any as S.Schema<OnConflictOptions>;
 
 export interface StartActivityExecutionRequest {
   namespace: string;
@@ -10919,9 +10593,7 @@ export const BatchOperationSignal = /*@__PURE__*/ S.suspend(() =>
     header: S.optional(Header),
     identity: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BatchOperationSignal",
-}) as any as S.Schema<BatchOperationSignal>;
+).annotate({ identifier: "BatchOperationSignal" }) as any as S.Schema<BatchOperationSignal>;
 
 /** BatchOperationCancellation sends cancel requests to batch workflows. Keep the parameter in sync with temporal.api.workflowservice.v1.RequestCancelWorkflowExecutionRequest. Ignore first_execution_run_id because this is used for single workflow operation. */
 export interface BatchOperationCancellation {
@@ -11029,9 +10701,7 @@ export const BatchOperationReset = /*@__PURE__*/ S.suspend(() =>
     resetReapplyType: S.optional(BatchOperationResetResetReapplyType),
     postResetOperations: S.optional(BatchOperationResetPostResetOperationsList),
   }),
-).annotate({
-  identifier: "BatchOperationReset",
-}) as any as S.Schema<BatchOperationReset>;
+).annotate({ identifier: "BatchOperationReset" }) as any as S.Schema<BatchOperationReset>;
 
 /** BatchOperationUpdateWorkflowExecutionOptions sends UpdateWorkflowExecutionOptions requests to batch workflows. Keep the parameters in sync with temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest. */
 export interface BatchOperationUpdateWorkflowExecutionOptions {
@@ -11432,9 +11102,7 @@ export type StartWorkflowExecutionResponseStatus =
 export const StartWorkflowExecutionResponseStatus = S.String;
 
 /** Queries that should be executed after applying the history in this task. Responses should be attached to `RespondWorkflowTaskCompletedRequest::query_results` */
-export type PollWorkflowTaskQueueResponseQueriesMap = {
-  [key: string]: WorkflowQuery | undefined;
-};
+export type PollWorkflowTaskQueueResponseQueriesMap = { [key: string]: WorkflowQuery | undefined };
 export const PollWorkflowTaskQueueResponseQueriesMap = /*@__PURE__*/ S.Record(
   S.String,
   WorkflowQuery,
@@ -11449,9 +11117,7 @@ export const GoogleProtobufAny = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _type: S.optional(S.String.pipe(T.Body("@type"))),
   }),
-).annotate({
-  identifier: "GoogleProtobufAny",
-}) as any as S.Schema<GoogleProtobufAny>;
+).annotate({ identifier: "GoogleProtobufAny" }) as any as S.Schema<GoogleProtobufAny>;
 
 /** (-- api-linter: core::0146::any=disabled aip.dev/not-precedent: We want runtime extensibility for the body field --) */
 export interface Message {
@@ -11489,9 +11155,7 @@ export const PollerScalingDecision = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pollRequestDeltaSuggestion: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PollerScalingDecision",
-}) as any as S.Schema<PollerScalingDecision>;
+).annotate({ identifier: "PollerScalingDecision" }) as any as S.Schema<PollerScalingDecision>;
 
 export interface PollerGroupInfo {
   id?: string;
@@ -11502,9 +11166,7 @@ export const PollerGroupInfo = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     weight: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PollerGroupInfo",
-}) as any as S.Schema<PollerGroupInfo>;
+).annotate({ identifier: "PollerGroupInfo" }) as any as S.Schema<PollerGroupInfo>;
 
 /** The weighted list of poller groups IDs that client should use for future polls to this task queue. Client is expected to: 1. Maintain minimum number of pollers no less than the number of groups. 2. Try to assign the next poll to a group without any pending polls, 3. If every group has some pending polls, assign the next poll to a group randomly according to the weights. */
 export type PollWorkflowTaskQueueResponsePollerGroupInfosList = Array<PollerGroupInfo>;
@@ -11835,16 +11497,12 @@ export const UnpauseActivityRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UnpauseActivityRequest",
-}) as any as S.Schema<UnpauseActivityRequest>;
+).annotate({ identifier: "UnpauseActivityRequest" }) as any as S.Schema<UnpauseActivityRequest>;
 
 export type UnpauseActivityResponse2 = unknown;
 export const UnpauseActivityResponse2 = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "UnpauseActivityResponse2",
-}) as any as S.Schema<UnpauseActivityResponse2>;
+).annotate({ identifier: "UnpauseActivityResponse2" }) as any as S.Schema<UnpauseActivityResponse2>;
 
 export interface UnpauseActivityExecutionRequest {
   /** Namespace of the workflow which scheduled this activity. */
@@ -12077,9 +11735,7 @@ export const UpdateNamespaceInfo = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(UpdateNamespaceInfoDataMap),
     state: S.optional(UpdateNamespaceInfoState),
   }),
-).annotate({
-  identifier: "UpdateNamespaceInfo",
-}) as any as S.Schema<UpdateNamespaceInfo>;
+).annotate({ identifier: "UpdateNamespaceInfo" }) as any as S.Schema<UpdateNamespaceInfo>;
 
 export interface UpdateNamespaceRequest {
   namespace: string;
@@ -12100,16 +11756,8 @@ export const UpdateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
     securityToken: S.optional(S.String),
     deleteBadBinary: S.optional(S.String),
     promoteNamespace: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/namespaces/{namespace}/update",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateNamespaceRequest",
-}) as any as S.Schema<UpdateNamespaceRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/namespaces/{namespace}/update", code: 200 })),
+).annotate({ identifier: "UpdateNamespaceRequest" }) as any as S.Schema<UpdateNamespaceRequest>;
 
 export interface UpdateNamespaceResponse {
   namespaceInfo?: NamespaceInfo;
@@ -12126,9 +11774,7 @@ export const UpdateNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
     failoverVersion: S.optional(S.String),
     isGlobalNamespace: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "UpdateNamespaceResponse",
-}) as any as S.Schema<UpdateNamespaceResponse>;
+).annotate({ identifier: "UpdateNamespaceResponse" }) as any as S.Schema<UpdateNamespaceResponse>;
 
 export interface UpdateNexusEndpointRequest {
   /** Server-generated unique endpoint ID. */
@@ -12142,13 +11788,7 @@ export const UpdateNexusEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     version: S.optional(S.String),
     spec: S.optional(EndpointSpec),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/nexus/endpoints/{id}/update",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/nexus/endpoints/{id}/update", code: 200 })),
 ).annotate({
   identifier: "UpdateNexusEndpointRequest",
 }) as any as S.Schema<UpdateNexusEndpointRequest>;
@@ -12200,16 +11840,12 @@ export const UpdateScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateScheduleRequest",
-}) as any as S.Schema<UpdateScheduleRequest>;
+).annotate({ identifier: "UpdateScheduleRequest" }) as any as S.Schema<UpdateScheduleRequest>;
 
 export type UpdateScheduleResponse2 = unknown;
 export const UpdateScheduleResponse2 = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "UpdateScheduleResponse2",
-}) as any as S.Schema<UpdateScheduleResponse2>;
+).annotate({ identifier: "UpdateScheduleResponse2" }) as any as S.Schema<UpdateScheduleResponse2>;
 
 export type UpdateTaskQueueConfigRequestTaskQueueType =
   | "TASK_QUEUE_TYPE_UNSPECIFIED"
