@@ -69,16 +69,8 @@ export const AddDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/databases/{database_cluster_uuid}/dbs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AddDatabaseRequest",
-}) as any as S.Schema<AddDatabaseRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/databases/{database_cluster_uuid}/dbs", code: 200 })),
+).annotate({ identifier: "AddDatabaseRequest" }) as any as S.Schema<AddDatabaseRequest>;
 
 export interface Database {
   /** The name of the database. */
@@ -97,9 +89,7 @@ export const AddDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     db: Database,
   }),
-).annotate({
-  identifier: "AddDatabaseResponse",
-}) as any as S.Schema<AddDatabaseResponse>;
+).annotate({ identifier: "AddDatabaseResponse" }) as any as S.Schema<AddDatabaseResponse>;
 
 export interface AddDatabaseConnectionPoolRequestConnection {}
 export const AddDatabaseConnectionPoolRequestConnection = /*@__PURE__*/ S.suspend(() =>
@@ -154,11 +144,7 @@ export const AddDatabaseConnectionPoolRequest = /*@__PURE__*/ S.suspend(() =>
     standby_connection: S.optional(AddDatabaseConnectionPoolRequestConnection),
     standby_private_connection: S.optional(AddDatabaseConnectionPoolRequestConnection),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/databases/{database_cluster_uuid}/pools",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/databases/{database_cluster_uuid}/pools", code: 200 }),
   ),
 ).annotate({
   identifier: "AddDatabaseConnectionPoolRequest",
@@ -190,9 +176,7 @@ export const ConnectionPoolConnection = /*@__PURE__*/ S.suspend(() =>
     password: S.optional(S.String.pipe(T.SensitiveValue({}))),
     ssl: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ConnectionPoolConnection",
-}) as any as S.Schema<ConnectionPoolConnection>;
+).annotate({ identifier: "ConnectionPoolConnection" }) as any as S.Schema<ConnectionPoolConnection>;
 
 export type ConnectionPoolPrivateConnection = ConnectionPoolConnection;
 export const ConnectionPoolPrivateConnection = ConnectionPoolConnection;
@@ -306,9 +290,7 @@ export const UserSettingsAclItem = /*@__PURE__*/ S.suspend(() =>
     topic: S.String,
     permission: UserSettingsAclItemPermission,
   }),
-).annotate({
-  identifier: "UserSettingsAclItem",
-}) as any as S.Schema<UserSettingsAclItem>;
+).annotate({ identifier: "UserSettingsAclItem" }) as any as S.Schema<UserSettingsAclItem>;
 
 /** ACLs (Access Control Lists) specifying permissions on topics within a Kafka cluster. */
 export type UserSettingsAclList = Array<UserSettingsAclItem>;
@@ -326,7 +308,7 @@ export const UserSettingsMongoUserSettingsDatabasesList = /*@__PURE__*/ S.Array(
 export type UserSettingsMongoUserSettingsRole = "readOnly" | "readWrite" | "dbAdmin";
 export const UserSettingsMongoUserSettingsRole = S.String;
 
-/** MongoDB-specific settings for the user. This option is not currently supported for other database engines. */
+/** MongoDB-specific settings for the user. Configure these when creating a user. Updating MongoDB roles or database access after creation is not supported; recreate the user to change them. This option is not currently supported for other database engines. */
 export interface UserSettingsMongoUserSettings {
   /** A list of databases to which the user should have access. When the database is set to `admin`, the user will have access to all databases based on the user's role i.e. a user with the role `readOnly` assigned to the `admin` database will have read access to all databases. */
   databases?: UserSettingsMongoUserSettingsDatabasesList;
@@ -349,7 +331,7 @@ export interface UserSettings {
   opensearch_acl?: UserSettingsOpensearchAclList;
   /** ACLs (Access Control Lists) specifying permissions on topics within a Kafka cluster. */
   acl?: UserSettingsAclList;
-  /** MongoDB-specific settings for the user. This option is not currently supported for other database engines. */
+  /** MongoDB-specific settings for the user. Configure these when creating a user. Updating MongoDB roles or database access after creation is not supported; recreate the user to change them. This option is not currently supported for other database engines. */
   mongo_user_settings?: UserSettingsMongoUserSettings;
 }
 export const UserSettings = /*@__PURE__*/ S.suspend(() =>
@@ -379,15 +361,9 @@ export const AddDatabaseUserRequest = /*@__PURE__*/ S.suspend(() =>
     settings: S.optional(UserSettings),
     readonly: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/databases/{database_cluster_uuid}/users",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/databases/{database_cluster_uuid}/users", code: 200 }),
   ),
-).annotate({
-  identifier: "AddDatabaseUserRequest",
-}) as any as S.Schema<AddDatabaseUserRequest>;
+).annotate({ identifier: "AddDatabaseUserRequest" }) as any as S.Schema<AddDatabaseUserRequest>;
 
 /** A string representing the database user's role. The value will be either "primary" or "normal". */
 export type DatabaseUserRole = "primary" | "normal";
@@ -426,13 +402,15 @@ export const AddDatabaseUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user: DatabaseUser,
   }),
-).annotate({
-  identifier: "AddDatabaseUserResponse",
-}) as any as S.Schema<AddDatabaseUserResponse>;
+).annotate({ identifier: "AddDatabaseUserResponse" }) as any as S.Schema<AddDatabaseUserResponse>;
 
 /** The type of traffic to be allowed. This may be one of `tcp`, `udp`, or `icmp`. */
 export type AddFirewallRulesRequestInboundRulesItemProtocol = "tcp" | "udp" | "icmp";
 export const AddFirewallRulesRequestInboundRulesItemProtocol = S.String;
+
+/** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+export type AddFirewallRulesRequestInboundRulesItemAction = "allow" | "deny";
+export const AddFirewallRulesRequestInboundRulesItemAction = S.String;
 
 /** An array of strings containing the IPv4 addresses, IPv6 addresses, IPv4 CIDRs, and/or IPv6 CIDRs to which the firewall will allow traffic. */
 export type AddFirewallRulesRequestInboundRulesItemSourcesAddressesList = Array<string>;
@@ -490,12 +468,15 @@ export interface AddFirewallRulesRequestInboundRulesItem {
   protocol: AddFirewallRulesRequestInboundRulesItemProtocol | (string & {});
   /** The ports on which traffic will be allowed specified as a string containing a single port, a range (e.g. "8000-9000"), or "0" when all ports are open for a protocol. For ICMP rules this parameter will always return "0". */
   ports: string;
+  /** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+  action?: AddFirewallRulesRequestInboundRulesItemAction | (string & {});
   sources: AddFirewallRulesRequestInboundRulesItemSources;
 }
 export const AddFirewallRulesRequestInboundRulesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     protocol: AddFirewallRulesRequestInboundRulesItemProtocol,
     ports: S.String,
+    action: S.optional(AddFirewallRulesRequestInboundRulesItemAction),
     sources: AddFirewallRulesRequestInboundRulesItemSources,
   }),
 ).annotate({
@@ -511,6 +492,10 @@ export const AddFirewallRulesRequestInboundRulesList = /*@__PURE__*/ S.Array(
 /** The type of traffic to be allowed. This may be one of `tcp`, `udp`, or `icmp`. */
 export type AddFirewallRulesRequestOutboundRulesItemProtocol = "tcp" | "udp" | "icmp";
 export const AddFirewallRulesRequestOutboundRulesItemProtocol = S.String;
+
+/** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+export type AddFirewallRulesRequestOutboundRulesItemAction = "allow" | "deny";
+export const AddFirewallRulesRequestOutboundRulesItemAction = S.String;
 
 /** An array of strings containing the IPv4 addresses, IPv6 addresses, IPv4 CIDRs, and/or IPv6 CIDRs to which the firewall will allow traffic. */
 export type AddFirewallRulesRequestOutboundRulesItemDestinationsAddressesList = Array<string>;
@@ -573,12 +558,15 @@ export interface AddFirewallRulesRequestOutboundRulesItem {
   protocol: AddFirewallRulesRequestOutboundRulesItemProtocol | (string & {});
   /** The ports on which traffic will be allowed specified as a string containing a single port, a range (e.g. "8000-9000"), or "0" when all ports are open for a protocol. For ICMP rules this parameter will always return "0". */
   ports: string;
+  /** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+  action?: AddFirewallRulesRequestOutboundRulesItemAction | (string & {});
   destinations: AddFirewallRulesRequestOutboundRulesItemDestinations;
 }
 export const AddFirewallRulesRequestOutboundRulesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     protocol: AddFirewallRulesRequestOutboundRulesItemProtocol,
     ports: S.String,
+    action: S.optional(AddFirewallRulesRequestOutboundRulesItemAction),
     destinations: AddFirewallRulesRequestOutboundRulesItemDestinations,
   }),
 ).annotate({
@@ -602,16 +590,8 @@ export const AddFirewallRulesRequest = /*@__PURE__*/ S.suspend(() =>
     firewall_id: S.String.pipe(T.Label()),
     inbound_rules: S.optional(S.NullOr(AddFirewallRulesRequestInboundRulesList)),
     outbound_rules: S.optional(S.NullOr(AddFirewallRulesRequestOutboundRulesList)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/firewalls/{firewall_id}/rules",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AddFirewallRulesRequest",
-}) as any as S.Schema<AddFirewallRulesRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/firewalls/{firewall_id}/rules", code: 200 })),
+).annotate({ identifier: "AddFirewallRulesRequest" }) as any as S.Schema<AddFirewallRulesRequest>;
 
 export interface AddFirewallRulesResponse {}
 export const AddFirewallRulesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -627,16 +607,8 @@ export const AddFirewallTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     firewall_id: S.String.pipe(T.Label()),
     tags: S.Unknown,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/firewalls/{firewall_id}/tags",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AddFirewallTagsRequest",
-}) as any as S.Schema<AddFirewallTagsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/firewalls/{firewall_id}/tags", code: 200 })),
+).annotate({ identifier: "AddFirewallTagsRequest" }) as any as S.Schema<AddFirewallTagsRequest>;
 
 export interface AddFirewallTagsResponse {}
 export const AddFirewallTagsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -667,9 +639,7 @@ export const KubernetesNodePoolTaint = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     effect: S.optional(KubernetesNodePoolTaintEffect),
   }),
-).annotate({
-  identifier: "KubernetesNodePoolTaint",
-}) as any as S.Schema<KubernetesNodePoolTaint>;
+).annotate({ identifier: "KubernetesNodePoolTaint" }) as any as S.Schema<KubernetesNodePoolTaint>;
 
 /** An array of taints to apply to all nodes in a pool. Taints will automatically be applied to all existing nodes and any subsequent nodes added to the pool. When a taint is removed, it is deleted from all nodes in the pool. */
 export type AddKubernetesNodePoolRequestTaintsList = Array<KubernetesNodePoolTaint>;
@@ -721,11 +691,7 @@ export const AddKubernetesNodePoolRequest = /*@__PURE__*/ S.suspend(() =>
     max_nodes: S.optional(S.Number),
     gpu_partition_mode: S.optional(AddKubernetesNodePoolRequestGpuPartitionMode),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/kubernetes/clusters/{cluster_id}/node_pools",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/kubernetes/clusters/{cluster_id}/node_pools", code: 200 }),
   ),
 ).annotate({
   identifier: "AddKubernetesNodePoolRequest",
@@ -836,9 +802,7 @@ export const KubernetesNodePool = /*@__PURE__*/ S.suspend(() =>
     nodes: S.optional(KubernetesNodePoolNodesList),
     gpu_partition_mode: S.optional(KubernetesNodePoolGpuPartitionMode),
   }),
-).annotate({
-  identifier: "KubernetesNodePool",
-}) as any as S.Schema<KubernetesNodePool>;
+).annotate({ identifier: "KubernetesNodePool" }) as any as S.Schema<KubernetesNodePool>;
 
 export interface AddKubernetesNodePoolResponse {
   node_pool?: KubernetesNodePool;
@@ -880,9 +844,7 @@ export const AddKubernetesRegistriesRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface AddKubernetesRegistriesResponse {}
 export const AddKubernetesRegistriesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "AddKubernetesRegistriesResponse",
-  },
+  { identifier: "AddKubernetesRegistriesResponse" },
 ) as any as S.Schema<AddKubernetesRegistriesResponse>;
 
 /** An array containing the UUIDs of Kubernetes clusters. */
@@ -924,22 +886,14 @@ export const AddLoadBalancerDropletsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     lb_id: S.String.pipe(T.Label()),
     droplet_ids: AddLoadBalancerDropletsRequestDropletIdsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/load_balancers/{lb_id}/droplets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/load_balancers/{lb_id}/droplets", code: 200 })),
 ).annotate({
   identifier: "AddLoadBalancerDropletsRequest",
 }) as any as S.Schema<AddLoadBalancerDropletsRequest>;
 
 export interface AddLoadBalancerDropletsResponse {}
 export const AddLoadBalancerDropletsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "AddLoadBalancerDropletsResponse",
-  },
+  { identifier: "AddLoadBalancerDropletsResponse" },
 ) as any as S.Schema<AddLoadBalancerDropletsResponse>;
 
 /** The protocol used for traffic to the load balancer. The possible values are: `http`, `https`, `http2`, `http3`, `tcp`, or `udp`. If you set the `entry_protocol` to `udp`, the `target_protocol` must be set to `udp`. When using UDP, the load balancer requires that you set up a health check with a port that uses TCP, HTTP, or HTTPS to work properly. */
@@ -991,11 +945,7 @@ export const AddLoadBalancerForwardingRulesRequest = /*@__PURE__*/ S.suspend(() 
     lb_id: S.String.pipe(T.Label()),
     forwarding_rules: AddLoadBalancerForwardingRulesRequestForwardingRulesList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/load_balancers/{lb_id}/forwarding_rules",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/load_balancers/{lb_id}/forwarding_rules", code: 200 }),
   ),
 ).annotate({
   identifier: "AddLoadBalancerForwardingRulesRequest",
@@ -1007,6 +957,89 @@ export const AddLoadBalancerForwardingRulesResponse = /*@__PURE__*/ S.suspend(()
 ).annotate({
   identifier: "AddLoadBalancerForwardingRulesResponse",
 }) as any as S.Schema<AddLoadBalancerForwardingRulesResponse>;
+
+/** Tool slugs (`<provider>_<name>`) to add or remove, each optionally pinned as `<tool_slug>@<version>`. At least one is required. When adding, a pin must equal the tool's current released version. */
+export type AddToolbeltToolsRequestToolsList = Array<string>;
+export const AddToolbeltToolsRequestToolsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AddToolbeltToolsRequestToolsList>;
+
+export interface AddToolbeltToolsRequest {
+  /** Toolbelt name, from the path. */
+  name: string;
+  /** Tool slugs (`<provider>_<name>`) to add or remove, each optionally pinned as `<tool_slug>@<version>`. At least one is required. When adding, a pin must equal the tool's current released version. */
+  tools: AddToolbeltToolsRequestToolsList;
+}
+export const AddToolbeltToolsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    tools: AddToolbeltToolsRequestToolsList,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v2/action-gateway/toolbelts/{name}/tools/add", code: 200 }),
+  ),
+).annotate({ identifier: "AddToolbeltToolsRequest" }) as any as S.Schema<AddToolbeltToolsRequest>;
+
+/** Members, sorted, each as `<tool_slug>@<version>`: the tool and the version this toolbelt version pins. */
+export type ToolbeltToolsList = Array<string>;
+export const ToolbeltToolsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ToolbeltToolsList>;
+
+/** active, or deprecated once the toolbelt is deleted. */
+export type ToolbeltStatus = "active" | "deprecated";
+export const ToolbeltStatus = S.String;
+
+/** One version of a toolbelt. */
+export interface Toolbelt {
+  /** Toolbelt name, unique among your team's active toolbelts. */
+  name?: string;
+  /** Version number of this toolbelt version, as a string, for example `3`. */
+  version?: string;
+  /** Human-readable label. */
+  display_name?: string;
+  /** Team-authored description. */
+  description?: string;
+  /** Members, sorted, each as `<tool_slug>@<version>`: the tool and the version this toolbelt version pins. */
+  tools?: ToolbeltToolsList;
+  /** active, or deprecated once the toolbelt is deleted. */
+  status?: ToolbeltStatus;
+  /** `<name>@<version>`, identifying this exact version. Sessions reference it as `toolbelt:<name>@<version>`. */
+  reference?: string;
+  /** The toolbelt name, which refers to whichever version is latest. */
+  reference_latest?: string;
+  /** Number of entries in tools. */
+  tool_count?: number;
+  /** When this version was created, in RFC 3339 format. */
+  created_at?: string;
+  /** When this version was last modified, in RFC 3339 format. */
+  updated_at?: string;
+}
+export const Toolbelt = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    version: S.optional(S.String),
+    display_name: S.optional(S.String),
+    description: S.optional(S.String),
+    tools: S.optional(ToolbeltToolsList),
+    status: S.optional(ToolbeltStatus),
+    reference: S.optional(S.String),
+    reference_latest: S.optional(S.String),
+    tool_count: S.optional(S.Number),
+    created_at: S.optional(S.String),
+    updated_at: S.optional(S.String),
+  }),
+).annotate({ identifier: "Toolbelt" }) as any as S.Schema<Toolbelt>;
+
+/** Returns a toolbelt after a change. */
+export interface ToolbeltUpdateResponse {
+  /** After adding or removing tools: the new version, or the current version when membership did not change. After a delete: the latest version, with status deprecated. */
+  toolbelt?: Toolbelt;
+}
+export const ToolbeltUpdateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    toolbelt: S.optional(Toolbelt),
+  }),
+).annotate({ identifier: "ToolbeltUpdateResponse" }) as any as S.Schema<ToolbeltUpdateResponse>;
 
 export interface AppsGetExecRequest {
   /** The app ID */
@@ -1031,9 +1064,7 @@ export const AppsGetExecRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "AppsGetExecRequest",
-}) as any as S.Schema<AppsGetExecRequest>;
+).annotate({ identifier: "AppsGetExecRequest" }) as any as S.Schema<AppsGetExecRequest>;
 
 export interface AppsGetExecResponse {
   /** A websocket URL that allows sending/receiving console input and receiving console output. */
@@ -1043,9 +1074,7 @@ export const AppsGetExecResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppsGetExecResponse",
-}) as any as S.Schema<AppsGetExecResponse>;
+).annotate({ identifier: "AppsGetExecResponse" }) as any as S.Schema<AppsGetExecResponse>;
 
 export interface AppsGetExecActiveDeploymentRequest {
   /** The app ID */
@@ -1061,11 +1090,7 @@ export const AppsGetExecActiveDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
     component_name: S.String.pipe(T.Label()),
     instance_name: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/apps/{app_id}/components/{component_name}/exec",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/apps/{app_id}/components/{component_name}/exec", code: 200 }),
   ),
 ).annotate({
   identifier: "AppsGetExecActiveDeploymentRequest",
@@ -1078,13 +1103,7 @@ export interface AppsRevertRollbackRequest {
 export const AppsRevertRollbackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/apps/{app_id}/rollback/revert",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/apps/{app_id}/rollback/revert", code: 200 })),
 ).annotate({
   identifier: "AppsRevertRollbackRequest",
 }) as any as S.Schema<AppsRevertRollbackRequest>;
@@ -1098,9 +1117,7 @@ export const AppsDeploymentJob = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     source_commit_hash: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppsDeploymentJob",
-}) as any as S.Schema<AppsDeploymentJob>;
+).annotate({ identifier: "AppsDeploymentJob" }) as any as S.Schema<AppsDeploymentJob>;
 
 export type AppsDeploymentJobsList = Array<AppsDeploymentJob>;
 export const AppsDeploymentJobsList = /*@__PURE__*/ S.Array(
@@ -1120,9 +1137,7 @@ export const AppsDeploymentFunctions = /*@__PURE__*/ S.suspend(() =>
     source_commit_hash: S.optional(S.String),
     namespace: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppsDeploymentFunctions",
-}) as any as S.Schema<AppsDeploymentFunctions>;
+).annotate({ identifier: "AppsDeploymentFunctions" }) as any as S.Schema<AppsDeploymentFunctions>;
 
 export type AppsDeploymentFunctionsList = Array<AppsDeploymentFunctions>;
 export const AppsDeploymentFunctionsList = /*@__PURE__*/ S.Array(
@@ -1222,9 +1237,7 @@ export const AppsDeploymentProgress = /*@__PURE__*/ S.suspend(() =>
     summary_steps: S.optional(AppsDeploymentProgressSummaryStepsList),
     total_steps: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AppsDeploymentProgress",
-}) as any as S.Schema<AppsDeploymentProgress>;
+).annotate({ identifier: "AppsDeploymentProgress" }) as any as S.Schema<AppsDeploymentProgress>;
 
 export type AppsDeploymentService = AppsDeploymentJob;
 export const AppsDeploymentService = AppsDeploymentJob;
@@ -1295,9 +1308,7 @@ export const AppsGitSourceSpec = /*@__PURE__*/ S.suspend(() =>
     branch: S.optional(S.String),
     repo_clone_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppsGitSourceSpec",
-}) as any as S.Schema<AppsGitSourceSpec>;
+).annotate({ identifier: "AppsGitSourceSpec" }) as any as S.Schema<AppsGitSourceSpec>;
 
 export interface AppsGithubSourceSpec {
   /** The name of the branch to use */
@@ -1313,9 +1324,7 @@ export const AppsGithubSourceSpec = /*@__PURE__*/ S.suspend(() =>
     deploy_on_push: S.optional(S.Boolean),
     repo: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppsGithubSourceSpec",
-}) as any as S.Schema<AppsGithubSourceSpec>;
+).annotate({ identifier: "AppsGithubSourceSpec" }) as any as S.Schema<AppsGithubSourceSpec>;
 
 export type AppsGitlabSourceSpec = AppsGithubSourceSpec;
 export const AppsGitlabSourceSpec = AppsGithubSourceSpec;
@@ -1364,9 +1373,7 @@ export const AppsImageSourceSpec = /*@__PURE__*/ S.suspend(() =>
     digest: S.optional(S.String),
     deploy_on_push: S.optional(AppsImageSourceSpecDeployOnPush),
   }),
-).annotate({
-  identifier: "AppsImageSourceSpec",
-}) as any as S.Schema<AppsImageSourceSpec>;
+).annotate({ identifier: "AppsImageSourceSpec" }) as any as S.Schema<AppsImageSourceSpec>;
 
 /** - RUN_TIME: Made available only at run-time - BUILD_TIME: Made available only at build-time - RUN_AND_BUILD_TIME: Made available at both build and run-time */
 export type AppVariableDefinitionScope = "UNSET" | "RUN_TIME" | "BUILD_TIME" | "RUN_AND_BUILD_TIME";
@@ -1393,9 +1400,7 @@ export const AppVariableDefinition = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(AppVariableDefinitionType),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppVariableDefinition",
-}) as any as S.Schema<AppVariableDefinition>;
+).annotate({ identifier: "AppVariableDefinition" }) as any as S.Schema<AppVariableDefinition>;
 
 /** A list of environment variables made available to the component. */
 export type AppServiceSpecEnvsList = Array<AppVariableDefinition>;
@@ -1603,9 +1608,7 @@ export const AppsStringMatch = /*@__PURE__*/ S.suspend(() =>
     prefix: S.optional(S.NullOr(S.String)),
     regex: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppsStringMatch",
-}) as any as S.Schema<AppsStringMatch>;
+).annotate({ identifier: "AppsStringMatch" }) as any as S.Schema<AppsStringMatch>;
 
 /** The set of allowed CORS origins. */
 export type AppServiceSpecCorsAllowOriginsList = Array<AppsStringMatch>;
@@ -1654,9 +1657,7 @@ export const AppServiceSpecCors = /*@__PURE__*/ S.suspend(() =>
     max_age: S.optional(S.String),
     allow_credentials: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AppServiceSpecCors",
-}) as any as S.Schema<AppServiceSpecCors>;
+).annotate({ identifier: "AppServiceSpecCors" }) as any as S.Schema<AppServiceSpecCors>;
 
 export interface AppServiceSpecHealthCheck {
   /** The number of failed health checks before considered unhealthy. */
@@ -1714,9 +1715,7 @@ export const AppHealthCheckSpec = /*@__PURE__*/ S.suspend(() =>
     success_threshold: S.optional(S.Number),
     timeout_seconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AppHealthCheckSpec",
-}) as any as S.Schema<AppHealthCheckSpec>;
+).annotate({ identifier: "AppHealthCheckSpec" }) as any as S.Schema<AppHealthCheckSpec>;
 
 /** The protocol which the service uses to serve traffic on the http_port. - `HTTP`: The app is serving the HTTP protocol. Default. - `HTTP2`: The app is serving the HTTP/2 protocol. Currently, this needs to be implemented in the service by serving HTTP/2 cleartext (h2c). */
 export type AppServiceSpecProtocol = "HTTP" | "HTTP2";
@@ -1896,9 +1895,7 @@ export const AppStaticSiteSpecCors = /*@__PURE__*/ S.suspend(() =>
     max_age: S.optional(S.String),
     allow_credentials: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AppStaticSiteSpecCors",
-}) as any as S.Schema<AppStaticSiteSpecCors>;
+).annotate({ identifier: "AppStaticSiteSpecCors" }) as any as S.Schema<AppStaticSiteSpecCors>;
 
 /** (Deprecated - Use Ingress Rules instead). A list of HTTP routes that should be routed to this component. */
 export type AppStaticSiteSpecRoutesList = Array<AppRouteSpec>;
@@ -1962,9 +1959,7 @@ export const AppStaticSiteSpec = /*@__PURE__*/ S.suspend(() =>
     cors: S.optional(AppStaticSiteSpecCors),
     routes: S.optional(AppStaticSiteSpecRoutesList),
   }),
-).annotate({
-  identifier: "AppStaticSiteSpec",
-}) as any as S.Schema<AppStaticSiteSpec>;
+).annotate({ identifier: "AppStaticSiteSpec" }) as any as S.Schema<AppStaticSiteSpec>;
 
 /** Content which can be rendered to static web assets. */
 export type AppSpecStaticSitesList = Array<AppStaticSiteSpec>;
@@ -2033,9 +2028,7 @@ export const AppJobSpecTermination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     grace_period_seconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AppJobSpecTermination",
-}) as any as S.Schema<AppJobSpecTermination>;
+).annotate({ identifier: "AppJobSpecTermination" }) as any as S.Schema<AppJobSpecTermination>;
 
 export interface AppJobSpec {
   /** The name. Must be unique across all components within the same app. */
@@ -2266,9 +2259,7 @@ export const AppFunctionsSpecCors = /*@__PURE__*/ S.suspend(() =>
     max_age: S.optional(S.String),
     allow_credentials: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AppFunctionsSpecCors",
-}) as any as S.Schema<AppFunctionsSpecCors>;
+).annotate({ identifier: "AppFunctionsSpecCors" }) as any as S.Schema<AppFunctionsSpecCors>;
 
 /** (Deprecated - Use Ingress Rules instead). A list of HTTP routes that should be routed to this component. */
 export type AppFunctionsSpecRoutesList = Array<AppRouteSpec>;
@@ -2376,9 +2367,7 @@ export const AppFunctionsSpec = /*@__PURE__*/ S.suspend(() =>
     bitbucket: S.optional(AppsGithubSourceSpec),
     log_destinations: S.optional(AppFunctionsSpecLogDestinationsList),
   }),
-).annotate({
-  identifier: "AppFunctionsSpec",
-}) as any as S.Schema<AppFunctionsSpec>;
+).annotate({ identifier: "AppFunctionsSpec" }) as any as S.Schema<AppFunctionsSpec>;
 
 /** Workloads which expose publicly-accessible HTTP services via Functions Components. */
 export type AppSpecFunctionsList = Array<AppFunctionsSpec>;
@@ -2424,9 +2413,7 @@ export const AppDatabaseSpec = /*@__PURE__*/ S.suspend(() =>
     production: S.optional(S.Boolean),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppDatabaseSpec",
-}) as any as S.Schema<AppDatabaseSpec>;
+).annotate({ identifier: "AppDatabaseSpec" }) as any as S.Schema<AppDatabaseSpec>;
 
 /** Database instances which can provide persistence to workloads within the application. */
 export type AppSpecDatabasesList = Array<AppDatabaseSpec>;
@@ -2470,9 +2457,7 @@ export const AppIngressSpecRuleMatch = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(AppIngressSpecRuleStringMatchPrefix),
     authority: S.optional(AppIngressSpecRuleStringMatchExact),
   }),
-).annotate({
-  identifier: "AppIngressSpecRuleMatch",
-}) as any as S.Schema<AppIngressSpecRuleMatch>;
+).annotate({ identifier: "AppIngressSpecRuleMatch" }) as any as S.Schema<AppIngressSpecRuleMatch>;
 
 /** The set of allowed CORS origins. */
 export type AppsCorsPolicyAllowOriginsList = Array<AppsStringMatch>;
@@ -2580,9 +2565,7 @@ export const AppIngressSpecRule = /*@__PURE__*/ S.suspend(() =>
     component: S.optional(AppIngressSpecRuleRoutingComponent),
     redirect: S.optional(AppIngressSpecRuleRoutingRedirect),
   }),
-).annotate({
-  identifier: "AppIngressSpecRule",
-}) as any as S.Schema<AppIngressSpecRule>;
+).annotate({ identifier: "AppIngressSpecRule" }) as any as S.Schema<AppIngressSpecRule>;
 
 /** Rules for configuring HTTP ingress for component routes, CORS, rewrites, and redirects. */
 export type AppIngressSpecRulesList = Array<AppIngressSpecRule>;
@@ -2632,9 +2615,7 @@ export const AppMaintenanceSpec = /*@__PURE__*/ S.suspend(() =>
     archive: S.optional(S.Boolean),
     offline_page_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppMaintenanceSpec",
-}) as any as S.Schema<AppMaintenanceSpec>;
+).annotate({ identifier: "AppMaintenanceSpec" }) as any as S.Schema<AppMaintenanceSpec>;
 
 export interface AppsVpcEgressIp {
   ip?: string;
@@ -2643,9 +2624,7 @@ export const AppsVpcEgressIp = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ip: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppsVpcEgressIp",
-}) as any as S.Schema<AppsVpcEgressIp>;
+).annotate({ identifier: "AppsVpcEgressIp" }) as any as S.Schema<AppsVpcEgressIp>;
 
 export type AppsVpcEgressIpsList = Array<AppsVpcEgressIp>;
 export const AppsVpcEgressIpsList = /*@__PURE__*/ S.Array(
@@ -2775,9 +2754,7 @@ export const AppsDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deployment: S.optional(AppsDeployment),
   }),
-).annotate({
-  identifier: "AppsDeploymentResponse",
-}) as any as S.Schema<AppsDeploymentResponse>;
+).annotate({ identifier: "AppsDeploymentResponse" }) as any as S.Schema<AppsDeploymentResponse>;
 
 export type AssignAppAlertDestinationsRequestEmailsList = Array<string>;
 export const AssignAppAlertDestinationsRequestEmailsList = /*@__PURE__*/ S.Array(
@@ -2793,9 +2770,7 @@ export const AppAlertSlackWebhook = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
     channel: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppAlertSlackWebhook",
-}) as any as S.Schema<AppAlertSlackWebhook>;
+).annotate({ identifier: "AppAlertSlackWebhook" }) as any as S.Schema<AppAlertSlackWebhook>;
 
 export type AssignAppAlertDestinationsRequestSlackWebhooksList = Array<AppAlertSlackWebhook>;
 export const AssignAppAlertDestinationsRequestSlackWebhooksList = /*@__PURE__*/ S.Array(
@@ -2817,11 +2792,7 @@ export const AssignAppAlertDestinationsRequest = /*@__PURE__*/ S.suspend(() =>
     emails: S.optional(AssignAppAlertDestinationsRequestEmailsList),
     slack_webhooks: S.optional(AssignAppAlertDestinationsRequestSlackWebhooksList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/apps/{app_id}/alerts/{alert_id}/destinations",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/apps/{app_id}/alerts/{alert_id}/destinations", code: 200 }),
   ),
 ).annotate({
   identifier: "AssignAppAlertDestinationsRequest",
@@ -2861,9 +2832,7 @@ export const AppAlertProgressStep = /*@__PURE__*/ S.suspend(() =>
     ended_at: S.optional(S.String),
     reason: S.optional(AppsDeploymentProgressStepReason),
   }),
-).annotate({
-  identifier: "AppAlertProgressStep",
-}) as any as S.Schema<AppAlertProgressStep>;
+).annotate({ identifier: "AppAlertProgressStep" }) as any as S.Schema<AppAlertProgressStep>;
 
 export type AppAlertProgressStepsList = Array<AppAlertProgressStep>;
 export const AppAlertProgressStepsList = /*@__PURE__*/ S.Array(
@@ -2877,9 +2846,7 @@ export const AppAlertProgress = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     steps: S.optional(AppAlertProgressStepsList),
   }),
-).annotate({
-  identifier: "AppAlertProgress",
-}) as any as S.Schema<AppAlertProgress>;
+).annotate({ identifier: "AppAlertProgress" }) as any as S.Schema<AppAlertProgress>;
 
 export interface AppAlert {
   id?: string;
@@ -2909,9 +2876,7 @@ export const AppsAlertResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     alert: S.optional(AppAlert),
   }),
-).annotate({
-  identifier: "AppsAlertResponse",
-}) as any as S.Schema<AppsAlertResponse>;
+).annotate({ identifier: "AppsAlertResponse" }) as any as S.Schema<AppsAlertResponse>;
 
 /** An array containing the IDs of the Droplets to be assigned to the firewall. */
 export type AssignFirewallDropletsRequestDropletIdsList = Array<number>;
@@ -2929,13 +2894,7 @@ export const AssignFirewallDropletsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     firewall_id: S.String.pipe(T.Label()),
     droplet_ids: AssignFirewallDropletsRequestDropletIdsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/firewalls/{firewall_id}/droplets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/firewalls/{firewall_id}/droplets", code: 200 })),
 ).annotate({
   identifier: "AssignFirewallDropletsRequest",
 }) as any as S.Schema<AssignFirewallDropletsRequest>;
@@ -2961,13 +2920,7 @@ export const AssignProjectResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     resources: S.optional(AssignProjectResourcesRequestResourcesList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/projects/{project_id}/resources",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/projects/{project_id}/resources", code: 200 })),
 ).annotate({
   identifier: "AssignProjectResourcesRequest",
 }) as any as S.Schema<AssignProjectResourcesRequest>;
@@ -3036,13 +2989,7 @@ export interface AssignProjectResourcesDefaultRequest {
 export const AssignProjectResourcesDefaultRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resources: S.optional(AssignProjectResourcesDefaultRequestResourcesList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/projects/default/resources",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/projects/default/resources", code: 200 })),
 ).annotate({
   identifier: "AssignProjectResourcesDefaultRequest",
 }) as any as S.Schema<AssignProjectResourcesDefaultRequest>;
@@ -3136,9 +3083,7 @@ export const AttachGenaiAgentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "AttachGenaiAgentRequest",
-}) as any as S.Schema<AttachGenaiAgentRequest>;
+).annotate({ identifier: "AttachGenaiAgentRequest" }) as any as S.Schema<AttachGenaiAgentRequest>;
 
 /** Information about a newly linked agent */
 export interface ApiLinkAgentOutput {
@@ -3152,9 +3097,7 @@ export const ApiLinkAgentOutput = /*@__PURE__*/ S.suspend(() =>
     child_agent_uuid: S.optional(S.String),
     parent_agent_uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiLinkAgentOutput",
-}) as any as S.Schema<ApiLinkAgentOutput>;
+).annotate({ identifier: "ApiLinkAgentOutput" }) as any as S.Schema<ApiLinkAgentOutput>;
 
 export interface AttachGenaiAgentFunctionRequest {
   /** Agent id */
@@ -3181,13 +3124,7 @@ export const AttachGenaiAgentFunctionRequest = /*@__PURE__*/ S.suspend(() =>
     function_name: S.optional(S.String),
     input_schema: S.optional(S.Unknown),
     output_schema: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/gen-ai/agents/{agent_uuid}/functions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/gen-ai/agents/{agent_uuid}/functions", code: 200 })),
 ).annotate({
   identifier: "AttachGenaiAgentFunctionRequest",
 }) as any as S.Schema<AttachGenaiAgentFunctionRequest>;
@@ -3216,9 +3153,7 @@ export const ApiAnthropicAPIKeyInfo = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiAnthropicAPIKeyInfo",
-}) as any as S.Schema<ApiAnthropicAPIKeyInfo>;
+).annotate({ identifier: "ApiAnthropicAPIKeyInfo" }) as any as S.Schema<ApiAnthropicAPIKeyInfo>;
 
 /** Agent API Key Info */
 export interface ApiAgentAPIKeyInfo {
@@ -3243,9 +3178,7 @@ export const ApiAgentAPIKeyInfo = /*@__PURE__*/ S.suspend(() =>
     secret_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiAgentAPIKeyInfo",
-}) as any as S.Schema<ApiAgentAPIKeyInfo>;
+).annotate({ identifier: "ApiAgentAPIKeyInfo" }) as any as S.Schema<ApiAgentAPIKeyInfo>;
 
 /** Api key infos */
 export type ApiAgentApiKeyInfosList = Array<ApiAgentAPIKeyInfo>;
@@ -3410,9 +3343,7 @@ export const ApiAgentFunction = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiAgentFunction",
-}) as any as S.Schema<ApiAgentFunction>;
+).annotate({ identifier: "ApiAgentFunction" }) as any as S.Schema<ApiAgentFunction>;
 
 export type ApiAgentFunctionsList = Array<ApiAgentFunction>;
 export const ApiAgentFunctionsList = /*@__PURE__*/ S.Array(
@@ -3458,9 +3389,7 @@ export const ApiAgentGuardrail = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiAgentGuardrail",
-}) as any as S.Schema<ApiAgentGuardrail>;
+).annotate({ identifier: "ApiAgentGuardrail" }) as any as S.Schema<ApiAgentGuardrail>;
 
 /** The guardrails the agent is attached to */
 export type ApiAgentGuardrailsList = Array<ApiAgentGuardrail>;
@@ -3524,9 +3453,7 @@ export const ApiIndexedDataSource = /*@__PURE__*/ S.suspend(() =>
     total_bytes_indexed: S.optional(S.String),
     total_file_count: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiIndexedDataSource",
-}) as any as S.Schema<ApiIndexedDataSource>;
+).annotate({ identifier: "ApiIndexedDataSource" }) as any as S.Schema<ApiIndexedDataSource>;
 
 /** Details on Data Sources included in the Indexing Job */
 export type ApiIndexingJobDataSourceJobsList = Array<ApiIndexedDataSource>;
@@ -3673,9 +3600,7 @@ export const ApiKnowledgeBase = /*@__PURE__*/ S.suspend(() =>
     user_id: S.optional(S.String),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiKnowledgeBase",
-}) as any as S.Schema<ApiKnowledgeBase>;
+).annotate({ identifier: "ApiKnowledgeBase" }) as any as S.Schema<ApiKnowledgeBase>;
 
 /** Knowledge bases */
 export type ApiAgentKnowledgeBasesList = Array<ApiKnowledgeBase>;
@@ -3706,9 +3631,7 @@ export const ApiAgentLoggingConfig = /*@__PURE__*/ S.suspend(() =>
     log_stream_id: S.optional(S.String),
     log_stream_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiAgentLoggingConfig",
-}) as any as S.Schema<ApiAgentLoggingConfig>;
+).annotate({ identifier: "ApiAgentLoggingConfig" }) as any as S.Schema<ApiAgentLoggingConfig>;
 
 /** Optional list of allowed tool names to expose from this server */
 export type ApiMcpServerAllowedToolsList = Array<string>;
@@ -3792,9 +3715,7 @@ export const ApiModelEndpoint = /*@__PURE__*/ S.suspend(() =>
     capabilities: S.optional(ApiModelEndpointCapabilitiesList),
     endpoint: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiModelEndpoint",
-}) as any as S.Schema<ApiModelEndpoint>;
+).annotate({ identifier: "ApiModelEndpoint" }) as any as S.Schema<ApiModelEndpoint>;
 
 /** Available endpoints and their capabilities */
 export type ApiModelEndpointsList = Array<ApiModelEndpoint>;
@@ -3822,9 +3743,7 @@ export const ApiModelModalities = /*@__PURE__*/ S.suspend(() =>
     input: S.optional(ApiModelModalitiesInputList),
     output: S.optional(ApiModelModalitiesOutputList),
   }),
-).annotate({
-  identifier: "ApiModelModalities",
-}) as any as S.Schema<ApiModelModalities>;
+).annotate({ identifier: "ApiModelModalities" }) as any as S.Schema<ApiModelModalities>;
 
 export type ApiModelProvider =
   | "MODEL_PROVIDER_DIGITALOCEAN"
@@ -3874,9 +3793,7 @@ export const ApiModelSetting = /*@__PURE__*/ S.suspend(() =>
     step: S.optional(S.Number),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiModelSetting",
-}) as any as S.Schema<ApiModelSetting>;
+).annotate({ identifier: "ApiModelSetting" }) as any as S.Schema<ApiModelSetting>;
 
 /** Playground settings derived from model metadata */
 export type ApiModelSettingsList = Array<ApiModelSetting>;
@@ -3921,9 +3838,7 @@ export const ApiModelVersion = /*@__PURE__*/ S.suspend(() =>
     minor: S.optional(S.Number),
     patch: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiModelVersion",
-}) as any as S.Schema<ApiModelVersion>;
+).annotate({ identifier: "ApiModelVersion" }) as any as S.Schema<ApiModelVersion>;
 
 /** Description of a Model */
 export interface ApiModel {
@@ -4050,9 +3965,7 @@ export const ApiModelProviderKeyInfo = /*@__PURE__*/ S.suspend(() =>
     provider: S.optional(ApiModelProvider),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiModelProviderKeyInfo",
-}) as any as S.Schema<ApiModelProviderKeyInfo>;
+).annotate({ identifier: "ApiModelProviderKeyInfo" }) as any as S.Schema<ApiModelProviderKeyInfo>;
 
 /** Router-level fallback models */
 export type ApiModelRouterConfigFallbackModelsList = Array<string>;
@@ -4111,9 +4024,7 @@ export const ApiModelRouterTaskPolicy = /*@__PURE__*/ S.suspend(() =>
     selection_policy: S.optional(ApiModelRouterSelectionPolicy),
     task_slug: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiModelRouterTaskPolicy",
-}) as any as S.Schema<ApiModelRouterTaskPolicy>;
+).annotate({ identifier: "ApiModelRouterTaskPolicy" }) as any as S.Schema<ApiModelRouterTaskPolicy>;
 
 /** Task routing policies */
 export type ApiModelRouterConfigPoliciesList = Array<ApiModelRouterTaskPolicy>;
@@ -4132,9 +4043,7 @@ export const ApiModelRouterConfig = /*@__PURE__*/ S.suspend(() =>
     fallback_models: S.optional(ApiModelRouterConfigFallbackModelsList),
     policies: S.optional(ApiModelRouterConfigPoliciesList),
   }),
-).annotate({
-  identifier: "ApiModelRouterConfig",
-}) as any as S.Schema<ApiModelRouterConfig>;
+).annotate({ identifier: "ApiModelRouterConfig" }) as any as S.Schema<ApiModelRouterConfig>;
 
 /** Target regions for the router */
 export type ApiModelRouterRegionsList = Array<string>;
@@ -4203,9 +4112,7 @@ export const ApiOpenAIAPIKeyInfo = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiOpenAIAPIKeyInfo",
-}) as any as S.Schema<ApiOpenAIAPIKeyInfo>;
+).annotate({ identifier: "ApiOpenAIAPIKeyInfo" }) as any as S.Schema<ApiOpenAIAPIKeyInfo>;
 
 /** Parent agents */
 export type ApiAgentParentAgentsList = Array<ApiAgent>;
@@ -4323,9 +4230,7 @@ export const ApiAgentTemplate = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiAgentTemplate",
-}) as any as S.Schema<ApiAgentTemplate>;
+).annotate({ identifier: "ApiAgentTemplate" }) as any as S.Schema<ApiAgentTemplate>;
 
 /** VPC Egress IPs */
 export type ApiAgentVpcEgressIpsList = Array<string>;
@@ -4339,10 +4244,16 @@ export const ApiWorkspaceAgentsList = /*@__PURE__*/ S.Array(
   S.suspend(() => ApiAgent),
 ) as any as S.Schema<ApiWorkspaceAgentsList>;
 
+/** EvaluationDatasetParadigm is the row/content shape of a dataset, orthogonal to the surface in EvaluationDatasetType (e.g. a model dataset can be single- or multi-turn). */
+export type ApiEvaluationDatasetParadigm =
+  | "EVALUATION_DATASET_PARADIGM_SINGLE_TURN"
+  | "EVALUATION_DATASET_PARADIGM_MULTI_TURN"
+  | "EVALUATION_DATASET_PARADIGM_CODING"
+  | "EVALUATION_DATASET_PARADIGM_N_PLUS_1";
+export const ApiEvaluationDatasetParadigm = S.String;
+
 export type ApiEvaluationDatasetType =
   | "EVALUATION_DATASET_TYPE_UNKNOWN"
-  | "EVALUATION_DATASET_TYPE_ADK"
-  | "EVALUATION_DATASET_TYPE_NON_ADK"
   | "EVALUATION_DATASET_TYPE_MODEL";
 export const ApiEvaluationDatasetType = S.String;
 
@@ -4351,6 +4262,7 @@ export interface ApiEvaluationDataset {
   created_at?: string;
   /** Name of the dataset. */
   dataset_name?: string;
+  dataset_paradigm?: ApiEvaluationDatasetParadigm;
   dataset_type?: ApiEvaluationDatasetType;
   /** UUID of the dataset. */
   dataset_uuid?: string;
@@ -4365,15 +4277,14 @@ export const ApiEvaluationDataset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     created_at: S.optional(S.String),
     dataset_name: S.optional(S.String),
+    dataset_paradigm: S.optional(ApiEvaluationDatasetParadigm),
     dataset_type: S.optional(ApiEvaluationDatasetType),
     dataset_uuid: S.optional(S.String),
     file_size: S.optional(S.String),
     has_ground_truth: S.optional(S.Boolean),
     row_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiEvaluationDataset",
-}) as any as S.Schema<ApiEvaluationDataset>;
+).annotate({ identifier: "ApiEvaluationDataset" }) as any as S.Schema<ApiEvaluationDataset>;
 
 /** AssociatedModelEvaluationPreset identifies a saved model evaluation preset that references a metric. Returned alongside custom metrics so the dashboard can warn that deleting the metric will also delete these presets. */
 export interface ApiAssociatedModelEvaluationPreset {
@@ -4403,7 +4314,8 @@ export type ApiEvaluationMetricCategory =
   | "METRIC_CATEGORY_USER_OUTCOMES"
   | "METRIC_CATEGORY_SAFETY_AND_SECURITY"
   | "METRIC_CATEGORY_CONTEXT_QUALITY"
-  | "METRIC_CATEGORY_MODEL_FIT";
+  | "METRIC_CATEGORY_MODEL_FIT"
+  | "METRIC_CATEGORY_CONVERSATIONAL";
 export const ApiEvaluationMetricCategory = S.String;
 
 /** Configuration for a custom model-evaluation metric scored by an LLM judge. Prompt and model response are always included in the judge context. */
@@ -4497,9 +4409,7 @@ export const ApiEvaluationMetric = /*@__PURE__*/ S.suspend(() =>
     range_min: S.optional(S.Number),
     source: S.optional(ApiEvaluationMetricSource),
   }),
-).annotate({
-  identifier: "ApiEvaluationMetric",
-}) as any as S.Schema<ApiEvaluationMetric>;
+).annotate({ identifier: "ApiEvaluationMetric" }) as any as S.Schema<ApiEvaluationMetric>;
 
 export type ApiEvaluationTestCaseMetricsList = Array<ApiEvaluationMetric>;
 export const ApiEvaluationTestCaseMetricsList = /*@__PURE__*/ S.Array(
@@ -4564,9 +4474,7 @@ export const ApiEvaluationTestCase = /*@__PURE__*/ S.suspend(() =>
     updated_by_user_id: S.optional(S.String),
     version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiEvaluationTestCase",
-}) as any as S.Schema<ApiEvaluationTestCase>;
+).annotate({ identifier: "ApiEvaluationTestCase" }) as any as S.Schema<ApiEvaluationTestCase>;
 
 /** Evaluations */
 export type ApiWorkspaceEvaluationTestCasesList = Array<ApiEvaluationTestCase>;
@@ -4768,9 +4676,7 @@ export const ApiAgentGuardrailInput = /*@__PURE__*/ S.suspend(() =>
     guardrail_uuid: S.optional(S.String),
     priority: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiAgentGuardrailInput",
-}) as any as S.Schema<ApiAgentGuardrailInput>;
+).annotate({ identifier: "ApiAgentGuardrailInput" }) as any as S.Schema<ApiAgentGuardrailInput>;
 
 /** The list of guardrails to attach. */
 export type AttachGenaiAgentGuardrailsRequestGuardrailsList = Array<ApiAgentGuardrailInput>;
@@ -4788,13 +4694,7 @@ export const AttachGenaiAgentGuardrailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     agent_uuid: S.String.pipe(T.Label()),
     guardrails: S.optional(AttachGenaiAgentGuardrailsRequestGuardrailsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/gen-ai/agents/{agent_uuid}/guardrails",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/gen-ai/agents/{agent_uuid}/guardrails", code: 200 })),
 ).annotate({
   identifier: "AttachGenaiAgentGuardrailsRequest",
 }) as any as S.Schema<AttachGenaiAgentGuardrailsRequest>;
@@ -4852,11 +4752,7 @@ export const AttachGenaiKnowledgeBasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     agent_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/gen-ai/agents/{agent_uuid}/knowledge_bases",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/gen-ai/agents/{agent_uuid}/knowledge_bases", code: 200 }),
   ),
 ).annotate({
   identifier: "AttachGenaiKnowledgeBasesRequest",
@@ -4893,16 +4789,8 @@ export const CancelAppEventRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_id: S.String.pipe(T.Label()),
     event_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/apps/{app_id}/events/{event_id}/cancel",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CancelAppEventRequest",
-}) as any as S.Schema<CancelAppEventRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/apps/{app_id}/events/{event_id}/cancel", code: 200 })),
+).annotate({ identifier: "CancelAppEventRequest" }) as any as S.Schema<CancelAppEventRequest>;
 
 /** The type of event */
 export type AppEventType = "UNKNOWN" | "DEPLOYMENT" | "AUTOSCALING";
@@ -4957,9 +4845,7 @@ export const AppEventAutoscaling = /*@__PURE__*/ S.suspend(() =>
     phase: S.optional(AppEventAutoscalingPhase),
     components: S.optional(AppEventAutoscalingComponentsMap),
   }),
-).annotate({
-  identifier: "AppEventAutoscaling",
-}) as any as S.Schema<AppEventAutoscaling>;
+).annotate({ identifier: "AppEventAutoscaling" }) as any as S.Schema<AppEventAutoscaling>;
 
 export interface AppEvent {
   id?: string;
@@ -4990,9 +4876,7 @@ export const CancelAppEventResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     event: S.optional(AppEvent),
   }),
-).annotate({
-  identifier: "CancelAppEventResponse",
-}) as any as S.Schema<CancelAppEventResponse>;
+).annotate({ identifier: "CancelAppEventResponse" }) as any as S.Schema<CancelAppEventResponse>;
 
 export interface CancelAppJobInvocationRequest {
   /** The app ID */
@@ -5103,9 +4987,7 @@ export const AppJobInvocationTrigger = /*@__PURE__*/ S.suspend(() =>
     scheduled: S.optional(AppJobInvocationTriggerScheduled),
     manual: S.optional(AppJobInvocationTriggerManual),
   }),
-).annotate({
-  identifier: "AppJobInvocationTrigger",
-}) as any as S.Schema<AppJobInvocationTrigger>;
+).annotate({ identifier: "AppJobInvocationTrigger" }) as any as S.Schema<AppJobInvocationTrigger>;
 
 export interface AppJobInvocation {
   id?: string;
@@ -5129,9 +5011,7 @@ export const AppJobInvocation = /*@__PURE__*/ S.suspend(() =>
     started_at: S.optional(S.String),
     completed_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppJobInvocation",
-}) as any as S.Schema<AppJobInvocation>;
+).annotate({ identifier: "AppJobInvocation" }) as any as S.Schema<AppJobInvocation>;
 
 export interface CancelGenaiIndexingJobRequest {
   /** A unique identifier for an indexing job. */
@@ -5140,13 +5020,7 @@ export interface CancelGenaiIndexingJobRequest {
 export const CancelGenaiIndexingJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/gen-ai/indexing_jobs/{uuid}/cancel",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/gen-ai/indexing_jobs/{uuid}/cancel", code: 200 })),
 ).annotate({
   identifier: "CancelGenaiIndexingJobRequest",
 }) as any as S.Schema<CancelGenaiIndexingJobRequest>;
@@ -5181,11 +5055,12 @@ export const CancelGenaiModelEvaluationRunRequest = /*@__PURE__*/ S.suspend(() =
   identifier: "CancelGenaiModelEvaluationRunRequest",
 }) as any as S.Schema<CancelGenaiModelEvaluationRunRequest>;
 
-/** Whether inference runs against the serverless platform, a dedicated deployment, or a model router. */
+/** Whether the candidate is a served model (serverless platform, a dedicated deployment, or a model router) or an OHS-hosted agent config. */
 export type ApiCandidateModelSource =
   | "CANDIDATE_MODEL_SOURCE_SERVERLESS"
   | "CANDIDATE_MODEL_SOURCE_DEDICATED"
-  | "CANDIDATE_MODEL_SOURCE_ROUTER";
+  | "CANDIDATE_MODEL_SOURCE_ROUTER"
+  | "CANDIDATE_MODEL_SOURCE_AGENT";
 export const ApiCandidateModelSource = S.String;
 
 /** Per-phase progress for a model evaluation run. The candidate phase invokes the candidate model once per dataset row; the judge phase scores each candidate-success row with the configured metrics. Counts grow as the run advances; compare against total_rows to render a progress bar. */
@@ -5315,9 +5190,7 @@ export const BatchRequestCounts = /*@__PURE__*/ S.suspend(() =>
     completed: S.optional(S.Number),
     failed: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BatchRequestCounts",
-}) as any as S.Schema<BatchRequestCounts>;
+).annotate({ identifier: "BatchRequestCounts" }) as any as S.Schema<BatchRequestCounts>;
 
 /** Metadata attached at creation. */
 export type BatchMetadataMap = { [key: string]: string | undefined };
@@ -5338,9 +5211,7 @@ export const BatchErrorsItem = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     line: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "BatchErrorsItem",
-}) as any as S.Schema<BatchErrorsItem>;
+).annotate({ identifier: "BatchErrorsItem" }) as any as S.Schema<BatchErrorsItem>;
 
 /** Top-level errors that prevented the batch from completing. */
 export type BatchErrorsList = Array<BatchErrorsItem>;
@@ -5412,16 +5283,8 @@ export interface CommitAppRollbackRequest {
 export const CommitAppRollbackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/apps/{app_id}/rollback/commit",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CommitAppRollbackRequest",
-}) as any as S.Schema<CommitAppRollbackRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/apps/{app_id}/rollback/commit", code: 200 })),
+).annotate({ identifier: "CommitAppRollbackRequest" }) as any as S.Schema<CommitAppRollbackRequest>;
 
 export interface CommitAppRollbackResponse {}
 export const CommitAppRollbackResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5444,9 +5307,7 @@ export const AddonsResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: AddonsResourceMetadataValue,
   }),
-).annotate({
-  identifier: "AddonsResourceMetadata",
-}) as any as S.Schema<AddonsResourceMetadata>;
+).annotate({ identifier: "AddonsResourceMetadata" }) as any as S.Schema<AddonsResourceMetadata>;
 
 /** Metadata associated with the resource, set by the user. Metadata expected varies per app, and can be verified with a GET request to "/v2/add-ons/apps/{app_slug}/metadata" */
 export type CreateAddonRequestMetadataList = Array<AddonsResourceMetadata>;
@@ -5477,9 +5338,7 @@ export const CreateAddonRequest = /*@__PURE__*/ S.suspend(() =>
     linked_droplet_id: S.optional(S.Number),
     fleet_uuid: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v2/add-ons/saas", code: 200 })),
-).annotate({
-  identifier: "CreateAddonRequest",
-}) as any as S.Schema<CreateAddonRequest>;
+).annotate({ identifier: "CreateAddonRequest" }) as any as S.Schema<CreateAddonRequest>;
 
 /** The state the resource is currently in. */
 export type AddonsResourceState =
@@ -5549,9 +5408,7 @@ export const CreateAddonResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resource: S.optional(AddonsResource),
   }),
-).annotate({
-  identifier: "CreateAddonResponse",
-}) as any as S.Schema<CreateAddonResponse>;
+).annotate({ identifier: "CreateAddonResponse" }) as any as S.Schema<CreateAddonResponse>;
 
 /** The role of the message author. */
 export type ChatMessageRole = "system" | "developer" | "user" | "assistant" | "tool";
@@ -5589,9 +5446,7 @@ export const ChatCompletionToolCall = /*@__PURE__*/ S.suspend(() =>
     type: ChatCompletionToolCallType,
     function: ChatCompletionToolCallFunction,
   }),
-).annotate({
-  identifier: "ChatCompletionToolCall",
-}) as any as S.Schema<ChatCompletionToolCall>;
+).annotate({ identifier: "ChatCompletionToolCall" }) as any as S.Schema<ChatCompletionToolCall>;
 
 /** The tool calls generated by the model (assistant messages only). */
 export type ChatMessageToolCallsList = Array<ChatCompletionToolCall>;
@@ -5636,9 +5491,7 @@ export type ChatCompletionToolType = "function";
 export const ChatCompletionToolType = S.String;
 
 /** The parameters the function accepts, described as a JSON Schema object. */
-export type FunctionObjectParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type FunctionObjectParametersMap = { [key: string]: unknown | undefined };
 export const FunctionObjectParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5670,9 +5523,7 @@ export const ChatCompletionTool = /*@__PURE__*/ S.suspend(() =>
     type: ChatCompletionToolType,
     function: FunctionObject,
   }),
-).annotate({
-  identifier: "ChatCompletionTool",
-}) as any as S.Schema<ChatCompletionTool>;
+).annotate({ identifier: "ChatCompletionTool" }) as any as S.Schema<ChatCompletionTool>;
 
 /** A list of tools the model may call. Currently, only functions are supported as a tool. */
 export type CreateAgentInferenceChatCompletionRequestToolsList = Array<ChatCompletionTool>;
@@ -6091,9 +5942,7 @@ export const CompletionUsage = /*@__PURE__*/ S.suspend(() =>
     cache_read_input_tokens: S.Number,
     total_tokens: S.Number,
   }),
-).annotate({
-  identifier: "CompletionUsage",
-}) as any as S.Schema<CompletionUsage>;
+).annotate({ identifier: "CompletionUsage" }) as any as S.Schema<CompletionUsage>;
 
 /** Represents a chat completion response returned by model, based on the provided input. */
 export interface ChatCompletionResponse {
@@ -6118,9 +5967,7 @@ export const ChatCompletionResponse = /*@__PURE__*/ S.suspend(() =>
     object: ChatCompletionResponseObject,
     usage: S.optional(CompletionUsage),
   }),
-).annotate({
-  identifier: "ChatCompletionResponse",
-}) as any as S.Schema<ChatCompletionResponse>;
+).annotate({ identifier: "ChatCompletionResponse" }) as any as S.Schema<ChatCompletionResponse>;
 
 /** The slug form of the geographical origin of the app. Default: `nearest available` */
 export type AppSpecInputRegion =
@@ -6238,9 +6085,7 @@ export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
     spec: AppSpecInput,
     project_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v2/apps", code: 200 })),
-).annotate({
-  identifier: "CreateAppRequest",
-}) as any as S.Schema<CreateAppRequest>;
+).annotate({ identifier: "CreateAppRequest" }) as any as S.Schema<CreateAppRequest>;
 
 export type AppsDomainPhase = "UNKNOWN" | "PENDING" | "CONFIGURING" | "ACTIVE" | "ERROR";
 export const AppsDomainPhase = S.String;
@@ -6257,9 +6102,7 @@ export const AppsDomainProgress = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     steps: S.optional(AppsDomainProgressStepsList),
   }),
-).annotate({
-  identifier: "AppsDomainProgress",
-}) as any as S.Schema<AppsDomainProgress>;
+).annotate({ identifier: "AppsDomainProgress" }) as any as S.Schema<AppsDomainProgress>;
 
 export interface AppDomainValidation {
   txt_name?: string;
@@ -6270,9 +6113,7 @@ export const AppDomainValidation = /*@__PURE__*/ S.suspend(() =>
     txt_name: S.optional(S.String),
     txt_value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppDomainValidation",
-}) as any as S.Schema<AppDomainValidation>;
+).annotate({ identifier: "AppDomainValidation" }) as any as S.Schema<AppDomainValidation>;
 
 export type AppsDomainValidationsList = Array<AppDomainValidation>;
 export const AppsDomainValidationsList = /*@__PURE__*/ S.Array(
@@ -6363,9 +6204,7 @@ export const AppPendingDeployment = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     workers: S.optional(AppPendingDeploymentWorkersList),
   }),
-).annotate({
-  identifier: "AppPendingDeployment",
-}) as any as S.Schema<AppPendingDeployment>;
+).annotate({ identifier: "AppPendingDeployment" }) as any as S.Schema<AppPendingDeployment>;
 
 export type AppsRegionDataCentersList = Array<string>;
 export const AppsRegionDataCentersList = /*@__PURE__*/ S.Array(
@@ -6456,9 +6295,7 @@ export const AppPinnedDeployment = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     workers: S.optional(AppPinnedDeploymentWorkersList),
   }),
-).annotate({
-  identifier: "AppPinnedDeployment",
-}) as any as S.Schema<AppPinnedDeployment>;
+).annotate({ identifier: "AppPinnedDeployment" }) as any as S.Schema<AppPinnedDeployment>;
 
 export type AppsDedicatedEgressIpStatus = "UNKNOWN" | "ASSIGNING" | "ASSIGNED" | "REMOVED";
 export const AppsDedicatedEgressIpStatus = S.String;
@@ -6474,9 +6311,7 @@ export const AppsDedicatedEgressIp = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     status: S.optional(AppsDedicatedEgressIpStatus),
   }),
-).annotate({
-  identifier: "AppsDedicatedEgressIp",
-}) as any as S.Schema<AppsDedicatedEgressIp>;
+).annotate({ identifier: "AppsDedicatedEgressIp" }) as any as S.Schema<AppsDedicatedEgressIp>;
 
 export type AppDedicatedIpsList = Array<AppsDedicatedEgressIp>;
 export const AppDedicatedIpsList = /*@__PURE__*/ S.Array(
@@ -6569,9 +6404,7 @@ export const CreateAppRollbackRequest = /*@__PURE__*/ S.suspend(() =>
     deployment_id: S.optional(S.String),
     skip_pin: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/v2/apps/{app_id}/rollback", code: 200 })),
-).annotate({
-  identifier: "CreateAppRollbackRequest",
-}) as any as S.Schema<CreateAppRollbackRequest>;
+).annotate({ identifier: "CreateAppRollbackRequest" }) as any as S.Schema<CreateAppRollbackRequest>;
 
 export interface AutoscalePoolStaticConfig {
   /** Fixed number of instances in an autoscale pool. */
@@ -6727,9 +6560,7 @@ export const CreateByoipPrefixRequest = /*@__PURE__*/ S.suspend(() =>
     region: S.String,
     signature: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/byoip_prefixes", code: 200 })),
-).annotate({
-  identifier: "CreateByoipPrefixRequest",
-}) as any as S.Schema<CreateByoipPrefixRequest>;
+).annotate({ identifier: "CreateByoipPrefixRequest" }) as any as S.Schema<CreateByoipPrefixRequest>;
 
 export interface CreateByoipPrefixResponse {}
 export const CreateByoipPrefixResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6757,9 +6588,7 @@ export const CreateCdnEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     certificate_id: S.optional(S.String),
     custom_domain: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v2/cdn/endpoints", code: 200 })),
-).annotate({
-  identifier: "CreateCdnEndpointRequest",
-}) as any as S.Schema<CreateCdnEndpointRequest>;
+).annotate({ identifier: "CreateCdnEndpointRequest" }) as any as S.Schema<CreateCdnEndpointRequest>;
 
 /** The amount of time the content is cached by the CDN's edge servers in seconds. TTL must be one of 60, 600, 3600, 86400, or 604800. Defaults to 3600 (one hour) when excluded. */
 export type CdnEndpointTtl = 60 | 600 | 3600 | 86400 | 604800;
@@ -6856,9 +6685,7 @@ export const CertificateRequestCustom = /*@__PURE__*/ S.suspend(() =>
     leaf_certificate: S.String,
     certificate_chain: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CertificateRequestCustom",
-}) as any as S.Schema<CertificateRequestCustom>;
+).annotate({ identifier: "CertificateRequestCustom" }) as any as S.Schema<CertificateRequestCustom>;
 
 export type CreateCertificateRequestBody = CertificateRequestLetsEncrypt | CertificateRequestCustom;
 export const CreateCertificateRequestBody =
@@ -6871,9 +6698,7 @@ export const CreateCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: CreateCertificateRequestBody.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/v2/certificates", code: 200 })),
-).annotate({
-  identifier: "CreateCertificateRequest",
-}) as any as S.Schema<CreateCertificateRequest>;
+).annotate({ identifier: "CreateCertificateRequest" }) as any as S.Schema<CreateCertificateRequest>;
 
 /** An array of fully qualified domain names (FQDNs) for which the certificate was issued. */
 export type CertificateDnsNamesList = Array<string>;
@@ -6930,6 +6755,318 @@ export const CreateCertificateResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateCertificateResponse",
 }) as any as S.Schema<CreateCertificateResponse>;
+
+/** Optional OAuth scopes to request. Defaults to every scope the provider offers; scopes outside that set are rejected. Ignored for API-key credentials. */
+export type CreateConnectionRequestScopesList = Array<string>;
+export const CreateConnectionRequestScopesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateConnectionRequestScopesList>;
+
+/** Use one of your team's provider credentials. */
+export interface CreateConnectionRequestCredentialTeamCredential {
+  /** Required. ID of an active provider credential for the same provider that you can use. */
+  credential_id?: string;
+}
+export const CreateConnectionRequestCredentialTeamCredential = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    credential_id: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateConnectionRequestCredentialTeamCredential",
+}) as any as S.Schema<CreateConnectionRequestCredentialTeamCredential>;
+
+/** Optional credential to connect through. Omitted uses DigitalOcean's shared OAuth application. */
+export interface CreateConnectionRequestCredential {
+  /** Use DigitalOcean's shared OAuth application. */
+  digitalocean_oauth?: unknown;
+  /** Use one of your team's provider credentials. */
+  team_credential?: CreateConnectionRequestCredentialTeamCredential;
+}
+export const CreateConnectionRequestCredential = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    digitalocean_oauth: S.optional(S.Unknown),
+    team_credential: S.optional(CreateConnectionRequestCredentialTeamCredential),
+  }),
+).annotate({
+  identifier: "CreateConnectionRequestCredential",
+}) as any as S.Schema<CreateConnectionRequestCredential>;
+
+/** Optional CIDR ranges; when set, every address the host resolves to must fall within one of them. */
+export type CreateConnectionRequestNetworkVpcDestinationsItemAllowedIpCidrsList = Array<string>;
+export const CreateConnectionRequestNetworkVpcDestinationsItemAllowedIpCidrsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateConnectionRequestNetworkVpcDestinationsItemAllowedIpCidrsList>;
+
+export interface CreateConnectionRequestNetworkVpcDestinationsItem {
+  /** Host name or IP address. It must resolve only to private addresses. */
+  host?: string;
+  /** Port, 1 to 65535. */
+  port?: number;
+  /** Optional CIDR ranges; when set, every address the host resolves to must fall within one of them. */
+  allowed_ip_cidrs?: CreateConnectionRequestNetworkVpcDestinationsItemAllowedIpCidrsList;
+}
+export const CreateConnectionRequestNetworkVpcDestinationsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    host: S.optional(S.String),
+    port: S.optional(S.Number),
+    allowed_ip_cidrs: S.optional(
+      CreateConnectionRequestNetworkVpcDestinationsItemAllowedIpCidrsList,
+    ),
+  }),
+).annotate({
+  identifier: "CreateConnectionRequestNetworkVpcDestinationsItem",
+}) as any as S.Schema<CreateConnectionRequestNetworkVpcDestinationsItem>;
+
+/** Private hosts the connection's calls may reach through the VPC. At least one is required. */
+export type CreateConnectionRequestNetworkVpcDestinationsList =
+  Array<CreateConnectionRequestNetworkVpcDestinationsItem>;
+export const CreateConnectionRequestNetworkVpcDestinationsList = /*@__PURE__*/ S.Array(
+  CreateConnectionRequestNetworkVpcDestinationsItem,
+) as any as S.Schema<CreateConnectionRequestNetworkVpcDestinationsList>;
+
+/** Route through a VPC. */
+export interface CreateConnectionRequestNetworkVpc {
+  /** UUID of a VPC owned by your team. */
+  vpc_uuid?: string;
+  /** Private hosts the connection's calls may reach through the VPC. At least one is required. */
+  destinations?: CreateConnectionRequestNetworkVpcDestinationsList;
+}
+export const CreateConnectionRequestNetworkVpc = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc_uuid: S.optional(S.String),
+    destinations: S.optional(CreateConnectionRequestNetworkVpcDestinationsList),
+  }),
+).annotate({
+  identifier: "CreateConnectionRequestNetworkVpc",
+}) as any as S.Schema<CreateConnectionRequestNetworkVpc>;
+
+/** Optional private network for the connection's calls. Requires VPC networking to be enabled for your account (403 otherwise). */
+export interface CreateConnectionRequestNetwork {
+  /** Route through a VPC. */
+  vpc?: CreateConnectionRequestNetworkVpc;
+}
+export const CreateConnectionRequestNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc: S.optional(CreateConnectionRequestNetworkVpc),
+  }),
+).annotate({
+  identifier: "CreateConnectionRequestNetwork",
+}) as any as S.Schema<CreateConnectionRequestNetwork>;
+
+export interface CreateConnectionRequest {
+  /** Required provider slug, from the provider list. */
+  provider: string;
+  /** Required. Your identifier for the user the connection acts for: 1 to 64 characters from `[A-Za-z0-9._-]`. A session whose `actor_id` equals it uses this connection. */
+  user_id: string;
+  /** Optional OAuth scopes to request. Defaults to every scope the provider offers; scopes outside that set are rejected. Ignored for API-key credentials. */
+  scopes?: CreateConnectionRequestScopesList;
+  /** Values for the provider's `connection_parameters`, validated against their specifications. */
+  connection_parameters?: unknown;
+  /** Optional credential to connect through. Omitted uses DigitalOcean's shared OAuth application. */
+  credential?: CreateConnectionRequestCredential;
+  /** Optional private network for the connection's calls. Requires VPC networking to be enabled for your account (403 otherwise). */
+  network?: CreateConnectionRequestNetwork;
+}
+export const CreateConnectionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: S.String,
+    user_id: S.String,
+    scopes: S.optional(CreateConnectionRequestScopesList),
+    connection_parameters: S.optional(S.Unknown),
+    credential: S.optional(CreateConnectionRequestCredential),
+    network: S.optional(CreateConnectionRequestNetwork),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/action-gateway/connections", code: 200 })),
+).annotate({ identifier: "CreateConnectionRequest" }) as any as S.Schema<CreateConnectionRequest>;
+
+/** pending, active, revoked, or expired. */
+export type ConnectionStatus = "pending" | "active" | "revoked" | "expired";
+export const ConnectionStatus = S.String;
+
+/** `digitalocean_oauth`, `private_oauth`, or `team_api_key`. */
+export type ConnectionCredentialKind = "digitalocean_oauth" | "private_oauth" | "team_api_key";
+export const ConnectionCredentialKind = S.String;
+
+/** Optional CIDR ranges; when set, every address the host resolves to must fall within one of them. */
+export type ConnectionNetworkVpcDestinationsItemAllowedIpCidrsList = Array<string>;
+export const ConnectionNetworkVpcDestinationsItemAllowedIpCidrsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ConnectionNetworkVpcDestinationsItemAllowedIpCidrsList>;
+
+export interface ConnectionNetworkVpcDestinationsItem {
+  /** Host name or IP address. It must resolve only to private addresses. */
+  host?: string;
+  /** Port, 1 to 65535. */
+  port?: number;
+  /** Optional CIDR ranges; when set, every address the host resolves to must fall within one of them. */
+  allowed_ip_cidrs?: ConnectionNetworkVpcDestinationsItemAllowedIpCidrsList;
+}
+export const ConnectionNetworkVpcDestinationsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    host: S.optional(S.String),
+    port: S.optional(S.Number),
+    allowed_ip_cidrs: S.optional(ConnectionNetworkVpcDestinationsItemAllowedIpCidrsList),
+  }),
+).annotate({
+  identifier: "ConnectionNetworkVpcDestinationsItem",
+}) as any as S.Schema<ConnectionNetworkVpcDestinationsItem>;
+
+/** Private hosts the connection's calls may reach through the VPC. At least one is required. */
+export type ConnectionNetworkVpcDestinationsList = Array<ConnectionNetworkVpcDestinationsItem>;
+export const ConnectionNetworkVpcDestinationsList = /*@__PURE__*/ S.Array(
+  ConnectionNetworkVpcDestinationsItem,
+) as any as S.Schema<ConnectionNetworkVpcDestinationsList>;
+
+/** Route through a VPC. */
+export interface ConnectionNetworkVpc {
+  /** UUID of a VPC owned by your team. */
+  vpc_uuid?: string;
+  /** Region of the VPC. Set by DigitalOcean; do not send it. */
+  region?: string;
+  /** Private hosts the connection's calls may reach through the VPC. At least one is required. */
+  destinations?: ConnectionNetworkVpcDestinationsList;
+}
+export const ConnectionNetworkVpc = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc_uuid: S.optional(S.String),
+    region: S.optional(S.String),
+    destinations: S.optional(ConnectionNetworkVpcDestinationsList),
+  }),
+).annotate({ identifier: "ConnectionNetworkVpc" }) as any as S.Schema<ConnectionNetworkVpc>;
+
+/** Routes a connection's calls through a private network instead of the public internet. */
+export interface ConnectionNetwork {
+  /** Route through a VPC. */
+  vpc?: ConnectionNetworkVpc;
+}
+export const ConnectionNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc: S.optional(ConnectionNetworkVpc),
+  }),
+).annotate({ identifier: "ConnectionNetwork" }) as any as S.Schema<ConnectionNetwork>;
+
+/** Provider scopes granted, or requested while pending. */
+export type ConnectionOauthScopesList = Array<string>;
+export const ConnectionOauthScopesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ConnectionOauthScopesList>;
+
+/** Set for `digitalocean_oauth` and `private_oauth` connections. */
+export interface ConnectionOauth {
+  /** Provider scopes granted, or requested while pending. */
+  scopes?: ConnectionOauthScopesList;
+  /** When the user completed authorization. */
+  granted_at?: string | null;
+}
+export const ConnectionOauth = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scopes: S.optional(ConnectionOauthScopesList),
+    granted_at: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "ConnectionOauth" }) as any as S.Schema<ConnectionOauth>;
+
+/** Deprecated: read `oauth.scopes`. Duplicated here so a reader of the pre-union shape keeps working; empty for a kind with no OAuth grant. */
+export type ConnectionScopesList = Array<string>;
+export const ConnectionScopesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ConnectionScopesList>;
+
+/** One connection of any kind. Everything every kind has stays on the envelope, so a reader takes an ID, a status or a provider without first asking what kind it is; only the members a kind alone has move into details. */
+export interface Connection {
+  /** Opaque connection ID. */
+  id?: string;
+  /** Provider slug, for example `jira`. */
+  provider?: string;
+  /** Human-readable provider name, for example `Jira`. */
+  provider_display_name?: string;
+  /** Your identifier for the user the connection acts for. */
+  user_id?: string;
+  /** pending, active, revoked, or expired. */
+  status?: ConnectionStatus;
+  /** When the connection was created. */
+  created_at?: string | null;
+  /** When the connection was last modified. */
+  updated_at?: string | null;
+  /** When the connection was revoked. */
+  revoked_at?: string | null;
+  /** Non-sensitive provider configuration. */
+  connection_parameters?: unknown | null;
+  /** `digitalocean_oauth`, `private_oauth`, or `team_api_key`. */
+  credential_kind?: ConnectionCredentialKind;
+  /** Empty for `digitalocean_oauth`; otherwise the ID of the team provider credential the connection uses. */
+  credential_id?: string;
+  /** Private network the connection's calls use, when configured. */
+  network?: ConnectionNetwork | null;
+  /** Set for `digitalocean_oauth` and `private_oauth` connections. */
+  oauth?: ConnectionOauth;
+  /** Set for `team_api_key` connections. */
+  api_key?: unknown;
+  /** Deprecated: read `oauth.scopes`. Duplicated here so a reader of the pre-union shape keeps working; empty for a kind with no OAuth grant. */
+  scopes?: ConnectionScopesList;
+  /** Deprecated: read `oauth.granted_at`. */
+  granted_at?: string | null;
+  /** DigitalOcean user ID of the user who created the connection, when recorded. */
+  owning_user_id?: string;
+}
+export const Connection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    provider: S.optional(S.String),
+    provider_display_name: S.optional(S.String),
+    user_id: S.optional(S.String),
+    status: S.optional(ConnectionStatus),
+    created_at: S.optional(S.NullOr(S.String)),
+    updated_at: S.optional(S.NullOr(S.String)),
+    revoked_at: S.optional(S.NullOr(S.String)),
+    connection_parameters: S.optional(S.NullOr(S.Unknown)),
+    credential_kind: S.optional(ConnectionCredentialKind),
+    credential_id: S.optional(S.String),
+    network: S.optional(S.NullOr(ConnectionNetwork)),
+    oauth: S.optional(ConnectionOauth),
+    api_key: S.optional(S.Unknown),
+    scopes: S.optional(ConnectionScopesList),
+    granted_at: S.optional(S.NullOr(S.String)),
+    owning_user_id: S.optional(S.String),
+  }),
+).annotate({ identifier: "Connection" }) as any as S.Schema<Connection>;
+
+/** Currently always `requires_authorization`. */
+export type ConnectionAuthorizationStatus = "requires_authorization";
+export const ConnectionAuthorizationStatus = S.String;
+
+/** Present only while a connection is pending. Send the user to `connect_url`, then read the connection until it becomes active or expired. */
+export interface ConnectionAuthorization {
+  /** Currently always `requires_authorization`. */
+  status?: ConnectionAuthorizationStatus;
+  /** Browser URL, on a DigitalOcean Cloud origin, where the user authorizes the connection. */
+  connect_url?: string;
+  /** Verification code issued with `connect_url`. */
+  verification_code?: string;
+  /** When the authorization expires. The link can stop working earlier; if the connection becomes expired, create it again for a new link. */
+  expires_at?: string | null;
+}
+export const ConnectionAuthorization = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(ConnectionAuthorizationStatus),
+    connect_url: S.optional(S.String),
+    verification_code: S.optional(S.String),
+    expires_at: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "ConnectionAuthorization" }) as any as S.Schema<ConnectionAuthorization>;
+
+/** Returns the connection and any authorization still needed. */
+export interface ConnectionResponse {
+  /** The connection. */
+  connection?: Connection;
+  /** Present only while the connection is pending. */
+  authorization?: ConnectionAuthorization | null;
+}
+export const ConnectionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connection: S.optional(Connection),
+    authorization: S.optional(S.NullOr(ConnectionAuthorization)),
+  }),
+).annotate({ identifier: "ConnectionResponse" }) as any as S.Schema<ConnectionResponse>;
 
 /** A slug representing the database engine used for the cluster. The possible values are: "pg" for PostgreSQL, "mysql" for MySQL, "redis" for Caching, "mongodb" for MongoDB, "kafka" for Kafka, "opensearch" for OpenSearch, "valkey" for Valkey, "advanced_pg" for PostgreSQL Advanced Edition, and "advanced_mysql" for MySQL Advanced Edition. Advanced Edition engines are currently in public preview. */
 export type CreateDatabaseClusterRequestEngine =
@@ -7014,9 +7151,7 @@ export const FirewallRuleInput = /*@__PURE__*/ S.suspend(() =>
     value: S.String,
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FirewallRuleInput",
-}) as any as S.Schema<FirewallRuleInput>;
+).annotate({ identifier: "FirewallRuleInput" }) as any as S.Schema<FirewallRuleInput>;
 
 export type CreateDatabaseClusterRequestRulesList = Array<FirewallRuleInput>;
 export const CreateDatabaseClusterRequestRulesList = /*@__PURE__*/ S.Array(
@@ -7049,9 +7184,7 @@ export const DatabaseAutoscaleParams = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     storage: S.optional(DatabaseAutoscaleParamsStorage),
   }),
-).annotate({
-  identifier: "DatabaseAutoscaleParams",
-}) as any as S.Schema<DatabaseAutoscaleParams>;
+).annotate({ identifier: "DatabaseAutoscaleParams" }) as any as S.Schema<DatabaseAutoscaleParams>;
 
 /** An array of custom CNAMEs for the database cluster. Each CNAME must be a valid RFC 1123 hostname (e.g., "db.example.com"). Maximum of 16 CNAMEs allowed, each up to 253 characters. */
 export type CreateDatabaseClusterRequestDoSettingsServiceCnamesList = Array<string>;
@@ -7327,9 +7460,7 @@ export const DatabaseServiceEndpoint = /*@__PURE__*/ S.suspend(() =>
     host: S.optional(S.String),
     port: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DatabaseServiceEndpoint",
-}) as any as S.Schema<DatabaseServiceEndpoint>;
+).annotate({ identifier: "DatabaseServiceEndpoint" }) as any as S.Schema<DatabaseServiceEndpoint>;
 
 /** Public hostname and port of the cluster's metrics endpoint(s). Includes one record for the cluster's primary node and a second entry for the cluster's standby node(s). */
 export type DatabaseClusterReadMetricsEndpointsList = Array<DatabaseServiceEndpoint>;
@@ -7436,9 +7567,7 @@ export const DatabaseClusterRead = /*@__PURE__*/ S.suspend(() =>
     metrics_endpoints: S.optional(DatabaseClusterReadMetricsEndpointsList),
     do_settings: S.optional(DatabaseClusterReadDoSettings),
   }),
-).annotate({
-  identifier: "DatabaseClusterRead",
-}) as any as S.Schema<DatabaseClusterRead>;
+).annotate({ identifier: "DatabaseClusterRead" }) as any as S.Schema<DatabaseClusterRead>;
 
 export interface CreateDatabaseClusterResponse {
   database: DatabaseClusterRead;
@@ -7638,9 +7767,7 @@ export const KafkaTopicConfig = /*@__PURE__*/ S.suspend(() =>
     segment_jitter_ms: S.optional(S.Number),
     segment_ms: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "KafkaTopicConfig",
-}) as any as S.Schema<KafkaTopicConfig>;
+).annotate({ identifier: "KafkaTopicConfig" }) as any as S.Schema<KafkaTopicConfig>;
 
 export interface CreateDatabaseKafkaTopicRequest {
   /** A unique identifier for a database cluster. */
@@ -7661,11 +7788,7 @@ export const CreateDatabaseKafkaTopicRequest = /*@__PURE__*/ S.suspend(() =>
     partition_count: S.optional(S.Number),
     config: S.optional(KafkaTopicConfig),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/databases/{database_cluster_uuid}/topics",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/databases/{database_cluster_uuid}/topics", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDatabaseKafkaTopicRequest",
@@ -7714,9 +7837,7 @@ export const KafkaTopicPartition = /*@__PURE__*/ S.suspend(() =>
     earliest_offset: S.optional(S.Number),
     consumer_groups: S.optional(S.NullOr(KafkaTopicPartitionConsumerGroupsList)),
   }),
-).annotate({
-  identifier: "KafkaTopicPartition",
-}) as any as S.Schema<KafkaTopicPartition>;
+).annotate({ identifier: "KafkaTopicPartition" }) as any as S.Schema<KafkaTopicPartition>;
 
 export type KafkaTopicVerbosePartitionsList = Array<KafkaTopicPartition>;
 export const KafkaTopicVerbosePartitionsList = /*@__PURE__*/ S.Array(
@@ -7741,9 +7862,7 @@ export const KafkaTopicVerbose = /*@__PURE__*/ S.suspend(() =>
     partitions: S.optional(KafkaTopicVerbosePartitionsList),
     config: S.optional(KafkaTopicConfig),
   }),
-).annotate({
-  identifier: "KafkaTopicVerbose",
-}) as any as S.Schema<KafkaTopicVerbose>;
+).annotate({ identifier: "KafkaTopicVerbose" }) as any as S.Schema<KafkaTopicVerbose>;
 
 export interface CreateDatabaseKafkaTopicResponse {
   topic?: KafkaTopicVerbose;
@@ -7822,9 +7941,7 @@ export const ElasticsearchLogsink = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.Number),
     ca: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ElasticsearchLogsink",
-}) as any as S.Schema<ElasticsearchLogsink>;
+).annotate({ identifier: "ElasticsearchLogsink" }) as any as S.Schema<ElasticsearchLogsink>;
 
 export interface OpensearchLogsink {
   /** Opensearch connection URL */
@@ -7846,9 +7963,7 @@ export const OpensearchLogsink = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.Number),
     ca: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OpensearchLogsink",
-}) as any as S.Schema<OpensearchLogsink>;
+).annotate({ identifier: "OpensearchLogsink" }) as any as S.Schema<OpensearchLogsink>;
 
 /** Configuration for Datadog integration **applicable only to MongoDB clusters**. */
 export interface DatadogLogsink {
@@ -7888,11 +8003,7 @@ export const CreateDatabaseLogsinkRequest = /*@__PURE__*/ S.suspend(() =>
     sink_type: CreateDatabaseLogsinkRequestSinkType,
     config: CreateDatabaseLogsinkRequestConfig,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/databases/{database_cluster_uuid}/logsink",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/databases/{database_cluster_uuid}/logsink", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDatabaseLogsinkRequest",
@@ -8000,11 +8111,7 @@ export const CreateDatabaseReplicaRequest = /*@__PURE__*/ S.suspend(() =>
     storage_size_mib: S.optional(S.Number),
     do_settings: S.optional(CreateDatabaseReplicaRequestDoSettings),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/databases/{database_cluster_uuid}/replicas",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/databases/{database_cluster_uuid}/replicas", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDatabaseReplicaRequest",
@@ -8087,9 +8194,7 @@ export const DatabaseReplicaRead = /*@__PURE__*/ S.suspend(() =>
     storage_size_mib: S.optional(S.Number),
     do_settings: S.optional(DatabaseReplicaReadDoSettings),
   }),
-).annotate({
-  identifier: "DatabaseReplicaRead",
-}) as any as S.Schema<DatabaseReplicaRead>;
+).annotate({ identifier: "DatabaseReplicaRead" }) as any as S.Schema<DatabaseReplicaRead>;
 
 export interface CreateDatabaseReplicaResponse {
   replica?: DatabaseReplicaRead;
@@ -8167,9 +8272,7 @@ export const ModelDeploymentSpecInput = /*@__PURE__*/ S.suspend(() =>
     workload_config: S.optional(S.Unknown),
     accelerators: S.optional(ModelDeploymentSpecInputAcceleratorsList),
   }),
-).annotate({
-  identifier: "ModelDeploymentSpecInput",
-}) as any as S.Schema<ModelDeploymentSpecInput>;
+).annotate({ identifier: "ModelDeploymentSpecInput" }) as any as S.Schema<ModelDeploymentSpecInput>;
 
 /** At least one model deployment is required. */
 export type DedicatedInferenceSpecInputModelDeploymentsList = Array<ModelDeploymentSpecInput>;
@@ -8205,9 +8308,7 @@ export const DedicatedInferenceSpecInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DedicatedInferenceSpecInput>;
 
 /** Key-value pairs for provider tokens (e.g. Hugging Face). */
-export type CreateDedicatedInferenceRequestAccessTokensMap = {
-  [key: string]: string | undefined;
-};
+export type CreateDedicatedInferenceRequestAccessTokensMap = { [key: string]: string | undefined };
 export const CreateDedicatedInferenceRequestAccessTokensMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8273,9 +8374,7 @@ export const CreateDomainRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     ip_address: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v2/domains", code: 200 })),
-).annotate({
-  identifier: "CreateDomainRequest",
-}) as any as S.Schema<CreateDomainRequest>;
+).annotate({ identifier: "CreateDomainRequest" }) as any as S.Schema<CreateDomainRequest>;
 
 export interface DomainOutput {
   /** The name of the domain itself. This should follow the standard domain format of domain.TLD. For instance, `example.com` is a valid domain name. */
@@ -8300,9 +8399,7 @@ export const CreateDomainResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.optional(DomainOutput),
   }),
-).annotate({
-  identifier: "CreateDomainResponse",
-}) as any as S.Schema<CreateDomainResponse>;
+).annotate({ identifier: "CreateDomainResponse" }) as any as S.Schema<CreateDomainResponse>;
 
 export interface DomainRecordAInput {
   /** The type of the DNS record. For example: A, CNAME, TXT, ... */
@@ -8336,9 +8433,7 @@ export const DomainRecordAInput = /*@__PURE__*/ S.suspend(() =>
     flags: S.optional(S.NullOr(S.Number)),
     tag: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DomainRecordAInput",
-}) as any as S.Schema<DomainRecordAInput>;
+).annotate({ identifier: "DomainRecordAInput" }) as any as S.Schema<DomainRecordAInput>;
 
 export type DomainRecordAaaaInput = DomainRecordAInput;
 export const DomainRecordAaaaInput = DomainRecordAInput;
@@ -8375,9 +8470,7 @@ export const DomainRecordCaaInput = /*@__PURE__*/ S.suspend(() =>
     flags: S.NullOr(S.Number),
     tag: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "DomainRecordCaaInput",
-}) as any as S.Schema<DomainRecordCaaInput>;
+).annotate({ identifier: "DomainRecordCaaInput" }) as any as S.Schema<DomainRecordCaaInput>;
 
 export type DomainRecordCnameInput = DomainRecordAInput;
 export const DomainRecordCnameInput = DomainRecordAInput;
@@ -8414,9 +8507,7 @@ export const DomainRecordMxInput = /*@__PURE__*/ S.suspend(() =>
     flags: S.optional(S.NullOr(S.Number)),
     tag: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DomainRecordMxInput",
-}) as any as S.Schema<DomainRecordMxInput>;
+).annotate({ identifier: "DomainRecordMxInput" }) as any as S.Schema<DomainRecordMxInput>;
 
 export type DomainRecordNsInput = DomainRecordCaaInput;
 export const DomainRecordNsInput = DomainRecordCaaInput;
@@ -8453,9 +8544,7 @@ export const DomainRecordSoaInput = /*@__PURE__*/ S.suspend(() =>
     flags: S.optional(S.NullOr(S.Number)),
     tag: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DomainRecordSoaInput",
-}) as any as S.Schema<DomainRecordSoaInput>;
+).annotate({ identifier: "DomainRecordSoaInput" }) as any as S.Schema<DomainRecordSoaInput>;
 
 export interface DomainRecordSrvInput {
   /** The type of the DNS record. For example: A, CNAME, TXT, ... */
@@ -8489,9 +8578,7 @@ export const DomainRecordSrvInput = /*@__PURE__*/ S.suspend(() =>
     flags: S.NullOr(S.Number),
     tag: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "DomainRecordSrvInput",
-}) as any as S.Schema<DomainRecordSrvInput>;
+).annotate({ identifier: "DomainRecordSrvInput" }) as any as S.Schema<DomainRecordSrvInput>;
 
 export type DomainRecordTxtInput = DomainRecordCaaInput;
 export const DomainRecordTxtInput = DomainRecordCaaInput;
@@ -8518,13 +8605,7 @@ export const CreateDomainRecordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain_name: S.String.pipe(T.Label()),
     body: S.optional(CreateDomainRecordRequestBody.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/domains/{domain_name}/records",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/domains/{domain_name}/records", code: 200 })),
 ).annotate({
   identifier: "CreateDomainRecordRequest",
 }) as any as S.Schema<CreateDomainRecordRequest>;
@@ -8669,6 +8750,8 @@ export interface DropletSingleCreateInput {
   volumes?: DropletSingleCreateInputVolumesList;
   /** A string specifying the UUID of the VPC to which the Droplet will be assigned. If excluded, the Droplet will be assigned to your account's default VPC for the region.<br>Requires `vpc:read` scope. */
   vpc_uuid?: string;
+  /** An optional string specifying the UUID of the VPC subnet to which the Droplet will be assigned. If excluded, the Droplet will be assigned to a default subnet of the VPC.<br>Requires `vpc:read` scope. */
+  subnet_uuid?: string;
   /** A boolean indicating whether to install the DigitalOcean agent used for providing access to the Droplet web console in the control panel. By default, the agent is installed on new Droplets but installation errors (i.e. OS not supported) are ignored. To prevent it from being installed, set to `false`. To make installation errors fatal, explicitly set it to `true`. */
   with_droplet_agent?: boolean;
   /** An optional boolean indicating whether this Droplet should be created with public networking or not. By default, all Droplets are created with public networking available. If explicitly set to `false`, only private networking will be enabled, and public networking will be disabled; currently this means that it will not have any public static or Reserved IPv4 or IPv6 address, nor can one be assigned later. If explicitly set to `false`, `ipv6` must also be `false`. */
@@ -8690,12 +8773,11 @@ export const DropletSingleCreateInput = /*@__PURE__*/ S.suspend(() =>
     private_networking: S.optional(S.Boolean),
     volumes: S.optional(DropletSingleCreateInputVolumesList),
     vpc_uuid: S.optional(S.String),
+    subnet_uuid: S.optional(S.String),
     with_droplet_agent: S.optional(S.Boolean),
     public_networking: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DropletSingleCreateInput",
-}) as any as S.Schema<DropletSingleCreateInput>;
+).annotate({ identifier: "DropletSingleCreateInput" }) as any as S.Schema<DropletSingleCreateInput>;
 
 /** An array of human human-readable strings you wish to use when displaying the Droplet name. Each name, if set to a domain name managed in the DigitalOcean DNS management system, will configure a PTR record for the Droplet. Each name set during creation will also determine the hostname for the Droplet in its internal configuration. */
 export type DropletMultiCreateInputNamesList = Array<string>;
@@ -8795,6 +8877,8 @@ export interface DropletMultiCreateInput {
   volumes?: DropletMultiCreateInputVolumesList;
   /** A string specifying the UUID of the VPC to which the Droplet will be assigned. If excluded, the Droplet will be assigned to your account's default VPC for the region.<br>Requires `vpc:read` scope. */
   vpc_uuid?: string;
+  /** An optional string specifying the UUID of the VPC subnet to which the Droplet will be assigned. If excluded, the Droplet will be assigned to a default subnet of the VPC.<br>Requires `vpc:read` scope. */
+  subnet_uuid?: string;
   /** A boolean indicating whether to install the DigitalOcean agent used for providing access to the Droplet web console in the control panel. By default, the agent is installed on new Droplets but installation errors (i.e. OS not supported) are ignored. To prevent it from being installed, set to `false`. To make installation errors fatal, explicitly set it to `true`. */
   with_droplet_agent?: boolean;
   /** An optional boolean indicating whether this Droplet should be created with public networking or not. By default, all Droplets are created with public networking available. If explicitly set to `false`, only private networking will be enabled, and public networking will be disabled; currently this means that it will not have any public static or Reserved IPv4 or IPv6 address, nor can one be assigned later. If explicitly set to `false`, `ipv6` must also be `false`. */
@@ -8816,12 +8900,11 @@ export const DropletMultiCreateInput = /*@__PURE__*/ S.suspend(() =>
     private_networking: S.optional(S.Boolean),
     volumes: S.optional(DropletMultiCreateInputVolumesList),
     vpc_uuid: S.optional(S.String),
+    subnet_uuid: S.optional(S.String),
     with_droplet_agent: S.optional(S.Boolean),
     public_networking: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DropletMultiCreateInput",
-}) as any as S.Schema<DropletMultiCreateInput>;
+).annotate({ identifier: "DropletMultiCreateInput" }) as any as S.Schema<DropletMultiCreateInput>;
 
 export type CreateDropletRequestBody = DropletSingleCreateInput | DropletMultiCreateInput;
 export const CreateDropletRequestBody = S.Unknown as any as S.Schema<CreateDropletRequestBody>;
@@ -8833,9 +8916,7 @@ export const CreateDropletRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: S.optional(CreateDropletRequestBody.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "POST", uri: "/v2/droplets", code: 200 })),
-).annotate({
-  identifier: "CreateDropletRequest",
-}) as any as S.Schema<CreateDropletRequest>;
+).annotate({ identifier: "CreateDropletRequest" }) as any as S.Schema<CreateDropletRequest>;
 
 export interface CreateDropletResponse {}
 export const CreateDropletResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8851,6 +8932,10 @@ export const CreateFirewallRequestDropletIdsList = /*@__PURE__*/ S.Array(
 /** The type of traffic to be allowed. This may be one of `tcp`, `udp`, or `icmp`. */
 export type CreateFirewallRequestInboundRulesItemProtocol = "tcp" | "udp" | "icmp";
 export const CreateFirewallRequestInboundRulesItemProtocol = S.String;
+
+/** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+export type CreateFirewallRequestInboundRulesItemAction = "allow" | "deny";
+export const CreateFirewallRequestInboundRulesItemAction = S.String;
 
 /** An array of strings containing the IPv4 addresses, IPv6 addresses, IPv4 CIDRs, and/or IPv6 CIDRs to which the firewall will allow traffic. */
 export type CreateFirewallRequestInboundRulesItemSourcesAddressesList = Array<string>;
@@ -8907,12 +8992,15 @@ export interface CreateFirewallRequestInboundRulesItem {
   protocol: CreateFirewallRequestInboundRulesItemProtocol | (string & {});
   /** The ports on which traffic will be allowed specified as a string containing a single port, a range (e.g. "8000-9000"), or "0" when all ports are open for a protocol. For ICMP rules this parameter will always return "0". */
   ports: string;
+  /** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+  action?: CreateFirewallRequestInboundRulesItemAction | (string & {});
   sources: CreateFirewallRequestInboundRulesItemSources;
 }
 export const CreateFirewallRequestInboundRulesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     protocol: CreateFirewallRequestInboundRulesItemProtocol,
     ports: S.String,
+    action: S.optional(CreateFirewallRequestInboundRulesItemAction),
     sources: CreateFirewallRequestInboundRulesItemSources,
   }),
 ).annotate({
@@ -8927,6 +9015,10 @@ export const CreateFirewallRequestInboundRulesList = /*@__PURE__*/ S.Array(
 /** The type of traffic to be allowed. This may be one of `tcp`, `udp`, or `icmp`. */
 export type CreateFirewallRequestOutboundRulesItemProtocol = "tcp" | "udp" | "icmp";
 export const CreateFirewallRequestOutboundRulesItemProtocol = S.String;
+
+/** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+export type CreateFirewallRequestOutboundRulesItemAction = "allow" | "deny";
+export const CreateFirewallRequestOutboundRulesItemAction = S.String;
 
 /** An array of strings containing the IPv4 addresses, IPv6 addresses, IPv4 CIDRs, and/or IPv6 CIDRs to which the firewall will allow traffic. */
 export type CreateFirewallRequestOutboundRulesItemDestinationsAddressesList = Array<string>;
@@ -8986,12 +9078,15 @@ export interface CreateFirewallRequestOutboundRulesItem {
   protocol: CreateFirewallRequestOutboundRulesItemProtocol | (string & {});
   /** The ports on which traffic will be allowed specified as a string containing a single port, a range (e.g. "8000-9000"), or "0" when all ports are open for a protocol. For ICMP rules this parameter will always return "0". */
   ports: string;
+  /** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+  action?: CreateFirewallRequestOutboundRulesItemAction | (string & {});
   destinations: CreateFirewallRequestOutboundRulesItemDestinations;
 }
 export const CreateFirewallRequestOutboundRulesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     protocol: CreateFirewallRequestOutboundRulesItemProtocol,
     ports: S.String,
+    action: S.optional(CreateFirewallRequestOutboundRulesItemAction),
     destinations: CreateFirewallRequestOutboundRulesItemDestinations,
   }),
 ).annotate({
@@ -9020,9 +9115,7 @@ export const CreateFirewallRequest = /*@__PURE__*/ S.suspend(() =>
     inbound_rules: S.optional(S.NullOr(CreateFirewallRequestInboundRulesList)),
     outbound_rules: S.optional(S.NullOr(CreateFirewallRequestOutboundRulesList)),
   }).pipe(T.Http({ method: "POST", uri: "/v2/firewalls", code: 200 })),
-).annotate({
-  identifier: "CreateFirewallRequest",
-}) as any as S.Schema<CreateFirewallRequest>;
+).annotate({ identifier: "CreateFirewallRequest" }) as any as S.Schema<CreateFirewallRequest>;
 
 export interface CreateFirewallResponse {}
 export const CreateFirewallResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -9037,9 +9130,7 @@ export const FloatingIpCreateCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     droplet_id: S.Number,
   }),
-).annotate({
-  identifier: "FloatingIpCreateCase0",
-}) as any as S.Schema<FloatingIpCreateCase0>;
+).annotate({ identifier: "FloatingIpCreateCase0" }) as any as S.Schema<FloatingIpCreateCase0>;
 
 export interface FloatingIpCreateCase1 {
   /** The slug identifier for the region the floating IP will be reserved to. */
@@ -9052,9 +9143,7 @@ export const FloatingIpCreateCase1 = /*@__PURE__*/ S.suspend(() =>
     region: S.String,
     project_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FloatingIpCreateCase1",
-}) as any as S.Schema<FloatingIpCreateCase1>;
+).annotate({ identifier: "FloatingIpCreateCase1" }) as any as S.Schema<FloatingIpCreateCase1>;
 
 export type FloatingIpCreate = FloatingIpCreateCase0 | FloatingIpCreateCase1;
 export const FloatingIpCreate = S.Unknown as any as S.Schema<FloatingIpCreate>;
@@ -9066,9 +9155,7 @@ export const CreateFloatingIPRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: FloatingIpCreate.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/v2/floating_ips", code: 200 })),
-).annotate({
-  identifier: "CreateFloatingIPRequest",
-}) as any as S.Schema<CreateFloatingIPRequest>;
+).annotate({ identifier: "CreateFloatingIPRequest" }) as any as S.Schema<CreateFloatingIPRequest>;
 
 export interface CreateFloatingIPResponse {}
 export const CreateFloatingIPResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -9146,11 +9233,7 @@ export const CreateFunctionsAccessKeyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     expires_in: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/functions/namespaces/{namespace_id}/keys",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/functions/namespaces/{namespace_id}/keys", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateFunctionsAccessKeyRequest",
@@ -9179,9 +9262,7 @@ export const AccessKeyCreateResponse = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccessKeyCreateResponse",
-}) as any as S.Schema<AccessKeyCreateResponse>;
+).annotate({ identifier: "AccessKeyCreateResponse" }) as any as S.Schema<AccessKeyCreateResponse>;
 
 export interface CreateFunctionsAccessKeyResponse {
   access_key?: AccessKeyCreateResponse;
@@ -9269,9 +9350,7 @@ export const CreateGenaiAgentRequest = /*@__PURE__*/ S.suspend(() =>
     web_search_enabled: S.optional(S.Boolean),
     workspace_uuid: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v2/gen-ai/agents", code: 200 })),
-).annotate({
-  identifier: "CreateGenaiAgentRequest",
-}) as any as S.Schema<CreateGenaiAgentRequest>;
+).annotate({ identifier: "CreateGenaiAgentRequest" }) as any as S.Schema<CreateGenaiAgentRequest>;
 
 /** Information about a newly created Agent */
 export interface ApiCreateAgentOutput {
@@ -9281,9 +9360,7 @@ export const ApiCreateAgentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     agent: S.optional(ApiAgent),
   }),
-).annotate({
-  identifier: "ApiCreateAgentOutput",
-}) as any as S.Schema<ApiCreateAgentOutput>;
+).annotate({ identifier: "ApiCreateAgentOutput" }) as any as S.Schema<ApiCreateAgentOutput>;
 
 export interface CreateGenaiAgentApiKeyRequest {
   /** Agent id */
@@ -9295,13 +9372,7 @@ export const CreateGenaiAgentApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     agent_uuid: S.String.pipe(T.Label()),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/gen-ai/agents/{agent_uuid}/api_keys",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/gen-ai/agents/{agent_uuid}/api_keys", code: 200 })),
 ).annotate({
   identifier: "CreateGenaiAgentApiKeyRequest",
 }) as any as S.Schema<CreateGenaiAgentApiKeyRequest>;
@@ -9354,13 +9425,7 @@ export const CreateGenaiCustomEvaluationMetricRequest = /*@__PURE__*/ S.suspend(
     config: S.optional(ApiCustomEvaluationMetricConfig),
     description: S.optional(S.String),
     metric_name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/gen-ai/custom_evaluation_metrics",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/gen-ai/custom_evaluation_metrics", code: 200 })),
 ).annotate({
   identifier: "CreateGenaiCustomEvaluationMetricRequest",
 }) as any as S.Schema<CreateGenaiCustomEvaluationMetricRequest>;
@@ -9391,11 +9456,10 @@ export const ApiFileUploadDataSource = /*@__PURE__*/ S.suspend(() =>
     size_in_bytes: S.optional(S.String),
     stored_object_key: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiFileUploadDataSource",
-}) as any as S.Schema<ApiFileUploadDataSource>;
+).annotate({ identifier: "ApiFileUploadDataSource" }) as any as S.Schema<ApiFileUploadDataSource>;
 
 export interface CreateGenaiEvaluationDatasetRequest {
+  dataset_paradigm?: ApiEvaluationDatasetParadigm | (string & {});
   dataset_type?: ApiEvaluationDatasetType | (string & {});
   file_upload_dataset?: ApiFileUploadDataSource;
   /** The name of the agent evaluation dataset. */
@@ -9403,16 +9467,11 @@ export interface CreateGenaiEvaluationDatasetRequest {
 }
 export const CreateGenaiEvaluationDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    dataset_paradigm: S.optional(ApiEvaluationDatasetParadigm),
     dataset_type: S.optional(ApiEvaluationDatasetType),
     file_upload_dataset: S.optional(ApiFileUploadDataSource),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/gen-ai/evaluation_datasets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/gen-ai/evaluation_datasets", code: 200 })),
 ).annotate({
   identifier: "CreateGenaiEvaluationDatasetRequest",
 }) as any as S.Schema<CreateGenaiEvaluationDatasetRequest>;
@@ -9459,13 +9518,7 @@ export const CreateGenaiEvaluationTestCaseRequest = /*@__PURE__*/ S.suspend(() =
     name: S.optional(S.String),
     star_metric: S.optional(ApiStarMetric),
     workspace_uuid: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/gen-ai/evaluation_test_cases",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/gen-ai/evaluation_test_cases", code: 200 })),
 ).annotate({
   identifier: "CreateGenaiEvaluationTestCaseRequest",
 }) as any as S.Schema<CreateGenaiEvaluationTestCaseRequest>;
@@ -9481,6 +9534,117 @@ export const ApiCreateEvaluationTestCaseOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ApiCreateEvaluationTestCaseOutput",
 }) as any as S.Schema<ApiCreateEvaluationTestCaseOutput>;
+
+export interface CreateGenaiGeneratedScenarioSetRequest {
+  /** Optional model to use for generation. Platform default when unset. */
+  generator_model_uuid?: string;
+  /** The goal that drives scenario generation. */
+  goal_description?: string;
+  /** The name of the scenario set to create. */
+  name?: string;
+  /** Number of scenarios to generate. Defaults to 1 if unset. */
+  num_scenarios?: number;
+}
+export const CreateGenaiGeneratedScenarioSetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    generator_model_uuid: S.optional(S.String),
+    goal_description: S.optional(S.String),
+    name: S.optional(S.String),
+    num_scenarios: S.optional(S.Number),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/gen-ai/scenario_sets/generate", code: 200 })),
+).annotate({
+  identifier: "CreateGenaiGeneratedScenarioSetRequest",
+}) as any as S.Schema<CreateGenaiGeneratedScenarioSetRequest>;
+
+/** How a scenario set was created. - SCENARIO_SET_SOURCE_KIND_USER_UPLOAD: Created from uploaded or inline scenarios. - SCENARIO_SET_SOURCE_KIND_GOAL_GENERATED: Produced by goal-driven generation. - SCENARIO_SET_SOURCE_KIND_LIBRARY: Copied from a platform-curated library entry. - SCENARIO_SET_SOURCE_KIND_SIGNAL_GENERATED: Produced from a completed Signals export. */
+export type ApiScenarioSetSourceKind =
+  | "SCENARIO_SET_SOURCE_KIND_UNSPECIFIED"
+  | "SCENARIO_SET_SOURCE_KIND_USER_UPLOAD"
+  | "SCENARIO_SET_SOURCE_KIND_GOAL_GENERATED"
+  | "SCENARIO_SET_SOURCE_KIND_LIBRARY"
+  | "SCENARIO_SET_SOURCE_KIND_SIGNAL_GENERATED";
+export const ApiScenarioSetSourceKind = S.String;
+
+/** Lifecycle status of a scenario set. Uploaded sets are created as ready. Generated sets start as generating and then become ready, failed, or cancelled. - SCENARIO_SET_STATUS_GENERATING: Generation is in progress. The scenarios are not ready yet. - SCENARIO_SET_STATUS_READY: The scenario set is ready to use. - SCENARIO_SET_STATUS_FAILED: Generation failed. The scenario set has no readable scenarios. - SCENARIO_SET_STATUS_CANCELLED: Generation was cancelled before completion. */
+export type ApiScenarioSetStatus =
+  | "SCENARIO_SET_STATUS_UNSPECIFIED"
+  | "SCENARIO_SET_STATUS_GENERATING"
+  | "SCENARIO_SET_STATUS_READY"
+  | "SCENARIO_SET_STATUS_FAILED"
+  | "SCENARIO_SET_STATUS_CANCELLED";
+export const ApiScenarioSetStatus = S.String;
+
+/** A team-owned collection of scenarios. */
+export interface ApiScenarioSet {
+  /** Object storage bucket holding the scenario file. Unset while status is generating. */
+  bucket_name?: string;
+  /** Object storage bucket region. Unset while status is generating. */
+  bucket_region?: string;
+  /** Time created at. */
+  created_at?: string;
+  /** Time deleted at. Unset unless the scenario set has been deleted. */
+  deleted_at?: string;
+  /** Customer-supplied description. */
+  description?: string;
+  /** Human-readable explanation of a terminal FAILED status. Empty otherwise. */
+  failure_reason?: string;
+  /** Model that produced the scenarios. Only set for goal-generated scenario sets. */
+  generator_model_uuid?: string;
+  /** UUID of the source library entry. Only set for library scenario sets (`source_kind=SCENARIO_SET_SOURCE_KIND_LIBRARY`). */
+  library_scenario_uuid?: string;
+  /** Customer-supplied name. */
+  name?: string;
+  /** Number of scenarios in the set. Unset while status is generating. */
+  scenario_count?: number;
+  /** UUID of the scenario set. */
+  scenario_set_uuid?: string;
+  /** Signals export UUID that produced this set. Only set for signal-generated scenario sets (`source_kind=SCENARIO_SET_SOURCE_KIND_SIGNAL_GENERATED`). */
+  source_export_id?: string;
+  /** The goal that drove generation. Only set for goal_generated scenario sets. */
+  source_goal_description?: string;
+  source_kind?: ApiScenarioSetSourceKind;
+  /** Object storage key for the scenario file. Unset while status is generating. */
+  spaces_key?: string;
+  status?: ApiScenarioSetStatus;
+  /** Time last updated at. */
+  updated_at?: string;
+  /** Identifier of the generation workflow. Only set for goal-generated scenario sets. */
+  workflow_uuid?: string;
+}
+export const ApiScenarioSet = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bucket_name: S.optional(S.String),
+    bucket_region: S.optional(S.String),
+    created_at: S.optional(S.String),
+    deleted_at: S.optional(S.String),
+    description: S.optional(S.String),
+    failure_reason: S.optional(S.String),
+    generator_model_uuid: S.optional(S.String),
+    library_scenario_uuid: S.optional(S.String),
+    name: S.optional(S.String),
+    scenario_count: S.optional(S.Number),
+    scenario_set_uuid: S.optional(S.String),
+    source_export_id: S.optional(S.String),
+    source_goal_description: S.optional(S.String),
+    source_kind: S.optional(ApiScenarioSetSourceKind),
+    spaces_key: S.optional(S.String),
+    status: S.optional(ApiScenarioSetStatus),
+    updated_at: S.optional(S.String),
+    workflow_uuid: S.optional(S.String),
+  }),
+).annotate({ identifier: "ApiScenarioSet" }) as any as S.Schema<ApiScenarioSet>;
+
+/** Output for dispatching goal-driven scenario generation. */
+export interface ApiGenerateScenarioSetOutput {
+  scenario_set?: ApiScenarioSet;
+}
+export const ApiGenerateScenarioSetOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scenario_set: S.optional(ApiScenarioSet),
+  }),
+).annotate({
+  identifier: "ApiGenerateScenarioSetOutput",
+}) as any as S.Schema<ApiGenerateScenarioSetOutput>;
 
 /** List of data source ids to index, if none are provided, all data sources will be indexed */
 export type CreateGenaiIndexingJobRequestDataSourceUuidsList = Array<string>;
@@ -9535,9 +9699,7 @@ export const ApiAWSDataSource = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     secret_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "ApiAWSDataSource",
-}) as any as S.Schema<ApiAWSDataSource>;
+).annotate({ identifier: "ApiAWSDataSource" }) as any as S.Schema<ApiAWSDataSource>;
 
 export type ApiChunkingAlgorithm =
   | "CHUNKING_ALGORITHM_UNKNOWN"
@@ -9563,9 +9725,7 @@ export const ApiChunkingOptions = /*@__PURE__*/ S.suspend(() =>
     parent_chunk_size: S.optional(S.Number),
     semantic_threshold: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiChunkingOptions",
-}) as any as S.Schema<ApiChunkingOptions>;
+).annotate({ identifier: "ApiChunkingOptions" }) as any as S.Schema<ApiChunkingOptions>;
 
 /** Dropbox Data Source */
 export interface ApiDropboxDataSource {
@@ -9578,9 +9738,7 @@ export const ApiDropboxDataSource = /*@__PURE__*/ S.suspend(() =>
     folder: S.optional(S.String),
     refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "ApiDropboxDataSource",
-}) as any as S.Schema<ApiDropboxDataSource>;
+).annotate({ identifier: "ApiDropboxDataSource" }) as any as S.Schema<ApiDropboxDataSource>;
 
 /** Google Drive Data Source */
 export interface ApiGoogleDriveDataSource {
@@ -9593,9 +9751,7 @@ export const ApiGoogleDriveDataSource = /*@__PURE__*/ S.suspend(() =>
     folder_id: S.optional(S.String),
     refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "ApiGoogleDriveDataSource",
-}) as any as S.Schema<ApiGoogleDriveDataSource>;
+).annotate({ identifier: "ApiGoogleDriveDataSource" }) as any as S.Schema<ApiGoogleDriveDataSource>;
 
 /** Spaces Bucket Data Source */
 export interface ApiSpacesDataSource {
@@ -9611,9 +9767,7 @@ export const ApiSpacesDataSource = /*@__PURE__*/ S.suspend(() =>
     item_path: S.optional(S.String),
     region: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiSpacesDataSource",
-}) as any as S.Schema<ApiSpacesDataSource>;
+).annotate({ identifier: "ApiSpacesDataSource" }) as any as S.Schema<ApiSpacesDataSource>;
 
 /** Options for specifying how URLs found on pages should be handled. - UNKNOWN: Default unknown value - SCOPED: Only include the base URL. - PATH: Crawl the base URL and linked pages within the URL path. - DOMAIN: Crawl the base URL and linked pages within the same domain. - SUBDOMAINS: Crawl the base URL and linked pages for any subdomain. - SITEMAP: Crawl URLs discovered in the sitemap. */
 export type ApiCrawlingOption = "UNKNOWN" | "SCOPED" | "PATH" | "DOMAIN" | "SUBDOMAINS" | "SITEMAP";
@@ -9642,9 +9796,7 @@ export const ApiWebCrawlerDataSource = /*@__PURE__*/ S.suspend(() =>
     embed_media: S.optional(S.Boolean),
     exclude_tags: S.optional(ApiWebCrawlerDataSourceExcludeTagsList),
   }),
-).annotate({
-  identifier: "ApiWebCrawlerDataSource",
-}) as any as S.Schema<ApiWebCrawlerDataSource>;
+).annotate({ identifier: "ApiWebCrawlerDataSource" }) as any as S.Schema<ApiWebCrawlerDataSource>;
 
 export interface ApiKBDataSource {
   aws_data_source?: ApiAWSDataSource;
@@ -9675,11 +9827,9 @@ export const ApiKBDataSource = /*@__PURE__*/ S.suspend(() =>
     spaces_data_source: S.optional(ApiSpacesDataSource),
     web_crawler_data_source: S.optional(ApiWebCrawlerDataSource),
   }),
-).annotate({
-  identifier: "ApiKBDataSource",
-}) as any as S.Schema<ApiKBDataSource>;
+).annotate({ identifier: "ApiKBDataSource" }) as any as S.Schema<ApiKBDataSource>;
 
-/** Optional data sources to attach at creation. Omit or use an empty list to create the knowledge base without sources, then add sources (with chunking strategy and sizes) using [Add a Data Source to a Knowledge Base](#operation/create_knowledge_base_data_source). When provided, see [Organize Data Sources](https://docs.digitalocean.com/products/gradient-ai-platform/how-to/create-manage-agent-knowledge-bases/#add-data-sources) for best practices. */
+/** Optional data sources to attach at creation. Omit or use an empty list to create the knowledge base without sources, then add sources (with chunking strategy and sizes) using [Add a Data Source to a Knowledge Base](#operation/create_knowledge_base_data_source). When provided, see [Organize Data Sources](https://docs.digitalocean.com/products/inference/how-to/create-manage-agent-knowledge-bases/#add-data-sources) for best practices. */
 export type CreateGenaiKnowledgeBaseRequestDatasourcesList = Array<ApiKBDataSource>;
 export const CreateGenaiKnowledgeBaseRequestDatasourcesList = /*@__PURE__*/ S.Array(
   ApiKBDataSource,
@@ -9702,7 +9852,7 @@ export const CreateGenaiKnowledgeBaseRequestTagsList = /*@__PURE__*/ S.Array(
 export interface CreateGenaiKnowledgeBaseRequest {
   /** Identifier of the DigitalOcean OpenSearch database this knowledge base will use, optional. If not provided, we create a new database for the knowledge base in the same region as the knowledge base. */
   database_id?: string;
-  /** Optional data sources to attach at creation. Omit or use an empty list to create the knowledge base without sources, then add sources (with chunking strategy and sizes) using [Add a Data Source to a Knowledge Base](#operation/create_knowledge_base_data_source). When provided, see [Organize Data Sources](https://docs.digitalocean.com/products/gradient-ai-platform/how-to/create-manage-agent-knowledge-bases/#add-data-sources) for best practices. */
+  /** Optional data sources to attach at creation. Omit or use an empty list to create the knowledge base without sources, then add sources (with chunking strategy and sizes) using [Add a Data Source to a Knowledge Base](#operation/create_knowledge_base_data_source). When provided, see [Organize Data Sources](https://docs.digitalocean.com/products/inference/how-to/create-manage-agent-knowledge-bases/#add-data-sources) for best practices. */
   datasources?: CreateGenaiKnowledgeBaseRequestDatasourcesList;
   /** Identifier for the [embedding model](https://docs.digitalocean.com/products/genai-platform/details/models/#embedding-models). */
   embedding_model_uuid?: string;
@@ -9868,6 +10018,8 @@ export const ApiCreateKnowledgeBaseDataSourceOutput = /*@__PURE__*/ S.suspend(()
 /** Inference configuration for the candidate model during evaluation. */
 export interface ApiCandidateInferenceConfig {
   max_tokens?: number;
+  /** Reasoning effort for reasoning-capable models (e.g. "low", "medium", "high"). Validated against the candidate model's supported values; a model that advertises none rejects this field. */
+  reasoning_effort?: string;
   stop_token?: string;
   system_prompt?: string;
   temperature?: number;
@@ -9875,6 +10027,7 @@ export interface ApiCandidateInferenceConfig {
 export const ApiCandidateInferenceConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     max_tokens: S.optional(S.Number),
+    reasoning_effort: S.optional(S.String),
     stop_token: S.optional(S.String),
     system_prompt: S.optional(S.String),
     temperature: S.optional(S.Number),
@@ -9916,6 +10069,8 @@ export interface CreateGenaiModelEvaluationRunRequest {
   candidate_model_uuid?: string;
   /** UUID of the dataset to use for evaluation. */
   dataset_uuid?: string;
+  /** Number of times to evaluate each dataset row (n-pass/epochs), so the result reports avg@k/pass@k/cons@k instead of a single score. Defaults to 1 when unset. Capped at 3 until throughput/sharding work lands, since each extra epoch roughly multiplies wall-clock run time. Not persisted on presets. */
+  epochs?: number;
   eval_preset_uuid?: string;
   /** UUID of the judge model used to score responses. */
   judge_model_uuid?: string;
@@ -9938,6 +10093,7 @@ export const CreateGenaiModelEvaluationRunRequest = /*@__PURE__*/ S.suspend(() =
     candidate_model_source: S.optional(ApiCandidateModelSource),
     candidate_model_uuid: S.optional(S.String),
     dataset_uuid: S.optional(S.String),
+    epochs: S.optional(S.Number),
     eval_preset_uuid: S.optional(S.String),
     judge_model_uuid: S.optional(S.String),
     metric_uuids: S.optional(CreateGenaiModelEvaluationRunRequestMetricUuidsList),
@@ -9947,13 +10103,7 @@ export const CreateGenaiModelEvaluationRunRequest = /*@__PURE__*/ S.suspend(() =
     save_as_preset: S.optional(S.Boolean),
     source: S.optional(S.String),
     star_metric: S.optional(ApiStarMetric),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/gen-ai/model_evaluation_runs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/gen-ai/model_evaluation_runs", code: 200 })),
 ).annotate({
   identifier: "CreateGenaiModelEvaluationRunRequest",
 }) as any as S.Schema<CreateGenaiModelEvaluationRunRequest>;
@@ -10034,13 +10184,7 @@ export const CreateGenaiOauth2DropboxTokensRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     code: S.optional(S.String),
     redirect_url: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/gen-ai/oauth2/dropbox/tokens",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/gen-ai/oauth2/dropbox/tokens", code: 200 })),
 ).annotate({
   identifier: "CreateGenaiOauth2DropboxTokensRequest",
 }) as any as S.Schema<CreateGenaiOauth2DropboxTokensRequest>;
@@ -10087,6 +10231,110 @@ export const ApiCreateOpenAIAPIKeyOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ApiCreateOpenAIAPIKeyOutput",
 }) as any as S.Schema<ApiCreateOpenAIAPIKeyOutput>;
+
+/** Judge stopping criteria. Required; must contain at least one entry. */
+export type ApiScenarioStoppingCriteriaList = Array<string>;
+export const ApiScenarioStoppingCriteriaList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ApiScenarioStoppingCriteriaList>;
+
+/** A single test case in a scenario set. */
+export interface ApiScenario {
+  /** What the user tries to accomplish. Required. */
+  description?: string;
+  /** Number of journeys to explore for this scenario. Defaults to 1 if unset. */
+  exploration_budget?: number;
+  /** Turn budget for the scenario. Falls back to the run-level default if unset. */
+  max_turns?: number;
+  /** Human-readable name for the scenario. Optional. */
+  name?: string;
+  /** Unique id for the scenario. Always generated by the API; any customer-supplied value is ignored and overwritten. */
+  scenario_uuid?: string;
+  /** Judge stopping criteria. Required; must contain at least one entry. */
+  stopping_criteria?: ApiScenarioStoppingCriteriaList;
+  /** How the user communicates (tone, role). Optional. */
+  user_persona?: string;
+}
+export const ApiScenario = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    exploration_budget: S.optional(S.Number),
+    max_turns: S.optional(S.Number),
+    name: S.optional(S.String),
+    scenario_uuid: S.optional(S.String),
+    stopping_criteria: S.optional(ApiScenarioStoppingCriteriaList),
+    user_persona: S.optional(S.String),
+  }),
+).annotate({ identifier: "ApiScenario" }) as any as S.Schema<ApiScenario>;
+
+/** Inline scenarios. Provide this or `file_upload_scenario_set`, not both. */
+export type CreateGenaiScenarioSetRequestScenariosList = Array<ApiScenario>;
+export const CreateGenaiScenarioSetRequestScenariosList = /*@__PURE__*/ S.Array(
+  ApiScenario,
+) as any as S.Schema<CreateGenaiScenarioSetRequestScenariosList>;
+
+export interface CreateGenaiScenarioSetRequest {
+  /** Uploaded scenario file to ingest. Provide this or `scenarios`, not both. */
+  file_upload_scenario_set?: ApiFileUploadDataSource;
+  /** The name of the scenario set. */
+  name?: string;
+  /** Inline scenarios. Provide this or `file_upload_scenario_set`, not both. */
+  scenarios?: CreateGenaiScenarioSetRequestScenariosList;
+}
+export const CreateGenaiScenarioSetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    file_upload_scenario_set: S.optional(ApiFileUploadDataSource),
+    name: S.optional(S.String),
+    scenarios: S.optional(CreateGenaiScenarioSetRequestScenariosList),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/gen-ai/scenario_sets", code: 200 })),
+).annotate({
+  identifier: "CreateGenaiScenarioSetRequest",
+}) as any as S.Schema<CreateGenaiScenarioSetRequest>;
+
+/** Output for creating a scenario set. */
+export interface ApiCreateScenarioSetOutput {
+  scenario_set?: ApiScenarioSet;
+}
+export const ApiCreateScenarioSetOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scenario_set: S.optional(ApiScenarioSet),
+  }),
+).annotate({
+  identifier: "ApiCreateScenarioSetOutput",
+}) as any as S.Schema<ApiCreateScenarioSetOutput>;
+
+export interface CreateGenaiScenarioSetFromLibraryRequest {
+  /** UUID of the library entry to copy. */
+  library_scenario_uuid: string;
+  /** Optional name for the new scenario set. Defaults to the library entry's name when unset. */
+  name?: string;
+}
+export const CreateGenaiScenarioSetFromLibraryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    library_scenario_uuid: S.String.pipe(T.Label()),
+    name: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v2/gen-ai/scenario_library/{library_scenario_uuid}/create_scenario_set",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateGenaiScenarioSetFromLibraryRequest",
+}) as any as S.Schema<CreateGenaiScenarioSetFromLibraryRequest>;
+
+/** Output for creating a scenario set from a Common Scenario & Goal Library entry. */
+export interface ApiCreateScenarioSetFromLibraryOutput {
+  scenario_set?: ApiScenarioSet;
+}
+export const ApiCreateScenarioSetFromLibraryOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scenario_set: S.optional(ApiScenarioSet),
+  }),
+).annotate({
+  identifier: "ApiCreateScenarioSetFromLibraryOutput",
+}) as any as S.Schema<ApiCreateScenarioSetFromLibraryOutput>;
 
 /** Days for execution (day is represented same as in a cron expression, e.g. Monday begins with 1 ) */
 export type CreateGenaiScheduledIndexingRequestDaysList = Array<number>;
@@ -10154,9 +10402,7 @@ export const ApiScheduledIndexingInfo = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiScheduledIndexingInfo",
-}) as any as S.Schema<ApiScheduledIndexingInfo>;
+).annotate({ identifier: "ApiScheduledIndexingInfo" }) as any as S.Schema<ApiScheduledIndexingInfo>;
 
 export interface ApiCreateScheduledIndexingOutput {
   indexing_info?: ApiScheduledIndexingInfo;
@@ -10168,6 +10414,238 @@ export const ApiCreateScheduledIndexingOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ApiCreateScheduledIndexingOutput",
 }) as any as S.Schema<ApiCreateScheduledIndexingOutput>;
+
+/** Configuration of the candidate agent under test for a simulation run. */
+export interface ApiCandidateAgentConfig {
+  /** Optional agent deployment to run. Defaults to the agent's current deployment when unset. */
+  agent_deployment_uuid?: string;
+  /** UUID of the agent to exercise as the candidate. */
+  agent_uuid?: string;
+  /** Display name of the candidate agent. Persisted with the run. */
+  name?: string;
+}
+export const ApiCandidateAgentConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agent_deployment_uuid: S.optional(S.String),
+    agent_uuid: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "ApiCandidateAgentConfig" }) as any as S.Schema<ApiCandidateAgentConfig>;
+
+/** Evaluation metric UUIDs (from the evaluation metrics catalog). Must be simulation-eligible (multi-turn) metrics; the create request is rejected if any UUID is unknown or ineligible. */
+export type ApiSimulationEvaluationConfigMetricUuidsList = Array<string>;
+export const ApiSimulationEvaluationConfigMetricUuidsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ApiSimulationEvaluationConfigMetricUuidsList>;
+
+/** Optional configuration that opts a simulation run into an evaluation. When included on the create-run request, the platform reserves a model_evaluation_run linked to this simulation run and dispatches the evaluation automatically after the simulation finishes. The evaluation reuses the simulation run's judge_model_uuid. */
+export interface ApiSimulationEvaluationConfig {
+  /** Evaluation metric UUIDs (from the evaluation metrics catalog). Must be simulation-eligible (multi-turn) metrics; the create request is rejected if any UUID is unknown or ineligible. */
+  metric_uuids?: ApiSimulationEvaluationConfigMetricUuidsList;
+  star_metric?: ApiStarMetric;
+}
+export const ApiSimulationEvaluationConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metric_uuids: S.optional(ApiSimulationEvaluationConfigMetricUuidsList),
+    star_metric: S.optional(ApiStarMetric),
+  }),
+).annotate({
+  identifier: "ApiSimulationEvaluationConfig",
+}) as any as S.Schema<ApiSimulationEvaluationConfig>;
+
+export interface CreateGenaiSimulationRunRequest {
+  agent_config?: ApiCandidateAgentConfig;
+  evaluation_config?: ApiSimulationEvaluationConfig;
+  /** Optional run-level journeys-per-scenario override. When set, overrides each scenario's exploration_budget. */
+  exploration_budget?: number;
+  /** Optional model override for the judge. Platform default when unset. */
+  judge_model_uuid?: string;
+  /** Optional run-level turn budget. When set, overrides each scenario's max_turns. */
+  max_turns?: number;
+  /** Optional run name. */
+  name?: string;
+  /** UUID of the existing scenario set to execute. The set must be ready. */
+  scenario_set_uuid?: string;
+  /** Optional user simulator model settings such as temperature and max_tokens. */
+  user_simulator_config?: unknown;
+  /** Optional model override for the user simulator. Platform default when unset. */
+  user_simulator_model_uuid?: string;
+}
+export const CreateGenaiSimulationRunRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agent_config: S.optional(ApiCandidateAgentConfig),
+    evaluation_config: S.optional(ApiSimulationEvaluationConfig),
+    exploration_budget: S.optional(S.Number),
+    judge_model_uuid: S.optional(S.String),
+    max_turns: S.optional(S.Number),
+    name: S.optional(S.String),
+    scenario_set_uuid: S.optional(S.String),
+    user_simulator_config: S.optional(S.Unknown),
+    user_simulator_model_uuid: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/gen-ai/simulation_runs", code: 200 })),
+).annotate({
+  identifier: "CreateGenaiSimulationRunRequest",
+}) as any as S.Schema<CreateGenaiSimulationRunRequest>;
+
+/** Per-actor token accounting for a run or journey. */
+export interface ApiSimulationTokenUsage {
+  /** Tokens consumed by the candidate agent. */
+  candidate_agent_tokens?: string;
+  /** Tokens consumed by the scenario generator. */
+  generator_tokens?: string;
+  /** Tokens consumed by the judge. */
+  judge_tokens?: string;
+  /** Tokens consumed by the user simulator. */
+  simulator_tokens?: string;
+  /** Total tokens across all actors. */
+  total_tokens?: string;
+}
+export const ApiSimulationTokenUsage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    candidate_agent_tokens: S.optional(S.String),
+    generator_tokens: S.optional(S.String),
+    judge_tokens: S.optional(S.String),
+    simulator_tokens: S.optional(S.String),
+    total_tokens: S.optional(S.String),
+  }),
+).annotate({ identifier: "ApiSimulationTokenUsage" }) as any as S.Schema<ApiSimulationTokenUsage>;
+
+/** Breakdown of journey outcomes by judge verdict. Reused wherever a success / failure / inconclusive tally is reported (run row, result summary, per-scenario rollup). */
+export interface ApiSimulationJourneyCounts {
+  /** Number of journeys with a FAILURE verdict. */
+  failure_count?: number;
+  /** Number of journeys with an INCONCLUSIVE verdict. */
+  inconclusive_count?: number;
+  /** Number of journeys with a SUCCESS verdict. */
+  success_count?: number;
+}
+export const ApiSimulationJourneyCounts = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    failure_count: S.optional(S.Number),
+    inconclusive_count: S.optional(S.Number),
+    success_count: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ApiSimulationJourneyCounts",
+}) as any as S.Schema<ApiSimulationJourneyCounts>;
+
+/** Aggregated final result of a simulation run: verdict counts plus token and duration totals. */
+export interface ApiSimulationRunResultSummary {
+  token_usage?: ApiSimulationTokenUsage;
+  /** Total wall-clock duration across the run, in seconds. */
+  total_duration_sec?: string;
+  verdict_counts?: ApiSimulationJourneyCounts;
+}
+export const ApiSimulationRunResultSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    token_usage: S.optional(ApiSimulationTokenUsage),
+    total_duration_sec: S.optional(S.String),
+    verdict_counts: S.optional(ApiSimulationJourneyCounts),
+  }),
+).annotate({
+  identifier: "ApiSimulationRunResultSummary",
+}) as any as S.Schema<ApiSimulationRunResultSummary>;
+
+/** Lifecycle status of a simulation run. - SIMULATION_RUN_STATUS_PENDING: Accepted and queued, not yet executing. - SIMULATION_RUN_STATUS_RUNNING: Journeys are executing. - SIMULATION_RUN_STATUS_SUCCEEDED: All journeys finished successfully. - SIMULATION_RUN_STATUS_FAILED: The run failed, for example because of a timeout or workflow error. - SIMULATION_RUN_STATUS_CANCELLED: The run was cancelled. - SIMULATION_RUN_STATUS_EVALUATING: Journeys finished and an attached evaluation is running. Only reachable when the create request included evaluation_config. When the evaluation reaches a terminal status, its outcome is reflected in the simulation run status. - SIMULATION_RUN_STATUS_PARTIALLY_SUCCESSFUL: The simulation or its attached evaluation completed with a mixture of successful and failed results. */
+export type ApiSimulationRunStatus =
+  | "SIMULATION_RUN_STATUS_UNSPECIFIED"
+  | "SIMULATION_RUN_STATUS_PENDING"
+  | "SIMULATION_RUN_STATUS_RUNNING"
+  | "SIMULATION_RUN_STATUS_SUCCEEDED"
+  | "SIMULATION_RUN_STATUS_FAILED"
+  | "SIMULATION_RUN_STATUS_CANCELLED"
+  | "SIMULATION_RUN_STATUS_EVALUATING"
+  | "SIMULATION_RUN_STATUS_PARTIALLY_SUCCESSFUL";
+export const ApiSimulationRunStatus = S.String;
+
+/** One execution of a scenario set against a candidate agent. */
+export interface ApiSimulationRun {
+  agent_config?: ApiCandidateAgentConfig;
+  /** Time created at. */
+  created_at?: string;
+  /** Email of the user who triggered this run. */
+  created_by_user_email?: string;
+  /** User id of the actor who triggered this run. */
+  created_by_user_id?: string;
+  /** Time deleted at. Unset unless the run has been deleted. */
+  deleted_at?: string;
+  /** UUID of the evaluation run reserved for this simulation, when the create request included evaluation_config. Empty when no evaluation is attached. */
+  evaluation_run_uuid?: string;
+  /** Optional run-level journeys-per-scenario override. When set, overrides each scenario's exploration_budget. */
+  exploration_budget?: number;
+  /** Human-readable explanation of a terminal FAILED status. Empty otherwise. */
+  failure_reason?: string;
+  /** Number of journeys that have finished (successfully or not). */
+  journeys_finished?: number;
+  /** Display name of the judge model (from the model catalog). */
+  judge_model_name?: string;
+  /** Model used by the judge. */
+  judge_model_uuid?: string;
+  /** Optional run-level turn budget. When set, overrides each scenario's max_turns. */
+  max_turns?: number;
+  /** Optional run name. */
+  name?: string;
+  result_summary?: ApiSimulationRunResultSummary;
+  /** UUID of the run. */
+  run_uuid?: string;
+  /** Number of scenarios in the scenario set for this run. */
+  scenario_count?: number;
+  /** UUID of the scenario set being executed (must exist at run create). */
+  scenario_set_uuid?: string;
+  status?: ApiSimulationRunStatus;
+  /** Total number of journeys (sum of exploration budgets). */
+  total_journeys?: number;
+  /** Time last updated at. */
+  updated_at?: string;
+  /** Optional user simulator model settings such as temperature and max_tokens. */
+  user_simulator_config?: unknown;
+  /** Display name of the user simulator model (from the model catalog). */
+  user_simulator_model_name?: string;
+  /** Model used by the user simulator. */
+  user_simulator_model_uuid?: string;
+  /** Identifier of the workflow executing this run. */
+  workflow_uuid?: string;
+}
+export const ApiSimulationRun = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agent_config: S.optional(ApiCandidateAgentConfig),
+    created_at: S.optional(S.String),
+    created_by_user_email: S.optional(S.String),
+    created_by_user_id: S.optional(S.String),
+    deleted_at: S.optional(S.String),
+    evaluation_run_uuid: S.optional(S.String),
+    exploration_budget: S.optional(S.Number),
+    failure_reason: S.optional(S.String),
+    journeys_finished: S.optional(S.Number),
+    judge_model_name: S.optional(S.String),
+    judge_model_uuid: S.optional(S.String),
+    max_turns: S.optional(S.Number),
+    name: S.optional(S.String),
+    result_summary: S.optional(ApiSimulationRunResultSummary),
+    run_uuid: S.optional(S.String),
+    scenario_count: S.optional(S.Number),
+    scenario_set_uuid: S.optional(S.String),
+    status: S.optional(ApiSimulationRunStatus),
+    total_journeys: S.optional(S.Number),
+    updated_at: S.optional(S.String),
+    user_simulator_config: S.optional(S.Unknown),
+    user_simulator_model_name: S.optional(S.String),
+    user_simulator_model_uuid: S.optional(S.String),
+    workflow_uuid: S.optional(S.String),
+  }),
+).annotate({ identifier: "ApiSimulationRun" }) as any as S.Schema<ApiSimulationRun>;
+
+/** Output for creating a simulation run. */
+export interface ApiCreateSimulationRunOutput {
+  simulation_run?: ApiSimulationRun;
+}
+export const ApiCreateSimulationRunOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    simulation_run: S.optional(ApiSimulationRun),
+  }),
+).annotate({
+  identifier: "ApiCreateSimulationRunOutput",
+}) as any as S.Schema<ApiCreateSimulationRunOutput>;
 
 /** Ids of the agents(s) to attach to the workspace */
 export type CreateGenaiWorkspaceRequestAgentUuidsList = Array<string>;
@@ -10200,9 +10678,7 @@ export const ApiCreateWorkspaceOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workspace: S.optional(ApiWorkspace),
   }),
-).annotate({
-  identifier: "ApiCreateWorkspaceOutput",
-}) as any as S.Schema<ApiCreateWorkspaceOutput>;
+).annotate({ identifier: "ApiCreateWorkspaceOutput" }) as any as S.Schema<ApiCreateWorkspaceOutput>;
 
 /** The name of a custom image's distribution. Currently, the valid values are `Arch Linux`, `CentOS`, `CoreOS`, `Debian`, `Fedora`, `Fedora Atomic`, `FreeBSD`, `Gentoo`, `openSUSE`, `RancherOS`, `Rocky Linux`, `Ubuntu`, and `Unknown`. Any other value will be accepted but ignored, and `Unknown` will be used in its place. */
 export type Distribution =
@@ -10262,9 +10738,7 @@ export const CreateImageCustomRequest = /*@__PURE__*/ S.suspend(() =>
     region: RegionSlug,
     tags: S.optional(S.NullOr(TagsArray)),
   }).pipe(T.Http({ method: "POST", uri: "/v2/images", code: 200 })),
-).annotate({
-  identifier: "CreateImageCustomRequest",
-}) as any as S.Schema<CreateImageCustomRequest>;
+).annotate({ identifier: "CreateImageCustomRequest" }) as any as S.Schema<CreateImageCustomRequest>;
 
 export interface CreateImageCustomResponse {}
 export const CreateImageCustomResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -10284,9 +10758,7 @@ export type CreateInferenceBatchRequestCompletionWindow = "24h";
 export const CreateInferenceBatchRequestCompletionWindow = S.String;
 
 /** Optional string-valued metadata to attach to the job. */
-export type CreateInferenceBatchRequestMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type CreateInferenceBatchRequestMetadataMap = { [key: string]: string | undefined };
 export const CreateInferenceBatchRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10346,9 +10818,7 @@ export const BatchFileCreateResponse = /*@__PURE__*/ S.suspend(() =>
     upload_url: S.String,
     expires_at: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "BatchFileCreateResponse",
-}) as any as S.Schema<BatchFileCreateResponse>;
+).annotate({ identifier: "BatchFileCreateResponse" }) as any as S.Schema<BatchFileCreateResponse>;
 
 /** A list of messages comprising the conversation so far. */
 export type CreateInferenceChatCompletionRequestMessagesList = Array<ChatMessage>;
@@ -10432,9 +10902,7 @@ export type CreateInferenceChatCompletionRequestReasoningEffort =
 export const CreateInferenceChatCompletionRequestReasoningEffort = S.String;
 
 /** Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys are strings with a maximum length of 64 characters. Values are strings with a maximum length of 512 characters. */
-export type CreateInferenceChatCompletionRequestMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type CreateInferenceChatCompletionRequestMetadataMap = { [key: string]: string | undefined };
 export const CreateInferenceChatCompletionRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10582,9 +11050,7 @@ export const EmbeddingDataItem = /*@__PURE__*/ S.suspend(() =>
     object: EmbeddingDataItemObject,
     embedding: EmbeddingDataItemEmbedding,
   }),
-).annotate({
-  identifier: "EmbeddingDataItem",
-}) as any as S.Schema<EmbeddingDataItem>;
+).annotate({ identifier: "EmbeddingDataItem" }) as any as S.Schema<EmbeddingDataItem>;
 
 /** One entry for each `input` string, in the same order. */
 export type EmbeddingsResponseDataList = Array<EmbeddingDataItem>;
@@ -10604,9 +11070,7 @@ export const EmbeddingsUsage = /*@__PURE__*/ S.suspend(() =>
     prompt_tokens: S.Number,
     total_tokens: S.Number,
   }),
-).annotate({
-  identifier: "EmbeddingsUsage",
-}) as any as S.Schema<EmbeddingsUsage>;
+).annotate({ identifier: "EmbeddingsUsage" }) as any as S.Schema<EmbeddingsUsage>;
 
 /** OpenAI-style embeddings response. */
 export interface EmbeddingsResponse {
@@ -10625,9 +11089,7 @@ export const EmbeddingsResponse = /*@__PURE__*/ S.suspend(() =>
     data: EmbeddingsResponseDataList,
     usage: EmbeddingsUsage,
   }),
-).annotate({
-  identifier: "EmbeddingsResponse",
-}) as any as S.Schema<EmbeddingsResponse>;
+).annotate({ identifier: "EmbeddingsResponse" }) as any as S.Schema<EmbeddingsResponse>;
 
 /** The size of the generated images. GPT-IMAGE-1 supports: auto (automatically select best size), 1536x1024 (landscape), 1024x1536 (portrait). */
 export type CreateInferenceImageRequestSize = "auto" | "1536x1024" | "1024x1536";
@@ -10805,9 +11267,7 @@ export const MessagesImageSourceParam = /*@__PURE__*/ S.suspend(() =>
     media_type: S.String,
     data: S.String,
   }),
-).annotate({
-  identifier: "MessagesImageSourceParam",
-}) as any as S.Schema<MessagesImageSourceParam>;
+).annotate({ identifier: "MessagesImageSourceParam" }) as any as S.Schema<MessagesImageSourceParam>;
 
 /** Image content block in a request message. */
 export interface MessagesImageBlockParam {
@@ -10819,17 +11279,13 @@ export const MessagesImageBlockParam = /*@__PURE__*/ S.suspend(() =>
     type: MessagesImageBlockParamType,
     source: MessagesImageSourceParam,
   }),
-).annotate({
-  identifier: "MessagesImageBlockParam",
-}) as any as S.Schema<MessagesImageBlockParam>;
+).annotate({ identifier: "MessagesImageBlockParam" }) as any as S.Schema<MessagesImageBlockParam>;
 
 export type MessagesToolUseBlockParamType = "tool_use";
 export const MessagesToolUseBlockParamType = S.String;
 
 /** JSON object matching the tool's `input_schema`. */
-export type MessagesToolUseBlockParamInputMap = {
-  [key: string]: unknown | undefined;
-};
+export type MessagesToolUseBlockParamInputMap = { [key: string]: unknown | undefined };
 export const MessagesToolUseBlockParamInputMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -10926,9 +11382,7 @@ export const MessagesApiMessageParam = /*@__PURE__*/ S.suspend(() =>
     role: MessagesApiMessageParamRole,
     content: MessagesApiMessageParamContent,
   }),
-).annotate({
-  identifier: "MessagesApiMessageParam",
-}) as any as S.Schema<MessagesApiMessageParam>;
+).annotate({ identifier: "MessagesApiMessageParam" }) as any as S.Schema<MessagesApiMessageParam>;
 
 /** Conversation turns. Each item has `role` `user` or `assistant` and `content` as a string or an array of content blocks. */
 export type CreateInferenceMessagesRequestMessagesList = Array<MessagesApiMessageParam>;
@@ -10955,9 +11409,7 @@ export const CreateInferenceMessagesRequestStopSequencesList = /*@__PURE__*/ S.A
 ) as any as S.Schema<CreateInferenceMessagesRequestStopSequencesList>;
 
 /** JSON Schema (draft 2020-12 style) describing the tool input object. */
-export type MessagesToolDefinitionParamInputSchemaMap = {
-  [key: string]: unknown | undefined;
-};
+export type MessagesToolDefinitionParamInputSchemaMap = { [key: string]: unknown | undefined };
 export const MessagesToolDefinitionParamInputSchemaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -11133,9 +11585,7 @@ export type MessagesResponseToolUseBlockType = "tool_use";
 export const MessagesResponseToolUseBlockType = S.String;
 
 /** Arguments for the tool invocation. */
-export type MessagesResponseToolUseBlockInputMap = {
-  [key: string]: unknown | undefined;
-};
+export type MessagesResponseToolUseBlockInputMap = { [key: string]: unknown | undefined };
 export const MessagesResponseToolUseBlockInputMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -11235,9 +11685,7 @@ export const MessagesCreateResponse = /*@__PURE__*/ S.suspend(() =>
     stop_sequence: S.optional(S.NullOr(S.String)),
     usage: MessagesUsage,
   }),
-).annotate({
-  identifier: "MessagesCreateResponse",
-}) as any as S.Schema<MessagesCreateResponse>;
+).annotate({ identifier: "MessagesCreateResponse" }) as any as S.Schema<MessagesCreateResponse>;
 
 /** The role of the message author. */
 export type CreateInferenceResponseRequestInputCase1ItemRole =
@@ -11375,9 +11823,7 @@ export const CreateInferenceResponseRequestStop =
   S.Unknown as any as S.Schema<CreateInferenceResponseRequestStop>;
 
 /** Set of key-value pairs that can be attached to the request. */
-export type CreateInferenceResponseRequestMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type CreateInferenceResponseRequestMetadataMap = { [key: string]: string | undefined };
 export const CreateInferenceResponseRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11561,9 +12007,7 @@ export type CreateResponseResponseToolsItemType = "function";
 export const CreateResponseResponseToolsItemType = S.String;
 
 /** The parameters the function accepts. */
-export type CreateResponseResponseToolsItemParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateResponseResponseToolsItemParametersMap = { [key: string]: unknown | undefined };
 export const CreateResponseResponseToolsItemParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -11643,9 +12087,531 @@ export const CreateResponseResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(S.String)),
     user: S.optional(S.NullOr(S.String)),
   }),
+).annotate({ identifier: "CreateResponseResponse" }) as any as S.Schema<CreateResponseResponse>;
+
+/** Question discriminator. Use `noul` for a boolean-like true/false check, `choice` to select one option from a fixed set, and `score` to rate against an ordered rubric. */
+export type SystemoneQuestionType = "noul" | "choice" | "score";
+export const SystemoneQuestionType = S.String;
+
+export type SystemoneQuestionCriteriaCase0Map = { [key: string]: string | undefined };
+export const SystemoneQuestionCriteriaCase0Map = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<SystemoneQuestionCriteriaCase0Map>;
+
+export type SystemoneQuestionCriteriaCase1List = Array<string>;
+export const SystemoneQuestionCriteriaCase1List = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SystemoneQuestionCriteriaCase1List>;
+
+/** Optional criteria payload. The expected shape depends on `type`: for `noul`, an optional object describing the true/false semantics; for `choice`, an object mapping each option name to a description of that option (minimum 2 options, maximum 255 options); for `score`, an ordered array of descriptive rubric levels (minimum 2, maximum 10 levels). Score levels must be descriptive labels, such as `["poor", "average", "excellent"]`, not numeric values. */
+export type SystemoneQuestionCriteria =
+  | SystemoneQuestionCriteriaCase0Map
+  | SystemoneQuestionCriteriaCase1List;
+export const SystemoneQuestionCriteria = S.Unknown as any as S.Schema<SystemoneQuestionCriteria>;
+
+/** A single question to evaluate against the provided state. The `type` field determines how `criteria` should be shaped and how the corresponding answer is returned. */
+export interface SystemoneQuestion {
+  /** Question discriminator. Use `noul` for a boolean-like true/false check, `choice` to select one option from a fixed set, and `score` to rate against an ordered rubric. */
+  type: SystemoneQuestionType | (string & {});
+  /** The prompt describing what the question is asking the model to evaluate. */
+  instructions: string;
+  /** Optional criteria payload. The expected shape depends on `type`: for `noul`, an optional object describing the true/false semantics; for `choice`, an object mapping each option name to a description of that option (minimum 2 options, maximum 255 options); for `score`, an ordered array of descriptive rubric levels (minimum 2, maximum 10 levels). Score levels must be descriptive labels, such as `["poor", "average", "excellent"]`, not numeric values. */
+  criteria?: SystemoneQuestionCriteria;
+}
+export const SystemoneQuestion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SystemoneQuestionType,
+    instructions: S.String,
+    criteria: S.optional(SystemoneQuestionCriteria),
+  }),
+).annotate({ identifier: "SystemoneQuestion" }) as any as S.Schema<SystemoneQuestion>;
+
+/** A map of question name to question definition. Each key becomes the corresponding key in the response's `answers` object. */
+export type CreateInferenceSystemoneRequestQuestionsMap = {
+  [key: string]: SystemoneQuestion | undefined;
+};
+export const CreateInferenceSystemoneRequestQuestionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  SystemoneQuestion,
+) as any as S.Schema<CreateInferenceSystemoneRequestQuestionsMap>;
+
+export interface CreateInferenceSystemoneRequest {
+  /** The state to evaluate. */
+  state: string;
+  /** Model ID used to evaluate the request. */
+  model: string;
+  /** A map of question name to question definition. Each key becomes the corresponding key in the response's `answers` object. */
+  questions: CreateInferenceSystemoneRequestQuestionsMap;
+}
+export const CreateInferenceSystemoneRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    state: S.String,
+    model: S.String,
+    questions: CreateInferenceSystemoneRequestQuestionsMap,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/systemone", code: 200 })),
 ).annotate({
-  identifier: "CreateResponseResponse",
-}) as any as S.Schema<CreateResponseResponse>;
+  identifier: "CreateInferenceSystemoneRequest",
+}) as any as S.Schema<CreateInferenceSystemoneRequest>;
+
+/** Echoes the `type` of the question this answer corresponds to. */
+export type SystemoneAnswerType = "noul" | "choice" | "score";
+export const SystemoneAnswerType = S.String;
+
+/** Present when the question type is `score`. Maps rubric levels to their corresponding numeric positions. */
+export type SystemoneAnswerLegendMap = { [key: string]: unknown | undefined };
+export const SystemoneAnswerLegendMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<SystemoneAnswerLegendMap>;
+
+/** Calibrated probability for each possible answer value. */
+export type SystemoneAnswerProbabilitiesMap = { [key: string]: number | undefined };
+export const SystemoneAnswerProbabilitiesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Number,
+) as any as S.Schema<SystemoneAnswerProbabilitiesMap>;
+
+/** The evaluated answer for a single question. The fields that are populated depend on the corresponding question's `type`. */
+export interface SystemoneAnswer {
+  /** Echoes the `type` of the question this answer corresponds to. */
+  type: SystemoneAnswerType;
+  /** Present when the question type is `noul`. A truth-likelihood value. */
+  noul?: number;
+  /** Present when the question type is `choice`. The selected option name from the question's `criteria` map. */
+  choice?: string;
+  /** Present when the question type is `score`. The numeric position along the ordered rubric levels supplied in the question's `criteria`. */
+  score?: number;
+  /** Present when the question type is `score`. Maps rubric levels to their corresponding numeric positions. */
+  legend?: SystemoneAnswerLegendMap;
+  /** Calibrated probability for each possible answer value. */
+  probabilities?: SystemoneAnswerProbabilitiesMap;
+  /** Overall calibrated confidence in the returned answer. */
+  confidence?: number;
+}
+export const SystemoneAnswer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SystemoneAnswerType,
+    noul: S.optional(S.Number),
+    choice: S.optional(S.String),
+    score: S.optional(S.Number),
+    legend: S.optional(SystemoneAnswerLegendMap),
+    probabilities: S.optional(SystemoneAnswerProbabilitiesMap),
+    confidence: S.optional(S.Number),
+  }),
+).annotate({ identifier: "SystemoneAnswer" }) as any as S.Schema<SystemoneAnswer>;
+
+/** A map of question name to answer, using the same keys as the request's `questions` object. */
+export type SystemoneResponseAnswersMap = { [key: string]: SystemoneAnswer | undefined };
+export const SystemoneResponseAnswersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  SystemoneAnswer,
+) as any as S.Schema<SystemoneResponseAnswersMap>;
+
+/** Token usage for the request. System One billing is input-token only. */
+export interface SystemoneUsage {
+  /** Number of input tokens consumed by the request. */
+  input_tokens: number;
+  /** Number of output tokens consumed by the request. Always 0 for System One. */
+  output_tokens: number;
+}
+export const SystemoneUsage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    input_tokens: S.Number,
+    output_tokens: S.Number,
+  }),
+).annotate({ identifier: "SystemoneUsage" }) as any as S.Schema<SystemoneUsage>;
+
+/** Response returned by a System One evaluation. */
+export interface SystemoneResponse {
+  /** Model ID that produced the response. */
+  model: string;
+  /** A map of question name to answer, using the same keys as the request's `questions` object. */
+  answers: SystemoneResponseAnswersMap;
+  usage: SystemoneUsage;
+}
+export const SystemoneResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    model: S.String,
+    answers: SystemoneResponseAnswersMap,
+    usage: SystemoneUsage,
+  }),
+).annotate({ identifier: "SystemoneResponse" }) as any as S.Schema<SystemoneResponse>;
+
+/** Comparison operator for the filter. Allowed values: - `FILTER_OPERATOR_EQUAL` = equal - `FILTER_OPERATOR_NOT_EQUAL` = `not_equal` - `FILTER_OPERATOR_LESS_THAN` = `less_than` - `FILTER_OPERATOR_LESS_THAN_OR_EQUAL` = `less_than_or_equal` - `FILTER_OPERATOR_GREATER_THAN` = `greater_than` - `FILTER_OPERATOR_GREATER_THAN_OR_EQUAL` = `greater_than_or_equal` */
+export type QueryFilterOperator =
+  | "FILTER_OPERATOR_EQUAL"
+  | "FILTER_OPERATOR_NOT_EQUAL"
+  | "FILTER_OPERATOR_LESS_THAN"
+  | "FILTER_OPERATOR_LESS_THAN_OR_EQUAL"
+  | "FILTER_OPERATOR_GREATER_THAN"
+  | "FILTER_OPERATOR_GREATER_THAN_OR_EQUAL";
+export const QueryFilterOperator = S.String;
+
+/** A filter applied to the metrics query. */
+export interface QueryFilter {
+  /** The metric label or field to filter on. */
+  field: string;
+  /** Comparison operator for the filter. Allowed values: - `FILTER_OPERATOR_EQUAL` = equal - `FILTER_OPERATOR_NOT_EQUAL` = `not_equal` - `FILTER_OPERATOR_LESS_THAN` = `less_than` - `FILTER_OPERATOR_LESS_THAN_OR_EQUAL` = `less_than_or_equal` - `FILTER_OPERATOR_GREATER_THAN` = `greater_than` - `FILTER_OPERATOR_GREATER_THAN_OR_EQUAL` = `greater_than_or_equal` */
+  operator: QueryFilterOperator | (string & {});
+  /** Value compared against the field. */
+  value: string;
+}
+export const QueryFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    field: S.String,
+    operator: QueryFilterOperator,
+    value: S.String,
+  }),
+).annotate({ identifier: "QueryFilter" }) as any as S.Schema<QueryFilter>;
+
+/** Optional label filters applied to the metric series. */
+export type MetricsQueryFiltersList = Array<QueryFilter>;
+export const MetricsQueryFiltersList = /*@__PURE__*/ S.Array(
+  QueryFilter,
+) as any as S.Schema<MetricsQueryFiltersList>;
+
+/** Optional list of DigitalOcean resource URNs the rule applies to. Empty or omitted means the rule is not scoped to specific resources. */
+export type MetricsQueryResourceUrnsList = Array<string>;
+export const MetricsQueryResourceUrnsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<MetricsQueryResourceUrnsList>;
+
+/** Optional resource tags used to select matching resources. */
+export type MetricsQueryTagsList = Array<string>;
+export const MetricsQueryTagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<MetricsQueryTagsList>;
+
+/** Metrics query that the alert rule evaluates. `metric` must be a dotted OpenTelemetry name (for example `do.droplets.cpu_utilization`). Underscored Prometheus-style names are rejected. When `resource_urns` is omitted or empty, the rule is not scoped to specific resources. */
+export interface MetricsQuery {
+  /** Dotted OpenTelemetry metric name to evaluate (for example `do.droplets.cpu_utilization`). */
+  metric: string;
+  /** Optional label filters applied to the metric series. */
+  filters?: MetricsQueryFiltersList;
+  /** Optional list of DigitalOcean resource URNs the rule applies to. Empty or omitted means the rule is not scoped to specific resources. */
+  resource_urns?: MetricsQueryResourceUrnsList;
+  /** Optional resource tags used to select matching resources. */
+  tags?: MetricsQueryTagsList;
+}
+export const MetricsQuery = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metric: S.String,
+    filters: S.optional(MetricsQueryFiltersList),
+    resource_urns: S.optional(MetricsQueryResourceUrnsList),
+    tags: S.optional(MetricsQueryTagsList),
+  }),
+).annotate({ identifier: "MetricsQuery" }) as any as S.Schema<MetricsQuery>;
+
+/** Time window over which the metric is evaluated. Allowed values: - `EVALUATION_WINDOW_1M` = `1m` - `EVALUATION_WINDOW_5M` = `5m` - `EVALUATION_WINDOW_10M` = `10m` - `EVALUATION_WINDOW_15M` = `15m` - `EVALUATION_WINDOW_30M` = `30m` - `EVALUATION_WINDOW_1H` = `1h` */
+export type AlertConditionWindow =
+  | "EVALUATION_WINDOW_1M"
+  | "EVALUATION_WINDOW_5M"
+  | "EVALUATION_WINDOW_10M"
+  | "EVALUATION_WINDOW_15M"
+  | "EVALUATION_WINDOW_30M"
+  | "EVALUATION_WINDOW_1H";
+export const AlertConditionWindow = S.String;
+
+/** Evaluation condition for the alert rule. */
+export interface AlertCondition {
+  /** Time window over which the metric is evaluated. Allowed values: - `EVALUATION_WINDOW_1M` = `1m` - `EVALUATION_WINDOW_5M` = `5m` - `EVALUATION_WINDOW_10M` = `10m` - `EVALUATION_WINDOW_15M` = `15m` - `EVALUATION_WINDOW_30M` = `30m` - `EVALUATION_WINDOW_1H` = `1h` */
+  window?: AlertConditionWindow | (string & {});
+}
+export const AlertCondition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    window: S.optional(AlertConditionWindow),
+  }),
+).annotate({ identifier: "AlertCondition" }) as any as S.Schema<AlertCondition>;
+
+export type NotificationChannelBindingNotifyOnItem = "SEVERITY_WARNING" | "SEVERITY_CRITICAL";
+export const NotificationChannelBindingNotifyOnItem = S.String;
+
+/** Severities that trigger this channel. Allowed values: - `SEVERITY_WARNING` = warning - `SEVERITY_CRITICAL` = critical */
+export type NotificationChannelBindingNotifyOnList = Array<
+  NotificationChannelBindingNotifyOnItem | (string & {})
+>;
+export const NotificationChannelBindingNotifyOnList = /*@__PURE__*/ S.Array(
+  NotificationChannelBindingNotifyOnItem,
+) as any as S.Schema<NotificationChannelBindingNotifyOnList>;
+
+/** Binding from an alert rule to a notification channel. When `notify_on` is omitted or empty, the channel is notified for all severities. */
+export interface NotificationChannelBinding {
+  /** ID of an existing notification channel owned by the account. */
+  notification_channel_id: string;
+  /** Severities that trigger this channel. Allowed values: - `SEVERITY_WARNING` = warning - `SEVERITY_CRITICAL` = critical */
+  notify_on?: NotificationChannelBindingNotifyOnList;
+}
+export const NotificationChannelBinding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    notification_channel_id: S.String,
+    notify_on: S.optional(NotificationChannelBindingNotifyOnList),
+  }),
+).annotate({
+  identifier: "NotificationChannelBinding",
+}) as any as S.Schema<NotificationChannelBinding>;
+
+/** Notification channels to notify when the rule fires. */
+export type AlertRuleSpecNotificationChannelsList = Array<NotificationChannelBinding>;
+export const AlertRuleSpecNotificationChannelsList = /*@__PURE__*/ S.Array(
+  NotificationChannelBinding,
+) as any as S.Schema<AlertRuleSpecNotificationChannelsList>;
+
+/** Minimum wait before re-notifying a still-firing alert. Defaults to `RE_ALERT_DURATION_4H` on create when omitted. Allowed values: - `RE_ALERT_DURATION_30M` = `30m` - `RE_ALERT_DURATION_1H` = `1h` - `RE_ALERT_DURATION_4H` = `4h` - `RE_ALERT_DURATION_NEVER` = never */
+export type AlertRuleSpecReAlertDuration =
+  | "RE_ALERT_DURATION_30M"
+  | "RE_ALERT_DURATION_1H"
+  | "RE_ALERT_DURATION_4H"
+  | "RE_ALERT_DURATION_NEVER";
+export const AlertRuleSpecReAlertDuration = S.String;
+
+/** Spec for an Insights alert rule. On create, `name`, `query`, `thresholds`, and at least one `notification_channels` binding are required. On update, omit `notification_channels` to keep existing bindings; an explicit empty list is rejected. */
+export interface AlertRuleSpec {
+  /** A human-readable name for the alert rule. */
+  name: string;
+  query: MetricsQuery;
+  condition?: AlertCondition;
+  thresholds: unknown;
+  /** Notification channels to notify when the rule fires. */
+  notification_channels?: AlertRuleSpecNotificationChannelsList;
+  /** Minimum wait before re-notifying a still-firing alert. Defaults to `RE_ALERT_DURATION_4H` on create when omitted. Allowed values: - `RE_ALERT_DURATION_30M` = `30m` - `RE_ALERT_DURATION_1H` = `1h` - `RE_ALERT_DURATION_4H` = `4h` - `RE_ALERT_DURATION_NEVER` = never */
+  re_alert_duration?: AlertRuleSpecReAlertDuration | (string & {});
+}
+export const AlertRuleSpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    query: MetricsQuery,
+    condition: S.optional(AlertCondition),
+    thresholds: S.Unknown,
+    notification_channels: S.optional(AlertRuleSpecNotificationChannelsList),
+    re_alert_duration: S.optional(AlertRuleSpecReAlertDuration),
+  }),
+).annotate({ identifier: "AlertRuleSpec" }) as any as S.Schema<AlertRuleSpec>;
+
+/** Desired alert rule status. Allowed values: - `ALERT_RULE_STATUS_ACTIVE` = active - `ALERT_RULE_STATUS_PAUSED` = paused */
+export type CreateInsightAlertRuleRequestStatus =
+  | "ALERT_RULE_STATUS_ACTIVE"
+  | "ALERT_RULE_STATUS_PAUSED";
+export const CreateInsightAlertRuleRequestStatus = S.String;
+
+export interface CreateInsightAlertRuleRequest {
+  spec: AlertRuleSpec;
+  /** Desired alert rule status. Allowed values: - `ALERT_RULE_STATUS_ACTIVE` = active - `ALERT_RULE_STATUS_PAUSED` = paused */
+  status?: CreateInsightAlertRuleRequestStatus | (string & {});
+}
+export const CreateInsightAlertRuleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    spec: AlertRuleSpec,
+    status: S.optional(CreateInsightAlertRuleRequestStatus),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/insights/alert-rules", code: 200 })),
+).annotate({
+  identifier: "CreateInsightAlertRuleRequest",
+}) as any as S.Schema<CreateInsightAlertRuleRequest>;
+
+/** Current alert rule status. Allowed values: - `ALERT_RULE_STATUS_ACTIVE` = active - `ALERT_RULE_STATUS_PAUSED` = paused */
+export type AlertRuleStatus = "ALERT_RULE_STATUS_ACTIVE" | "ALERT_RULE_STATUS_PAUSED";
+export const AlertRuleStatus = S.String;
+
+/** An Insights alert rule. */
+export interface AlertRule {
+  /** A unique identifier for the alert rule. */
+  id: string;
+  spec: AlertRuleSpec;
+  /** Current alert rule status. Allowed values: - `ALERT_RULE_STATUS_ACTIVE` = active - `ALERT_RULE_STATUS_PAUSED` = paused */
+  status: AlertRuleStatus;
+  /** Time the alert rule was created. */
+  created_at: string;
+  /** Time the alert rule was last updated. */
+  updated_at: string;
+}
+export const AlertRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    spec: AlertRuleSpec,
+    status: AlertRuleStatus,
+    created_at: S.String,
+    updated_at: S.String,
+  }),
+).annotate({ identifier: "AlertRule" }) as any as S.Schema<AlertRule>;
+
+export interface CreateInsightAlertRuleResponse {
+  alert_rule: AlertRule;
+}
+export const CreateInsightAlertRuleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    alert_rule: AlertRule,
+  }),
+).annotate({
+  identifier: "CreateInsightAlertRuleResponse",
+}) as any as S.Schema<CreateInsightAlertRuleResponse>;
+
+/** Email notification channel configuration. Recipients must be verified team member email addresses. */
+export interface EmailNotificationConfig {
+  /** One or more recipient email addresses, separated by commas, semicolons, or spaces. */
+  to: string;
+}
+export const EmailNotificationConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    to: S.String,
+  }),
+).annotate({ identifier: "EmailNotificationConfig" }) as any as S.Schema<EmailNotificationConfig>;
+
+/** Slack notification channel configuration. `webhook_url` is write-only: send the full value on create/update; reads return a masked value (`********`). Omit `webhook_url` on update to keep the existing secret. */
+export interface SlackNotificationConfig {
+  /** Slack incoming webhook URL. Write-only secret — full value on create/update; masked as `********` on read. Omit on update to retain the existing value. */
+  webhook_url?: string;
+  /** The Slack channel name to notify. */
+  channel: string;
+}
+export const SlackNotificationConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    webhook_url: S.optional(S.String),
+    channel: S.String,
+  }),
+).annotate({ identifier: "SlackNotificationConfig" }) as any as S.Schema<SlackNotificationConfig>;
+
+/** HTTP basic authentication credentials for a webhook. `password` is write-only: full value on create/update; masked (`********`) on read. Omit on update to keep the existing password. */
+export interface WebhookBasicAuth {
+  /** Basic auth username. */
+  username: string;
+  /** Basic auth password. Write-only secret — full value on create/update; masked as `********` on read. */
+  password?: string | Redacted.Redacted<string>;
+}
+export const WebhookBasicAuth = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String,
+    password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+  }),
+).annotate({ identifier: "WebhookBasicAuth" }) as any as S.Schema<WebhookBasicAuth>;
+
+/** Bearer token authentication for a webhook. `token` is write-only: full value on create/update; masked (`********`) on read. Omit on update to keep the existing token. */
+export interface WebhookBearerToken {
+  /** Bearer token value sent in the Authorization header. Write-only secret — full value on create/update; masked as `********` on read. */
+  token?: string;
+}
+export const WebhookBearerToken = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    token: S.optional(S.String),
+  }),
+).annotate({ identifier: "WebhookBearerToken" }) as any as S.Schema<WebhookBearerToken>;
+
+/** Optional custom HTTP headers to include on webhook deliveries. At most 20 headers are allowed. Reserved header names such as `host`, `content-type`, and `proxy-*` are rejected. */
+export type WebhookNotificationConfigHeadersMap = { [key: string]: string | undefined };
+export const WebhookNotificationConfigHeadersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<WebhookNotificationConfigHeadersMap>;
+
+/** Optional HMAC signature configuration. `secret` is write-only: full value on create/update; masked (`********`) on read. Omit on update to keep the existing secret. */
+export interface WebhookSignatureConfig {
+  /** Shared secret used to sign webhook payloads. Write-only secret — full value on create/update; masked as `********` on read. */
+  secret?: string | Redacted.Redacted<string>;
+}
+export const WebhookSignatureConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+  }),
+).annotate({ identifier: "WebhookSignatureConfig" }) as any as S.Schema<WebhookSignatureConfig>;
+
+/** Generic HTTPS webhook notification channel configuration. The URL must use HTTPS and must not include userinfo. Optionally configure either `basic_auth` or `bearer_token` (not both), custom headers, and a signing secret. `url` is not a secret and is returned in full on read. Credential fields (`basic_auth.password`, `bearer_token.token`, `signature.secret`) are write-only: full value on create/update; masked as `********` on read. Omit a secret field on update to keep the existing value. */
+export interface WebhookNotificationConfig {
+  /** HTTPS URL that receives webhook deliveries. Returned in full on read. */
+  url: string;
+  basic_auth?: WebhookBasicAuth;
+  bearer_token?: WebhookBearerToken;
+  /** Optional custom HTTP headers to include on webhook deliveries. At most 20 headers are allowed. Reserved header names such as `host`, `content-type`, and `proxy-*` are rejected. */
+  headers?: WebhookNotificationConfigHeadersMap;
+  signature?: WebhookSignatureConfig;
+}
+export const WebhookNotificationConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    url: S.String,
+    basic_auth: S.optional(WebhookBasicAuth),
+    bearer_token: S.optional(WebhookBearerToken),
+    headers: S.optional(WebhookNotificationConfigHeadersMap),
+    signature: S.optional(WebhookSignatureConfig),
+  }),
+).annotate({
+  identifier: "WebhookNotificationConfig",
+}) as any as S.Schema<WebhookNotificationConfig>;
+
+export interface CreateInsightNotificationChannelRequest {
+  /** A human-readable name for the notification channel. */
+  name: string;
+  email?: EmailNotificationConfig;
+  slack?: SlackNotificationConfig;
+  webhook?: WebhookNotificationConfig;
+}
+export const CreateInsightNotificationChannelRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    email: S.optional(EmailNotificationConfig),
+    slack: S.optional(SlackNotificationConfig),
+    webhook: S.optional(WebhookNotificationConfig),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/insights/notification-channels", code: 200 })),
+).annotate({
+  identifier: "CreateInsightNotificationChannelRequest",
+}) as any as S.Schema<CreateInsightNotificationChannelRequest>;
+
+/** The configured channel type. Allowed values: - `CHANNEL_TYPE_EMAIL` = email - `CHANNEL_TYPE_SLACK` = slack - `CHANNEL_TYPE_WEBHOOK` = webhook */
+export type NotificationChannelChannelType =
+  | "CHANNEL_TYPE_EMAIL"
+  | "CHANNEL_TYPE_SLACK"
+  | "CHANNEL_TYPE_WEBHOOK";
+export const NotificationChannelChannelType = S.String;
+
+/** Output-only usage summary derived from alert rules that reference this notification channel. */
+export interface NotificationChannelUsage {
+  /** Number of alert rules that reference this channel. */
+  rule_count?: number;
+}
+export const NotificationChannelUsage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rule_count: S.optional(S.Number),
+  }),
+).annotate({ identifier: "NotificationChannelUsage" }) as any as S.Schema<NotificationChannelUsage>;
+
+/** A reusable Insights notification channel. */
+export interface NotificationChannel {
+  /** A unique identifier for the notification channel. */
+  id: string;
+  /** A human-readable name for the notification channel. */
+  name: string;
+  /** The configured channel type. Allowed values: - `CHANNEL_TYPE_EMAIL` = email - `CHANNEL_TYPE_SLACK` = slack - `CHANNEL_TYPE_WEBHOOK` = webhook */
+  channel_type: NotificationChannelChannelType;
+  email?: EmailNotificationConfig;
+  slack?: SlackNotificationConfig;
+  webhook?: WebhookNotificationConfig;
+  usage?: NotificationChannelUsage;
+  /** Time the notification channel was created. */
+  created_at: string;
+  /** Time the notification channel was last updated. */
+  updated_at: string;
+}
+export const NotificationChannel = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    channel_type: NotificationChannelChannelType,
+    email: S.optional(EmailNotificationConfig),
+    slack: S.optional(SlackNotificationConfig),
+    webhook: S.optional(WebhookNotificationConfig),
+    usage: S.optional(NotificationChannelUsage),
+    created_at: S.String,
+    updated_at: S.String,
+  }),
+).annotate({ identifier: "NotificationChannel" }) as any as S.Schema<NotificationChannel>;
+
+export interface CreateInsightNotificationChannelResponse {
+  notification_channel: NotificationChannel;
+}
+export const CreateInsightNotificationChannelResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    notification_channel: NotificationChannel,
+  }),
+).annotate({
+  identifier: "CreateInsightNotificationChannelResponse",
+}) as any as S.Schema<CreateInsightNotificationChannelResponse>;
 
 /** An array of tags to apply to the Kubernetes cluster. All clusters are automatically tagged `k8s` and `k8s:$K8S_CLUSTER_ID`. <br><br>Requires `tag:read` and `tag:create` scope, as well as `tag:delete` if existing tags are getting removed. */
 export type CreateKubernetesClusterRequestTagsList = Array<string>;
@@ -11706,9 +12672,7 @@ export const KubernetesNodePoolInput = /*@__PURE__*/ S.suspend(() =>
     max_nodes: S.optional(S.Number),
     gpu_partition_mode: S.optional(KubernetesNodePoolInputGpuPartitionMode),
   }),
-).annotate({
-  identifier: "KubernetesNodePoolInput",
-}) as any as S.Schema<KubernetesNodePoolInput>;
+).annotate({ identifier: "KubernetesNodePoolInput" }) as any as S.Schema<KubernetesNodePoolInput>;
 
 /** An object specifying the details of the worker nodes available to the Kubernetes cluster. */
 export type CreateKubernetesClusterRequestNodePoolsList = Array<KubernetesNodePoolInput>;
@@ -11740,9 +12704,7 @@ export const MaintenancePolicyInput = /*@__PURE__*/ S.suspend(() =>
     start_time: S.optional(S.String),
     day: S.optional(MaintenancePolicyInputDay),
   }),
-).annotate({
-  identifier: "MaintenancePolicyInput",
-}) as any as S.Schema<MaintenancePolicyInput>;
+).annotate({ identifier: "MaintenancePolicyInput" }) as any as S.Schema<MaintenancePolicyInput>;
 
 /** An array of public addresses (IPv4 or CIDR) allowed to access the control plane. */
 export type ControlPlaneFirewallAllowedAddressesList = Array<string>;
@@ -11762,9 +12724,7 @@ export const ControlPlaneFirewall = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     allowed_addresses: S.optional(ControlPlaneFirewallAllowedAddressesList),
   }),
-).annotate({
-  identifier: "ControlPlaneFirewall",
-}) as any as S.Schema<ControlPlaneFirewall>;
+).annotate({ identifier: "ControlPlaneFirewall" }) as any as S.Schema<ControlPlaneFirewall>;
 
 export type ClusterAutoscalerConfigurationExpandersItem = "random" | "priority" | "least_waste";
 export const ClusterAutoscalerConfigurationExpandersItem = S.String;
@@ -11836,9 +12796,18 @@ export const P2pOciRegistryPlugin = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "P2pOciRegistryPlugin",
-}) as any as S.Schema<P2pOciRegistryPlugin>;
+).annotate({ identifier: "P2pOciRegistryPlugin" }) as any as S.Schema<P2pOciRegistryPlugin>;
+
+/** An object specifying whether the NFS CSI plugin should be enabled for the Kubernetes cluster. */
+export interface NfsCsiPlugin {
+  /** Indicates whether the NFS CSI plugin is enabled. */
+  enabled?: boolean;
+}
+export const NfsCsiPlugin = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "NfsCsiPlugin" }) as any as S.Schema<NfsCsiPlugin>;
 
 /** An object specifying whether the AMD GPU Device Plugin should be enabled in the Kubernetes cluster. It's enabled by default for clusters with an AMD GPU node pool. */
 export interface AmdGpuDevicePlugin {
@@ -11849,9 +12818,7 @@ export const AmdGpuDevicePlugin = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AmdGpuDevicePlugin",
-}) as any as S.Schema<AmdGpuDevicePlugin>;
+).annotate({ identifier: "AmdGpuDevicePlugin" }) as any as S.Schema<AmdGpuDevicePlugin>;
 
 /** An object specifying whether the AMD Device Metrics Exporter should be enabled in the Kubernetes cluster. */
 export interface AmdGpuDeviceMetricsExporterPlugin {
@@ -11875,9 +12842,7 @@ export const NvidiaGpuDevicePlugin = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "NvidiaGpuDevicePlugin",
-}) as any as S.Schema<NvidiaGpuDevicePlugin>;
+).annotate({ identifier: "NvidiaGpuDevicePlugin" }) as any as S.Schema<NvidiaGpuDevicePlugin>;
 
 /** An object specifying whether the NVIDIA GPU DRA Driver should be enabled in the Kubernetes cluster. Mutually exclusive with `nvidia_gpu_device_plugin`. */
 export interface NvidiaGpuDraDriver {
@@ -11888,9 +12853,7 @@ export const NvidiaGpuDraDriver = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "NvidiaGpuDraDriver",
-}) as any as S.Schema<NvidiaGpuDraDriver>;
+).annotate({ identifier: "NvidiaGpuDraDriver" }) as any as S.Schema<NvidiaGpuDraDriver>;
 
 /** An object specifying whether the AMD GPU DRA Driver should be enabled in the Kubernetes cluster. Mutually exclusive with `amd_gpu_device_plugin`. */
 export interface AmdGpuDraDriver {
@@ -11901,9 +12864,7 @@ export const AmdGpuDraDriver = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AmdGpuDraDriver",
-}) as any as S.Schema<AmdGpuDraDriver>;
+).annotate({ identifier: "AmdGpuDraDriver" }) as any as S.Schema<AmdGpuDraDriver>;
 
 /** An object specifying whether the RDMA shared device plugin should be enabled in the Kubernetes cluster. */
 export interface RdmaSharedDevPlugin {
@@ -11914,9 +12875,7 @@ export const RdmaSharedDevPlugin = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RdmaSharedDevPlugin",
-}) as any as S.Schema<RdmaSharedDevPlugin>;
+).annotate({ identifier: "RdmaSharedDevPlugin" }) as any as S.Schema<RdmaSharedDevPlugin>;
 
 /** An object specifying whether the Cluster Proportional Autoscaler (CPA) add-on for CoreDNS should be enabled for the Kubernetes cluster. */
 export interface CorednsAutoscaler {
@@ -11927,9 +12886,7 @@ export const CorednsAutoscaler = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CorednsAutoscaler",
-}) as any as S.Schema<CorednsAutoscaler>;
+).annotate({ identifier: "CorednsAutoscaler" }) as any as S.Schema<CorednsAutoscaler>;
 
 export interface CreateKubernetesClusterRequest {
   /** A human-readable name for a Kubernetes cluster. */
@@ -11964,6 +12921,7 @@ export interface CreateKubernetesClusterRequest {
   sso?: Sso | null;
   routing_agent?: RoutingAgent | null;
   p2p_oci_registry_plugin?: P2pOciRegistryPlugin | null;
+  nfs_csi_plugin?: NfsCsiPlugin | null;
   amd_gpu_device_plugin?: AmdGpuDevicePlugin | null;
   amd_gpu_device_metrics_exporter_plugin?: AmdGpuDeviceMetricsExporterPlugin | null;
   nvidia_gpu_device_plugin?: NvidiaGpuDevicePlugin | null;
@@ -11993,6 +12951,7 @@ export const CreateKubernetesClusterRequest = /*@__PURE__*/ S.suspend(() =>
     sso: S.optional(S.NullOr(Sso)),
     routing_agent: S.optional(S.NullOr(RoutingAgent)),
     p2p_oci_registry_plugin: S.optional(S.NullOr(P2pOciRegistryPlugin)),
+    nfs_csi_plugin: S.optional(S.NullOr(NfsCsiPlugin)),
     amd_gpu_device_plugin: S.optional(S.NullOr(AmdGpuDevicePlugin)),
     amd_gpu_device_metrics_exporter_plugin: S.optional(S.NullOr(AmdGpuDeviceMetricsExporterPlugin)),
     nvidia_gpu_device_plugin: S.optional(S.NullOr(NvidiaGpuDevicePlugin)),
@@ -12042,9 +13001,7 @@ export const MaintenancePolicy = /*@__PURE__*/ S.suspend(() =>
     duration: S.optional(S.String),
     day: S.optional(MaintenancePolicyDay),
   }),
-).annotate({
-  identifier: "MaintenancePolicy",
-}) as any as S.Schema<MaintenancePolicy>;
+).annotate({ identifier: "MaintenancePolicy" }) as any as S.Schema<MaintenancePolicy>;
 
 /** A string indicating the current status of the cluster. */
 export type ClusterStatusState =
@@ -12118,6 +13075,7 @@ export interface Cluster {
   sso?: Sso | null;
   routing_agent?: RoutingAgent | null;
   p2p_oci_registry_plugin?: P2pOciRegistryPlugin | null;
+  nfs_csi_plugin?: NfsCsiPlugin | null;
   amd_gpu_device_plugin?: AmdGpuDevicePlugin | null;
   amd_gpu_device_metrics_exporter_plugin?: AmdGpuDeviceMetricsExporterPlugin | null;
   nvidia_gpu_device_plugin?: NvidiaGpuDevicePlugin | null;
@@ -12154,6 +13112,7 @@ export const Cluster = /*@__PURE__*/ S.suspend(() =>
     sso: S.optional(S.NullOr(Sso)),
     routing_agent: S.optional(S.NullOr(RoutingAgent)),
     p2p_oci_registry_plugin: S.optional(S.NullOr(P2pOciRegistryPlugin)),
+    nfs_csi_plugin: S.optional(S.NullOr(NfsCsiPlugin)),
     amd_gpu_device_plugin: S.optional(S.NullOr(AmdGpuDevicePlugin)),
     amd_gpu_device_metrics_exporter_plugin: S.optional(S.NullOr(AmdGpuDeviceMetricsExporterPlugin)),
     nvidia_gpu_device_plugin: S.optional(S.NullOr(NvidiaGpuDevicePlugin)),
@@ -12326,9 +13285,7 @@ export const GlbSettingsCdn = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GlbSettingsCdn" }) as any as S.Schema<GlbSettingsCdn>;
 
 /** A map of region string to an integer priority value indicating preference for which regional target a Global load balancer will forward traffic to. A lower value indicates a higher priority. */
-export type GlbSettingsRegionPrioritiesMap = {
-  [key: string]: number | undefined;
-};
+export type GlbSettingsRegionPrioritiesMap = { [key: string]: number | undefined };
 export const GlbSettingsRegionPrioritiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -12370,6 +13327,8 @@ export const LoadBalancerCreateInputCase0TlsCipherPolicy = S.String;
 export interface LoadBalancerCreateInputCase0 {
   /** An array containing the IDs of the Droplets assigned to the load balancer. */
   droplet_ids: LoadBalancerCreateInputCase0DropletIdsList;
+  /** An optional IP address to assign to the load balancer from one of your Bring Your Own IP (BYOIP) prefixes. The address must be an unassigned BYOIP address on your account in the same region as the load balancer. If omitted, DigitalOcean assigns a public IP address automatically. This field is only applied when creating the load balancer, cannot be changed afterward, and is not supported for `GLOBAL` or `INTERNAL` load balancers. */
+  ip?: string;
   region: RegionSlug | (string & {});
   /** A human-readable name for a load balancer instance. */
   name?: string;
@@ -12395,6 +13354,8 @@ export interface LoadBalancerCreateInputCase0 {
   http_idle_timeout_seconds?: number;
   /** A string specifying the UUID of the VPC to which the load balancer is assigned. */
   vpc_uuid?: string;
+  /** A string specifying the UUID of the VPC subnet to which the load balancer is assigned. */
+  subnet_uuid?: string;
   /** A boolean value indicating whether to disable automatic DNS record creation for Let's Encrypt certificates that are added to the load balancer. */
   disable_lets_encrypt_dns_records?: boolean;
   firewall?: LbFirewall;
@@ -12415,6 +13376,7 @@ export interface LoadBalancerCreateInputCase0 {
 export const LoadBalancerCreateInputCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     droplet_ids: LoadBalancerCreateInputCase0DropletIdsList,
+    ip: S.optional(S.String),
     region: RegionSlug,
     name: S.optional(S.String),
     project_id: S.optional(S.String),
@@ -12429,6 +13391,7 @@ export const LoadBalancerCreateInputCase0 = /*@__PURE__*/ S.suspend(() =>
     enable_backend_keepalive: S.optional(S.Boolean),
     http_idle_timeout_seconds: S.optional(S.Number),
     vpc_uuid: S.optional(S.String),
+    subnet_uuid: S.optional(S.String),
     disable_lets_encrypt_dns_records: S.optional(S.Boolean),
     firewall: S.optional(LbFirewall),
     network: S.optional(LoadBalancerCreateInputCase0Network),
@@ -12488,6 +13451,8 @@ export const LoadBalancerCreateInputCase1TlsCipherPolicy = S.String;
 export interface LoadBalancerCreateInputCase1 {
   /** The name of a Droplet tag corresponding to Droplets assigned to the load balancer. */
   tag: string;
+  /** An optional IP address to assign to the load balancer from one of your Bring Your Own IP (BYOIP) prefixes. The address must be an unassigned BYOIP address on your account in the same region as the load balancer. If omitted, DigitalOcean assigns a public IP address automatically. This field is only applied when creating the load balancer, cannot be changed afterward, and is not supported for `GLOBAL` or `INTERNAL` load balancers. */
+  ip?: string;
   region: RegionSlug | (string & {});
   /** A human-readable name for a load balancer instance. */
   name?: string;
@@ -12513,6 +13478,8 @@ export interface LoadBalancerCreateInputCase1 {
   http_idle_timeout_seconds?: number;
   /** A string specifying the UUID of the VPC to which the load balancer is assigned. */
   vpc_uuid?: string;
+  /** A string specifying the UUID of the VPC subnet to which the load balancer is assigned. */
+  subnet_uuid?: string;
   /** A boolean value indicating whether to disable automatic DNS record creation for Let's Encrypt certificates that are added to the load balancer. */
   disable_lets_encrypt_dns_records?: boolean;
   firewall?: LbFirewall;
@@ -12533,6 +13500,7 @@ export interface LoadBalancerCreateInputCase1 {
 export const LoadBalancerCreateInputCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tag: S.String,
+    ip: S.optional(S.String),
     region: RegionSlug,
     name: S.optional(S.String),
     project_id: S.optional(S.String),
@@ -12547,6 +13515,7 @@ export const LoadBalancerCreateInputCase1 = /*@__PURE__*/ S.suspend(() =>
     enable_backend_keepalive: S.optional(S.Boolean),
     http_idle_timeout_seconds: S.optional(S.Number),
     vpc_uuid: S.optional(S.String),
+    subnet_uuid: S.optional(S.String),
     disable_lets_encrypt_dns_records: S.optional(S.Boolean),
     firewall: S.optional(LbFirewall),
     network: S.optional(LoadBalancerCreateInputCase1Network),
@@ -12561,6 +13530,7 @@ export const LoadBalancerCreateInputCase1 = /*@__PURE__*/ S.suspend(() =>
   identifier: "LoadBalancerCreateInputCase1",
 }) as any as S.Schema<LoadBalancerCreateInputCase1>;
 
+/** The request schema for creating a load balancer. This is the same as the update schema with the addition of the create-only `ip` field, which assigns a Bring Your Own IP (BYOIP) address to the load balancer. */
 export type LoadBalancerCreateInput = LoadBalancerCreateInputCase0 | LoadBalancerCreateInputCase1;
 export const LoadBalancerCreateInput = S.Unknown as any as S.Schema<LoadBalancerCreateInput>;
 
@@ -12579,6 +13549,151 @@ export interface CreateLoadBalancerResponse {}
 export const CreateLoadBalancerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CreateLoadBalancerResponse",
 }) as any as S.Schema<CreateLoadBalancerResponse>;
+
+/** Optional. `streamable_http`, the default and only accepted value. */
+export type CreateMcpServerRequestTransport = "streamable_http";
+export const CreateMcpServerRequestTransport = S.String;
+
+/** How requests to the server authenticate: none (the default), secret, or connection. With secret, the value from `credentialRef` or `api_key` is sent in the Authorization header, prefixed with "Bearer " unless it already contains a space. */
+export type CreateMcpServerRequestCredentialRefSource = "none" | "secret" | "connection";
+export const CreateMcpServerRequestCredentialRefSource = S.String;
+
+/** Required for `credentialRefSource` connection: the scopes to request from each user, 1 to 64 of them. */
+export type CreateMcpServerRequestOauthScopesList = Array<string>;
+export const CreateMcpServerRequestOauthScopesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateMcpServerRequestOauthScopesList>;
+
+export interface CreateMcpServerRequest {
+  /** Identifier for the server, unique within your team. Must match `^`[a-z]``[a-z0-9-]`{0,63}$`. */
+  serverRef: string;
+  /** HTTPS URL of the server's MCP endpoint. Its host must resolve only to public IP addresses. Required. */
+  endpoint: string;
+  /** Optional. `streamable_http`, the default and only accepted value. */
+  transport?: CreateMcpServerRequestTransport | (string & {});
+  /** How requests to the server authenticate: none (the default), secret, or connection. With secret, the value from `credentialRef` or `api_key` is sent in the Authorization header, prefixed with "Bearer " unless it already contains a space. */
+  credentialRefSource?: CreateMcpServerRequestCredentialRefSource | (string & {});
+  /** Optional description shown on the server's catalog card. At most 1024 characters. */
+  description?: string;
+  /** For `credentialRefSource` secret: a reference to a secret your team stores with DigitalOcean. Must match `^`[A-Za-z0-9]``[A-Za-z0-9:/_.-]`{0,254}$`. Set exactly one of `credentialRef` and `api_key`. */
+  credentialRef?: string;
+  /** For `credentialRefSource` secret: the key or token itself. DigitalOcean stores it; it is write-only and no response returns it. Set exactly one of `credentialRef` and `api_key`. */
+  api_key?: string | Redacted.Redacted<string>;
+  /** Required for `credentialRefSource` connection: the client ID of your team's OAuth client for the server. Each user of the server then authorizes individually. */
+  oauth_client_id?: string;
+  /** Required for `credentialRefSource` connection. Write-only; no response returns it. */
+  oauth_client_secret?: string | Redacted.Redacted<string>;
+  /** Required for `credentialRefSource` connection: the OAuth authorization endpoint. It must use the endpoint's scheme and port, on the endpoint's host or another host under the same registrable domain. */
+  oauth_authorize_url?: string;
+  /** Required for `credentialRefSource` connection: the OAuth token endpoint, under the same rules as `oauth_authorize_url`. */
+  oauth_token_url?: string;
+  /** Required for `credentialRefSource` connection: the scopes to request from each user, 1 to 64 of them. */
+  oauth_scopes?: CreateMcpServerRequestOauthScopesList;
+  /** How long, in seconds, a user's authorization may be reused before they must consent again. Optional; 0 means 30 days, and the maximum is 100 years. Authorizations are not refreshed automatically, so this window, not the provider's token lifetime, decides how often a user is sent back through consent. Set it no longer than the provider's own token lifetime, so the prompt arrives before a tool call fails against an expired token. */
+  oauth_authorization_ttl_seconds?: string;
+}
+export const CreateMcpServerRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serverRef: S.String,
+    endpoint: S.String,
+    transport: S.optional(CreateMcpServerRequestTransport),
+    credentialRefSource: S.optional(CreateMcpServerRequestCredentialRefSource),
+    description: S.optional(S.String),
+    credentialRef: S.optional(S.String),
+    api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    oauth_client_id: S.optional(S.String),
+    oauth_client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    oauth_authorize_url: S.optional(S.String),
+    oauth_token_url: S.optional(S.String),
+    oauth_scopes: S.optional(CreateMcpServerRequestOauthScopesList),
+    oauth_authorization_ttl_seconds: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/action-gateway/mcp-servers", code: 200 })),
+).annotate({ identifier: "CreateMcpServerRequest" }) as any as S.Schema<CreateMcpServerRequest>;
+
+/** Always `streamable_http`. */
+export type McpServerTransport = "streamable_http";
+export const McpServerTransport = S.String;
+
+/** How requests to the server authenticate: none, secret (a key or token sent in the Authorization header), or connection (each user's own OAuth authorization). */
+export type McpServerCredentialRefSource = "none" | "secret" | "connection";
+export const McpServerCredentialRefSource = S.String;
+
+/** Outcome of the latest discovery: pending (no discovery has finished yet), ok, failed, or `unsupported_protocol`. It is not reset while a resync runs. */
+export type McpServerSyncStatus = "pending" | "ok" | "failed" | "unsupported_protocol";
+export const McpServerSyncStatus = S.String;
+
+/** OAuth scopes requested from each user. Set only when `credentialRefSource` is connection. */
+export type McpServerOauthScopesList = Array<string>;
+export const McpServerOauthScopesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<McpServerOauthScopesList>;
+
+/** MCP server registered by your team. It never contains secret material. */
+export interface McpServer {
+  /** Server identifier, unique within your team. The server's tool slugs are `<server_ref>_<name>`. */
+  serverRef?: string;
+  /** HTTPS URL of the server's MCP endpoint. */
+  endpoint?: string;
+  /** Always `streamable_http`. */
+  transport?: McpServerTransport;
+  /** How requests to the server authenticate: none, secret (a key or token sent in the Authorization header), or connection (each user's own OAuth authorization). */
+  credentialRefSource?: McpServerCredentialRefSource;
+  /** The secret reference supplied at registration when source=secret, or the team's OAuth credential ID when source=connection. Empty when the server was registered with an `api_key`, whose storage DigitalOcean manages. */
+  credentialRef?: string;
+  /** Outcome of the latest discovery: pending (no discovery has finished yet), ok, failed, or `unsupported_protocol`. It is not reset while a resync runs. */
+  syncStatus?: McpServerSyncStatus;
+  /** Why the latest discovery failed; empty after a successful one. */
+  syncError?: string;
+  /** When discovery last succeeded, in RFC 3339 format; empty until the first success. */
+  lastSyncedAt?: string;
+  /** MCP protocol revision negotiated with the server. */
+  protocolVersion?: string;
+  /** Number of tools discovered on the server, whether enabled or not. */
+  toolCount?: number;
+  /** When the server was registered, in RFC 3339 format. */
+  createdAt?: string;
+  /** When the server was last modified, in RFC 3339 format. */
+  updatedAt?: string;
+  /** Team-authored description, shown on the server's catalog card. A resync does not replace it. */
+  description?: string;
+  /** OAuth authorization endpoint. Set only when `credentialRefSource` is connection; the client secret is never returned. */
+  oauth_authorize_url?: string;
+  /** OAuth scopes requested from each user. Set only when `credentialRefSource` is connection. */
+  oauth_scopes?: McpServerOauthScopesList;
+  /** How long a user's authorization is reused before re-consent. Echoed so a team can read the window without re-registering to discover it. */
+  oauth_authorization_ttl_seconds?: string;
+}
+export const McpServer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serverRef: S.optional(S.String),
+    endpoint: S.optional(S.String),
+    transport: S.optional(McpServerTransport),
+    credentialRefSource: S.optional(McpServerCredentialRefSource),
+    credentialRef: S.optional(S.String),
+    syncStatus: S.optional(McpServerSyncStatus),
+    syncError: S.optional(S.String),
+    lastSyncedAt: S.optional(S.String),
+    protocolVersion: S.optional(S.String),
+    toolCount: S.optional(S.Number),
+    createdAt: S.optional(S.String),
+    updatedAt: S.optional(S.String),
+    description: S.optional(S.String),
+    oauth_authorize_url: S.optional(S.String),
+    oauth_scopes: S.optional(McpServerOauthScopesList),
+    oauth_authorization_ttl_seconds: S.optional(S.String),
+  }),
+).annotate({ identifier: "McpServer" }) as any as S.Schema<McpServer>;
+
+/** Returns one MCP server. */
+export interface McpServerResponse {
+  /** The MCP server. */
+  mcpServer?: McpServer;
+}
+export const McpServerResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mcpServer: S.optional(McpServer),
+  }),
+).annotate({ identifier: "McpServerResponse" }) as any as S.Schema<McpServerResponse>;
 
 /** An email to notify on an alert trigger. */
 export type AlertsEmailList = Array<string>;
@@ -12832,9 +13947,7 @@ export const OpensearchConfigRequest = /*@__PURE__*/ S.suspend(() =>
     index_name: S.optional(S.String),
     retention_days: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "OpensearchConfigRequest",
-}) as any as S.Schema<OpensearchConfigRequest>;
+).annotate({ identifier: "OpensearchConfigRequest" }) as any as S.Schema<OpensearchConfigRequest>;
 
 export interface CreateMonitoringDestinationRequest {
   /** destination name */
@@ -12848,13 +13961,7 @@ export const CreateMonitoringDestinationRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: CreateMonitoringDestinationRequestType,
     config: OpensearchConfigRequest,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/monitoring/sinks/destinations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/monitoring/sinks/destinations", code: 200 })),
 ).annotate({
   identifier: "CreateMonitoringDestinationRequest",
 }) as any as S.Schema<CreateMonitoringDestinationRequest>;
@@ -12987,9 +14094,7 @@ export const CreateNfsRequest = /*@__PURE__*/ S.suspend(() =>
     vpc_ids: CreateNfsRequestVpcIdsList,
     performance_tier: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v2/nfs", code: 200 })),
-).annotate({
-  identifier: "CreateNfsRequest",
-}) as any as S.Schema<CreateNfsRequest>;
+).annotate({ identifier: "CreateNfsRequest" }) as any as S.Schema<CreateNfsRequest>;
 
 /** The current status of the share. `INACTIVE` means the share exists but is not attached to any VPC. */
 export type NfsResponseStatus = "CREATING" | "ACTIVE" | "INACTIVE" | "FAILED" | "DELETED";
@@ -13080,9 +14185,7 @@ export const AccessPointResponse = /*@__PURE__*/ S.suspend(() =>
     is_default: S.Boolean,
     vpc_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccessPointResponse",
-}) as any as S.Schema<AccessPointResponse>;
+).annotate({ identifier: "AccessPointResponse" }) as any as S.Schema<AccessPointResponse>;
 
 /** Access points configured on this share. The default access point is returned first. */
 export type NfsResponseAccessPointsList = Array<AccessPointResponse>;
@@ -13137,9 +14240,7 @@ export const NfsCreateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     share: S.optional(NfsResponse),
   }),
-).annotate({
-  identifier: "NfsCreateResponse",
-}) as any as S.Schema<NfsCreateResponse>;
+).annotate({ identifier: "NfsCreateResponse" }) as any as S.Schema<NfsCreateResponse>;
 
 export interface CreateNfsAccessPointRequest {
   /** The unique identifier of the NFS share. */
@@ -13159,13 +14260,7 @@ export const CreateNfsAccessPointRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.String,
     access_policy: AccessPolicy,
     vpc_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/nfs/shares/{share_id}/access_points",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/nfs/shares/{share_id}/access_points", code: 200 })),
 ).annotate({
   identifier: "CreateNfsAccessPointRequest",
 }) as any as S.Schema<CreateNfsAccessPointRequest>;
@@ -13239,9 +14334,7 @@ export const NfsActionResizeParams = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     size_gib: S.Number,
   }),
-).annotate({
-  identifier: "NfsActionResizeParams",
-}) as any as S.Schema<NfsActionResizeParams>;
+).annotate({ identifier: "NfsActionResizeParams" }) as any as S.Schema<NfsActionResizeParams>;
 
 export interface NfsActionResize {
   /** The type of action to initiate for the NFS share (such as resize or snapshot). */
@@ -13256,9 +14349,7 @@ export const NfsActionResize = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     params: S.optional(NfsActionResizeParams),
   }),
-).annotate({
-  identifier: "NfsActionResize",
-}) as any as S.Schema<NfsActionResize>;
+).annotate({ identifier: "NfsActionResize" }) as any as S.Schema<NfsActionResize>;
 
 /** The type of action to initiate for the NFS share (such as resize or snapshot). */
 export type NfsActionSnapshotType =
@@ -13278,9 +14369,7 @@ export const NfsActionSnapshotParams = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
   }),
-).annotate({
-  identifier: "NfsActionSnapshotParams",
-}) as any as S.Schema<NfsActionSnapshotParams>;
+).annotate({ identifier: "NfsActionSnapshotParams" }) as any as S.Schema<NfsActionSnapshotParams>;
 
 export interface NfsActionSnapshot {
   /** The type of action to initiate for the NFS share (such as resize or snapshot). */
@@ -13295,9 +14384,7 @@ export const NfsActionSnapshot = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     params: S.optional(NfsActionSnapshotParams),
   }),
-).annotate({
-  identifier: "NfsActionSnapshot",
-}) as any as S.Schema<NfsActionSnapshot>;
+).annotate({ identifier: "NfsActionSnapshot" }) as any as S.Schema<NfsActionSnapshot>;
 
 /** The type of action to initiate for the NFS share (such as resize or snapshot). */
 export type NfsActionAttachType =
@@ -13317,9 +14404,7 @@ export const NfsActionAttachParams = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vpc_id: S.String,
   }),
-).annotate({
-  identifier: "NfsActionAttachParams",
-}) as any as S.Schema<NfsActionAttachParams>;
+).annotate({ identifier: "NfsActionAttachParams" }) as any as S.Schema<NfsActionAttachParams>;
 
 export interface NfsActionAttach {
   /** The type of action to initiate for the NFS share (such as resize or snapshot). */
@@ -13334,9 +14419,7 @@ export const NfsActionAttach = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     params: S.optional(NfsActionAttachParams),
   }),
-).annotate({
-  identifier: "NfsActionAttach",
-}) as any as S.Schema<NfsActionAttach>;
+).annotate({ identifier: "NfsActionAttach" }) as any as S.Schema<NfsActionAttach>;
 
 /** The type of action to initiate for the NFS share (such as resize or snapshot). */
 export type NfsActionDetachType =
@@ -13356,9 +14439,7 @@ export const NfsActionDetachParams = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vpc_id: S.String,
   }),
-).annotate({
-  identifier: "NfsActionDetachParams",
-}) as any as S.Schema<NfsActionDetachParams>;
+).annotate({ identifier: "NfsActionDetachParams" }) as any as S.Schema<NfsActionDetachParams>;
 
 export interface NfsActionDetach {
   /** The type of action to initiate for the NFS share (such as resize or snapshot). */
@@ -13373,9 +14454,7 @@ export const NfsActionDetach = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     params: S.optional(NfsActionDetachParams),
   }),
-).annotate({
-  identifier: "NfsActionDetach",
-}) as any as S.Schema<NfsActionDetach>;
+).annotate({ identifier: "NfsActionDetach" }) as any as S.Schema<NfsActionDetach>;
 
 /** The type of action to initiate for the NFS share (such as resize or snapshot). */
 export type NfsActionReassignType =
@@ -13398,9 +14477,7 @@ export const NfsActionReassignParams = /*@__PURE__*/ S.suspend(() =>
     old_vpc_id: S.String,
     new_vpc_id: S.String,
   }),
-).annotate({
-  identifier: "NfsActionReassignParams",
-}) as any as S.Schema<NfsActionReassignParams>;
+).annotate({ identifier: "NfsActionReassignParams" }) as any as S.Schema<NfsActionReassignParams>;
 
 export interface NfsActionReassign {
   /** The type of action to initiate for the NFS share (such as resize or snapshot). */
@@ -13415,9 +14492,7 @@ export const NfsActionReassign = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     params: S.optional(NfsActionReassignParams),
   }),
-).annotate({
-  identifier: "NfsActionReassign",
-}) as any as S.Schema<NfsActionReassign>;
+).annotate({ identifier: "NfsActionReassign" }) as any as S.Schema<NfsActionReassign>;
 
 /** The type of action to initiate for the NFS share (such as resize or snapshot). */
 export type NfsActionSwitchPerformanceTierType =
@@ -13477,9 +14552,7 @@ export const CreateNfsActionRequest = /*@__PURE__*/ S.suspend(() =>
     nfs_id: S.String.pipe(T.Label()),
     body: CreateNfsActionRequestBody.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/v2/nfs/{nfs_id}/actions", code: 200 })),
-).annotate({
-  identifier: "CreateNfsActionRequest",
-}) as any as S.Schema<CreateNfsActionRequest>;
+).annotate({ identifier: "CreateNfsActionRequest" }) as any as S.Schema<CreateNfsActionRequest>;
 
 /** Action response of an NFS share. */
 export interface NfsActionsResponse {
@@ -13489,9 +14562,7 @@ export const NfsActionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: NfsAction2,
   }),
-).annotate({
-  identifier: "NfsActionsResponse",
-}) as any as S.Schema<NfsActionsResponse>;
+).annotate({ identifier: "NfsActionsResponse" }) as any as S.Schema<NfsActionsResponse>;
 
 /** The role to assign to the invited user. The `owner` role cannot be assigned via invitation. */
 export type TeamInvitationRole =
@@ -13564,9 +14635,7 @@ export const TeamInvitationStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(TeamInvitationStatusStatus),
   }),
-).annotate({
-  identifier: "TeamInvitationStatus",
-}) as any as S.Schema<TeamInvitationStatus>;
+).annotate({ identifier: "TeamInvitationStatus" }) as any as S.Schema<TeamInvitationStatus>;
 
 /** A map of invitee email addresses to invitation status results. */
 export type CreateOrganizationTeamResponseInvitationsMap = {
@@ -13590,6 +14659,113 @@ export const CreateOrganizationTeamResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateOrganizationTeamResponse",
 }) as any as S.Schema<CreateOrganizationTeamResponse>;
+
+/** Output paths to keep, 1 to 64 of them. Each is a dotted path of up to 8 segments made of `[A-Za-z0-9_-]`, and must be declared by the tool's output schema; arrays are traversed element-wise. Paths may not repeat or be a prefix of one another. The tool version must declare an object output schema. */
+export type CreateOutputViewRequestFieldsList = Array<string>;
+export const CreateOutputViewRequestFieldsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateOutputViewRequestFieldsList>;
+
+export interface CreateOutputViewRequest {
+  /** Exactly one of tool or `tool_id` selects the tool version. tool is a provider-qualified slug, optionally pinned as `<tool>@<version>`. You can bind only the released version your catalog exposes: an unpinned slug resolves it and the response echoes it as version; a pin must equal it, and a `tool_id` (the opaque identity from tool search) must be that version. Any other version returns 404. */
+  tool?: string;
+  /** Opaque ID of the tool version; see tool. */
+  tool_id?: string;
+  /** View name. Must match `^`[a-z]``[a-z0-9_-]`{0,63}$` and be unique per tool version within your team. */
+  name: string;
+  /** Optional description. At most 512 bytes. */
+  description?: string;
+  /** Output paths to keep, 1 to 64 of them. Each is a dotted path of up to 8 segments made of `[A-Za-z0-9_-]`, and must be declared by the tool's output schema; arrays are traversed element-wise. Paths may not repeat or be a prefix of one another. The tool version must declare an object output schema. */
+  fields: CreateOutputViewRequestFieldsList;
+}
+export const CreateOutputViewRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tool: S.optional(S.String),
+    tool_id: S.optional(S.String),
+    name: S.String,
+    description: S.optional(S.String),
+    fields: CreateOutputViewRequestFieldsList,
+  }).pipe(T.Http({ method: "POST", uri: "/v2/action-gateway/output-views", code: 200 })),
+).annotate({ identifier: "CreateOutputViewRequest" }) as any as S.Schema<CreateOutputViewRequest>;
+
+/** `OUTPUT_VIEW_KIND_PROJECTION` or `OUTPUT_VIEW_KIND_TRANSFORM`. */
+export type OutputViewKind = "OUTPUT_VIEW_KIND_PROJECTION" | "OUTPUT_VIEW_KIND_TRANSFORM";
+export const OutputViewKind = S.String;
+
+/** The dotted output paths a projection keeps; arrays are traversed element-wise. Empty for a transform. */
+export type OutputViewFieldsList = Array<string>;
+export const OutputViewFieldsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<OutputViewFieldsList>;
+
+/** Null on a preview, which stores nothing. */
+export interface OutputViewAudit {
+  /** When the resource was created. */
+  createdAt?: string | null;
+  /** When the resource was last modified. */
+  updatedAt?: string | null;
+  /** Set once the resource is deleted. */
+  deletedAt?: string | null;
+}
+export const OutputViewAudit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    createdAt: S.optional(S.NullOr(S.String)),
+    updatedAt: S.optional(S.NullOr(S.String)),
+    deletedAt: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "OutputViewAudit" }) as any as S.Schema<OutputViewAudit>;
+
+/** Output view as your team sees it. */
+export interface OutputView {
+  /** Output view ID, for example `ov_` followed by 32 hex digits. Empty on a preview. */
+  view_id?: string;
+  /** The opaque identity of the exact tool version the view is bound to; tool and version are its readable coordinates. */
+  tool_id?: string;
+  /** The provider-qualified tool slug, for example `exa_search`. */
+  tool?: string;
+  /** The tool version, for example `v3`. */
+  version?: string;
+  /** Your team's ID on your team's views, and empty for a view DigitalOcean publishes to every team. */
+  team_id?: string;
+  /** View name, unique per tool version among its owner's views. */
+  name?: string;
+  /** View description. */
+  description?: string;
+  /** `OUTPUT_VIEW_KIND_PROJECTION` or `OUTPUT_VIEW_KIND_TRANSFORM`. */
+  kind?: OutputViewKind;
+  /** The dotted output paths a projection keeps; arrays are traversed element-wise. Empty for a transform. */
+  fields?: OutputViewFieldsList;
+  /** The JSON Schema every result of this view satisfies. */
+  output_schema?: unknown | null;
+  /** Null on a preview, which stores nothing. */
+  audit?: OutputViewAudit | null;
+}
+export const OutputView = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    view_id: S.optional(S.String),
+    tool_id: S.optional(S.String),
+    tool: S.optional(S.String),
+    version: S.optional(S.String),
+    team_id: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    kind: S.optional(OutputViewKind),
+    fields: S.optional(OutputViewFieldsList),
+    output_schema: S.optional(S.NullOr(S.Unknown)),
+    audit: S.optional(S.NullOr(OutputViewAudit)),
+  }),
+).annotate({ identifier: "OutputView" }) as any as S.Schema<OutputView>;
+
+/** Returns one output view. */
+export interface OutputViewResponse {
+  /** The output view. */
+  view?: OutputView;
+}
+export const OutputViewResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    view: S.optional(OutputView),
+  }),
+).annotate({ identifier: "OutputViewResponse" }) as any as S.Schema<OutputViewResponse>;
 
 /** Bandwidth (in Mbps) of the connection. */
 export type CreatePartnerAttachmentRequestConnectionBandwidthInMbps = 1000 | 2000 | 5000 | 10000;
@@ -13660,22 +14836,14 @@ export const CreatePartnerAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
     parent_uuid: S.optional(S.String),
     bgp: S.optional(CreatePartnerAttachmentRequestBgp),
     redundancy_zone: S.optional(CreatePartnerAttachmentRequestRedundancyZone),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/partner_network_connect/attachments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/partner_network_connect/attachments", code: 200 })),
 ).annotate({
   identifier: "CreatePartnerAttachmentRequest",
 }) as any as S.Schema<CreatePartnerAttachmentRequest>;
 
 export interface CreatePartnerAttachmentResponse {}
 export const CreatePartnerAttachmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "CreatePartnerAttachmentResponse",
-  },
+  { identifier: "CreatePartnerAttachmentResponse" },
 ) as any as S.Schema<CreatePartnerAttachmentResponse>;
 
 export interface CreatePartnerAttachmentServiceKeyRequest {
@@ -13724,9 +14892,7 @@ export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     purpose: S.String,
     environment: S.optional(CreateProjectRequestEnvironment),
   }).pipe(T.Http({ method: "POST", uri: "/v2/projects", code: 200 })),
-).annotate({
-  identifier: "CreateProjectRequest",
-}) as any as S.Schema<CreateProjectRequest>;
+).annotate({ identifier: "CreateProjectRequest" }) as any as S.Schema<CreateProjectRequest>;
 
 /** The environment of the project's resources. */
 export type ProjectEnvironment = "Development" | "Staging" | "Production";
@@ -13776,9 +14942,7 @@ export const CreateProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.optional(Project),
   }),
-).annotate({
-  identifier: "CreateProjectResponse",
-}) as any as S.Schema<CreateProjectResponse>;
+).annotate({ identifier: "CreateProjectResponse" }) as any as S.Schema<CreateProjectResponse>;
 
 /** The slug of the subscription tier to sign up for. Valid values can be retrieved using the options endpoint. */
 export type CreateRegistryRequestSubscriptionTierSlug = "starter" | "basic" | "professional";
@@ -13810,9 +14974,7 @@ export const CreateRegistryRequest = /*@__PURE__*/ S.suspend(() =>
     subscription_tier_slug: S.optional(CreateRegistryRequestSubscriptionTierSlug),
     region: S.optional(CreateRegistryRequestRegion),
   }).pipe(T.Http({ method: "POST", uri: "/v2/registries", code: 200 })),
-).annotate({
-  identifier: "CreateRegistryRequest",
-}) as any as S.Schema<CreateRegistryRequest>;
+).annotate({ identifier: "CreateRegistryRequest" }) as any as S.Schema<CreateRegistryRequest>;
 
 export interface RegistryBase {
   /** A globally unique name for the container registry. Must be lowercase and be composed only of numbers, letters and `-`, up to a limit of 63 characters. */
@@ -13843,9 +15005,7 @@ export const CreateRegistryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     registry: S.optional(RegistryBase),
   }),
-).annotate({
-  identifier: "CreateRegistryResponse",
-}) as any as S.Schema<CreateRegistryResponse>;
+).annotate({ identifier: "CreateRegistryResponse" }) as any as S.Schema<CreateRegistryResponse>;
 
 export interface ReservedIpCreateCase0 {
   /** The ID of the Droplet that the reserved IP will be assigned to. */
@@ -13855,9 +15015,7 @@ export const ReservedIpCreateCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     droplet_id: S.Number,
   }),
-).annotate({
-  identifier: "ReservedIpCreateCase0",
-}) as any as S.Schema<ReservedIpCreateCase0>;
+).annotate({ identifier: "ReservedIpCreateCase0" }) as any as S.Schema<ReservedIpCreateCase0>;
 
 export interface ReservedIpCreateCase1 {
   /** The slug identifier for the region the reserved IP will be reserved to. */
@@ -13870,9 +15028,7 @@ export const ReservedIpCreateCase1 = /*@__PURE__*/ S.suspend(() =>
     region: S.String,
     project_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReservedIpCreateCase1",
-}) as any as S.Schema<ReservedIpCreateCase1>;
+).annotate({ identifier: "ReservedIpCreateCase1" }) as any as S.Schema<ReservedIpCreateCase1>;
 
 export type ReservedIpCreate = ReservedIpCreateCase0 | ReservedIpCreateCase1;
 export const ReservedIpCreate = S.Unknown as any as S.Schema<ReservedIpCreate>;
@@ -13884,9 +15040,7 @@ export const CreateReservedIPRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: ReservedIpCreate.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/v2/reserved_ips", code: 200 })),
-).annotate({
-  identifier: "CreateReservedIPRequest",
-}) as any as S.Schema<CreateReservedIPRequest>;
+).annotate({ identifier: "CreateReservedIPRequest" }) as any as S.Schema<CreateReservedIPRequest>;
 
 export interface CreateReservedIPResponse {}
 export const CreateReservedIPResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14007,9 +15161,7 @@ export const ScanFindingsItem = /*@__PURE__*/ S.suspend(() =>
     mitigation_steps: S.optional(ScanFindingsItemMitigationStepsList),
     affected_resources_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ScanFindingsItem",
-}) as any as S.Schema<ScanFindingsItem>;
+).annotate({ identifier: "ScanFindingsItem" }) as any as S.Schema<ScanFindingsItem>;
 
 export type ScanFindingsList = Array<ScanFindingsItem>;
 export const ScanFindingsList = /*@__PURE__*/ S.Array(
@@ -14078,13 +15230,7 @@ export const CreateSecuritySuppressionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rule_uuid: S.optional(S.String),
     resources: S.optional(CreateSecuritySuppressionRequestResourcesList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/security/settings/suppressions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/security/settings/suppressions", code: 200 })),
 ).annotate({
   identifier: "CreateSecuritySuppressionRequest",
 }) as any as S.Schema<CreateSecuritySuppressionRequest>;
@@ -14109,9 +15255,7 @@ export const SuppressedResource = /*@__PURE__*/ S.suspend(() =>
     resource_id: S.optional(S.String),
     resource_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SuppressedResource",
-}) as any as S.Schema<SuppressedResource>;
+).annotate({ identifier: "SuppressedResource" }) as any as S.Schema<SuppressedResource>;
 
 export type SuppressedResourceRootResourcesList = Array<SuppressedResource>;
 export const SuppressedResourceRootResourcesList = /*@__PURE__*/ S.Array(
@@ -14172,9 +15316,231 @@ export const SuppressedResourceRoot = /*@__PURE__*/ S.suspend(() =>
     meta: S.optional(SuppressedResourceRootMeta),
     links: S.optional(SuppressedResourceRootLinks),
   }),
+).annotate({ identifier: "SuppressedResourceRoot" }) as any as S.Schema<SuppressedResourceRoot>;
+
+/** Action for calls no rule matches. Empty means ask; otherwise this must be allow, ask, or deny. */
+export type SessionPolicyDefaultAction = "allow" | "ask" | "deny";
+export const SessionPolicyDefaultAction = S.String;
+
+/** Optional argument conditions, keyed by argument name; the rule applies only to calls whose arguments match. */
+export type SessionPolicyRulesItemMatchMap = { [key: string]: string | undefined };
+export const SessionPolicyRulesItemMatchMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<SessionPolicyRulesItemMatchMap>;
+
+/** Required: allow, ask, or deny. */
+export type SessionPolicyRulesItemAction = "allow" | "ask" | "deny";
+export const SessionPolicyRulesItemAction = S.String;
+
+export interface SessionPolicyRulesItem {
+  /** Required. A tool slug, optionally `<tool_slug>@<version>`, or a toolbelt as `toolbelt:<name>@<version>`. When the session selects tools, the rule must name one of them. */
+  tool?: string;
+  /** Optional argument conditions, keyed by argument name; the rule applies only to calls whose arguments match. */
+  match?: SessionPolicyRulesItemMatchMap;
+  /** Required: allow, ask, or deny. */
+  action?: SessionPolicyRulesItemAction | (string & {});
+}
+export const SessionPolicyRulesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tool: S.optional(S.String),
+    match: S.optional(SessionPolicyRulesItemMatchMap),
+    action: S.optional(SessionPolicyRulesItemAction),
+  }),
+).annotate({ identifier: "SessionPolicyRulesItem" }) as any as S.Schema<SessionPolicyRulesItem>;
+
+/** Rules for specific tools or toolbelts. */
+export type SessionPolicyRulesList = Array<SessionPolicyRulesItem>;
+export const SessionPolicyRulesList = /*@__PURE__*/ S.Array(
+  SessionPolicyRulesItem,
+) as any as S.Schema<SessionPolicyRulesList>;
+
+/** Tool-permission policy of a session. */
+export interface SessionPolicy {
+  /** Action for calls no rule matches. Empty means ask; otherwise this must be allow, ask, or deny. */
+  defaultAction?: SessionPolicyDefaultAction | (string & {});
+  /** Rules for specific tools or toolbelts. */
+  rules?: SessionPolicyRulesList;
+}
+export const SessionPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    defaultAction: S.optional(SessionPolicyDefaultAction),
+    rules: S.optional(SessionPolicyRulesList),
+  }),
+).annotate({ identifier: "SessionPolicy" }) as any as S.Schema<SessionPolicy>;
+
+/** Omitted enables every tool. An explicit empty array enables no tools. Direct tools may be `<tool>` or `<tool>@<version>`, using provider-qualified tool slugs, and a pinned version must be the released one; toolbelt references must be version-pinned as `toolbelt:<belt-name>@<version>`. */
+export type CreateSessionRequestToolsList = Array<string>;
+export const CreateSessionRequestToolsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateSessionRequestToolsList>;
+
+/** Attaches a session to a VPC. */
+export interface SessionNetwork {
+  /** UUID of a VPC owned by your team, in a region that supports sessions. */
+  vpcUuid?: string;
+}
+export const SessionNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpcUuid: S.optional(S.String),
+  }),
+).annotate({ identifier: "SessionNetwork" }) as any as S.Schema<SessionNetwork>;
+
+/** Records which of a session's telemetry is sent to Insights. */
+export interface SessionInsights {
+  /** Accepted and stored for parity with the Insights schema. */
+  metrics?: boolean | null;
+  /** Whether the session's customer logs are sent to Insights. */
+  logs?: boolean | null;
+  /** Whether the session's customer traces are sent to Insights. */
+  traces?: boolean | null;
+}
+export const SessionInsights = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metrics: S.optional(S.NullOr(S.Boolean)),
+    logs: S.optional(S.NullOr(S.Boolean)),
+    traces: S.optional(S.NullOr(S.Boolean)),
+  }),
+).annotate({ identifier: "SessionInsights" }) as any as S.Schema<SessionInsights>;
+
+export interface CreateSessionRequest {
+  /** Required human-readable session name. */
+  name: string;
+  /** Optional actor binding: the user whose connections the session's tool calls use, matched against connection `user_id`. When set it must use the same alphabet as a connection's `user_id`, `[A-Za-z0-9._-]`, at most 64 characters; anything else is rejected with 400. */
+  actorId?: string;
+  /** Optional tool-permission policy. Omitted asks before every call. */
+  policy?: SessionPolicy | null;
+  /** Omitted enables every tool. An explicit empty array enables no tools. Direct tools may be `<tool>` or `<tool>@<version>`, using provider-qualified tool slugs, and a pinned version must be the released one; toolbelt references must be version-pinned as `toolbelt:<belt-name>@<version>`. */
+  tools?: CreateSessionRequestToolsList;
+  /** Optional session options. config.preloadTools may contain concrete tool names (optionally version-pinned) and version-pinned toolbelt references. config.customInstructions is a string of at most 1000 characters. config.outputViews maps up to 100 tool slugs to the name of an output view to apply to that tool's results. */
+  config?: unknown;
+  /** Product-level session network binding. When set, `vpc_uuid` must identify a VPC owned by the session's team. */
+  network?: SessionNetwork;
+  /** Omitted when the request omitted insights or explicitly sent null. */
+  insights?: SessionInsights;
+}
+export const CreateSessionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    actorId: S.optional(S.String),
+    policy: S.optional(S.NullOr(SessionPolicy)),
+    tools: S.optional(CreateSessionRequestToolsList),
+    config: S.optional(S.Unknown),
+    network: S.optional(SessionNetwork),
+    insights: S.optional(SessionInsights),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/action-gateway/sessions", code: 200 })),
+).annotate({ identifier: "CreateSessionRequest" }) as any as S.Schema<CreateSessionRequest>;
+
+/** Whether name is a tool or a toolbelt. */
+export type SessionToolsReferencesItemKind =
+  | "SESSION_TOOL_REFERENCE_KIND_TOOL"
+  | "SESSION_TOOL_REFERENCE_KIND_TOOLBELT";
+export const SessionToolsReferencesItemKind = S.String;
+
+export interface SessionToolsReferencesItem {
+  /** Whether name is a tool or a toolbelt. */
+  kind?: SessionToolsReferencesItemKind;
+  /** Tool slug or toolbelt name. */
+  name?: string;
+  /** Pinned version. */
+  version?: string;
+}
+export const SessionToolsReferencesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: S.optional(SessionToolsReferencesItemKind),
+    name: S.optional(S.String),
+    version: S.optional(S.String),
+  }),
 ).annotate({
-  identifier: "SuppressedResourceRoot",
-}) as any as S.Schema<SuppressedResourceRoot>;
+  identifier: "SessionToolsReferencesItem",
+}) as any as S.Schema<SessionToolsReferencesItem>;
+
+/** The selected references. Empty means the session exposes no tools. */
+export type SessionToolsReferencesList = Array<SessionToolsReferencesItem>;
+export const SessionToolsReferencesList = /*@__PURE__*/ S.Array(
+  SessionToolsReferencesItem,
+) as any as S.Schema<SessionToolsReferencesList>;
+
+/** Omitted when the request omitted tools (all tools). A present selection with no references represents tools: []. */
+export interface SessionTools {
+  /** The selected references. Empty means the session exposes no tools. */
+  references?: SessionToolsReferencesList;
+}
+export const SessionTools = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    references: S.optional(SessionToolsReferencesList),
+  }),
+).annotate({ identifier: "SessionTools" }) as any as S.Schema<SessionTools>;
+
+/** A session and the tool-permission policy bound to it. */
+export interface Session {
+  /** Session URN, for example `do:managed_agent_session:<uuid>`. */
+  sessionUrn?: string;
+  /** The required human-readable session name. */
+  name?: string;
+  /** Empty when the session is not bound to an actor. */
+  actorId?: string;
+  /** The session's tool-permission policy. */
+  policy?: SessionPolicy | null;
+  /** Omitted when the request omitted tools (all tools). A present selection with no references represents tools: []. */
+  tools?: SessionTools;
+  /** Session options as supplied at creation. Omitted when none were supplied. */
+  config?: unknown;
+  /** Omitted when the request omitted network. A present binding currently supports only VPC attachment by UUID. */
+  network?: SessionNetwork;
+  /** Omitted when no explicit customer Insights choice was stored. */
+  insights?: SessionInsights;
+  /** URN of the agent that started the session. Empty for sessions created through this API. */
+  agentUrn?: string;
+  /** Name of the agent that started the session. Empty for sessions created through this API. */
+  agentName?: string;
+  /** When the session was created. */
+  createdAt?: string | null;
+  /** When the session was last modified. */
+  updatedAt?: string | null;
+  /** DigitalOcean user ID of the user who created the session, when recorded. */
+  owning_user_id?: string;
+}
+export const Session = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionUrn: S.optional(S.String),
+    name: S.optional(S.String),
+    actorId: S.optional(S.String),
+    policy: S.optional(S.NullOr(SessionPolicy)),
+    tools: S.optional(SessionTools),
+    config: S.optional(S.Unknown),
+    network: S.optional(SessionNetwork),
+    insights: S.optional(SessionInsights),
+    agentUrn: S.optional(S.String),
+    agentName: S.optional(S.String),
+    createdAt: S.optional(S.NullOr(S.String)),
+    updatedAt: S.optional(S.NullOr(S.String)),
+    owning_user_id: S.optional(S.String),
+  }),
+).annotate({ identifier: "Session" }) as any as S.Schema<Session>;
+
+/** Canonical, version-pinned selected tool references. Empty when the session exposes every tool. */
+export type CreateSessionResponseToolsList = Array<string>;
+export const CreateSessionResponseToolsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateSessionResponseToolsList>;
+
+/** Returns the created session. */
+export interface CreateSessionResponse {
+  /** The created session. */
+  session?: Session;
+  /** URL of the session's MCP endpoint, for the agent to connect to. */
+  mcpUrl?: string;
+  /** Canonical, version-pinned selected tool references. Empty when the session exposes every tool. */
+  tools?: CreateSessionResponseToolsList;
+}
+export const CreateSessionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    session: S.optional(Session),
+    mcpUrl: S.optional(S.String),
+    tools: S.optional(CreateSessionResponseToolsList),
+  }),
+).annotate({ identifier: "CreateSessionResponse" }) as any as S.Schema<CreateSessionResponse>;
 
 export interface Grant {
   /** The name of the bucket. */
@@ -14206,9 +15572,7 @@ export const CreateSpacesKeyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     grants: S.optional(CreateSpacesKeyRequestGrantsList),
   }).pipe(T.Http({ method: "POST", uri: "/v2/spaces/keys", code: 200 })),
-).annotate({
-  identifier: "CreateSpacesKeyRequest",
-}) as any as S.Schema<CreateSpacesKeyRequest>;
+).annotate({ identifier: "CreateSpacesKeyRequest" }) as any as S.Schema<CreateSpacesKeyRequest>;
 
 /** The list of permissions for the access key. */
 export type KeyCreateResponseGrantsList = Array<Grant>;
@@ -14236,9 +15600,7 @@ export const KeyCreateResponse = /*@__PURE__*/ S.suspend(() =>
     access_key: S.optional(S.String),
     created_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KeyCreateResponse",
-}) as any as S.Schema<KeyCreateResponse>;
+).annotate({ identifier: "KeyCreateResponse" }) as any as S.Schema<KeyCreateResponse>;
 
 export interface CreateSpacesKeyResponse {
   key?: KeyCreateResponse;
@@ -14247,9 +15609,7 @@ export const CreateSpacesKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.optional(KeyCreateResponse),
   }),
-).annotate({
-  identifier: "CreateSpacesKeyResponse",
-}) as any as S.Schema<CreateSpacesKeyResponse>;
+).annotate({ identifier: "CreateSpacesKeyResponse" }) as any as S.Schema<CreateSpacesKeyResponse>;
 
 export interface CreateSshKeyRequest {
   /** The entire public key string that was uploaded. Embedded into the root user's `authorized_keys` file if you include this key during Droplet creation. */
@@ -14261,9 +15621,7 @@ export const CreateSshKeyRequest = /*@__PURE__*/ S.suspend(() =>
     public_key: S.String,
     name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/account/keys", code: 200 })),
-).annotate({
-  identifier: "CreateSshKeyRequest",
-}) as any as S.Schema<CreateSshKeyRequest>;
+).annotate({ identifier: "CreateSshKeyRequest" }) as any as S.Schema<CreateSshKeyRequest>;
 
 export interface SshKeys {
   id?: number;
@@ -14288,9 +15646,7 @@ export const CreateSshKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ssh_key: S.optional(SshKeys),
   }),
-).annotate({
-  identifier: "CreateSshKeyResponse",
-}) as any as S.Schema<CreateSshKeyResponse>;
+).annotate({ identifier: "CreateSshKeyResponse" }) as any as S.Schema<CreateSshKeyResponse>;
 
 export interface CreateTagRequest {
   /** The name of the tag. Tags may contain letters, numbers, colons, dashes, and underscores. There is a limit of 255 characters per tag. **Note:** Tag names are case stable, which means the capitalization you use when you first create a tag is canonical. When working with tags in the API, you must use the tag's canonical capitalization. For example, if you create a tag named "PROD", the URL to add that tag to a resource would be `https://api.digitalocean.com/v2/tags/PROD/resources` (not `/v2/tags/prod/resources`). Tagged resources in the control panel will always display the canonical capitalization. For example, if you create a tag named "PROD", you can tag resources in the control panel by entering "prod". The tag will still display with its canonical capitalization, "PROD". */
@@ -14300,9 +15656,7 @@ export const CreateTagRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v2/tags", code: 200 })),
-).annotate({
-  identifier: "CreateTagRequest",
-}) as any as S.Schema<CreateTagRequest>;
+).annotate({ identifier: "CreateTagRequest" }) as any as S.Schema<CreateTagRequest>;
 
 export interface TagsResourcesDroplets {
   /** The number of tagged objects for this type of resource. */
@@ -14315,9 +15669,7 @@ export const TagsResourcesDroplets = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     last_tagged_uri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TagsResourcesDroplets",
-}) as any as S.Schema<TagsResourcesDroplets>;
+).annotate({ identifier: "TagsResourcesDroplets" }) as any as S.Schema<TagsResourcesDroplets>;
 
 export type TagsResourcesImgages = TagsResourcesDroplets;
 export const TagsResourcesImgages = TagsResourcesDroplets;
@@ -14376,9 +15728,46 @@ export const CreateTagResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tag: S.optional(Tags),
   }),
-).annotate({
-  identifier: "CreateTagResponse",
-}) as any as S.Schema<CreateTagResponse>;
+).annotate({ identifier: "CreateTagResponse" }) as any as S.Schema<CreateTagResponse>;
+
+/** Optional initial members, as catalog tool slugs (`<provider>_<name>`). Each may be pinned as `<tool_slug>@<version>`; a pin must equal the tool's current released version, and an unpinned tool is pinned to that version. Every tool must be an active catalog tool. Duplicates are merged; at most 500 tools. Empty creates a toolbelt with no tools. */
+export type CreateToolbeltRequestToolsList = Array<string>;
+export const CreateToolbeltRequestToolsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateToolbeltRequestToolsList>;
+
+export interface CreateToolbeltRequest {
+  /** Toolbelt name, unique among your team's active toolbelts. Must match `^`[a-z]``[a-z0-9_-]`{0,63}$`; `search` is reserved. */
+  name: string;
+  /** Optional initial version number, a positive integer such as `1`. Defaults to 1. */
+  version?: string;
+  /** Optional human-readable label, separate from name. At most 128 bytes. */
+  display_name?: string;
+  /** Optional description. At most 255 bytes. */
+  description?: string;
+  /** Optional initial members, as catalog tool slugs (`<provider>_<name>`). Each may be pinned as `<tool_slug>@<version>`; a pin must equal the tool's current released version, and an unpinned tool is pinned to that version. Every tool must be an active catalog tool. Duplicates are merged; at most 500 tools. Empty creates a toolbelt with no tools. */
+  tools?: CreateToolbeltRequestToolsList;
+}
+export const CreateToolbeltRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    version: S.optional(S.String),
+    display_name: S.optional(S.String),
+    description: S.optional(S.String),
+    tools: S.optional(CreateToolbeltRequestToolsList),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/action-gateway/toolbelts", code: 200 })),
+).annotate({ identifier: "CreateToolbeltRequest" }) as any as S.Schema<CreateToolbeltRequest>;
+
+/** Returns the created toolbelt. */
+export interface ToolbeltResponse {
+  /** The first version of the new toolbelt. */
+  toolbelt?: Toolbelt;
+}
+export const ToolbeltResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    toolbelt: S.optional(Toolbelt),
+  }),
+).annotate({ identifier: "ToolbeltResponse" }) as any as S.Schema<ToolbeltResponse>;
 
 /** The type of alert. */
 export type CreateUptimeAlertRequestType = "latency" | "down" | "down_global" | "ssl_expiry";
@@ -14445,16 +15834,8 @@ export const CreateUptimeAlertRequest = /*@__PURE__*/ S.suspend(() =>
     comparison: S.optional(CreateUptimeAlertRequestComparison),
     notifications: Notification,
     period: CreateUptimeAlertRequestPeriod,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/uptime/checks/{check_id}/alerts",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateUptimeAlertRequest",
-}) as any as S.Schema<CreateUptimeAlertRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/uptime/checks/{check_id}/alerts", code: 200 })),
+).annotate({ identifier: "CreateUptimeAlertRequest" }) as any as S.Schema<CreateUptimeAlertRequest>;
 
 /** The type of alert. */
 export type AlertType = "latency" | "down" | "down_global" | "ssl_expiry";
@@ -14541,9 +15922,7 @@ export const CreateUptimeCheckRequest = /*@__PURE__*/ S.suspend(() =>
     regions: CreateUptimeCheckRequestRegionsList,
     enabled: S.Boolean,
   }).pipe(T.Http({ method: "POST", uri: "/v2/uptime/checks", code: 200 })),
-).annotate({
-  identifier: "CreateUptimeCheckRequest",
-}) as any as S.Schema<CreateUptimeCheckRequest>;
+).annotate({ identifier: "CreateUptimeCheckRequest" }) as any as S.Schema<CreateUptimeCheckRequest>;
 
 /** The type of health check to perform. */
 export type CheckType = "ping" | "http" | "https";
@@ -14638,9 +16017,7 @@ export const VectordbVectorDBConfig = /*@__PURE__*/ S.suspend(() =>
     enable_auto_schema: S.optional(S.Boolean),
     weaviate_version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VectordbVectorDBConfig",
-}) as any as S.Schema<VectordbVectorDBConfig>;
+).annotate({ identifier: "VectordbVectorDBConfig" }) as any as S.Schema<VectordbVectorDBConfig>;
 
 /** VectorDBEndpoints contains the connection endpoints for a vector database instance. */
 export interface VectordbVectorDBEndpoints {
@@ -14702,9 +16079,7 @@ export const VectordbVectorDB = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(VectordbVectorDBTagsList),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VectordbVectorDB",
-}) as any as S.Schema<VectordbVectorDB>;
+).annotate({ identifier: "VectordbVectorDB" }) as any as S.Schema<VectordbVectorDB>;
 
 export interface VectordbCreateVectorDBResponse {
   vector_db?: VectordbVectorDB;
@@ -14743,9 +16118,7 @@ export const VolumesExt4Input = /*@__PURE__*/ S.suspend(() =>
     region: RegionSlug,
     filesystem_label: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "VolumesExt4Input",
-}) as any as S.Schema<VolumesExt4Input>;
+).annotate({ identifier: "VolumesExt4Input" }) as any as S.Schema<VolumesExt4Input>;
 
 export type VolumesXfsInput = VolumesExt4Input;
 export const VolumesXfsInput = VolumesExt4Input;
@@ -14760,9 +16133,7 @@ export const CreateVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: CreateVolumeRequestBody.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/v2/volumes", code: 200 })),
-).annotate({
-  identifier: "CreateVolumeRequest",
-}) as any as S.Schema<CreateVolumeRequest>;
+).annotate({ identifier: "CreateVolumeRequest" }) as any as S.Schema<CreateVolumeRequest>;
 
 /** An array containing the IDs of the Droplets the volume is attached to. Note that at this time, a volume can only be attached to a single Droplet. */
 export type VolumeFullDropletIdsList = Array<number>;
@@ -14806,9 +16177,7 @@ export const VolumeFullRegion = /*@__PURE__*/ S.suspend(() =>
     available: S.Boolean,
     sizes: VolumeFullRegionSizesList,
   }),
-).annotate({
-  identifier: "VolumeFullRegion",
-}) as any as S.Schema<VolumeFullRegion>;
+).annotate({ identifier: "VolumeFullRegion" }) as any as S.Schema<VolumeFullRegion>;
 
 export interface VolumeFull {
   /** The unique identifier for the block storage volume. */
@@ -14852,9 +16221,7 @@ export const CreateVolumeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     volume: S.optional(VolumeFull),
   }),
-).annotate({
-  identifier: "CreateVolumeResponse",
-}) as any as S.Schema<CreateVolumeResponse>;
+).annotate({ identifier: "CreateVolumeResponse" }) as any as S.Schema<CreateVolumeResponse>;
 
 export interface CreateVolumeSnapshotRequest {
   /** The ID of the block storage volume. */
@@ -14868,13 +16235,7 @@ export const CreateVolumeSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     volume_id: S.String.pipe(T.Label()),
     name: S.String,
     tags: S.optional(S.NullOr(TagsArray)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/volumes/{volume_id}/snapshots",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/volumes/{volume_id}/snapshots", code: 200 })),
 ).annotate({
   identifier: "CreateVolumeSnapshotRequest",
 }) as any as S.Schema<CreateVolumeSnapshotRequest>;
@@ -14957,9 +16318,7 @@ export const CreateVpcRequest = /*@__PURE__*/ S.suspend(() =>
     region: S.String,
     ip_range: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v2/vpcs", code: 200 })),
-).annotate({
-  identifier: "CreateVpcRequest",
-}) as any as S.Schema<CreateVpcRequest>;
+).annotate({ identifier: "CreateVpcRequest" }) as any as S.Schema<CreateVpcRequest>;
 
 export interface Vpc {
   /** The name of the VPC. Must be unique and may only contain alphanumeric characters, dashes, and periods. */
@@ -14998,9 +16357,7 @@ export const CreateVpcResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vpc: S.optional(Vpc),
   }),
-).annotate({
-  identifier: "CreateVpcResponse",
-}) as any as S.Schema<CreateVpcResponse>;
+).annotate({ identifier: "CreateVpcResponse" }) as any as S.Schema<CreateVpcResponse>;
 
 /** The type of the VPC NAT gateway. */
 export type CreateVpcnatgatewayRequestType = "PUBLIC";
@@ -15028,12 +16385,15 @@ export const CreateVpcnatgatewayRequestRegion = S.String;
 export interface CreateVpcnatgatewayRequestVpcsItem {
   /** The unique identifier of the VPC to which the NAT gateway is attached. */
   vpc_uuid: string;
+  /** The unique identifier of the VPC subnet to which the NAT gateway is attached. */
+  subnet_uuid?: string;
   /** The classification of the NAT gateway as the default egress route for the VPC traffic. */
   default_gateway?: boolean;
 }
 export const CreateVpcnatgatewayRequestVpcsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vpc_uuid: S.String,
+    subnet_uuid: S.optional(S.String),
     default_gateway: S.optional(S.Boolean),
   }),
 ).annotate({
@@ -15045,6 +16405,42 @@ export type CreateVpcnatgatewayRequestVpcsList = Array<CreateVpcnatgatewayReques
 export const CreateVpcnatgatewayRequestVpcsList = /*@__PURE__*/ S.Array(
   CreateVpcnatgatewayRequestVpcsItem,
 ) as any as S.Schema<CreateVpcnatgatewayRequestVpcsList>;
+
+/** Specify the address using either `ip` or `ipv4`. Both fields accept the same value and `ip` takes precedence if both are provided. The assigned address is returned in the `ipv4` field of GET and list responses. */
+export interface CreateVpcnatgatewayRequestEgressesPublicGatewaysItem {
+  /** The public egress IP address to assign to the VPC NAT gateway, and the preferred field for setting it. Provide an unassigned Bring Your Own IP (BYOIP) address on your account in the same region to use your own IP address. This field is only applied when creating the gateway and cannot be changed afterward. The assigned address is returned as `ipv4` in GET and list responses. */
+  ip?: string;
+  /** An alternative to `ip` for setting the public egress IP address on create. Accepts the same value as `ip`, which takes precedence if both are provided. This field is only applied when creating the gateway and cannot be changed afterward. */
+  ipv4?: string;
+}
+export const CreateVpcnatgatewayRequestEgressesPublicGatewaysItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ip: S.optional(S.String),
+    ipv4: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateVpcnatgatewayRequestEgressesPublicGatewaysItem",
+}) as any as S.Schema<CreateVpcnatgatewayRequestEgressesPublicGatewaysItem>;
+
+/** An array containing a single public gateway object that sets the gateway's public egress IP address. */
+export type CreateVpcnatgatewayRequestEgressesPublicGatewaysList =
+  Array<CreateVpcnatgatewayRequestEgressesPublicGatewaysItem>;
+export const CreateVpcnatgatewayRequestEgressesPublicGatewaysList = /*@__PURE__*/ S.Array(
+  CreateVpcnatgatewayRequestEgressesPublicGatewaysItem,
+) as any as S.Schema<CreateVpcnatgatewayRequestEgressesPublicGatewaysList>;
+
+/** An optional object specifying the public egress IP address to assign to the VPC NAT gateway. Provide this only to use a specific address. If omitted, DigitalOcean allocates a public IP address automatically. */
+export interface CreateVpcnatgatewayRequestEgresses {
+  /** An array containing a single public gateway object that sets the gateway's public egress IP address. */
+  public_gateways?: CreateVpcnatgatewayRequestEgressesPublicGatewaysList;
+}
+export const CreateVpcnatgatewayRequestEgresses = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    public_gateways: S.optional(CreateVpcnatgatewayRequestEgressesPublicGatewaysList),
+  }),
+).annotate({
+  identifier: "CreateVpcnatgatewayRequestEgresses",
+}) as any as S.Schema<CreateVpcnatgatewayRequestEgresses>;
 
 export interface CreateVpcnatgatewayRequest {
   /** The human-readable name of the VPC NAT gateway. */
@@ -15063,6 +16459,8 @@ export interface CreateVpcnatgatewayRequest {
   icmp_timeout_seconds?: number;
   /** The TCP timeout in seconds for the VPC NAT gateway. */
   tcp_timeout_seconds?: number;
+  /** An optional object specifying the public egress IP address to assign to the VPC NAT gateway. Provide this only to use a specific address. If omitted, DigitalOcean allocates a public IP address automatically. */
+  egresses?: CreateVpcnatgatewayRequestEgresses;
 }
 export const CreateVpcnatgatewayRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15074,6 +16472,7 @@ export const CreateVpcnatgatewayRequest = /*@__PURE__*/ S.suspend(() =>
     udp_timeout_seconds: S.optional(S.Number),
     icmp_timeout_seconds: S.optional(S.Number),
     tcp_timeout_seconds: S.optional(S.Number),
+    egresses: S.optional(CreateVpcnatgatewayRequestEgresses),
   }).pipe(T.Http({ method: "POST", uri: "/v2/vpc_nat_gateways", code: 200 })),
 ).annotate({
   identifier: "CreateVpcnatgatewayRequest",
@@ -15101,9 +16500,7 @@ export const CreateVpcPeeringRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     vpc_ids: CreateVpcPeeringRequestVpcIdsList,
   }).pipe(T.Http({ method: "POST", uri: "/v2/vpc_peerings", code: 200 })),
-).annotate({
-  identifier: "CreateVpcPeeringRequest",
-}) as any as S.Schema<CreateVpcPeeringRequest>;
+).annotate({ identifier: "CreateVpcPeeringRequest" }) as any as S.Schema<CreateVpcPeeringRequest>;
 
 export interface CreateVpcPeeringResponse {}
 export const CreateVpcPeeringResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -15121,14 +16518,180 @@ export const CreateVpcPeeringsRequest = /*@__PURE__*/ S.suspend(() =>
     vpc_id: S.String.pipe(T.Label()),
     name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v2/vpcs/{vpc_id}/peerings", code: 200 })),
-).annotate({
-  identifier: "CreateVpcPeeringsRequest",
-}) as any as S.Schema<CreateVpcPeeringsRequest>;
+).annotate({ identifier: "CreateVpcPeeringsRequest" }) as any as S.Schema<CreateVpcPeeringsRequest>;
 
 export interface CreateVpcPeeringsResponse {}
 export const CreateVpcPeeringsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CreateVpcPeeringsResponse",
 }) as any as S.Schema<CreateVpcPeeringsResponse>;
+
+export interface CreateVpcSubnetRequest {
+  /** The unique identifier of the VPC to which the subnet belongs. */
+  vpc_uuid: string;
+  /** The human-readable name of the VPC subnet. */
+  name: string;
+  /** An RFC1918 CIDR range between /16 and /24 that does not overlap another team or VPC network. */
+  ip_range?: string;
+}
+export const CreateVpcSubnetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc_uuid: S.String.pipe(T.Label()),
+    name: S.String,
+    ip_range: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/vpcs/{vpc_uuid}/subnets", code: 200 })),
+).annotate({ identifier: "CreateVpcSubnetRequest" }) as any as S.Schema<CreateVpcSubnetRequest>;
+
+/** The type of the VPC subnet. */
+export type VpcSubnetType = "REGULAR" | "MANAGED" | "OVERLAY";
+export const VpcSubnetType = S.String;
+
+/** The number of members grouped by resource type. */
+export type VpcSubnetStatisticsResourcesMap = { [key: string]: number | undefined };
+export const VpcSubnetStatisticsResourcesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Number,
+) as any as S.Schema<VpcSubnetStatisticsResourcesMap>;
+
+/** Member statistics, excluding resources the caller is not permitted to read. */
+export interface VpcSubnetStatistics {
+  /** The number of members in the VPC subnet. */
+  members?: number;
+  /** The number of members grouped by resource type. */
+  resources?: VpcSubnetStatisticsResourcesMap;
+}
+export const VpcSubnetStatistics = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    members: S.optional(S.Number),
+    resources: S.optional(VpcSubnetStatisticsResourcesMap),
+  }),
+).annotate({ identifier: "VpcSubnetStatistics" }) as any as S.Schema<VpcSubnetStatistics>;
+
+/** Additional information about the VPC subnet. */
+export interface VpcSubnetMeta {
+  stats?: VpcSubnetStatistics;
+}
+export const VpcSubnetMeta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    stats: S.optional(VpcSubnetStatistics),
+  }),
+).annotate({ identifier: "VpcSubnetMeta" }) as any as S.Schema<VpcSubnetMeta>;
+
+export interface VpcSubnet {
+  /** The unique identifier of the VPC subnet. */
+  id: string;
+  /** The uniform resource name of the VPC subnet. */
+  urn: string;
+  /** The human-readable name of the VPC subnet. */
+  name: string;
+  /** The IPv4 range assigned to the subnet in CIDR notation. */
+  ip_range: string;
+  /** Whether this is the default subnet for the VPC. */
+  default?: boolean;
+  /** The type of the VPC subnet. */
+  type: VpcSubnetType;
+  /** The slug of the region containing the VPC subnet. */
+  region: string;
+  /** The time when the VPC subnet was created. */
+  created_at: string;
+  meta?: VpcSubnetMeta;
+}
+export const VpcSubnet = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    urn: S.String,
+    name: S.String,
+    ip_range: S.String,
+    default: S.optional(S.Boolean),
+    type: VpcSubnetType,
+    region: S.String,
+    created_at: S.String,
+    meta: S.optional(VpcSubnetMeta),
+  }),
+).annotate({ identifier: "VpcSubnet" }) as any as S.Schema<VpcSubnet>;
+
+export interface CreateVpcSubnetResponse {
+  vpc_subnet?: VpcSubnet;
+}
+export const CreateVpcSubnetResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc_subnet: S.optional(VpcSubnet),
+  }),
+).annotate({ identifier: "CreateVpcSubnetResponse" }) as any as S.Schema<CreateVpcSubnetResponse>;
+
+/** The URNs of supported next-hop resources. Droplet targets must use a numeric ID in the format `do:droplet:<id>`. VPC NAT Gateway targets use a UUID in the format `do:nat_gateway:<uuid>`. */
+export type CreateVpcSubnetRouteRequestTargetUrnsList = Array<string>;
+export const CreateVpcSubnetRouteRequestTargetUrnsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateVpcSubnetRouteRequestTargetUrnsList>;
+
+export interface CreateVpcSubnetRouteRequest {
+  /** The unique identifier of the VPC. */
+  vpc_uuid: string;
+  /** The unique identifier of the VPC subnet. */
+  subnet_uuid: string;
+  /** A valid IPv4 CIDR accepted by the VPC routing product. */
+  destination_cidr: string;
+  /** The URNs of supported next-hop resources. Droplet targets must use a numeric ID in the format `do:droplet:<id>`. VPC NAT Gateway targets use a UUID in the format `do:nat_gateway:<uuid>`. */
+  target_urns: CreateVpcSubnetRouteRequestTargetUrnsList;
+}
+export const CreateVpcSubnetRouteRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc_uuid: S.String.pipe(T.Label()),
+    subnet_uuid: S.String.pipe(T.Label()),
+    destination_cidr: S.String,
+    target_urns: CreateVpcSubnetRouteRequestTargetUrnsList,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v2/vpcs/{vpc_uuid}/subnets/{subnet_uuid}/routes", code: 200 }),
+  ),
+).annotate({
+  identifier: "CreateVpcSubnetRouteRequest",
+}) as any as S.Schema<CreateVpcSubnetRouteRequest>;
+
+/** The route type inferred from how the route is sourced. */
+export type RouteType = "STATIC" | "DYNAMIC";
+export const RouteType = S.String;
+
+/** The URNs of resources that act as next hops for the route. Supported next hops are Droplets, using a numeric ID in the format `do:droplet:<id>`, and VPC NAT Gateways, using a UUID in the format `do:nat_gateway:<uuid>`. */
+export type RouteTargetUrnsList = Array<string>;
+export const RouteTargetUrnsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<RouteTargetUrnsList>;
+
+export interface Route {
+  /** The unique identifier of the route. */
+  id: string;
+  /** The route type inferred from how the route is sourced. */
+  type: RouteType;
+  /** The destination IPv4 network for the route in CIDR notation. */
+  destination_cidr: string;
+  /** The URNs of resources that act as next hops for the route. Supported next hops are Droplets, using a numeric ID in the format `do:droplet:<id>`, and VPC NAT Gateways, using a UUID in the format `do:nat_gateway:<uuid>`. */
+  target_urns: RouteTargetUrnsList;
+  /** Whether the caller can update or delete the route. */
+  modifiable?: boolean;
+  /** The time when the route was created. */
+  created_at?: string;
+}
+export const Route = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: RouteType,
+    destination_cidr: S.String,
+    target_urns: RouteTargetUrnsList,
+    modifiable: S.optional(S.Boolean),
+    created_at: S.optional(S.String),
+  }),
+).annotate({ identifier: "Route" }) as any as S.Schema<Route>;
+
+export interface CreateVpcSubnetRouteResponse {
+  route?: Route;
+}
+export const CreateVpcSubnetRouteResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    route: S.optional(Route),
+  }),
+).annotate({
+  identifier: "CreateVpcSubnetRouteResponse",
+}) as any as S.Schema<CreateVpcSubnetRouteResponse>;
 
 export interface DatabasesDeleteOpensearchIndexRequest {
   /** A unique identifier for a database cluster. */
@@ -15165,22 +16728,14 @@ export interface DatabasesDestroyClusterRequest {
 export const DatabasesDestroyClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/databases/{database_cluster_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/databases/{database_cluster_uuid}", code: 200 })),
 ).annotate({
   identifier: "DatabasesDestroyClusterRequest",
 }) as any as S.Schema<DatabasesDestroyClusterRequest>;
 
 export interface DatabasesDestroyClusterResponse {}
 export const DatabasesDestroyClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DatabasesDestroyClusterResponse",
-  },
+  { identifier: "DatabasesDestroyClusterResponse" },
 ) as any as S.Schema<DatabasesDestroyClusterResponse>;
 
 export interface DatabasesDestroyReplicaRequest {
@@ -15206,9 +16761,7 @@ export const DatabasesDestroyReplicaRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DatabasesDestroyReplicaResponse {}
 export const DatabasesDestroyReplicaResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DatabasesDestroyReplicaResponse",
-  },
+  { identifier: "DatabasesDestroyReplicaResponse" },
 ) as any as S.Schema<DatabasesDestroyReplicaResponse>;
 
 export interface DatabasesInstallUpdateRequest {
@@ -15234,6 +16787,39 @@ export const DatabasesInstallUpdateResponse = /*@__PURE__*/ S.suspend(() => S.St
   identifier: "DatabasesInstallUpdateResponse",
 }) as any as S.Schema<DatabasesInstallUpdateResponse>;
 
+export type LimitCategory =
+  | "LIMIT_CATEGORY_WEB_SEARCH_REQUESTS_PER_MINUTE"
+  | "LIMIT_CATEGORY_WEB_FETCH_REQUESTS_PER_MINUTE"
+  | "LIMIT_CATEGORY_NATIVE_TOOL_CALLS_REQUESTS_PER_MINUTE"
+  | "LIMIT_CATEGORY_NON_NATIVE_TOOL_CALLS_REQUESTS_PER_MINUTE";
+export const LimitCategory = S.String;
+
+/** Required. Categories to clear, each at most once. */
+export type DeleteActorLimitRequestCategoriesList = Array<LimitCategory | (string & {})>;
+export const DeleteActorLimitRequestCategoriesList = /*@__PURE__*/ S.Array(
+  LimitCategory,
+) as any as S.Schema<DeleteActorLimitRequestCategoriesList>;
+
+export interface DeleteActorLimitRequest {
+  /** Actor ID: a session `actor_id` or a connection `user_id`, 1 to 64 characters from `[A-Za-z0-9._-]`. */
+  actor_id: string;
+  /** Required. Categories to clear, each at most once. */
+  categories: DeleteActorLimitRequestCategoriesList;
+}
+export const DeleteActorLimitRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    actor_id: S.String.pipe(T.Label()),
+    categories: DeleteActorLimitRequestCategoriesList,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v2/action-gateway/actors/{actor_id}/limits:clear", code: 200 }),
+  ),
+).annotate({ identifier: "DeleteActorLimitRequest" }) as any as S.Schema<DeleteActorLimitRequest>;
+
+export type DeleteActorLimitResponse = unknown;
+export const DeleteActorLimitResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "DeleteActorLimitResponse" }) as any as S.Schema<DeleteActorLimitResponse>;
+
 export interface DeleteAddonRequest {
   /** A unique identifier for the add-on resource. */
   resource_uuid: string;
@@ -15241,16 +16827,8 @@ export interface DeleteAddonRequest {
 export const DeleteAddonRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resource_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/add-ons/saas/{resource_uuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteAddonRequest",
-}) as any as S.Schema<DeleteAddonRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/add-ons/saas/{resource_uuid}", code: 200 })),
+).annotate({ identifier: "DeleteAddonRequest" }) as any as S.Schema<DeleteAddonRequest>;
 
 export interface DeleteAddonResponse {}
 export const DeleteAddonResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -15265,9 +16843,7 @@ export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v2/apps/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteAppRequest",
-}) as any as S.Schema<DeleteAppRequest>;
+).annotate({ identifier: "DeleteAppRequest" }) as any as S.Schema<DeleteAppRequest>;
 
 export interface AppsDeleteAppResponse {
   id?: string;
@@ -15276,9 +16852,7 @@ export const AppsDeleteAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppsDeleteAppResponse",
-}) as any as S.Schema<AppsDeleteAppResponse>;
+).annotate({ identifier: "AppsDeleteAppResponse" }) as any as S.Schema<AppsDeleteAppResponse>;
 
 export interface DeleteAutoscalepoolRequest {
   /** A unique identifier for an autoscale pool. */
@@ -15288,11 +16862,7 @@ export const DeleteAutoscalepoolRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     autoscale_pool_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/droplets/autoscale/{autoscale_pool_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v2/droplets/autoscale/{autoscale_pool_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteAutoscalepoolRequest",
@@ -15335,16 +16905,8 @@ export interface DeleteByoipPrefixRequest {
 export const DeleteByoipPrefixRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     byoip_prefix_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/byoip_prefixes/{byoip_prefix_uuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteByoipPrefixRequest",
-}) as any as S.Schema<DeleteByoipPrefixRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/byoip_prefixes/{byoip_prefix_uuid}", code: 200 })),
+).annotate({ identifier: "DeleteByoipPrefixRequest" }) as any as S.Schema<DeleteByoipPrefixRequest>;
 
 export interface DeleteByoipPrefixResponse {}
 export const DeleteByoipPrefixResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -15359,9 +16921,7 @@ export const DeleteCdnEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cdn_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v2/cdn/endpoints/{cdn_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteCdnEndpointRequest",
-}) as any as S.Schema<DeleteCdnEndpointRequest>;
+).annotate({ identifier: "DeleteCdnEndpointRequest" }) as any as S.Schema<DeleteCdnEndpointRequest>;
 
 export interface DeleteCdnEndpointResponse {}
 export const DeleteCdnEndpointResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -15375,21 +16935,34 @@ export interface DeleteCertificateRequest {
 export const DeleteCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     certificate_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/certificates/{certificate_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteCertificateRequest",
-}) as any as S.Schema<DeleteCertificateRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/certificates/{certificate_id}", code: 200 })),
+).annotate({ identifier: "DeleteCertificateRequest" }) as any as S.Schema<DeleteCertificateRequest>;
 
 export interface DeleteCertificateResponse {}
 export const DeleteCertificateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteCertificateResponse",
 }) as any as S.Schema<DeleteCertificateResponse>;
+
+export interface DeleteConnectionRequest {
+  /** Connection ID. */
+  id: string;
+}
+export const DeleteConnectionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/action-gateway/connections/{id}", code: 200 })),
+).annotate({ identifier: "DeleteConnectionRequest" }) as any as S.Schema<DeleteConnectionRequest>;
+
+/** Returns the revoked connection. */
+export interface DeleteConnectionResponse {
+  /** The resulting revoked connection. */
+  connection?: Connection;
+}
+export const DeleteConnectionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connection: S.optional(Connection),
+  }),
+).annotate({ identifier: "DeleteConnectionResponse" }) as any as S.Schema<DeleteConnectionResponse>;
 
 export interface DeleteDatabaseRequest {
   /** A unique identifier for a database cluster. */
@@ -15408,9 +16981,7 @@ export const DeleteDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteDatabaseRequest",
-}) as any as S.Schema<DeleteDatabaseRequest>;
+).annotate({ identifier: "DeleteDatabaseRequest" }) as any as S.Schema<DeleteDatabaseRequest>;
 
 export interface DeleteDatabaseResponse {}
 export const DeleteDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -15642,9 +17213,7 @@ export const DeleteDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain_name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v2/domains/{domain_name}", code: 200 })),
-).annotate({
-  identifier: "DeleteDomainRequest",
-}) as any as S.Schema<DeleteDomainRequest>;
+).annotate({ identifier: "DeleteDomainRequest" }) as any as S.Schema<DeleteDomainRequest>;
 
 export interface DeleteDomainResponse {}
 export const DeleteDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -15685,9 +17254,7 @@ export const DeleteFirewallRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     firewall_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v2/firewalls/{firewall_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteFirewallRequest",
-}) as any as S.Schema<DeleteFirewallRequest>;
+).annotate({ identifier: "DeleteFirewallRequest" }) as any as S.Schema<DeleteFirewallRequest>;
 
 export interface DeleteFirewallResponse {}
 export const DeleteFirewallResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -15710,13 +17277,7 @@ export const DeleteFirewallDropletsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     firewall_id: S.String.pipe(T.Label()),
     droplet_ids: DeleteFirewallDropletsRequestDropletIdsList,
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/firewalls/{firewall_id}/droplets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/firewalls/{firewall_id}/droplets", code: 200 })),
 ).annotate({
   identifier: "DeleteFirewallDropletsRequest",
 }) as any as S.Schema<DeleteFirewallDropletsRequest>;
@@ -15729,6 +17290,10 @@ export const DeleteFirewallDropletsResponse = /*@__PURE__*/ S.suspend(() => S.St
 /** The type of traffic to be allowed. This may be one of `tcp`, `udp`, or `icmp`. */
 export type DeleteFirewallRulesRequestInboundRulesItemProtocol = "tcp" | "udp" | "icmp";
 export const DeleteFirewallRulesRequestInboundRulesItemProtocol = S.String;
+
+/** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+export type DeleteFirewallRulesRequestInboundRulesItemAction = "allow" | "deny";
+export const DeleteFirewallRulesRequestInboundRulesItemAction = S.String;
 
 /** An array of strings containing the IPv4 addresses, IPv6 addresses, IPv4 CIDRs, and/or IPv6 CIDRs to which the firewall will allow traffic. */
 export type DeleteFirewallRulesRequestInboundRulesItemSourcesAddressesList = Array<string>;
@@ -15787,12 +17352,15 @@ export interface DeleteFirewallRulesRequestInboundRulesItem {
   protocol: DeleteFirewallRulesRequestInboundRulesItemProtocol | (string & {});
   /** The ports on which traffic will be allowed specified as a string containing a single port, a range (e.g. "8000-9000"), or "0" when all ports are open for a protocol. For ICMP rules this parameter will always return "0". */
   ports: string;
+  /** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+  action?: DeleteFirewallRulesRequestInboundRulesItemAction | (string & {});
   sources: DeleteFirewallRulesRequestInboundRulesItemSources;
 }
 export const DeleteFirewallRulesRequestInboundRulesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     protocol: DeleteFirewallRulesRequestInboundRulesItemProtocol,
     ports: S.String,
+    action: S.optional(DeleteFirewallRulesRequestInboundRulesItemAction),
     sources: DeleteFirewallRulesRequestInboundRulesItemSources,
   }),
 ).annotate({
@@ -15808,6 +17376,10 @@ export const DeleteFirewallRulesRequestInboundRulesList = /*@__PURE__*/ S.Array(
 /** The type of traffic to be allowed. This may be one of `tcp`, `udp`, or `icmp`. */
 export type DeleteFirewallRulesRequestOutboundRulesItemProtocol = "tcp" | "udp" | "icmp";
 export const DeleteFirewallRulesRequestOutboundRulesItemProtocol = S.String;
+
+/** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+export type DeleteFirewallRulesRequestOutboundRulesItemAction = "allow" | "deny";
+export const DeleteFirewallRulesRequestOutboundRulesItemAction = S.String;
 
 /** An array of strings containing the IPv4 addresses, IPv6 addresses, IPv4 CIDRs, and/or IPv6 CIDRs to which the firewall will allow traffic. */
 export type DeleteFirewallRulesRequestOutboundRulesItemDestinationsAddressesList = Array<string>;
@@ -15871,12 +17443,15 @@ export interface DeleteFirewallRulesRequestOutboundRulesItem {
   protocol: DeleteFirewallRulesRequestOutboundRulesItemProtocol | (string & {});
   /** The ports on which traffic will be allowed specified as a string containing a single port, a range (e.g. "8000-9000"), or "0" when all ports are open for a protocol. For ICMP rules this parameter will always return "0". */
   ports: string;
+  /** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+  action?: DeleteFirewallRulesRequestOutboundRulesItemAction | (string & {});
   destinations: DeleteFirewallRulesRequestOutboundRulesItemDestinations;
 }
 export const DeleteFirewallRulesRequestOutboundRulesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     protocol: DeleteFirewallRulesRequestOutboundRulesItemProtocol,
     ports: S.String,
+    action: S.optional(DeleteFirewallRulesRequestOutboundRulesItemAction),
     destinations: DeleteFirewallRulesRequestOutboundRulesItemDestinations,
   }),
 ).annotate({
@@ -15900,13 +17475,7 @@ export const DeleteFirewallRulesRequest = /*@__PURE__*/ S.suspend(() =>
     firewall_id: S.String.pipe(T.Label()),
     inbound_rules: S.optional(S.NullOr(DeleteFirewallRulesRequestInboundRulesList)),
     outbound_rules: S.optional(S.NullOr(DeleteFirewallRulesRequestOutboundRulesList)),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/firewalls/{firewall_id}/rules",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/firewalls/{firewall_id}/rules", code: 200 })),
 ).annotate({
   identifier: "DeleteFirewallRulesRequest",
 }) as any as S.Schema<DeleteFirewallRulesRequest>;
@@ -15925,13 +17494,7 @@ export const DeleteFirewallTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     firewall_id: S.String.pipe(T.Label()),
     tags: S.Unknown,
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/firewalls/{firewall_id}/tags",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/firewalls/{firewall_id}/tags", code: 200 })),
 ).annotate({
   identifier: "DeleteFirewallTagsRequest",
 }) as any as S.Schema<DeleteFirewallTagsRequest>;
@@ -15948,16 +17511,8 @@ export interface DeleteFloatingIPRequest {
 export const DeleteFloatingIPRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     floating_ip: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/floating_ips/{floating_ip}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteFloatingIPRequest",
-}) as any as S.Schema<DeleteFloatingIPRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/floating_ips/{floating_ip}", code: 200 })),
+).annotate({ identifier: "DeleteFloatingIPRequest" }) as any as S.Schema<DeleteFloatingIPRequest>;
 
 export interface DeleteFloatingIPResponse {}
 export const DeleteFloatingIPResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -15971,22 +17526,14 @@ export interface DeleteFunctionNamespaceRequest {
 export const DeleteFunctionNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/functions/namespaces/{namespace_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/functions/namespaces/{namespace_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteFunctionNamespaceRequest",
 }) as any as S.Schema<DeleteFunctionNamespaceRequest>;
 
 export interface DeleteFunctionNamespaceResponse {}
 export const DeleteFunctionNamespaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteFunctionNamespaceResponse",
-  },
+  { identifier: "DeleteFunctionNamespaceResponse" },
 ) as any as S.Schema<DeleteFunctionNamespaceResponse>;
 
 export interface DeleteFunctionsAccessKeyRequest {
@@ -16025,9 +17572,7 @@ export const DeleteGenaiAgentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v2/gen-ai/agents/{uuid}", code: 200 })),
-).annotate({
-  identifier: "DeleteGenaiAgentRequest",
-}) as any as S.Schema<DeleteGenaiAgentRequest>;
+).annotate({ identifier: "DeleteGenaiAgentRequest" }) as any as S.Schema<DeleteGenaiAgentRequest>;
 
 /** Info about a deleted agent */
 export interface ApiDeleteAgentOutput {
@@ -16037,9 +17582,7 @@ export const ApiDeleteAgentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     agent: S.optional(ApiAgent),
   }),
-).annotate({
-  identifier: "ApiDeleteAgentOutput",
-}) as any as S.Schema<ApiDeleteAgentOutput>;
+).annotate({ identifier: "ApiDeleteAgentOutput" }) as any as S.Schema<ApiDeleteAgentOutput>;
 
 export interface DeleteGenaiAgentApiKeyRequest {
   /** A unique identifier for your agent. */
@@ -16080,13 +17623,7 @@ export interface DeleteGenaiAnthropicApiKeyRequest {
 export const DeleteGenaiAnthropicApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     api_key_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/gen-ai/anthropic/keys/{api_key_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/gen-ai/anthropic/keys/{api_key_uuid}", code: 200 })),
 ).annotate({
   identifier: "DeleteGenaiAnthropicApiKeyRequest",
 }) as any as S.Schema<DeleteGenaiAnthropicApiKeyRequest>;
@@ -16135,13 +17672,7 @@ export interface DeleteGenaiCustomModelRequest {
 export const DeleteGenaiCustomModelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/gen-ai/custom_models/{uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/gen-ai/custom_models/{uuid}", code: 200 })),
 ).annotate({
   identifier: "DeleteGenaiCustomModelRequest",
 }) as any as S.Schema<DeleteGenaiCustomModelRequest>;
@@ -16176,11 +17707,7 @@ export const DeleteGenaiEvaluationDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dataset_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/gen-ai/evaluation_datasets/{dataset_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v2/gen-ai/evaluation_datasets/{dataset_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteGenaiEvaluationDatasetRequest",
@@ -16200,13 +17727,7 @@ export interface DeleteGenaiKnowledgeBaseRequest {
 export const DeleteGenaiKnowledgeBaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/gen-ai/knowledge_bases/{uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/gen-ai/knowledge_bases/{uuid}", code: 200 })),
 ).annotate({
   identifier: "DeleteGenaiKnowledgeBaseRequest",
 }) as any as S.Schema<DeleteGenaiKnowledgeBaseRequest>;
@@ -16269,11 +17790,7 @@ export const DeleteGenaiModelApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     api_key_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/gen-ai/models/api_keys/{api_key_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v2/gen-ai/models/api_keys/{api_key_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteGenaiModelApiKeyRequest",
@@ -16365,13 +17882,7 @@ export interface DeleteGenaiModelRouterRequest {
 export const DeleteGenaiModelRouterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/gen-ai/models/routers/{uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/gen-ai/models/routers/{uuid}", code: 200 })),
 ).annotate({
   identifier: "DeleteGenaiModelRouterRequest",
 }) as any as S.Schema<DeleteGenaiModelRouterRequest>;
@@ -16396,13 +17907,7 @@ export interface DeleteGenaiOpenaiApiKeyRequest {
 export const DeleteGenaiOpenaiApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     api_key_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/gen-ai/openai/keys/{api_key_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/gen-ai/openai/keys/{api_key_uuid}", code: 200 })),
 ).annotate({
   identifier: "DeleteGenaiOpenaiApiKeyRequest",
 }) as any as S.Schema<DeleteGenaiOpenaiApiKeyRequest>;
@@ -16419,6 +17924,33 @@ export const ApiDeleteOpenAIAPIKeyOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ApiDeleteOpenAIAPIKeyOutput",
 }) as any as S.Schema<ApiDeleteOpenAIAPIKeyOutput>;
 
+export interface DeleteGenaiScenarioSetRequest {
+  /** UUID of the scenario set to delete. Returned by `CreateScenarioSet` and listed via `ListScenarioSets`. A set still referenced by a simulation run cannot be deleted. */
+  scenario_set_uuid: string;
+}
+export const DeleteGenaiScenarioSetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scenario_set_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "DELETE", uri: "/v2/gen-ai/scenario_sets/{scenario_set_uuid}", code: 200 }),
+  ),
+).annotate({
+  identifier: "DeleteGenaiScenarioSetRequest",
+}) as any as S.Schema<DeleteGenaiScenarioSetRequest>;
+
+/** Output for deleting a scenario set. */
+export interface ApiDeleteScenarioSetOutput {
+  /** UUID of the deleted scenario set. */
+  scenario_set_uuid?: string;
+}
+export const ApiDeleteScenarioSetOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scenario_set_uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApiDeleteScenarioSetOutput",
+}) as any as S.Schema<ApiDeleteScenarioSetOutput>;
+
 export interface DeleteGenaiScheduledIndexingRequest {
   /** UUID of the scheduled indexing */
   uuid: string;
@@ -16426,13 +17958,7 @@ export interface DeleteGenaiScheduledIndexingRequest {
 export const DeleteGenaiScheduledIndexingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/gen-ai/scheduled-indexing/{uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/gen-ai/scheduled-indexing/{uuid}", code: 200 })),
 ).annotate({
   identifier: "DeleteGenaiScheduledIndexingRequest",
 }) as any as S.Schema<DeleteGenaiScheduledIndexingRequest>;
@@ -16448,6 +17974,31 @@ export const ApiDeleteScheduledIndexingOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ApiDeleteScheduledIndexingOutput",
 }) as any as S.Schema<ApiDeleteScheduledIndexingOutput>;
 
+export interface DeleteGenaiSimulationRunRequest {
+  /** UUID of the simulation run to delete. The run must be in a terminal status. For runs still in progress, cancel the run first, then retry the delete. */
+  run_uuid: string;
+}
+export const DeleteGenaiSimulationRunRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    run_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/gen-ai/simulation_runs/{run_uuid}", code: 200 })),
+).annotate({
+  identifier: "DeleteGenaiSimulationRunRequest",
+}) as any as S.Schema<DeleteGenaiSimulationRunRequest>;
+
+/** Output for deleting a simulation run. */
+export interface ApiDeleteSimulationRunOutput {
+  /** UUID of the deleted run. */
+  run_uuid?: string;
+}
+export const ApiDeleteSimulationRunOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    run_uuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApiDeleteSimulationRunOutput",
+}) as any as S.Schema<ApiDeleteSimulationRunOutput>;
+
 export interface DeleteGenaiWorkspaceRequest {
   /** Workspace UUID. */
   workspace_uuid: string;
@@ -16455,13 +18006,7 @@ export interface DeleteGenaiWorkspaceRequest {
 export const DeleteGenaiWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workspace_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/gen-ai/workspaces/{workspace_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/gen-ai/workspaces/{workspace_uuid}", code: 200 })),
 ).annotate({
   identifier: "DeleteGenaiWorkspaceRequest",
 }) as any as S.Schema<DeleteGenaiWorkspaceRequest>;
@@ -16474,9 +18019,7 @@ export const ApiDeleteWorkspaceOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workspace_uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiDeleteWorkspaceOutput",
-}) as any as S.Schema<ApiDeleteWorkspaceOutput>;
+).annotate({ identifier: "ApiDeleteWorkspaceOutput" }) as any as S.Schema<ApiDeleteWorkspaceOutput>;
 
 export interface DeleteImageRequest {
   /** A unique number that can be used to identify and reference a specific image. */
@@ -16486,14 +18029,48 @@ export const DeleteImageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     image_id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v2/images/{image_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteImageRequest",
-}) as any as S.Schema<DeleteImageRequest>;
+).annotate({ identifier: "DeleteImageRequest" }) as any as S.Schema<DeleteImageRequest>;
 
 export interface DeleteImageResponse {}
 export const DeleteImageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteImageResponse",
 }) as any as S.Schema<DeleteImageResponse>;
+
+export interface DeleteInsightAlertRuleRequest {
+  /** A unique identifier for an alert rule. */
+  id: string;
+}
+export const DeleteInsightAlertRuleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/insights/alert-rules/{id}", code: 200 })),
+).annotate({
+  identifier: "DeleteInsightAlertRuleRequest",
+}) as any as S.Schema<DeleteInsightAlertRuleRequest>;
+
+export interface DeleteInsightAlertRuleResponse {}
+export const DeleteInsightAlertRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteInsightAlertRuleResponse",
+}) as any as S.Schema<DeleteInsightAlertRuleResponse>;
+
+export interface DeleteInsightNotificationChannelRequest {
+  /** A unique identifier for a notification channel. */
+  id: string;
+}
+export const DeleteInsightNotificationChannelRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/insights/notification-channels/{id}", code: 200 })),
+).annotate({
+  identifier: "DeleteInsightNotificationChannelRequest",
+}) as any as S.Schema<DeleteInsightNotificationChannelRequest>;
+
+export interface DeleteInsightNotificationChannelResponse {}
+export const DeleteInsightNotificationChannelResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteInsightNotificationChannelResponse",
+}) as any as S.Schema<DeleteInsightNotificationChannelResponse>;
 
 export interface DeleteKubernetesClusterRequest {
   /** A unique ID that can be used to reference a Kubernetes cluster. */
@@ -16502,22 +18079,14 @@ export interface DeleteKubernetesClusterRequest {
 export const DeleteKubernetesClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cluster_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/kubernetes/clusters/{cluster_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/kubernetes/clusters/{cluster_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteKubernetesClusterRequest",
 }) as any as S.Schema<DeleteKubernetesClusterRequest>;
 
 export interface DeleteKubernetesClusterResponse {}
 export const DeleteKubernetesClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteKubernetesClusterResponse",
-  },
+  { identifier: "DeleteKubernetesClusterResponse" },
 ) as any as S.Schema<DeleteKubernetesClusterResponse>;
 
 export interface DeleteKubernetesNodeRequest {
@@ -16607,23 +18176,27 @@ export interface DeleteLoadBalancerCacheRequest {
 export const DeleteLoadBalancerCacheRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     lb_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/load_balancers/{lb_id}/cache",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/load_balancers/{lb_id}/cache", code: 200 })),
 ).annotate({
   identifier: "DeleteLoadBalancerCacheRequest",
 }) as any as S.Schema<DeleteLoadBalancerCacheRequest>;
 
 export interface DeleteLoadBalancerCacheResponse {}
 export const DeleteLoadBalancerCacheResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteLoadBalancerCacheResponse",
-  },
+  { identifier: "DeleteLoadBalancerCacheResponse" },
 ) as any as S.Schema<DeleteLoadBalancerCacheResponse>;
+
+export interface DeleteMcpServerRequest {
+  /** Server identifier (`serverRef`) of one of your team's MCP servers. */
+  server_ref: string;
+}
+export const DeleteMcpServerRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    server_ref: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "DELETE", uri: "/v2/action-gateway/mcp-servers/{server_ref}", code: 200 }),
+  ),
+).annotate({ identifier: "DeleteMcpServerRequest" }) as any as S.Schema<DeleteMcpServerRequest>;
 
 export interface DeleteMonitoringAlertPolicyRequest {
   /** A unique identifier for an alert policy. */
@@ -16632,13 +18205,7 @@ export interface DeleteMonitoringAlertPolicyRequest {
 export const DeleteMonitoringAlertPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     alert_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/monitoring/alerts/{alert_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/monitoring/alerts/{alert_uuid}", code: 200 })),
 ).annotate({
   identifier: "DeleteMonitoringAlertPolicyRequest",
 }) as any as S.Schema<DeleteMonitoringAlertPolicyRequest>;
@@ -16682,13 +18249,7 @@ export interface DeleteMonitoringSinkRequest {
 export const DeleteMonitoringSinkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sink_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/monitoring/sinks/{sink_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/monitoring/sinks/{sink_uuid}", code: 200 })),
 ).annotate({
   identifier: "DeleteMonitoringSinkRequest",
 }) as any as S.Schema<DeleteMonitoringSinkRequest>;
@@ -16709,9 +18270,7 @@ export const DeleteNfsRequest = /*@__PURE__*/ S.suspend(() =>
     nfs_id: S.String.pipe(T.Label()),
     region: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/v2/nfs/{nfs_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteNfsRequest",
-}) as any as S.Schema<DeleteNfsRequest>;
+).annotate({ identifier: "DeleteNfsRequest" }) as any as S.Schema<DeleteNfsRequest>;
 
 export interface DeleteNfsResponse {}
 export const DeleteNfsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -16725,13 +18284,7 @@ export interface DeleteNfsAccessPointRequest {
 export const DeleteNfsAccessPointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     access_point_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/nfs/access_points/{access_point_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/nfs/access_points/{access_point_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteNfsAccessPointRequest",
 }) as any as S.Schema<DeleteNfsAccessPointRequest>;
@@ -16746,21 +18299,25 @@ export const DeleteNfsSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nfs_snapshot_id: S.String.pipe(T.Label()),
     region: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/nfs/snapshots/{nfs_snapshot_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteNfsSnapshotRequest",
-}) as any as S.Schema<DeleteNfsSnapshotRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/nfs/snapshots/{nfs_snapshot_id}", code: 200 })),
+).annotate({ identifier: "DeleteNfsSnapshotRequest" }) as any as S.Schema<DeleteNfsSnapshotRequest>;
 
 export interface DeleteNfsSnapshotResponse {}
 export const DeleteNfsSnapshotResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteNfsSnapshotResponse",
 }) as any as S.Schema<DeleteNfsSnapshotResponse>;
+
+export interface DeleteOutputViewRequest {
+  /** Output view ID. */
+  view_id: string;
+}
+export const DeleteOutputViewRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    view_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "DELETE", uri: "/v2/action-gateway/output-views/{view_id}", code: 200 }),
+  ),
+).annotate({ identifier: "DeleteOutputViewRequest" }) as any as S.Schema<DeleteOutputViewRequest>;
 
 export interface DeletePartnerAttachmentRequest {
   /** A unique identifier for a partner attachment. */
@@ -16770,11 +18327,7 @@ export const DeletePartnerAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pa_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/partner_network_connect/attachments/{pa_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v2/partner_network_connect/attachments/{pa_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeletePartnerAttachmentRequest",
@@ -16782,9 +18335,7 @@ export const DeletePartnerAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeletePartnerAttachmentResponse {}
 export const DeletePartnerAttachmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeletePartnerAttachmentResponse",
-  },
+  { identifier: "DeletePartnerAttachmentResponse" },
 ) as any as S.Schema<DeletePartnerAttachmentResponse>;
 
 export interface DeleteProjectRequest {
@@ -16795,9 +18346,7 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v2/projects/{project_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Schema<DeleteProjectRequest>;
 
 export interface DeleteProjectResponse {}
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -16811,16 +18360,8 @@ export interface DeleteRegistryRequest {
 export const DeleteRegistryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     registry_name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/registries/{registry_name}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteRegistryRequest",
-}) as any as S.Schema<DeleteRegistryRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/registries/{registry_name}", code: 200 })),
+).annotate({ identifier: "DeleteRegistryRequest" }) as any as S.Schema<DeleteRegistryRequest>;
 
 export interface DeleteRegistryResponse {}
 export const DeleteRegistryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -16924,16 +18465,8 @@ export interface DeleteReservedIPRequest {
 export const DeleteReservedIPRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reserved_ip: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/reserved_ips/{reserved_ip}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteReservedIPRequest",
-}) as any as S.Schema<DeleteReservedIPRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/reserved_ips/{reserved_ip}", code: 200 })),
+).annotate({ identifier: "DeleteReservedIPRequest" }) as any as S.Schema<DeleteReservedIPRequest>;
 
 export interface DeleteReservedIPResponse {}
 export const DeleteReservedIPResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -16947,13 +18480,7 @@ export interface DeleteReservedIPv6Request {
 export const DeleteReservedIPv6Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reserved_ipv6: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/reserved_ipv6/{reserved_ipv6}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/reserved_ipv6/{reserved_ipv6}", code: 200 })),
 ).annotate({
   identifier: "DeleteReservedIPv6Request",
 }) as any as S.Schema<DeleteReservedIPv6Request>;
@@ -16988,6 +18515,23 @@ export const DeleteSecuritySuppressionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSecuritySuppressionResponse",
 }) as any as S.Schema<DeleteSecuritySuppressionResponse>;
 
+export interface DeleteSessionRequest {
+  /** URN of the session, for example `do:managed_agent_session:<uuid>`. */
+  session_urn: string;
+}
+export const DeleteSessionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    session_urn: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "DELETE", uri: "/v2/action-gateway/sessions/{session_urn}", code: 200 }),
+  ),
+).annotate({ identifier: "DeleteSessionRequest" }) as any as S.Schema<DeleteSessionRequest>;
+
+export type DeleteSessionResponse = unknown;
+export const DeleteSessionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "DeleteSessionResponse" }) as any as S.Schema<DeleteSessionResponse>;
+
 export interface DeleteSnapshotRequest {
   /** Either the ID of an existing snapshot. This will be an integer for a Droplet snapshot or a string for a volume snapshot. */
   snapshot_id: string;
@@ -16996,9 +18540,7 @@ export const DeleteSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     snapshot_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v2/snapshots/{snapshot_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteSnapshotRequest",
-}) as any as S.Schema<DeleteSnapshotRequest>;
+).annotate({ identifier: "DeleteSnapshotRequest" }) as any as S.Schema<DeleteSnapshotRequest>;
 
 export interface DeleteSnapshotResponse {}
 export const DeleteSnapshotResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -17012,16 +18554,8 @@ export interface DeleteSpacesKeyRequest {
 export const DeleteSpacesKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     access_key: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/spaces/keys/{access_key}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteSpacesKeyRequest",
-}) as any as S.Schema<DeleteSpacesKeyRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/spaces/keys/{access_key}", code: 200 })),
+).annotate({ identifier: "DeleteSpacesKeyRequest" }) as any as S.Schema<DeleteSpacesKeyRequest>;
 
 export interface DeleteSpacesKeyResponse {}
 export const DeleteSpacesKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -17035,16 +18569,8 @@ export interface DeleteSshKeyRequest {
 export const DeleteSshKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ssh_key_identifier: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/account/keys/{ssh_key_identifier}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteSshKeyRequest",
-}) as any as S.Schema<DeleteSshKeyRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/account/keys/{ssh_key_identifier}", code: 200 })),
+).annotate({ identifier: "DeleteSshKeyRequest" }) as any as S.Schema<DeleteSshKeyRequest>;
 
 export interface DeleteSshKeyResponse {}
 export const DeleteSshKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -17059,14 +18585,45 @@ export const DeleteTagRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tag_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v2/tags/{tag_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteTagRequest",
-}) as any as S.Schema<DeleteTagRequest>;
+).annotate({ identifier: "DeleteTagRequest" }) as any as S.Schema<DeleteTagRequest>;
 
 export interface DeleteTagResponse {}
 export const DeleteTagResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteTagResponse",
 }) as any as S.Schema<DeleteTagResponse>;
+
+export interface DeleteToolbeltRequest {
+  /** Toolbelt name. */
+  name: string;
+}
+export const DeleteToolbeltRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/action-gateway/toolbelts/{name}", code: 200 })),
+).annotate({ identifier: "DeleteToolbeltRequest" }) as any as S.Schema<DeleteToolbeltRequest>;
+
+/** Tool slugs (`<provider>_<name>`) to add or remove, each optionally pinned as `<tool_slug>@<version>`. At least one is required. When adding, a pin must equal the tool's current released version. */
+export type DeleteToolbeltToolsRequestToolsList = Array<string>;
+export const DeleteToolbeltToolsRequestToolsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DeleteToolbeltToolsRequestToolsList>;
+
+export interface DeleteToolbeltToolsRequest {
+  /** Toolbelt name, from the path. */
+  name: string;
+  /** Tool slugs (`<provider>_<name>`) to add or remove, each optionally pinned as `<tool_slug>@<version>`. At least one is required. When adding, a pin must equal the tool's current released version. */
+  tools: DeleteToolbeltToolsRequestToolsList;
+}
+export const DeleteToolbeltToolsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    tools: DeleteToolbeltToolsRequestToolsList,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v2/action-gateway/toolbelts/{name}/tools/remove", code: 200 }),
+  ),
+).annotate({
+  identifier: "DeleteToolbeltToolsRequest",
+}) as any as S.Schema<DeleteToolbeltToolsRequest>;
 
 export interface DeleteUptimeAlertRequest {
   /** A unique identifier for a check. */
@@ -17079,15 +18636,9 @@ export const DeleteUptimeAlertRequest = /*@__PURE__*/ S.suspend(() =>
     check_id: S.String.pipe(T.Label()),
     alert_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/uptime/checks/{check_id}/alerts/{alert_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v2/uptime/checks/{check_id}/alerts/{alert_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteUptimeAlertRequest",
-}) as any as S.Schema<DeleteUptimeAlertRequest>;
+).annotate({ identifier: "DeleteUptimeAlertRequest" }) as any as S.Schema<DeleteUptimeAlertRequest>;
 
 export interface DeleteUptimeAlertResponse {}
 export const DeleteUptimeAlertResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -17101,16 +18652,8 @@ export interface DeleteUptimeCheckRequest {
 export const DeleteUptimeCheckRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     check_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/uptime/checks/{check_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteUptimeCheckRequest",
-}) as any as S.Schema<DeleteUptimeCheckRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/uptime/checks/{check_id}", code: 200 })),
+).annotate({ identifier: "DeleteUptimeCheckRequest" }) as any as S.Schema<DeleteUptimeCheckRequest>;
 
 export interface DeleteUptimeCheckResponse {}
 export const DeleteUptimeCheckResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -17142,9 +18685,7 @@ export const DeleteVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     volume_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v2/volumes/{volume_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteVolumeRequest",
-}) as any as S.Schema<DeleteVolumeRequest>;
+).annotate({ identifier: "DeleteVolumeRequest" }) as any as S.Schema<DeleteVolumeRequest>;
 
 export interface DeleteVolumeResponse {}
 export const DeleteVolumeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -17178,13 +18719,7 @@ export interface DeleteVolumeSnapshotByIdRequest {
 export const DeleteVolumeSnapshotByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     snapshot_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/volumes/snapshots/{snapshot_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/volumes/snapshots/{snapshot_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteVolumeSnapshotByIdRequest",
 }) as any as S.Schema<DeleteVolumeSnapshotByIdRequest>;
@@ -17204,9 +18739,7 @@ export const DeleteVpcRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vpc_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v2/vpcs/{vpc_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteVpcRequest",
-}) as any as S.Schema<DeleteVpcRequest>;
+).annotate({ identifier: "DeleteVpcRequest" }) as any as S.Schema<DeleteVpcRequest>;
 
 export interface DeleteVpcResponse {}
 export const DeleteVpcResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -17237,21 +18770,62 @@ export interface DeleteVpcPeeringRequest {
 export const DeleteVpcPeeringRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vpc_peering_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/vpc_peerings/{vpc_peering_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteVpcPeeringRequest",
-}) as any as S.Schema<DeleteVpcPeeringRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/vpc_peerings/{vpc_peering_id}", code: 200 })),
+).annotate({ identifier: "DeleteVpcPeeringRequest" }) as any as S.Schema<DeleteVpcPeeringRequest>;
 
 export interface DeleteVpcPeeringResponse {}
 export const DeleteVpcPeeringResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteVpcPeeringResponse",
 }) as any as S.Schema<DeleteVpcPeeringResponse>;
+
+export interface DeleteVpcSubnetRequest {
+  /** The unique identifier of the VPC to which the subnet belongs. */
+  vpc_uuid: string;
+  /** The unique identifier of a VPC subnet. */
+  subnet_uuid: string;
+}
+export const DeleteVpcSubnetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc_uuid: S.String.pipe(T.Label()),
+    subnet_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "DELETE", uri: "/v2/vpcs/{vpc_uuid}/subnets/{subnet_uuid}", code: 200 }),
+  ),
+).annotate({ identifier: "DeleteVpcSubnetRequest" }) as any as S.Schema<DeleteVpcSubnetRequest>;
+
+export interface DeleteVpcSubnetResponse {}
+export const DeleteVpcSubnetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteVpcSubnetResponse",
+}) as any as S.Schema<DeleteVpcSubnetResponse>;
+
+export interface DeleteVpcSubnetRouteRequest {
+  /** The unique identifier of the VPC. */
+  vpc_uuid: string;
+  /** The unique identifier of the VPC subnet. */
+  subnet_uuid: string;
+  /** The unique identifier of the route. */
+  route_uuid: string;
+}
+export const DeleteVpcSubnetRouteRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc_uuid: S.String.pipe(T.Label()),
+    subnet_uuid: S.String.pipe(T.Label()),
+    route_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/v2/vpcs/{vpc_uuid}/subnets/{subnet_uuid}/routes/{route_uuid}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteVpcSubnetRouteRequest",
+}) as any as S.Schema<DeleteVpcSubnetRouteRequest>;
+
+export interface DeleteVpcSubnetRouteResponse {}
+export const DeleteVpcSubnetRouteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteVpcSubnetRouteResponse",
+}) as any as S.Schema<DeleteVpcSubnetRouteResponse>;
 
 export interface DetachGenaiAgentRequest {
   /** Pagent agent id */
@@ -17270,9 +18844,7 @@ export const DetachGenaiAgentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DetachGenaiAgentRequest",
-}) as any as S.Schema<DetachGenaiAgentRequest>;
+).annotate({ identifier: "DetachGenaiAgentRequest" }) as any as S.Schema<DetachGenaiAgentRequest>;
 
 /** Information about a removed linkage */
 export interface ApiUnlinkAgentOutput {
@@ -17286,9 +18858,7 @@ export const ApiUnlinkAgentOutput = /*@__PURE__*/ S.suspend(() =>
     child_agent_uuid: S.optional(S.String),
     parent_agent_uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiUnlinkAgentOutput",
-}) as any as S.Schema<ApiUnlinkAgentOutput>;
+).annotate({ identifier: "ApiUnlinkAgentOutput" }) as any as S.Schema<ApiUnlinkAgentOutput>;
 
 export interface DetachGenaiAgentFunctionRequest {
   /** The id of the agent the function route belongs to. */
@@ -17397,9 +18967,7 @@ export const DropletsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     droplet_id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v2/droplets/{droplet_id}", code: 200 })),
-).annotate({
-  identifier: "DropletsDestroyRequest",
-}) as any as S.Schema<DropletsDestroyRequest>;
+).annotate({ identifier: "DropletsDestroyRequest" }) as any as S.Schema<DropletsDestroyRequest>;
 
 export interface DropletsDestroyResponse {}
 export const DropletsDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -17534,9 +19102,7 @@ export const ScheduledDetailsBody = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScheduledDetailsBody",
-}) as any as S.Schema<ScheduledDetailsBody>;
+).annotate({ identifier: "ScheduledDetailsBody" }) as any as S.Schema<ScheduledDetailsBody>;
 
 /** Trigger details for SCHEDULED type, where body is optional. */
 export interface ScheduledDetails {
@@ -17550,9 +19116,7 @@ export const ScheduledDetails = /*@__PURE__*/ S.suspend(() =>
     cron: S.String,
     body: S.optional(S.NullOr(ScheduledDetailsBody)),
   }),
-).annotate({
-  identifier: "ScheduledDetails",
-}) as any as S.Schema<ScheduledDetails>;
+).annotate({ identifier: "ScheduledDetails" }) as any as S.Schema<ScheduledDetails>;
 
 export interface FunctionsCreateTriggerRequest {
   /** The ID of the namespace to be managed. */
@@ -17576,11 +19140,7 @@ export const FunctionsCreateTriggerRequest = /*@__PURE__*/ S.suspend(() =>
     is_enabled: S.Boolean,
     scheduled_details: ScheduledDetails,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/functions/namespaces/{namespace_id}/triggers",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/functions/namespaces/{namespace_id}/triggers", code: 200 }),
   ),
 ).annotate({
   identifier: "FunctionsCreateTriggerRequest",
@@ -17597,9 +19157,7 @@ export const TriggerInfoScheduledRuns = /*@__PURE__*/ S.suspend(() =>
     last_run_at: S.optional(S.NullOr(S.String)),
     next_run_at: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TriggerInfoScheduledRuns",
-}) as any as S.Schema<TriggerInfoScheduledRuns>;
+).annotate({ identifier: "TriggerInfoScheduledRuns" }) as any as S.Schema<TriggerInfoScheduledRuns>;
 
 export interface TriggerInfo {
   /** A unique string format of UUID with a prefix fn-. */
@@ -17751,9 +19309,7 @@ export const ApiPresignedUrlFile = /*@__PURE__*/ S.suspend(() =>
     file_name: S.optional(S.String),
     file_size: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiPresignedUrlFile",
-}) as any as S.Schema<ApiPresignedUrlFile>;
+).annotate({ identifier: "ApiPresignedUrlFile" }) as any as S.Schema<ApiPresignedUrlFile>;
 
 /** A list of files to generate presigned URLs for. */
 export type GenaiCreateDataSourceFileUploadPresignedUrlsRequestFilesList =
@@ -17825,6 +19381,36 @@ export const ApiCreateDataSourceFileUploadPresignedUrlsOutput = /*@__PURE__*/ S.
   identifier: "ApiCreateDataSourceFileUploadPresignedUrlsOutput",
 }) as any as S.Schema<ApiCreateDataSourceFileUploadPresignedUrlsOutput>;
 
+export interface GenaiCreateDuplicateScenarioSetRequest {
+  /** UUID of the scenario set to duplicate. */
+  scenario_set_uuid: string;
+}
+export const GenaiCreateDuplicateScenarioSetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scenario_set_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v2/gen-ai/scenario_sets/{scenario_set_uuid}/duplicate",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GenaiCreateDuplicateScenarioSetRequest",
+}) as any as S.Schema<GenaiCreateDuplicateScenarioSetRequest>;
+
+/** Output for duplicating a scenario set. */
+export interface ApiDuplicateScenarioSetOutput {
+  scenario_set?: ApiScenarioSet;
+}
+export const ApiDuplicateScenarioSetOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scenario_set: S.optional(ApiScenarioSet),
+  }),
+).annotate({
+  identifier: "ApiDuplicateScenarioSetOutput",
+}) as any as S.Schema<ApiDuplicateScenarioSetOutput>;
+
 /** A list of files to generate presigned URLs for. */
 export type GenaiCreateEvaluationDatasetFileUploadPresignedUrlsRequestFilesList =
   Array<ApiPresignedUrlFile>;
@@ -17876,6 +19462,30 @@ export const GenaiCreateModelEvalDatasetUploadPresignedUrlsRequest = /*@__PURE__
 ).annotate({
   identifier: "GenaiCreateModelEvalDatasetUploadPresignedUrlsRequest",
 }) as any as S.Schema<GenaiCreateModelEvalDatasetUploadPresignedUrlsRequest>;
+
+/** A list of files to generate presigned URLs for. */
+export type GenaiCreateScenarioSetUploadPresignedUrlsRequestFilesList = Array<ApiPresignedUrlFile>;
+export const GenaiCreateScenarioSetUploadPresignedUrlsRequestFilesList = /*@__PURE__*/ S.Array(
+  ApiPresignedUrlFile,
+) as any as S.Schema<GenaiCreateScenarioSetUploadPresignedUrlsRequestFilesList>;
+
+export interface GenaiCreateScenarioSetUploadPresignedUrlsRequest {
+  /** A list of files to generate presigned URLs for. */
+  files?: GenaiCreateScenarioSetUploadPresignedUrlsRequestFilesList;
+}
+export const GenaiCreateScenarioSetUploadPresignedUrlsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    files: S.optional(GenaiCreateScenarioSetUploadPresignedUrlsRequestFilesList),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v2/gen-ai/scenario_sets/file_upload_presigned_urls",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GenaiCreateScenarioSetUploadPresignedUrlsRequest",
+}) as any as S.Schema<GenaiCreateScenarioSetUploadPresignedUrlsRequest>;
 
 export interface GenaiGetEvaluationDatasetDownloadUrlRequest {
   /** UUID of the evaluation dataset. */
@@ -17945,6 +19555,66 @@ export const ApiGetModelEvaluationRunResultsDownloadURLOutput = /*@__PURE__*/ S.
   identifier: "ApiGetModelEvaluationRunResultsDownloadURLOutput",
 }) as any as S.Schema<ApiGetModelEvaluationRunResultsDownloadURLOutput>;
 
+export interface GenaiGetScenarioSetDownloadUrlRequest {
+  /** UUID of the scenario set. */
+  scenario_set_uuid: string;
+}
+export const GenaiGetScenarioSetDownloadUrlRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scenario_set_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v2/gen-ai/scenario_sets/{scenario_set_uuid}/download_url",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GenaiGetScenarioSetDownloadUrlRequest",
+}) as any as S.Schema<GenaiGetScenarioSetDownloadUrlRequest>;
+
+/** Output containing a presigned download URL for a scenario set. */
+export interface ApiGetScenarioSetDownloadURLOutput {
+  /** The presigned URL to download the scenario set file. */
+  download_url?: string;
+  /** The time the URL expires at. */
+  expires_at?: string;
+}
+export const ApiGetScenarioSetDownloadURLOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    download_url: S.optional(S.String),
+    expires_at: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApiGetScenarioSetDownloadURLOutput",
+}) as any as S.Schema<ApiGetScenarioSetDownloadURLOutput>;
+
+export interface GenaiPatchCancelSimulationRunRequest {
+  /** UUID of the simulation run to cancel. Returned by `CreateSimulationRun` and listed via `ListSimulationRuns`. The run must be in a non-terminal status; already-terminal runs return an error. */
+  run_uuid: string;
+}
+export const GenaiPatchCancelSimulationRunRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    run_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "PATCH", uri: "/v2/gen-ai/simulation_runs/{run_uuid}/cancel", code: 200 }),
+  ),
+).annotate({
+  identifier: "GenaiPatchCancelSimulationRunRequest",
+}) as any as S.Schema<GenaiPatchCancelSimulationRunRequest>;
+
+/** Output for cancelling a simulation run. */
+export interface ApiCancelSimulationRunOutput {
+  simulation_run?: ApiSimulationRun;
+}
+export const ApiCancelSimulationRunOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    simulation_run: S.optional(ApiSimulationRun),
+  }),
+).annotate({
+  identifier: "ApiCancelSimulationRunOutput",
+}) as any as S.Schema<ApiCancelSimulationRunOutput>;
+
 export interface GenaiRollbackToAgentVersionRequest {
   /** Agent unique identifier */
   uuid: string;
@@ -17955,13 +19625,7 @@ export const GenaiRollbackToAgentVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     version_hash: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/gen-ai/agents/{uuid}/versions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/gen-ai/agents/{uuid}/versions", code: 200 })),
 ).annotate({
   identifier: "GenaiRollbackToAgentVersionRequest",
 }) as any as S.Schema<GenaiRollbackToAgentVersionRequest>;
@@ -18005,9 +19669,7 @@ export const ApiRollbackToAgentVersionOutput = /*@__PURE__*/ S.suspend(() =>
 export interface GetAccountRequest {}
 export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/account", code: 200 })),
-).annotate({
-  identifier: "GetAccountRequest",
-}) as any as S.Schema<GetAccountRequest>;
+).annotate({ identifier: "GetAccountRequest" }) as any as S.Schema<GetAccountRequest>;
 
 /** This value is one of "active", "warning" or "locked". */
 export type AccountStatus = "active" | "warning" | "locked";
@@ -18068,9 +19730,7 @@ export const GetAccountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account: S.optional(Account),
   }),
-).annotate({
-  identifier: "GetAccountResponse",
-}) as any as S.Schema<GetAccountResponse>;
+).annotate({ identifier: "GetAccountResponse" }) as any as S.Schema<GetAccountResponse>;
 
 export interface GetActionRequest {
   /** A unique numeric ID that can be used to identify and reference an action. */
@@ -18080,9 +19740,7 @@ export const GetActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action_id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/actions/{action_id}", code: 200 })),
-).annotate({
-  identifier: "GetActionRequest",
-}) as any as S.Schema<GetActionRequest>;
+).annotate({ identifier: "GetActionRequest" }) as any as S.Schema<GetActionRequest>;
 
 /** The current status of the action. This can be "in-progress", "completed", or "errored". */
 export type ActionStatus = "in-progress" | "completed" | "errored";
@@ -18160,9 +19818,71 @@ export const GetActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: S.optional(Action),
   }),
-).annotate({
-  identifier: "GetActionResponse",
-}) as any as S.Schema<GetActionResponse>;
+).annotate({ identifier: "GetActionResponse" }) as any as S.Schema<GetActionResponse>;
+
+export interface GetActorLimitRequest {
+  /** Actor ID: a session `actor_id` or a connection `user_id`, 1 to 64 characters from `[A-Za-z0-9._-]`. */
+  actor_id: string;
+}
+export const GetActorLimitRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    actor_id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/actors/{actor_id}/limits", code: 200 })),
+).annotate({ identifier: "GetActorLimitRequest" }) as any as S.Schema<GetActorLimitRequest>;
+
+/** Actor's limit for one category. */
+export interface LimitOverride {
+  /** The category the limit applies to. */
+  category: LimitCategory | (string & {});
+  /** Calls allowed per minute. 0 blocks every call in the category. */
+  requests_per_minute: string;
+}
+export const LimitOverride = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: LimitCategory,
+    requests_per_minute: S.String,
+  }),
+).annotate({ identifier: "LimitOverride" }) as any as S.Schema<LimitOverride>;
+
+/** Overrides set for the actor; categories without one are omitted. */
+export type GetActorLimitsResponseConfiguredLimitsList = Array<LimitOverride>;
+export const GetActorLimitsResponseConfiguredLimitsList = /*@__PURE__*/ S.Array(
+  LimitOverride,
+) as any as S.Schema<GetActorLimitsResponseConfiguredLimitsList>;
+
+/** Per-minute call limits by category. */
+export interface ToolQuotas {
+  /** Calls per minute to the `exa_web_search` tool. */
+  web_search_requests_per_minute?: string;
+  /** Calls per minute to the `exa_web_fetch` tool. */
+  web_fetch_requests_per_minute?: string;
+  /** Calls per minute to DigitalOcean tools. */
+  native_tool_calls_requests_per_minute?: string;
+  /** Calls per minute to all other tools. */
+  non_native_tool_calls_requests_per_minute?: string;
+}
+export const ToolQuotas = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    web_search_requests_per_minute: S.optional(S.String),
+    web_fetch_requests_per_minute: S.optional(S.String),
+    native_tool_calls_requests_per_minute: S.optional(S.String),
+    non_native_tool_calls_requests_per_minute: S.optional(S.String),
+  }),
+).annotate({ identifier: "ToolQuotas" }) as any as S.Schema<ToolQuotas>;
+
+/** Reports an actor's limits. */
+export interface GetActorLimitsResponse {
+  /** Overrides set for the actor; categories without one are omitted. */
+  configured_limits?: GetActorLimitsResponseConfiguredLimitsList;
+  /** Limits in effect for the actor in every category: the lower of your team's limit and the actor's override. */
+  effective_limits?: ToolQuotas;
+}
+export const GetActorLimitsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configured_limits: S.optional(GetActorLimitsResponseConfiguredLimitsList),
+    effective_limits: S.optional(ToolQuotas),
+  }),
+).annotate({ identifier: "GetActorLimitsResponse" }) as any as S.Schema<GetActorLimitsResponse>;
 
 export interface GetAddonRequest {
   /** The UUID of the add-on resource to retrieve. */
@@ -18171,16 +19891,8 @@ export interface GetAddonRequest {
 export const GetAddonRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resource_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/add-ons/saas/{resource_uuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetAddonRequest",
-}) as any as S.Schema<GetAddonRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/add-ons/saas/{resource_uuid}", code: 200 })),
+).annotate({ identifier: "GetAddonRequest" }) as any as S.Schema<GetAddonRequest>;
 
 export interface GetAddonResponse {
   resource?: AddonsResource;
@@ -18189,16 +19901,12 @@ export const GetAddonResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resource: S.optional(AddonsResource),
   }),
-).annotate({
-  identifier: "GetAddonResponse",
-}) as any as S.Schema<GetAddonResponse>;
+).annotate({ identifier: "GetAddonResponse" }) as any as S.Schema<GetAddonResponse>;
 
 export interface GetAddonAppRequest {}
 export const GetAddonAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/add-ons/apps", code: 200 })),
-).annotate({
-  identifier: "GetAddonAppRequest",
-}) as any as S.Schema<GetAddonAppRequest>;
+).annotate({ identifier: "GetAddonAppRequest" }) as any as S.Schema<GetAddonAppRequest>;
 
 /** Current state of the plan. */
 export type AddonsPlanState =
@@ -18306,9 +20014,7 @@ export const AddonsDimensionWithPrice = /*@__PURE__*/ S.suspend(() =>
     feature_name: S.String,
     volumes: AddonsDimensionWithPriceVolumesList,
   }),
-).annotate({
-  identifier: "AddonsDimensionWithPrice",
-}) as any as S.Schema<AddonsDimensionWithPrice>;
+).annotate({ identifier: "AddonsDimensionWithPrice" }) as any as S.Schema<AddonsDimensionWithPrice>;
 
 /** List of dimensions associated with the plan, each with its own pricing. */
 export type AddonsPlanDimensionsList = Array<AddonsDimensionWithPrice>;
@@ -18405,9 +20111,7 @@ export const GetAddonAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     apps: S.optional(GetAddonAppResponseAppsList),
   }),
-).annotate({
-  identifier: "GetAddonAppResponse",
-}) as any as S.Schema<GetAddonAppResponse>;
+).annotate({ identifier: "GetAddonAppResponse" }) as any as S.Schema<GetAddonAppResponse>;
 
 export interface GetAddonAppMetadataRequest {
   /** The slug identifier for the application whose metadata is being requested. */
@@ -18416,13 +20120,7 @@ export interface GetAddonAppMetadataRequest {
 export const GetAddonAppMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/add-ons/apps/{app_slug}/metadata",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/add-ons/apps/{app_slug}/metadata", code: 200 })),
 ).annotate({
   identifier: "GetAddonAppMetadataRequest",
 }) as any as S.Schema<GetAddonAppMetadataRequest>;
@@ -18458,9 +20156,7 @@ export const AddonsAppMetadata = /*@__PURE__*/ S.suspend(() =>
     type: AddonsAppMetadataType,
     options: S.optional(AddonsAppMetadataOptionsList),
   }),
-).annotate({
-  identifier: "AddonsAppMetadata",
-}) as any as S.Schema<AddonsAppMetadata>;
+).annotate({ identifier: "AddonsAppMetadata" }) as any as S.Schema<AddonsAppMetadata>;
 
 export type GetAddonAppMetadataResponseMetadataList = Array<AddonsAppMetadata>;
 export const GetAddonAppMetadataResponseMetadataList = /*@__PURE__*/ S.Array(
@@ -18502,15 +20198,9 @@ export const GetAppDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
     app_id: S.String.pipe(T.Label()),
     deployment_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/apps/{app_id}/deployments/{deployment_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/apps/{app_id}/deployments/{deployment_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetAppDeploymentRequest",
-}) as any as S.Schema<GetAppDeploymentRequest>;
+).annotate({ identifier: "GetAppDeploymentRequest" }) as any as S.Schema<GetAppDeploymentRequest>;
 
 export interface GetAppEventRequest {
   /** The app ID */
@@ -18522,16 +20212,8 @@ export const GetAppEventRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_id: S.String.pipe(T.Label()),
     event_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/apps/{app_id}/events/{event_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetAppEventRequest",
-}) as any as S.Schema<GetAppEventRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/apps/{app_id}/events/{event_id}", code: 200 })),
+).annotate({ identifier: "GetAppEventRequest" }) as any as S.Schema<GetAppEventRequest>;
 
 export interface GetAppEventResponse {
   event?: AppEvent;
@@ -18540,9 +20222,7 @@ export const GetAppEventResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     event: S.optional(AppEvent),
   }),
-).annotate({
-  identifier: "GetAppEventResponse",
-}) as any as S.Schema<GetAppEventResponse>;
+).annotate({ identifier: "GetAppEventResponse" }) as any as S.Schema<GetAppEventResponse>;
 
 export type GetAppEventLogsRequestType =
   | "UNSPECIFIED"
@@ -18572,16 +20252,8 @@ export const GetAppEventLogsRequest = /*@__PURE__*/ S.suspend(() =>
     follow: S.optional(S.Boolean.pipe(T.Query())),
     type: GetAppEventLogsRequestType.pipe(T.Query()),
     pod_connection_timeout: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/apps/{app_id}/events/{event_id}/logs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetAppEventLogsRequest",
-}) as any as S.Schema<GetAppEventLogsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/apps/{app_id}/events/{event_id}/logs", code: 200 })),
+).annotate({ identifier: "GetAppEventLogsRequest" }) as any as S.Schema<GetAppEventLogsRequest>;
 
 export type AppsGetLogsResponseHistoricUrlsList = Array<string>;
 export const AppsGetLogsResponseHistoricUrlsList = /*@__PURE__*/ S.Array(
@@ -18598,9 +20270,7 @@ export const AppsGetLogsResponse = /*@__PURE__*/ S.suspend(() =>
     historic_urls: S.optional(AppsGetLogsResponseHistoricUrlsList),
     live_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppsGetLogsResponse",
-}) as any as S.Schema<AppsGetLogsResponse>;
+).annotate({ identifier: "AppsGetLogsResponse" }) as any as S.Schema<AppsGetLogsResponse>;
 
 export interface GetAppHealthRequest {
   /** The app ID */
@@ -18610,9 +20280,7 @@ export const GetAppHealthRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/apps/{app_id}/health", code: 200 })),
-).annotate({
-  identifier: "GetAppHealthRequest",
-}) as any as S.Schema<GetAppHealthRequest>;
+).annotate({ identifier: "GetAppHealthRequest" }) as any as S.Schema<GetAppHealthRequest>;
 
 export type AppComponentHealthState = "UNKNOWN" | "HEALTHY" | "UNHEALTHY";
 export const AppComponentHealthState = S.String;
@@ -18634,9 +20302,7 @@ export const AppComponentHealth = /*@__PURE__*/ S.suspend(() =>
     replicas_ready: S.optional(S.Number),
     state: S.optional(AppComponentHealthState),
   }),
-).annotate({
-  identifier: "AppComponentHealth",
-}) as any as S.Schema<AppComponentHealth>;
+).annotate({ identifier: "AppComponentHealth" }) as any as S.Schema<AppComponentHealth>;
 
 export type AppHealthComponentsList = Array<AppComponentHealth>;
 export const AppHealthComponentsList = /*@__PURE__*/ S.Array(
@@ -18703,9 +20369,7 @@ export const AppHealthResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_health: S.optional(AppHealth),
   }),
-).annotate({
-  identifier: "AppHealthResponse",
-}) as any as S.Schema<AppHealthResponse>;
+).annotate({ identifier: "AppHealthResponse" }) as any as S.Schema<AppHealthResponse>;
 
 export interface GetAppInstancesRequest {
   /** The app ID */
@@ -18715,9 +20379,7 @@ export const GetAppInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/apps/{app_id}/instances", code: 200 })),
-).annotate({
-  identifier: "GetAppInstancesRequest",
-}) as any as S.Schema<GetAppInstancesRequest>;
+).annotate({ identifier: "GetAppInstancesRequest" }) as any as S.Schema<GetAppInstancesRequest>;
 
 /** Supported compute component by DigitalOcean App Platform. */
 export type AppInstanceComponentType = "SERVICE" | "WORKER" | "JOB";
@@ -18763,13 +20425,7 @@ export interface GetAppInstanceSizeRequest {
 export const GetAppInstanceSizeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/apps/tiers/instance_sizes/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/apps/tiers/instance_sizes/{slug}", code: 200 })),
 ).annotate({
   identifier: "GetAppInstanceSizeRequest",
 }) as any as S.Schema<GetAppInstanceSizeRequest>;
@@ -18810,9 +20466,7 @@ export const AppsInstanceSize = /*@__PURE__*/ S.suspend(() =>
     usd_per_month: S.optional(S.String),
     usd_per_second: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppsInstanceSize",
-}) as any as S.Schema<AppsInstanceSize>;
+).annotate({ identifier: "AppsInstanceSize" }) as any as S.Schema<AppsInstanceSize>;
 
 export interface AppsGetInstanceSizeResponse {
   instance_size?: AppsInstanceSize;
@@ -18929,9 +20583,7 @@ export const GetAppLogsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetAppLogsRequest",
-}) as any as S.Schema<GetAppLogsRequest>;
+).annotate({ identifier: "GetAppLogsRequest" }) as any as S.Schema<GetAppLogsRequest>;
 
 export type GetAppLogsActiveDeploymentRequestType =
   | "UNSPECIFIED"
@@ -18962,11 +20614,7 @@ export const GetAppLogsActiveDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
     type: GetAppLogsActiveDeploymentRequestType.pipe(T.Query()),
     pod_connection_timeout: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/apps/{app_id}/components/{component_name}/logs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/apps/{app_id}/components/{component_name}/logs", code: 200 }),
   ),
 ).annotate({
   identifier: "GetAppLogsActiveDeploymentRequest",
@@ -19031,11 +20679,7 @@ export const GetAppLogsAggregateRequest = /*@__PURE__*/ S.suspend(() =>
     type: GetAppLogsAggregateRequestType.pipe(T.Query()),
     pod_connection_timeout: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/apps/{app_id}/deployments/{deployment_id}/logs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/apps/{app_id}/deployments/{deployment_id}/logs", code: 200 }),
   ),
 ).annotate({
   identifier: "GetAppLogsAggregateRequest",
@@ -19051,13 +20695,7 @@ export const GetAppMetricsBandwidthDailyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_id: S.String.pipe(T.Label()),
     date: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/apps/{app_id}/metrics/bandwidth_daily",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/apps/{app_id}/metrics/bandwidth_daily", code: 200 })),
 ).annotate({
   identifier: "GetAppMetricsBandwidthDailyRequest",
 }) as any as S.Schema<GetAppMetricsBandwidthDailyRequest>;
@@ -19095,9 +20733,7 @@ export const AppMetricsBandwidthUsage = /*@__PURE__*/ S.suspend(() =>
     app_bandwidth_usage: S.optional(AppMetricsBandwidthUsageAppBandwidthUsageList),
     date: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppMetricsBandwidthUsage",
-}) as any as S.Schema<AppMetricsBandwidthUsage>;
+).annotate({ identifier: "AppMetricsBandwidthUsage" }) as any as S.Schema<AppMetricsBandwidthUsage>;
 
 export interface GetAutoscalepoolRequest {
   /** A unique identifier for an autoscale pool. */
@@ -19106,16 +20742,8 @@ export interface GetAutoscalepoolRequest {
 export const GetAutoscalepoolRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     autoscale_pool_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/droplets/autoscale/{autoscale_pool_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetAutoscalepoolRequest",
-}) as any as S.Schema<GetAutoscalepoolRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/droplets/autoscale/{autoscale_pool_id}", code: 200 })),
+).annotate({ identifier: "GetAutoscalepoolRequest" }) as any as S.Schema<GetAutoscalepoolRequest>;
 
 /** The scaling configuration for an autoscale pool, which is how the pool scales up and down (either by resource utilization or static configuration). */
 export type AutoscalePoolConfig = AutoscalePoolStaticConfig | AutoscalePoolDynamicConfig;
@@ -19132,9 +20760,7 @@ export const CurrentUtilization = /*@__PURE__*/ S.suspend(() =>
     memory: S.optional(S.Number),
     cpu: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CurrentUtilization",
-}) as any as S.Schema<CurrentUtilization>;
+).annotate({ identifier: "CurrentUtilization" }) as any as S.Schema<CurrentUtilization>;
 
 /** The current status of the autoscale pool. */
 export type AutoscalePoolStatus = "active" | "deleting" | "error";
@@ -19179,16 +20805,12 @@ export const GetAutoscalepoolResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     autoscale_pool: S.optional(AutoscalePool),
   }),
-).annotate({
-  identifier: "GetAutoscalepoolResponse",
-}) as any as S.Schema<GetAutoscalepoolResponse>;
+).annotate({ identifier: "GetAutoscalepoolResponse" }) as any as S.Schema<GetAutoscalepoolResponse>;
 
 export interface GetBalanceRequest {}
 export const GetBalanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/customers/my/balance", code: 200 })),
-).annotate({
-  identifier: "GetBalanceRequest",
-}) as any as S.Schema<GetBalanceRequest>;
+).annotate({ identifier: "GetBalanceRequest" }) as any as S.Schema<GetBalanceRequest>;
 
 export interface Balance {
   /** Balance as of the `generated_at` time. This value includes the `account_balance` and `month_to_date_usage`. */
@@ -19216,16 +20838,8 @@ export interface GetByoipPrefixRequest {
 export const GetByoipPrefixRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     byoip_prefix_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/byoip_prefixes/{byoip_prefix_uuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetByoipPrefixRequest",
-}) as any as S.Schema<GetByoipPrefixRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/byoip_prefixes/{byoip_prefix_uuid}", code: 200 })),
+).annotate({ identifier: "GetByoipPrefixRequest" }) as any as S.Schema<GetByoipPrefixRequest>;
 
 export interface ByoipPrefixValidationsItem {
   /** Name of the validation */
@@ -19295,9 +20909,7 @@ export const GetByoipPrefixResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     byoip_prefix: S.optional(ByoipPrefix),
   }),
-).annotate({
-  identifier: "GetByoipPrefixResponse",
-}) as any as S.Schema<GetByoipPrefixResponse>;
+).annotate({ identifier: "GetByoipPrefixResponse" }) as any as S.Schema<GetByoipPrefixResponse>;
 
 export interface GetCdnEndpointRequest {
   /** A unique identifier for a CDN endpoint. */
@@ -19307,9 +20919,7 @@ export const GetCdnEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cdn_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/cdn/endpoints/{cdn_id}", code: 200 })),
-).annotate({
-  identifier: "GetCdnEndpointRequest",
-}) as any as S.Schema<GetCdnEndpointRequest>;
+).annotate({ identifier: "GetCdnEndpointRequest" }) as any as S.Schema<GetCdnEndpointRequest>;
 
 export interface GetCdnEndpointResponse {
   endpoint?: CdnEndpoint;
@@ -19318,9 +20928,7 @@ export const GetCdnEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpoint: S.optional(CdnEndpoint),
   }),
-).annotate({
-  identifier: "GetCdnEndpointResponse",
-}) as any as S.Schema<GetCdnEndpointResponse>;
+).annotate({ identifier: "GetCdnEndpointResponse" }) as any as S.Schema<GetCdnEndpointResponse>;
 
 export interface GetCertificateRequest {
   /** A unique identifier for a certificate. */
@@ -19329,16 +20937,8 @@ export interface GetCertificateRequest {
 export const GetCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     certificate_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/certificates/{certificate_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetCertificateRequest",
-}) as any as S.Schema<GetCertificateRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/certificates/{certificate_id}", code: 200 })),
+).annotate({ identifier: "GetCertificateRequest" }) as any as S.Schema<GetCertificateRequest>;
 
 export interface GetCertificateResponse {
   certificate?: Certificate;
@@ -19347,9 +20947,31 @@ export const GetCertificateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     certificate: S.optional(Certificate),
   }),
-).annotate({
-  identifier: "GetCertificateResponse",
-}) as any as S.Schema<GetCertificateResponse>;
+).annotate({ identifier: "GetCertificateResponse" }) as any as S.Schema<GetCertificateResponse>;
+
+export interface GetConnectionRequest {
+  /** Connection ID. */
+  id: string;
+}
+export const GetConnectionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/connections/{id}", code: 200 })),
+).annotate({ identifier: "GetConnectionRequest" }) as any as S.Schema<GetConnectionRequest>;
+
+/** Returns the connection and any authorization still needed. */
+export interface GetConnectionResponse {
+  /** The connection. */
+  connection?: Connection;
+  /** Present only while the connection is pending and you created it. */
+  authorization?: ConnectionAuthorization | null;
+}
+export const GetConnectionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connection: S.optional(Connection),
+    authorization: S.optional(S.NullOr(ConnectionAuthorization)),
+  }),
+).annotate({ identifier: "GetConnectionResponse" }) as any as S.Schema<GetConnectionResponse>;
 
 export interface GetDatabaseRequest {
   /** A unique identifier for a database cluster. */
@@ -19368,9 +20990,7 @@ export const GetDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDatabaseRequest",
-}) as any as S.Schema<GetDatabaseRequest>;
+).annotate({ identifier: "GetDatabaseRequest" }) as any as S.Schema<GetDatabaseRequest>;
 
 export interface GetDatabaseResponse {
   db: Database;
@@ -19379,9 +20999,7 @@ export const GetDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     db: Database,
   }),
-).annotate({
-  identifier: "GetDatabaseResponse",
-}) as any as S.Schema<GetDatabaseResponse>;
+).annotate({ identifier: "GetDatabaseResponse" }) as any as S.Schema<GetDatabaseResponse>;
 
 export interface GetDatabaseAutoscaleRequest {
   /** A unique identifier for a database cluster. */
@@ -19391,11 +21009,7 @@ export const GetDatabaseAutoscaleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/databases/{database_cluster_uuid}/autoscale",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/databases/{database_cluster_uuid}/autoscale", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDatabaseAutoscaleRequest",
@@ -19419,16 +21033,8 @@ export interface GetDatabaseCaRequest {
 export const GetDatabaseCaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/databases/{database_cluster_uuid}/ca",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDatabaseCaRequest",
-}) as any as S.Schema<GetDatabaseCaRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/databases/{database_cluster_uuid}/ca", code: 200 })),
+).annotate({ identifier: "GetDatabaseCaRequest" }) as any as S.Schema<GetDatabaseCaRequest>;
 
 export interface Ca {
   /** base64 encoding of the certificate used to secure database connections */
@@ -19447,9 +21053,7 @@ export const GetDatabaseCaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ca: Ca,
   }),
-).annotate({
-  identifier: "GetDatabaseCaResponse",
-}) as any as S.Schema<GetDatabaseCaResponse>;
+).annotate({ identifier: "GetDatabaseCaResponse" }) as any as S.Schema<GetDatabaseCaResponse>;
 
 export interface GetDatabaseClusterRequest {
   /** A unique identifier for a database cluster. */
@@ -19458,13 +21062,7 @@ export interface GetDatabaseClusterRequest {
 export const GetDatabaseClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/databases/{database_cluster_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/databases/{database_cluster_uuid}", code: 200 })),
 ).annotate({
   identifier: "GetDatabaseClusterRequest",
 }) as any as S.Schema<GetDatabaseClusterRequest>;
@@ -19482,13 +21080,7 @@ export const GetDatabaseClusterResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetDatabaseClusterMetricsCredentialsRequest {}
 export const GetDatabaseClusterMetricsCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/databases/metrics/credentials",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/databases/metrics/credentials", code: 200 })),
 ).annotate({
   identifier: "GetDatabaseClusterMetricsCredentialsRequest",
 }) as any as S.Schema<GetDatabaseClusterMetricsCredentialsRequest>;
@@ -19538,15 +21130,9 @@ export const GetDatabaseConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/databases/{database_cluster_uuid}/config",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/databases/{database_cluster_uuid}/config", code: 200 }),
   ),
-).annotate({
-  identifier: "GetDatabaseConfigRequest",
-}) as any as S.Schema<GetDatabaseConfigRequest>;
+).annotate({ identifier: "GetDatabaseConfigRequest" }) as any as S.Schema<GetDatabaseConfigRequest>;
 
 /** The storage engine for in-memory internal temporary tables. */
 export type MysqlAdvancedConfigInternalTmpMemStorageEngine = "TempTable" | "MEMORY";
@@ -19572,9 +21158,7 @@ export const MysqlIncrementalBackup = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     full_backup_week_schedule: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MysqlIncrementalBackup",
-}) as any as S.Schema<MysqlIncrementalBackup>;
+).annotate({ identifier: "MysqlIncrementalBackup" }) as any as S.Schema<MysqlIncrementalBackup>;
 
 export interface MysqlAdvancedConfig {
   /** The hour of day (in UTC) when backup for the service starts. New backup only starts if previous backup has already completed. */
@@ -19733,9 +21317,7 @@ export const MysqlAdvancedConfig = /*@__PURE__*/ S.suspend(() =>
     log_output: S.optional(MysqlAdvancedConfigLogOutput),
     mysql_incremental_backup: S.optional(MysqlIncrementalBackup),
   }),
-).annotate({
-  identifier: "MysqlAdvancedConfig",
-}) as any as S.Schema<MysqlAdvancedConfig>;
+).annotate({ identifier: "MysqlAdvancedConfig" }) as any as S.Schema<MysqlAdvancedConfig>;
 
 /** Specifies the default TOAST compression method for values of compressible columns (the default is lz4). */
 export type PostgresAdvancedConfigDefaultToastCompression = "lz4" | "pglz";
@@ -19819,9 +21401,7 @@ export const PgbouncerAdvancedConfig = /*@__PURE__*/ S.suspend(() =>
     autodb_max_db_connections: S.optional(S.Number),
     autodb_idle_timeout: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PgbouncerAdvancedConfig",
-}) as any as S.Schema<PgbouncerAdvancedConfig>;
+).annotate({ identifier: "PgbouncerAdvancedConfig" }) as any as S.Schema<PgbouncerAdvancedConfig>;
 
 /** TimescaleDB extension configuration values */
 export interface TimescaledbAdvancedConfig {
@@ -19839,6 +21419,41 @@ export const TimescaledbAdvancedConfig = /*@__PURE__*/ S.suspend(() =>
 /** Synchronous replication type. Note that the service plan also needs to support synchronous replication. */
 export type PostgresAdvancedConfigSynchronousReplication = "off" | "quorum";
 export const PostgresAdvancedConfigSynchronousReplication = S.String;
+
+export type PostgresAdvancedConfigPgauditLogItem =
+  | "read"
+  | "write"
+  | "function"
+  | "role"
+  | "ddl"
+  | "misc"
+  | "misc_set"
+  | "all";
+export const PostgresAdvancedConfigPgauditLogItem = S.String;
+
+/** Specifies which classes of statements will be logged by session audit logging. Available values are `read` (SELECT and COPY when the source is a relation or query), `write` (INSERT, UPDATE, DELETE, TRUNCATE, and COPY when the destination is a relation), `function` (function calls and DO blocks), `role` (statements related to roles and privileges: GRANT, REVOKE, CREATE/ALTER/DROP ROLE), `ddl` (all DDL that is not included in the role class), `misc` (miscellaneous commands, e.g. DISCARD, FETCH, CHECKPOINT, VACUUM, SET), `misc_set` (miscellaneous SET commands, e.g. SET ROLE), and `all` (include all of the above). */
+export type PostgresAdvancedConfigPgauditLogList = Array<
+  PostgresAdvancedConfigPgauditLogItem | (string & {})
+>;
+export const PostgresAdvancedConfigPgauditLogList = /*@__PURE__*/ S.Array(
+  PostgresAdvancedConfigPgauditLogItem,
+) as any as S.Schema<PostgresAdvancedConfigPgauditLogList>;
+
+/** System-wide settings for the pgaudit extension. When `feature_enabled` is true, the pgaudit extension is automatically installed. When false, the extension is uninstalled but auditing configurations (such as `log`) are preserved. */
+export interface PostgresAdvancedConfigPgaudit {
+  /** Enable pgaudit extension. When enabled, pgaudit extension will be automatically installed. Otherwise, extension will be uninstalled but auditing configurations will be preserved. */
+  feature_enabled?: boolean;
+  /** Specifies which classes of statements will be logged by session audit logging. Available values are `read` (SELECT and COPY when the source is a relation or query), `write` (INSERT, UPDATE, DELETE, TRUNCATE, and COPY when the destination is a relation), `function` (function calls and DO blocks), `role` (statements related to roles and privileges: GRANT, REVOKE, CREATE/ALTER/DROP ROLE), `ddl` (all DDL that is not included in the role class), `misc` (miscellaneous commands, e.g. DISCARD, FETCH, CHECKPOINT, VACUUM, SET), `misc_set` (miscellaneous SET commands, e.g. SET ROLE), and `all` (include all of the above). */
+  log?: PostgresAdvancedConfigPgauditLogList;
+}
+export const PostgresAdvancedConfigPgaudit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    feature_enabled: S.optional(S.Boolean),
+    log: S.optional(PostgresAdvancedConfigPgauditLogList),
+  }),
+).annotate({
+  identifier: "PostgresAdvancedConfigPgaudit",
+}) as any as S.Schema<PostgresAdvancedConfigPgaudit>;
 
 export interface PostgresAdvancedConfig {
   /** Specifies the maximum age (in transactions) that a table's pg_class.relfrozenxid field can attain before a VACUUM operation is forced to prevent transaction ID wraparound within the table. Note that the system will launch autovacuum processes to prevent wraparound even when autovacuum is otherwise disabled. This parameter will cause the server to be restarted. */
@@ -19951,6 +21566,8 @@ export interface PostgresAdvancedConfig {
   max_connections?: number;
   /** PostgreSQL maximum WAL size (MB) reserved for replication slots. If -1 is specified, replication slots may retain an unlimited amount of WAL files. The default is -1 (upstream default). wal_keep_size minimum WAL size setting takes precedence over this. */
   max_slot_wal_keep_size?: number;
+  /** System-wide settings for the pgaudit extension. When `feature_enabled` is true, the pgaudit extension is automatically installed. When false, the extension is uninstalled but auditing configurations (such as `log`) are preserved. */
+  pgaudit?: PostgresAdvancedConfigPgaudit;
 }
 export const PostgresAdvancedConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -20012,10 +21629,9 @@ export const PostgresAdvancedConfig = /*@__PURE__*/ S.suspend(() =>
     max_failover_replication_time_lag: S.optional(S.Number),
     max_connections: S.optional(S.Number),
     max_slot_wal_keep_size: S.optional(S.Number),
+    pgaudit: S.optional(PostgresAdvancedConfigPgaudit),
   }),
-).annotate({
-  identifier: "PostgresAdvancedConfig",
-}) as any as S.Schema<PostgresAdvancedConfig>;
+).annotate({ identifier: "PostgresAdvancedConfig" }) as any as S.Schema<PostgresAdvancedConfig>;
 
 /** A string specifying the desired eviction policy for the Caching cluster. - `noeviction`: Don't evict any data, returns error when memory limit is reached. - `allkeys-lru:` Evict any key, least recently used (LRU) first. - `allkeys-random`: Evict keys in a random order. - `volatile-lru`: Evict keys with expiration only, least recently used (LRU) first. - `volatile-random`: Evict keys with expiration only in a random order. - `volatile-ttl`: Evict keys with expiration only, shortest time-to-live (TTL) first. */
 export type RedisAdvancedConfigRedisMaxmemoryPolicy =
@@ -20073,9 +21689,7 @@ export const RedisAdvancedConfig = /*@__PURE__*/ S.suspend(() =>
     redis_persistence: S.optional(RedisAdvancedConfigRedisPersistence),
     redis_acl_channels_default: S.optional(RedisAdvancedConfigRedisAclChannelsDefault),
   }),
-).annotate({
-  identifier: "RedisAdvancedConfig",
-}) as any as S.Schema<RedisAdvancedConfig>;
+).annotate({ identifier: "RedisAdvancedConfig" }) as any as S.Schema<RedisAdvancedConfig>;
 
 /** A string specifying the desired eviction policy for a Caching or Valkey cluster. - `noeviction`: Don't evict any data, returns error when memory limit is reached. - `allkeys_lru:` Evict any key, least recently used (LRU) first. - `allkeys_random`: Evict keys in a random order. - `volatile_lru`: Evict keys with expiration only, least recently used (LRU) first. - `volatile_random`: Evict keys with expiration only in a random order. - `volatile_ttl`: Evict keys with expiration only, shortest time-to-live (TTL) first. */
 export type EvictionPolicyModel =
@@ -20138,9 +21752,7 @@ export const ValkeyAdvancedConfig = /*@__PURE__*/ S.suspend(() =>
     frequent_snapshots: S.optional(S.Boolean),
     valkey_active_expire_effort: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ValkeyAdvancedConfig",
-}) as any as S.Schema<ValkeyAdvancedConfig>;
+).annotate({ identifier: "ValkeyAdvancedConfig" }) as any as S.Schema<ValkeyAdvancedConfig>;
 
 /** Specify the final compression type for a given topic. This configuration accepts the standard compression codecs ('gzip', 'snappy', 'lz4', 'zstd'). It additionally accepts 'uncompressed' which is equivalent to no compression; and 'producer' which means retain the original compression codec set by the producer. */
 export type KafkaAdvancedConfigCompressionType =
@@ -20285,9 +21897,7 @@ export const KafkaAdvancedConfig = /*@__PURE__*/ S.suspend(() =>
     transaction_remove_expired_transaction_cleanup_interval_ms: S.optional(S.Number),
     schema_registry: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "KafkaAdvancedConfig",
-}) as any as S.Schema<KafkaAdvancedConfig>;
+).annotate({ identifier: "KafkaAdvancedConfig" }) as any as S.Schema<KafkaAdvancedConfig>;
 
 /** Allowlist of remote IP addresses for reindexing. Changing this value will cause all OpenSearch instances to restart. */
 export type OpensearchAdvancedConfigReindexRemoteWhitelistList = Array<string>;
@@ -20423,9 +22033,7 @@ export const OpensearchAdvancedConfig = /*@__PURE__*/ S.suspend(() =>
     knn_memory_circuit_breaker_limit: S.optional(S.Number),
     keep_index_refresh_interval: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "OpensearchAdvancedConfig",
-}) as any as S.Schema<OpensearchAdvancedConfig>;
+).annotate({ identifier: "OpensearchAdvancedConfig" }) as any as S.Schema<OpensearchAdvancedConfig>;
 
 /** Specifies the default consistency behavior of reads from the database. Data that is returned from the query with may or may not have been acknowledged by all nodes in the replicaset depending on this value. Learn more [here](https://www.mongodb.com/docs/manual/reference/read-concern/). */
 export type MongoAdvancedConfigDefaultReadConcern = "local" | "available" | "majority";
@@ -20451,9 +22059,7 @@ export const MongoAdvancedConfig = /*@__PURE__*/ S.suspend(() =>
     slow_op_threshold_ms: S.optional(S.Number),
     verbosity: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MongoAdvancedConfig",
-}) as any as S.Schema<MongoAdvancedConfig>;
+).annotate({ identifier: "MongoAdvancedConfig" }) as any as S.Schema<MongoAdvancedConfig>;
 
 export type GetDatabaseConfigResponseConfig =
   | MysqlAdvancedConfig
@@ -20517,11 +22123,7 @@ export const GetDatabaseDoSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/databases/{database_cluster_uuid}/do_settings",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/databases/{database_cluster_uuid}/do_settings", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDatabaseDoSettingsRequest",
@@ -20892,9 +22494,7 @@ export const OnlineMigration = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(OnlineMigrationStatus),
     created_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OnlineMigration",
-}) as any as S.Schema<OnlineMigration>;
+).annotate({ identifier: "OnlineMigration" }) as any as S.Schema<OnlineMigration>;
 
 export interface GetDatabaseReplicaRequest {
   /** A unique identifier for a database cluster. */
@@ -20936,11 +22536,7 @@ export const GetDatabaseSqlModeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/databases/{database_cluster_uuid}/sql_mode",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/databases/{database_cluster_uuid}/sql_mode", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDatabaseSqlModeRequest",
@@ -20973,9 +22569,7 @@ export const GetDatabaseUserRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDatabaseUserRequest",
-}) as any as S.Schema<GetDatabaseUserRequest>;
+).annotate({ identifier: "GetDatabaseUserRequest" }) as any as S.Schema<GetDatabaseUserRequest>;
 
 export interface GetDatabaseUserResponse {
   user: DatabaseUser;
@@ -20984,9 +22578,7 @@ export const GetDatabaseUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user: DatabaseUser,
   }),
-).annotate({
-  identifier: "GetDatabaseUserResponse",
-}) as any as S.Schema<GetDatabaseUserResponse>;
+).annotate({ identifier: "GetDatabaseUserResponse" }) as any as S.Schema<GetDatabaseUserResponse>;
 
 export interface GetDedicatedInferenceRequest {
   /** A unique identifier for a Dedicated Inference instance. */
@@ -20996,11 +22588,7 @@ export const GetDedicatedInferenceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dedicated_inference_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/dedicated-inferences/{dedicated_inference_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/dedicated-inferences/{dedicated_inference_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedInferenceRequest",
@@ -21048,9 +22636,7 @@ export const AcceleratorConfigSpec = /*@__PURE__*/ S.suspend(() =>
     accelerator_slug: S.String,
     status: S.optional(AcceleratorConfigSpecStatus),
   }),
-).annotate({
-  identifier: "AcceleratorConfigSpec",
-}) as any as S.Schema<AcceleratorConfigSpec>;
+).annotate({ identifier: "AcceleratorConfigSpec" }) as any as S.Schema<AcceleratorConfigSpec>;
 
 /** Accelerator configuration for this deployment. */
 export type ModelDeploymentSpecAcceleratorsList = Array<AcceleratorConfigSpec>;
@@ -21079,9 +22665,7 @@ export const ModelDeploymentSpec = /*@__PURE__*/ S.suspend(() =>
     workload_config: S.optional(S.Unknown),
     accelerators: S.optional(ModelDeploymentSpecAcceleratorsList),
   }),
-).annotate({
-  identifier: "ModelDeploymentSpec",
-}) as any as S.Schema<ModelDeploymentSpec>;
+).annotate({ identifier: "ModelDeploymentSpec" }) as any as S.Schema<ModelDeploymentSpec>;
 
 /** At least one model deployment is required. */
 export type DedicatedInferenceSpecModelDeploymentsList = Array<ModelDeploymentSpec>;
@@ -21112,9 +22696,7 @@ export const DedicatedInferenceSpec = /*@__PURE__*/ S.suspend(() =>
     enable_public_endpoint: S.Boolean,
     model_deployments: DedicatedInferenceSpecModelDeploymentsList,
   }),
-).annotate({
-  identifier: "DedicatedInferenceSpec",
-}) as any as S.Schema<DedicatedInferenceSpec>;
+).annotate({ identifier: "DedicatedInferenceSpec" }) as any as S.Schema<DedicatedInferenceSpec>;
 
 export type PendingDeploymentSpecStatus = "provisioning" | "updating";
 export const PendingDeploymentSpecStatus = S.String;
@@ -21157,9 +22739,7 @@ export const PendingDeploymentSpec = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PendingDeploymentSpec",
-}) as any as S.Schema<PendingDeploymentSpec>;
+).annotate({ identifier: "PendingDeploymentSpec" }) as any as S.Schema<PendingDeploymentSpec>;
 
 export interface DedicatedInferenceEndpoints {
   /** Public FQDN of the Dedicated Inference instance. */
@@ -21206,9 +22786,7 @@ export const DedicatedInference = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DedicatedInference",
-}) as any as S.Schema<DedicatedInference>;
+).annotate({ identifier: "DedicatedInference" }) as any as S.Schema<DedicatedInference>;
 
 export interface GetDedicatedInferenceResponse {
   dedicated_inference?: DedicatedInference;
@@ -21302,11 +22880,7 @@ export const GetDedicatedInferenceCaResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetDedicatedInferenceGpuModelConfigRequest {}
 export const GetDedicatedInferenceGpuModelConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/dedicated-inferences/gpu-model-config",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/dedicated-inferences/gpu-model-config", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedInferenceGpuModelConfigRequest",
@@ -21361,9 +22935,7 @@ export const GetDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain_name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/domains/{domain_name}", code: 200 })),
-).annotate({
-  identifier: "GetDomainRequest",
-}) as any as S.Schema<GetDomainRequest>;
+).annotate({ identifier: "GetDomainRequest" }) as any as S.Schema<GetDomainRequest>;
 
 export interface GetDomainResponse {
   domain?: DomainOutput;
@@ -21372,9 +22944,7 @@ export const GetDomainResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.optional(DomainOutput),
   }),
-).annotate({
-  identifier: "GetDomainResponse",
-}) as any as S.Schema<GetDomainResponse>;
+).annotate({ identifier: "GetDomainResponse" }) as any as S.Schema<GetDomainResponse>;
 
 export interface GetDomainRecordRequest {
   /** The name of the domain itself. */
@@ -21393,9 +22963,7 @@ export const GetDomainRecordRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDomainRecordRequest",
-}) as any as S.Schema<GetDomainRecordRequest>;
+).annotate({ identifier: "GetDomainRecordRequest" }) as any as S.Schema<GetDomainRecordRequest>;
 
 export interface GetDomainRecordResponse {
   domain_record?: DomainRecord;
@@ -21404,9 +22972,7 @@ export const GetDomainRecordResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain_record: S.optional(DomainRecord),
   }),
-).annotate({
-  identifier: "GetDomainRecordResponse",
-}) as any as S.Schema<GetDomainRecordResponse>;
+).annotate({ identifier: "GetDomainRecordResponse" }) as any as S.Schema<GetDomainRecordResponse>;
 
 export interface GetDropletRequest {
   /** A unique identifier for a Droplet instance. */
@@ -21416,9 +22982,7 @@ export const GetDropletRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     droplet_id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/droplets/{droplet_id}", code: 200 })),
-).annotate({
-  identifier: "GetDropletRequest",
-}) as any as S.Schema<GetDropletRequest>;
+).annotate({ identifier: "GetDropletRequest" }) as any as S.Schema<GetDropletRequest>;
 
 /** The type of disk. All Droplets contain a `local` or `boot` disk. Additionally, GPU Droplets can also have a `scratch` disk for non-persistent data. */
 export type DiskInfoType = "local" | "boot" | "scratch";
@@ -21499,9 +23063,7 @@ export const DropletNextBackupWindow = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(S.String),
     end: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DropletNextBackupWindow",
-}) as any as S.Schema<DropletNextBackupWindow>;
+).annotate({ identifier: "DropletNextBackupWindow" }) as any as S.Schema<DropletNextBackupWindow>;
 
 /** An array of snapshot IDs of any snapshots created from the Droplet instance.<br>Requires `image:read` scope. */
 export type DropletSnapshotIdsList = Array<number>;
@@ -21718,9 +23280,7 @@ export const DropletNetworks = /*@__PURE__*/ S.suspend(() =>
     v4: S.optional(DropletNetworksV4List),
     v6: S.optional(DropletNetworksV6List),
   }),
-).annotate({
-  identifier: "DropletNetworks",
-}) as any as S.Schema<DropletNetworks>;
+).annotate({ identifier: "DropletNetworks" }) as any as S.Schema<DropletNetworks>;
 
 /** An array of Tags the Droplet has been tagged with.<br>Requires `tag:read` scope. */
 export type DropletTagsList = Array<string>;
@@ -21766,6 +23326,8 @@ export interface Droplet {
   tags: DropletTagsList;
   /** A string specifying the UUID of the VPC to which the Droplet is assigned.<br>Requires `vpc:read` scope. */
   vpc_uuid?: string;
+  /** A string specifying the UUID of the VPC subnet to which the Droplet is assigned.<br>Requires `vpc:read` scope. */
+  subnet_uuid?: string;
   gpu_info?: GpuInfo;
 }
 export const Droplet = /*@__PURE__*/ S.suspend(() =>
@@ -21792,6 +23354,7 @@ export const Droplet = /*@__PURE__*/ S.suspend(() =>
     region: Region,
     tags: DropletTagsList,
     vpc_uuid: S.optional(S.String),
+    subnet_uuid: S.optional(S.String),
     gpu_info: S.optional(GpuInfo),
   }),
 ).annotate({ identifier: "Droplet" }) as any as S.Schema<Droplet>;
@@ -21803,9 +23366,7 @@ export const GetDropletResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     droplet: S.optional(Droplet),
   }),
-).annotate({
-  identifier: "GetDropletResponse",
-}) as any as S.Schema<GetDropletResponse>;
+).annotate({ identifier: "GetDropletResponse" }) as any as S.Schema<GetDropletResponse>;
 
 export interface GetDropletActionRequest {
   /** A unique identifier for a Droplet instance. */
@@ -21818,15 +23379,9 @@ export const GetDropletActionRequest = /*@__PURE__*/ S.suspend(() =>
     droplet_id: S.Number.pipe(T.Label()),
     action_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/droplets/{droplet_id}/actions/{action_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/droplets/{droplet_id}/actions/{action_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetDropletActionRequest",
-}) as any as S.Schema<GetDropletActionRequest>;
+).annotate({ identifier: "GetDropletActionRequest" }) as any as S.Schema<GetDropletActionRequest>;
 
 export interface GetDropletActionResponse {
   action?: Action;
@@ -21835,9 +23390,7 @@ export const GetDropletActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: S.optional(Action),
   }),
-).annotate({
-  identifier: "GetDropletActionResponse",
-}) as any as S.Schema<GetDropletActionResponse>;
+).annotate({ identifier: "GetDropletActionResponse" }) as any as S.Schema<GetDropletActionResponse>;
 
 export interface GetDropletBackupPolicyRequest {
   /** A unique identifier for a Droplet instance. */
@@ -21846,13 +23399,7 @@ export interface GetDropletBackupPolicyRequest {
 export const GetDropletBackupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     droplet_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/droplets/{droplet_id}/backups/policy",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/droplets/{droplet_id}/backups/policy", code: 200 })),
 ).annotate({
   identifier: "GetDropletBackupPolicyRequest",
 }) as any as S.Schema<GetDropletBackupPolicyRequest>;
@@ -22036,9 +23583,7 @@ export const AssociatedResourceStatus = /*@__PURE__*/ S.suspend(() =>
     completed_at: S.optional(S.String),
     failures: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AssociatedResourceStatus",
-}) as any as S.Schema<AssociatedResourceStatus>;
+).annotate({ identifier: "AssociatedResourceStatus" }) as any as S.Schema<AssociatedResourceStatus>;
 
 export interface GetFirewallRequest {
   /** A unique ID that can be used to identify and reference a firewall. */
@@ -22048,9 +23593,7 @@ export const GetFirewallRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     firewall_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/firewalls/{firewall_id}", code: 200 })),
-).annotate({
-  identifier: "GetFirewallRequest",
-}) as any as S.Schema<GetFirewallRequest>;
+).annotate({ identifier: "GetFirewallRequest" }) as any as S.Schema<GetFirewallRequest>;
 
 /** A status string indicating the current state of the firewall. This can be "waiting", "succeeded", or "failed". */
 export type FirewallStatus = "waiting" | "succeeded" | "failed";
@@ -22086,6 +23629,10 @@ export const FirewallDropletIdsList = /*@__PURE__*/ S.Array(
 /** The type of traffic to be allowed. This may be one of `tcp`, `udp`, or `icmp`. */
 export type FirewallInboundRulesItemProtocol = "tcp" | "udp" | "icmp";
 export const FirewallInboundRulesItemProtocol = S.String;
+
+/** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+export type FirewallInboundRulesItemAction = "allow" | "deny";
+export const FirewallInboundRulesItemAction = S.String;
 
 /** An array of strings containing the IPv4 addresses, IPv6 addresses, IPv4 CIDRs, and/or IPv6 CIDRs to which the firewall will allow traffic. */
 export type FirewallInboundRulesItemSourcesAddressesList = Array<string>;
@@ -22139,17 +23686,18 @@ export interface FirewallInboundRulesItem {
   protocol: FirewallInboundRulesItemProtocol;
   /** The ports on which traffic will be allowed specified as a string containing a single port, a range (e.g. "8000-9000"), or "0" when all ports are open for a protocol. For ICMP rules this parameter will always return "0". */
   ports: string;
+  /** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+  action?: FirewallInboundRulesItemAction;
   sources: FirewallInboundRulesItemSources;
 }
 export const FirewallInboundRulesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     protocol: FirewallInboundRulesItemProtocol,
     ports: S.String,
+    action: S.optional(FirewallInboundRulesItemAction),
     sources: FirewallInboundRulesItemSources,
   }),
-).annotate({
-  identifier: "FirewallInboundRulesItem",
-}) as any as S.Schema<FirewallInboundRulesItem>;
+).annotate({ identifier: "FirewallInboundRulesItem" }) as any as S.Schema<FirewallInboundRulesItem>;
 
 export type FirewallInboundRulesList = Array<FirewallInboundRulesItem>;
 export const FirewallInboundRulesList = /*@__PURE__*/ S.Array(
@@ -22159,6 +23707,10 @@ export const FirewallInboundRulesList = /*@__PURE__*/ S.Array(
 /** The type of traffic to be allowed. This may be one of `tcp`, `udp`, or `icmp`. */
 export type FirewallOutboundRulesItemProtocol = "tcp" | "udp" | "icmp";
 export const FirewallOutboundRulesItemProtocol = S.String;
+
+/** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+export type FirewallOutboundRulesItemAction = "allow" | "deny";
+export const FirewallOutboundRulesItemAction = S.String;
 
 /** An array of strings containing the IPv4 addresses, IPv6 addresses, IPv4 CIDRs, and/or IPv6 CIDRs to which the firewall will allow traffic. */
 export type FirewallOutboundRulesItemDestinationsAddressesList = Array<string>;
@@ -22212,12 +23764,15 @@ export interface FirewallOutboundRulesItem {
   protocol: FirewallOutboundRulesItemProtocol;
   /** The ports on which traffic will be allowed specified as a string containing a single port, a range (e.g. "8000-9000"), or "0" when all ports are open for a protocol. For ICMP rules this parameter will always return "0". */
   ports: string;
+  /** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+  action?: FirewallOutboundRulesItemAction;
   destinations: FirewallOutboundRulesItemDestinations;
 }
 export const FirewallOutboundRulesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     protocol: FirewallOutboundRulesItemProtocol,
     ports: S.String,
+    action: S.optional(FirewallOutboundRulesItemAction),
     destinations: FirewallOutboundRulesItemDestinations,
   }),
 ).annotate({
@@ -22267,9 +23822,7 @@ export const GetFirewallResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     firewall: S.optional(Firewall),
   }),
-).annotate({
-  identifier: "GetFirewallResponse",
-}) as any as S.Schema<GetFirewallResponse>;
+).annotate({ identifier: "GetFirewallResponse" }) as any as S.Schema<GetFirewallResponse>;
 
 export interface GetFloatingIPRequest {
   /** A floating IP address. */
@@ -22279,9 +23832,7 @@ export const GetFloatingIPRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     floating_ip: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/floating_ips/{floating_ip}", code: 200 })),
-).annotate({
-  identifier: "GetFloatingIPRequest",
-}) as any as S.Schema<GetFloatingIPRequest>;
+).annotate({ identifier: "GetFloatingIPRequest" }) as any as S.Schema<GetFloatingIPRequest>;
 
 /** This attribute is set to an array which contains features available in this region */
 export type FloatingIpRegionFeaturesList = Array<string>;
@@ -22315,9 +23866,7 @@ export const FloatingIpRegion = /*@__PURE__*/ S.suspend(() =>
     available: S.Boolean,
     sizes: FloatingIpRegionSizesList,
   }),
-).annotate({
-  identifier: "FloatingIpRegion",
-}) as any as S.Schema<FloatingIpRegion>;
+).annotate({ identifier: "FloatingIpRegion" }) as any as S.Schema<FloatingIpRegion>;
 
 /** The Droplet that the floating IP has been assigned to. When you query a floating IP, if it is assigned to a Droplet, the entire Droplet object will be returned. If it is not assigned, the value will be null. <br><br>Requires `droplet:read` scope. */
 export type FloatingIpDroplet = unknown | Droplet;
@@ -22351,9 +23900,7 @@ export const GetFloatingIPResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     floating_ip: S.optional(FloatingIp),
   }),
-).annotate({
-  identifier: "GetFloatingIPResponse",
-}) as any as S.Schema<GetFloatingIPResponse>;
+).annotate({ identifier: "GetFloatingIPResponse" }) as any as S.Schema<GetFloatingIPResponse>;
 
 export interface GetFloatingIPsActionRequest {
   /** A floating IP address. */
@@ -22366,11 +23913,7 @@ export const GetFloatingIPsActionRequest = /*@__PURE__*/ S.suspend(() =>
     floating_ip: S.String.pipe(T.Label()),
     action_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/floating_ips/{floating_ip}/actions/{action_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/floating_ips/{floating_ip}/actions/{action_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetFloatingIPsActionRequest",
@@ -22436,13 +23979,7 @@ export interface GetFunctionNamespaceRequest {
 export const GetFunctionNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/functions/namespaces/{namespace_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/functions/namespaces/{namespace_id}", code: 200 })),
 ).annotate({
   identifier: "GetFunctionNamespaceRequest",
 }) as any as S.Schema<GetFunctionNamespaceRequest>;
@@ -22466,9 +24003,7 @@ export const GetGenaiAgentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/agents/{uuid}", code: 200 })),
-).annotate({
-  identifier: "GetGenaiAgentRequest",
-}) as any as S.Schema<GetGenaiAgentRequest>;
+).annotate({ identifier: "GetGenaiAgentRequest" }) as any as S.Schema<GetGenaiAgentRequest>;
 
 /** One Agent */
 export interface ApiGetAgentOutput {
@@ -22478,9 +24013,7 @@ export const ApiGetAgentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     agent: S.optional(ApiAgent),
   }),
-).annotate({
-  identifier: "ApiGetAgentOutput",
-}) as any as S.Schema<ApiGetAgentOutput>;
+).annotate({ identifier: "ApiGetAgentOutput" }) as any as S.Schema<ApiGetAgentOutput>;
 
 export interface GetGenaiAgentChildrenRequest {
   /** Agent id */
@@ -22489,13 +24022,7 @@ export interface GetGenaiAgentChildrenRequest {
 export const GetGenaiAgentChildrenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/agents/{uuid}/child_agents",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/agents/{uuid}/child_agents", code: 200 })),
 ).annotate({
   identifier: "GetGenaiAgentChildrenRequest",
 }) as any as S.Schema<GetGenaiAgentChildrenRequest>;
@@ -22515,9 +24042,7 @@ export const ApiGetChildrenOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     children: S.optional(ApiGetChildrenOutputChildrenList),
   }),
-).annotate({
-  identifier: "ApiGetChildrenOutput",
-}) as any as S.Schema<ApiGetChildrenOutput>;
+).annotate({ identifier: "ApiGetChildrenOutput" }) as any as S.Schema<ApiGetChildrenOutput>;
 
 export interface GetGenaiAgentUsageRequest {
   /** Agent id */
@@ -22547,9 +24072,7 @@ export const ApiUsageMeasurement = /*@__PURE__*/ S.suspend(() =>
     tokens: S.optional(S.Number),
     usage_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiUsageMeasurement",
-}) as any as S.Schema<ApiUsageMeasurement>;
+).annotate({ identifier: "ApiUsageMeasurement" }) as any as S.Schema<ApiUsageMeasurement>;
 
 export type ApiResourceUsageMeasurementsList = Array<ApiUsageMeasurement>;
 export const ApiResourceUsageMeasurementsList = /*@__PURE__*/ S.Array(
@@ -22570,9 +24093,7 @@ export const ApiResourceUsage = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(S.String),
     stop: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiResourceUsage",
-}) as any as S.Schema<ApiResourceUsage>;
+).annotate({ identifier: "ApiResourceUsage" }) as any as S.Schema<ApiResourceUsage>;
 
 /** Agent usage */
 export interface ApiGetAgentUsageOutput {
@@ -22584,9 +24105,7 @@ export const ApiGetAgentUsageOutput = /*@__PURE__*/ S.suspend(() =>
     log_insights_usage: S.optional(ApiResourceUsage),
     usage: S.optional(ApiResourceUsage),
   }),
-).annotate({
-  identifier: "ApiGetAgentUsageOutput",
-}) as any as S.Schema<ApiGetAgentUsageOutput>;
+).annotate({ identifier: "ApiGetAgentUsageOutput" }) as any as S.Schema<ApiGetAgentUsageOutput>;
 
 export interface GetGenaiAnthropicApiKeyRequest {
   /** API key ID */
@@ -22595,13 +24114,7 @@ export interface GetGenaiAnthropicApiKeyRequest {
 export const GetGenaiAnthropicApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     api_key_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/anthropic/keys/{api_key_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/anthropic/keys/{api_key_uuid}", code: 200 })),
 ).annotate({
   identifier: "GetGenaiAnthropicApiKeyRequest",
 }) as any as S.Schema<GetGenaiAnthropicApiKeyRequest>;
@@ -22624,13 +24137,7 @@ export interface GetGenaiCustomModelRequest {
 export const GetGenaiCustomModelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/custom_models/{uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/custom_models/{uuid}", code: 200 })),
 ).annotate({
   identifier: "GetGenaiCustomModelRequest",
 }) as any as S.Schema<GetGenaiCustomModelRequest>;
@@ -22733,9 +24240,7 @@ export const CustomModelSourceRef = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     repo_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomModelSourceRef",
-}) as any as S.Schema<CustomModelSourceRef>;
+).annotate({ identifier: "CustomModelSourceRef" }) as any as S.Schema<CustomModelSourceRef>;
 
 /** Source from which the model was imported */
 export type CustomModelSourceType =
@@ -22770,9 +24275,7 @@ export const CustomModelTags = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tags: S.optional(CustomModelTagsTagsList),
   }),
-).annotate({
-  identifier: "CustomModelTags",
-}) as any as S.Schema<CustomModelTags>;
+).annotate({ identifier: "CustomModelTags" }) as any as S.Schema<CustomModelTags>;
 
 /** Custom model - user-imported model from HuggingFace, Spaces, etc. */
 export interface ApiCustomModel {
@@ -22867,11 +24370,7 @@ export const GetGenaiEvaluationRunRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     evaluation_run_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/evaluation_runs/{evaluation_run_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/gen-ai/evaluation_runs/{evaluation_run_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetGenaiEvaluationRunRequest",
@@ -23003,9 +24502,7 @@ export const ApiEvaluationRun = /*@__PURE__*/ S.suspend(() =>
     test_case_uuid: S.optional(S.String),
     test_case_version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiEvaluationRun",
-}) as any as S.Schema<ApiEvaluationRun>;
+).annotate({ identifier: "ApiEvaluationRun" }) as any as S.Schema<ApiEvaluationRun>;
 
 export interface ApiGetEvaluationRunOutput {
   evaluation_run?: ApiEvaluationRun;
@@ -23182,9 +24679,7 @@ export const ApiRetrieverSpan = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     common: S.optional(ApiSpanCommon),
   }),
-).annotate({
-  identifier: "ApiRetrieverSpan",
-}) as any as S.Schema<ApiRetrieverSpan>;
+).annotate({ identifier: "ApiRetrieverSpan" }) as any as S.Schema<ApiRetrieverSpan>;
 
 /** Tool span */
 export interface ApiToolSpan {
@@ -23225,9 +24720,7 @@ export const ApiWorkflowSpan = /*@__PURE__*/ S.suspend(() =>
     common: S.optional(ApiSpanCommon),
     spans: S.optional(ApiWorkflowSpanSpansList),
   }),
-).annotate({
-  identifier: "ApiWorkflowSpan",
-}) as any as S.Schema<ApiWorkflowSpan>;
+).annotate({ identifier: "ApiWorkflowSpan" }) as any as S.Schema<ApiWorkflowSpan>;
 
 /** Represents a span within a trace (e.g., LLM call, tool call, etc.) */
 export interface ApiTraceSpan {
@@ -23296,9 +24789,7 @@ export const ApiEvaluationTraceSpan = /*@__PURE__*/ S.suspend(() =>
     spans: S.optional(ApiEvaluationTraceSpanSpansList),
     type: S.optional(ApiTraceSpanType),
   }),
-).annotate({
-  identifier: "ApiEvaluationTraceSpan",
-}) as any as S.Schema<ApiEvaluationTraceSpan>;
+).annotate({ identifier: "ApiEvaluationTraceSpan" }) as any as S.Schema<ApiEvaluationTraceSpan>;
 
 /** The evaluated trace spans. */
 export type ApiPromptEvaluationTraceSpansList = Array<ApiEvaluationTraceSpan>;
@@ -23471,11 +24962,7 @@ export const GetGenaiEvaluationTestCaseRequest = /*@__PURE__*/ S.suspend(() =>
     test_case_uuid: S.String.pipe(T.Label()),
     evaluation_test_case_version: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/evaluation_test_cases/{test_case_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/gen-ai/evaluation_test_cases/{test_case_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetGenaiEvaluationTestCaseRequest",
@@ -23499,13 +24986,7 @@ export interface GetGenaiIndexingJobRequest {
 export const GetGenaiIndexingJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/indexing_jobs/{uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/indexing_jobs/{uuid}", code: 200 })),
 ).annotate({
   identifier: "GetGenaiIndexingJobRequest",
 }) as any as S.Schema<GetGenaiIndexingJobRequest>;
@@ -23559,13 +25040,7 @@ export interface GetGenaiKnowledgeBaseRequest {
 export const GetGenaiKnowledgeBaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/knowledge_bases/{uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/knowledge_bases/{uuid}", code: 200 })),
 ).annotate({
   identifier: "GetGenaiKnowledgeBaseRequest",
 }) as any as S.Schema<GetGenaiKnowledgeBaseRequest>;
@@ -23644,9 +25119,7 @@ export const ApiCodeSnippets = /*@__PURE__*/ S.suspend(() =>
     python: S.optional(S.String),
     sdk: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiCodeSnippets",
-}) as any as S.Schema<ApiCodeSnippets>;
+).annotate({ identifier: "ApiCodeSnippets" }) as any as S.Schema<ApiCodeSnippets>;
 
 /** Pricing per million tokens (aligns with existing ModelPrice pattern) */
 export interface ApiModelPricing {
@@ -23699,9 +25172,7 @@ export const ApiModelPricing = /*@__PURE__*/ S.suspend(() =>
     text_input_price_per_million: S.optional(S.Number),
     text_output_price_per_million: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiModelPricing",
-}) as any as S.Schema<ApiModelPricing>;
+).annotate({ identifier: "ApiModelPricing" }) as any as S.Schema<ApiModelPricing>;
 
 /** Whether rates apply to real-time or batch requests. - MODEL_BILLING_MODE_INTERACTIVE: Real-time request pricing. - MODEL_BILLING_MODE_BATCH: Discounted pricing for asynchronous batch requests. */
 export type ApiModelBillingMode =
@@ -23724,9 +25195,7 @@ export const ApiModelPricingInterval = /*@__PURE__*/ S.suspend(() =>
     prices: S.optional(ApiModelPricing),
     start_time: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiModelPricingInterval",
-}) as any as S.Schema<ApiModelPricingInterval>;
+).annotate({ identifier: "ApiModelPricingInterval" }) as any as S.Schema<ApiModelPricingInterval>;
 
 /** The pricing schedule as a series of consecutive time intervals, ordered by start time. Neighboring hours with the same rates are combined, so each interval represents a distinct price. */
 export type ApiModelScaledPricingIntervalsList = Array<ApiModelPricingInterval>;
@@ -23747,9 +25216,7 @@ export const ApiModelScaledPricing = /*@__PURE__*/ S.suspend(() =>
     max_prices: S.optional(ApiModelPricing),
     min_prices: S.optional(ApiModelPricing),
   }),
-).annotate({
-  identifier: "ApiModelScaledPricing",
-}) as any as S.Schema<ApiModelScaledPricing>;
+).annotate({ identifier: "ApiModelScaledPricing" }) as any as S.Schema<ApiModelScaledPricing>;
 
 /** A pricing variant of a model, such as a faster serving option or a larger context window. - MODEL_PRICING_TIER_STANDARD: Default pricing. - MODEL_PRICING_TIER_FAST_MODE: Faster, higher-priority serving at a premium price. - MODEL_PRICING_TIER_EXTENDED_1M: Pricing for the 1M-token context window. - MODEL_PRICING_TIER_EXTENDED_272K: Pricing for the 272K-token context window. - MODEL_PRICING_TIER_BYOK: Pricing when using your own model API key. */
 export type ApiModelPricingTier =
@@ -23781,9 +25248,7 @@ export const ApiModelPricingVariant = /*@__PURE__*/ S.suspend(() =>
     scaled_pricing: S.optional(ApiModelScaledPricing),
     tier: S.optional(ApiModelPricingTier),
   }),
-).annotate({
-  identifier: "ApiModelPricingVariant",
-}) as any as S.Schema<ApiModelPricingVariant>;
+).annotate({ identifier: "ApiModelPricingVariant" }) as any as S.Schema<ApiModelPricingVariant>;
 
 /** Each available pricing variant for the model. */
 export type ApiModelPricingDetailVariantsList = Array<ApiModelPricingVariant>;
@@ -23800,9 +25265,7 @@ export const ApiModelPricingDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     variants: S.optional(ApiModelPricingDetailVariantsList),
   }),
-).annotate({
-  identifier: "ApiModelPricingDetail",
-}) as any as S.Schema<ApiModelPricingDetail>;
+).annotate({ identifier: "ApiModelPricingDetail" }) as any as S.Schema<ApiModelPricingDetail>;
 
 /** Detail view for GetModelCatalogCard */
 export interface ApiModelCatalogCard {
@@ -23859,9 +25322,7 @@ export const ApiModelCatalogCard = /*@__PURE__*/ S.suspend(() =>
     short_description: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiModelCatalogCard",
-}) as any as S.Schema<ApiModelCatalogCard>;
+).annotate({ identifier: "ApiModelCatalogCard" }) as any as S.Schema<ApiModelCatalogCard>;
 
 export interface ApiGetModelCatalogCardOutput {
   data?: ApiModelCatalogCard;
@@ -23952,9 +25413,7 @@ export const ApiModelEvaluationPreset = /*@__PURE__*/ S.suspend(() =>
     saved_sections: S.optional(ApiModelEvaluationPresetSavedSectionsList),
     star_metric: S.optional(ApiStarMetric),
   }),
-).annotate({
-  identifier: "ApiModelEvaluationPreset",
-}) as any as S.Schema<ApiModelEvaluationPreset>;
+).annotate({ identifier: "ApiModelEvaluationPreset" }) as any as S.Schema<ApiModelEvaluationPreset>;
 
 export interface ApiGetModelEvaluationPresetOutput {
   preset?: ApiModelEvaluationPreset;
@@ -23981,15 +25440,44 @@ export const GetGenaiModelEvaluationRunRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/model_evaluation_runs/{eval_run_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/gen-ai/model_evaluation_runs/{eval_run_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetGenaiModelEvaluationRunRequest",
 }) as any as S.Schema<GetGenaiModelEvaluationRunRequest>;
+
+/** Per-metric scores and judge reasoning for this specific pass. */
+export type ApiModelEvaluationEpochAttemptMetricResultsList = Array<ApiEvaluationMetricResult>;
+export const ApiModelEvaluationEpochAttemptMetricResultsList = /*@__PURE__*/ S.Array(
+  ApiEvaluationMetricResult,
+) as any as S.Schema<ApiModelEvaluationEpochAttemptMetricResultsList>;
+
+/** ModelEvaluationEpochAttempt is one epoch's attempt at a dataset row, nested under ModelEvaluationResult.epoch_results for multi-epoch runs. Carries only the fields that vary per pass — row-identifying fields (input/ground_truth/row_number) and candidate_model_name/uuid live once on the parent ModelEvaluationResult and aren't repeated here. */
+export interface ApiModelEvaluationEpochAttempt {
+  candidate_routed_task?: string;
+  /** Per-metric scores and judge reasoning for this specific pass. */
+  metric_results?: ApiModelEvaluationEpochAttemptMetricResultsList;
+  /** The response from the candidate model for this specific pass. */
+  output?: string;
+}
+export const ApiModelEvaluationEpochAttempt = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    candidate_routed_task: S.optional(S.String),
+    metric_results: S.optional(ApiModelEvaluationEpochAttemptMetricResultsList),
+    output: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApiModelEvaluationEpochAttempt",
+}) as any as S.Schema<ApiModelEvaluationEpochAttempt>;
+
+/** Present only when the run's epochs > 1: every pass over this row — including epoch 1, duplicated here for convenience — keyed by 1-indexed "epoch1"/"epoch2"/"epoch3" labels. Mirrors the shape of the downloadable results file's epochResults object. The top-level fields above (output, metric_results, candidate_routed_task) always reflect epoch 1, so single-epoch clients reading only those fields see no difference when epochs > 1. */
+export type ApiModelEvaluationResultEpochResultsMap = {
+  [key: string]: ApiModelEvaluationEpochAttempt | undefined;
+};
+export const ApiModelEvaluationResultEpochResultsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ApiModelEvaluationEpochAttempt,
+) as any as S.Schema<ApiModelEvaluationResultEpochResultsMap>;
 
 /** Per-metric scores and judge reasoning for this prompt. */
 export type ApiModelEvaluationResultMetricResultsList = Array<ApiEvaluationMetricResult>;
@@ -24002,6 +25490,10 @@ export interface ApiModelEvaluationResult {
   candidate_model_name?: string;
   candidate_model_uuid?: string;
   candidate_routed_task?: string;
+  /** Which pass over this dataset row produced this result, 1-indexed (1 = first pass). Always 0 (and omitted from JSON) when the run's epochs is 1 (the default) — per-attempt epoch numbering doesn't apply to single-pass runs. When epochs > 1, this always reflects epoch 1 (see epoch_results below). */
+  epoch?: number;
+  /** Present only when the run's epochs > 1: every pass over this row — including epoch 1, duplicated here for convenience — keyed by 1-indexed "epoch1"/"epoch2"/"epoch3" labels. Mirrors the shape of the downloadable results file's epochResults object. The top-level fields above (output, metric_results, candidate_routed_task) always reflect epoch 1, so single-epoch clients reading only those fields see no difference when epochs > 1. */
+  epoch_results?: ApiModelEvaluationResultEpochResultsMap;
   ground_truth?: string;
   /** The input query sent to the candidate model. */
   input?: string;
@@ -24009,20 +25501,23 @@ export interface ApiModelEvaluationResult {
   metric_results?: ApiModelEvaluationResultMetricResultsList;
   /** The response from the candidate model. */
   output?: string;
+  /** Which dataset row this result came from. Multiple results share a row_number when epochs > 1: one per pass over that row. */
+  row_number?: number;
 }
 export const ApiModelEvaluationResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     candidate_model_name: S.optional(S.String),
     candidate_model_uuid: S.optional(S.String),
     candidate_routed_task: S.optional(S.String),
+    epoch: S.optional(S.Number),
+    epoch_results: S.optional(ApiModelEvaluationResultEpochResultsMap),
     ground_truth: S.optional(S.String),
     input: S.optional(S.String),
     metric_results: S.optional(ApiModelEvaluationResultMetricResultsList),
     output: S.optional(S.String),
+    row_number: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiModelEvaluationResult",
-}) as any as S.Schema<ApiModelEvaluationResult>;
+).annotate({ identifier: "ApiModelEvaluationResult" }) as any as S.Schema<ApiModelEvaluationResult>;
 
 /** Paginated per-prompt evaluation results. */
 export type ApiGetModelEvaluationRunOutputResultsList = Array<ApiModelEvaluationResult>;
@@ -24036,14 +25531,71 @@ export const ApiModelEvaluationRunDetailMetricsList = /*@__PURE__*/ S.Array(
   ApiEvaluationMetric,
 ) as any as S.Schema<ApiModelEvaluationRunDetailMetricsList>;
 
+/** One epoch's standalone score, computed the same way overall_score_percent is computed today (flat pass rate over that epoch's rows). */
+export interface ApiPerEpochResultSummary {
+  /** 1-indexed epoch number (1 = first pass). */
+  epoch?: number;
+  overall_score_percent?: number;
+  rows_scored?: number;
+}
+export const ApiPerEpochResultSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    epoch: S.optional(S.Number),
+    overall_score_percent: S.optional(S.Number),
+    rows_scored: S.optional(S.Number),
+  }),
+).annotate({ identifier: "ApiPerEpochResultSummary" }) as any as S.Schema<ApiPerEpochResultSummary>;
+
+/** Each epoch's own standalone score, persisted next to the aggregate. */
+export type ApiEpochResultSummaryPerEpochList = Array<ApiPerEpochResultSummary>;
+export const ApiEpochResultSummaryPerEpochList = /*@__PURE__*/ S.Array(
+  ApiPerEpochResultSummary,
+) as any as S.Schema<ApiEpochResultSummaryPerEpochList>;
+
+/** Aggregation across epochs when a run repeats each dataset row k times. Only populated when epochs > 1; at epochs == 1 every number here would equal overall_score_percent, so it is omitted rather than duplicated. */
+export interface ApiEpochResultSummary {
+  /** Mean over rows of (passing epochs / scored epochs) for the star metric. Equals overall_score_percent; this is the primary result for a multi-epoch run ("how often does it work"). */
+  avg_at_k_percent?: number;
+  /** Fraction of rows where a strict majority of scored epochs passed ("what does the model typically answer"). An even-k tie counts as fail. */
+  cons_at_k_percent?: number;
+  /** Number of passes per dataset row (k). */
+  epochs?: number;
+  /** Unbiased estimate of the probability that at least one of k epochs passes ("can it work at all, given retries"). Always the most generous of the three. */
+  pass_at_k_percent?: number;
+  /** Each epoch's own standalone score, persisted next to the aggregate. */
+  per_epoch?: ApiEpochResultSummaryPerEpochList;
+  /** Rows where every epoch failed or was skipped, so the row contributes to no score. Not a random sample of difficulty — surface this explicitly. */
+  rows_excluded?: number;
+  /** Rows with at least one scored epoch. The effective N behind every percentage above; always display alongside them. */
+  rows_scored?: number;
+  /** Population standard deviation of the k per-epoch scores below — the signal for whether a difference between runs is real or noise. */
+  score_stddev_percent?: number;
+}
+export const ApiEpochResultSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    avg_at_k_percent: S.optional(S.Number),
+    cons_at_k_percent: S.optional(S.Number),
+    epochs: S.optional(S.Number),
+    pass_at_k_percent: S.optional(S.Number),
+    per_epoch: S.optional(ApiEpochResultSummaryPerEpochList),
+    rows_excluded: S.optional(S.Number),
+    rows_scored: S.optional(S.Number),
+    score_stddev_percent: S.optional(S.Number),
+  }),
+).annotate({ identifier: "ApiEpochResultSummary" }) as any as S.Schema<ApiEpochResultSummary>;
+
 /** Per-metric aggregated pass/fail statistics across all prompts. */
 export interface ApiMetricResultSummary {
+  /** Row-level (not attempt-level) aggregation across epochs for this metric, mirroring EpochResultSummary but scoped to one metric. Only set when the run's epochs > 1; pass_percent/pass_count/etc. above stay attempt-level (over row x epoch pairs) so they don't desynchronize from the counts sitting next to them. */
+  avg_at_k_percent?: number;
+  cons_at_k_percent?: number;
   description?: string;
   /** Rows where the metric failed to score or completed below the threshold. */
   fail_count?: number;
   fail_percent?: number;
   metric_name?: string;
   metric_uuid?: string;
+  pass_at_k_percent?: number;
   /** Rows where the metric completed and passed the configured threshold. */
   pass_count?: number;
   pass_percent?: number;
@@ -24054,19 +25606,20 @@ export interface ApiMetricResultSummary {
 }
 export const ApiMetricResultSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    avg_at_k_percent: S.optional(S.Number),
+    cons_at_k_percent: S.optional(S.Number),
     description: S.optional(S.String),
     fail_count: S.optional(S.Number),
     fail_percent: S.optional(S.Number),
     metric_name: S.optional(S.String),
     metric_uuid: S.optional(S.String),
+    pass_at_k_percent: S.optional(S.Number),
     pass_count: S.optional(S.Number),
     pass_percent: S.optional(S.Number),
     skip_percent: S.optional(S.Number),
     skipped_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiMetricResultSummary",
-}) as any as S.Schema<ApiMetricResultSummary>;
+).annotate({ identifier: "ApiMetricResultSummary" }) as any as S.Schema<ApiMetricResultSummary>;
 
 /** Per-metric aggregated pass/fail statistics. */
 export type ApiModelEvaluationRunResultSummaryMetricSummariesList = Array<ApiMetricResultSummary>;
@@ -24104,9 +25657,7 @@ export const ApiLatencyMetrics = /*@__PURE__*/ S.suspend(() =>
     p90_latency_ms: S.optional(S.Number),
     p95_latency_ms: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiLatencyMetrics",
-}) as any as S.Schema<ApiLatencyMetrics>;
+).annotate({ identifier: "ApiLatencyMetrics" }) as any as S.Schema<ApiLatencyMetrics>;
 
 export interface ApiTokenUsage {
   total_candidate_input_tokens?: string;
@@ -24137,9 +25688,7 @@ export const ApiPerformanceMetrics = /*@__PURE__*/ S.suspend(() =>
     candidate_latency: S.optional(ApiLatencyMetrics),
     token_usage: S.optional(ApiTokenUsage),
   }),
-).annotate({
-  identifier: "ApiPerformanceMetrics",
-}) as any as S.Schema<ApiPerformanceMetrics>;
+).annotate({ identifier: "ApiPerformanceMetrics" }) as any as S.Schema<ApiPerformanceMetrics>;
 
 /** Aggregated evaluation results for a single underlying model in a router evaluation run. */
 export interface ApiPerModelResultSummary {
@@ -24158,9 +25707,7 @@ export const ApiPerModelResultSummary = /*@__PURE__*/ S.suspend(() =>
     performance_metrics: S.optional(ApiPerformanceMetrics),
     prompt_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiPerModelResultSummary",
-}) as any as S.Schema<ApiPerModelResultSummary>;
+).annotate({ identifier: "ApiPerModelResultSummary" }) as any as S.Schema<ApiPerModelResultSummary>;
 
 /** One entry per underlying model that received at least one prompt during the evaluation run. */
 export type ApiPerModelResultSummariesSummariesList = Array<ApiPerModelResultSummary>;
@@ -24204,9 +25751,7 @@ export const ApiPerTaskResultSummary = /*@__PURE__*/ S.suspend(() =>
     prompt_count: S.optional(S.Number),
     task_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiPerTaskResultSummary",
-}) as any as S.Schema<ApiPerTaskResultSummary>;
+).annotate({ identifier: "ApiPerTaskResultSummary" }) as any as S.Schema<ApiPerTaskResultSummary>;
 
 /** One entry per routing task category that received at least one prompt during the evaluation run. */
 export type ApiPerTaskResultSummariesSummariesList = Array<ApiPerTaskResultSummary>;
@@ -24242,9 +25787,7 @@ export const ApiTokenPricing = /*@__PURE__*/ S.suspend(() =>
     output_cost: S.optional(S.Number),
     total_cost: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiTokenPricing",
-}) as any as S.Schema<ApiTokenPricing>;
+).annotate({ identifier: "ApiTokenPricing" }) as any as S.Schema<ApiTokenPricing>;
 
 /** Pricing entry for a specific model. */
 export interface ApiModelPricingEntry {
@@ -24263,9 +25806,7 @@ export const ApiModelPricingEntry = /*@__PURE__*/ S.suspend(() =>
     pricing: S.optional(ApiTokenPricing),
     prompt_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiModelPricingEntry",
-}) as any as S.Schema<ApiModelPricingEntry>;
+).annotate({ identifier: "ApiModelPricingEntry" }) as any as S.Schema<ApiModelPricingEntry>;
 
 /** Pricing per candidate model. */
 export type ApiEvaluationPricingPerCandidateModelPricingList = Array<ApiModelPricingEntry>;
@@ -24290,9 +25831,7 @@ export const ApiEvaluationPricing = /*@__PURE__*/ S.suspend(() =>
     per_candidate_model_pricing: S.optional(ApiEvaluationPricingPerCandidateModelPricingList),
     total_cost: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiEvaluationPricing",
-}) as any as S.Schema<ApiEvaluationPricing>;
+).annotate({ identifier: "ApiEvaluationPricing" }) as any as S.Schema<ApiEvaluationPricing>;
 
 /** Star metric summary with identifying details and threshold. */
 export interface ApiStarMetricSummary {
@@ -24306,13 +25845,14 @@ export const ApiStarMetricSummary = /*@__PURE__*/ S.suspend(() =>
     metric_uuid: S.optional(S.String),
     threshold: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiStarMetricSummary",
-}) as any as S.Schema<ApiStarMetricSummary>;
+).annotate({ identifier: "ApiStarMetricSummary" }) as any as S.Schema<ApiStarMetricSummary>;
 
 /** Aggregated result summary for a completed model evaluation run. */
 export interface ApiModelEvaluationRunResultSummary {
   end_time?: string;
+  epoch_summary?: ApiEpochResultSummary;
+  /** Number of times each dataset row was evaluated (n-pass/epochs). Mirrors ModelEvaluationRunDetail.epochs. 1 for every existing run. */
+  epochs?: number;
   /** Per-metric aggregated pass/fail statistics. */
   metric_summaries?: ApiModelEvaluationRunResultSummaryMetricSummariesList;
   overall_score_percent?: number;
@@ -24329,6 +25869,8 @@ export interface ApiModelEvaluationRunResultSummary {
 export const ApiModelEvaluationRunResultSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     end_time: S.optional(S.String),
+    epoch_summary: S.optional(ApiEpochResultSummary),
+    epochs: S.optional(S.Number),
     metric_summaries: S.optional(ApiModelEvaluationRunResultSummaryMetricSummariesList),
     overall_score_percent: S.optional(S.Number),
     per_model_summaries: S.optional(ApiPerModelResultSummaries),
@@ -24355,6 +25897,8 @@ export interface ApiModelEvaluationRunDetail {
   dataset_name?: string;
   /** Dataset used for the evaluation. */
   dataset_uuid?: string;
+  /** Number of times each dataset row is evaluated (n-pass/epochs). 1 by default. Drives the avg@k/pass@k/cons@k aggregation in result_summary. */
+  epochs?: number;
   /** Error description if the run failed or partially succeeded. */
   error_description?: string;
   eval_preset_name?: string;
@@ -24384,6 +25928,7 @@ export const ApiModelEvaluationRunDetail = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     dataset_name: S.optional(S.String),
     dataset_uuid: S.optional(S.String),
+    epochs: S.optional(S.Number),
     error_description: S.optional(S.String),
     eval_preset_name: S.optional(S.String),
     eval_preset_uuid: S.optional(S.String),
@@ -24427,13 +25972,7 @@ export interface GetGenaiModelRouterRequest {
 export const GetGenaiModelRouterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/models/routers/{uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/models/routers/{uuid}", code: 200 })),
 ).annotate({
   identifier: "GetGenaiModelRouterRequest",
 }) as any as S.Schema<GetGenaiModelRouterRequest>;
@@ -24446,9 +25985,7 @@ export const ApiGetModelRouterOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     model_router: S.optional(ApiModelRouter),
   }),
-).annotate({
-  identifier: "ApiGetModelRouterOutput",
-}) as any as S.Schema<ApiGetModelRouterOutput>;
+).annotate({ identifier: "ApiGetModelRouterOutput" }) as any as S.Schema<ApiGetModelRouterOutput>;
 
 export interface GetGenaiOauth2UrlRequest {
   /** Type "google" / "dropbox". */
@@ -24461,9 +25998,7 @@ export const GetGenaiOauth2UrlRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String.pipe(T.Query())),
     redirect_url: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/oauth2/url", code: 200 })),
-).annotate({
-  identifier: "GetGenaiOauth2UrlRequest",
-}) as any as S.Schema<GetGenaiOauth2UrlRequest>;
+).annotate({ identifier: "GetGenaiOauth2UrlRequest" }) as any as S.Schema<GetGenaiOauth2UrlRequest>;
 
 /** The url for the oauth2 flow */
 export interface ApiGenerateOauth2URLOutput {
@@ -24485,13 +26020,7 @@ export interface GetGenaiOpenaiApiKeyRequest {
 export const GetGenaiOpenaiApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     api_key_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/openai/keys/{api_key_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/openai/keys/{api_key_uuid}", code: 200 })),
 ).annotate({
   identifier: "GetGenaiOpenaiApiKeyRequest",
 }) as any as S.Schema<GetGenaiOpenaiApiKeyRequest>;
@@ -24503,9 +26032,31 @@ export const ApiGetOpenAIAPIKeyOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     api_key_info: S.optional(ApiOpenAIAPIKeyInfo),
   }),
+).annotate({ identifier: "ApiGetOpenAIAPIKeyOutput" }) as any as S.Schema<ApiGetOpenAIAPIKeyOutput>;
+
+export interface GetGenaiScenarioSetRequest {
+  /** UUID of the scenario set. */
+  scenario_set_uuid: string;
+}
+export const GetGenaiScenarioSetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scenario_set_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v2/gen-ai/scenario_sets/{scenario_set_uuid}", code: 200 }),
+  ),
 ).annotate({
-  identifier: "ApiGetOpenAIAPIKeyOutput",
-}) as any as S.Schema<ApiGetOpenAIAPIKeyOutput>;
+  identifier: "GetGenaiScenarioSetRequest",
+}) as any as S.Schema<GetGenaiScenarioSetRequest>;
+
+/** Output for getting a scenario set. */
+export interface ApiGetScenarioSetOutput {
+  scenario_set?: ApiScenarioSet;
+}
+export const ApiGetScenarioSetOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scenario_set: S.optional(ApiScenarioSet),
+  }),
+).annotate({ identifier: "ApiGetScenarioSetOutput" }) as any as S.Schema<ApiGetScenarioSetOutput>;
 
 export interface GetGenaiScheduledIndexingRequest {
   /** UUID of the scheduled indexing entry */
@@ -24536,6 +26087,410 @@ export const ApiGetScheduledIndexingOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ApiGetScheduledIndexingOutput",
 }) as any as S.Schema<ApiGetScheduledIndexingOutput>;
 
+export interface GetGenaiSimulationJourneyRequest {
+  /** UUID of the run the journey belongs to. */
+  run_uuid: string;
+  /** UUID of the journey. */
+  journey_uuid: string;
+}
+export const GetGenaiSimulationJourneyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    run_uuid: S.String.pipe(T.Label()),
+    journey_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v2/gen-ai/simulation_runs/{run_uuid}/journeys/{journey_uuid}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetGenaiSimulationJourneyRequest",
+}) as any as S.Schema<GetGenaiSimulationJourneyRequest>;
+
+/** Lifecycle status of a single journey. - SIMULATION_JOURNEY_STATUS_RUNNING: The journey is executing and a trajectory is available to retrieve. - SIMULATION_JOURNEY_STATUS_FINISHED: The journey reached a stop condition and produced a verdict. - SIMULATION_JOURNEY_STATUS_FAILED: The journey failed because of a cancel, timeout, or error. - SIMULATION_JOURNEY_STATUS_PREPARING: The journey is allocated but its trajectory is not available yet. */
+export type ApiSimulationJourneyStatus =
+  | "SIMULATION_JOURNEY_STATUS_UNSPECIFIED"
+  | "SIMULATION_JOURNEY_STATUS_RUNNING"
+  | "SIMULATION_JOURNEY_STATUS_FINISHED"
+  | "SIMULATION_JOURNEY_STATUS_FAILED"
+  | "SIMULATION_JOURNEY_STATUS_PREPARING";
+export const ApiSimulationJourneyStatus = S.String;
+
+/** The judge's verdict for a journey. - SIMULATION_JOURNEY_VERDICT_SUCCESS: The candidate agent satisfied the scenario's stopping criteria. - SIMULATION_JOURNEY_VERDICT_FAILURE: The candidate agent did not satisfy the stopping criteria. - SIMULATION_JOURNEY_VERDICT_INCONCLUSIVE: No conclusive verdict (e.g. max_turns reached without the judge finishing). */
+export type ApiSimulationJourneyVerdict =
+  | "SIMULATION_JOURNEY_VERDICT_UNSPECIFIED"
+  | "SIMULATION_JOURNEY_VERDICT_SUCCESS"
+  | "SIMULATION_JOURNEY_VERDICT_FAILURE"
+  | "SIMULATION_JOURNEY_VERDICT_INCONCLUSIVE";
+export const ApiSimulationJourneyVerdict = S.String;
+
+/** One independent execution within a simulation run, including its trajectory and verdict. */
+export interface ApiSimulationJourney {
+  /** Time created at. */
+  created_at?: string;
+  /** Wall-clock time taken for the journey to complete, in seconds. */
+  duration_sec?: string;
+  /** Human-readable explanation of a terminal FAILED status. Empty otherwise. */
+  failure_reason?: string;
+  /** Zero-based index of this journey within its scenario's exploration budget. */
+  journey_index?: number;
+  /** UUID of the journey. */
+  journey_uuid?: string;
+  /** Optional judge reasoning for the verdict. */
+  judge_reasoning?: string;
+  /** UUID of the run this journey belongs to. */
+  run_uuid?: string;
+  /** UUID of the scenario this journey executed. */
+  scenario_uuid?: string;
+  /** Session identifier for this journey. */
+  session_id?: string;
+  status?: ApiSimulationJourneyStatus;
+  token_usage?: ApiSimulationTokenUsage;
+  /** Object storage bucket holding the trajectory JSON. Set when the journey finishes. */
+  trajectory_bucket_name?: string;
+  /** Object storage bucket region for the trajectory JSON. Set when the journey finishes. */
+  trajectory_bucket_region?: string;
+  /** Object storage key for the trajectory JSON. Set when the journey finishes. */
+  trajectory_spaces_key?: string;
+  /** Time last updated at. */
+  updated_at?: string;
+  verdict?: ApiSimulationJourneyVerdict;
+}
+export const ApiSimulationJourney = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    created_at: S.optional(S.String),
+    duration_sec: S.optional(S.String),
+    failure_reason: S.optional(S.String),
+    journey_index: S.optional(S.Number),
+    journey_uuid: S.optional(S.String),
+    judge_reasoning: S.optional(S.String),
+    run_uuid: S.optional(S.String),
+    scenario_uuid: S.optional(S.String),
+    session_id: S.optional(S.String),
+    status: S.optional(ApiSimulationJourneyStatus),
+    token_usage: S.optional(ApiSimulationTokenUsage),
+    trajectory_bucket_name: S.optional(S.String),
+    trajectory_bucket_region: S.optional(S.String),
+    trajectory_spaces_key: S.optional(S.String),
+    updated_at: S.optional(S.String),
+    verdict: S.optional(ApiSimulationJourneyVerdict),
+  }),
+).annotate({ identifier: "ApiSimulationJourney" }) as any as S.Schema<ApiSimulationJourney>;
+
+/** Output for getting a single journey. */
+export interface ApiGetSimulationJourneyOutput {
+  journey?: ApiSimulationJourney;
+}
+export const ApiGetSimulationJourneyOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    journey: S.optional(ApiSimulationJourney),
+  }),
+).annotate({
+  identifier: "ApiGetSimulationJourneyOutput",
+}) as any as S.Schema<ApiGetSimulationJourneyOutput>;
+
+export interface GetGenaiSimulationJourneyTrajectoryRequest {
+  /** UUID of the run the journey belongs to. */
+  run_uuid: string;
+  /** UUID of the journey. */
+  journey_uuid: string;
+}
+export const GetGenaiSimulationJourneyTrajectoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    run_uuid: S.String.pipe(T.Label()),
+    journey_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v2/gen-ai/simulation_runs/{run_uuid}/journeys/{journey_uuid}/trajectory",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetGenaiSimulationJourneyTrajectoryRequest",
+}) as any as S.Schema<GetGenaiSimulationJourneyTrajectoryRequest>;
+
+/** Per-metric scores and judge reasoning for this trajectory. Empty when the simulation run has no associated evaluation. */
+export type ApiSimulationTrajectoryEvaluationMetricsList = Array<ApiEvaluationMetricResult>;
+export const ApiSimulationTrajectoryEvaluationMetricsList = /*@__PURE__*/ S.Array(
+  ApiEvaluationMetricResult,
+) as any as S.Schema<ApiSimulationTrajectoryEvaluationMetricsList>;
+
+/** Per-criterion judge evaluation recorded in the trajectory JSON. */
+export interface ApiSimulationTrajectoryJudgeCriterion {
+  criterion?: string;
+  passed?: boolean;
+  reasoning?: string;
+}
+export const ApiSimulationTrajectoryJudgeCriterion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    criterion: S.optional(S.String),
+    passed: S.optional(S.Boolean),
+    reasoning: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApiSimulationTrajectoryJudgeCriterion",
+}) as any as S.Schema<ApiSimulationTrajectoryJudgeCriterion>;
+
+export type ApiSimulationTrajectoryJudgeResultCriteriaPassFailList =
+  Array<ApiSimulationTrajectoryJudgeCriterion>;
+export const ApiSimulationTrajectoryJudgeResultCriteriaPassFailList = /*@__PURE__*/ S.Array(
+  ApiSimulationTrajectoryJudgeCriterion,
+) as any as S.Schema<ApiSimulationTrajectoryJudgeResultCriteriaPassFailList>;
+
+/** Judge output embedded in the trajectory JSON. */
+export interface ApiSimulationTrajectoryJudgeResult {
+  criteria_pass_fail?: ApiSimulationTrajectoryJudgeResultCriteriaPassFailList;
+  reasoning?: string;
+  verdict?: ApiSimulationJourneyVerdict;
+}
+export const ApiSimulationTrajectoryJudgeResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    criteria_pass_fail: S.optional(ApiSimulationTrajectoryJudgeResultCriteriaPassFailList),
+    reasoning: S.optional(S.String),
+    verdict: S.optional(ApiSimulationJourneyVerdict),
+  }),
+).annotate({
+  identifier: "ApiSimulationTrajectoryJudgeResult",
+}) as any as S.Schema<ApiSimulationTrajectoryJudgeResult>;
+
+/** Token usage for a single assistant message in the trajectory JSON. */
+export interface ApiSimulationTrajectoryMessageTokens {
+  input?: number;
+  output?: number;
+}
+export const ApiSimulationTrajectoryMessageTokens = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    input: S.optional(S.Number),
+    output: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ApiSimulationTrajectoryMessageTokens",
+}) as any as S.Schema<ApiSimulationTrajectoryMessageTokens>;
+
+/** A tool call recorded on an assistant turn in the trajectory JSON. */
+export interface ApiSimulationTrajectoryToolCall {
+  description?: string;
+  input_parameters?: unknown;
+  name?: string;
+  ok?: boolean;
+  output?: unknown;
+  tool_call_id?: string;
+}
+export const ApiSimulationTrajectoryToolCall = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    input_parameters: S.optional(S.Unknown),
+    name: S.optional(S.String),
+    ok: S.optional(S.Boolean),
+    output: S.optional(S.Unknown),
+    tool_call_id: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApiSimulationTrajectoryToolCall",
+}) as any as S.Schema<ApiSimulationTrajectoryToolCall>;
+
+/** Tool calls on assistant turns. */
+export type ApiSimulationTrajectoryMessageToolCallsList = Array<ApiSimulationTrajectoryToolCall>;
+export const ApiSimulationTrajectoryMessageToolCallsList = /*@__PURE__*/ S.Array(
+  ApiSimulationTrajectoryToolCall,
+) as any as S.Schema<ApiSimulationTrajectoryMessageToolCallsList>;
+
+/** One user or assistant message in the turn-by-turn conversation view. */
+export interface ApiSimulationTrajectoryMessage {
+  /** ISO-8601 timestamp when the message completed. */
+  completed_at?: string;
+  /** Message body text. */
+  content?: string;
+  /** Message role: "user" or "assistant". */
+  role?: string;
+  /** ISO-8601 timestamp when the message started. */
+  started_at?: string;
+  tokens?: ApiSimulationTrajectoryMessageTokens;
+  /** Tool calls on assistant turns. */
+  tool_calls?: ApiSimulationTrajectoryMessageToolCallsList;
+  /** Zero-based turn index shared by the user and assistant messages in one exchange. */
+  turn_index?: number;
+}
+export const ApiSimulationTrajectoryMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    completed_at: S.optional(S.String),
+    content: S.optional(S.String),
+    role: S.optional(S.String),
+    started_at: S.optional(S.String),
+    tokens: S.optional(ApiSimulationTrajectoryMessageTokens),
+    tool_calls: S.optional(ApiSimulationTrajectoryMessageToolCallsList),
+    turn_index: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ApiSimulationTrajectoryMessage",
+}) as any as S.Schema<ApiSimulationTrajectoryMessage>;
+
+export type ApiSimulationTrajectoryMessagesList = Array<ApiSimulationTrajectoryMessage>;
+export const ApiSimulationTrajectoryMessagesList = /*@__PURE__*/ S.Array(
+  ApiSimulationTrajectoryMessage,
+) as any as S.Schema<ApiSimulationTrajectoryMessagesList>;
+
+/** Lifecycle status of the trajectory. Distinct from journey status: the trajectory is updated on every turn while the journey is executing. - SIMULATION_TRAJECTORY_STATUS_RUNNING: The journey loop is in progress; messages may grow on each poll. - SIMULATION_TRAJECTORY_STATUS_COMPLETED: The journey reached a stop condition and the trajectory is complete. - SIMULATION_TRAJECTORY_STATUS_FAILED: The journey failed before or during execution. - SIMULATION_TRAJECTORY_STATUS_CANCELLED: The journey was cancelled. */
+export type ApiSimulationTrajectoryStatus =
+  | "SIMULATION_TRAJECTORY_STATUS_UNSPECIFIED"
+  | "SIMULATION_TRAJECTORY_STATUS_RUNNING"
+  | "SIMULATION_TRAJECTORY_STATUS_COMPLETED"
+  | "SIMULATION_TRAJECTORY_STATUS_FAILED"
+  | "SIMULATION_TRAJECTORY_STATUS_CANCELLED";
+export const ApiSimulationTrajectoryStatus = S.String;
+
+/** Turn-by-turn trajectory for one journey. Poll this resource while the journey is running to watch live progress. */
+export interface ApiSimulationTrajectory {
+  /** Identifier of the candidate agent under test for this journey. */
+  agent_id?: string;
+  completed_at?: string;
+  duration_sec?: string;
+  /** Per-metric scores and judge reasoning for this trajectory. Empty when the simulation run has no associated evaluation. */
+  evaluation_metrics?: ApiSimulationTrajectoryEvaluationMetricsList;
+  failure_reason?: string;
+  journey_index?: number;
+  journey_uuid?: string;
+  judge?: ApiSimulationTrajectoryJudgeResult;
+  /** Turn budget configured for this journey (per-scenario max_turns, after any run-level override). Compare with turn_count to see how many of the budgeted turns actually ran. */
+  max_turns?: number;
+  messages?: ApiSimulationTrajectoryMessagesList;
+  run_uuid?: string;
+  scenario_uuid?: string;
+  session_id?: string;
+  started_at?: string;
+  status?: ApiSimulationTrajectoryStatus;
+  token_usage?: ApiSimulationTokenUsage;
+  turn_count?: number;
+  verdict?: ApiSimulationJourneyVerdict;
+}
+export const ApiSimulationTrajectory = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agent_id: S.optional(S.String),
+    completed_at: S.optional(S.String),
+    duration_sec: S.optional(S.String),
+    evaluation_metrics: S.optional(ApiSimulationTrajectoryEvaluationMetricsList),
+    failure_reason: S.optional(S.String),
+    journey_index: S.optional(S.Number),
+    journey_uuid: S.optional(S.String),
+    judge: S.optional(ApiSimulationTrajectoryJudgeResult),
+    max_turns: S.optional(S.Number),
+    messages: S.optional(ApiSimulationTrajectoryMessagesList),
+    run_uuid: S.optional(S.String),
+    scenario_uuid: S.optional(S.String),
+    session_id: S.optional(S.String),
+    started_at: S.optional(S.String),
+    status: S.optional(ApiSimulationTrajectoryStatus),
+    token_usage: S.optional(ApiSimulationTokenUsage),
+    turn_count: S.optional(S.Number),
+    verdict: S.optional(ApiSimulationJourneyVerdict),
+  }),
+).annotate({ identifier: "ApiSimulationTrajectory" }) as any as S.Schema<ApiSimulationTrajectory>;
+
+/** Output containing the parsed trajectory JSON. */
+export interface ApiGetSimulationJourneyTrajectoryOutput {
+  trajectory?: ApiSimulationTrajectory;
+}
+export const ApiGetSimulationJourneyTrajectoryOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    trajectory: S.optional(ApiSimulationTrajectory),
+  }),
+).annotate({
+  identifier: "ApiGetSimulationJourneyTrajectoryOutput",
+}) as any as S.Schema<ApiGetSimulationJourneyTrajectoryOutput>;
+
+export interface GetGenaiSimulationJourneyTrajectoryUrlRequest {
+  /** UUID of the run the journey belongs to. */
+  run_uuid: string;
+  /** UUID of the journey. */
+  journey_uuid: string;
+}
+export const GetGenaiSimulationJourneyTrajectoryUrlRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    run_uuid: S.String.pipe(T.Label()),
+    journey_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v2/gen-ai/simulation_runs/{run_uuid}/journeys/{journey_uuid}/trajectory_url",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetGenaiSimulationJourneyTrajectoryUrlRequest",
+}) as any as S.Schema<GetGenaiSimulationJourneyTrajectoryUrlRequest>;
+
+/** Output containing a presigned download URL for a journey's trajectory JSON. */
+export interface ApiGetSimulationJourneyTrajectoryURLOutput {
+  /** The presigned URL to download the trajectory JSON file. */
+  download_url?: string;
+  /** The time the URL expires at. */
+  expires_at?: string;
+}
+export const ApiGetSimulationJourneyTrajectoryURLOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    download_url: S.optional(S.String),
+    expires_at: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApiGetSimulationJourneyTrajectoryURLOutput",
+}) as any as S.Schema<ApiGetSimulationJourneyTrajectoryURLOutput>;
+
+export interface GetGenaiSimulationRunRequest {
+  /** UUID of the simulation run. */
+  run_uuid: string;
+}
+export const GetGenaiSimulationRunRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    run_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/simulation_runs/{run_uuid}", code: 200 })),
+).annotate({
+  identifier: "GetGenaiSimulationRunRequest",
+}) as any as S.Schema<GetGenaiSimulationRunRequest>;
+
+/** Per-scenario rollup of journey outcomes within a run, aggregated from the run's journey rows. */
+export interface ApiSimulationScenarioResult {
+  /** Journeys that have finished (successfully or not). */
+  journeys_finished?: number;
+  /** UUID of the scenario. */
+  scenario_uuid?: string;
+  /** Total journeys for this scenario (its exploration budget). */
+  total_journeys?: number;
+  verdict_counts?: ApiSimulationJourneyCounts;
+}
+export const ApiSimulationScenarioResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    journeys_finished: S.optional(S.Number),
+    scenario_uuid: S.optional(S.String),
+    total_journeys: S.optional(S.Number),
+    verdict_counts: S.optional(ApiSimulationJourneyCounts),
+  }),
+).annotate({
+  identifier: "ApiSimulationScenarioResult",
+}) as any as S.Schema<ApiSimulationScenarioResult>;
+
+/** Per-scenario breakdown of journey outcomes, aggregated from journey rows. */
+export type ApiGetSimulationRunOutputScenarioResultsList = Array<ApiSimulationScenarioResult>;
+export const ApiGetSimulationRunOutputScenarioResultsList = /*@__PURE__*/ S.Array(
+  ApiSimulationScenarioResult,
+) as any as S.Schema<ApiGetSimulationRunOutputScenarioResultsList>;
+
+/** Output for getting a simulation run. */
+export interface ApiGetSimulationRunOutput {
+  /** Per-scenario breakdown of journey outcomes, aggregated from journey rows. */
+  scenario_results?: ApiGetSimulationRunOutputScenarioResultsList;
+  simulation_run?: ApiSimulationRun;
+}
+export const ApiGetSimulationRunOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scenario_results: S.optional(ApiGetSimulationRunOutputScenarioResultsList),
+    simulation_run: S.optional(ApiSimulationRun),
+  }),
+).annotate({
+  identifier: "ApiGetSimulationRunOutput",
+}) as any as S.Schema<ApiGetSimulationRunOutput>;
+
 export interface GetGenaiWorkspaceRequest {
   /** Workspace UUID. */
   workspace_uuid: string;
@@ -24543,16 +26498,8 @@ export interface GetGenaiWorkspaceRequest {
 export const GetGenaiWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workspace_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/workspaces/{workspace_uuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetGenaiWorkspaceRequest",
-}) as any as S.Schema<GetGenaiWorkspaceRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/workspaces/{workspace_uuid}", code: 200 })),
+).annotate({ identifier: "GetGenaiWorkspaceRequest" }) as any as S.Schema<GetGenaiWorkspaceRequest>;
 
 export interface ApiGetWorkspaceOutput {
   workspace?: ApiWorkspace;
@@ -24561,9 +26508,7 @@ export const ApiGetWorkspaceOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workspace: S.optional(ApiWorkspace),
   }),
-).annotate({
-  identifier: "ApiGetWorkspaceOutput",
-}) as any as S.Schema<ApiGetWorkspaceOutput>;
+).annotate({ identifier: "ApiGetWorkspaceOutput" }) as any as S.Schema<ApiGetWorkspaceOutput>;
 
 export interface GetImageRequest {
   /** A unique number (id) or string (slug) used to identify and reference a specific image. **Public** images can be identified by image `id` or `slug`. **Private** images *must* be identified by image `id`. */
@@ -24573,9 +26518,7 @@ export const GetImageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     image_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/images/{image_id}", code: 200 })),
-).annotate({
-  identifier: "GetImageRequest",
-}) as any as S.Schema<GetImageRequest>;
+).annotate({ identifier: "GetImageRequest" }) as any as S.Schema<GetImageRequest>;
 
 /** Describes the kind of image. It may be one of `base`, `snapshot`, `backup`, `custom`, or `admin`. Respectively, this specifies whether an image is a DigitalOcean base OS image, user-generated Droplet snapshot, automatically created Droplet backup, user-provided virtual machine image, or an image used for DigitalOcean managed resources (e.g. DOKS worker nodes). */
 export type ImageType = "base" | "snapshot" | "backup" | "custom" | "admin";
@@ -24636,9 +26579,7 @@ export const GetImageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     image: Image,
   }),
-).annotate({
-  identifier: "GetImageResponse",
-}) as any as S.Schema<GetImageResponse>;
+).annotate({ identifier: "GetImageResponse" }) as any as S.Schema<GetImageResponse>;
 
 export interface GetImageActionRequest {
   /** A unique number that can be used to identify and reference a specific image. */
@@ -24650,16 +26591,8 @@ export const GetImageActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     image_id: S.Number.pipe(T.Label()),
     action_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/images/{image_id}/actions/{action_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetImageActionRequest",
-}) as any as S.Schema<GetImageActionRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/images/{image_id}/actions/{action_id}", code: 200 })),
+).annotate({ identifier: "GetImageActionRequest" }) as any as S.Schema<GetImageActionRequest>;
 
 export interface GetInferenceBatchRequest {
   /** The batch job identifier. */
@@ -24669,9 +26602,7 @@ export const GetInferenceBatchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     batch_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/batches/{batch_id}", code: 200 })),
-).annotate({
-  identifier: "GetInferenceBatchRequest",
-}) as any as S.Schema<GetInferenceBatchRequest>;
+).annotate({ identifier: "GetInferenceBatchRequest" }) as any as S.Schema<GetInferenceBatchRequest>;
 
 export interface GetInferenceBatchResultsRequest {
   /** The batch job identifier. */
@@ -24705,9 +26636,429 @@ export const BatchResultsResponse = /*@__PURE__*/ S.suspend(() =>
     error_file_url: S.optional(S.NullOr(S.String)),
     expires_at: S.optional(S.NullOr(S.String)),
   }),
+).annotate({ identifier: "BatchResultsResponse" }) as any as S.Schema<BatchResultsResponse>;
+
+export interface GetInsightAlertInstanceRequest {
+  /** A unique identifier for an alert instance. */
+  id: string;
+}
+export const GetInsightAlertInstanceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/insights/alert-instances/{id}", code: 200 })),
 ).annotate({
-  identifier: "BatchResultsResponse",
-}) as any as S.Schema<BatchResultsResponse>;
+  identifier: "GetInsightAlertInstanceRequest",
+}) as any as S.Schema<GetInsightAlertInstanceRequest>;
+
+/** Severity of the breached threshold. */
+export type AlertInstanceSeverity = "warning" | "critical";
+export const AlertInstanceSeverity = S.String;
+
+/** Current status of the alert instance. */
+export type AlertInstanceStatus = "active" | "resolved";
+export const AlertInstanceStatus = S.String;
+
+/** A read-only record of an alert rule firing against a resource. */
+export interface AlertInstance {
+  /** A unique identifier for the alert instance. */
+  id: string;
+  /** ID of the alert rule that fired this alert instance. */
+  rule_id: string;
+  /** Severity of the breached threshold. */
+  severity: AlertInstanceSeverity;
+  /** Current status of the alert instance. */
+  status: AlertInstanceStatus;
+  /** URN of the DigitalOcean resource the alert fired for. May be an empty string for alerts fired on non-resource-bound signals (for example, cluster/pod/namespace-scoped Kubernetes alerts). */
+  resource_urn?: string;
+  /** The observed metric value that breached the threshold. */
+  value: number;
+  /** Time the alert instance first fired. */
+  triggered_at: string;
+  /** Time the alert instance most recently fired. */
+  last_triggered_at: string;
+  /** Time the alert instance resolved. Only present when `status` is `resolved`. */
+  resolved_at?: string;
+  /** Time a notification was last sent for this alert instance. */
+  last_notified_at?: string;
+}
+export const AlertInstance = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    rule_id: S.String,
+    severity: AlertInstanceSeverity,
+    status: AlertInstanceStatus,
+    resource_urn: S.optional(S.String),
+    value: S.Number,
+    triggered_at: S.String,
+    last_triggered_at: S.String,
+    resolved_at: S.optional(S.String),
+    last_notified_at: S.optional(S.String),
+  }),
+).annotate({ identifier: "AlertInstance" }) as any as S.Schema<AlertInstance>;
+
+export interface GetInsightAlertInstanceResponse {
+  alert_instance: AlertInstance;
+}
+export const GetInsightAlertInstanceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    alert_instance: AlertInstance,
+  }),
+).annotate({
+  identifier: "GetInsightAlertInstanceResponse",
+}) as any as S.Schema<GetInsightAlertInstanceResponse>;
+
+export interface GetInsightAlertRuleRequest {
+  /** A unique identifier for an alert rule. */
+  id: string;
+}
+export const GetInsightAlertRuleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/insights/alert-rules/{id}", code: 200 })),
+).annotate({
+  identifier: "GetInsightAlertRuleRequest",
+}) as any as S.Schema<GetInsightAlertRuleRequest>;
+
+export interface GetInsightAlertRuleResponse {
+  alert_rule: AlertRule;
+}
+export const GetInsightAlertRuleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    alert_rule: AlertRule,
+  }),
+).annotate({
+  identifier: "GetInsightAlertRuleResponse",
+}) as any as S.Schema<GetInsightAlertRuleResponse>;
+
+export interface GetInsightNotificationChannelRequest {
+  /** A unique identifier for a notification channel. */
+  id: string;
+}
+export const GetInsightNotificationChannelRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/insights/notification-channels/{id}", code: 200 })),
+).annotate({
+  identifier: "GetInsightNotificationChannelRequest",
+}) as any as S.Schema<GetInsightNotificationChannelRequest>;
+
+export interface GetInsightNotificationChannelResponse {
+  notification_channel: NotificationChannel;
+}
+export const GetInsightNotificationChannelResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    notification_channel: NotificationChannel,
+  }),
+).annotate({
+  identifier: "GetInsightNotificationChannelResponse",
+}) as any as S.Schema<GetInsightNotificationChannelResponse>;
+
+export type GetInsightPromLabelsRequestMatchList = Array<string>;
+export const GetInsightPromLabelsRequestMatchList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetInsightPromLabelsRequestMatchList>;
+
+export interface GetInsightPromLabelsRequest {
+  /** The datacenter region slug for the query. */
+  region: string;
+  /** Optional start timestamp (inclusive). Accepts a RFC3339 string or a UNIX timestamp. */
+  start?: string;
+  /** Optional end timestamp (inclusive). Accepts a RFC3339 string or a UNIX timestamp. */
+  end?: string;
+  /** One or more series selectors. Repeat the parameter for multiple matchers. */
+  match__?: GetInsightPromLabelsRequestMatchList;
+}
+export const GetInsightPromLabelsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    region: S.String.pipe(T.Label()),
+    start: S.optional(S.String.pipe(T.Query())),
+    end: S.optional(S.String.pipe(T.Query())),
+    match__: S.optional(GetInsightPromLabelsRequestMatchList.pipe(T.Query("match[]"))),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v2/insights/query/{region}/prom/api/v1/labels", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetInsightPromLabelsRequest",
+}) as any as S.Schema<GetInsightPromLabelsRequest>;
+
+export type PromStringListResponseStatus = "success";
+export const PromStringListResponseStatus = S.String;
+
+export type PromStringListResponseDataList = Array<string>;
+export const PromStringListResponseDataList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PromStringListResponseDataList>;
+
+export interface PromStringListResponse {
+  status: PromStringListResponseStatus;
+  data: PromStringListResponseDataList;
+}
+export const PromStringListResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: PromStringListResponseStatus,
+    data: PromStringListResponseDataList,
+  }),
+).annotate({ identifier: "PromStringListResponse" }) as any as S.Schema<PromStringListResponse>;
+
+export type GetInsightPromLabelValuesRequestMatchList = Array<string>;
+export const GetInsightPromLabelValuesRequestMatchList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetInsightPromLabelValuesRequestMatchList>;
+
+export interface GetInsightPromLabelValuesRequest {
+  /** The datacenter region slug for the query. */
+  region: string;
+  /** The label name whose values should be listed. */
+  name: string;
+  /** Optional start timestamp (inclusive). Accepts a RFC3339 string or a UNIX timestamp. */
+  start?: string;
+  /** Optional end timestamp (inclusive). Accepts a RFC3339 string or a UNIX timestamp. */
+  end?: string;
+  /** One or more series selectors. Repeat the parameter for multiple matchers. */
+  match__?: GetInsightPromLabelValuesRequestMatchList;
+}
+export const GetInsightPromLabelValuesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    region: S.String.pipe(T.Label()),
+    name: S.String.pipe(T.Label()),
+    start: S.optional(S.String.pipe(T.Query())),
+    end: S.optional(S.String.pipe(T.Query())),
+    match__: S.optional(GetInsightPromLabelValuesRequestMatchList.pipe(T.Query("match[]"))),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v2/insights/query/{region}/prom/api/v1/label/{name}/values",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetInsightPromLabelValuesRequest",
+}) as any as S.Schema<GetInsightPromLabelValuesRequest>;
+
+export interface GetInsightPromQueryRequest {
+  /** The datacenter region slug for the query. */
+  region: string;
+  /** A PromQL expression. This may be a metric selector (for example `do.droplets.cpu_time`) or a fuller expression (for example `rate(do.droplets.cpu_time[5m])`). */
+  query: string;
+  /** Evaluation timestamp for an instant query. Accepts a RFC3339 string or a UNIX timestamp. Defaults to now when omitted. */
+  time?: string;
+  /** Optional evaluation timeout as a Prometheus duration string. */
+  timeout?: string;
+}
+export const GetInsightPromQueryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    region: S.String.pipe(T.Label()),
+    query: S.String.pipe(T.Query()),
+    time: S.optional(S.String.pipe(T.Query())),
+    timeout: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v2/insights/query/{region}/prom/api/v1/query", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetInsightPromQueryRequest",
+}) as any as S.Schema<GetInsightPromQueryRequest>;
+
+export type PromQueryResponseStatus = "success";
+export const PromQueryResponseStatus = S.String;
+
+export type PromQueryDataResultType = "vector" | "matrix" | "scalar" | "string";
+export const PromQueryDataResultType = S.String;
+
+/** Metric labels as key/value pairs. By default, metric names in responses use Prometheus underscored spelling (for example `do_droplets_cpu_time`), even when the request used a dotted selector (for example `do.droplets.cpu_time`). */
+export type PromMetricLabels = { [key: string]: string | undefined };
+export const PromMetricLabels = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<PromMetricLabels>;
+
+export type PromSampleItem = number | string;
+export const PromSampleItem = S.Unknown as any as S.Schema<PromSampleItem>;
+
+/** A Prometheus sample as `[timestamp_seconds, value]`. The timestamp is a UNIX epoch float; the value is a string. */
+export type PromSample = Array<PromSampleItem>;
+export const PromSample = /*@__PURE__*/ S.Array(PromSampleItem) as any as S.Schema<PromSample>;
+
+export interface PromVectorSample {
+  metric: PromMetricLabels;
+  value: PromSample;
+}
+export const PromVectorSample = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metric: PromMetricLabels,
+    value: PromSample,
+  }),
+).annotate({ identifier: "PromVectorSample" }) as any as S.Schema<PromVectorSample>;
+
+export type PromQueryDataResultCase0List = Array<PromVectorSample>;
+export const PromQueryDataResultCase0List = /*@__PURE__*/ S.Array(
+  PromVectorSample,
+) as any as S.Schema<PromQueryDataResultCase0List>;
+
+export type PromMatrixSampleValuesList = Array<PromSample>;
+export const PromMatrixSampleValuesList = /*@__PURE__*/ S.Array(
+  PromSample,
+) as any as S.Schema<PromMatrixSampleValuesList>;
+
+export interface PromMatrixSample {
+  metric: PromMetricLabels;
+  values: PromMatrixSampleValuesList;
+}
+export const PromMatrixSample = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metric: PromMetricLabels,
+    values: PromMatrixSampleValuesList,
+  }),
+).annotate({ identifier: "PromMatrixSample" }) as any as S.Schema<PromMatrixSample>;
+
+export type PromQueryDataResultCase1List = Array<PromMatrixSample>;
+export const PromQueryDataResultCase1List = /*@__PURE__*/ S.Array(
+  PromMatrixSample,
+) as any as S.Schema<PromQueryDataResultCase1List>;
+
+/** Result payload shape depends on `resultType`. `vector` and `matrix` are series arrays. `scalar` and `string` both use a `[timestamp, value]` sample pair. */
+export type PromQueryDataResult =
+  | PromQueryDataResultCase0List
+  | PromQueryDataResultCase1List
+  | PromSample;
+export const PromQueryDataResult = S.Unknown as any as S.Schema<PromQueryDataResult>;
+
+export interface PromQueryData {
+  resultType: PromQueryDataResultType;
+  /** Result payload shape depends on `resultType`. `vector` and `matrix` are series arrays. `scalar` and `string` both use a `[timestamp, value]` sample pair. */
+  result: PromQueryDataResult;
+}
+export const PromQueryData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resultType: PromQueryDataResultType,
+    result: PromQueryDataResult,
+  }),
+).annotate({ identifier: "PromQueryData" }) as any as S.Schema<PromQueryData>;
+
+export interface PromQueryResponse {
+  status: PromQueryResponseStatus;
+  data: PromQueryData;
+}
+export const PromQueryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: PromQueryResponseStatus,
+    data: PromQueryData,
+  }),
+).annotate({ identifier: "PromQueryResponse" }) as any as S.Schema<PromQueryResponse>;
+
+export interface GetInsightPromQueryRangeRequest {
+  /** The datacenter region slug for the query. */
+  region: string;
+  /** A PromQL expression. This may be a metric selector (for example `do.droplets.cpu_time`) or a fuller expression (for example `rate(do.droplets.cpu_time[5m])`). */
+  query: string;
+  /** Start timestamp (inclusive). Accepts a RFC3339 string or a UNIX timestamp. */
+  start: string;
+  /** End timestamp (inclusive). Accepts a RFC3339 string or a UNIX timestamp. */
+  end: string;
+  /** Query resolution step width as a Prometheus duration string (for example `15s`, `1m`, `1h`). */
+  step: string;
+  /** Optional evaluation timeout as a Prometheus duration string. */
+  timeout?: string;
+}
+export const GetInsightPromQueryRangeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    region: S.String.pipe(T.Label()),
+    query: S.String.pipe(T.Query()),
+    start: S.String.pipe(T.Query()),
+    end: S.String.pipe(T.Query()),
+    step: S.String.pipe(T.Query()),
+    timeout: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v2/insights/query/{region}/prom/api/v1/query_range",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetInsightPromQueryRangeRequest",
+}) as any as S.Schema<GetInsightPromQueryRangeRequest>;
+
+export type PromQueryRangeResponseStatus = "success";
+export const PromQueryRangeResponseStatus = S.String;
+
+export type PromMatrixDataResultType = "matrix";
+export const PromMatrixDataResultType = S.String;
+
+/** One entry per matching series, each carrying the samples evaluated at every step across the requested range. */
+export type PromMatrixDataResultList = Array<PromMatrixSample>;
+export const PromMatrixDataResultList = /*@__PURE__*/ S.Array(
+  PromMatrixSample,
+) as any as S.Schema<PromMatrixDataResultList>;
+
+export interface PromMatrixData {
+  resultType: PromMatrixDataResultType;
+  /** One entry per matching series, each carrying the samples evaluated at every step across the requested range. */
+  result: PromMatrixDataResultList;
+}
+export const PromMatrixData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resultType: PromMatrixDataResultType,
+    result: PromMatrixDataResultList,
+  }),
+).annotate({ identifier: "PromMatrixData" }) as any as S.Schema<PromMatrixData>;
+
+export interface PromQueryRangeResponse {
+  status: PromQueryRangeResponseStatus;
+  data: PromMatrixData;
+}
+export const PromQueryRangeResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: PromQueryRangeResponseStatus,
+    data: PromMatrixData,
+  }),
+).annotate({ identifier: "PromQueryRangeResponse" }) as any as S.Schema<PromQueryRangeResponse>;
+
+export type GetInsightPromSeriesRequestMatchList = Array<string>;
+export const GetInsightPromSeriesRequestMatchList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetInsightPromSeriesRequestMatchList>;
+
+export interface GetInsightPromSeriesRequest {
+  /** The datacenter region slug for the query. */
+  region: string;
+  /** One or more series selectors. At least one matcher is required. Repeat the parameter for multiple matchers. */
+  match__: GetInsightPromSeriesRequestMatchList;
+  /** Optional start timestamp (inclusive). Accepts a RFC3339 string or a UNIX timestamp. */
+  start?: string;
+  /** Optional end timestamp (inclusive). Accepts a RFC3339 string or a UNIX timestamp. */
+  end?: string;
+}
+export const GetInsightPromSeriesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    region: S.String.pipe(T.Label()),
+    match__: GetInsightPromSeriesRequestMatchList.pipe(T.Query("match[]")),
+    start: S.optional(S.String.pipe(T.Query())),
+    end: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v2/insights/query/{region}/prom/api/v1/series", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetInsightPromSeriesRequest",
+}) as any as S.Schema<GetInsightPromSeriesRequest>;
+
+export type PromSeriesResponseStatus = "success";
+export const PromSeriesResponseStatus = S.String;
+
+export type PromSeriesResponseDataList = Array<PromMetricLabels>;
+export const PromSeriesResponseDataList = /*@__PURE__*/ S.Array(
+  PromMetricLabels,
+) as any as S.Schema<PromSeriesResponseDataList>;
+
+export interface PromSeriesResponse {
+  status: PromSeriesResponseStatus;
+  data: PromSeriesResponseDataList;
+}
+export const PromSeriesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: PromSeriesResponseStatus,
+    data: PromSeriesResponseDataList,
+  }),
+).annotate({ identifier: "PromSeriesResponse" }) as any as S.Schema<PromSeriesResponse>;
 
 export interface GetInvoiceByUUIDRequest {
   /** UUID of the invoice */
@@ -24722,16 +27073,8 @@ export const GetInvoiceByUUIDRequest = /*@__PURE__*/ S.suspend(() =>
     invoice_uuid: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/customers/my/invoices/{invoice_uuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetInvoiceByUUIDRequest",
-}) as any as S.Schema<GetInvoiceByUUIDRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/customers/my/invoices/{invoice_uuid}", code: 200 })),
+).annotate({ identifier: "GetInvoiceByUUIDRequest" }) as any as S.Schema<GetInvoiceByUUIDRequest>;
 
 export interface InvoiceItem {
   /** Name of the product being billed in the invoice item. */
@@ -24839,9 +27182,7 @@ export const GetInvoiceByUUIDResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "GetInvoiceByUUIDResponse",
-}) as any as S.Schema<GetInvoiceByUUIDResponse>;
+).annotate({ identifier: "GetInvoiceByUUIDResponse" }) as any as S.Schema<GetInvoiceByUUIDResponse>;
 
 export interface GetInvoiceCsvByUUIDRequest {
   /** UUID of the invoice */
@@ -24851,11 +27192,7 @@ export const GetInvoiceCsvByUUIDRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     invoice_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/customers/my/invoices/{invoice_uuid}/csv",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/customers/my/invoices/{invoice_uuid}/csv", code: 200 }),
   ),
 ).annotate({
   identifier: "GetInvoiceCsvByUUIDRequest",
@@ -24874,11 +27211,7 @@ export const GetInvoicePdfByUUIDRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     invoice_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/customers/my/invoices/{invoice_uuid}/pdf",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/customers/my/invoices/{invoice_uuid}/pdf", code: 200 }),
   ),
 ).annotate({
   identifier: "GetInvoicePdfByUUIDRequest",
@@ -24897,11 +27230,7 @@ export const GetInvoiceSummaryByUUIDRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     invoice_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/customers/my/invoices/{invoice_uuid}/summary",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/customers/my/invoices/{invoice_uuid}/summary", code: 200 }),
   ),
 ).annotate({
   identifier: "GetInvoiceSummaryByUUIDRequest",
@@ -24954,9 +27283,7 @@ export const ProductChargeItem = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     count: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProductChargeItem",
-}) as any as S.Schema<ProductChargeItem>;
+).annotate({ identifier: "ProductChargeItem" }) as any as S.Schema<ProductChargeItem>;
 
 /** List of amount, and grouped aggregates by resource type. */
 export type InvoiceSummaryProductChargesItemsList = Array<ProductChargeItem>;
@@ -24993,9 +27320,7 @@ export const InvoiceSummaryOverages = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     amount: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InvoiceSummaryOverages",
-}) as any as S.Schema<InvoiceSummaryOverages>;
+).annotate({ identifier: "InvoiceSummaryOverages" }) as any as S.Schema<InvoiceSummaryOverages>;
 
 export type InvoiceSummaryTaxes = InvoiceSummaryOverages;
 export const InvoiceSummaryTaxes = InvoiceSummaryOverages;
@@ -25049,11 +27374,7 @@ export const GetKubernetesAvailableUpgradesRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     cluster_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/kubernetes/clusters/{cluster_id}/upgrades",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/kubernetes/clusters/{cluster_id}/upgrades", code: 200 }),
   ),
 ).annotate({
   identifier: "GetKubernetesAvailableUpgradesRequest",
@@ -25079,9 +27400,7 @@ export const KubernetesVersion = /*@__PURE__*/ S.suspend(() =>
     kubernetes_version: S.optional(S.String),
     supported_features: S.optional(KubernetesVersionSupportedFeaturesList),
   }),
-).annotate({
-  identifier: "KubernetesVersion",
-}) as any as S.Schema<KubernetesVersion>;
+).annotate({ identifier: "KubernetesVersion" }) as any as S.Schema<KubernetesVersion>;
 
 export type GetKubernetesAvailableUpgradesResponseAvailableUpgradeVersionsList =
   Array<KubernetesVersion>;
@@ -25110,13 +27429,7 @@ export interface GetKubernetesClusterRequest {
 export const GetKubernetesClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cluster_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/kubernetes/clusters/{cluster_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/kubernetes/clusters/{cluster_id}", code: 200 })),
 ).annotate({
   identifier: "GetKubernetesClusterRequest",
 }) as any as S.Schema<GetKubernetesClusterRequest>;
@@ -25156,9 +27469,7 @@ export const ClusterReadStatus = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(ClusterReadStatusState),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterReadStatus",
-}) as any as S.Schema<ClusterReadStatus>;
+).annotate({ identifier: "ClusterReadStatus" }) as any as S.Schema<ClusterReadStatus>;
 
 /** An array of integrated DOCR registries. */
 export type ClusterReadRegistriesList = Array<string>;
@@ -25222,6 +27533,7 @@ export interface ClusterRead {
   rdma_shared_dev_plugin?: RdmaSharedDevPlugin | null;
   coredns_autoscaler?: CorednsAutoscaler | null;
   p2p_oci_registry_plugin?: P2pOciRegistryPlugin | null;
+  nfs_csi_plugin?: NfsCsiPlugin | null;
 }
 export const ClusterRead = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -25259,6 +27571,7 @@ export const ClusterRead = /*@__PURE__*/ S.suspend(() =>
     rdma_shared_dev_plugin: S.optional(S.NullOr(RdmaSharedDevPlugin)),
     coredns_autoscaler: S.optional(S.NullOr(CorednsAutoscaler)),
     p2p_oci_registry_plugin: S.optional(S.NullOr(P2pOciRegistryPlugin)),
+    nfs_csi_plugin: S.optional(S.NullOr(NfsCsiPlugin)),
   }),
 ).annotate({ identifier: "ClusterRead" }) as any as S.Schema<ClusterRead>;
 
@@ -25284,11 +27597,7 @@ export const GetKubernetesClusterLintResultsRequest = /*@__PURE__*/ S.suspend(()
     cluster_id: S.String.pipe(T.Label()),
     run_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/kubernetes/clusters/{cluster_id}/clusterlint",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/kubernetes/clusters/{cluster_id}/clusterlint", code: 200 }),
   ),
 ).annotate({
   identifier: "GetKubernetesClusterLintResultsRequest",
@@ -25357,9 +27666,7 @@ export const ClusterlintResults = /*@__PURE__*/ S.suspend(() =>
     completed_at: S.optional(S.String),
     diagnostics: S.optional(ClusterlintResultsDiagnosticsList),
   }),
-).annotate({
-  identifier: "ClusterlintResults",
-}) as any as S.Schema<ClusterlintResults>;
+).annotate({ identifier: "ClusterlintResults" }) as any as S.Schema<ClusterlintResults>;
 
 export interface GetKubernetesClusterUserRequest {
   /** A unique ID that can be used to reference a Kubernetes cluster. */
@@ -25368,46 +27675,40 @@ export interface GetKubernetesClusterUserRequest {
 export const GetKubernetesClusterUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cluster_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/kubernetes/clusters/{cluster_id}/user",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/kubernetes/clusters/{cluster_id}/user", code: 200 })),
 ).annotate({
   identifier: "GetKubernetesClusterUserRequest",
 }) as any as S.Schema<GetKubernetesClusterUserRequest>;
 
 /** A list of in-cluster groups that the user belongs to. */
-export type UserKubernetesClusterUserGroupsList = Array<string>;
-export const UserKubernetesClusterUserGroupsList = /*@__PURE__*/ S.Array(
+export type User2KubernetesClusterUserGroupsList = Array<string>;
+export const User2KubernetesClusterUserGroupsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<UserKubernetesClusterUserGroupsList>;
+) as any as S.Schema<User2KubernetesClusterUserGroupsList>;
 
-export interface UserKubernetesClusterUser {
+export interface User2KubernetesClusterUser {
   /** The username for the cluster admin user. */
   username?: string;
   /** A list of in-cluster groups that the user belongs to. */
-  groups?: UserKubernetesClusterUserGroupsList;
+  groups?: User2KubernetesClusterUserGroupsList;
 }
-export const UserKubernetesClusterUser = /*@__PURE__*/ S.suspend(() =>
+export const User2KubernetesClusterUser = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.optional(S.String),
-    groups: S.optional(UserKubernetesClusterUserGroupsList),
+    groups: S.optional(User2KubernetesClusterUserGroupsList),
   }),
 ).annotate({
-  identifier: "UserKubernetesClusterUser",
-}) as any as S.Schema<UserKubernetesClusterUser>;
+  identifier: "User2KubernetesClusterUser",
+}) as any as S.Schema<User2KubernetesClusterUser>;
 
-export interface User {
-  kubernetes_cluster_user?: UserKubernetesClusterUser;
+export interface User2 {
+  kubernetes_cluster_user?: User2KubernetesClusterUser;
 }
-export const User = /*@__PURE__*/ S.suspend(() =>
+export const User2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kubernetes_cluster_user: S.optional(UserKubernetesClusterUser),
+    kubernetes_cluster_user: S.optional(User2KubernetesClusterUser),
   }),
-).annotate({ identifier: "User" }) as any as S.Schema<User>;
+).annotate({ identifier: "User2" }) as any as S.Schema<User2>;
 
 export interface GetKubernetesCredentialsRequest {
   /** A unique ID that can be used to reference a Kubernetes cluster. */
@@ -25420,11 +27721,7 @@ export const GetKubernetesCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
     cluster_id: S.String.pipe(T.Label()),
     expiry_seconds: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/kubernetes/clusters/{cluster_id}/credentials",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/kubernetes/clusters/{cluster_id}/credentials", code: 200 }),
   ),
 ).annotate({
   identifier: "GetKubernetesCredentialsRequest",
@@ -25472,11 +27769,7 @@ export const GetKubernetesKubeconfigRequest = /*@__PURE__*/ S.suspend(() =>
     expiry_seconds: S.optional(S.Number.pipe(T.Query())),
     type: S.optional(GetKubernetesKubeconfigRequestType.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/kubernetes/clusters/{cluster_id}/kubeconfig",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/kubernetes/clusters/{cluster_id}/kubeconfig", code: 200 }),
   ),
 ).annotate({
   identifier: "GetKubernetesKubeconfigRequest",
@@ -25484,9 +27777,7 @@ export const GetKubernetesKubeconfigRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetKubernetesKubeconfigResponse {}
 export const GetKubernetesKubeconfigResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "GetKubernetesKubeconfigResponse",
-  },
+  { identifier: "GetKubernetesKubeconfigResponse" },
 ) as any as S.Schema<GetKubernetesKubeconfigResponse>;
 
 export interface GetKubernetesNodePoolRequest {
@@ -25579,9 +27870,7 @@ export const GetLoadBalancerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     lb_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/load_balancers/{lb_id}", code: 200 })),
-).annotate({
-  identifier: "GetLoadBalancerRequest",
-}) as any as S.Schema<GetLoadBalancerRequest>;
+).annotate({ identifier: "GetLoadBalancerRequest" }) as any as S.Schema<GetLoadBalancerRequest>;
 
 /** This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes. * `lb-small` = 1 node * `lb-medium` = 3 nodes * `lb-large` = 6 nodes You can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation. */
 export type LoadBalancerSize = "lb-small" | "lb-medium" | "lb-large";
@@ -25661,9 +27950,7 @@ export const LoadBalancerRegion = /*@__PURE__*/ S.suspend(() =>
     available: S.Boolean,
     sizes: LoadBalancerRegionSizesList,
   }),
-).annotate({
-  identifier: "LoadBalancerRegion",
-}) as any as S.Schema<LoadBalancerRegion>;
+).annotate({ identifier: "LoadBalancerRegion" }) as any as S.Schema<LoadBalancerRegion>;
 
 /** An array containing the IDs of the Droplets assigned to the load balancer. */
 export type LoadBalancerDropletIdsList = Array<number>;
@@ -25678,8 +27965,6 @@ export interface LoadBalancer {
   name?: string;
   /** The ID of the project that the load balancer is associated with. If no ID is provided at creation, the load balancer associates with the user's default project. If an invalid project ID is provided, the load balancer will not be created. */
   project_id?: string;
-  /** An attribute containing the public-facing IP address of the load balancer. */
-  ip?: string;
   /** An attribute containing the public-facing IPv6 address of the load balancer. */
   ipv6?: string;
   /** How many nodes the load balancer contains. Each additional node increases the load balancer's ability to manage more connections. Load balancers can be scaled up or down, and you can change the number of nodes after creation up to once per hour. This field is currently not available in the AMS2, NYC2, or SFO1 regions. Use the `size` field to scale load balancers that reside in these regions. */
@@ -25706,6 +27991,8 @@ export interface LoadBalancer {
   http_idle_timeout_seconds?: number;
   /** A string specifying the UUID of the VPC to which the load balancer is assigned. */
   vpc_uuid?: string;
+  /** A string specifying the UUID of the VPC subnet to which the load balancer is assigned. */
+  subnet_uuid?: string;
   /** A boolean value indicating whether to disable automatic DNS record creation for Let's Encrypt certificates that are added to the load balancer. */
   disable_lets_encrypt_dns_records?: boolean;
   firewall?: LbFirewall;
@@ -25722,6 +28009,8 @@ export interface LoadBalancer {
   target_load_balancer_ids?: LoadBalancerTargetLoadBalancerIdsList;
   /** A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`. */
   tls_cipher_policy?: LoadBalancerTlsCipherPolicy;
+  /** An attribute containing the public-facing IP address of the load balancer. */
+  ip?: string;
   region?: LoadBalancerRegion;
   /** An array containing the IDs of the Droplets assigned to the load balancer. */
   droplet_ids?: LoadBalancerDropletIdsList;
@@ -25733,7 +28022,6 @@ export const LoadBalancer = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
     project_id: S.optional(S.String),
-    ip: S.optional(S.String),
     ipv6: S.optional(S.String),
     size_unit: S.optional(S.Number),
     size: S.optional(LoadBalancerSize),
@@ -25748,6 +28036,7 @@ export const LoadBalancer = /*@__PURE__*/ S.suspend(() =>
     enable_backend_keepalive: S.optional(S.Boolean),
     http_idle_timeout_seconds: S.optional(S.Number),
     vpc_uuid: S.optional(S.String),
+    subnet_uuid: S.optional(S.String),
     disable_lets_encrypt_dns_records: S.optional(S.Boolean),
     firewall: S.optional(LbFirewall),
     network: S.optional(LoadBalancerNetwork),
@@ -25757,6 +28046,7 @@ export const LoadBalancer = /*@__PURE__*/ S.suspend(() =>
     glb_settings: S.optional(GlbSettings),
     target_load_balancer_ids: S.optional(LoadBalancerTargetLoadBalancerIdsList),
     tls_cipher_policy: S.optional(LoadBalancerTlsCipherPolicy),
+    ip: S.optional(S.String),
     region: S.optional(LoadBalancerRegion),
     droplet_ids: S.optional(LoadBalancerDropletIdsList),
     tag: S.optional(S.String),
@@ -25770,9 +28060,17 @@ export const GetLoadBalancerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     load_balancer: S.optional(LoadBalancer),
   }),
-).annotate({
-  identifier: "GetLoadBalancerResponse",
-}) as any as S.Schema<GetLoadBalancerResponse>;
+).annotate({ identifier: "GetLoadBalancerResponse" }) as any as S.Schema<GetLoadBalancerResponse>;
+
+export interface GetMcpServerRequest {
+  /** Server identifier (`serverRef`) of one of your team's MCP servers. */
+  server_ref: string;
+}
+export const GetMcpServerRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    server_ref: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/mcp-servers/{server_ref}", code: 200 })),
+).annotate({ identifier: "GetMcpServerRequest" }) as any as S.Schema<GetMcpServerRequest>;
 
 export interface GetMonitoringAlertPolicyRequest {
   /** A unique identifier for an alert policy. */
@@ -25781,13 +28079,7 @@ export interface GetMonitoringAlertPolicyRequest {
 export const GetMonitoringAlertPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     alert_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/alerts/{alert_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/monitoring/alerts/{alert_uuid}", code: 200 })),
 ).annotate({
   identifier: "GetMonitoringAlertPolicyRequest",
 }) as any as S.Schema<GetMonitoringAlertPolicyRequest>;
@@ -25819,13 +28111,7 @@ export const GetMonitoringAppCPUPercentageMetricsRequest = /*@__PURE__*/ S.suspe
     app_component: S.optional(S.String.pipe(T.Query())),
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/apps/cpu_percentage",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/monitoring/metrics/apps/cpu_percentage", code: 200 })),
 ).annotate({
   identifier: "GetMonitoringAppCPUPercentageMetricsRequest",
 }) as any as S.Schema<GetMonitoringAppCPUPercentageMetricsRequest>;
@@ -25917,11 +28203,7 @@ export const GetMonitoringAppMemoryPercentageMetricsRequest = /*@__PURE__*/ S.su
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/apps/memory_percentage",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/monitoring/metrics/apps/memory_percentage", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMonitoringAppMemoryPercentageMetricsRequest",
@@ -25947,11 +28229,7 @@ export const GetMonitoringDatabaseMysqlCpuUsageRequest = /*@__PURE__*/ S.suspend
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/database/mysql/cpu_usage",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/monitoring/metrics/database/mysql/cpu_usage", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMonitoringDatabaseMysqlCpuUsageRequest",
@@ -25977,11 +28255,7 @@ export const GetMonitoringDatabaseMysqlDiskUsageRequest = /*@__PURE__*/ S.suspen
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/database/mysql/disk_usage",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/monitoring/metrics/database/mysql/disk_usage", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMonitoringDatabaseMysqlDiskUsageRequest",
@@ -26012,13 +28286,7 @@ export const GetMonitoringDatabaseMysqlLoadRequest = /*@__PURE__*/ S.suspend(() 
     aggregate: GetMonitoringDatabaseMysqlLoadRequestAggregate.pipe(T.Query()),
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/database/mysql/load",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/monitoring/metrics/database/mysql/load", code: 200 })),
 ).annotate({
   identifier: "GetMonitoringDatabaseMysqlLoadRequest",
 }) as any as S.Schema<GetMonitoringDatabaseMysqlLoadRequest>;
@@ -26043,11 +28311,7 @@ export const GetMonitoringDatabaseMysqlMemoryUsageRequest = /*@__PURE__*/ S.susp
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/database/mysql/memory_usage",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/monitoring/metrics/database/mysql/memory_usage", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMonitoringDatabaseMysqlMemoryUsageRequest",
@@ -26077,11 +28341,7 @@ export const GetMonitoringDatabaseMysqlOpRatesRequest = /*@__PURE__*/ S.suspend(
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/database/mysql/op_rates",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/monitoring/metrics/database/mysql/op_rates", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMonitoringDatabaseMysqlOpRatesRequest",
@@ -26435,13 +28695,7 @@ export const GetMonitoringDropletBandwidthMetricsRequest = /*@__PURE__*/ S.suspe
     direction: GetMonitoringDropletBandwidthMetricsRequestDirection.pipe(T.Query()),
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/droplet/bandwidth",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/monitoring/metrics/droplet/bandwidth", code: 200 })),
 ).annotate({
   identifier: "GetMonitoringDropletBandwidthMetricsRequest",
 }) as any as S.Schema<GetMonitoringDropletBandwidthMetricsRequest>;
@@ -26459,13 +28713,7 @@ export const GetMonitoringDropletCpuMetricsRequest = /*@__PURE__*/ S.suspend(() 
     host_id: S.String.pipe(T.Query()),
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/droplet/cpu",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/monitoring/metrics/droplet/cpu", code: 200 })),
 ).annotate({
   identifier: "GetMonitoringDropletCpuMetricsRequest",
 }) as any as S.Schema<GetMonitoringDropletCpuMetricsRequest>;
@@ -26484,11 +28732,7 @@ export const GetMonitoringDropletFilesystemFreeMetricsRequest = /*@__PURE__*/ S.
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/droplet/filesystem_free",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/monitoring/metrics/droplet/filesystem_free", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMonitoringDropletFilesystemFreeMetricsRequest",
@@ -26508,11 +28752,7 @@ export const GetMonitoringDropletFilesystemSizeMetricsRequest = /*@__PURE__*/ S.
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/droplet/filesystem_size",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/monitoring/metrics/droplet/filesystem_size", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMonitoringDropletFilesystemSizeMetricsRequest",
@@ -26531,13 +28771,7 @@ export const GetMonitoringDropletLoad15MetricsRequest = /*@__PURE__*/ S.suspend(
     host_id: S.String.pipe(T.Query()),
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/droplet/load_15",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/monitoring/metrics/droplet/load_15", code: 200 })),
 ).annotate({
   identifier: "GetMonitoringDropletLoad15MetricsRequest",
 }) as any as S.Schema<GetMonitoringDropletLoad15MetricsRequest>;
@@ -26555,13 +28789,7 @@ export const GetMonitoringDropletLoad1MetricsRequest = /*@__PURE__*/ S.suspend((
     host_id: S.String.pipe(T.Query()),
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/droplet/load_1",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/monitoring/metrics/droplet/load_1", code: 200 })),
 ).annotate({
   identifier: "GetMonitoringDropletLoad1MetricsRequest",
 }) as any as S.Schema<GetMonitoringDropletLoad1MetricsRequest>;
@@ -26579,13 +28807,7 @@ export const GetMonitoringDropletLoad5MetricsRequest = /*@__PURE__*/ S.suspend((
     host_id: S.String.pipe(T.Query()),
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/droplet/load_5",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/monitoring/metrics/droplet/load_5", code: 200 })),
 ).annotate({
   identifier: "GetMonitoringDropletLoad5MetricsRequest",
 }) as any as S.Schema<GetMonitoringDropletLoad5MetricsRequest>;
@@ -26604,11 +28826,7 @@ export const GetMonitoringDropletMemoryAvailableMetricsRequest = /*@__PURE__*/ S
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/droplet/memory_available",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/monitoring/metrics/droplet/memory_available", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMonitoringDropletMemoryAvailableMetricsRequest",
@@ -26628,11 +28846,7 @@ export const GetMonitoringDropletMemoryCachedMetricsRequest = /*@__PURE__*/ S.su
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/droplet/memory_cached",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/monitoring/metrics/droplet/memory_cached", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMonitoringDropletMemoryCachedMetricsRequest",
@@ -26651,13 +28865,7 @@ export const GetMonitoringDropletMemoryFreeMetricsRequest = /*@__PURE__*/ S.susp
     host_id: S.String.pipe(T.Query()),
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/droplet/memory_free",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/monitoring/metrics/droplet/memory_free", code: 200 })),
 ).annotate({
   identifier: "GetMonitoringDropletMemoryFreeMetricsRequest",
 }) as any as S.Schema<GetMonitoringDropletMemoryFreeMetricsRequest>;
@@ -26675,13 +28883,7 @@ export const GetMonitoringDropletMemoryTotalMetricsRequest = /*@__PURE__*/ S.sus
     host_id: S.String.pipe(T.Query()),
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/droplet/memory_total",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/monitoring/metrics/droplet/memory_total", code: 200 })),
 ).annotate({
   identifier: "GetMonitoringDropletMemoryTotalMetricsRequest",
 }) as any as S.Schema<GetMonitoringDropletMemoryTotalMetricsRequest>;
@@ -27342,16 +29544,8 @@ export interface GetMonitoringSinkRequest {
 export const GetMonitoringSinkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sink_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/sinks/{sink_uuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetMonitoringSinkRequest",
-}) as any as S.Schema<GetMonitoringSinkRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/monitoring/sinks/{sink_uuid}", code: 200 })),
+).annotate({ identifier: "GetMonitoringSinkRequest" }) as any as S.Schema<GetMonitoringSinkRequest>;
 
 /** The destination type. `opensearch_dbaas` for a DigitalOcean managed OpenSearch cluster or `opensearch_ext` for an externally managed one. */
 export type DestinationType = "opensearch_dbaas" | "opensearch_ext";
@@ -27387,9 +29581,7 @@ export const OpensearchConfig = /*@__PURE__*/ S.suspend(() =>
     index_name: S.optional(S.String),
     retention_days: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "OpensearchConfig",
-}) as any as S.Schema<OpensearchConfig>;
+).annotate({ identifier: "OpensearchConfig" }) as any as S.Schema<OpensearchConfig>;
 
 export interface Destination {
   /** A unique identifier for a destination. */
@@ -27467,16 +29659,8 @@ export interface GetNfsAccessPointRequest {
 export const GetNfsAccessPointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     access_point_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/nfs/access_points/{access_point_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetNfsAccessPointRequest",
-}) as any as S.Schema<GetNfsAccessPointRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/nfs/access_points/{access_point_id}", code: 200 })),
+).annotate({ identifier: "GetNfsAccessPointRequest" }) as any as S.Schema<GetNfsAccessPointRequest>;
 
 /** Response containing a single access point. */
 export interface AccessPointGetResponse {
@@ -27486,9 +29670,7 @@ export const AccessPointGetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     access_point: AccessPointResponse,
   }),
-).annotate({
-  identifier: "AccessPointGetResponse",
-}) as any as S.Schema<AccessPointGetResponse>;
+).annotate({ identifier: "AccessPointGetResponse" }) as any as S.Schema<AccessPointGetResponse>;
 
 export interface GetNfsSnapshotRequest {
   /** The unique ID of the NFS snapshot */
@@ -27500,16 +29682,8 @@ export const GetNfsSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nfs_snapshot_id: S.String.pipe(T.Label()),
     region: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/nfs/snapshots/{nfs_snapshot_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetNfsSnapshotRequest",
-}) as any as S.Schema<GetNfsSnapshotRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/nfs/snapshots/{nfs_snapshot_id}", code: 200 })),
+).annotate({ identifier: "GetNfsSnapshotRequest" }) as any as S.Schema<GetNfsSnapshotRequest>;
 
 /** The current status of the snapshot. */
 export type NfsSnapshotResponseStatus = "UNKNOWN" | "CREATING" | "ACTIVE" | "FAILED" | "DELETED";
@@ -27542,9 +29716,7 @@ export const NfsSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     share_id: S.String,
   }),
-).annotate({
-  identifier: "NfsSnapshotResponse",
-}) as any as S.Schema<NfsSnapshotResponse>;
+).annotate({ identifier: "NfsSnapshotResponse" }) as any as S.Schema<NfsSnapshotResponse>;
 
 export interface NfsSnapshotGetResponse {
   snapshot?: NfsSnapshotResponse;
@@ -27553,9 +29725,17 @@ export const NfsSnapshotGetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     snapshot: S.optional(NfsSnapshotResponse),
   }),
-).annotate({
-  identifier: "NfsSnapshotGetResponse",
-}) as any as S.Schema<NfsSnapshotGetResponse>;
+).annotate({ identifier: "NfsSnapshotGetResponse" }) as any as S.Schema<NfsSnapshotGetResponse>;
+
+export interface GetOutputViewRequest {
+  /** Output view ID. */
+  view_id: string;
+}
+export const GetOutputViewRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    view_id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/output-views/{view_id}", code: 200 })),
+).annotate({ identifier: "GetOutputViewRequest" }) as any as S.Schema<GetOutputViewRequest>;
 
 export interface GetPartnerAttachmentRequest {
   /** A unique identifier for a partner attachment. */
@@ -27565,11 +29745,7 @@ export const GetPartnerAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pa_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/partner_network_connect/attachments/{pa_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/partner_network_connect/attachments/{pa_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetPartnerAttachmentRequest",
@@ -27599,9 +29775,7 @@ export const PartnerAttachmentBgp = /*@__PURE__*/ S.suspend(() =>
     local_router_ip: S.optional(S.String),
     peer_router_ip: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PartnerAttachmentBgp",
-}) as any as S.Schema<PartnerAttachmentBgp>;
+).annotate({ identifier: "PartnerAttachmentBgp" }) as any as S.Schema<PartnerAttachmentBgp>;
 
 /** An array of associated partner attachment UUIDs. */
 export type PartnerAttachmentChildrenList = Array<string>;
@@ -27647,9 +29821,7 @@ export const PartnerAttachment = /*@__PURE__*/ S.suspend(() =>
     parent_uuid: S.optional(S.String),
     children: S.optional(PartnerAttachmentChildrenList),
   }),
-).annotate({
-  identifier: "PartnerAttachment",
-}) as any as S.Schema<PartnerAttachment>;
+).annotate({ identifier: "PartnerAttachment" }) as any as S.Schema<PartnerAttachment>;
 
 export interface GetPartnerAttachmentResponse {
   partner_attachment?: PartnerAttachment;
@@ -27720,6 +29892,91 @@ export const GetPartnerAttachmentServiceKeyResponse = /*@__PURE__*/ S.suspend(()
   identifier: "GetPartnerAttachmentServiceKeyResponse",
 }) as any as S.Schema<GetPartnerAttachmentServiceKeyResponse>;
 
+export interface GetPrepaymentConfigRequest {}
+export const GetPrepaymentConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(
+    T.Http({ method: "GET", uri: "/v2/customers/my/prepayment_config", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetPrepaymentConfigRequest",
+}) as any as S.Schema<GetPrepaymentConfigRequest>;
+
+export interface PrepaymentConfig {
+  /** Maximum spend allowed before the prepayment gate blocks usage. Decimal dollars, e.g. `"100.00"`. */
+  spend_limit?: string;
+  /** Whether automatic prepayment top-up is enabled. */
+  is_auto_prepay_enabled?: boolean;
+  /** Amount to charge when auto top-up triggers. Decimal dollars, e.g. `"50.00"`. */
+  prepay_amount?: string;
+  /** Balance threshold that triggers auto top-up. Decimal dollars, e.g. `"10.00"`. */
+  prepay_threshold?: string;
+  /** Time at which the prepayment configuration was created. */
+  created_at?: string;
+  /** Time at which the prepayment configuration was last updated. */
+  updated_at?: string;
+}
+export const PrepaymentConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    spend_limit: S.optional(S.String),
+    is_auto_prepay_enabled: S.optional(S.Boolean),
+    prepay_amount: S.optional(S.String),
+    prepay_threshold: S.optional(S.String),
+    created_at: S.optional(S.String),
+    updated_at: S.optional(S.String),
+  }),
+).annotate({ identifier: "PrepaymentConfig" }) as any as S.Schema<PrepaymentConfig>;
+
+export interface PrepaymentStatus {
+  /** Current prepayment balance. Decimal dollars, e.g. `"25.00"`. */
+  balance?: string;
+  /** Whether automatic prepayment top-up is enabled. */
+  is_auto_prepay_enabled?: boolean;
+  /** Whether the prepayment gate is currently blocking usage. */
+  blocked?: boolean;
+  /** Whether the account is eligible for the prepayment gate experience. */
+  eligible?: boolean;
+  /** Current account balance including month-to-date usage. Decimal dollars, e.g. `"75.00"`. */
+  month_to_date_balance?: string;
+}
+export const PrepaymentStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    balance: S.optional(S.String),
+    is_auto_prepay_enabled: S.optional(S.Boolean),
+    blocked: S.optional(S.Boolean),
+    eligible: S.optional(S.Boolean),
+    month_to_date_balance: S.optional(S.String),
+  }),
+).annotate({ identifier: "PrepaymentStatus" }) as any as S.Schema<PrepaymentStatus>;
+
+export interface PrepaymentConfigResponse {
+  config?: PrepaymentConfig;
+  status?: PrepaymentStatus;
+}
+export const PrepaymentConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    config: S.optional(PrepaymentConfig),
+    status: S.optional(PrepaymentStatus),
+  }),
+).annotate({ identifier: "PrepaymentConfigResponse" }) as any as S.Schema<PrepaymentConfigResponse>;
+
+export interface GetPrepaymentStatusRequest {}
+export const GetPrepaymentStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(
+    T.Http({ method: "GET", uri: "/v2/customers/my/prepayment_status", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetPrepaymentStatusRequest",
+}) as any as S.Schema<GetPrepaymentStatusRequest>;
+
+export interface PrepaymentStatusResponse {
+  status?: PrepaymentStatus;
+}
+export const PrepaymentStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(PrepaymentStatus),
+  }),
+).annotate({ identifier: "PrepaymentStatusResponse" }) as any as S.Schema<PrepaymentStatusResponse>;
+
 export interface GetProjectRequest {
   /** A unique identifier for a project. */
   project_id: string;
@@ -27728,9 +29985,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/projects/{project_id}", code: 200 })),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
 
 export interface GetProjectResponse {
   project?: Project;
@@ -27739,16 +29994,12 @@ export const GetProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.optional(Project),
   }),
-).annotate({
-  identifier: "GetProjectResponse",
-}) as any as S.Schema<GetProjectResponse>;
+).annotate({ identifier: "GetProjectResponse" }) as any as S.Schema<GetProjectResponse>;
 
 export interface GetProjectDefaultRequest {}
 export const GetProjectDefaultRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/projects/default", code: 200 })),
-).annotate({
-  identifier: "GetProjectDefaultRequest",
-}) as any as S.Schema<GetProjectDefaultRequest>;
+).annotate({ identifier: "GetProjectDefaultRequest" }) as any as S.Schema<GetProjectDefaultRequest>;
 
 export interface GetProjectDefaultResponse {
   project?: Project;
@@ -27769,9 +30020,7 @@ export const GetRegistryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     registry_name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/registries/{registry_name}", code: 200 })),
-).annotate({
-  identifier: "GetRegistryRequest",
-}) as any as S.Schema<GetRegistryRequest>;
+).annotate({ identifier: "GetRegistryRequest" }) as any as S.Schema<GetRegistryRequest>;
 
 export interface GetRegistryResponse {
   registry?: RegistryBase;
@@ -27780,9 +30029,7 @@ export const GetRegistryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     registry: S.optional(RegistryBase),
   }),
-).annotate({
-  identifier: "GetRegistryResponse",
-}) as any as S.Schema<GetRegistryResponse>;
+).annotate({ identifier: "GetRegistryResponse" }) as any as S.Schema<GetRegistryResponse>;
 
 export interface GetRegistryDockerCredentialsRequest {
   /** The name of a container registry. */
@@ -27792,11 +30039,7 @@ export const GetRegistryDockerCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     registry_name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/registries/{registry_name}/docker-credentials",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/registries/{registry_name}/docker-credentials", code: 200 }),
   ),
 ).annotate({
   identifier: "GetRegistryDockerCredentialsRequest",
@@ -27823,9 +30066,7 @@ export const DockerCredentialsAuths = /*@__PURE__*/ S.suspend(() =>
       DockerCredentialsAuthsRegistryDigitaloceanCom.pipe(T.Body("registry.digitalocean.com")),
     ),
   }),
-).annotate({
-  identifier: "DockerCredentialsAuths",
-}) as any as S.Schema<DockerCredentialsAuths>;
+).annotate({ identifier: "DockerCredentialsAuths" }) as any as S.Schema<DockerCredentialsAuths>;
 
 export interface DockerCredentials {
   auths?: DockerCredentialsAuths;
@@ -27834,9 +30075,7 @@ export const DockerCredentials = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     auths: S.optional(DockerCredentialsAuths),
   }),
-).annotate({
-  identifier: "DockerCredentials",
-}) as any as S.Schema<DockerCredentials>;
+).annotate({ identifier: "DockerCredentials" }) as any as S.Schema<DockerCredentials>;
 
 export interface GetRegistryGarbageCollectionRequest {
   /** The name of a container registry. */
@@ -27846,11 +30085,7 @@ export const GetRegistryGarbageCollectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     registry_name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/registries/{registry_name}/garbage-collection",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/registries/{registry_name}/garbage-collection", code: 200 }),
   ),
 ).annotate({
   identifier: "GetRegistryGarbageCollectionRequest",
@@ -27894,9 +30129,7 @@ export const GarbageCollection = /*@__PURE__*/ S.suspend(() =>
     blobs_deleted: S.optional(S.Number),
     freed_bytes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GarbageCollection",
-}) as any as S.Schema<GarbageCollection>;
+).annotate({ identifier: "GarbageCollection" }) as any as S.Schema<GarbageCollection>;
 
 export interface GetRegistryGarbageCollectionResponse {
   garbage_collection?: GarbageCollection;
@@ -28042,9 +30275,7 @@ export const SubscriptionTierBase = /*@__PURE__*/ S.suspend(() =>
     monthly_price_in_cents: S.optional(S.Number),
     storage_overage_price_in_cents: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SubscriptionTierBase",
-}) as any as S.Schema<SubscriptionTierBase>;
+).annotate({ identifier: "SubscriptionTierBase" }) as any as S.Schema<SubscriptionTierBase>;
 
 export interface Subscription {
   tier?: SubscriptionTierBase;
@@ -28080,9 +30311,7 @@ export const GetReservedIPRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reserved_ip: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/reserved_ips/{reserved_ip}", code: 200 })),
-).annotate({
-  identifier: "GetReservedIPRequest",
-}) as any as S.Schema<GetReservedIPRequest>;
+).annotate({ identifier: "GetReservedIPRequest" }) as any as S.Schema<GetReservedIPRequest>;
 
 /** This attribute is set to an array which contains features available in this region */
 export type ReservedIpRegionFeaturesList = Array<string>;
@@ -28116,9 +30345,7 @@ export const ReservedIpRegion = /*@__PURE__*/ S.suspend(() =>
     available: S.Boolean,
     sizes: ReservedIpRegionSizesList,
   }),
-).annotate({
-  identifier: "ReservedIpRegion",
-}) as any as S.Schema<ReservedIpRegion>;
+).annotate({ identifier: "ReservedIpRegion" }) as any as S.Schema<ReservedIpRegion>;
 
 /** The Droplet that the reserved IP has been assigned to. When you query a reserved IP, if it is assigned to a Droplet, the entire Droplet object will be returned. If it is not assigned, the value will be null.<br><br>Requires `droplet:read` scope. */
 export type ReservedIpDroplet = unknown | Droplet;
@@ -28152,9 +30379,7 @@ export const GetReservedIPResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reserved_ip: S.optional(ReservedIp),
   }),
-).annotate({
-  identifier: "GetReservedIPResponse",
-}) as any as S.Schema<GetReservedIPResponse>;
+).annotate({ identifier: "GetReservedIPResponse" }) as any as S.Schema<GetReservedIPResponse>;
 
 export interface GetReservedIPsActionRequest {
   /** A reserved IP address. */
@@ -28167,11 +30392,7 @@ export const GetReservedIPsActionRequest = /*@__PURE__*/ S.suspend(() =>
     reserved_ip: S.String.pipe(T.Label()),
     action_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/reserved_ips/{reserved_ip}/actions/{action_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/reserved_ips/{reserved_ip}/actions/{action_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetReservedIPsActionRequest",
@@ -28237,16 +30458,8 @@ export interface GetReservedIPv6Request {
 export const GetReservedIPv6Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reserved_ipv6: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/reserved_ipv6/{reserved_ipv6}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetReservedIPv6Request",
-}) as any as S.Schema<GetReservedIPv6Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/reserved_ipv6/{reserved_ipv6}", code: 200 })),
+).annotate({ identifier: "GetReservedIPv6Request" }) as any as S.Schema<GetReservedIPv6Request>;
 
 export type ReservedIpv6Droplet = unknown | Droplet;
 export const ReservedIpv6Droplet = S.Unknown as any as S.Schema<ReservedIpv6Droplet>;
@@ -28276,9 +30489,7 @@ export const GetReservedIPv6Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reserved_ipv6: S.optional(ReservedIpv6),
   }),
-).annotate({
-  identifier: "GetReservedIPv6Response",
-}) as any as S.Schema<GetReservedIPv6Response>;
+).annotate({ identifier: "GetReservedIPv6Response" }) as any as S.Schema<GetReservedIPv6Response>;
 
 export type GetSecurityLatestScanRequestSeverity = "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
 export const GetSecurityLatestScanRequestSeverity = S.String;
@@ -28338,9 +30549,7 @@ export const GetSecurityScanRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     type: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/security/scans/{scan_id}", code: 200 })),
-).annotate({
-  identifier: "GetSecurityScanRequest",
-}) as any as S.Schema<GetSecurityScanRequest>;
+).annotate({ identifier: "GetSecurityScanRequest" }) as any as S.Schema<GetSecurityScanRequest>;
 
 export interface GetSecurityScanResponse {
   scan?: Scan;
@@ -28349,9 +30558,7 @@ export const GetSecurityScanResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scan: S.optional(Scan),
   }),
-).annotate({
-  identifier: "GetSecurityScanResponse",
-}) as any as S.Schema<GetSecurityScanResponse>;
+).annotate({ identifier: "GetSecurityScanResponse" }) as any as S.Schema<GetSecurityScanResponse>;
 
 export interface GetSnapshotRequest {
   /** Either the ID of an existing snapshot. This will be an integer for a Droplet snapshot or a string for a volume snapshot. */
@@ -28361,9 +30568,7 @@ export const GetSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     snapshot_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/snapshots/{snapshot_id}", code: 200 })),
-).annotate({
-  identifier: "GetSnapshotRequest",
-}) as any as S.Schema<GetSnapshotRequest>;
+).annotate({ identifier: "GetSnapshotRequest" }) as any as S.Schema<GetSnapshotRequest>;
 
 export interface GetSnapshotResponse {
   snapshot?: Snapshots;
@@ -28372,9 +30577,7 @@ export const GetSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     snapshot: S.optional(Snapshots),
   }),
-).annotate({
-  identifier: "GetSnapshotResponse",
-}) as any as S.Schema<GetSnapshotResponse>;
+).annotate({ identifier: "GetSnapshotResponse" }) as any as S.Schema<GetSnapshotResponse>;
 
 export interface GetSpacesKeyRequest {
   /** The access key's ID. */
@@ -28384,9 +30587,7 @@ export const GetSpacesKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     access_key: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/spaces/keys/{access_key}", code: 200 })),
-).annotate({
-  identifier: "GetSpacesKeyRequest",
-}) as any as S.Schema<GetSpacesKeyRequest>;
+).annotate({ identifier: "GetSpacesKeyRequest" }) as any as S.Schema<GetSpacesKeyRequest>;
 
 /** The list of permissions for the access key. */
 export type KeyGrantsList = Array<Grant>;
@@ -28423,9 +30624,7 @@ export const GetSpacesKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keys: S.optional(GetSpacesKeyResponseKeysList),
   }),
-).annotate({
-  identifier: "GetSpacesKeyResponse",
-}) as any as S.Schema<GetSpacesKeyResponse>;
+).annotate({ identifier: "GetSpacesKeyResponse" }) as any as S.Schema<GetSpacesKeyResponse>;
 
 export interface GetSshKeyRequest {
   /** Either the ID or the fingerprint of an existing SSH key. */
@@ -28434,16 +30633,8 @@ export interface GetSshKeyRequest {
 export const GetSshKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ssh_key_identifier: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/account/keys/{ssh_key_identifier}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSshKeyRequest",
-}) as any as S.Schema<GetSshKeyRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/account/keys/{ssh_key_identifier}", code: 200 })),
+).annotate({ identifier: "GetSshKeyRequest" }) as any as S.Schema<GetSshKeyRequest>;
 
 export interface GetSshKeyResponse {
   ssh_key?: SshKeys;
@@ -28452,9 +30643,7 @@ export const GetSshKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ssh_key: S.optional(SshKeys),
   }),
-).annotate({
-  identifier: "GetSshKeyResponse",
-}) as any as S.Schema<GetSshKeyResponse>;
+).annotate({ identifier: "GetSshKeyResponse" }) as any as S.Schema<GetSshKeyResponse>;
 
 export interface GetTagRequest {
   /** The name of the tag. Tags may contain letters, numbers, colons, dashes, and underscores. There is a limit of 255 characters per tag. */
@@ -28475,6 +30664,220 @@ export const GetTagResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "GetTagResponse" }) as any as S.Schema<GetTagResponse>;
 
+export interface GetToolbeltRequest {
+  /** Toolbelt name. */
+  name: string;
+  /** Version number to read. Empty returns the latest version. */
+  version?: string;
+  /** Page size for `tool_details` only; toolbelt.tools always lists every member. Defaults to 20; values above 100 are capped at 100. */
+  page_size?: number;
+  /** `next_page_token` from the previous response, to continue `tool_details`. Treat it as opaque, and send it only with the same toolbelt, version, and search. */
+  page_token?: string;
+  /** Restricts `tool_details` to members whose tool slug, name, title, description, provider, or category contains this value, case-insensitively. It does not filter toolbelt.tools. This is a substring match, not a filter expression. */
+  search?: string;
+}
+export const GetToolbeltRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    version: S.optional(S.String.pipe(T.Query())),
+    page_size: S.optional(S.Number.pipe(T.Query())),
+    page_token: S.optional(S.String.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/toolbelts/{name}", code: 200 })),
+).annotate({ identifier: "GetToolbeltRequest" }) as any as S.Schema<GetToolbeltRequest>;
+
+/** Catalog metadata for one toolbelt member, so a client can render a toolbelt without also fetching the tool catalog. Input and output schemas are omitted; the tool catalog (`GET /v2/action-gateway/tools`) carries them. */
+export interface ToolbeltToolDetail {
+  /** The provider-qualified, stable tool identifier (`<provider>_<name>`). Treat it as opaque and pass it back verbatim. */
+  tool_slug?: string;
+  /** The unqualified tool name, without the provider prefix. */
+  name?: string;
+  /** Human-readable tool title. */
+  title?: string;
+  /** What the tool does. */
+  description?: string;
+  /** The ID of the provider that offers the tool, broken out so a client never has to split `tool_slug`. */
+  provider?: string;
+  /** Best-effort catalog metadata and is empty for a large share of the catalog. Do not rely on it being present. */
+  category?: string;
+  /** The version this toolbelt version pins for the member, matching the `@<version>` suffix in the corresponding toolbelt.tools entry. */
+  version?: number;
+}
+export const ToolbeltToolDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tool_slug: S.optional(S.String),
+    name: S.optional(S.String),
+    title: S.optional(S.String),
+    description: S.optional(S.String),
+    provider: S.optional(S.String),
+    category: S.optional(S.String),
+    version: S.optional(S.Number),
+  }),
+).annotate({ identifier: "ToolbeltToolDetail" }) as any as S.Schema<ToolbeltToolDetail>;
+
+/** The requested page of resolved catalog metadata for the members named in toolbelt.tools. It is a page, so it is not the membership of the toolbelt: read toolbelt.tools for that, and toolbelt.tool_count for the total. Ordering matches toolbelt.tools. */
+export type GetToolbeltResponseToolDetailsList = Array<ToolbeltToolDetail>;
+export const GetToolbeltResponseToolDetailsList = /*@__PURE__*/ S.Array(
+  ToolbeltToolDetail,
+) as any as S.Schema<GetToolbeltResponseToolDetailsList>;
+
+/** Returns one toolbelt version and a page of member details. */
+export interface GetToolbeltResponse {
+  /** The requested toolbelt version. */
+  toolbelt?: Toolbelt;
+  /** The requested page of resolved catalog metadata for the members named in toolbelt.tools. It is a page, so it is not the membership of the toolbelt: read toolbelt.tools for that, and toolbelt.tool_count for the total. Ordering matches toolbelt.tools. */
+  tool_details?: GetToolbeltResponseToolDetailsList;
+  /** Token for the next page of `tool_details`; empty on the last page. */
+  next_page_token?: string;
+}
+export const GetToolbeltResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    toolbelt: S.optional(Toolbelt),
+    tool_details: S.optional(GetToolbeltResponseToolDetailsList),
+    next_page_token: S.optional(S.String),
+  }),
+).annotate({ identifier: "GetToolbeltResponse" }) as any as S.Schema<GetToolbeltResponse>;
+
+export type GetToolHealthRequestWindow =
+  | "HEALTH_WINDOW_ONE_HOUR"
+  | "HEALTH_WINDOW_TWENTY_FOUR_HOURS"
+  | "HEALTH_WINDOW_SEVEN_DAYS"
+  | "HEALTH_WINDOW_THIRTY_DAYS";
+export const GetToolHealthRequestWindow = S.String;
+
+export interface GetToolHealthRequest {
+  /** Catalog tool slug, for example `exa_search`. Required. */
+  tool_slug: string;
+  /** Window to aggregate over. Defaults to twenty-four hours. - `HEALTH_WINDOW_UNSPECIFIED`: Twenty-four hours. - `HEALTH_WINDOW_ONE_HOUR`: One hour; history points are 10 minutes. - `HEALTH_WINDOW_TWENTY_FOUR_HOURS`: Twenty-four hours; history points are 1 hour. - `HEALTH_WINDOW_SEVEN_DAYS`: Seven days; history points are 6 hours. - `HEALTH_WINDOW_THIRTY_DAYS`: Thirty days; history points are 24 hours. */
+  window?: GetToolHealthRequestWindow | (string & {});
+  /** Additionally returns the window split into resolution-aligned points (the history field below). */
+  include_history?: boolean;
+}
+export const GetToolHealthRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tool_slug: S.String.pipe(T.Label()),
+    window: S.optional(GetToolHealthRequestWindow.pipe(T.Query())),
+    include_history: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v2/action-gateway/tools/health/tools/{tool_slug}", code: 200 }),
+  ),
+).annotate({ identifier: "GetToolHealthRequest" }) as any as S.Schema<GetToolHealthRequest>;
+
+/** Describes when health metrics were computed. */
+export interface HealthSnapshot {
+  /** When the metrics were computed. They are recomputed at most every five minutes. */
+  measured_at?: string | null;
+  /** Length of the window the metrics cover, ending at `measured_at`. */
+  window?: string;
+  /** True when the latest recomputation failed and earlier metrics, up to 30 minutes old, are returned instead. */
+  stale?: boolean;
+}
+export const HealthSnapshot = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    measured_at: S.optional(S.NullOr(S.String)),
+    window: S.optional(S.String),
+    stale: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "HealthSnapshot" }) as any as S.Schema<HealthSnapshot>;
+
+/** `HEALTH_DATA_STATUS_AVAILABLE` when the window has calls to measure; `HEALTH_DATA_STATUS_NO_DATA` when it has none, in which case the metrics are null. Do not treat no data as healthy. */
+export type HealthMetricsDataStatus = "HEALTH_DATA_STATUS_AVAILABLE" | "HEALTH_DATA_STATUS_NO_DATA";
+export const HealthMetricsDataStatus = S.String;
+
+/** Availability and latency of a tool or provider over a window, aggregated across all customers. Request volumes are not reported. */
+export interface HealthMetrics {
+  /** `HEALTH_DATA_STATUS_AVAILABLE` when the window has calls to measure; `HEALTH_DATA_STATUS_NO_DATA` when it has none, in which case the metrics are null. Do not treat no data as healthy. */
+  data_status?: HealthMetricsDataStatus;
+  /** Percentage of calls that did not fail because of the provider (an upstream error, timeout, rate limit, or unavailability). Calls that failed for other reasons are not counted. */
+  uptime_percentage?: number | null;
+  /** Median duration of successful calls, in milliseconds. Durations above 40960 ms are reported as 40960. */
+  latency_p50_ms?: number | null;
+  /** 95th-percentile duration of successful calls, in milliseconds. Durations above 40960 ms are reported as 40960. */
+  latency_p95_ms?: number | null;
+}
+export const HealthMetrics = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data_status: S.optional(HealthMetricsDataStatus),
+    uptime_percentage: S.optional(S.NullOr(S.Number)),
+    latency_p50_ms: S.optional(S.NullOr(S.Number)),
+    latency_p95_ms: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "HealthMetrics" }) as any as S.Schema<HealthMetrics>;
+
+/** Health of one tool. */
+export interface ToolHealth {
+  /** Catalog tool slug. */
+  tool_slug?: string;
+  /** ID of the provider that offers the tool. */
+  provider?: string;
+  /** Metrics over the window. */
+  health?: HealthMetrics;
+}
+export const ToolHealth = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tool_slug: S.optional(S.String),
+    provider: S.optional(S.String),
+    health: S.optional(HealthMetrics),
+  }),
+).annotate({ identifier: "ToolHealth" }) as any as S.Schema<ToolHealth>;
+
+export interface GetToolHealthResponseHistoryPointsItem {
+  /** Start of the slot. */
+  bucket_start?: string;
+  /** Metrics over the slot. */
+  health?: HealthMetrics;
+}
+export const GetToolHealthResponseHistoryPointsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bucket_start: S.optional(S.String),
+    health: S.optional(HealthMetrics),
+  }),
+).annotate({
+  identifier: "GetToolHealthResponseHistoryPointsItem",
+}) as any as S.Schema<GetToolHealthResponseHistoryPointsItem>;
+
+/** Points oldest first, ending with the slot in progress. */
+export type GetToolHealthResponseHistoryPointsList = Array<GetToolHealthResponseHistoryPointsItem>;
+export const GetToolHealthResponseHistoryPointsList = /*@__PURE__*/ S.Array(
+  GetToolHealthResponseHistoryPointsItem,
+) as any as S.Schema<GetToolHealthResponseHistoryPointsList>;
+
+/** Present only when the request set `include_history`. */
+export interface GetToolHealthResponseHistory {
+  /** Length of each point. */
+  resolution?: string;
+  /** Means the same as HealthSnapshot.stale, for the history series. The series is refreshed independently, so a fresh snapshot can accompany an older history and vice versa. */
+  stale?: boolean;
+  /** Points oldest first, ending with the slot in progress. */
+  points?: GetToolHealthResponseHistoryPointsList;
+}
+export const GetToolHealthResponseHistory = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resolution: S.optional(S.String),
+    stale: S.optional(S.Boolean),
+    points: S.optional(GetToolHealthResponseHistoryPointsList),
+  }),
+).annotate({
+  identifier: "GetToolHealthResponseHistory",
+}) as any as S.Schema<GetToolHealthResponseHistory>;
+
+/** Health of one tool. */
+export interface GetToolHealthResponse {
+  /** When the metrics were computed and the window they cover. */
+  snapshot?: HealthSnapshot;
+  /** The tool's metrics over the window. */
+  tool?: ToolHealth;
+  /** Present only when the request set `include_history`. */
+  history?: GetToolHealthResponseHistory | null;
+}
+export const GetToolHealthResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    snapshot: S.optional(HealthSnapshot),
+    tool: S.optional(ToolHealth),
+    history: S.optional(S.NullOr(GetToolHealthResponseHistory)),
+  }),
+).annotate({ identifier: "GetToolHealthResponse" }) as any as S.Schema<GetToolHealthResponse>;
+
 export interface GetUptimeAlertRequest {
   /** A unique identifier for a check. */
   check_id: string;
@@ -28486,15 +30889,9 @@ export const GetUptimeAlertRequest = /*@__PURE__*/ S.suspend(() =>
     check_id: S.String.pipe(T.Label()),
     alert_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/uptime/checks/{check_id}/alerts/{alert_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/uptime/checks/{check_id}/alerts/{alert_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetUptimeAlertRequest",
-}) as any as S.Schema<GetUptimeAlertRequest>;
+).annotate({ identifier: "GetUptimeAlertRequest" }) as any as S.Schema<GetUptimeAlertRequest>;
 
 export interface GetUptimeAlertResponse {
   alert?: Alert;
@@ -28503,9 +30900,7 @@ export const GetUptimeAlertResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     alert: S.optional(Alert),
   }),
-).annotate({
-  identifier: "GetUptimeAlertResponse",
-}) as any as S.Schema<GetUptimeAlertResponse>;
+).annotate({ identifier: "GetUptimeAlertResponse" }) as any as S.Schema<GetUptimeAlertResponse>;
 
 export interface GetUptimeCheckRequest {
   /** A unique identifier for a check. */
@@ -28515,9 +30910,7 @@ export const GetUptimeCheckRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     check_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/uptime/checks/{check_id}", code: 200 })),
-).annotate({
-  identifier: "GetUptimeCheckRequest",
-}) as any as S.Schema<GetUptimeCheckRequest>;
+).annotate({ identifier: "GetUptimeCheckRequest" }) as any as S.Schema<GetUptimeCheckRequest>;
 
 export interface GetUptimeCheckResponse {
   check?: Check;
@@ -28526,9 +30919,7 @@ export const GetUptimeCheckResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     check: S.optional(Check),
   }),
-).annotate({
-  identifier: "GetUptimeCheckResponse",
-}) as any as S.Schema<GetUptimeCheckResponse>;
+).annotate({ identifier: "GetUptimeCheckResponse" }) as any as S.Schema<GetUptimeCheckResponse>;
 
 export interface GetUptimeCheckStateRequest {
   /** A unique identifier for a check. */
@@ -28537,13 +30928,7 @@ export interface GetUptimeCheckStateRequest {
 export const GetUptimeCheckStateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     check_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/uptime/checks/{check_id}/state",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/uptime/checks/{check_id}/state", code: 200 })),
 ).annotate({
   identifier: "GetUptimeCheckStateRequest",
 }) as any as S.Schema<GetUptimeCheckStateRequest>;
@@ -28613,6 +30998,144 @@ export const GetUptimeCheckStateResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetUptimeCheckStateResponse",
 }) as any as S.Schema<GetUptimeCheckStateResponse>;
 
+export interface GetUserRequest {
+  /** User ID. */
+  user_id: string;
+}
+export const GetUserRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    user_id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/users/{user_id}", code: 200 })),
+).annotate({ identifier: "GetUserRequest" }) as any as S.Schema<GetUserRequest>;
+
+export interface UserSessionsItem {
+  /** Session URN. */
+  session_urn?: string;
+  /** Session name. */
+  name?: string;
+  /** When the session was created. */
+  created_at?: string | null;
+  /** When the session was last modified. */
+  updated_at?: string | null;
+}
+export const UserSessionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    session_urn: S.optional(S.String),
+    name: S.optional(S.String),
+    created_at: S.optional(S.NullOr(S.String)),
+    updated_at: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "UserSessionsItem" }) as any as S.Schema<UserSessionsItem>;
+
+/** Sessions bound to the user, oldest first. */
+export type UserSessionsList = Array<UserSessionsItem>;
+export const UserSessionsList = /*@__PURE__*/ S.Array(
+  UserSessionsItem,
+) as any as S.Schema<UserSessionsList>;
+
+/** Provider scopes granted, or requested while pending. */
+export type UserConnectionsItemScopesList = Array<string>;
+export const UserConnectionsItemScopesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UserConnectionsItemScopesList>;
+
+/** pending, active, revoked, or expired. */
+export type UserConnectionsItemStatus = "pending" | "active" | "revoked" | "expired";
+export const UserConnectionsItemStatus = S.String;
+
+/** `digitalocean_oauth`, `private_oauth`, or `team_api_key`. */
+export type UserConnectionsItemCredentialKind =
+  | "digitalocean_oauth"
+  | "private_oauth"
+  | "team_api_key";
+export const UserConnectionsItemCredentialKind = S.String;
+
+export interface UserConnectionsItem {
+  /** Opaque connection ID. */
+  id?: string;
+  /** Provider slug, for example `jira`. */
+  provider?: string;
+  /** Human-readable provider name, for example `Jira`. */
+  provider_display_name?: string;
+  /** Your identifier for the user the connection acts for. */
+  user_id?: string;
+  /** Provider scopes granted, or requested while pending. */
+  scopes?: UserConnectionsItemScopesList;
+  /** pending, active, revoked, or expired. */
+  status?: UserConnectionsItemStatus;
+  /** When the user completed authorization. */
+  granted_at?: string | null;
+  /** When the connection was revoked. */
+  revoked_at?: string | null;
+  /** When the connection was created. */
+  created_at?: string | null;
+  /** When the connection was last modified. */
+  updated_at?: string | null;
+  /** Non-sensitive provider configuration. */
+  connection_parameters?: unknown | null;
+  /** `digitalocean_oauth`, `private_oauth`, or `team_api_key`. */
+  credential_kind?: UserConnectionsItemCredentialKind;
+  /** ID of the team provider credential the connection uses; empty for DigitalOcean's shared application. */
+  credential_id?: string;
+  /** Private network the connection's calls use, when configured. */
+  network?: ConnectionNetwork | null;
+  /** DigitalOcean user ID of the user who created the connection, when recorded. */
+  owning_user_id?: string;
+}
+export const UserConnectionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    provider: S.optional(S.String),
+    provider_display_name: S.optional(S.String),
+    user_id: S.optional(S.String),
+    scopes: S.optional(UserConnectionsItemScopesList),
+    status: S.optional(UserConnectionsItemStatus),
+    granted_at: S.optional(S.NullOr(S.String)),
+    revoked_at: S.optional(S.NullOr(S.String)),
+    created_at: S.optional(S.NullOr(S.String)),
+    updated_at: S.optional(S.NullOr(S.String)),
+    connection_parameters: S.optional(S.NullOr(S.Unknown)),
+    credential_kind: S.optional(UserConnectionsItemCredentialKind),
+    credential_id: S.optional(S.String),
+    network: S.optional(S.NullOr(ConnectionNetwork)),
+    owning_user_id: S.optional(S.String),
+  }),
+).annotate({ identifier: "UserConnectionsItem" }) as any as S.Schema<UserConnectionsItem>;
+
+/** The user's connections that are not revoked, sorted by provider. */
+export type UserConnectionsList = Array<UserConnectionsItem>;
+export const UserConnectionsList = /*@__PURE__*/ S.Array(
+  UserConnectionsItem,
+) as any as S.Schema<UserConnectionsList>;
+
+/** One of your team's users, as seen across its sessions and connections. */
+export interface User {
+  /** The user ID: a session `actor_id` or a connection `user_id`. */
+  user_id?: string;
+  /** Sessions bound to the user, oldest first. */
+  sessions?: UserSessionsList;
+  /** The user's connections that are not revoked, sorted by provider. */
+  connections?: UserConnectionsList;
+}
+export const User = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    user_id: S.optional(S.String),
+    sessions: S.optional(UserSessionsList),
+    connections: S.optional(UserConnectionsList),
+  }),
+).annotate({ identifier: "User" }) as any as S.Schema<User>;
+
+/** Returns one user. */
+export interface GetUserResponse {
+  /** The user. */
+  user?: User;
+}
+export const GetUserResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    user: S.optional(User),
+  }),
+).annotate({ identifier: "GetUserResponse" }) as any as S.Schema<GetUserResponse>;
+
 export interface GetVectorDatabaseRequest {
   /** ID of the vector database. */
   id: string;
@@ -28621,9 +31144,7 @@ export const GetVectorDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/vector-databases/{id}", code: 200 })),
-).annotate({
-  identifier: "GetVectorDatabaseRequest",
-}) as any as S.Schema<GetVectorDatabaseRequest>;
+).annotate({ identifier: "GetVectorDatabaseRequest" }) as any as S.Schema<GetVectorDatabaseRequest>;
 
 export interface VectordbGetVectorDBResponse {
   vector_db?: VectordbVectorDB;
@@ -28643,13 +31164,7 @@ export interface GetVectorDatabaseCredentialsRequest {
 export const GetVectorDatabaseCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/vector-databases/{id}/credentials",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/vector-databases/{id}/credentials", code: 200 })),
 ).annotate({
   identifier: "GetVectorDatabaseCredentialsRequest",
 }) as any as S.Schema<GetVectorDatabaseCredentialsRequest>;
@@ -28677,9 +31192,7 @@ export const GetVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     volume_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/volumes/{volume_id}", code: 200 })),
-).annotate({
-  identifier: "GetVolumeRequest",
-}) as any as S.Schema<GetVolumeRequest>;
+).annotate({ identifier: "GetVolumeRequest" }) as any as S.Schema<GetVolumeRequest>;
 
 export interface GetVolumeResponse {
   volume?: VolumeFull;
@@ -28688,9 +31201,7 @@ export const GetVolumeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     volume: S.optional(VolumeFull),
   }),
-).annotate({
-  identifier: "GetVolumeResponse",
-}) as any as S.Schema<GetVolumeResponse>;
+).annotate({ identifier: "GetVolumeResponse" }) as any as S.Schema<GetVolumeResponse>;
 
 export interface GetVolumeActionRequest {
   /** The ID of the block storage volume. */
@@ -28708,16 +31219,8 @@ export const GetVolumeActionRequest = /*@__PURE__*/ S.suspend(() =>
     action_id: S.Number.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/volumes/{volume_id}/actions/{action_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetVolumeActionRequest",
-}) as any as S.Schema<GetVolumeActionRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/volumes/{volume_id}/actions/{action_id}", code: 200 })),
+).annotate({ identifier: "GetVolumeActionRequest" }) as any as S.Schema<GetVolumeActionRequest>;
 
 /** The current status of the action. This can be "in-progress", "completed", or "errored". */
 export type VolumeActionStatus = "in-progress" | "completed" | "errored";
@@ -28762,9 +31265,7 @@ export const GetVolumeActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: S.optional(VolumeAction),
   }),
-).annotate({
-  identifier: "GetVolumeActionResponse",
-}) as any as S.Schema<GetVolumeActionResponse>;
+).annotate({ identifier: "GetVolumeActionResponse" }) as any as S.Schema<GetVolumeActionResponse>;
 
 export interface GetVolumeSnapshotByIdRequest {
   /** The unique identifier for the snapshot. */
@@ -28773,13 +31274,7 @@ export interface GetVolumeSnapshotByIdRequest {
 export const GetVolumeSnapshotByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     snapshot_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/volumes/snapshots/{snapshot_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/volumes/snapshots/{snapshot_id}", code: 200 })),
 ).annotate({
   identifier: "GetVolumeSnapshotByIdRequest",
 }) as any as S.Schema<GetVolumeSnapshotByIdRequest>;
@@ -28822,9 +31317,7 @@ export const GetVpcnatgatewayRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/vpc_nat_gateways/{id}", code: 200 })),
-).annotate({
-  identifier: "GetVpcnatgatewayRequest",
-}) as any as S.Schema<GetVpcnatgatewayRequest>;
+).annotate({ identifier: "GetVpcnatgatewayRequest" }) as any as S.Schema<GetVpcnatgatewayRequest>;
 
 /** The type of the VPC NAT gateway. */
 export type VpcNatGatewayGetType = "PUBLIC";
@@ -28862,17 +31355,18 @@ export const VpcNatGatewayGetRegion = S.String;
 export interface VpcNatGatewayGetVpcsItem {
   /** The unique identifier of the VPC to which the NAT gateway is attached. */
   vpc_uuid?: string;
+  /** The unique identifier of the VPC subnet to which the NAT gateway is attached. */
+  subnet_uuid?: string;
   /** The gateway IP address of the VPC NAT gateway. */
   gateway_ip?: string;
 }
 export const VpcNatGatewayGetVpcsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vpc_uuid: S.optional(S.String),
+    subnet_uuid: S.optional(S.String),
     gateway_ip: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VpcNatGatewayGetVpcsItem",
-}) as any as S.Schema<VpcNatGatewayGetVpcsItem>;
+).annotate({ identifier: "VpcNatGatewayGetVpcsItem" }) as any as S.Schema<VpcNatGatewayGetVpcsItem>;
 
 /** An array of VPCs associated with the VPC NAT gateway. */
 export type VpcNatGatewayGetVpcsList = Array<VpcNatGatewayGetVpcsItem>;
@@ -28881,7 +31375,7 @@ export const VpcNatGatewayGetVpcsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<VpcNatGatewayGetVpcsList>;
 
 export interface VpcNatGatewayGetEgressesPublicGatewaysItem {
-  /** IPv4 address of the public gateway. */
+  /** The public egress IPv4 address of the VPC NAT gateway. This is the address assigned to the gateway, which you can optionally set when creating the gateway using the `ip` or `ipv4` field. */
   ipv4?: string;
 }
 export const VpcNatGatewayGetEgressesPublicGatewaysItem = /*@__PURE__*/ S.suspend(() =>
@@ -28908,9 +31402,7 @@ export const VpcNatGatewayGetEgresses = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     public_gateways: S.optional(VpcNatGatewayGetEgressesPublicGatewaysList),
   }),
-).annotate({
-  identifier: "VpcNatGatewayGetEgresses",
-}) as any as S.Schema<VpcNatGatewayGetEgresses>;
+).annotate({ identifier: "VpcNatGatewayGetEgresses" }) as any as S.Schema<VpcNatGatewayGetEgresses>;
 
 export interface VpcNatGatewayGet {
   /** The unique identifier for the VPC NAT gateway. This is automatically generated upon creation. */
@@ -28956,9 +31448,7 @@ export const VpcNatGatewayGet = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VpcNatGatewayGet",
-}) as any as S.Schema<VpcNatGatewayGet>;
+).annotate({ identifier: "VpcNatGatewayGet" }) as any as S.Schema<VpcNatGatewayGet>;
 
 export interface GetVpcnatgatewayResponse {
   vpc_nat_gateway?: VpcNatGatewayGet;
@@ -28967,9 +31457,7 @@ export const GetVpcnatgatewayResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vpc_nat_gateway: S.optional(VpcNatGatewayGet),
   }),
-).annotate({
-  identifier: "GetVpcnatgatewayResponse",
-}) as any as S.Schema<GetVpcnatgatewayResponse>;
+).annotate({ identifier: "GetVpcnatgatewayResponse" }) as any as S.Schema<GetVpcnatgatewayResponse>;
 
 export interface GetVpcPeeringRequest {
   /** A unique identifier for a VPC peering. */
@@ -28978,16 +31466,8 @@ export interface GetVpcPeeringRequest {
 export const GetVpcPeeringRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vpc_peering_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/vpc_peerings/{vpc_peering_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetVpcPeeringRequest",
-}) as any as S.Schema<GetVpcPeeringRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/vpc_peerings/{vpc_peering_id}", code: 200 })),
+).annotate({ identifier: "GetVpcPeeringRequest" }) as any as S.Schema<GetVpcPeeringRequest>;
 
 /** The current status of the VPC peering. */
 export type VpcPeeringStatus = "PROVISIONING" | "ACTIVE" | "DELETING";
@@ -29028,9 +31508,29 @@ export const GetVpcPeeringResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vpc_peering: S.optional(VpcPeering),
   }),
-).annotate({
-  identifier: "GetVpcPeeringResponse",
-}) as any as S.Schema<GetVpcPeeringResponse>;
+).annotate({ identifier: "GetVpcPeeringResponse" }) as any as S.Schema<GetVpcPeeringResponse>;
+
+export interface GetVpcSubnetRequest {
+  /** The unique identifier of the VPC to which the subnet belongs. */
+  vpc_uuid: string;
+  /** The unique identifier of a VPC subnet. */
+  subnet_uuid: string;
+}
+export const GetVpcSubnetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc_uuid: S.String.pipe(T.Label()),
+    subnet_uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/vpcs/{vpc_uuid}/subnets/{subnet_uuid}", code: 200 })),
+).annotate({ identifier: "GetVpcSubnetRequest" }) as any as S.Schema<GetVpcSubnetRequest>;
+
+export interface GetVpcSubnetResponse {
+  vpc_subnet?: VpcSubnet;
+}
+export const GetVpcSubnetResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc_subnet: S.optional(VpcSubnet),
+  }),
+).annotate({ identifier: "GetVpcSubnetResponse" }) as any as S.Schema<GetVpcSubnetResponse>;
 
 export interface ImagesPostAccountTransferAcceptRequest {
   /** A unique number that can be used to identify and reference a specific image. */
@@ -29046,11 +31546,7 @@ export const ImagesPostAccountTransferAcceptRequest = /*@__PURE__*/ S.suspend(()
     transfer_id: S.Number,
     recipient_uuid: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/images/{image_id}/account_transfer/accept",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/images/{image_id}/account_transfer/accept", code: 200 }),
   ),
 ).annotate({
   identifier: "ImagesPostAccountTransferAcceptRequest",
@@ -29074,11 +31570,7 @@ export const ImagesPostAccountTransferCancelRequest = /*@__PURE__*/ S.suspend(()
     image_id: S.Number.pipe(T.Label()),
     transfer_id: S.Number,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/images/{image_id}/account_transfer/cancel",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/images/{image_id}/account_transfer/cancel", code: 200 }),
   ),
 ).annotate({
   identifier: "ImagesPostAccountTransferCancelRequest",
@@ -29130,13 +31622,7 @@ export const ImagesPostAccountTransferCreateRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     image_id: S.Number.pipe(T.Label()),
     body: ImagesPostAccountTransferCreate.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/images/{image_id}/account_transfer",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/images/{image_id}/account_transfer", code: 200 })),
 ).annotate({
   identifier: "ImagesPostAccountTransferCreateRequest",
 }) as any as S.Schema<ImagesPostAccountTransferCreateRequest>;
@@ -29177,13 +31663,7 @@ export const ImportGenaiCustomModelRequest = /*@__PURE__*/ S.suspend(() =>
     source_ref: S.optional(CustomModelSourceRef),
     source_type: S.optional(CustomModelSourceType),
     tags: S.optional(CustomModelTags),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/gen-ai/custom_models/import",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/gen-ai/custom_models/import", code: 200 })),
 ).annotate({
   identifier: "ImportGenaiCustomModelRequest",
 }) as any as S.Schema<ImportGenaiCustomModelRequest>;
@@ -29227,9 +31707,7 @@ export const ApiCustomModelImportJob = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiCustomModelImportJob",
-}) as any as S.Schema<ApiCustomModelImportJob>;
+).annotate({ identifier: "ApiCustomModelImportJob" }) as any as S.Schema<ApiCustomModelImportJob>;
 
 /** Validation step result during model import */
 export interface ApiImportValidationStep {
@@ -29246,9 +31724,7 @@ export const ApiImportValidationStep = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     passed: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ApiImportValidationStep",
-}) as any as S.Schema<ApiImportValidationStep>;
+).annotate({ identifier: "ApiImportValidationStep" }) as any as S.Schema<ApiImportValidationStep>;
 
 /** Validation steps performed during import */
 export type ApiImportCustomModelOutputPublicValidationStepsList = Array<ApiImportValidationStep>;
@@ -29354,9 +31830,7 @@ export type AsyncInvokeResponseStatus = "QUEUED" | "IN_PROGRESS" | "COMPLETED" |
 export const AsyncInvokeResponseStatus = S.String;
 
 /** The output of the invocation. Null while the job is queued or in progress. Contains the result once completed. */
-export type AsyncInvokeResponseOutputMap = {
-  [key: string]: unknown | undefined;
-};
+export type AsyncInvokeResponseOutputMap = { [key: string]: unknown | undefined };
 export const AsyncInvokeResponseOutputMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -29392,9 +31866,329 @@ export const AsyncInvokeResponse = /*@__PURE__*/ S.suspend(() =>
     output: S.optional(S.NullOr(AsyncInvokeResponseOutputMap)),
     error: S.optional(S.NullOr(S.String)),
   }),
+).annotate({ identifier: "AsyncInvokeResponse" }) as any as S.Schema<AsyncInvokeResponse>;
+
+/** A single point in time. Exactly one value form is set per message. */
+export interface LogsTimeInstant {
+  /** An absolute timestamp. Accepts RFC3339/RFC3339Nano strings or Unix seconds/nanoseconds as decimal strings. */
+  absolute?: string;
+  /** A relative time. Use `now` for the current time, a bare duration such as `1h` or `7d` to look back from now, or an offset such as `now-1h` or `now+30m`. Supported units are `s`, `m`, `h`, `d`, and `w`. */
+  relative?: string;
+  /** A Unix nanosecond timestamp, encoded as a string to preserve 64-bit precision. */
+  unix_nano?: string;
+}
+export const LogsTimeInstant = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    absolute: S.optional(S.String),
+    relative: S.optional(S.String),
+    unix_nano: S.optional(S.String),
+  }),
+).annotate({ identifier: "LogsTimeInstant" }) as any as S.Schema<LogsTimeInstant>;
+
+/** An inclusive query time window. */
+export interface LogsTimeRange {
+  from: LogsTimeInstant;
+  to: LogsTimeInstant;
+}
+export const LogsTimeRange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    from: LogsTimeInstant,
+    to: LogsTimeInstant,
+  }),
+).annotate({ identifier: "LogsTimeRange" }) as any as S.Schema<LogsTimeRange>;
+
+/** The attribute scope to resolve the field against. Omit to let the server apply its default mapping for the field name. */
+export type LogsFieldRefScope = "FIELD_SCOPE_RESOURCE" | "FIELD_SCOPE_ATTRIBUTES";
+export const LogsFieldRefScope = S.String;
+
+/** A reference to a logical field for filters, ordering, grouping, or facets. */
+export interface LogsFieldRef {
+  /** The field name. Intrinsic columns include `timestamp`, `severity_text`, `severity_number`, `body`, `trace_id`, `span_id`, and `trace_flags`. The dotted shorthands `service.name`, `resource.type`, and `resource.urn` are also supported. Arbitrary resource or log attributes can be accessed with `ResourceAttributes['key']` or `LogAttributes['key']`. */
+  name: string;
+  /** The attribute scope to resolve the field against. Omit to let the server apply its default mapping for the field name. */
+  scope?: LogsFieldRefScope | (string & {});
+}
+export const LogsFieldRef = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    scope: S.optional(LogsFieldRefScope),
+  }),
+).annotate({ identifier: "LogsFieldRef" }) as any as S.Schema<LogsFieldRef>;
+
+/** The comparison operator. */
+export type LogsFilterConditionOperator =
+  | "FILTER_OPERATOR_EQ"
+  | "FILTER_OPERATOR_NEQ"
+  | "FILTER_OPERATOR_IN"
+  | "FILTER_OPERATOR_EXISTS"
+  | "FILTER_OPERATOR_GTE"
+  | "FILTER_OPERATOR_LTE";
+export const LogsFilterConditionOperator = S.String;
+
+export type LogsFilterValueStringArrayValueValuesList = Array<string>;
+export const LogsFilterValueStringArrayValueValuesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<LogsFilterValueStringArrayValueValuesList>;
+
+export interface LogsFilterValueStringArrayValue {
+  values: LogsFilterValueStringArrayValueValuesList;
+}
+export const LogsFilterValueStringArrayValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    values: LogsFilterValueStringArrayValueValuesList,
+  }),
 ).annotate({
-  identifier: "AsyncInvokeResponse",
-}) as any as S.Schema<AsyncInvokeResponse>;
+  identifier: "LogsFilterValueStringArrayValue",
+}) as any as S.Schema<LogsFilterValueStringArrayValue>;
+
+export type LogsFilterValueNumberArrayValueValuesList = Array<number>;
+export const LogsFilterValueNumberArrayValueValuesList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<LogsFilterValueNumberArrayValueValuesList>;
+
+export interface LogsFilterValueNumberArrayValue {
+  values: LogsFilterValueNumberArrayValueValuesList;
+}
+export const LogsFilterValueNumberArrayValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    values: LogsFilterValueNumberArrayValueValuesList,
+  }),
+).annotate({
+  identifier: "LogsFilterValueNumberArrayValue",
+}) as any as S.Schema<LogsFilterValueNumberArrayValue>;
+
+/** A typed literal or list value for a filter condition. Exactly one kind is set per message. */
+export interface LogsFilterValue {
+  string_value?: string;
+  number_value?: number;
+  bool_value?: boolean;
+  string_array_value?: LogsFilterValueStringArrayValue;
+  number_array_value?: LogsFilterValueNumberArrayValue;
+}
+export const LogsFilterValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    string_value: S.optional(S.String),
+    number_value: S.optional(S.Number),
+    bool_value: S.optional(S.Boolean),
+    string_array_value: S.optional(LogsFilterValueStringArrayValue),
+    number_array_value: S.optional(LogsFilterValueNumberArrayValue),
+  }),
+).annotate({ identifier: "LogsFilterValue" }) as any as S.Schema<LogsFilterValue>;
+
+/** A single field comparison in a logs filter expression. */
+export interface LogsFilterCondition {
+  field: LogsFieldRef;
+  /** The comparison operator. */
+  operator: LogsFilterConditionOperator | (string & {});
+  value?: LogsFilterValue;
+}
+export const LogsFilterCondition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    field: LogsFieldRef,
+    operator: LogsFilterConditionOperator,
+    value: S.optional(LogsFilterValue),
+  }),
+).annotate({ identifier: "LogsFilterCondition" }) as any as S.Schema<LogsFilterCondition>;
+
+export type LogsFilterExpressionAndExpressionsList = Array<LogsFilterExpression>;
+export const LogsFilterExpressionAndExpressionsList = /*@__PURE__*/ S.Array(
+  S.suspend(() => LogsFilterExpression),
+) as any as S.Schema<LogsFilterExpressionAndExpressionsList>;
+
+export interface LogsFilterExpressionAnd {
+  expressions: LogsFilterExpressionAndExpressionsList;
+}
+export const LogsFilterExpressionAnd = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    expressions: LogsFilterExpressionAndExpressionsList,
+  }),
+).annotate({ identifier: "LogsFilterExpressionAnd" }) as any as S.Schema<LogsFilterExpressionAnd>;
+
+export type LogsFilterExpressionOrExpressionsList = Array<LogsFilterExpression>;
+export const LogsFilterExpressionOrExpressionsList = /*@__PURE__*/ S.Array(
+  S.suspend(() => LogsFilterExpression),
+) as any as S.Schema<LogsFilterExpressionOrExpressionsList>;
+
+export interface LogsFilterExpressionOr {
+  expressions: LogsFilterExpressionOrExpressionsList;
+}
+export const LogsFilterExpressionOr = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    expressions: LogsFilterExpressionOrExpressionsList,
+  }),
+).annotate({ identifier: "LogsFilterExpressionOr" }) as any as S.Schema<LogsFilterExpressionOr>;
+
+/** A substring search across the log body, service name, and resource URN. */
+export interface LogsFilterExpressionTextSearch {
+  /** The search string. */
+  query: string;
+}
+export const LogsFilterExpressionTextSearch = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    query: S.String,
+  }),
+).annotate({
+  identifier: "LogsFilterExpressionTextSearch",
+}) as any as S.Schema<LogsFilterExpressionTextSearch>;
+
+/** A boolean filter tree for logs queries. Exactly one node is set per message. */
+export interface LogsFilterExpression {
+  condition?: LogsFilterCondition;
+  and?: LogsFilterExpressionAnd;
+  or?: LogsFilterExpressionOr;
+  not?: LogsFilterExpression;
+  /** A substring search across the log body, service name, and resource URN. */
+  text_search?: LogsFilterExpressionTextSearch;
+}
+export const LogsFilterExpression = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    condition: S.optional(LogsFilterCondition),
+    and: S.optional(LogsFilterExpressionAnd),
+    or: S.optional(LogsFilterExpressionOr),
+    not: S.optional(LogsFilterExpression),
+    text_search: S.optional(LogsFilterExpressionTextSearch),
+  }),
+).annotate({ identifier: "LogsFilterExpression" }) as any as S.Schema<LogsFilterExpression>;
+
+/** The sort direction. Omit to use the server default. */
+export type LogsOrderByDirection = "SORT_DIRECTION_ASC" | "SORT_DIRECTION_DESC";
+export const LogsOrderByDirection = S.String;
+
+/** A sort clause for logs search results. */
+export interface LogsOrderBy {
+  field: LogsFieldRef;
+  /** The sort direction. Omit to use the server default. */
+  direction?: LogsOrderByDirection | (string & {});
+}
+export const LogsOrderBy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    field: LogsFieldRef,
+    direction: S.optional(LogsOrderByDirection),
+  }),
+).annotate({ identifier: "LogsOrderBy" }) as any as S.Schema<LogsOrderBy>;
+
+/** Sort clauses applied to the result set. */
+export type InsightsPostLogsSearchRequestOrderByList = Array<LogsOrderBy>;
+export const InsightsPostLogsSearchRequestOrderByList = /*@__PURE__*/ S.Array(
+  LogsOrderBy,
+) as any as S.Schema<InsightsPostLogsSearchRequestOrderByList>;
+
+/** Opaque keyset pagination request. Cursors are only valid when ordering by `timestamp` alone. */
+export interface LogsPaginationRequest {
+  /** Maximum number of results to return. Defaults to 100 and is clamped to 1000. */
+  limit?: number;
+  /** Opaque cursor from a previous response. */
+  cursor?: string;
+}
+export const LogsPaginationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    limit: S.optional(S.Number),
+    cursor: S.optional(S.String),
+  }),
+).annotate({ identifier: "LogsPaginationRequest" }) as any as S.Schema<LogsPaginationRequest>;
+
+export interface InsightsPostLogsSearchRequest {
+  /** The datacenter region slug for the query. */
+  region: string;
+  time_range: LogsTimeRange;
+  filter?: LogsFilterExpression;
+  /** Sort clauses applied to the result set. */
+  order_by?: InsightsPostLogsSearchRequestOrderByList;
+  pagination?: LogsPaginationRequest;
+}
+export const InsightsPostLogsSearchRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    region: S.String.pipe(T.Label()),
+    time_range: LogsTimeRange,
+    filter: S.optional(LogsFilterExpression),
+    order_by: S.optional(InsightsPostLogsSearchRequestOrderByList),
+    pagination: S.optional(LogsPaginationRequest),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/insights/query/{region}/logs/search", code: 200 })),
+).annotate({
+  identifier: "InsightsPostLogsSearchRequest",
+}) as any as S.Schema<InsightsPostLogsSearchRequest>;
+
+/** Resource attributes associated with the log. */
+export type LogsLogRecordResourceMap = { [key: string]: string | undefined };
+export const LogsLogRecordResourceMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<LogsLogRecordResourceMap>;
+
+/** Log attributes. */
+export type LogsLogRecordAttributesMap = { [key: string]: string | undefined };
+export const LogsLogRecordAttributesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<LogsLogRecordAttributesMap>;
+
+/** A single log record returned by a logs search. */
+export interface LogsLogRecord {
+  /** The log record timestamp. */
+  timestamp: string;
+  /** The numeric severity level. */
+  severity_number?: number;
+  /** The textual severity level. */
+  severity_text?: string;
+  /** The log message body. Omitted when empty. */
+  body?: string;
+  /** The trace ID if present. */
+  trace_id?: string;
+  /** The span ID if present. */
+  span_id?: string;
+  /** The service name that emitted the log. */
+  service_name?: string;
+  /** Resource attributes associated with the log. */
+  resource?: LogsLogRecordResourceMap;
+  /** Log attributes. */
+  attributes?: LogsLogRecordAttributesMap;
+}
+export const LogsLogRecord = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.String,
+    severity_number: S.optional(S.Number),
+    severity_text: S.optional(S.String),
+    body: S.optional(S.String),
+    trace_id: S.optional(S.String),
+    span_id: S.optional(S.String),
+    service_name: S.optional(S.String),
+    resource: S.optional(LogsLogRecordResourceMap),
+    attributes: S.optional(LogsLogRecordAttributesMap),
+  }),
+).annotate({ identifier: "LogsLogRecord" }) as any as S.Schema<LogsLogRecord>;
+
+/** Matching log records. Omitted when no records match. */
+export type LogsSearchResponseDataList = Array<LogsLogRecord>;
+export const LogsSearchResponseDataList = /*@__PURE__*/ S.Array(
+  LogsLogRecord,
+) as any as S.Schema<LogsSearchResponseDataList>;
+
+/** Pagination response. */
+export interface LogsPaginationResponse {
+  /** Whether more results are available. */
+  has_more?: boolean;
+  /** Opaque cursor to fetch the next page. */
+  next_cursor?: string;
+}
+export const LogsPaginationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    has_more: S.optional(S.Boolean),
+    next_cursor: S.optional(S.String),
+  }),
+).annotate({ identifier: "LogsPaginationResponse" }) as any as S.Schema<LogsPaginationResponse>;
+
+/** Response body for a logs search. */
+export interface LogsSearchResponse {
+  /** Matching log records. Omitted when no records match. */
+  data?: LogsSearchResponseDataList;
+  pagination?: LogsPaginationResponse;
+}
+export const LogsSearchResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(LogsSearchResponseDataList),
+    pagination: S.optional(LogsPaginationResponse),
+  }),
+).annotate({ identifier: "LogsSearchResponse" }) as any as S.Schema<LogsSearchResponse>;
 
 /** An array of 1-Click Application slugs to be installed to the Kubernetes cluster. */
 export type InstallOneClickKubernetesRequestAddonSlugsList = Array<string>;
@@ -29524,11 +32318,7 @@ export const KubernetesUpgradeClusterRequest = /*@__PURE__*/ S.suspend(() =>
     cluster_id: S.String.pipe(T.Label()),
     version: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/kubernetes/clusters/{cluster_id}/upgrade",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/kubernetes/clusters/{cluster_id}/upgrade", code: 200 }),
   ),
 ).annotate({
   identifier: "KubernetesUpgradeClusterRequest",
@@ -29552,9 +32342,7 @@ export const ListActionsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/actions", code: 200 })),
-).annotate({
-  identifier: "ListActionsRequest",
-}) as any as S.Schema<ListActionsRequest>;
+).annotate({ identifier: "ListActionsRequest" }) as any as S.Schema<ListActionsRequest>;
 
 export type ListActionsResponseActionsList = Array<Action>;
 export const ListActionsResponseActionsList = /*@__PURE__*/ S.Array(
@@ -29575,16 +32363,12 @@ export const ListActionsResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListActionsResponse",
-}) as any as S.Schema<ListActionsResponse>;
+).annotate({ identifier: "ListActionsResponse" }) as any as S.Schema<ListActionsResponse>;
 
 export interface ListAddonsRequest {}
 export const ListAddonsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/add-ons/saas", code: 200 })),
-).annotate({
-  identifier: "ListAddonsRequest",
-}) as any as S.Schema<ListAddonsRequest>;
+).annotate({ identifier: "ListAddonsRequest" }) as any as S.Schema<ListAddonsRequest>;
 
 export type ListAddonsResponseResourcesList = Array<AddonsResource>;
 export const ListAddonsResponseResourcesList = /*@__PURE__*/ S.Array(
@@ -29598,9 +32382,7 @@ export const ListAddonsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resources: S.optional(ListAddonsResponseResourcesList),
   }),
-).annotate({
-  identifier: "ListAddonsResponse",
-}) as any as S.Schema<ListAddonsResponse>;
+).annotate({ identifier: "ListAddonsResponse" }) as any as S.Schema<ListAddonsResponse>;
 
 export interface ListAppAlertsRequest {
   /** The app ID */
@@ -29610,9 +32392,7 @@ export const ListAppAlertsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/apps/{app_id}/alerts", code: 200 })),
-).annotate({
-  identifier: "ListAppAlertsRequest",
-}) as any as S.Schema<ListAppAlertsRequest>;
+).annotate({ identifier: "ListAppAlertsRequest" }) as any as S.Schema<ListAppAlertsRequest>;
 
 export type AppsListAlertsResponseAlertsList = Array<AppAlert>;
 export const AppsListAlertsResponseAlertsList = /*@__PURE__*/ S.Array(
@@ -29626,9 +32406,7 @@ export const AppsListAlertsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     alerts: S.optional(AppsListAlertsResponseAlertsList),
   }),
-).annotate({
-  identifier: "AppsListAlertsResponse",
-}) as any as S.Schema<AppsListAlertsResponse>;
+).annotate({ identifier: "AppsListAlertsResponse" }) as any as S.Schema<AppsListAlertsResponse>;
 
 export type ListAppDeploymentsRequestDeploymentTypesItem =
   | "MANUAL"
@@ -29718,9 +32496,7 @@ export const ListAppEventsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     event_types: S.optional(ListAppEventsRequestEventTypesList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/apps/{app_id}/events", code: 200 })),
-).annotate({
-  identifier: "ListAppEventsRequest",
-}) as any as S.Schema<ListAppEventsRequest>;
+).annotate({ identifier: "ListAppEventsRequest" }) as any as S.Schema<ListAppEventsRequest>;
 
 export type ListAppEventsResponseEventsList = Array<AppEvent>;
 export const ListAppEventsResponseEventsList = /*@__PURE__*/ S.Array(
@@ -29736,9 +32512,7 @@ export const ListAppEventsResponse = /*@__PURE__*/ S.suspend(() =>
     events: S.optional(ListAppEventsResponseEventsList),
     links: S.optional(PageLinks),
   }),
-).annotate({
-  identifier: "ListAppEventsResponse",
-}) as any as S.Schema<ListAppEventsResponse>;
+).annotate({ identifier: "ListAppEventsResponse" }) as any as S.Schema<ListAppEventsResponse>;
 
 export interface ListAppInstanceSizesRequest {}
 export const ListAppInstanceSizesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -29789,13 +32563,7 @@ export const ListAppJobInvocationsRequest = /*@__PURE__*/ S.suspend(() =>
     deployment_id: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/apps/{app_id}/job-invocations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/apps/{app_id}/job-invocations", code: 200 })),
 ).annotate({
   identifier: "ListAppJobInvocationsRequest",
 }) as any as S.Schema<ListAppJobInvocationsRequest>;
@@ -29834,13 +32602,7 @@ export const ListAppMetricsBandwidthDailyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_ids: ListAppMetricsBandwidthDailyRequestAppIdsList,
     date: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/apps/metrics/bandwidth_daily",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/apps/metrics/bandwidth_daily", code: 200 })),
 ).annotate({
   identifier: "ListAppMetricsBandwidthDailyRequest",
 }) as any as S.Schema<ListAppMetricsBandwidthDailyRequest>;
@@ -29848,9 +32610,7 @@ export const ListAppMetricsBandwidthDailyRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ListAppRegionsRequest {}
 export const ListAppRegionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/apps/regions", code: 200 })),
-).annotate({
-  identifier: "ListAppRegionsRequest",
-}) as any as S.Schema<ListAppRegionsRequest>;
+).annotate({ identifier: "ListAppRegionsRequest" }) as any as S.Schema<ListAppRegionsRequest>;
 
 export type AppsListRegionsResponseRegionsList = Array<AppsRegion>;
 export const AppsListRegionsResponseRegionsList = /*@__PURE__*/ S.Array(
@@ -29864,9 +32624,7 @@ export const AppsListRegionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     regions: S.optional(AppsListRegionsResponseRegionsList),
   }),
-).annotate({
-  identifier: "AppsListRegionsResponse",
-}) as any as S.Schema<AppsListRegionsResponse>;
+).annotate({ identifier: "AppsListRegionsResponse" }) as any as S.Schema<AppsListRegionsResponse>;
 
 export interface ListAppsRequest {
   /** Which 'page' of paginated results to return. */
@@ -29882,9 +32640,7 @@ export const ListAppsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     with_projects: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/apps", code: 200 })),
-).annotate({
-  identifier: "ListAppsRequest",
-}) as any as S.Schema<ListAppsRequest>;
+).annotate({ identifier: "ListAppsRequest" }) as any as S.Schema<ListAppsRequest>;
 
 export type ListAppsResponseAppsList = Array<App>;
 export const ListAppsResponseAppsList = /*@__PURE__*/ S.Array(
@@ -29905,9 +32661,7 @@ export const ListAppsResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListAppsResponse",
-}) as any as S.Schema<ListAppsResponse>;
+).annotate({ identifier: "ListAppsResponse" }) as any as S.Schema<ListAppsResponse>;
 
 export interface ListAutoscalepoolHistoryRequest {
   /** A unique identifier for an autoscale pool. */
@@ -29923,11 +32677,7 @@ export const ListAutoscalepoolHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/droplets/autoscale/{autoscale_pool_id}/history",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/droplets/autoscale/{autoscale_pool_id}/history", code: 200 }),
   ),
 ).annotate({
   identifier: "ListAutoscalepoolHistoryRequest",
@@ -30006,11 +32756,7 @@ export const ListAutoscalepoolMembersRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/droplets/autoscale/{autoscale_pool_id}/members",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/droplets/autoscale/{autoscale_pool_id}/members", code: 200 }),
   ),
 ).annotate({
   identifier: "ListAutoscalepoolMembersRequest",
@@ -30035,9 +32781,7 @@ export const MemberCurrentUtilization = /*@__PURE__*/ S.suspend(() =>
     memory: S.optional(S.Number),
     cpu: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MemberCurrentUtilization",
-}) as any as S.Schema<MemberCurrentUtilization>;
+).annotate({ identifier: "MemberCurrentUtilization" }) as any as S.Schema<MemberCurrentUtilization>;
 
 export interface Member {
   /** The unique identifier of the Droplet. */
@@ -30132,13 +32876,7 @@ export const ListAutoscalepoolsResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface ListBillingHistoryRequest {}
 export const ListBillingHistoryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/customers/my/billing_history",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/customers/my/billing_history", code: 200 })),
 ).annotate({
   identifier: "ListBillingHistoryRequest",
 }) as any as S.Schema<ListBillingHistoryRequest>;
@@ -30269,9 +33007,7 @@ export const BillingDataPoint = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     group_description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BillingDataPoint",
-}) as any as S.Schema<BillingDataPoint>;
+).annotate({ identifier: "BillingDataPoint" }) as any as S.Schema<BillingDataPoint>;
 
 /** Array of billing data points, which are day-over-day changes in billing resource usage based on nightly invoice item estimates, for the requested period */
 export type ListBillingInsightsResponseDataPointsList = Array<BillingDataPoint>;
@@ -30311,9 +33047,7 @@ export const ListByoipPrefixesRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/byoip_prefixes", code: 200 })),
-).annotate({
-  identifier: "ListByoipPrefixesRequest",
-}) as any as S.Schema<ListByoipPrefixesRequest>;
+).annotate({ identifier: "ListByoipPrefixesRequest" }) as any as S.Schema<ListByoipPrefixesRequest>;
 
 export type ListByoipPrefixesResponseByoipPrefixesList = Array<ByoipPrefix>;
 export const ListByoipPrefixesResponseByoipPrefixesList = /*@__PURE__*/ S.Array(
@@ -30351,13 +33085,7 @@ export const ListByoipPrefixResourcesRequest = /*@__PURE__*/ S.suspend(() =>
     byoip_prefix_uuid: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/byoip_prefixes/{byoip_prefix_uuid}/ips",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/byoip_prefixes/{byoip_prefix_uuid}/ips", code: 200 })),
 ).annotate({
   identifier: "ListByoipPrefixResourcesRequest",
 }) as any as S.Schema<ListByoipPrefixResourcesRequest>;
@@ -30382,9 +33110,7 @@ export const ByoipPrefixResource = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.String),
     assigned_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ByoipPrefixResource",
-}) as any as S.Schema<ByoipPrefixResource>;
+).annotate({ identifier: "ByoipPrefixResource" }) as any as S.Schema<ByoipPrefixResource>;
 
 export type ListByoipPrefixResourcesResponseIpsList = Array<ByoipPrefixResource>;
 export const ListByoipPrefixResourcesResponseIpsList = /*@__PURE__*/ S.Array(
@@ -30420,9 +33146,7 @@ export const ListCdnEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/cdn/endpoints", code: 200 })),
-).annotate({
-  identifier: "ListCdnEndpointsRequest",
-}) as any as S.Schema<ListCdnEndpointsRequest>;
+).annotate({ identifier: "ListCdnEndpointsRequest" }) as any as S.Schema<ListCdnEndpointsRequest>;
 
 export type ListCdnEndpointsResponseEndpointsList = Array<CdnEndpoint>;
 export const ListCdnEndpointsResponseEndpointsList = /*@__PURE__*/ S.Array(
@@ -30443,9 +33167,7 @@ export const ListCdnEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListCdnEndpointsResponse",
-}) as any as S.Schema<ListCdnEndpointsResponse>;
+).annotate({ identifier: "ListCdnEndpointsResponse" }) as any as S.Schema<ListCdnEndpointsResponse>;
 
 export interface ListCertificatesRequest {
   /** Number of items returned per page */
@@ -30461,9 +33183,7 @@ export const ListCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     name: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/certificates", code: 200 })),
-).annotate({
-  identifier: "ListCertificatesRequest",
-}) as any as S.Schema<ListCertificatesRequest>;
+).annotate({ identifier: "ListCertificatesRequest" }) as any as S.Schema<ListCertificatesRequest>;
 
 export type ListCertificatesResponseCertificatesList = Array<Certificate>;
 export const ListCertificatesResponseCertificatesList = /*@__PURE__*/ S.Array(
@@ -30484,9 +33204,81 @@ export const ListCertificatesResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListCertificatesResponse",
-}) as any as S.Schema<ListCertificatesResponse>;
+).annotate({ identifier: "ListCertificatesResponse" }) as any as S.Schema<ListCertificatesResponse>;
+
+export type ListConnectionsRequestStatus = "pending" | "active" | "expired";
+export const ListConnectionsRequestStatus = S.String;
+
+export type ListConnectionsRequestSort = "created_at" | "provider" | "user_id" | "status";
+export const ListConnectionsRequestSort = S.String;
+
+export type ListConnectionsRequestSortDirection = "asc" | "desc";
+export const ListConnectionsRequestSortDirection = S.String;
+
+export interface ListConnectionsRequest {
+  /** Optional provider slug, matched exactly. */
+  provider?: string;
+  /** Optional substring of `user_id`. It must use the `user_id` alphabet, `[A-Za-z0-9._-]`. */
+  user_id?: string;
+  /** pending|active|revoked|expired. List results always omit revoked connections, including when this filter is revoked. */
+  status?: ListConnectionsRequestStatus | (string & {});
+  /** `created_at`, provider, `user_id`, or status. Defaults to provider, then `user_id`. */
+  sort?: ListConnectionsRequestSort | (string & {});
+  /** asc (the default) or desc. */
+  sort_direction?: ListConnectionsRequestSortDirection | (string & {});
+  /** 1-based page number. Values below 1 are treated as 1. */
+  page?: number;
+  /** Page size. Defaults to 20; values above 100 are capped at 100. */
+  per_page?: number;
+}
+export const ListConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: S.optional(S.String.pipe(T.Query())),
+    user_id: S.optional(S.String.pipe(T.Query())),
+    status: S.optional(ListConnectionsRequestStatus.pipe(T.Query())),
+    sort: S.optional(ListConnectionsRequestSort.pipe(T.Query())),
+    sort_direction: S.optional(ListConnectionsRequestSortDirection.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/connections", code: 200 })),
+).annotate({ identifier: "ListConnectionsRequest" }) as any as S.Schema<ListConnectionsRequest>;
+
+/** Connections on this page. */
+export type ListConnectionsResponseConnectionsList = Array<Connection>;
+export const ListConnectionsResponseConnectionsList = /*@__PURE__*/ S.Array(
+  Connection,
+) as any as S.Schema<ListConnectionsResponseConnectionsList>;
+
+/** Describes one page of an offset-paged list. */
+export interface Pagination {
+  /** 1-based page number of this response. */
+  page?: number;
+  /** Page size applied to this response, after defaults and caps. */
+  per_page?: number;
+  /** Number of matching items across all pages. */
+  total?: number;
+}
+export const Pagination = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    page: S.optional(S.Number),
+    per_page: S.optional(S.Number),
+    total: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Pagination" }) as any as S.Schema<Pagination>;
+
+/** One page of connections. */
+export interface ListConnectionsResponse {
+  /** Connections on this page. */
+  connections?: ListConnectionsResponseConnectionsList;
+  /** Paging applied to this response and the total number of connections. */
+  pagination?: Pagination;
+}
+export const ListConnectionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connections: S.optional(ListConnectionsResponseConnectionsList),
+    pagination: S.optional(Pagination),
+  }),
+).annotate({ identifier: "ListConnectionsResponse" }) as any as S.Schema<ListConnectionsResponse>;
 
 export interface ListDatabaseBackupsRequest {
   /** A unique identifier for a database cluster. */
@@ -30496,11 +33288,7 @@ export const ListDatabaseBackupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/databases/{database_cluster_uuid}/backups",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/databases/{database_cluster_uuid}/backups", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDatabaseBackupsRequest",
@@ -30596,13 +33384,7 @@ export interface ListDatabaseConnectionPoolsRequest {
 export const ListDatabaseConnectionPoolsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/databases/{database_cluster_uuid}/pools",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/databases/{database_cluster_uuid}/pools", code: 200 })),
 ).annotate({
   identifier: "ListDatabaseConnectionPoolsRequest",
 }) as any as S.Schema<ListDatabaseConnectionPoolsRequest>;
@@ -30621,9 +33403,7 @@ export const ConnectionPools = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pools: S.optional(ConnectionPoolsPoolsList),
   }),
-).annotate({
-  identifier: "ConnectionPools",
-}) as any as S.Schema<ConnectionPools>;
+).annotate({ identifier: "ConnectionPools" }) as any as S.Schema<ConnectionPools>;
 
 export interface ListDatabaseEventsLogsRequest {
   /** A unique identifier for a database cluster. */
@@ -30633,11 +33413,7 @@ export const ListDatabaseEventsLogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/databases/{database_cluster_uuid}/events",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/databases/{database_cluster_uuid}/events", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDatabaseEventsLogsRequest",
@@ -30697,11 +33473,7 @@ export const ListDatabaseFirewallRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/databases/{database_cluster_uuid}/firewall",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/databases/{database_cluster_uuid}/firewall", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDatabaseFirewallRulesRequest",
@@ -30762,9 +33534,7 @@ export const KafkaSchemaVerbose = /*@__PURE__*/ S.suspend(() =>
     schema_type: S.optional(KafkaSchemaVerboseSchemaType),
     schema: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KafkaSchemaVerbose",
-}) as any as S.Schema<KafkaSchemaVerbose>;
+).annotate({ identifier: "KafkaSchemaVerbose" }) as any as S.Schema<KafkaSchemaVerbose>;
 
 export type ListDatabaseKafkaSchemasResponseSubjectsList = Array<KafkaSchemaVerbose>;
 export const ListDatabaseKafkaSchemasResponseSubjectsList = /*@__PURE__*/ S.Array(
@@ -30790,11 +33560,7 @@ export const ListDatabaseKafkaTopicsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/databases/{database_cluster_uuid}/topics",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/databases/{database_cluster_uuid}/topics", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDatabaseKafkaTopicsRequest",
@@ -30847,11 +33613,7 @@ export const ListDatabaseLogsinkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/databases/{database_cluster_uuid}/logsink",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/databases/{database_cluster_uuid}/logsink", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDatabaseLogsinkRequest",
@@ -30881,11 +33643,7 @@ export const ListDatabaseOpeasearchIndexesRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/databases/{database_cluster_uuid}/indexes",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/databases/{database_cluster_uuid}/indexes", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDatabaseOpeasearchIndexesRequest",
@@ -30925,9 +33683,7 @@ export const OpensearchIndex = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(OpensearchIndexStatus),
     health: S.optional(OpensearchIndexHealth),
   }),
-).annotate({
-  identifier: "OpensearchIndex",
-}) as any as S.Schema<OpensearchIndex>;
+).annotate({ identifier: "OpensearchIndex" }) as any as S.Schema<OpensearchIndex>;
 
 export type ListDatabaseOpeasearchIndexesResponseIndexesList = Array<OpensearchIndex>;
 export const ListDatabaseOpeasearchIndexesResponseIndexesList = /*@__PURE__*/ S.Array(
@@ -30980,9 +33736,7 @@ export const DatabaseLayoutOption = /*@__PURE__*/ S.suspend(() =>
     num_nodes: S.optional(S.Number),
     sizes: S.optional(DatabaseLayoutOptionSizesList),
   }),
-).annotate({
-  identifier: "DatabaseLayoutOption",
-}) as any as S.Schema<DatabaseLayoutOption>;
+).annotate({ identifier: "DatabaseLayoutOption" }) as any as S.Schema<DatabaseLayoutOption>;
 
 /** An array of objects, each indicating the node sizes (otherwise referred to as slugs) that are available with various numbers of nodes in the database cluster. Each slugs denotes the node's identifier, CPU, and RAM (in that order). */
 export type OptionsOptionsKafkaLayoutsList = Array<DatabaseLayoutOption>;
@@ -31004,9 +33758,7 @@ export const OptionsOptionsKafka = /*@__PURE__*/ S.suspend(() =>
     versions: S.optional(OptionsOptionsKafkaVersionsList),
     layouts: S.optional(OptionsOptionsKafkaLayoutsList),
   }),
-).annotate({
-  identifier: "OptionsOptionsKafka",
-}) as any as S.Schema<OptionsOptionsKafka>;
+).annotate({ identifier: "OptionsOptionsKafka" }) as any as S.Schema<OptionsOptionsKafka>;
 
 /** An array of strings containing the names of available regions */
 export type OptionsOptionsMongodbRegionsList = Array<string>;
@@ -31040,9 +33792,7 @@ export const OptionsOptionsMongodb = /*@__PURE__*/ S.suspend(() =>
     versions: S.optional(OptionsOptionsMongodbVersionsList),
     layouts: S.optional(OptionsOptionsMongodbLayoutsList),
   }),
-).annotate({
-  identifier: "OptionsOptionsMongodb",
-}) as any as S.Schema<OptionsOptionsMongodb>;
+).annotate({ identifier: "OptionsOptionsMongodb" }) as any as S.Schema<OptionsOptionsMongodb>;
 
 /** An array of strings containing the names of available regions */
 export type OptionsOptionsPgRegionsList = Array<string>;
@@ -31076,9 +33826,7 @@ export const OptionsOptionsPg = /*@__PURE__*/ S.suspend(() =>
     versions: S.optional(OptionsOptionsPgVersionsList),
     layouts: S.optional(OptionsOptionsPgLayoutsList),
   }),
-).annotate({
-  identifier: "OptionsOptionsPg",
-}) as any as S.Schema<OptionsOptionsPg>;
+).annotate({ identifier: "OptionsOptionsPg" }) as any as S.Schema<OptionsOptionsPg>;
 
 /** An array of strings containing the names of available regions */
 export type OptionsOptionsMysqlRegionsList = Array<string>;
@@ -31112,9 +33860,7 @@ export const OptionsOptionsMysql = /*@__PURE__*/ S.suspend(() =>
     versions: S.optional(OptionsOptionsMysqlVersionsList),
     layouts: S.optional(OptionsOptionsMysqlLayoutsList),
   }),
-).annotate({
-  identifier: "OptionsOptionsMysql",
-}) as any as S.Schema<OptionsOptionsMysql>;
+).annotate({ identifier: "OptionsOptionsMysql" }) as any as S.Schema<OptionsOptionsMysql>;
 
 /** An array of strings containing the names of available regions */
 export type OptionsOptionsRedisRegionsList = Array<string>;
@@ -31148,9 +33894,7 @@ export const OptionsOptionsRedis = /*@__PURE__*/ S.suspend(() =>
     versions: S.optional(OptionsOptionsRedisVersionsList),
     layouts: S.optional(OptionsOptionsRedisLayoutsList),
   }),
-).annotate({
-  identifier: "OptionsOptionsRedis",
-}) as any as S.Schema<OptionsOptionsRedis>;
+).annotate({ identifier: "OptionsOptionsRedis" }) as any as S.Schema<OptionsOptionsRedis>;
 
 /** An array of strings containing the names of available regions */
 export type OptionsOptionsValkeyRegionsList = Array<string>;
@@ -31184,9 +33928,7 @@ export const OptionsOptionsValkey = /*@__PURE__*/ S.suspend(() =>
     versions: S.optional(OptionsOptionsValkeyVersionsList),
     layouts: S.optional(OptionsOptionsValkeyLayoutsList),
   }),
-).annotate({
-  identifier: "OptionsOptionsValkey",
-}) as any as S.Schema<OptionsOptionsValkey>;
+).annotate({ identifier: "OptionsOptionsValkey" }) as any as S.Schema<OptionsOptionsValkey>;
 
 /** An array of strings containing the names of available regions */
 export type OptionsOptionsOpensearchRegionsList = Array<string>;
@@ -31220,9 +33962,7 @@ export const OptionsOptionsOpensearch = /*@__PURE__*/ S.suspend(() =>
     versions: S.optional(OptionsOptionsOpensearchVersionsList),
     layouts: S.optional(OptionsOptionsOpensearchLayoutsList),
   }),
-).annotate({
-  identifier: "OptionsOptionsOpensearch",
-}) as any as S.Schema<OptionsOptionsOpensearch>;
+).annotate({ identifier: "OptionsOptionsOpensearch" }) as any as S.Schema<OptionsOptionsOpensearch>;
 
 /** An array of strings containing the names of available regions */
 export type OptionsOptionsAdvancedPgRegionsList = Array<string>;
@@ -31256,9 +33996,7 @@ export const OptionsOptionsAdvancedPg = /*@__PURE__*/ S.suspend(() =>
     versions: S.optional(OptionsOptionsAdvancedPgVersionsList),
     layouts: S.optional(OptionsOptionsAdvancedPgLayoutsList),
   }),
-).annotate({
-  identifier: "OptionsOptionsAdvancedPg",
-}) as any as S.Schema<OptionsOptionsAdvancedPg>;
+).annotate({ identifier: "OptionsOptionsAdvancedPg" }) as any as S.Schema<OptionsOptionsAdvancedPg>;
 
 /** An array of strings containing the names of available regions */
 export type OptionsOptionsAdvancedMysqlRegionsList = Array<string>;
@@ -31391,11 +34129,7 @@ export const ListDatabaseReplicasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/databases/{database_cluster_uuid}/replicas",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/databases/{database_cluster_uuid}/replicas", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDatabaseReplicasRequest",
@@ -31424,16 +34158,8 @@ export interface ListDatabasesRequest {
 export const ListDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/databases/{database_cluster_uuid}/dbs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListDatabasesRequest",
-}) as any as S.Schema<ListDatabasesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/databases/{database_cluster_uuid}/dbs", code: 200 })),
+).annotate({ identifier: "ListDatabasesRequest" }) as any as S.Schema<ListDatabasesRequest>;
 
 export type ListDatabasesResponseDbsList = Array<Database>;
 export const ListDatabasesResponseDbsList = /*@__PURE__*/ S.Array(
@@ -31447,9 +34173,7 @@ export const ListDatabasesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dbs: S.optional(ListDatabasesResponseDbsList),
   }),
-).annotate({
-  identifier: "ListDatabasesResponse",
-}) as any as S.Schema<ListDatabasesResponse>;
+).annotate({ identifier: "ListDatabasesResponse" }) as any as S.Schema<ListDatabasesResponse>;
 
 export interface ListDatabaseUsersRequest {
   /** A unique identifier for a database cluster. */
@@ -31458,16 +34182,8 @@ export interface ListDatabaseUsersRequest {
 export const ListDatabaseUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/databases/{database_cluster_uuid}/users",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListDatabaseUsersRequest",
-}) as any as S.Schema<ListDatabaseUsersRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/databases/{database_cluster_uuid}/users", code: 200 })),
+).annotate({ identifier: "ListDatabaseUsersRequest" }) as any as S.Schema<ListDatabaseUsersRequest>;
 
 export type ListDatabaseUsersResponseUsersList = Array<DatabaseUser>;
 export const ListDatabaseUsersResponseUsersList = /*@__PURE__*/ S.Array(
@@ -31564,9 +34280,7 @@ export const ListDedicatedInferencesResponseDedicatedInferencesList = /*@__PURE_
 ) as any as S.Schema<ListDedicatedInferencesResponseDedicatedInferencesList>;
 
 /** Pagination links (first, prev, next, last). */
-export type ListDedicatedInferencesResponseLinksPagesMap = {
-  [key: string]: string | undefined;
-};
+export type ListDedicatedInferencesResponseLinksPagesMap = { [key: string]: string | undefined };
 export const ListDedicatedInferencesResponseLinksPagesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -31638,9 +34352,7 @@ export const DedicatedInferenceSize = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     currency: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DedicatedInferenceSize",
-}) as any as S.Schema<DedicatedInferenceSize>;
+).annotate({ identifier: "DedicatedInferenceSize" }) as any as S.Schema<DedicatedInferenceSize>;
 
 export type DedicatedInferenceSizesResponseSizesList = Array<DedicatedInferenceSize>;
 export const DedicatedInferenceSizesResponseSizesList = /*@__PURE__*/ S.Array(
@@ -31764,16 +34476,8 @@ export const ListDomainRecordsRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ListDomainRecordsRequestType.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/domains/{domain_name}/records",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListDomainRecordsRequest",
-}) as any as S.Schema<ListDomainRecordsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/domains/{domain_name}/records", code: 200 })),
+).annotate({ identifier: "ListDomainRecordsRequest" }) as any as S.Schema<ListDomainRecordsRequest>;
 
 export type ListDomainRecordsResponseDomainRecordsList = Array<DomainRecord>;
 export const ListDomainRecordsResponseDomainRecordsList = /*@__PURE__*/ S.Array(
@@ -31809,9 +34513,7 @@ export const ListDomainsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/domains", code: 200 })),
-).annotate({
-  identifier: "ListDomainsRequest",
-}) as any as S.Schema<ListDomainsRequest>;
+).annotate({ identifier: "ListDomainsRequest" }) as any as S.Schema<ListDomainsRequest>;
 
 /** Array of volumes. */
 export type ListDomainsResponseDomainsList = Array<DomainOutput>;
@@ -31834,9 +34536,7 @@ export const ListDomainsResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListDomainsResponse",
-}) as any as S.Schema<ListDomainsResponse>;
+).annotate({ identifier: "ListDomainsResponse" }) as any as S.Schema<ListDomainsResponse>;
 
 export interface ListDropletActionsRequest {
   /** A unique identifier for a Droplet instance. */
@@ -31851,13 +34551,7 @@ export const ListDropletActionsRequest = /*@__PURE__*/ S.suspend(() =>
     droplet_id: S.Number.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/droplets/{droplet_id}/actions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/droplets/{droplet_id}/actions", code: 200 })),
 ).annotate({
   identifier: "ListDropletActionsRequest",
 }) as any as S.Schema<ListDropletActionsRequest>;
@@ -31918,9 +34612,7 @@ export const AssociatedResource = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     cost: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AssociatedResource",
-}) as any as S.Schema<AssociatedResource>;
+).annotate({ identifier: "AssociatedResource" }) as any as S.Schema<AssociatedResource>;
 
 /** Reserved IPs that are associated with this Droplet.<br>Requires `reserved_ip:read` scope. */
 export type ListDropletAssociatedResourcesResponseReservedIpsList = Array<AssociatedResource>;
@@ -32032,13 +34724,7 @@ export const ListDropletBackupsRequest = /*@__PURE__*/ S.suspend(() =>
     droplet_id: S.Number.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/droplets/{droplet_id}/backups",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/droplets/{droplet_id}/backups", code: 200 })),
 ).annotate({
   identifier: "ListDropletBackupsRequest",
 }) as any as S.Schema<ListDropletBackupsRequest>;
@@ -32079,9 +34765,7 @@ export const DropletSnapshot = /*@__PURE__*/ S.suspend(() =>
     size_gigabytes: S.Number,
     type: DropletSnapshotType,
   }),
-).annotate({
-  identifier: "DropletSnapshot",
-}) as any as S.Schema<DropletSnapshot>;
+).annotate({ identifier: "DropletSnapshot" }) as any as S.Schema<DropletSnapshot>;
 
 export type ListDropletBackupsResponseBackupsList = Array<DropletSnapshot>;
 export const ListDropletBackupsResponseBackupsList = /*@__PURE__*/ S.Array(
@@ -32119,13 +34803,7 @@ export const ListDropletFirewallsRequest = /*@__PURE__*/ S.suspend(() =>
     droplet_id: S.Number.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/droplets/{droplet_id}/firewalls",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/droplets/{droplet_id}/firewalls", code: 200 })),
 ).annotate({
   identifier: "ListDropletFirewallsRequest",
 }) as any as S.Schema<ListDropletFirewallsRequest>;
@@ -32166,20 +34844,14 @@ export const ListDropletKernelsRequest = /*@__PURE__*/ S.suspend(() =>
     droplet_id: S.Number.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/droplets/{droplet_id}/kernels",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/droplets/{droplet_id}/kernels", code: 200 })),
 ).annotate({
   identifier: "ListDropletKernelsRequest",
 }) as any as S.Schema<ListDropletKernelsRequest>;
 
-export type ListDropletKernelsResponseKernelsList = Array<Kernel>;
+export type ListDropletKernelsResponseKernelsList = Array<Kernel | null>;
 export const ListDropletKernelsResponseKernelsList = /*@__PURE__*/ S.Array(
-  Kernel,
+  S.NullOr(Kernel),
 ) as any as S.Schema<ListDropletKernelsResponseKernelsList>;
 
 export type ListDropletKernelsResponseMeta = GetInvoiceByUUIDResponseMeta;
@@ -32207,13 +34879,7 @@ export interface ListDropletNeighborsRequest {
 export const ListDropletNeighborsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     droplet_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/droplets/{droplet_id}/neighbors",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/droplets/{droplet_id}/neighbors", code: 200 })),
 ).annotate({
   identifier: "ListDropletNeighborsRequest",
 }) as any as S.Schema<ListDropletNeighborsRequest>;
@@ -32236,13 +34902,7 @@ export const ListDropletNeighborsResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface ListDropletNeighborsIdsRequest {}
 export const ListDropletNeighborsIdsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/reports/droplet_neighbors_ids",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/reports/droplet_neighbors_ids", code: 200 })),
 ).annotate({
   identifier: "ListDropletNeighborsIdsRequest",
 }) as any as S.Schema<ListDropletNeighborsIdsRequest>;
@@ -32291,9 +34951,7 @@ export const ListDropletsRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String.pipe(T.Query())),
     type: S.optional(ListDropletsRequestType.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/droplets", code: 200 })),
-).annotate({
-  identifier: "ListDropletsRequest",
-}) as any as S.Schema<ListDropletsRequest>;
+).annotate({ identifier: "ListDropletsRequest" }) as any as S.Schema<ListDropletsRequest>;
 
 export type ListDropletsResponseDropletsList = Array<Droplet>;
 export const ListDropletsResponseDropletsList = /*@__PURE__*/ S.Array(
@@ -32314,9 +34972,7 @@ export const ListDropletsResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListDropletsResponse",
-}) as any as S.Schema<ListDropletsResponse>;
+).annotate({ identifier: "ListDropletsResponse" }) as any as S.Schema<ListDropletsResponse>;
 
 export interface ListDropletSnapshotsRequest {
   /** A unique identifier for a Droplet instance. */
@@ -32331,13 +34987,7 @@ export const ListDropletSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
     droplet_id: S.Number.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/droplets/{droplet_id}/snapshots",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/droplets/{droplet_id}/snapshots", code: 200 })),
 ).annotate({
   identifier: "ListDropletSnapshotsRequest",
 }) as any as S.Schema<ListDropletSnapshotsRequest>;
@@ -32368,11 +35018,7 @@ export const ListDropletSnapshotsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListDropletSupportedBackupPoliciesRequest {}
 export const ListDropletSupportedBackupPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/droplets/backups/supported_policies",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/droplets/backups/supported_policies", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDropletSupportedBackupPoliciesRequest",
@@ -32443,9 +35089,7 @@ export const ListFirewallsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/firewalls", code: 200 })),
-).annotate({
-  identifier: "ListFirewallsRequest",
-}) as any as S.Schema<ListFirewallsRequest>;
+).annotate({ identifier: "ListFirewallsRequest" }) as any as S.Schema<ListFirewallsRequest>;
 
 export type ListFirewallsResponseFirewallsList = Array<Firewall>;
 export const ListFirewallsResponseFirewallsList = /*@__PURE__*/ S.Array(
@@ -32466,9 +35110,7 @@ export const ListFirewallsResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListFirewallsResponse",
-}) as any as S.Schema<ListFirewallsResponse>;
+).annotate({ identifier: "ListFirewallsResponse" }) as any as S.Schema<ListFirewallsResponse>;
 
 export interface ListFloatingIPsRequest {
   /** Number of items returned per page */
@@ -32481,9 +35123,7 @@ export const ListFloatingIPsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/floating_ips", code: 200 })),
-).annotate({
-  identifier: "ListFloatingIPsRequest",
-}) as any as S.Schema<ListFloatingIPsRequest>;
+).annotate({ identifier: "ListFloatingIPsRequest" }) as any as S.Schema<ListFloatingIPsRequest>;
 
 export type ListFloatingIPsResponseFloatingIpsList = Array<FloatingIp>;
 export const ListFloatingIPsResponseFloatingIpsList = /*@__PURE__*/ S.Array(
@@ -32504,9 +35144,7 @@ export const ListFloatingIPsResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListFloatingIPsResponse",
-}) as any as S.Schema<ListFloatingIPsResponse>;
+).annotate({ identifier: "ListFloatingIPsResponse" }) as any as S.Schema<ListFloatingIPsResponse>;
 
 export interface ListFloatingIPsActionRequest {
   /** A floating IP address. */
@@ -32515,13 +35153,7 @@ export interface ListFloatingIPsActionRequest {
 export const ListFloatingIPsActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     floating_ip: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/floating_ips/{floating_ip}/actions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/floating_ips/{floating_ip}/actions", code: 200 })),
 ).annotate({
   identifier: "ListFloatingIPsActionRequest",
 }) as any as S.Schema<ListFloatingIPsActionRequest>;
@@ -32580,11 +35212,7 @@ export const ListFunctionsAccessKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/functions/namespaces/{namespace_id}/keys",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/functions/namespaces/{namespace_id}/keys", code: 200 }),
   ),
 ).annotate({
   identifier: "ListFunctionsAccessKeyRequest",
@@ -32639,11 +35267,7 @@ export const ListFunctionTriggersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/functions/namespaces/{namespace_id}/triggers",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/functions/namespaces/{namespace_id}/triggers", code: 200 }),
   ),
 ).annotate({
   identifier: "ListFunctionTriggersRequest",
@@ -32678,13 +35302,7 @@ export const ListGenaiAgentApiKeysRequest = /*@__PURE__*/ S.suspend(() =>
     agent_uuid: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/agents/{agent_uuid}/api_keys",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/agents/{agent_uuid}/api_keys", code: 200 })),
 ).annotate({
   identifier: "ListGenaiAgentApiKeysRequest",
 }) as any as S.Schema<ListGenaiAgentApiKeysRequest>;
@@ -32725,9 +35343,7 @@ export const ListGenaiAgentsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/agents", code: 200 })),
-).annotate({
-  identifier: "ListGenaiAgentsRequest",
-}) as any as S.Schema<ListGenaiAgentsRequest>;
+).annotate({ identifier: "ListGenaiAgentsRequest" }) as any as S.Schema<ListGenaiAgentsRequest>;
 
 /** Chatbot identifiers */
 export type ApiAgentPublicChatbotIdentifiersList = Array<ApiAgentChatbotIdentifier>;
@@ -32887,13 +35503,7 @@ export const ListGenaiAgentsByAnthropicKeyRequest = /*@__PURE__*/ S.suspend(() =
     uuid: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/anthropic/keys/{uuid}/agents",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/anthropic/keys/{uuid}/agents", code: 200 })),
 ).annotate({
   identifier: "ListGenaiAgentsByAnthropicKeyRequest",
 }) as any as S.Schema<ListGenaiAgentsByAnthropicKeyRequest>;
@@ -32932,13 +35542,7 @@ export const ListGenaiAgentsByOpenaiKeyRequest = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/openai/keys/{uuid}/agents",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/openai/keys/{uuid}/agents", code: 200 })),
 ).annotate({
   identifier: "ListGenaiAgentsByOpenaiKeyRequest",
 }) as any as S.Schema<ListGenaiAgentsByOpenaiKeyRequest>;
@@ -32981,11 +35585,7 @@ export const ListGenaiAgentsByWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/workspaces/{workspace_uuid}/agents",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/gen-ai/workspaces/{workspace_uuid}/agents", code: 200 }),
   ),
 ).annotate({
   identifier: "ListGenaiAgentsByWorkspaceRequest",
@@ -33024,13 +35624,7 @@ export const ListGenaiAgentVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/agents/{uuid}/versions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/agents/{uuid}/versions", code: 200 })),
 ).annotate({
   identifier: "ListGenaiAgentVersionsRequest",
 }) as any as S.Schema<ListGenaiAgentVersionsRequest>;
@@ -33086,9 +35680,7 @@ export const ApiAgentFunctionVersion = /*@__PURE__*/ S.suspend(() =>
     is_deleted: S.optional(S.Boolean),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiAgentFunctionVersion",
-}) as any as S.Schema<ApiAgentFunctionVersion>;
+).annotate({ identifier: "ApiAgentFunctionVersion" }) as any as S.Schema<ApiAgentFunctionVersion>;
 
 /** List of function versions */
 export type ApiAgentVersionAttachedFunctionsList = Array<ApiAgentFunctionVersion>;
@@ -33114,9 +35706,7 @@ export const ApiAgentGuardrailVersion = /*@__PURE__*/ S.suspend(() =>
     priority: S.optional(S.Number),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiAgentGuardrailVersion",
-}) as any as S.Schema<ApiAgentGuardrailVersion>;
+).annotate({ identifier: "ApiAgentGuardrailVersion" }) as any as S.Schema<ApiAgentGuardrailVersion>;
 
 /** List of guardrail version */
 export type ApiAgentVersionAttachedGuardrailsList = Array<ApiAgentGuardrailVersion>;
@@ -33228,9 +35818,7 @@ export const ApiAgentVersion = /*@__PURE__*/ S.suspend(() =>
     trigger_action: S.optional(S.String),
     version_hash: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiAgentVersion",
-}) as any as S.Schema<ApiAgentVersion>;
+).annotate({ identifier: "ApiAgentVersion" }) as any as S.Schema<ApiAgentVersion>;
 
 /** Agents */
 export type ApiListAgentVersionsOutputAgentVersionsList = Array<ApiAgentVersion>;
@@ -33398,24 +35986,26 @@ export const ApiListRegionsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     regions: S.optional(ApiListRegionsOutputRegionsList),
   }),
-).annotate({
-  identifier: "ApiListRegionsOutput",
-}) as any as S.Schema<ApiListRegionsOutput>;
+).annotate({ identifier: "ApiListRegionsOutput" }) as any as S.Schema<ApiListRegionsOutput>;
 
 export type ListGenaiEvaluationDatasetsRequestDatasetType =
   | "EVALUATION_DATASET_TYPE_UNKNOWN"
-  | "EVALUATION_DATASET_TYPE_ADK"
-  | "EVALUATION_DATASET_TYPE_NON_ADK"
   | "EVALUATION_DATASET_TYPE_MODEL";
 export const ListGenaiEvaluationDatasetsRequestDatasetType = S.String;
 
 export interface ListGenaiEvaluationDatasetsRequest {
   /** Filter by evaluation dataset type. */
   dataset_type?: ListGenaiEvaluationDatasetsRequestDatasetType | (string & {});
+  /** Filter by evaluation dataset paradigm (row/content shape). */
+  dataset_paradigm?: ApiEvaluationDatasetParadigm | (string & {});
+  /** Filter by whether the dataset includes ground-truth values. */
+  has_ground_truth?: boolean;
 }
 export const ListGenaiEvaluationDatasetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dataset_type: S.optional(ListGenaiEvaluationDatasetsRequestDatasetType.pipe(T.Query())),
+    dataset_paradigm: S.optional(ApiEvaluationDatasetParadigm.pipe(T.Query())),
+    has_ground_truth: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/evaluation_datasets", code: 200 })),
 ).annotate({
   identifier: "ListGenaiEvaluationDatasetsRequest",
@@ -33504,13 +36094,7 @@ export const ApiListEvaluationRunsByTestCaseOutput = /*@__PURE__*/ S.suspend(() 
 
 export interface ListGenaiEvaluationTestCasesRequest {}
 export const ListGenaiEvaluationTestCasesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/evaluation_test_cases",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/evaluation_test_cases", code: 200 })),
 ).annotate({
   identifier: "ListGenaiEvaluationTestCasesRequest",
 }) as any as S.Schema<ListGenaiEvaluationTestCasesRequest>;
@@ -33989,9 +36573,7 @@ export const ApiModelCatalogEntry = /*@__PURE__*/ S.suspend(() =>
     short_description: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiModelCatalogEntry",
-}) as any as S.Schema<ApiModelCatalogEntry>;
+).annotate({ identifier: "ApiModelCatalogEntry" }) as any as S.Schema<ApiModelCatalogEntry>;
 
 export type ApiListModelCatalogOutputDataList = Array<ApiModelCatalogEntry>;
 export const ApiListModelCatalogOutputDataList = /*@__PURE__*/ S.Array(
@@ -34032,11 +36614,7 @@ export const ApiListModelCatalogOutput = /*@__PURE__*/ S.suspend(() =>
 export interface ListGenaiModelEvaluationMetricsRequest {}
 export const ListGenaiModelEvaluationMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/model_evaluation_metrics",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/gen-ai/model_evaluation_metrics", code: 200 }),
   ),
 ).annotate({
   identifier: "ListGenaiModelEvaluationMetricsRequest",
@@ -34063,11 +36641,7 @@ export const ApiListModelEvaluationMetricsOutput = /*@__PURE__*/ S.suspend(() =>
 export interface ListGenaiModelEvaluationPresetsRequest {}
 export const ListGenaiModelEvaluationPresetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/model_evaluation_presets",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/gen-ai/model_evaluation_presets", code: 200 }),
   ),
 ).annotate({
   identifier: "ListGenaiModelEvaluationPresetsRequest",
@@ -34180,13 +36754,7 @@ export const ListGenaiModelEvaluationRunsRequest = /*@__PURE__*/ S.suspend(() =>
     search: S.optional(S.String.pipe(T.Query())),
     sort_by: S.optional(ListGenaiModelEvaluationRunsRequestSortBy.pipe(T.Query())),
     sort_direction: S.optional(ListGenaiModelEvaluationRunsRequestSortDirection.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/model_evaluation_runs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/model_evaluation_runs", code: 200 })),
 ).annotate({
   identifier: "ListGenaiModelEvaluationRunsRequest",
 }) as any as S.Schema<ListGenaiModelEvaluationRunsRequest>;
@@ -34245,13 +36813,7 @@ export const ListGenaiModelRouterPresetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/models/routers/presets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/models/routers/presets", code: 200 })),
 ).annotate({
   identifier: "ListGenaiModelRouterPresetsRequest",
 }) as any as S.Schema<ListGenaiModelRouterPresetsRequest>;
@@ -34276,9 +36838,7 @@ export const ApiModelRouterPreset = /*@__PURE__*/ S.suspend(() =>
     short_description: S.optional(S.String),
     slug: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiModelRouterPreset",
-}) as any as S.Schema<ApiModelRouterPreset>;
+).annotate({ identifier: "ApiModelRouterPreset" }) as any as S.Schema<ApiModelRouterPreset>;
 
 /** The model router presets */
 export type ApiListModelRouterPresetsOutputPresetsList = Array<ApiModelRouterPreset>;
@@ -34351,13 +36911,7 @@ export const ListGenaiModelRouterTaskPresetsRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/gen-ai/models/routers/tasks/presets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/models/routers/tasks/presets", code: 200 })),
 ).annotate({
   identifier: "ListGenaiModelRouterTaskPresetsRequest",
 }) as any as S.Schema<ListGenaiModelRouterTaskPresetsRequest>;
@@ -34400,9 +36954,7 @@ export const ApiModelRouterTaskPreset = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(ApiModelRouterTaskPresetTagsList),
     task_slug: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiModelRouterTaskPreset",
-}) as any as S.Schema<ApiModelRouterTaskPreset>;
+).annotate({ identifier: "ApiModelRouterTaskPreset" }) as any as S.Schema<ApiModelRouterTaskPreset>;
 
 /** The task presets */
 export type ApiListModelRouterTaskPresetsOutputTasksList = Array<ApiModelRouterTaskPreset>;
@@ -34461,9 +37013,7 @@ export const ListGenaiModelsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/models", code: 200 })),
-).annotate({
-  identifier: "ListGenaiModelsRequest",
-}) as any as S.Schema<ListGenaiModelsRequest>;
+).annotate({ identifier: "ListGenaiModelsRequest" }) as any as S.Schema<ListGenaiModelsRequest>;
 
 /** Model capabilities (inference, reasoning, vectorization, etc.) */
 export type ApiModelPublicCapabilitiesList = Array<string>;
@@ -34640,6 +37190,703 @@ export const ApiListOpenAIAPIKeysOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ApiListOpenAIAPIKeysOutput",
 }) as any as S.Schema<ApiListOpenAIAPIKeysOutput>;
 
+export type ListGenaiScenarioLibraryRequestSortBy =
+  | "SCENARIO_LIBRARY_SORT_FIELD_UNSPECIFIED"
+  | "SCENARIO_LIBRARY_SORT_FIELD_NAME"
+  | "SCENARIO_LIBRARY_SORT_FIELD_CREATED_AT";
+export const ListGenaiScenarioLibraryRequestSortBy = S.String;
+
+export type ListGenaiScenarioLibraryRequestSortDirection =
+  | "SORT_DIRECTION_UNSPECIFIED"
+  | "SORT_DIRECTION_ASC"
+  | "SORT_DIRECTION_DESC";
+export const ListGenaiScenarioLibraryRequestSortDirection = S.String;
+
+export interface ListGenaiScenarioLibraryRequest {
+  /** Page number. */
+  page?: number;
+  /** Items per page. */
+  per_page?: number;
+  /** Filter by category (exact match). Empty means no category filter. */
+  category?: string;
+  /** Free-text search across name, description, and goal_description (case-insensitive substring match). Empty means no search. */
+  search?: string;
+  /** Field to sort by. Defaults to name when unspecified. - SCENARIO_LIBRARY_SORT_FIELD_NAME: Sort by customer-facing name (case-insensitive). Default. - SCENARIO_LIBRARY_SORT_FIELD_CREATED_AT: Sort by creation date. */
+  sort_by?: ListGenaiScenarioLibraryRequestSortBy | (string & {});
+  /** Sort direction. Defaults to ascending when unspecified. */
+  sort_direction?: ListGenaiScenarioLibraryRequestSortDirection | (string & {});
+}
+export const ListGenaiScenarioLibraryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    category: S.optional(S.String.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+    sort_by: S.optional(ListGenaiScenarioLibraryRequestSortBy.pipe(T.Query())),
+    sort_direction: S.optional(ListGenaiScenarioLibraryRequestSortDirection.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/scenario_library", code: 200 })),
+).annotate({
+  identifier: "ListGenaiScenarioLibraryRequest",
+}) as any as S.Schema<ListGenaiScenarioLibraryRequest>;
+
+/** Categories currently in use, for filtering library results. */
+export type ApiListScenarioLibraryOutputAvailableCategoriesList = Array<string>;
+export const ApiListScenarioLibraryOutputAvailableCategoriesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ApiListScenarioLibraryOutputAvailableCategoriesList>;
+
+/** Sortable fields for listing the scenario library. - SCENARIO_LIBRARY_SORT_FIELD_NAME: Sort by customer-facing name (case-insensitive). Default. - SCENARIO_LIBRARY_SORT_FIELD_CREATED_AT: Sort by creation date. */
+export type ApiScenarioLibrarySortField =
+  | "SCENARIO_LIBRARY_SORT_FIELD_UNSPECIFIED"
+  | "SCENARIO_LIBRARY_SORT_FIELD_NAME"
+  | "SCENARIO_LIBRARY_SORT_FIELD_CREATED_AT";
+export const ApiScenarioLibrarySortField = S.String;
+
+/** Sort-by values available for this list request. */
+export type ApiListScenarioLibraryOutputAvailableSortByList = Array<ApiScenarioLibrarySortField>;
+export const ApiListScenarioLibraryOutputAvailableSortByList = /*@__PURE__*/ S.Array(
+  ApiScenarioLibrarySortField,
+) as any as S.Schema<ApiListScenarioLibraryOutputAvailableSortByList>;
+
+/** Sort-direction values available for this list request. */
+export type ApiListScenarioLibraryOutputAvailableSortDirectionsList = Array<ApiSortDirection>;
+export const ApiListScenarioLibraryOutputAvailableSortDirectionsList = /*@__PURE__*/ S.Array(
+  ApiSortDirection,
+) as any as S.Schema<ApiListScenarioLibraryOutputAvailableSortDirectionsList>;
+
+/** Lifecycle status of a Common Scenario & Goal Library entry. - SCENARIO_LIBRARY_ENTRY_STATUS_ACTIVE: Visible in the library and available to copy into a scenario set. - SCENARIO_LIBRARY_ENTRY_STATUS_ARCHIVED: Hidden from the library catalog. Existing scenario sets created from this entry keep their provenance. */
+export type ApiScenarioLibraryEntryStatus =
+  | "SCENARIO_LIBRARY_ENTRY_STATUS_UNSPECIFIED"
+  | "SCENARIO_LIBRARY_ENTRY_STATUS_ACTIVE"
+  | "SCENARIO_LIBRARY_ENTRY_STATUS_ARCHIVED";
+export const ApiScenarioLibraryEntryStatus = S.String;
+
+/** A platform-curated, ready-to-run scenario set that any team can pick from. */
+export interface ApiScenarioLibraryEntry {
+  /** Optional grouping for catalog browsing (e.g. "Billing", "Onboarding"). Empty when uncategorized. */
+  category?: string;
+  /** Time created at. */
+  created_at?: string;
+  /** Curated description. */
+  description?: string;
+  /** The goal this scenario set demonstrates, shown as context alongside goal-driven generation. */
+  goal_description?: string;
+  /** UUID of the library entry. */
+  library_scenario_uuid?: string;
+  /** Curated display name. */
+  name?: string;
+  /** Number of scenarios in the library entry. */
+  scenario_count?: number;
+  status?: ApiScenarioLibraryEntryStatus;
+  /** Time last updated at. */
+  updated_at?: string;
+}
+export const ApiScenarioLibraryEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.optional(S.String),
+    created_at: S.optional(S.String),
+    description: S.optional(S.String),
+    goal_description: S.optional(S.String),
+    library_scenario_uuid: S.optional(S.String),
+    name: S.optional(S.String),
+    scenario_count: S.optional(S.Number),
+    status: S.optional(ApiScenarioLibraryEntryStatus),
+    updated_at: S.optional(S.String),
+  }),
+).annotate({ identifier: "ApiScenarioLibraryEntry" }) as any as S.Schema<ApiScenarioLibraryEntry>;
+
+/** The library entries for the current page. */
+export type ApiListScenarioLibraryOutputScenariosList = Array<ApiScenarioLibraryEntry>;
+export const ApiListScenarioLibraryOutputScenariosList = /*@__PURE__*/ S.Array(
+  ApiScenarioLibraryEntry,
+) as any as S.Schema<ApiListScenarioLibraryOutputScenariosList>;
+
+/** Output for listing the Common Scenario & Goal Library. */
+export interface ApiListScenarioLibraryOutput {
+  /** Categories currently in use, for filtering library results. */
+  available_categories?: ApiListScenarioLibraryOutputAvailableCategoriesList;
+  /** Sort-by values available for this list request. */
+  available_sort_by?: ApiListScenarioLibraryOutputAvailableSortByList;
+  /** Sort-direction values available for this list request. */
+  available_sort_directions?: ApiListScenarioLibraryOutputAvailableSortDirectionsList;
+  links?: ApiLinks;
+  meta?: ApiMeta;
+  /** The library entries for the current page. */
+  scenarios?: ApiListScenarioLibraryOutputScenariosList;
+}
+export const ApiListScenarioLibraryOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    available_categories: S.optional(ApiListScenarioLibraryOutputAvailableCategoriesList),
+    available_sort_by: S.optional(ApiListScenarioLibraryOutputAvailableSortByList),
+    available_sort_directions: S.optional(ApiListScenarioLibraryOutputAvailableSortDirectionsList),
+    links: S.optional(ApiLinks),
+    meta: S.optional(ApiMeta),
+    scenarios: S.optional(ApiListScenarioLibraryOutputScenariosList),
+  }),
+).annotate({
+  identifier: "ApiListScenarioLibraryOutput",
+}) as any as S.Schema<ApiListScenarioLibraryOutput>;
+
+export type ListGenaiScenarioLibraryScenariosRequestSortBy =
+  | "SCENARIO_SORT_FIELD_UNSPECIFIED"
+  | "SCENARIO_SORT_FIELD_FILE_ORDER"
+  | "SCENARIO_SORT_FIELD_NAME"
+  | "SCENARIO_SORT_FIELD_DESCRIPTION";
+export const ListGenaiScenarioLibraryScenariosRequestSortBy = S.String;
+
+export type ListGenaiScenarioLibraryScenariosRequestSortDirection =
+  | "SORT_DIRECTION_UNSPECIFIED"
+  | "SORT_DIRECTION_ASC"
+  | "SORT_DIRECTION_DESC";
+export const ListGenaiScenarioLibraryScenariosRequestSortDirection = S.String;
+
+export interface ListGenaiScenarioLibraryScenariosRequest {
+  /** UUID of the library entry to read. */
+  library_scenario_uuid: string;
+  /** Page number. */
+  page?: number;
+  /** Items per page. */
+  per_page?: number;
+  /** Free-text search across name, description, and user_persona (case-insensitive substring match). Empty means no search. */
+  search?: string;
+  /** Field to sort by. Defaults to original file order when unspecified. - SCENARIO_SORT_FIELD_FILE_ORDER: Preserve original file order. Default. - SCENARIO_SORT_FIELD_NAME: Sort by scenario name (case-insensitive). Empty names sort last. - SCENARIO_SORT_FIELD_DESCRIPTION: Sort by scenario description (case-insensitive). */
+  sort_by?: ListGenaiScenarioLibraryScenariosRequestSortBy | (string & {});
+  /** Sort direction. Defaults to ascending when unspecified. */
+  sort_direction?: ListGenaiScenarioLibraryScenariosRequestSortDirection | (string & {});
+}
+export const ListGenaiScenarioLibraryScenariosRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    library_scenario_uuid: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+    sort_by: S.optional(ListGenaiScenarioLibraryScenariosRequestSortBy.pipe(T.Query())),
+    sort_direction: S.optional(
+      ListGenaiScenarioLibraryScenariosRequestSortDirection.pipe(T.Query()),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v2/gen-ai/scenario_library/{library_scenario_uuid}/scenarios",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListGenaiScenarioLibraryScenariosRequest",
+}) as any as S.Schema<ListGenaiScenarioLibraryScenariosRequest>;
+
+/** Sortable fields for listing scenarios. - SCENARIO_SORT_FIELD_FILE_ORDER: Preserve original file order. Default. - SCENARIO_SORT_FIELD_NAME: Sort by scenario name (case-insensitive). Empty names sort last. - SCENARIO_SORT_FIELD_DESCRIPTION: Sort by scenario description (case-insensitive). */
+export type ApiScenarioSortField =
+  | "SCENARIO_SORT_FIELD_UNSPECIFIED"
+  | "SCENARIO_SORT_FIELD_FILE_ORDER"
+  | "SCENARIO_SORT_FIELD_NAME"
+  | "SCENARIO_SORT_FIELD_DESCRIPTION";
+export const ApiScenarioSortField = S.String;
+
+/** Sort-by values available for this list request. */
+export type ApiListScenariosOutputAvailableSortByList = Array<ApiScenarioSortField>;
+export const ApiListScenariosOutputAvailableSortByList = /*@__PURE__*/ S.Array(
+  ApiScenarioSortField,
+) as any as S.Schema<ApiListScenariosOutputAvailableSortByList>;
+
+/** Sort-direction values available for this list request. */
+export type ApiListScenariosOutputAvailableSortDirectionsList = Array<ApiSortDirection>;
+export const ApiListScenariosOutputAvailableSortDirectionsList = /*@__PURE__*/ S.Array(
+  ApiSortDirection,
+) as any as S.Schema<ApiListScenariosOutputAvailableSortDirectionsList>;
+
+/** The scenarios for the current page. */
+export type ApiListScenariosOutputScenariosList = Array<ApiScenario>;
+export const ApiListScenariosOutputScenariosList = /*@__PURE__*/ S.Array(
+  ApiScenario,
+) as any as S.Schema<ApiListScenariosOutputScenariosList>;
+
+/** Output for listing the scenarios in a scenario set. */
+export interface ApiListScenariosOutput {
+  /** Sort-by values available for this list request. */
+  available_sort_by?: ApiListScenariosOutputAvailableSortByList;
+  /** Sort-direction values available for this list request. */
+  available_sort_directions?: ApiListScenariosOutputAvailableSortDirectionsList;
+  links?: ApiLinks;
+  meta?: ApiMeta;
+  /** The scenarios for the current page. */
+  scenarios?: ApiListScenariosOutputScenariosList;
+}
+export const ApiListScenariosOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    available_sort_by: S.optional(ApiListScenariosOutputAvailableSortByList),
+    available_sort_directions: S.optional(ApiListScenariosOutputAvailableSortDirectionsList),
+    links: S.optional(ApiLinks),
+    meta: S.optional(ApiMeta),
+    scenarios: S.optional(ApiListScenariosOutputScenariosList),
+  }),
+).annotate({ identifier: "ApiListScenariosOutput" }) as any as S.Schema<ApiListScenariosOutput>;
+
+export type ListGenaiScenariosRequestSortBy =
+  | "SCENARIO_SORT_FIELD_UNSPECIFIED"
+  | "SCENARIO_SORT_FIELD_FILE_ORDER"
+  | "SCENARIO_SORT_FIELD_NAME"
+  | "SCENARIO_SORT_FIELD_DESCRIPTION";
+export const ListGenaiScenariosRequestSortBy = S.String;
+
+export type ListGenaiScenariosRequestSortDirection =
+  | "SORT_DIRECTION_UNSPECIFIED"
+  | "SORT_DIRECTION_ASC"
+  | "SORT_DIRECTION_DESC";
+export const ListGenaiScenariosRequestSortDirection = S.String;
+
+export interface ListGenaiScenariosRequest {
+  /** UUID of the scenario set to read. */
+  scenario_set_uuid: string;
+  /** Page number. */
+  page?: number;
+  /** Items per page. */
+  per_page?: number;
+  /** Free-text search across name, description, and user_persona (case-insensitive substring match). Empty means no search. */
+  search?: string;
+  /** Field to sort by. Defaults to original file order when unspecified. - SCENARIO_SORT_FIELD_FILE_ORDER: Preserve original file order. Default. - SCENARIO_SORT_FIELD_NAME: Sort by scenario name (case-insensitive). Empty names sort last. - SCENARIO_SORT_FIELD_DESCRIPTION: Sort by scenario description (case-insensitive). */
+  sort_by?: ListGenaiScenariosRequestSortBy | (string & {});
+  /** Sort direction. Defaults to ascending when unspecified. */
+  sort_direction?: ListGenaiScenariosRequestSortDirection | (string & {});
+}
+export const ListGenaiScenariosRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scenario_set_uuid: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+    sort_by: S.optional(ListGenaiScenariosRequestSortBy.pipe(T.Query())),
+    sort_direction: S.optional(ListGenaiScenariosRequestSortDirection.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v2/gen-ai/scenario_sets/{scenario_set_uuid}/scenarios",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListGenaiScenariosRequest",
+}) as any as S.Schema<ListGenaiScenariosRequest>;
+
+export type ListGenaiScenarioSetsRequestStatusesItem =
+  | "SCENARIO_SET_STATUS_UNSPECIFIED"
+  | "SCENARIO_SET_STATUS_GENERATING"
+  | "SCENARIO_SET_STATUS_READY"
+  | "SCENARIO_SET_STATUS_FAILED"
+  | "SCENARIO_SET_STATUS_CANCELLED";
+export const ListGenaiScenarioSetsRequestStatusesItem = S.String;
+
+export type ListGenaiScenarioSetsRequestStatusesList = Array<
+  ListGenaiScenarioSetsRequestStatusesItem | (string & {})
+>;
+export const ListGenaiScenarioSetsRequestStatusesList = /*@__PURE__*/ S.Array(
+  ListGenaiScenarioSetsRequestStatusesItem,
+) as any as S.Schema<ListGenaiScenarioSetsRequestStatusesList>;
+
+export type ListGenaiScenarioSetsRequestSourceKindsItem =
+  | "SCENARIO_SET_SOURCE_KIND_UNSPECIFIED"
+  | "SCENARIO_SET_SOURCE_KIND_USER_UPLOAD"
+  | "SCENARIO_SET_SOURCE_KIND_GOAL_GENERATED"
+  | "SCENARIO_SET_SOURCE_KIND_LIBRARY"
+  | "SCENARIO_SET_SOURCE_KIND_SIGNAL_GENERATED";
+export const ListGenaiScenarioSetsRequestSourceKindsItem = S.String;
+
+export type ListGenaiScenarioSetsRequestSourceKindsList = Array<
+  ListGenaiScenarioSetsRequestSourceKindsItem | (string & {})
+>;
+export const ListGenaiScenarioSetsRequestSourceKindsList = /*@__PURE__*/ S.Array(
+  ListGenaiScenarioSetsRequestSourceKindsItem,
+) as any as S.Schema<ListGenaiScenarioSetsRequestSourceKindsList>;
+
+export type ListGenaiScenarioSetsRequestSortBy =
+  | "SCENARIO_SET_SORT_FIELD_UNSPECIFIED"
+  | "SCENARIO_SET_SORT_FIELD_CREATED_AT"
+  | "SCENARIO_SET_SORT_FIELD_NAME"
+  | "SCENARIO_SET_SORT_FIELD_STATUS"
+  | "SCENARIO_SET_SORT_FIELD_SCENARIO_COUNT"
+  | "SCENARIO_SET_SORT_FIELD_UPDATED_AT";
+export const ListGenaiScenarioSetsRequestSortBy = S.String;
+
+export type ListGenaiScenarioSetsRequestSortDirection =
+  | "SORT_DIRECTION_UNSPECIFIED"
+  | "SORT_DIRECTION_ASC"
+  | "SORT_DIRECTION_DESC";
+export const ListGenaiScenarioSetsRequestSortDirection = S.String;
+
+export interface ListGenaiScenarioSetsRequest {
+  /** Page number. */
+  page?: number;
+  /** Items per page. */
+  per_page?: number;
+  /** Filter by one or more statuses. Empty means no status filter. - SCENARIO_SET_STATUS_GENERATING: Generation is in progress. The scenarios are not ready yet. - SCENARIO_SET_STATUS_READY: The scenario set is ready to use. - SCENARIO_SET_STATUS_FAILED: Generation failed. The scenario set has no readable scenarios. - SCENARIO_SET_STATUS_CANCELLED: Generation was cancelled before completion. */
+  statuses?: ListGenaiScenarioSetsRequestStatusesList;
+  /** Filter by one or more source kinds. Empty means no source-kind filter. - SCENARIO_SET_SOURCE_KIND_USER_UPLOAD: Created from uploaded or inline scenarios. - SCENARIO_SET_SOURCE_KIND_GOAL_GENERATED: Produced by goal-driven generation. - SCENARIO_SET_SOURCE_KIND_LIBRARY: Copied from a platform-curated library entry. - SCENARIO_SET_SOURCE_KIND_SIGNAL_GENERATED: Produced from a completed Signals export. */
+  source_kinds?: ListGenaiScenarioSetsRequestSourceKindsList;
+  /** Free-text search across name and description (case-insensitive substring match). Empty means no search. */
+  search?: string;
+  /** Field to sort by. Defaults to creation date when unspecified. - SCENARIO_SET_SORT_FIELD_CREATED_AT: Sort by creation date. Default. - SCENARIO_SET_SORT_FIELD_NAME: Sort by customer-supplied name (case-insensitive). - SCENARIO_SET_SORT_FIELD_STATUS: Sort by status using lifecycle order (generating → ready → terminal). - SCENARIO_SET_SORT_FIELD_SCENARIO_COUNT: Sort by scenario_count. - SCENARIO_SET_SORT_FIELD_UPDATED_AT: Sort by last update date. */
+  sort_by?: ListGenaiScenarioSetsRequestSortBy | (string & {});
+  /** Sort direction. Defaults to descending when unspecified. */
+  sort_direction?: ListGenaiScenarioSetsRequestSortDirection | (string & {});
+}
+export const ListGenaiScenarioSetsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    statuses: S.optional(ListGenaiScenarioSetsRequestStatusesList.pipe(T.Query())),
+    source_kinds: S.optional(ListGenaiScenarioSetsRequestSourceKindsList.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+    sort_by: S.optional(ListGenaiScenarioSetsRequestSortBy.pipe(T.Query())),
+    sort_direction: S.optional(ListGenaiScenarioSetsRequestSortDirection.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/scenario_sets", code: 200 })),
+).annotate({
+  identifier: "ListGenaiScenarioSetsRequest",
+}) as any as S.Schema<ListGenaiScenarioSetsRequest>;
+
+/** Sortable fields for listing scenario sets. - SCENARIO_SET_SORT_FIELD_CREATED_AT: Sort by creation date. Default. - SCENARIO_SET_SORT_FIELD_NAME: Sort by customer-supplied name (case-insensitive). - SCENARIO_SET_SORT_FIELD_STATUS: Sort by status using lifecycle order (generating → ready → terminal). - SCENARIO_SET_SORT_FIELD_SCENARIO_COUNT: Sort by scenario_count. - SCENARIO_SET_SORT_FIELD_UPDATED_AT: Sort by last update date. */
+export type ApiScenarioSetSortField =
+  | "SCENARIO_SET_SORT_FIELD_UNSPECIFIED"
+  | "SCENARIO_SET_SORT_FIELD_CREATED_AT"
+  | "SCENARIO_SET_SORT_FIELD_NAME"
+  | "SCENARIO_SET_SORT_FIELD_STATUS"
+  | "SCENARIO_SET_SORT_FIELD_SCENARIO_COUNT"
+  | "SCENARIO_SET_SORT_FIELD_UPDATED_AT";
+export const ApiScenarioSetSortField = S.String;
+
+/** Sort-by values available for this list request. */
+export type ApiListScenarioSetsOutputAvailableSortByList = Array<ApiScenarioSetSortField>;
+export const ApiListScenarioSetsOutputAvailableSortByList = /*@__PURE__*/ S.Array(
+  ApiScenarioSetSortField,
+) as any as S.Schema<ApiListScenarioSetsOutputAvailableSortByList>;
+
+/** Sort-direction values available for this list request. */
+export type ApiListScenarioSetsOutputAvailableSortDirectionsList = Array<ApiSortDirection>;
+export const ApiListScenarioSetsOutputAvailableSortDirectionsList = /*@__PURE__*/ S.Array(
+  ApiSortDirection,
+) as any as S.Schema<ApiListScenarioSetsOutputAvailableSortDirectionsList>;
+
+/** Source kinds available for filtering this list request. */
+export type ApiListScenarioSetsOutputAvailableSourceKindsList = Array<ApiScenarioSetSourceKind>;
+export const ApiListScenarioSetsOutputAvailableSourceKindsList = /*@__PURE__*/ S.Array(
+  ApiScenarioSetSourceKind,
+) as any as S.Schema<ApiListScenarioSetsOutputAvailableSourceKindsList>;
+
+/** Statuses available for filtering this list request. */
+export type ApiListScenarioSetsOutputAvailableStatusesList = Array<ApiScenarioSetStatus>;
+export const ApiListScenarioSetsOutputAvailableStatusesList = /*@__PURE__*/ S.Array(
+  ApiScenarioSetStatus,
+) as any as S.Schema<ApiListScenarioSetsOutputAvailableStatusesList>;
+
+/** The scenario sets for the current page. */
+export type ApiListScenarioSetsOutputScenarioSetsList = Array<ApiScenarioSet>;
+export const ApiListScenarioSetsOutputScenarioSetsList = /*@__PURE__*/ S.Array(
+  ApiScenarioSet,
+) as any as S.Schema<ApiListScenarioSetsOutputScenarioSetsList>;
+
+/** Output for listing scenario sets. */
+export interface ApiListScenarioSetsOutput {
+  /** Sort-by values available for this list request. */
+  available_sort_by?: ApiListScenarioSetsOutputAvailableSortByList;
+  /** Sort-direction values available for this list request. */
+  available_sort_directions?: ApiListScenarioSetsOutputAvailableSortDirectionsList;
+  /** Source kinds available for filtering this list request. */
+  available_source_kinds?: ApiListScenarioSetsOutputAvailableSourceKindsList;
+  /** Statuses available for filtering this list request. */
+  available_statuses?: ApiListScenarioSetsOutputAvailableStatusesList;
+  links?: ApiLinks;
+  meta?: ApiMeta;
+  /** The scenario sets for the current page. */
+  scenario_sets?: ApiListScenarioSetsOutputScenarioSetsList;
+}
+export const ApiListScenarioSetsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    available_sort_by: S.optional(ApiListScenarioSetsOutputAvailableSortByList),
+    available_sort_directions: S.optional(ApiListScenarioSetsOutputAvailableSortDirectionsList),
+    available_source_kinds: S.optional(ApiListScenarioSetsOutputAvailableSourceKindsList),
+    available_statuses: S.optional(ApiListScenarioSetsOutputAvailableStatusesList),
+    links: S.optional(ApiLinks),
+    meta: S.optional(ApiMeta),
+    scenario_sets: S.optional(ApiListScenarioSetsOutputScenarioSetsList),
+  }),
+).annotate({
+  identifier: "ApiListScenarioSetsOutput",
+}) as any as S.Schema<ApiListScenarioSetsOutput>;
+
+export type ListGenaiSimulationJourneysRequestStatusesItem =
+  | "SIMULATION_JOURNEY_STATUS_UNSPECIFIED"
+  | "SIMULATION_JOURNEY_STATUS_RUNNING"
+  | "SIMULATION_JOURNEY_STATUS_FINISHED"
+  | "SIMULATION_JOURNEY_STATUS_FAILED"
+  | "SIMULATION_JOURNEY_STATUS_PREPARING";
+export const ListGenaiSimulationJourneysRequestStatusesItem = S.String;
+
+export type ListGenaiSimulationJourneysRequestStatusesList = Array<
+  ListGenaiSimulationJourneysRequestStatusesItem | (string & {})
+>;
+export const ListGenaiSimulationJourneysRequestStatusesList = /*@__PURE__*/ S.Array(
+  ListGenaiSimulationJourneysRequestStatusesItem,
+) as any as S.Schema<ListGenaiSimulationJourneysRequestStatusesList>;
+
+export type ListGenaiSimulationJourneysRequestVerdictsItem =
+  | "SIMULATION_JOURNEY_VERDICT_UNSPECIFIED"
+  | "SIMULATION_JOURNEY_VERDICT_SUCCESS"
+  | "SIMULATION_JOURNEY_VERDICT_FAILURE"
+  | "SIMULATION_JOURNEY_VERDICT_INCONCLUSIVE";
+export const ListGenaiSimulationJourneysRequestVerdictsItem = S.String;
+
+export type ListGenaiSimulationJourneysRequestVerdictsList = Array<
+  ListGenaiSimulationJourneysRequestVerdictsItem | (string & {})
+>;
+export const ListGenaiSimulationJourneysRequestVerdictsList = /*@__PURE__*/ S.Array(
+  ListGenaiSimulationJourneysRequestVerdictsItem,
+) as any as S.Schema<ListGenaiSimulationJourneysRequestVerdictsList>;
+
+export type ListGenaiSimulationJourneysRequestSortBy =
+  | "SIMULATION_JOURNEY_SORT_FIELD_UNSPECIFIED"
+  | "SIMULATION_JOURNEY_SORT_FIELD_SCENARIO"
+  | "SIMULATION_JOURNEY_SORT_FIELD_CREATED_AT"
+  | "SIMULATION_JOURNEY_SORT_FIELD_STATUS"
+  | "SIMULATION_JOURNEY_SORT_FIELD_VERDICT";
+export const ListGenaiSimulationJourneysRequestSortBy = S.String;
+
+export type ListGenaiSimulationJourneysRequestSortDirection =
+  | "SORT_DIRECTION_UNSPECIFIED"
+  | "SORT_DIRECTION_ASC"
+  | "SORT_DIRECTION_DESC";
+export const ListGenaiSimulationJourneysRequestSortDirection = S.String;
+
+export interface ListGenaiSimulationJourneysRequest {
+  /** UUID of the run whose journeys to list. */
+  run_uuid: string;
+  /** Optional filter by scenario. */
+  scenario_uuid?: string;
+  /** Page number. */
+  page?: number;
+  /** Items per page. */
+  per_page?: number;
+  /** Filter by one or more statuses. Empty means no status filter. - SIMULATION_JOURNEY_STATUS_RUNNING: The journey is executing and a trajectory is available to retrieve. - SIMULATION_JOURNEY_STATUS_FINISHED: The journey reached a stop condition and produced a verdict. - SIMULATION_JOURNEY_STATUS_FAILED: The journey failed because of a cancel, timeout, or error. - SIMULATION_JOURNEY_STATUS_PREPARING: The journey is allocated but its trajectory is not available yet. */
+  statuses?: ListGenaiSimulationJourneysRequestStatusesList;
+  /** Filter by one or more verdicts. Empty means no verdict filter. - SIMULATION_JOURNEY_VERDICT_SUCCESS: The candidate agent satisfied the scenario's stopping criteria. - SIMULATION_JOURNEY_VERDICT_FAILURE: The candidate agent did not satisfy the stopping criteria. - SIMULATION_JOURNEY_VERDICT_INCONCLUSIVE: No conclusive verdict (e.g. max_turns reached without the judge finishing). */
+  verdicts?: ListGenaiSimulationJourneysRequestVerdictsList;
+  /** Free-text search across scenario_uuid and session_id (case-insensitive substring match). Empty means no search. */
+  search?: string;
+  /** Field to sort by. Defaults to scenario ordering when unspecified. - SIMULATION_JOURNEY_SORT_FIELD_SCENARIO: Sort by scenario_uuid then journey_index. Default. - SIMULATION_JOURNEY_SORT_FIELD_CREATED_AT: Sort by creation date. - SIMULATION_JOURNEY_SORT_FIELD_STATUS: Sort by journey status using lifecycle order. - SIMULATION_JOURNEY_SORT_FIELD_VERDICT: Sort by verdict (nulls last). */
+  sort_by?: ListGenaiSimulationJourneysRequestSortBy | (string & {});
+  /** Sort direction. Defaults to ascending when unspecified. */
+  sort_direction?: ListGenaiSimulationJourneysRequestSortDirection | (string & {});
+}
+export const ListGenaiSimulationJourneysRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    run_uuid: S.String.pipe(T.Label()),
+    scenario_uuid: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    statuses: S.optional(ListGenaiSimulationJourneysRequestStatusesList.pipe(T.Query())),
+    verdicts: S.optional(ListGenaiSimulationJourneysRequestVerdictsList.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+    sort_by: S.optional(ListGenaiSimulationJourneysRequestSortBy.pipe(T.Query())),
+    sort_direction: S.optional(ListGenaiSimulationJourneysRequestSortDirection.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v2/gen-ai/simulation_runs/{run_uuid}/journeys", code: 200 }),
+  ),
+).annotate({
+  identifier: "ListGenaiSimulationJourneysRequest",
+}) as any as S.Schema<ListGenaiSimulationJourneysRequest>;
+
+/** Sortable fields for listing simulation journeys. - SIMULATION_JOURNEY_SORT_FIELD_SCENARIO: Sort by scenario_uuid then journey_index. Default. - SIMULATION_JOURNEY_SORT_FIELD_CREATED_AT: Sort by creation date. - SIMULATION_JOURNEY_SORT_FIELD_STATUS: Sort by journey status using lifecycle order. - SIMULATION_JOURNEY_SORT_FIELD_VERDICT: Sort by verdict (nulls last). */
+export type ApiSimulationJourneySortField =
+  | "SIMULATION_JOURNEY_SORT_FIELD_UNSPECIFIED"
+  | "SIMULATION_JOURNEY_SORT_FIELD_SCENARIO"
+  | "SIMULATION_JOURNEY_SORT_FIELD_CREATED_AT"
+  | "SIMULATION_JOURNEY_SORT_FIELD_STATUS"
+  | "SIMULATION_JOURNEY_SORT_FIELD_VERDICT";
+export const ApiSimulationJourneySortField = S.String;
+
+/** Sort-by values available for this list request. */
+export type ApiListSimulationJourneysOutputAvailableSortByList =
+  Array<ApiSimulationJourneySortField>;
+export const ApiListSimulationJourneysOutputAvailableSortByList = /*@__PURE__*/ S.Array(
+  ApiSimulationJourneySortField,
+) as any as S.Schema<ApiListSimulationJourneysOutputAvailableSortByList>;
+
+/** Sort-direction values available for this list request. */
+export type ApiListSimulationJourneysOutputAvailableSortDirectionsList = Array<ApiSortDirection>;
+export const ApiListSimulationJourneysOutputAvailableSortDirectionsList = /*@__PURE__*/ S.Array(
+  ApiSortDirection,
+) as any as S.Schema<ApiListSimulationJourneysOutputAvailableSortDirectionsList>;
+
+/** Statuses available for filtering this list request. */
+export type ApiListSimulationJourneysOutputAvailableStatusesList =
+  Array<ApiSimulationJourneyStatus>;
+export const ApiListSimulationJourneysOutputAvailableStatusesList = /*@__PURE__*/ S.Array(
+  ApiSimulationJourneyStatus,
+) as any as S.Schema<ApiListSimulationJourneysOutputAvailableStatusesList>;
+
+/** Verdicts available for filtering this list request. */
+export type ApiListSimulationJourneysOutputAvailableVerdictsList =
+  Array<ApiSimulationJourneyVerdict>;
+export const ApiListSimulationJourneysOutputAvailableVerdictsList = /*@__PURE__*/ S.Array(
+  ApiSimulationJourneyVerdict,
+) as any as S.Schema<ApiListSimulationJourneysOutputAvailableVerdictsList>;
+
+/** The journeys for the current page. */
+export type ApiListSimulationJourneysOutputJourneysList = Array<ApiSimulationJourney>;
+export const ApiListSimulationJourneysOutputJourneysList = /*@__PURE__*/ S.Array(
+  ApiSimulationJourney,
+) as any as S.Schema<ApiListSimulationJourneysOutputJourneysList>;
+
+/** Output for listing the journeys within a simulation run. */
+export interface ApiListSimulationJourneysOutput {
+  /** Sort-by values available for this list request. */
+  available_sort_by?: ApiListSimulationJourneysOutputAvailableSortByList;
+  /** Sort-direction values available for this list request. */
+  available_sort_directions?: ApiListSimulationJourneysOutputAvailableSortDirectionsList;
+  /** Statuses available for filtering this list request. */
+  available_statuses?: ApiListSimulationJourneysOutputAvailableStatusesList;
+  /** Verdicts available for filtering this list request. */
+  available_verdicts?: ApiListSimulationJourneysOutputAvailableVerdictsList;
+  /** The journeys for the current page. */
+  journeys?: ApiListSimulationJourneysOutputJourneysList;
+  links?: ApiLinks;
+  meta?: ApiMeta;
+}
+export const ApiListSimulationJourneysOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    available_sort_by: S.optional(ApiListSimulationJourneysOutputAvailableSortByList),
+    available_sort_directions: S.optional(
+      ApiListSimulationJourneysOutputAvailableSortDirectionsList,
+    ),
+    available_statuses: S.optional(ApiListSimulationJourneysOutputAvailableStatusesList),
+    available_verdicts: S.optional(ApiListSimulationJourneysOutputAvailableVerdictsList),
+    journeys: S.optional(ApiListSimulationJourneysOutputJourneysList),
+    links: S.optional(ApiLinks),
+    meta: S.optional(ApiMeta),
+  }),
+).annotate({
+  identifier: "ApiListSimulationJourneysOutput",
+}) as any as S.Schema<ApiListSimulationJourneysOutput>;
+
+export type ListGenaiSimulationRunsRequestStatusesItem =
+  | "SIMULATION_RUN_STATUS_UNSPECIFIED"
+  | "SIMULATION_RUN_STATUS_PENDING"
+  | "SIMULATION_RUN_STATUS_RUNNING"
+  | "SIMULATION_RUN_STATUS_SUCCEEDED"
+  | "SIMULATION_RUN_STATUS_FAILED"
+  | "SIMULATION_RUN_STATUS_CANCELLED"
+  | "SIMULATION_RUN_STATUS_EVALUATING"
+  | "SIMULATION_RUN_STATUS_PARTIALLY_SUCCESSFUL";
+export const ListGenaiSimulationRunsRequestStatusesItem = S.String;
+
+export type ListGenaiSimulationRunsRequestStatusesList = Array<
+  ListGenaiSimulationRunsRequestStatusesItem | (string & {})
+>;
+export const ListGenaiSimulationRunsRequestStatusesList = /*@__PURE__*/ S.Array(
+  ListGenaiSimulationRunsRequestStatusesItem,
+) as any as S.Schema<ListGenaiSimulationRunsRequestStatusesList>;
+
+export type ListGenaiSimulationRunsRequestSortBy =
+  | "SIMULATION_RUN_SORT_FIELD_UNSPECIFIED"
+  | "SIMULATION_RUN_SORT_FIELD_CREATED_AT"
+  | "SIMULATION_RUN_SORT_FIELD_NAME"
+  | "SIMULATION_RUN_SORT_FIELD_STATUS"
+  | "SIMULATION_RUN_SORT_FIELD_UPDATED_AT";
+export const ListGenaiSimulationRunsRequestSortBy = S.String;
+
+export type ListGenaiSimulationRunsRequestSortDirection =
+  | "SORT_DIRECTION_UNSPECIFIED"
+  | "SORT_DIRECTION_ASC"
+  | "SORT_DIRECTION_DESC";
+export const ListGenaiSimulationRunsRequestSortDirection = S.String;
+
+export interface ListGenaiSimulationRunsRequest {
+  /** Optional filter by scenario set. */
+  scenario_set_uuid?: string;
+  /** Page number. */
+  page?: number;
+  /** Items per page. */
+  per_page?: number;
+  /** Filter by one or more statuses. Empty means no status filter. - SIMULATION_RUN_STATUS_PENDING: Accepted and queued, not yet executing. - SIMULATION_RUN_STATUS_RUNNING: Journeys are executing. - SIMULATION_RUN_STATUS_SUCCEEDED: All journeys finished successfully. - SIMULATION_RUN_STATUS_FAILED: The run failed, for example because of a timeout or workflow error. - SIMULATION_RUN_STATUS_CANCELLED: The run was cancelled. - SIMULATION_RUN_STATUS_EVALUATING: Journeys finished and an attached evaluation is running. Only reachable when the create request included evaluation_config. When the evaluation reaches a terminal status, its outcome is reflected in the simulation run status. - SIMULATION_RUN_STATUS_PARTIALLY_SUCCESSFUL: The simulation or its attached evaluation completed with a mixture of successful and failed results. */
+  statuses?: ListGenaiSimulationRunsRequestStatusesList;
+  /** Free-text search across the run name and scenario set name (case-insensitive substring match). Empty means no search. */
+  search?: string;
+  /** Field to sort by. Defaults to creation date when unspecified. - SIMULATION_RUN_SORT_FIELD_CREATED_AT: Sort by creation date. Default. - SIMULATION_RUN_SORT_FIELD_NAME: Sort by customer-supplied run name (case-insensitive). - SIMULATION_RUN_SORT_FIELD_STATUS: Sort by status using lifecycle order (pending → running → terminal). - SIMULATION_RUN_SORT_FIELD_UPDATED_AT: Sort by last update date. */
+  sort_by?: ListGenaiSimulationRunsRequestSortBy | (string & {});
+  /** Sort direction. Defaults to descending when unspecified. */
+  sort_direction?: ListGenaiSimulationRunsRequestSortDirection | (string & {});
+}
+export const ListGenaiSimulationRunsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scenario_set_uuid: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    statuses: S.optional(ListGenaiSimulationRunsRequestStatusesList.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+    sort_by: S.optional(ListGenaiSimulationRunsRequestSortBy.pipe(T.Query())),
+    sort_direction: S.optional(ListGenaiSimulationRunsRequestSortDirection.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/simulation_runs", code: 200 })),
+).annotate({
+  identifier: "ListGenaiSimulationRunsRequest",
+}) as any as S.Schema<ListGenaiSimulationRunsRequest>;
+
+/** Sortable fields for listing simulation runs. - SIMULATION_RUN_SORT_FIELD_CREATED_AT: Sort by creation date. Default. - SIMULATION_RUN_SORT_FIELD_NAME: Sort by customer-supplied run name (case-insensitive). - SIMULATION_RUN_SORT_FIELD_STATUS: Sort by status using lifecycle order (pending → running → terminal). - SIMULATION_RUN_SORT_FIELD_UPDATED_AT: Sort by last update date. */
+export type ApiSimulationRunSortField =
+  | "SIMULATION_RUN_SORT_FIELD_UNSPECIFIED"
+  | "SIMULATION_RUN_SORT_FIELD_CREATED_AT"
+  | "SIMULATION_RUN_SORT_FIELD_NAME"
+  | "SIMULATION_RUN_SORT_FIELD_STATUS"
+  | "SIMULATION_RUN_SORT_FIELD_UPDATED_AT";
+export const ApiSimulationRunSortField = S.String;
+
+/** Sort-by values available for this list request. */
+export type ApiListSimulationRunsOutputAvailableSortByList = Array<ApiSimulationRunSortField>;
+export const ApiListSimulationRunsOutputAvailableSortByList = /*@__PURE__*/ S.Array(
+  ApiSimulationRunSortField,
+) as any as S.Schema<ApiListSimulationRunsOutputAvailableSortByList>;
+
+/** Sort-direction values available for this list request. */
+export type ApiListSimulationRunsOutputAvailableSortDirectionsList = Array<ApiSortDirection>;
+export const ApiListSimulationRunsOutputAvailableSortDirectionsList = /*@__PURE__*/ S.Array(
+  ApiSortDirection,
+) as any as S.Schema<ApiListSimulationRunsOutputAvailableSortDirectionsList>;
+
+/** Statuses available for filtering this list request. */
+export type ApiListSimulationRunsOutputAvailableStatusesList = Array<ApiSimulationRunStatus>;
+export const ApiListSimulationRunsOutputAvailableStatusesList = /*@__PURE__*/ S.Array(
+  ApiSimulationRunStatus,
+) as any as S.Schema<ApiListSimulationRunsOutputAvailableStatusesList>;
+
+/** The simulation runs for the current page. */
+export type ApiListSimulationRunsOutputSimulationRunsList = Array<ApiSimulationRun>;
+export const ApiListSimulationRunsOutputSimulationRunsList = /*@__PURE__*/ S.Array(
+  ApiSimulationRun,
+) as any as S.Schema<ApiListSimulationRunsOutputSimulationRunsList>;
+
+/** Output for listing simulation runs. */
+export interface ApiListSimulationRunsOutput {
+  /** Sort-by values available for this list request. */
+  available_sort_by?: ApiListSimulationRunsOutputAvailableSortByList;
+  /** Sort-direction values available for this list request. */
+  available_sort_directions?: ApiListSimulationRunsOutputAvailableSortDirectionsList;
+  /** Statuses available for filtering this list request. */
+  available_statuses?: ApiListSimulationRunsOutputAvailableStatusesList;
+  links?: ApiLinks;
+  meta?: ApiMeta;
+  /** The simulation runs for the current page. */
+  simulation_runs?: ApiListSimulationRunsOutputSimulationRunsList;
+}
+export const ApiListSimulationRunsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    available_sort_by: S.optional(ApiListSimulationRunsOutputAvailableSortByList),
+    available_sort_directions: S.optional(ApiListSimulationRunsOutputAvailableSortDirectionsList),
+    available_statuses: S.optional(ApiListSimulationRunsOutputAvailableStatusesList),
+    links: S.optional(ApiLinks),
+    meta: S.optional(ApiMeta),
+    simulation_runs: S.optional(ApiListSimulationRunsOutputSimulationRunsList),
+  }),
+).annotate({
+  identifier: "ApiListSimulationRunsOutput",
+}) as any as S.Schema<ApiListSimulationRunsOutput>;
+
 export interface ListGenaiWorkspacesRequest {}
 export const ListGenaiWorkspacesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/workspaces", code: 200 })),
@@ -34661,9 +37908,7 @@ export const ApiListWorkspacesOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workspaces: S.optional(ApiListWorkspacesOutputWorkspacesList),
   }),
-).annotate({
-  identifier: "ApiListWorkspacesOutput",
-}) as any as S.Schema<ApiListWorkspacesOutput>;
+).annotate({ identifier: "ApiListWorkspacesOutput" }) as any as S.Schema<ApiListWorkspacesOutput>;
 
 export interface ListImageActionsRequest {
   /** A unique number that can be used to identify and reference a specific image. */
@@ -34673,9 +37918,7 @@ export const ListImageActionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     image_id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v2/images/{image_id}/actions", code: 200 })),
-).annotate({
-  identifier: "ListImageActionsRequest",
-}) as any as S.Schema<ListImageActionsRequest>;
+).annotate({ identifier: "ListImageActionsRequest" }) as any as S.Schema<ListImageActionsRequest>;
 
 export type ListImageActionsResponseActionsList = Array<Action>;
 export const ListImageActionsResponseActionsList = /*@__PURE__*/ S.Array(
@@ -34696,9 +37939,7 @@ export const ListImageActionsResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListImageActionsResponse",
-}) as any as S.Schema<ListImageActionsResponse>;
+).annotate({ identifier: "ListImageActionsResponse" }) as any as S.Schema<ListImageActionsResponse>;
 
 export type ListImagesRequestType = "application" | "distribution";
 export const ListImagesRequestType = S.String;
@@ -34723,9 +37964,7 @@ export const ListImagesRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/images", code: 200 })),
-).annotate({
-  identifier: "ListImagesRequest",
-}) as any as S.Schema<ListImagesRequest>;
+).annotate({ identifier: "ListImagesRequest" }) as any as S.Schema<ListImagesRequest>;
 
 export type ListImagesResponseImagesList = Array<Image>;
 export const ListImagesResponseImagesList = /*@__PURE__*/ S.Array(
@@ -34746,9 +37985,7 @@ export const ListImagesResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListImagesResponse",
-}) as any as S.Schema<ListImagesResponse>;
+).annotate({ identifier: "ListImagesResponse" }) as any as S.Schema<ListImagesResponse>;
 
 export type ListInferenceBatchesRequestStatus =
   | "validating"
@@ -34810,9 +38047,7 @@ export const BatchListResponse = /*@__PURE__*/ S.suspend(() =>
     last_id: S.optional(S.NullOr(S.String)),
     has_more: S.Boolean,
   }),
-).annotate({
-  identifier: "BatchListResponse",
-}) as any as S.Schema<BatchListResponse>;
+).annotate({ identifier: "BatchListResponse" }) as any as S.Schema<BatchListResponse>;
 
 export interface ListInferenceModelsRequest {}
 export const ListInferenceModelsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -34867,9 +38102,138 @@ export const ListModelsResponse = /*@__PURE__*/ S.suspend(() =>
     object: ListModelsResponseObject,
     data: ListModelsResponseDataList,
   }),
+).annotate({ identifier: "ListModelsResponse" }) as any as S.Schema<ListModelsResponse>;
+
+export type ListInsightAlertInstancesRequestStatus = "active" | "resolved";
+export const ListInsightAlertInstancesRequestStatus = S.String;
+
+export interface ListInsightAlertInstancesRequest {
+  /** Number of items returned per page */
+  per_page?: number;
+  /** Which 'page' of paginated results to return. */
+  page?: number;
+  /** Optional filter. When set, only alert instances with this status are returned. */
+  status?: ListInsightAlertInstancesRequestStatus | (string & {});
+  /** Optional filter. When set, only alert instances fired by the alert rule with this ID are returned. */
+  rule_id?: string;
+  /** Optional filter. When set, only resources associated with this resource URN are returned. */
+  resource_urn?: string;
+}
+export const ListInsightAlertInstancesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    status: S.optional(ListInsightAlertInstancesRequestStatus.pipe(T.Query())),
+    rule_id: S.optional(S.String.pipe(T.Query())),
+    resource_urn: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/insights/alert-instances", code: 200 })),
 ).annotate({
-  identifier: "ListModelsResponse",
-}) as any as S.Schema<ListModelsResponse>;
+  identifier: "ListInsightAlertInstancesRequest",
+}) as any as S.Schema<ListInsightAlertInstancesRequest>;
+
+export type ListInsightAlertInstancesResponseAlertInstancesList = Array<AlertInstance>;
+export const ListInsightAlertInstancesResponseAlertInstancesList = /*@__PURE__*/ S.Array(
+  AlertInstance,
+) as any as S.Schema<ListInsightAlertInstancesResponseAlertInstancesList>;
+
+export type ListInsightAlertInstancesResponseMeta = GetInvoiceByUUIDResponseMeta;
+export const ListInsightAlertInstancesResponseMeta = GetInvoiceByUUIDResponseMeta;
+
+export interface ListInsightAlertInstancesResponse {
+  alert_instances?: ListInsightAlertInstancesResponseAlertInstancesList;
+  links?: PageLinks;
+  meta: GetInvoiceByUUIDResponseMeta;
+}
+export const ListInsightAlertInstancesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    alert_instances: S.optional(ListInsightAlertInstancesResponseAlertInstancesList),
+    links: S.optional(PageLinks),
+    meta: GetInvoiceByUUIDResponseMeta,
+  }),
+).annotate({
+  identifier: "ListInsightAlertInstancesResponse",
+}) as any as S.Schema<ListInsightAlertInstancesResponse>;
+
+export interface ListInsightAlertRulesRequest {
+  /** Which 'page' of paginated results to return. */
+  page?: number;
+  /** Number of items returned per page */
+  per_page?: number;
+  /** Optional filter. When set, only resources associated with this resource URN are returned. */
+  resource_urn?: string;
+}
+export const ListInsightAlertRulesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    resource_urn: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/insights/alert-rules", code: 200 })),
+).annotate({
+  identifier: "ListInsightAlertRulesRequest",
+}) as any as S.Schema<ListInsightAlertRulesRequest>;
+
+export type ListInsightAlertRulesResponseAlertRulesList = Array<AlertRule>;
+export const ListInsightAlertRulesResponseAlertRulesList = /*@__PURE__*/ S.Array(
+  AlertRule,
+) as any as S.Schema<ListInsightAlertRulesResponseAlertRulesList>;
+
+export type ListInsightAlertRulesResponseMeta = GetInvoiceByUUIDResponseMeta;
+export const ListInsightAlertRulesResponseMeta = GetInvoiceByUUIDResponseMeta;
+
+export interface ListInsightAlertRulesResponse {
+  alert_rules: ListInsightAlertRulesResponseAlertRulesList;
+  links?: PageLinks;
+  meta: GetInvoiceByUUIDResponseMeta;
+}
+export const ListInsightAlertRulesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    alert_rules: ListInsightAlertRulesResponseAlertRulesList,
+    links: S.optional(PageLinks),
+    meta: GetInvoiceByUUIDResponseMeta,
+  }),
+).annotate({
+  identifier: "ListInsightAlertRulesResponse",
+}) as any as S.Schema<ListInsightAlertRulesResponse>;
+
+export interface ListInsightNotificationChannelsRequest {
+  /** Which 'page' of paginated results to return. */
+  page?: number;
+  /** Number of items returned per page */
+  per_page?: number;
+}
+export const ListInsightNotificationChannelsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/insights/notification-channels", code: 200 })),
+).annotate({
+  identifier: "ListInsightNotificationChannelsRequest",
+}) as any as S.Schema<ListInsightNotificationChannelsRequest>;
+
+export type ListInsightNotificationChannelsResponseNotificationChannelsList =
+  Array<NotificationChannel>;
+export const ListInsightNotificationChannelsResponseNotificationChannelsList =
+  /*@__PURE__*/ S.Array(
+    NotificationChannel,
+  ) as any as S.Schema<ListInsightNotificationChannelsResponseNotificationChannelsList>;
+
+export type ListInsightNotificationChannelsResponseMeta = GetInvoiceByUUIDResponseMeta;
+export const ListInsightNotificationChannelsResponseMeta = GetInvoiceByUUIDResponseMeta;
+
+export interface ListInsightNotificationChannelsResponse {
+  notification_channels: ListInsightNotificationChannelsResponseNotificationChannelsList;
+  links?: PageLinks;
+  meta: GetInvoiceByUUIDResponseMeta;
+}
+export const ListInsightNotificationChannelsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    notification_channels: ListInsightNotificationChannelsResponseNotificationChannelsList,
+    links: S.optional(PageLinks),
+    meta: GetInvoiceByUUIDResponseMeta,
+  }),
+).annotate({
+  identifier: "ListInsightNotificationChannelsResponse",
+}) as any as S.Schema<ListInsightNotificationChannelsResponse>;
 
 export interface ListInvoicesRequest {
   /** Number of items returned per page */
@@ -34882,9 +38246,7 @@ export const ListInvoicesRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/customers/my/invoices", code: 200 })),
-).annotate({
-  identifier: "ListInvoicesRequest",
-}) as any as S.Schema<ListInvoicesRequest>;
+).annotate({ identifier: "ListInvoicesRequest" }) as any as S.Schema<ListInvoicesRequest>;
 
 /** The invoice preview. */
 export interface InvoicePreview {
@@ -34930,9 +38292,7 @@ export const ListInvoicesResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListInvoicesResponse",
-}) as any as S.Schema<ListInvoicesResponse>;
+).annotate({ identifier: "ListInvoicesResponse" }) as any as S.Schema<ListInvoicesResponse>;
 
 export interface ListKubernetesAssociatedResourcesRequest {
   /** A unique ID that can be used to reference a Kubernetes cluster. */
@@ -35050,11 +38410,7 @@ export const ListKubernetesNodePoolsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cluster_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/kubernetes/clusters/{cluster_id}/node_pools",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/kubernetes/clusters/{cluster_id}/node_pools", code: 200 }),
   ),
 ).annotate({
   identifier: "ListKubernetesNodePoolsRequest",
@@ -35094,9 +38450,7 @@ export const KubernetesRegion = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     slug: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KubernetesRegion",
-}) as any as S.Schema<KubernetesRegion>;
+).annotate({ identifier: "KubernetesRegion" }) as any as S.Schema<KubernetesRegion>;
 
 export type KubernetesOptionsOptionsRegionsList = Array<KubernetesRegion>;
 export const KubernetesOptionsOptionsRegionsList = /*@__PURE__*/ S.Array(
@@ -35137,9 +38491,7 @@ export const KubernetesOptionsOptions = /*@__PURE__*/ S.suspend(() =>
     versions: S.optional(KubernetesOptionsOptionsVersionsList),
     sizes: S.optional(KubernetesOptionsOptionsSizesList),
   }),
-).annotate({
-  identifier: "KubernetesOptionsOptions",
-}) as any as S.Schema<KubernetesOptionsOptions>;
+).annotate({ identifier: "KubernetesOptionsOptions" }) as any as S.Schema<KubernetesOptionsOptions>;
 
 export interface KubernetesOptions {
   options?: KubernetesOptionsOptions;
@@ -35148,9 +38500,7 @@ export const KubernetesOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     options: S.optional(KubernetesOptionsOptions),
   }),
-).annotate({
-  identifier: "KubernetesOptions",
-}) as any as S.Schema<KubernetesOptions>;
+).annotate({ identifier: "KubernetesOptions" }) as any as S.Schema<KubernetesOptions>;
 
 export interface ListLoadBalancersRequest {
   /** Number of items returned per page */
@@ -35163,9 +38513,7 @@ export const ListLoadBalancersRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/load_balancers", code: 200 })),
-).annotate({
-  identifier: "ListLoadBalancersRequest",
-}) as any as S.Schema<ListLoadBalancersRequest>;
+).annotate({ identifier: "ListLoadBalancersRequest" }) as any as S.Schema<ListLoadBalancersRequest>;
 
 export type ListLoadBalancersResponseLoadBalancersList = Array<LoadBalancer>;
 export const ListLoadBalancersResponseLoadBalancersList = /*@__PURE__*/ S.Array(
@@ -35189,6 +38537,87 @@ export const ListLoadBalancersResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListLoadBalancersResponse",
 }) as any as S.Schema<ListLoadBalancersResponse>;
+
+export interface ListMcpServersRequest {}
+export const ListMcpServersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/mcp-servers", code: 200 })),
+).annotate({ identifier: "ListMcpServersRequest" }) as any as S.Schema<ListMcpServersRequest>;
+
+/** Servers sorted by `serverRef`. */
+export type ListMcpServersResponseMcpServersList = Array<McpServer>;
+export const ListMcpServersResponseMcpServersList = /*@__PURE__*/ S.Array(
+  McpServer,
+) as any as S.Schema<ListMcpServersResponseMcpServersList>;
+
+/** Lists your team's MCP servers. */
+export interface ListMcpServersResponse {
+  /** Servers sorted by `serverRef`. */
+  mcpServers?: ListMcpServersResponseMcpServersList;
+}
+export const ListMcpServersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mcpServers: S.optional(ListMcpServersResponseMcpServersList),
+  }),
+).annotate({ identifier: "ListMcpServersResponse" }) as any as S.Schema<ListMcpServersResponse>;
+
+export interface ListMcpServerToolsRequest {
+  /** Server identifier (`serverRef`) of one of your team's MCP servers. */
+  server_ref: string;
+}
+export const ListMcpServerToolsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    server_ref: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v2/action-gateway/mcp-servers/{server_ref}/tools", code: 200 }),
+  ),
+).annotate({
+  identifier: "ListMcpServerToolsRequest",
+}) as any as S.Schema<ListMcpServerToolsRequest>;
+
+/** One tool discovered on an MCP server. */
+export interface McpServerTool {
+  /** Tool name as the server reports it, normalized to the catalog's naming rules. */
+  name?: string;
+  /** `<server_ref>_<name>`: the tool's catalog slug, and the value to list in `enabledToolSlugs`. */
+  toolSlug?: string;
+  /** Tool description as the server reports it. */
+  description?: string;
+  /** Whether the tool is enabled in your team's catalog. */
+  enabled?: boolean;
+  /** True when the enabled tool was suspended because it disappeared from the server or its input schema changed incompatibly. Calls to it fail until it is enabled again. */
+  quarantined?: boolean;
+  /** Why the tool was quarantined; empty otherwise. */
+  quarantineReason?: string;
+}
+export const McpServerTool = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    toolSlug: S.optional(S.String),
+    description: S.optional(S.String),
+    enabled: S.optional(S.Boolean),
+    quarantined: S.optional(S.Boolean),
+    quarantineReason: S.optional(S.String),
+  }),
+).annotate({ identifier: "McpServerTool" }) as any as S.Schema<McpServerTool>;
+
+/** Tools sorted by name. */
+export type ListMcpServerToolsResponseToolsList = Array<McpServerTool>;
+export const ListMcpServerToolsResponseToolsList = /*@__PURE__*/ S.Array(
+  McpServerTool,
+) as any as S.Schema<ListMcpServerToolsResponseToolsList>;
+
+/** Lists an MCP server's discovered tools. */
+export interface ListMcpServerToolsResponse {
+  /** Tools sorted by name. */
+  tools?: ListMcpServerToolsResponseToolsList;
+}
+export const ListMcpServerToolsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tools: S.optional(ListMcpServerToolsResponseToolsList),
+  }),
+).annotate({
+  identifier: "ListMcpServerToolsResponse",
+}) as any as S.Schema<ListMcpServerToolsResponse>;
 
 export interface ListMonitoringAlertPolicyRequest {
   /** Number of items returned per page */
@@ -35230,13 +38659,7 @@ export const ListMonitoringAlertPolicyResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface ListMonitoringDestinationsRequest {}
 export const ListMonitoringDestinationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/sinks/destinations",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/monitoring/sinks/destinations", code: 200 })),
 ).annotate({
   identifier: "ListMonitoringDestinationsRequest",
 }) as any as S.Schema<ListMonitoringDestinationsRequest>;
@@ -35309,9 +38732,7 @@ export const NfsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     shares: S.optional(NfsListResponseSharesList),
   }),
-).annotate({
-  identifier: "NfsListResponse",
-}) as any as S.Schema<NfsListResponse>;
+).annotate({ identifier: "NfsListResponse" }) as any as S.Schema<NfsListResponse>;
 
 export type ListNfsAccessPointsRequestStatus =
   | "ACCESS_POINT_CREATING"
@@ -35330,13 +38751,7 @@ export const ListNfsAccessPointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     share_id: S.String.pipe(T.Label()),
     status: S.optional(ListNfsAccessPointsRequestStatus.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/nfs/shares/{share_id}/access_points",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/nfs/shares/{share_id}/access_points", code: 200 })),
 ).annotate({
   identifier: "ListNfsAccessPointsRequest",
 }) as any as S.Schema<ListNfsAccessPointsRequest>;
@@ -35356,9 +38771,7 @@ export const AccessPointListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     access_points: AccessPointListResponseAccessPointsList,
   }),
-).annotate({
-  identifier: "AccessPointListResponse",
-}) as any as S.Schema<AccessPointListResponse>;
+).annotate({ identifier: "AccessPointListResponse" }) as any as S.Schema<AccessPointListResponse>;
 
 export interface ListNfsSnapshotRequest {
   /** The DigitalOcean region slug (e.g., nyc2, atl1) where the NFS share resides. */
@@ -35371,9 +38784,7 @@ export const ListNfsSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String.pipe(T.Query())),
     share_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/nfs/snapshots", code: 200 })),
-).annotate({
-  identifier: "ListNfsSnapshotRequest",
-}) as any as S.Schema<ListNfsSnapshotRequest>;
+).annotate({ identifier: "ListNfsSnapshotRequest" }) as any as S.Schema<ListNfsSnapshotRequest>;
 
 export type NfsSnapshotListResponseSnapshotsList = Array<NfsSnapshotResponse>;
 export const NfsSnapshotListResponseSnapshotsList = /*@__PURE__*/ S.Array(
@@ -35387,9 +38798,7 @@ export const NfsSnapshotListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     snapshots: S.optional(NfsSnapshotListResponseSnapshotsList),
   }),
-).annotate({
-  identifier: "NfsSnapshotListResponse",
-}) as any as S.Schema<NfsSnapshotListResponse>;
+).annotate({ identifier: "NfsSnapshotListResponse" }) as any as S.Schema<NfsSnapshotListResponse>;
 
 export type ListOneClicksRequestType = "droplet" | "kubernetes";
 export const ListOneClicksRequestType = S.String;
@@ -35402,9 +38811,7 @@ export const ListOneClicksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(ListOneClicksRequestType.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/1-clicks", code: 200 })),
-).annotate({
-  identifier: "ListOneClicksRequest",
-}) as any as S.Schema<ListOneClicksRequest>;
+).annotate({ identifier: "ListOneClicksRequest" }) as any as S.Schema<ListOneClicksRequest>;
 
 export interface OneClicks {
   /** The slug identifier for the 1-Click application. */
@@ -35431,9 +38838,7 @@ export const ListOneClicksResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _1_clicks: S.optional(ListOneClicksResponse1ClicksList.pipe(T.Body("1_clicks"))),
   }),
-).annotate({
-  identifier: "ListOneClicksResponse",
-}) as any as S.Schema<ListOneClicksResponse>;
+).annotate({ identifier: "ListOneClicksResponse" }) as any as S.Schema<ListOneClicksResponse>;
 
 export interface ListOrganizationTeamsRequest {}
 export const ListOrganizationTeamsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -35476,9 +38881,7 @@ export const OrganizationTeam = /*@__PURE__*/ S.suspend(() =>
     joined_organization_at: S.optional(S.String),
     company: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OrganizationTeam",
-}) as any as S.Schema<OrganizationTeam>;
+).annotate({ identifier: "OrganizationTeam" }) as any as S.Schema<OrganizationTeam>;
 
 export type ListOrganizationTeamsResponseTeamsList = Array<OrganizationTeam>;
 export const ListOrganizationTeamsResponseTeamsList = /*@__PURE__*/ S.Array(
@@ -35495,6 +38898,54 @@ export const ListOrganizationTeamsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListOrganizationTeamsResponse",
 }) as any as S.Schema<ListOrganizationTeamsResponse>;
+
+export interface ListOutputViewsRequest {
+  /** At most one of tool or `tool_id`, as on create. With one set, the list is the published views plus your team's own on that tool version. With neither, it is every live view your team owns plus every published view on a tool version your catalog exposes, across tools. */
+  tool?: string;
+  /** Opaque ID of the tool version; see tool. */
+  tool_id?: string;
+  /** Page size, 1 to 100. Defaults to 20 when omitted or 0; other values are rejected with 400. */
+  page_size?: number;
+  /** `next_page_token` from the previous response. Valid only with the same tool selection; otherwise the request is rejected with 400. */
+  page_token?: string;
+}
+export const ListOutputViewsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tool: S.optional(S.String.pipe(T.Query())),
+    tool_id: S.optional(S.String.pipe(T.Query())),
+    page_size: S.optional(S.Number.pipe(T.Query())),
+    page_token: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/output-views", code: 200 })),
+).annotate({ identifier: "ListOutputViewsRequest" }) as any as S.Schema<ListOutputViewsRequest>;
+
+/** Ordered by tool version, then published views before your team's own, then name. */
+export type ListOutputViewsResponseViewsList = Array<OutputView>;
+export const ListOutputViewsResponseViewsList = /*@__PURE__*/ S.Array(
+  OutputView,
+) as any as S.Schema<ListOutputViewsResponseViewsList>;
+
+/** One page of output views. */
+export interface ListOutputViewsResponse {
+  /** Ordered by tool version, then published views before your team's own, then name. */
+  views?: ListOutputViewsResponseViewsList;
+  /** The tool version the views are bound to, echoed so an unpinned request learns which version it resolved. Empty when the request named no tool. */
+  tool_id?: string;
+  /** Tool slug of that version. Empty when the request named no tool. */
+  tool?: string;
+  /** Version of that tool, for example `v3`. Empty when the request named no tool. */
+  version?: string;
+  /** Empty on the last page. */
+  next_page_token?: string;
+}
+export const ListOutputViewsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    views: S.optional(ListOutputViewsResponseViewsList),
+    tool_id: S.optional(S.String),
+    tool: S.optional(S.String),
+    version: S.optional(S.String),
+    next_page_token: S.optional(S.String),
+  }),
+).annotate({ identifier: "ListOutputViewsResponse" }) as any as S.Schema<ListOutputViewsResponse>;
 
 export interface ListPartnerAttachmentRemoteRoutesRequest {
   /** A unique identifier for a partner attachment. */
@@ -35566,13 +39017,7 @@ export const ListPartnerAttachmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/partner_network_connect/attachments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/partner_network_connect/attachments", code: 200 })),
 ).annotate({
   identifier: "ListPartnerAttachmentsRequest",
 }) as any as S.Schema<ListPartnerAttachmentsRequest>;
@@ -35613,13 +39058,7 @@ export const ListProjectResourcesRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/projects/{project_id}/resources",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/projects/{project_id}/resources", code: 200 })),
 ).annotate({
   identifier: "ListProjectResourcesRequest",
 }) as any as S.Schema<ListProjectResourcesRequest>;
@@ -35692,9 +39131,7 @@ export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/projects", code: 200 })),
-).annotate({
-  identifier: "ListProjectsRequest",
-}) as any as S.Schema<ListProjectsRequest>;
+).annotate({ identifier: "ListProjectsRequest" }) as any as S.Schema<ListProjectsRequest>;
 
 export type ListProjectsResponseProjectsList = Array<Project>;
 export const ListProjectsResponseProjectsList = /*@__PURE__*/ S.Array(
@@ -35715,9 +39152,7 @@ export const ListProjectsResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListProjectsResponse",
-}) as any as S.Schema<ListProjectsResponse>;
+).annotate({ identifier: "ListProjectsResponse" }) as any as S.Schema<ListProjectsResponse>;
 
 export interface ListRegionsRequest {
   /** Number of items returned per page */
@@ -35730,9 +39165,7 @@ export const ListRegionsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/regions", code: 200 })),
-).annotate({
-  identifier: "ListRegionsRequest",
-}) as any as S.Schema<ListRegionsRequest>;
+).annotate({ identifier: "ListRegionsRequest" }) as any as S.Schema<ListRegionsRequest>;
 
 export type ListRegionsResponseRegionsList = Array<Region>;
 export const ListRegionsResponseRegionsList = /*@__PURE__*/ S.Array(
@@ -35753,16 +39186,12 @@ export const ListRegionsResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListRegionsResponse",
-}) as any as S.Schema<ListRegionsResponse>;
+).annotate({ identifier: "ListRegionsResponse" }) as any as S.Schema<ListRegionsResponse>;
 
 export interface ListRegistriesRequest {}
 export const ListRegistriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/registries", code: 200 })),
-).annotate({
-  identifier: "ListRegistriesRequest",
-}) as any as S.Schema<ListRegistriesRequest>;
+).annotate({ identifier: "ListRegistriesRequest" }) as any as S.Schema<ListRegistriesRequest>;
 
 export type RegistrySubscription = Subscription;
 export const RegistrySubscription = Subscription;
@@ -35803,9 +39232,7 @@ export const ListRegistriesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     registries: S.optional(ListRegistriesResponseRegistriesList),
   }),
-).annotate({
-  identifier: "ListRegistriesResponse",
-}) as any as S.Schema<ListRegistriesResponse>;
+).annotate({ identifier: "ListRegistriesResponse" }) as any as S.Schema<ListRegistriesResponse>;
 
 export interface ListRegistryGarbageCollectionsRequest {
   /** The name of a container registry. */
@@ -35821,11 +39248,7 @@ export const ListRegistryGarbageCollectionsRequest = /*@__PURE__*/ S.suspend(() 
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/registries/{registry_name}/garbage-collections",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/registries/{registry_name}/garbage-collections", code: 200 }),
   ),
 ).annotate({
   identifier: "ListRegistryGarbageCollectionsRequest",
@@ -35864,11 +39287,7 @@ export const ListRegistryRepositoriesV2Request = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     page_token: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/registries/{registry_name}/repositoriesV2",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/registries/{registry_name}/repositoriesV2", code: 200 }),
   ),
 ).annotate({
   identifier: "ListRegistryRepositoriesV2Request",
@@ -35928,9 +39347,7 @@ export const RepositoryManifest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(RepositoryManifestTagsList),
     blobs: S.optional(RepositoryManifestBlobsList),
   }),
-).annotate({
-  identifier: "RepositoryManifest",
-}) as any as S.Schema<RepositoryManifest>;
+).annotate({ identifier: "RepositoryManifest" }) as any as S.Schema<RepositoryManifest>;
 
 export interface RepositoryV2 {
   /** The name of the container registry. */
@@ -36115,9 +39532,7 @@ export const ListReservedIPsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/reserved_ips", code: 200 })),
-).annotate({
-  identifier: "ListReservedIPsRequest",
-}) as any as S.Schema<ListReservedIPsRequest>;
+).annotate({ identifier: "ListReservedIPsRequest" }) as any as S.Schema<ListReservedIPsRequest>;
 
 export type ListReservedIPsResponseReservedIpsList = Array<ReservedIp>;
 export const ListReservedIPsResponseReservedIpsList = /*@__PURE__*/ S.Array(
@@ -36138,9 +39553,7 @@ export const ListReservedIPsResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListReservedIPsResponse",
-}) as any as S.Schema<ListReservedIPsResponse>;
+).annotate({ identifier: "ListReservedIPsResponse" }) as any as S.Schema<ListReservedIPsResponse>;
 
 export interface ListReservedIPsActionsRequest {
   /** A reserved IP address. */
@@ -36149,13 +39562,7 @@ export interface ListReservedIPsActionsRequest {
 export const ListReservedIPsActionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reserved_ip: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/reserved_ips/{reserved_ip}/actions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/reserved_ips/{reserved_ip}/actions", code: 200 })),
 ).annotate({
   identifier: "ListReservedIPsActionsRequest",
 }) as any as S.Schema<ListReservedIPsActionsRequest>;
@@ -36194,9 +39601,7 @@ export const ListReservedIPv6Request = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/reserved_ipv6", code: 200 })),
-).annotate({
-  identifier: "ListReservedIPv6Request",
-}) as any as S.Schema<ListReservedIPv6Request>;
+).annotate({ identifier: "ListReservedIPv6Request" }) as any as S.Schema<ListReservedIPv6Request>;
 
 /** Requires `droplet:read` scope. */
 export type ListReservedIPv6ResponseReservedIpv6sItemDroplet = unknown | Droplet;
@@ -36243,9 +39648,7 @@ export const ListReservedIPv6Response = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListReservedIPv6Response",
-}) as any as S.Schema<ListReservedIPv6Response>;
+).annotate({ identifier: "ListReservedIPv6Response" }) as any as S.Schema<ListReservedIPv6Response>;
 
 export interface ListSecurityScanFindingAffectedResourcesRequest {
   /** The scan UUID. */
@@ -36288,9 +39691,7 @@ export const AffectedResource = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AffectedResource",
-}) as any as S.Schema<AffectedResource>;
+).annotate({ identifier: "AffectedResource" }) as any as S.Schema<AffectedResource>;
 
 export type ListSecurityScanFindingAffectedResourcesResponseAffectedResourcesList =
   Array<AffectedResource>;
@@ -36323,9 +39724,7 @@ export const ListSecurityScansRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/security/scans", code: 200 })),
-).annotate({
-  identifier: "ListSecurityScansRequest",
-}) as any as S.Schema<ListSecurityScansRequest>;
+).annotate({ identifier: "ListSecurityScansRequest" }) as any as S.Schema<ListSecurityScansRequest>;
 
 export type ListSecurityScansResponseScansList = Array<Scan>;
 export const ListSecurityScansResponseScansList = /*@__PURE__*/ S.Array(
@@ -36372,9 +39771,7 @@ export const SettingsSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     suppressions: S.optional(SuppressedResourceRoot),
   }),
-).annotate({
-  identifier: "SettingsSettings",
-}) as any as S.Schema<SettingsSettings>;
+).annotate({ identifier: "SettingsSettings" }) as any as S.Schema<SettingsSettings>;
 
 export type SettingsTierCoverageValueResourcesList = Array<string>;
 export const SettingsTierCoverageValueResourcesList = /*@__PURE__*/ S.Array(
@@ -36399,9 +39796,7 @@ export const SettingsTierCoverageValue = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsTierCoverageValue",
 }) as any as S.Schema<SettingsTierCoverageValue>;
 
-export type SettingsTierCoverageMap = {
-  [key: string]: SettingsTierCoverageValue | undefined;
-};
+export type SettingsTierCoverageMap = { [key: string]: SettingsTierCoverageValue | undefined };
 export const SettingsTierCoverageMap = /*@__PURE__*/ S.Record(
   S.String,
   SettingsTierCoverageValue,
@@ -36427,9 +39822,7 @@ export const PlanDowngrades = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "PlanDowngrades" }) as any as S.Schema<PlanDowngrades>;
 
-export type SettingsPlanDowngradesMap = {
-  [key: string]: PlanDowngrades | undefined;
-};
+export type SettingsPlanDowngradesMap = { [key: string]: PlanDowngrades | undefined };
 export const SettingsPlanDowngradesMap = /*@__PURE__*/ S.Record(
   S.String,
   PlanDowngrades,
@@ -36448,6 +39841,42 @@ export const Settings = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Settings" }) as any as S.Schema<Settings>;
 
+export interface ListSessionsRequest {
+  /** Optional `actor_id`, matched exactly. */
+  end_user_id?: string;
+  /** 1-based page number. Values below 1 are treated as 1. */
+  page?: number;
+  /** Page size. Defaults to 20; values above 100 are capped at 100. */
+  per_page?: number;
+}
+export const ListSessionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    end_user_id: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/sessions", code: 200 })),
+).annotate({ identifier: "ListSessionsRequest" }) as any as S.Schema<ListSessionsRequest>;
+
+/** Sessions, newest first. */
+export type ListSessionsResponseSessionsList = Array<Session>;
+export const ListSessionsResponseSessionsList = /*@__PURE__*/ S.Array(
+  Session,
+) as any as S.Schema<ListSessionsResponseSessionsList>;
+
+/** One page of sessions. */
+export interface ListSessionsResponse {
+  /** Sessions, newest first. */
+  sessions?: ListSessionsResponseSessionsList;
+  /** Paging applied to this response and the total number of sessions. */
+  pagination?: Pagination;
+}
+export const ListSessionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessions: S.optional(ListSessionsResponseSessionsList),
+    pagination: S.optional(Pagination),
+  }),
+).annotate({ identifier: "ListSessionsResponse" }) as any as S.Schema<ListSessionsResponse>;
+
 export interface ListSizesRequest {
   /** Number of items returned per page */
   per_page?: number;
@@ -36459,9 +39888,7 @@ export const ListSizesRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/sizes", code: 200 })),
-).annotate({
-  identifier: "ListSizesRequest",
-}) as any as S.Schema<ListSizesRequest>;
+).annotate({ identifier: "ListSizesRequest" }) as any as S.Schema<ListSizesRequest>;
 
 export type ListSizesResponseSizesList = Array<Size>;
 export const ListSizesResponseSizesList = /*@__PURE__*/ S.Array(
@@ -36482,9 +39909,7 @@ export const ListSizesResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListSizesResponse",
-}) as any as S.Schema<ListSizesResponse>;
+).annotate({ identifier: "ListSizesResponse" }) as any as S.Schema<ListSizesResponse>;
 
 export type ListSnapshotsRequestResourceType = "droplet" | "volume";
 export const ListSnapshotsRequestResourceType = S.String;
@@ -36503,9 +39928,7 @@ export const ListSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     resource_type: S.optional(ListSnapshotsRequestResourceType.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/snapshots", code: 200 })),
-).annotate({
-  identifier: "ListSnapshotsRequest",
-}) as any as S.Schema<ListSnapshotsRequest>;
+).annotate({ identifier: "ListSnapshotsRequest" }) as any as S.Schema<ListSnapshotsRequest>;
 
 export type ListSnapshotsResponseSnapshotsList = Array<Snapshots>;
 export const ListSnapshotsResponseSnapshotsList = /*@__PURE__*/ S.Array(
@@ -36526,9 +39949,7 @@ export const ListSnapshotsResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListSnapshotsResponse",
-}) as any as S.Schema<ListSnapshotsResponse>;
+).annotate({ identifier: "ListSnapshotsResponse" }) as any as S.Schema<ListSnapshotsResponse>;
 
 export interface ListSpacesKeyRequest {
   /** Number of items returned per page */
@@ -36556,9 +39977,7 @@ export const ListSpacesKeyRequest = /*@__PURE__*/ S.suspend(() =>
     bucket: S.optional(S.String.pipe(T.Query())),
     permission: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/spaces/keys", code: 200 })),
-).annotate({
-  identifier: "ListSpacesKeyRequest",
-}) as any as S.Schema<ListSpacesKeyRequest>;
+).annotate({ identifier: "ListSpacesKeyRequest" }) as any as S.Schema<ListSpacesKeyRequest>;
 
 export type ListSpacesKeyResponseKeysList = Array<Key>;
 export const ListSpacesKeyResponseKeysList = /*@__PURE__*/ S.Array(
@@ -36579,9 +39998,7 @@ export const ListSpacesKeyResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListSpacesKeyResponse",
-}) as any as S.Schema<ListSpacesKeyResponse>;
+).annotate({ identifier: "ListSpacesKeyResponse" }) as any as S.Schema<ListSpacesKeyResponse>;
 
 export interface ListSshKeysRequest {
   /** Number of items returned per page */
@@ -36594,9 +40011,7 @@ export const ListSshKeysRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/account/keys", code: 200 })),
-).annotate({
-  identifier: "ListSshKeysRequest",
-}) as any as S.Schema<ListSshKeysRequest>;
+).annotate({ identifier: "ListSshKeysRequest" }) as any as S.Schema<ListSshKeysRequest>;
 
 export type ListSshKeysResponseSshKeysList = Array<SshKeys>;
 export const ListSshKeysResponseSshKeysList = /*@__PURE__*/ S.Array(
@@ -36617,9 +40032,7 @@ export const ListSshKeysResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListSshKeysResponse",
-}) as any as S.Schema<ListSshKeysResponse>;
+).annotate({ identifier: "ListSshKeysResponse" }) as any as S.Schema<ListSshKeysResponse>;
 
 export interface ListTagsRequest {
   /** Number of items returned per page */
@@ -36632,9 +40045,7 @@ export const ListTagsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/tags", code: 200 })),
-).annotate({
-  identifier: "ListTagsRequest",
-}) as any as S.Schema<ListTagsRequest>;
+).annotate({ identifier: "ListTagsRequest" }) as any as S.Schema<ListTagsRequest>;
 
 export type ListTagsResponseTagsList = Array<Tags>;
 export const ListTagsResponseTagsList = /*@__PURE__*/ S.Array(
@@ -36655,9 +40066,724 @@ export const ListTagsResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
+).annotate({ identifier: "ListTagsResponse" }) as any as S.Schema<ListTagsResponse>;
+
+export interface ListToolbeltProvidersRequest {
+  /** Toolbelt name. */
+  name: string;
+  /** Version number to read. Empty reads the latest version. */
+  version?: string;
+  /** 1-based page number. Values below 1 are treated as 1. */
+  page?: number;
+  /** Page size. Defaults to 20; values above 100 are capped at 100. */
+  per_page?: number;
+  /** Restricts providers whose ID, name, or description contains this value, case-insensitively. */
+  search?: string;
+}
+export const ListToolbeltProvidersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    version: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v2/action-gateway/toolbelts/{name}/providers", code: 200 }),
+  ),
 ).annotate({
-  identifier: "ListTagsResponse",
-}) as any as S.Schema<ListTagsResponse>;
+  identifier: "ListToolbeltProvidersRequest",
+}) as any as S.Schema<ListToolbeltProvidersRequest>;
+
+/** The distinct tool categories among this toolbelt's members for the provider (sorted). Empty for `_legacy` or when no member has a category. */
+export type ToolbeltProviderSummaryCategoriesList = Array<string>;
+export const ToolbeltProviderSummaryCategoriesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ToolbeltProviderSummaryCategoriesList>;
+
+/** One provider represented in a toolbelt's membership. Its provider fields (ID, name, description, `created_at`) match the toolkit entries of `GET /v2/action-gateway/tools/toolkits`, so a client can render the same provider card without a second request. */
+export interface ToolbeltProviderSummary {
+  /** The provider ID. Members recorded without a provider are grouped under `_legacy`, which is also accepted in the provider path. */
+  provider?: string;
+  /** How many toolbelt members belong to this provider. */
+  tool_count?: number;
+  /** Equals provider; present so the entry has the same shape as a toolkit. */
+  id?: string;
+  /** The provider's display name. Empty for `_legacy`. */
+  name?: string;
+  /** Provider description. Empty for `_legacy`. */
+  description?: string;
+  /** The distinct tool categories among this toolbelt's members for the provider (sorted). Empty for `_legacy` or when no member has a category. */
+  categories?: ToolbeltProviderSummaryCategoriesList;
+  /** When the provider was added to the catalog. Unset for `_legacy`. */
+  created_at?: string | null;
+}
+export const ToolbeltProviderSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: S.optional(S.String),
+    tool_count: S.optional(S.Number),
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    categories: S.optional(ToolbeltProviderSummaryCategoriesList),
+    created_at: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "ToolbeltProviderSummary" }) as any as S.Schema<ToolbeltProviderSummary>;
+
+/** Providers sorted by ID. */
+export type ListToolbeltProvidersResponseProvidersList = Array<ToolbeltProviderSummary>;
+export const ListToolbeltProvidersResponseProvidersList = /*@__PURE__*/ S.Array(
+  ToolbeltProviderSummary,
+) as any as S.Schema<ListToolbeltProvidersResponseProvidersList>;
+
+/** One page of a toolbelt's providers. */
+export interface ListToolbeltProvidersResponse {
+  /** The toolbelt version the providers were read from. */
+  toolbelt?: Toolbelt;
+  /** Providers sorted by ID. */
+  providers?: ListToolbeltProvidersResponseProvidersList;
+  /** Paging applied to this response and the total number of providers. */
+  pagination?: Pagination;
+}
+export const ListToolbeltProvidersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    toolbelt: S.optional(Toolbelt),
+    providers: S.optional(ListToolbeltProvidersResponseProvidersList),
+    pagination: S.optional(Pagination),
+  }),
+).annotate({
+  identifier: "ListToolbeltProvidersResponse",
+}) as any as S.Schema<ListToolbeltProvidersResponse>;
+
+export interface ListToolbeltProviderToolsRequest {
+  /** Toolbelt name. */
+  name: string;
+  /** A provider ID from the toolbelt's provider list, or `_legacy` for members recorded without a provider. Matched exactly. */
+  provider: string;
+  /** Version number to read. Empty reads the latest version. */
+  version?: string;
+  /** 1-based page number. Values below 1 are treated as 1. */
+  page?: number;
+  /** Page size. Defaults to 20; values above 100 are capped at 100. */
+  per_page?: number;
+  /** Restricts tools whose slug, name, title, description, provider, or category contains this value, case-insensitively, within the provider only. */
+  search?: string;
+}
+export const ListToolbeltProviderToolsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    provider: S.String.pipe(T.Label()),
+    version: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v2/action-gateway/toolbelts/{name}/providers/{provider}/tools",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListToolbeltProviderToolsRequest",
+}) as any as S.Schema<ListToolbeltProviderToolsRequest>;
+
+/** Members sorted by tool slug. */
+export type ListToolbeltProviderToolsResponseToolsList = Array<ToolbeltToolDetail>;
+export const ListToolbeltProviderToolsResponseToolsList = /*@__PURE__*/ S.Array(
+  ToolbeltToolDetail,
+) as any as S.Schema<ListToolbeltProviderToolsResponseToolsList>;
+
+/** One page of a toolbelt's members from one provider. */
+export interface ListToolbeltProviderToolsResponse {
+  /** Members sorted by tool slug. */
+  tools?: ListToolbeltProviderToolsResponseToolsList;
+  /** Paging applied to this response and the total number of matching members. */
+  pagination?: Pagination;
+}
+export const ListToolbeltProviderToolsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tools: S.optional(ListToolbeltProviderToolsResponseToolsList),
+    pagination: S.optional(Pagination),
+  }),
+).annotate({
+  identifier: "ListToolbeltProviderToolsResponse",
+}) as any as S.Schema<ListToolbeltProviderToolsResponse>;
+
+export type ListToolbeltsRequestStatus = "active" | "deprecated" | "all";
+export const ListToolbeltsRequestStatus = S.String;
+
+export interface ListToolbeltsRequest {
+  /** active (default), deprecated, or all. Case-insensitive. */
+  status?: ListToolbeltsRequestStatus | (string & {});
+  /** 1-based page number. Values below 1 are treated as 1. */
+  page?: number;
+  /** Page size. Defaults to 20; values above 100 are capped at 100. */
+  per_page?: number;
+}
+export const ListToolbeltsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(ListToolbeltsRequestStatus.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/toolbelts", code: 200 })),
+).annotate({ identifier: "ListToolbeltsRequest" }) as any as S.Schema<ListToolbeltsRequest>;
+
+/** active, or deprecated once the toolbelt is deleted. */
+export type ToolbeltSummaryStatus = "active" | "deprecated";
+export const ToolbeltSummaryStatus = S.String;
+
+/** Describes a toolbelt by its latest version, without the member list. */
+export interface ToolbeltSummary {
+  /** Toolbelt name. */
+  name?: string;
+  /** Human-readable label of the latest version. */
+  display_name?: string;
+  /** Description of the latest version. */
+  description?: string;
+  /** Latest version number, as a string. */
+  latest_version?: string;
+  /** Number of versions recorded under this name, including versions from before the toolbelt was deleted and the name reused. */
+  version_count?: number;
+  /** Number of members in the latest version. */
+  tool_count?: number;
+  /** active, or deprecated once the toolbelt is deleted. */
+  status?: ToolbeltSummaryStatus;
+  /** The toolbelt name, which refers to whichever version is latest. */
+  reference_latest?: string;
+  /** When the latest version was last modified, in RFC 3339 format. */
+  updated_at?: string;
+}
+export const ToolbeltSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    display_name: S.optional(S.String),
+    description: S.optional(S.String),
+    latest_version: S.optional(S.String),
+    version_count: S.optional(S.Number),
+    tool_count: S.optional(S.Number),
+    status: S.optional(ToolbeltSummaryStatus),
+    reference_latest: S.optional(S.String),
+    updated_at: S.optional(S.String),
+  }),
+).annotate({ identifier: "ToolbeltSummary" }) as any as S.Schema<ToolbeltSummary>;
+
+/** Toolbelts sorted by name. */
+export type ToolbeltsResponseToolbeltsList = Array<ToolbeltSummary>;
+export const ToolbeltsResponseToolbeltsList = /*@__PURE__*/ S.Array(
+  ToolbeltSummary,
+) as any as S.Schema<ToolbeltsResponseToolbeltsList>;
+
+/** One page of your team's toolbelts. */
+export interface ToolbeltsResponse {
+  /** Toolbelts sorted by name. */
+  toolbelts?: ToolbeltsResponseToolbeltsList;
+  /** Paging applied to this response and the total number of toolbelts. */
+  pagination?: Pagination;
+}
+export const ToolbeltsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    toolbelts: S.optional(ToolbeltsResponseToolbeltsList),
+    pagination: S.optional(Pagination),
+  }),
+).annotate({ identifier: "ToolbeltsResponse" }) as any as S.Schema<ToolbeltsResponse>;
+
+export type ListToolHealthRequestWindow =
+  | "HEALTH_WINDOW_ONE_HOUR"
+  | "HEALTH_WINDOW_TWENTY_FOUR_HOURS"
+  | "HEALTH_WINDOW_SEVEN_DAYS"
+  | "HEALTH_WINDOW_THIRTY_DAYS";
+export const ListToolHealthRequestWindow = S.String;
+
+export interface ListToolHealthRequest {
+  /** Optional provider ID, matched exactly, to return only that provider's tools. */
+  provider?: string;
+  /** Window to aggregate over. Defaults to twenty-four hours. - `HEALTH_WINDOW_UNSPECIFIED`: Twenty-four hours. - `HEALTH_WINDOW_ONE_HOUR`: One hour; history points are 10 minutes. - `HEALTH_WINDOW_TWENTY_FOUR_HOURS`: Twenty-four hours; history points are 1 hour. - `HEALTH_WINDOW_SEVEN_DAYS`: Seven days; history points are 6 hours. - `HEALTH_WINDOW_THIRTY_DAYS`: Thirty days; history points are 24 hours. */
+  window?: ListToolHealthRequestWindow | (string & {});
+  /** 1-based page number. Values below 1 are treated as 1. */
+  page?: number;
+  /** Page size. Defaults to 20; values above 100 are capped at 100. */
+  per_page?: number;
+}
+export const ListToolHealthRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: S.optional(S.String.pipe(T.Query())),
+    window: S.optional(ListToolHealthRequestWindow.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/tools/health", code: 200 })),
+).annotate({ identifier: "ListToolHealthRequest" }) as any as S.Schema<ListToolHealthRequest>;
+
+/** Tools sorted by provider, then tool slug. */
+export type ListToolHealthResponseToolsList = Array<ToolHealth>;
+export const ListToolHealthResponseToolsList = /*@__PURE__*/ S.Array(
+  ToolHealth,
+) as any as S.Schema<ListToolHealthResponseToolsList>;
+
+/** One page of tool health. */
+export interface ListToolHealthResponse {
+  /** When the metrics were computed and the window they cover. */
+  snapshot?: HealthSnapshot;
+  /** Tools sorted by provider, then tool slug. */
+  tools?: ListToolHealthResponseToolsList;
+  /** Paging applied to this response and the total number of tools. */
+  pagination?: Pagination;
+}
+export const ListToolHealthResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    snapshot: S.optional(HealthSnapshot),
+    tools: S.optional(ListToolHealthResponseToolsList),
+    pagination: S.optional(Pagination),
+  }),
+).annotate({ identifier: "ListToolHealthResponse" }) as any as S.Schema<ListToolHealthResponse>;
+
+export type ListToolHealthProvidersRequestWindow =
+  | "HEALTH_WINDOW_ONE_HOUR"
+  | "HEALTH_WINDOW_TWENTY_FOUR_HOURS"
+  | "HEALTH_WINDOW_SEVEN_DAYS"
+  | "HEALTH_WINDOW_THIRTY_DAYS";
+export const ListToolHealthProvidersRequestWindow = S.String;
+
+export interface ListToolHealthProvidersRequest {
+  /** Optional provider ID, matched exactly, to return only that provider. */
+  provider?: string;
+  /** Window to aggregate over. Defaults to twenty-four hours. - `HEALTH_WINDOW_UNSPECIFIED`: Twenty-four hours. - `HEALTH_WINDOW_ONE_HOUR`: One hour; history points are 10 minutes. - `HEALTH_WINDOW_TWENTY_FOUR_HOURS`: Twenty-four hours; history points are 1 hour. - `HEALTH_WINDOW_SEVEN_DAYS`: Seven days; history points are 6 hours. - `HEALTH_WINDOW_THIRTY_DAYS`: Thirty days; history points are 24 hours. */
+  window?: ListToolHealthProvidersRequestWindow | (string & {});
+  /** 1-based page number. Values below 1 are treated as 1. */
+  page?: number;
+  /** Page size. Defaults to 20; values above 100 are capped at 100. */
+  per_page?: number;
+}
+export const ListToolHealthProvidersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: S.optional(S.String.pipe(T.Query())),
+    window: S.optional(ListToolHealthProvidersRequestWindow.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/tools/health/providers", code: 200 })),
+).annotate({
+  identifier: "ListToolHealthProvidersRequest",
+}) as any as S.Schema<ListToolHealthProvidersRequest>;
+
+/** Health of one provider, combining its tools. */
+export interface ProviderHealth {
+  /** Provider ID. */
+  provider?: string;
+  /** Metrics over the window. */
+  health?: HealthMetrics;
+}
+export const ProviderHealth = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: S.optional(S.String),
+    health: S.optional(HealthMetrics),
+  }),
+).annotate({ identifier: "ProviderHealth" }) as any as S.Schema<ProviderHealth>;
+
+/** Providers sorted by ID. */
+export type ListProviderHealthResponseProvidersList = Array<ProviderHealth>;
+export const ListProviderHealthResponseProvidersList = /*@__PURE__*/ S.Array(
+  ProviderHealth,
+) as any as S.Schema<ListProviderHealthResponseProvidersList>;
+
+/** One page of provider health. */
+export interface ListProviderHealthResponse {
+  /** When the metrics were computed and the window they cover. */
+  snapshot?: HealthSnapshot;
+  /** Providers sorted by ID. */
+  providers?: ListProviderHealthResponseProvidersList;
+  /** Paging applied to this response and the total number of providers. */
+  pagination?: Pagination;
+}
+export const ListProviderHealthResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    snapshot: S.optional(HealthSnapshot),
+    providers: S.optional(ListProviderHealthResponseProvidersList),
+    pagination: S.optional(Pagination),
+  }),
+).annotate({
+  identifier: "ListProviderHealthResponse",
+}) as any as S.Schema<ListProviderHealthResponse>;
+
+export interface ListToolProvidersRequest {}
+export const ListToolProvidersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(
+    T.Http({ method: "GET", uri: "/v2/action-gateway/tools/providers", code: 200 }),
+  ),
+).annotate({ identifier: "ListToolProvidersRequest" }) as any as S.Schema<ListToolProvidersRequest>;
+
+/** Credential kinds the provider accepts, sorted: none|oauth|`shared_api_key`|unknown|`user_oauth_app`|`user_token`. `none` means the provider needs no credential. `oauth` means users can connect through DigitalOcean's shared OAuth application. `user_oauth_app` means users can connect through an OAuth client your team registers as a provider credential; without `oauth` alongside it, that is the only way to connect. `shared_api_key` means DigitalOcean supplies the key. `user_token` means your team or its users supply a key or token. `unknown` means the provider declares no kind this API recognizes, including an OAuth provider whose shared application is not available. It is never paired with another kind. */
+export type ProviderSummaryAuthTypesList = Array<string>;
+export const ProviderSummaryAuthTypesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ProviderSummaryAuthTypesList>;
+
+/** The OAuth scopes a connection may request; a connection that requests none gets all of them. Set only when `auth_types` contains `oauth` or `user_oauth_app`. */
+export type ProviderSummaryScopesList = Array<string>;
+export const ProviderSummaryScopesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ProviderSummaryScopesList>;
+
+/** How the value is entered: string, `https_origin`, or enum. */
+export type ConnectionParameterSpecInputKind = "string" | "https_origin" | "enum";
+export const ConnectionParameterSpecInputKind = S.String;
+
+/** For enum inputs, the accepted values. */
+export type ConnectionParameterSpecAllowedValuesList = Array<string>;
+export const ConnectionParameterSpecAllowedValuesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ConnectionParameterSpecAllowedValuesList>;
+
+/** For `https_origin` inputs, the host suffixes the origin's host must match. */
+export type ConnectionParameterSpecAllowedHostSuffixesList = Array<string>;
+export const ConnectionParameterSpecAllowedHostSuffixesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ConnectionParameterSpecAllowedHostSuffixesList>;
+
+/** Describes one non-sensitive value collected while configuring a provider connection. Clients can render these specifications generically. */
+export interface ConnectionParameterSpec {
+  /** Key of the value in `connection_parameters` or `credential_parameters`. */
+  key?: string;
+  /** Display label. */
+  label?: string;
+  /** Help text. */
+  description?: string;
+  /** How the value is entered: string, `https_origin`, or enum. */
+  input_kind?: ConnectionParameterSpecInputKind;
+  /** Whether the value must be supplied. */
+  required?: boolean;
+  /** How the value is normalized before it is validated and stored: trim, lowercase, uppercase, or `https_origin`. */
+  normalization?: string;
+  /** For enum inputs, the accepted values. */
+  allowed_values?: ConnectionParameterSpecAllowedValuesList;
+  /** For `https_origin` inputs, the host suffixes the origin's host must match. */
+  allowed_host_suffixes?: ConnectionParameterSpecAllowedHostSuffixesList;
+  /** Maximum length of the value. 0 means the default maximum of 4096. */
+  max_length?: number;
+  /** Optional RE2 expression matched against the whole normalized value. */
+  pattern?: string;
+}
+export const ConnectionParameterSpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    label: S.optional(S.String),
+    description: S.optional(S.String),
+    input_kind: S.optional(ConnectionParameterSpecInputKind),
+    required: S.optional(S.Boolean),
+    normalization: S.optional(S.String),
+    allowed_values: S.optional(ConnectionParameterSpecAllowedValuesList),
+    allowed_host_suffixes: S.optional(ConnectionParameterSpecAllowedHostSuffixesList),
+    max_length: S.optional(S.Number),
+    pattern: S.optional(S.String),
+  }),
+).annotate({ identifier: "ConnectionParameterSpec" }) as any as S.Schema<ConnectionParameterSpec>;
+
+/** Non-sensitive values collected when creating a connection. Set only when `auth_types` contains `oauth` or `user_oauth_app`. */
+export type ProviderSummaryConnectionParametersList = Array<ConnectionParameterSpec>;
+export const ProviderSummaryConnectionParametersList = /*@__PURE__*/ S.Array(
+  ConnectionParameterSpec,
+) as any as S.Schema<ProviderSummaryConnectionParametersList>;
+
+/** Non-secret values collected when registering an API key provider credential. They are validated against the provider's declaration and used to derive the credential's `base_url`; callers cannot supply header names or arbitrary destinations. */
+export type ProviderSummaryCredentialParametersList = Array<ConnectionParameterSpec>;
+export const ProviderSummaryCredentialParametersList = /*@__PURE__*/ S.Array(
+  ConnectionParameterSpec,
+) as any as S.Schema<ProviderSummaryCredentialParametersList>;
+
+/** Describes a catalog provider and how to authenticate to it. */
+export interface ProviderSummary {
+  /** Provider slug, used as provider when creating a connection or a provider credential. */
+  name?: string;
+  /** Human-readable provider name. */
+  display_name?: string;
+  /** Provider description. */
+  description?: string;
+  /** Credential kinds the provider accepts, sorted: none|oauth|`shared_api_key`|unknown|`user_oauth_app`|`user_token`. `none` means the provider needs no credential. `oauth` means users can connect through DigitalOcean's shared OAuth application. `user_oauth_app` means users can connect through an OAuth client your team registers as a provider credential; without `oauth` alongside it, that is the only way to connect. `shared_api_key` means DigitalOcean supplies the key. `user_token` means your team or its users supply a key or token. `unknown` means the provider declares no kind this API recognizes, including an OAuth provider whose shared application is not available. It is never paired with another kind. */
+  auth_types?: ProviderSummaryAuthTypesList;
+  /** Deprecated: read `auth_types`, since a provider may accept more than one credential kind. This is the first entry of `auth_types` other than `none`, or `none` when that is the only entry. */
+  auth_type?: string;
+  /** The OAuth scopes a connection may request; a connection that requests none gets all of them. Set only when `auth_types` contains `oauth` or `user_oauth_app`. */
+  scopes?: ProviderSummaryScopesList;
+  /** Non-sensitive values collected when creating a connection. Set only when `auth_types` contains `oauth` or `user_oauth_app`. */
+  connection_parameters?: ProviderSummaryConnectionParametersList;
+  /** Non-secret values collected when registering an API key provider credential. They are validated against the provider's declaration and used to derive the credential's `base_url`; callers cannot supply header names or arbitrary destinations. */
+  credential_parameters?: ProviderSummaryCredentialParametersList;
+  /** Callback URL a team must register with the provider when it creates its own OAuth client. It is the same for every provider and cannot be changed per credential. Empty unless `auth_types` contains `user_oauth_app`. */
+  oauth_redirect_url?: string;
+  /** HTTPS page at the provider where a team creates that OAuth client, such as its developer console or setup guide. Empty unless `auth_types` contains `user_oauth_app` and the provider declares one. */
+  oauth_client_setup_url?: string;
+}
+export const ProviderSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    display_name: S.optional(S.String),
+    description: S.optional(S.String),
+    auth_types: S.optional(ProviderSummaryAuthTypesList),
+    auth_type: S.optional(S.String),
+    scopes: S.optional(ProviderSummaryScopesList),
+    connection_parameters: S.optional(ProviderSummaryConnectionParametersList),
+    credential_parameters: S.optional(ProviderSummaryCredentialParametersList),
+    oauth_redirect_url: S.optional(S.String),
+    oauth_client_setup_url: S.optional(S.String),
+  }),
+).annotate({ identifier: "ProviderSummary" }) as any as S.Schema<ProviderSummary>;
+
+/** Providers sorted by display name. */
+export type ListProvidersResponseProvidersList = Array<ProviderSummary>;
+export const ListProvidersResponseProvidersList = /*@__PURE__*/ S.Array(
+  ProviderSummary,
+) as any as S.Schema<ListProvidersResponseProvidersList>;
+
+/** Lists the catalog providers. */
+export interface ListProvidersResponse {
+  /** Providers sorted by display name. */
+  providers?: ListProvidersResponseProvidersList;
+}
+export const ListProvidersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    providers: S.optional(ListProvidersResponseProvidersList),
+  }),
+).annotate({ identifier: "ListProvidersResponse" }) as any as S.Schema<ListProvidersResponse>;
+
+export interface ListToolsRequest {
+  /** Restricts the page to one provider. It accepts the provider ID the catalog returns, including the `serverRef` of one of your team's MCP servers. */
+  toolkit_id?: string;
+  /** 1-based page index; values below 1 are treated as 1. A page past the end returns an empty tools list with the real total. */
+  page?: number;
+  /** Page size. Defaults to 100 when omitted or 0; values above 100 are capped at 100. */
+  per_page?: number;
+}
+export const ListToolsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    toolkit_id: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/tools", code: 200 })),
+).annotate({ identifier: "ListToolsRequest" }) as any as S.Schema<ListToolsRequest>;
+
+/** Advisory hints about a tool's behavior, with the meaning of MCP tool annotations. Do not rely on them for security decisions. */
+export interface ToolAnnotations {
+  /** Human-readable tool title. */
+  title?: string;
+  /** The tool does not modify anything. */
+  readOnlyHint?: boolean;
+  /** Repeating a call with the same arguments has no additional effect. */
+  idempotentHint?: boolean;
+  /** The tool interacts with external systems beyond the provider's own data. */
+  openWorldHint?: boolean | null;
+  /** The tool may perform destructive updates. */
+  destructiveHint?: boolean | null;
+}
+export const ToolAnnotations = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.String),
+    readOnlyHint: S.optional(S.Boolean),
+    idempotentHint: S.optional(S.Boolean),
+    openWorldHint: S.optional(S.NullOr(S.Boolean)),
+    destructiveHint: S.optional(S.NullOr(S.Boolean)),
+  }),
+).annotate({ identifier: "ToolAnnotations" }) as any as S.Schema<ToolAnnotations>;
+
+/** Summarizes a released tool. */
+export interface Tool {
+  /** Tool name, without the provider prefix. */
+  name?: string;
+  /** ID of the provider that offers the tool. For a tool from one of your team's MCP servers it is that server's `serverRef`. */
+  toolkitId?: string;
+  /** The provider-qualified, stable tool identifier `<toolkit_id>_<name>`. Pass this value back verbatim to the toolbelt add/remove endpoints; clients should treat it as opaque rather than reconstructing it from `toolkitId` and name. */
+  toolSlug?: string;
+  /** Human-readable tool title. */
+  title?: string;
+  /** What the tool does. */
+  description?: string;
+  /** Released version, for example `v3`. */
+  version?: string;
+  /** JSON Schema the tool's arguments must satisfy. */
+  inputSchema?: unknown | null;
+  /** JSON Schema of the tool's result, when declared. */
+  outputSchema?: unknown | null;
+  /** Advisory behavior hints for the tool. */
+  annotations?: ToolAnnotations | null;
+  /** Catalog hint that calls to the tool may run in parallel. */
+  parallelizable?: boolean;
+  /** Catalog hint that the tool's result can be streamed. */
+  streamingSafe?: boolean;
+}
+export const Tool = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    toolkitId: S.optional(S.String),
+    toolSlug: S.optional(S.String),
+    title: S.optional(S.String),
+    description: S.optional(S.String),
+    version: S.optional(S.String),
+    inputSchema: S.optional(S.NullOr(S.Unknown)),
+    outputSchema: S.optional(S.NullOr(S.Unknown)),
+    annotations: S.optional(S.NullOr(ToolAnnotations)),
+    parallelizable: S.optional(S.Boolean),
+    streamingSafe: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "Tool" }) as any as S.Schema<Tool>;
+
+/** Tools on this page, grouped by provider and sorted by name within a provider. */
+export type ListToolsResponseToolsList = Array<Tool>;
+export const ListToolsResponseToolsList = /*@__PURE__*/ S.Array(
+  Tool,
+) as any as S.Schema<ListToolsResponseToolsList>;
+
+/** Lists how the tool authenticates: oauth (a user connection), `user_token` (a key your team supplies), `shared_key` (a key DigitalOcean supplies), or none. */
+export type ToolDefinitionAuthModesList = Array<string>;
+export const ToolDefinitionAuthModesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ToolDefinitionAuthModesList>;
+
+/** The provider permissions the tool requests. */
+export type ToolDefinitionAuthScopesList = Array<string>;
+export const ToolDefinitionAuthScopesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ToolDefinitionAuthScopesList>;
+
+/** Names the provider account the tool acts through and the scopes it requests. */
+export interface ToolDefinitionAuth {
+  /** Lists how the tool authenticates: oauth (a user connection), `user_token` (a key your team supplies), `shared_key` (a key DigitalOcean supplies), or none. */
+  modes?: ToolDefinitionAuthModesList;
+  /** The provider slug a connection is created for. Empty when the tool needs no provider account. */
+  provider?: string;
+  /** The provider permissions the tool requests. */
+  scopes?: ToolDefinitionAuthScopesList;
+}
+export const ToolDefinitionAuth = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    modes: S.optional(ToolDefinitionAuthModesList),
+    provider: S.optional(S.String),
+    scopes: S.optional(ToolDefinitionAuthScopesList),
+  }),
+).annotate({ identifier: "ToolDefinitionAuth" }) as any as S.Schema<ToolDefinitionAuth>;
+
+/** Describes a tool you can call. */
+export interface ToolDefinition {
+  /** The opaque identity of this released tool version. */
+  toolId?: string;
+  /** The tool name without the provider prefix. */
+  name?: string;
+  /** The ID of the provider that offers the tool. For a tool from one of your team's MCP servers it is that server's `serverRef`. */
+  toolkitId?: string;
+  /** The provider-qualified tool identifier `<toolkit_id>_<name>`. Treat it as opaque and pass it back verbatim. */
+  toolSlug?: string;
+  /** Human-readable tool title. */
+  title?: string;
+  /** What the tool does. */
+  description?: string;
+  /** The JSON Schema the tool's arguments must satisfy. */
+  inputSchema?: unknown | null;
+  /** The JSON Schema of the tool's result, when declared. */
+  outputSchema?: unknown | null;
+  /** Advisory behavior hints for the tool. */
+  annotations?: ToolAnnotations | null;
+  /** The released version, for example `v3`. */
+  version?: string;
+  /** Names the provider account the tool acts through and the scopes it requests. */
+  auth?: ToolDefinitionAuth | null;
+  /** Classifies the provider: native, `managed_api`, `customer_mcp`, sandbox, or `byo_mcp` (one of your team's MCP servers). */
+  providerKind?: string;
+}
+export const ToolDefinition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    toolId: S.optional(S.String),
+    name: S.optional(S.String),
+    toolkitId: S.optional(S.String),
+    toolSlug: S.optional(S.String),
+    title: S.optional(S.String),
+    description: S.optional(S.String),
+    inputSchema: S.optional(S.NullOr(S.Unknown)),
+    outputSchema: S.optional(S.NullOr(S.Unknown)),
+    annotations: S.optional(S.NullOr(ToolAnnotations)),
+    version: S.optional(S.String),
+    auth: S.optional(S.NullOr(ToolDefinitionAuth)),
+    providerKind: S.optional(S.String),
+  }),
+).annotate({ identifier: "ToolDefinition" }) as any as S.Schema<ToolDefinition>;
+
+/** definitions[i] describes tools[i]. */
+export type ListToolsResponseDefinitionsList = Array<ToolDefinition>;
+export const ListToolsResponseDefinitionsList = /*@__PURE__*/ S.Array(
+  ToolDefinition,
+) as any as S.Schema<ListToolsResponseDefinitionsList>;
+
+/** One page of the tool catalog. */
+export interface ListToolsResponse {
+  /** Catalog version identifier, for example `v1`. */
+  version?: string;
+  /** Tools on this page, grouped by provider and sorted by name within a provider. */
+  tools?: ListToolsResponseToolsList;
+  /** definitions[i] describes tools[i]. */
+  definitions?: ListToolsResponseDefinitionsList;
+  /** page and `per_page` echo the values applied; total is the number of tools matching `toolkitId` across all pages. */
+  pagination?: Pagination;
+}
+export const ListToolsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    version: S.optional(S.String),
+    tools: S.optional(ListToolsResponseToolsList),
+    definitions: S.optional(ListToolsResponseDefinitionsList),
+    pagination: S.optional(Pagination),
+  }),
+).annotate({ identifier: "ListToolsResponse" }) as any as S.Schema<ListToolsResponse>;
+
+export interface ListToolToolkitsRequest {}
+export const ListToolToolkitsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/tools/toolkits", code: 200 })),
+).annotate({ identifier: "ListToolToolkitsRequest" }) as any as S.Schema<ListToolToolkitsRequest>;
+
+/** Distinct categories of the provider's released tools, sorted. */
+export type ToolkitCategoriesList = Array<string>;
+export const ToolkitCategoriesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ToolkitCategoriesList>;
+
+/** Provider of tools. */
+export interface Toolkit {
+  /** Provider ID. For one of your team's MCP servers it is normally the server's `serverRef`; `provider_kind` tells the two kinds apart. */
+  id?: string;
+  /** Human-readable provider name. */
+  name?: string;
+  /** Provider description. */
+  description?: string;
+  /** Distinct categories of the provider's released tools, sorted. */
+  categories?: ToolkitCategoriesList;
+  /** When the provider was added. */
+  created_at?: string | null;
+  /** Classifies the provider, for example `managed_api` or `byo_mcp` (one of your team's MCP servers). It is the same value as PublicToolDefinition.provider_kind for the provider's tools. */
+  provider_kind?: string;
+}
+export const Toolkit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    categories: S.optional(ToolkitCategoriesList),
+    created_at: S.optional(S.NullOr(S.String)),
+    provider_kind: S.optional(S.String),
+  }),
+).annotate({ identifier: "Toolkit" }) as any as S.Schema<Toolkit>;
+
+/** Toolkits available to your team. */
+export type ListToolkitsResponseToolkitsList = Array<Toolkit>;
+export const ListToolkitsResponseToolkitsList = /*@__PURE__*/ S.Array(
+  Toolkit,
+) as any as S.Schema<ListToolkitsResponseToolkitsList>;
+
+/** Lists the toolkits available to your team. */
+export interface ListToolkitsResponse {
+  /** Catalog version identifier, for example `v1`. */
+  version?: string;
+  /** Toolkits available to your team. */
+  toolkits?: ListToolkitsResponseToolkitsList;
+}
+export const ListToolkitsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    version: S.optional(S.String),
+    toolkits: S.optional(ListToolkitsResponseToolkitsList),
+  }),
+).annotate({ identifier: "ListToolkitsResponse" }) as any as S.Schema<ListToolkitsResponse>;
 
 export interface ListUptimeAlertsRequest {
   /** A unique identifier for a check. */
@@ -36672,16 +40798,8 @@ export const ListUptimeAlertsRequest = /*@__PURE__*/ S.suspend(() =>
     check_id: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/uptime/checks/{check_id}/alerts",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListUptimeAlertsRequest",
-}) as any as S.Schema<ListUptimeAlertsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/uptime/checks/{check_id}/alerts", code: 200 })),
+).annotate({ identifier: "ListUptimeAlertsRequest" }) as any as S.Schema<ListUptimeAlertsRequest>;
 
 export type ListUptimeAlertsResponseAlertsList = Array<Alert>;
 export const ListUptimeAlertsResponseAlertsList = /*@__PURE__*/ S.Array(
@@ -36702,9 +40820,7 @@ export const ListUptimeAlertsResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListUptimeAlertsResponse",
-}) as any as S.Schema<ListUptimeAlertsResponse>;
+).annotate({ identifier: "ListUptimeAlertsResponse" }) as any as S.Schema<ListUptimeAlertsResponse>;
 
 export interface ListUptimeChecksRequest {
   /** Number of items returned per page */
@@ -36717,9 +40833,7 @@ export const ListUptimeChecksRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/uptime/checks", code: 200 })),
-).annotate({
-  identifier: "ListUptimeChecksRequest",
-}) as any as S.Schema<ListUptimeChecksRequest>;
+).annotate({ identifier: "ListUptimeChecksRequest" }) as any as S.Schema<ListUptimeChecksRequest>;
 
 export type ListUptimeChecksResponseChecksList = Array<Check>;
 export const ListUptimeChecksResponseChecksList = /*@__PURE__*/ S.Array(
@@ -36740,9 +40854,55 @@ export const ListUptimeChecksResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListUptimeChecksResponse",
-}) as any as S.Schema<ListUptimeChecksResponse>;
+).annotate({ identifier: "ListUptimeChecksResponse" }) as any as S.Schema<ListUptimeChecksResponse>;
+
+export type ListUsersRequestSort = "created_at" | "user_id" | "session_count" | "connection_count";
+export const ListUsersRequestSort = S.String;
+
+export type ListUsersRequestSortDirection = "asc" | "desc";
+export const ListUsersRequestSortDirection = S.String;
+
+export interface ListUsersRequest {
+  /** User ID prefix to return. An empty value returns all users. */
+  user_id?: string;
+  /** `user_id`|`created_at`|`session_count`|`connection_count`. `created_at` is the earliest creation time among the user's sessions, connections, and limit overrides. Defaults to `created_at`. */
+  sort?: ListUsersRequestSort | (string & {});
+  /** asc|desc. Defaults to desc. */
+  sort_direction?: ListUsersRequestSortDirection | (string & {});
+  /** 1-based page number. Values below 1 are treated as 1. */
+  page?: number;
+  /** Page size. Defaults to 20; values above 100 are capped at 100. */
+  per_page?: number;
+}
+export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    user_id: S.optional(S.String.pipe(T.Query())),
+    sort: S.optional(ListUsersRequestSort.pipe(T.Query())),
+    sort_direction: S.optional(ListUsersRequestSortDirection.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/users", code: 200 })),
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
+
+/** User IDs on this page. */
+export type ListUsersResponseUserIdsList = Array<string>;
+export const ListUsersResponseUserIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListUsersResponseUserIdsList>;
+
+/** One page of user IDs. */
+export interface ListUsersResponse {
+  /** User IDs on this page. */
+  user_ids?: ListUsersResponseUserIdsList;
+  /** Paging applied to this response and the total number of users. */
+  pagination?: Pagination;
+}
+export const ListUsersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    user_ids: S.optional(ListUsersResponseUserIdsList),
+    pagination: S.optional(Pagination),
+  }),
+).annotate({ identifier: "ListUsersResponse" }) as any as S.Schema<ListUsersResponse>;
 
 export interface ListVectorDatabaseBackupsRequest {
   /** Required. ID of the vector database. */
@@ -36751,13 +40911,7 @@ export interface ListVectorDatabaseBackupsRequest {
 export const ListVectorDatabaseBackupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/vector-databases/{id}/backups",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/vector-databases/{id}/backups", code: 200 })),
 ).annotate({
   identifier: "ListVectorDatabaseBackupsRequest",
 }) as any as S.Schema<ListVectorDatabaseBackupsRequest>;
@@ -36844,16 +40998,8 @@ export const ListVolumeActionsRequest = /*@__PURE__*/ S.suspend(() =>
     volume_id: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/volumes/{volume_id}/actions",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListVolumeActionsRequest",
-}) as any as S.Schema<ListVolumeActionsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/volumes/{volume_id}/actions", code: 200 })),
+).annotate({ identifier: "ListVolumeActionsRequest" }) as any as S.Schema<ListVolumeActionsRequest>;
 
 export type ListVolumeActionsResponseActionsList = Array<VolumeAction>;
 export const ListVolumeActionsResponseActionsList = /*@__PURE__*/ S.Array(
@@ -36895,9 +41041,7 @@ export const ListVolumesRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/volumes", code: 200 })),
-).annotate({
-  identifier: "ListVolumesRequest",
-}) as any as S.Schema<ListVolumesRequest>;
+).annotate({ identifier: "ListVolumesRequest" }) as any as S.Schema<ListVolumesRequest>;
 
 /** Array of volumes. */
 export type ListVolumesResponseVolumesList = Array<VolumeFull>;
@@ -36920,9 +41064,7 @@ export const ListVolumesResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListVolumesResponse",
-}) as any as S.Schema<ListVolumesResponse>;
+).annotate({ identifier: "ListVolumesResponse" }) as any as S.Schema<ListVolumesResponse>;
 
 export interface ListVolumeSnapshotsRequest {
   /** The ID of the block storage volume. */
@@ -36937,13 +41079,7 @@ export const ListVolumeSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
     volume_id: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/volumes/{volume_id}/snapshots",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/volumes/{volume_id}/snapshots", code: 200 })),
 ).annotate({
   identifier: "ListVolumeSnapshotsRequest",
 }) as any as S.Schema<ListVolumeSnapshotsRequest>;
@@ -36971,11 +41107,21 @@ export const ListVolumeSnapshotsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListVolumeSnapshotsResponse",
 }) as any as S.Schema<ListVolumeSnapshotsResponse>;
 
+export type ListVpcMembersRequestResourceType =
+  | "droplet"
+  | "loadbalancer"
+  | "kubernetes"
+  | "dbaas"
+  | "nat_gateway"
+  | "app"
+  | "nfs_share";
+export const ListVpcMembersRequestResourceType = S.String;
+
 export interface ListVpcMembersRequest {
   /** A unique identifier for a VPC. */
   vpc_id: string;
   /** Used to filter VPC members by a resource type. */
-  resource_type?: string;
+  resource_type?: ListVpcMembersRequestResourceType | (string & {});
   /** Number of items returned per page */
   per_page?: number;
   /** Which 'page' of paginated results to return. */
@@ -36984,13 +41130,11 @@ export interface ListVpcMembersRequest {
 export const ListVpcMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vpc_id: S.String.pipe(T.Label()),
-    resource_type: S.optional(S.String.pipe(T.Query())),
+    resource_type: S.optional(ListVpcMembersRequestResourceType.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/vpcs/{vpc_id}/members", code: 200 })),
-).annotate({
-  identifier: "ListVpcMembersRequest",
-}) as any as S.Schema<ListVpcMembersRequest>;
+).annotate({ identifier: "ListVpcMembersRequest" }) as any as S.Schema<ListVpcMembersRequest>;
 
 export interface VpcMember {
   /** The name of the resource. */
@@ -37026,9 +41170,7 @@ export const ListVpcMembersResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListVpcMembersResponse",
-}) as any as S.Schema<ListVpcMembersResponse>;
+).annotate({ identifier: "ListVpcMembersResponse" }) as any as S.Schema<ListVpcMembersResponse>;
 
 export type ListVpcnatgatewaysRequestState =
   | "new"
@@ -37124,9 +41266,7 @@ export const ListVpcPeeringsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/vpcs/{vpc_id}/peerings", code: 200 })),
-).annotate({
-  identifier: "ListVpcPeeringsRequest",
-}) as any as S.Schema<ListVpcPeeringsRequest>;
+).annotate({ identifier: "ListVpcPeeringsRequest" }) as any as S.Schema<ListVpcPeeringsRequest>;
 
 export type ListVpcPeeringsResponsePeeringsList = Array<VpcPeering>;
 export const ListVpcPeeringsResponsePeeringsList = /*@__PURE__*/ S.Array(
@@ -37147,9 +41287,7 @@ export const ListVpcPeeringsResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListVpcPeeringsResponse",
-}) as any as S.Schema<ListVpcPeeringsResponse>;
+).annotate({ identifier: "ListVpcPeeringsResponse" }) as any as S.Schema<ListVpcPeeringsResponse>;
 
 export interface ListVpcPeeringsRequest2 {
   /** Number of items returned per page */
@@ -37165,9 +41303,7 @@ export const ListVpcPeeringsRequest2 = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     region: S.optional(RegionSlug.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/vpc_peerings", code: 200 })),
-).annotate({
-  identifier: "ListVpcPeeringsRequest2",
-}) as any as S.Schema<ListVpcPeeringsRequest2>;
+).annotate({ identifier: "ListVpcPeeringsRequest2" }) as any as S.Schema<ListVpcPeeringsRequest2>;
 
 export type ListVpcPeeringsResponseVpcPeeringsList = Array<VpcPeering>;
 export const ListVpcPeeringsResponseVpcPeeringsList = /*@__PURE__*/ S.Array(
@@ -37188,9 +41324,44 @@ export const ListVpcPeeringsResponse2 = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
-).annotate({
-  identifier: "ListVpcPeeringsResponse2",
-}) as any as S.Schema<ListVpcPeeringsResponse2>;
+).annotate({ identifier: "ListVpcPeeringsResponse2" }) as any as S.Schema<ListVpcPeeringsResponse2>;
+
+export interface ListVpcRoutesRequest {
+  /** The unique identifier of the VPC. */
+  vpc_uuid: string;
+  /** Number of items returned per page */
+  per_page?: number;
+  /** Which 'page' of paginated results to return. */
+  page?: number;
+}
+export const ListVpcRoutesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc_uuid: S.String.pipe(T.Label()),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/vpcs/{vpc_uuid}/routes", code: 200 })),
+).annotate({ identifier: "ListVpcRoutesRequest" }) as any as S.Schema<ListVpcRoutesRequest>;
+
+export type ListVpcRoutesResponseRoutesList = Array<Route>;
+export const ListVpcRoutesResponseRoutesList = /*@__PURE__*/ S.Array(
+  Route,
+) as any as S.Schema<ListVpcRoutesResponseRoutesList>;
+
+export type ListVpcRoutesResponseMeta = GetInvoiceByUUIDResponseMeta;
+export const ListVpcRoutesResponseMeta = GetInvoiceByUUIDResponseMeta;
+
+export interface ListVpcRoutesResponse {
+  routes?: ListVpcRoutesResponseRoutesList;
+  links?: PageLinks;
+  meta: GetInvoiceByUUIDResponseMeta;
+}
+export const ListVpcRoutesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    routes: S.optional(ListVpcRoutesResponseRoutesList),
+    links: S.optional(PageLinks),
+    meta: GetInvoiceByUUIDResponseMeta,
+  }),
+).annotate({ identifier: "ListVpcRoutesResponse" }) as any as S.Schema<ListVpcRoutesResponse>;
 
 export interface ListVpcsRequest {
   /** Number of items returned per page */
@@ -37203,9 +41374,7 @@ export const ListVpcsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/vpcs", code: 200 })),
-).annotate({
-  identifier: "ListVpcsRequest",
-}) as any as S.Schema<ListVpcsRequest>;
+).annotate({ identifier: "ListVpcsRequest" }) as any as S.Schema<ListVpcsRequest>;
 
 export type ListVpcsResponseVpcsList = Array<Vpc>;
 export const ListVpcsResponseVpcsList = /*@__PURE__*/ S.Array(
@@ -37226,9 +41395,149 @@ export const ListVpcsResponse = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
+).annotate({ identifier: "ListVpcsResponse" }) as any as S.Schema<ListVpcsResponse>;
+
+export type ListVpcSubnetMembersRequestResourceType =
+  | "droplet"
+  | "loadbalancer"
+  | "kubernetes"
+  | "dbaas"
+  | "nat_gateway"
+  | "app"
+  | "nfs_share";
+export const ListVpcSubnetMembersRequestResourceType = S.String;
+
+export interface ListVpcSubnetMembersRequest {
+  /** The unique identifier of the VPC to which the subnet belongs. */
+  vpc_uuid: string;
+  /** The unique identifier of a VPC subnet. */
+  subnet_uuid: string;
+  /** Used to filter VPC subnet members by resource type. */
+  resource_type?: ListVpcSubnetMembersRequestResourceType | (string & {});
+  /** Number of items returned per page */
+  per_page?: number;
+  /** Which 'page' of paginated results to return. */
+  page?: number;
+}
+export const ListVpcSubnetMembersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc_uuid: S.String.pipe(T.Label()),
+    subnet_uuid: S.String.pipe(T.Label()),
+    resource_type: S.optional(ListVpcSubnetMembersRequestResourceType.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v2/vpcs/{vpc_uuid}/subnets/{subnet_uuid}/members", code: 200 }),
+  ),
 ).annotate({
-  identifier: "ListVpcsResponse",
-}) as any as S.Schema<ListVpcsResponse>;
+  identifier: "ListVpcSubnetMembersRequest",
+}) as any as S.Schema<ListVpcSubnetMembersRequest>;
+
+export type ListVpcSubnetMembersResponseMembersList = Array<VpcMember>;
+export const ListVpcSubnetMembersResponseMembersList = /*@__PURE__*/ S.Array(
+  VpcMember,
+) as any as S.Schema<ListVpcSubnetMembersResponseMembersList>;
+
+export type ListVpcSubnetMembersResponseMeta = GetInvoiceByUUIDResponseMeta;
+export const ListVpcSubnetMembersResponseMeta = GetInvoiceByUUIDResponseMeta;
+
+export interface ListVpcSubnetMembersResponse {
+  members?: ListVpcSubnetMembersResponseMembersList;
+  links?: PageLinks;
+  meta: GetInvoiceByUUIDResponseMeta;
+}
+export const ListVpcSubnetMembersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    members: S.optional(ListVpcSubnetMembersResponseMembersList),
+    links: S.optional(PageLinks),
+    meta: GetInvoiceByUUIDResponseMeta,
+  }),
+).annotate({
+  identifier: "ListVpcSubnetMembersResponse",
+}) as any as S.Schema<ListVpcSubnetMembersResponse>;
+
+export interface ListVpcSubnetRoutesRequest {
+  /** The unique identifier of the VPC. */
+  vpc_uuid: string;
+  /** The unique identifier of the VPC subnet. */
+  subnet_uuid: string;
+  /** Number of items returned per page */
+  per_page?: number;
+  /** Which 'page' of paginated results to return. */
+  page?: number;
+}
+export const ListVpcSubnetRoutesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc_uuid: S.String.pipe(T.Label()),
+    subnet_uuid: S.String.pipe(T.Label()),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v2/vpcs/{vpc_uuid}/subnets/{subnet_uuid}/routes", code: 200 }),
+  ),
+).annotate({
+  identifier: "ListVpcSubnetRoutesRequest",
+}) as any as S.Schema<ListVpcSubnetRoutesRequest>;
+
+export type ListVpcSubnetRoutesResponseRoutesList = Array<Route>;
+export const ListVpcSubnetRoutesResponseRoutesList = /*@__PURE__*/ S.Array(
+  Route,
+) as any as S.Schema<ListVpcSubnetRoutesResponseRoutesList>;
+
+export type ListVpcSubnetRoutesResponseMeta = GetInvoiceByUUIDResponseMeta;
+export const ListVpcSubnetRoutesResponseMeta = GetInvoiceByUUIDResponseMeta;
+
+export interface ListVpcSubnetRoutesResponse {
+  routes?: ListVpcSubnetRoutesResponseRoutesList;
+  links?: PageLinks;
+  meta: GetInvoiceByUUIDResponseMeta;
+}
+export const ListVpcSubnetRoutesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    routes: S.optional(ListVpcSubnetRoutesResponseRoutesList),
+    links: S.optional(PageLinks),
+    meta: GetInvoiceByUUIDResponseMeta,
+  }),
+).annotate({
+  identifier: "ListVpcSubnetRoutesResponse",
+}) as any as S.Schema<ListVpcSubnetRoutesResponse>;
+
+export interface ListVpcSubnetsRequest {
+  /** The unique identifier of the VPC to which the subnet belongs. */
+  vpc_uuid: string;
+  /** Number of items returned per page */
+  per_page?: number;
+  /** Which 'page' of paginated results to return. */
+  page?: number;
+}
+export const ListVpcSubnetsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc_uuid: S.String.pipe(T.Label()),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/vpcs/{vpc_uuid}/subnets", code: 200 })),
+).annotate({ identifier: "ListVpcSubnetsRequest" }) as any as S.Schema<ListVpcSubnetsRequest>;
+
+export type ListVpcSubnetsResponseVpcSubnetList = Array<VpcSubnet>;
+export const ListVpcSubnetsResponseVpcSubnetList = /*@__PURE__*/ S.Array(
+  VpcSubnet,
+) as any as S.Schema<ListVpcSubnetsResponseVpcSubnetList>;
+
+export type ListVpcSubnetsResponseMeta = GetInvoiceByUUIDResponseMeta;
+export const ListVpcSubnetsResponseMeta = GetInvoiceByUUIDResponseMeta;
+
+export interface ListVpcSubnetsResponse {
+  vpc_subnet?: ListVpcSubnetsResponseVpcSubnetList;
+  links?: PageLinks;
+  meta: GetInvoiceByUUIDResponseMeta;
+}
+export const ListVpcSubnetsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc_subnet: S.optional(ListVpcSubnetsResponseVpcSubnetList),
+    links: S.optional(PageLinks),
+    meta: GetInvoiceByUUIDResponseMeta,
+  }),
+).annotate({ identifier: "ListVpcSubnetsResponse" }) as any as S.Schema<ListVpcSubnetsResponse>;
 
 export interface MonitoringGetAppRestartCountMetricsYmlRequest {
   /** The app UUID. */
@@ -37246,13 +41555,7 @@ export const MonitoringGetAppRestartCountMetricsYmlRequest = /*@__PURE__*/ S.sus
     app_component: S.optional(S.String.pipe(T.Query())),
     start: S.String.pipe(T.Query()),
     end: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/monitoring/metrics/apps/restart_count",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/monitoring/metrics/apps/restart_count", code: 200 })),
 ).annotate({
   identifier: "MonitoringGetAppRestartCountMetricsYmlRequest",
 }) as any as S.Schema<MonitoringGetAppRestartCountMetricsYmlRequest>;
@@ -37291,16 +41594,8 @@ export const PatchAddonRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resource_uuid: S.String.pipe(T.Label()),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/add-ons/saas/{resource_uuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PatchAddonRequest",
-}) as any as S.Schema<PatchAddonRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/v2/add-ons/saas/{resource_uuid}", code: 200 })),
+).annotate({ identifier: "PatchAddonRequest" }) as any as S.Schema<PatchAddonRequest>;
 
 export interface PatchAddonResponse {
   resource?: AddonsResource;
@@ -37309,9 +41604,7 @@ export const PatchAddonResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resource: S.optional(AddonsResource),
   }),
-).annotate({
-  identifier: "PatchAddonResponse",
-}) as any as S.Schema<PatchAddonResponse>;
+).annotate({ identifier: "PatchAddonResponse" }) as any as S.Schema<PatchAddonResponse>;
 
 export interface PatchAddonPlanRequest {
   /** The UUID of the add-on resource to update. */
@@ -37323,16 +41616,8 @@ export const PatchAddonPlanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resource_uuid: S.String.pipe(T.Label()),
     plan_slug: S.String,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/add-ons/saas/{resource_uuid}/plan",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PatchAddonPlanRequest",
-}) as any as S.Schema<PatchAddonPlanRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/v2/add-ons/saas/{resource_uuid}/plan", code: 200 })),
+).annotate({ identifier: "PatchAddonPlanRequest" }) as any as S.Schema<PatchAddonPlanRequest>;
 
 export interface PatchAddonPlanResponse {
   resource?: AddonsResource;
@@ -37341,9 +41626,7 @@ export const PatchAddonPlanResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resource: S.optional(AddonsResource),
   }),
-).annotate({
-  identifier: "PatchAddonPlanResponse",
-}) as any as S.Schema<PatchAddonPlanResponse>;
+).annotate({ identifier: "PatchAddonPlanResponse" }) as any as S.Schema<PatchAddonPlanResponse>;
 
 export interface PatchByoipPrefixRequest {
   /** A unique identifier for a BYOIP prefix. */
@@ -37355,16 +41638,8 @@ export const PatchByoipPrefixRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     byoip_prefix_uuid: S.String.pipe(T.Label()),
     advertise: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/byoip_prefixes/{byoip_prefix_uuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PatchByoipPrefixRequest",
-}) as any as S.Schema<PatchByoipPrefixRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/v2/byoip_prefixes/{byoip_prefix_uuid}", code: 200 })),
+).annotate({ identifier: "PatchByoipPrefixRequest" }) as any as S.Schema<PatchByoipPrefixRequest>;
 
 export interface PatchByoipPrefixResponse {}
 export const PatchByoipPrefixResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -37392,11 +41667,7 @@ export const PatchDatabaseConfigRequest = /*@__PURE__*/ S.suspend(() =>
     database_cluster_uuid: S.String.pipe(T.Label()),
     config: S.optional(PatchDatabaseConfigRequestConfig),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/databases/{database_cluster_uuid}/config",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/v2/databases/{database_cluster_uuid}/config", code: 200 }),
   ),
 ).annotate({
   identifier: "PatchDatabaseConfigRequest",
@@ -37445,9 +41716,7 @@ export const PatchDedicatedInferenceRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface PatchDedicatedInferenceResponse {}
 export const PatchDedicatedInferenceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "PatchDedicatedInferenceResponse",
-  },
+  { identifier: "PatchDedicatedInferenceResponse" },
 ) as any as S.Schema<PatchDedicatedInferenceResponse>;
 
 export interface PatchDomainRecordRequest {
@@ -37494,9 +41763,7 @@ export const PatchDomainRecordRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PatchDomainRecordRequest",
-}) as any as S.Schema<PatchDomainRecordRequest>;
+).annotate({ identifier: "PatchDomainRecordRequest" }) as any as S.Schema<PatchDomainRecordRequest>;
 
 export interface PatchDomainRecordResponse {
   domain_record?: DomainRecord;
@@ -37508,6 +41775,21 @@ export const PatchDomainRecordResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PatchDomainRecordResponse",
 }) as any as S.Schema<PatchDomainRecordResponse>;
+
+export interface PatchMcpServerRequest {
+  /** Server identifier (`serverRef`) of one of your team's MCP servers. */
+  server_ref: string;
+  /** Replaces the stored description; empty clears it. At most 1024 characters. */
+  description?: string;
+}
+export const PatchMcpServerRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    server_ref: S.String.pipe(T.Label()),
+    description: S.optional(S.String),
+  }).pipe(
+    T.Http({ method: "PATCH", uri: "/v2/action-gateway/mcp-servers/{server_ref}", code: 200 }),
+  ),
+).annotate({ identifier: "PatchMcpServerRequest" }) as any as S.Schema<PatchMcpServerRequest>;
 
 export interface PartnerAttachmentUpdatableCase0 {
   /** The name of the partner attachment. Must be unique and may only contain alphanumeric characters, dashes, and periods. */
@@ -37589,11 +41871,7 @@ export const PatchPartnerAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
     pa_id: S.String.pipe(T.Label()),
     body: S.optional(PartnerAttachmentUpdatable.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/partner_network_connect/attachments/{pa_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/v2/partner_network_connect/attachments/{pa_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "PatchPartnerAttachmentRequest",
@@ -37631,9 +41909,7 @@ export const PatchProjectRequest = /*@__PURE__*/ S.suspend(() =>
     environment: S.optional(PatchProjectRequestEnvironment),
     is_default: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PATCH", uri: "/v2/projects/{project_id}", code: 200 })),
-).annotate({
-  identifier: "PatchProjectRequest",
-}) as any as S.Schema<PatchProjectRequest>;
+).annotate({ identifier: "PatchProjectRequest" }) as any as S.Schema<PatchProjectRequest>;
 
 export interface PatchProjectResponse {
   project?: Project;
@@ -37642,9 +41918,7 @@ export const PatchProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.optional(Project),
   }),
-).annotate({
-  identifier: "PatchProjectResponse",
-}) as any as S.Schema<PatchProjectResponse>;
+).annotate({ identifier: "PatchProjectResponse" }) as any as S.Schema<PatchProjectResponse>;
 
 /** The environment of the project's resources. */
 export type PatchProjectDefaultRequestEnvironment = "Development" | "Staging" | "Production";
@@ -37705,9 +41979,7 @@ export const PatchSpacesKeyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     grants: S.optional(PatchSpacesKeyRequestGrantsList),
   }).pipe(T.Http({ method: "PATCH", uri: "/v2/spaces/keys/{access_key}", code: 200 })),
-).annotate({
-  identifier: "PatchSpacesKeyRequest",
-}) as any as S.Schema<PatchSpacesKeyRequest>;
+).annotate({ identifier: "PatchSpacesKeyRequest" }) as any as S.Schema<PatchSpacesKeyRequest>;
 
 export interface PatchSpacesKeyResponse {
   key?: Key;
@@ -37716,9 +41988,7 @@ export const PatchSpacesKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.optional(Key),
   }),
-).annotate({
-  identifier: "PatchSpacesKeyResponse",
-}) as any as S.Schema<PatchSpacesKeyResponse>;
+).annotate({ identifier: "PatchSpacesKeyResponse" }) as any as S.Schema<PatchSpacesKeyResponse>;
 
 export interface PatchVpcRequest {
   /** A unique identifier for a VPC. */
@@ -37737,9 +42007,7 @@ export const PatchVpcRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     default: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PATCH", uri: "/v2/vpcs/{vpc_id}", code: 200 })),
-).annotate({
-  identifier: "PatchVpcRequest",
-}) as any as S.Schema<PatchVpcRequest>;
+).annotate({ identifier: "PatchVpcRequest" }) as any as S.Schema<PatchVpcRequest>;
 
 export interface PatchVpcResponse {
   vpc?: Vpc;
@@ -37748,9 +42016,7 @@ export const PatchVpcResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vpc: S.optional(Vpc),
   }),
-).annotate({
-  identifier: "PatchVpcResponse",
-}) as any as S.Schema<PatchVpcResponse>;
+).annotate({ identifier: "PatchVpcResponse" }) as any as S.Schema<PatchVpcResponse>;
 
 export interface PatchVpcPeeringRequest {
   /** A unique identifier for a VPC peering. */
@@ -37762,16 +42028,8 @@ export const PatchVpcPeeringRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vpc_peering_id: S.String.pipe(T.Label()),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/vpc_peerings/{vpc_peering_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PatchVpcPeeringRequest",
-}) as any as S.Schema<PatchVpcPeeringRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/v2/vpc_peerings/{vpc_peering_id}", code: 200 })),
+).annotate({ identifier: "PatchVpcPeeringRequest" }) as any as S.Schema<PatchVpcPeeringRequest>;
 
 export interface PatchVpcPeeringResponse {
   vpc_peering?: VpcPeering;
@@ -37780,9 +42038,7 @@ export const PatchVpcPeeringResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vpc_peering: S.optional(VpcPeering),
   }),
-).annotate({
-  identifier: "PatchVpcPeeringResponse",
-}) as any as S.Schema<PatchVpcPeeringResponse>;
+).annotate({ identifier: "PatchVpcPeeringResponse" }) as any as S.Schema<PatchVpcPeeringResponse>;
 
 export interface PatchVpcPeeringsRequest {
   /** A unique identifier for a VPC. */
@@ -37798,15 +42054,9 @@ export const PatchVpcPeeringsRequest = /*@__PURE__*/ S.suspend(() =>
     vpc_peering_id: S.String.pipe(T.Label()),
     name: S.String,
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/vpcs/{vpc_id}/peerings/{vpc_peering_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/v2/vpcs/{vpc_id}/peerings/{vpc_peering_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "PatchVpcPeeringsRequest",
-}) as any as S.Schema<PatchVpcPeeringsRequest>;
+).annotate({ identifier: "PatchVpcPeeringsRequest" }) as any as S.Schema<PatchVpcPeeringsRequest>;
 
 export interface PatchVpcPeeringsResponse {
   peering?: VpcPeering;
@@ -37815,9 +42065,7 @@ export const PatchVpcPeeringsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     peering: S.optional(VpcPeering),
   }),
-).annotate({
-  identifier: "PatchVpcPeeringsResponse",
-}) as any as S.Schema<PatchVpcPeeringsResponse>;
+).annotate({ identifier: "PatchVpcPeeringsResponse" }) as any as S.Schema<PatchVpcPeeringsResponse>;
 
 /** The type of action to initiate for the Droplet. */
 export type DropletActionType =
@@ -38019,9 +42267,7 @@ export const DropletActionRestore = /*@__PURE__*/ S.suspend(() =>
     type: DropletActionRestoreType,
     image: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DropletActionRestore",
-}) as any as S.Schema<DropletActionRestore>;
+).annotate({ identifier: "DropletActionRestore" }) as any as S.Schema<DropletActionRestore>;
 
 /** The type of action to initiate for the Droplet. */
 export type DropletActionResizeType =
@@ -38056,9 +42302,7 @@ export const DropletActionResize = /*@__PURE__*/ S.suspend(() =>
     disk: S.optional(S.Boolean),
     size: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DropletActionResize",
-}) as any as S.Schema<DropletActionResize>;
+).annotate({ identifier: "DropletActionResize" }) as any as S.Schema<DropletActionResize>;
 
 /** The type of action to initiate for the Droplet. */
 export type DropletActionRebuildType =
@@ -38094,9 +42338,7 @@ export const DropletActionRebuild = /*@__PURE__*/ S.suspend(() =>
     type: DropletActionRebuildType,
     image: S.optional(DropletActionRebuildImage),
   }),
-).annotate({
-  identifier: "DropletActionRebuild",
-}) as any as S.Schema<DropletActionRebuild>;
+).annotate({ identifier: "DropletActionRebuild" }) as any as S.Schema<DropletActionRebuild>;
 
 /** The type of action to initiate for the Droplet. */
 export type DropletActionRenameType =
@@ -38128,9 +42370,7 @@ export const DropletActionRename = /*@__PURE__*/ S.suspend(() =>
     type: DropletActionRenameType,
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DropletActionRename",
-}) as any as S.Schema<DropletActionRename>;
+).annotate({ identifier: "DropletActionRename" }) as any as S.Schema<DropletActionRename>;
 
 /** The type of action to initiate for the Droplet. */
 export type DropletActionChangeKernelType =
@@ -38196,9 +42436,7 @@ export const DropletActionSnapshot = /*@__PURE__*/ S.suspend(() =>
     type: DropletActionSnapshotType,
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DropletActionSnapshot",
-}) as any as S.Schema<DropletActionSnapshot>;
+).annotate({ identifier: "DropletActionSnapshot" }) as any as S.Schema<DropletActionSnapshot>;
 
 export type PostDropletActionRequestBody =
   | DropletAction
@@ -38222,16 +42460,8 @@ export const PostDropletActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     droplet_id: S.Number.pipe(T.Label()),
     body: S.optional(PostDropletActionRequestBody.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/droplets/{droplet_id}/actions",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PostDropletActionRequest",
-}) as any as S.Schema<PostDropletActionRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/droplets/{droplet_id}/actions", code: 200 })),
+).annotate({ identifier: "PostDropletActionRequest" }) as any as S.Schema<PostDropletActionRequest>;
 
 export interface PostDropletActionResponse {
   action?: Action;
@@ -38290,9 +42520,7 @@ export const FloatingIpActionUnassign = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: FloatingIpActionUnassignType,
   }),
-).annotate({
-  identifier: "FloatingIpActionUnassign",
-}) as any as S.Schema<FloatingIpActionUnassign>;
+).annotate({ identifier: "FloatingIpActionUnassign" }) as any as S.Schema<FloatingIpActionUnassign>;
 
 /** The type of action to initiate for the floating IP. */
 export type FloatingIpActionAssignType = "assign" | "unassign";
@@ -38309,9 +42537,7 @@ export const FloatingIpActionAssign = /*@__PURE__*/ S.suspend(() =>
     type: FloatingIpActionAssignType,
     droplet_id: S.Number,
   }),
-).annotate({
-  identifier: "FloatingIpActionAssign",
-}) as any as S.Schema<FloatingIpActionAssign>;
+).annotate({ identifier: "FloatingIpActionAssign" }) as any as S.Schema<FloatingIpActionAssign>;
 
 export type PostFloatingIPsActionRequestBody = FloatingIpActionUnassign | FloatingIpActionAssign;
 export const PostFloatingIPsActionRequestBody =
@@ -38326,13 +42552,7 @@ export const PostFloatingIPsActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     floating_ip: S.String.pipe(T.Label()),
     body: S.optional(PostFloatingIPsActionRequestBody.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/floating_ips/{floating_ip}/actions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/floating_ips/{floating_ip}/actions", code: 200 })),
 ).annotate({
   identifier: "PostFloatingIPsActionRequest",
 }) as any as S.Schema<PostFloatingIPsActionRequest>;
@@ -38401,11 +42621,7 @@ export const PostImageAccountTransferDeclineRequest = /*@__PURE__*/ S.suspend(()
     image_id: S.Number.pipe(T.Label()),
     transfer_id: S.Number,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/images/{image_id}/account_transfer/decline",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/images/{image_id}/account_transfer/decline", code: 200 }),
   ),
 ).annotate({
   identifier: "PostImageAccountTransferDeclineRequest",
@@ -38430,9 +42646,7 @@ export const ImageActionBase = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: ImageActionBaseType,
   }),
-).annotate({
-  identifier: "ImageActionBase",
-}) as any as S.Schema<ImageActionBase>;
+).annotate({ identifier: "ImageActionBase" }) as any as S.Schema<ImageActionBase>;
 
 /** The action to be taken on the image. Can be either `convert` or `transfer`. */
 export type ImageActionTransferType = "convert" | "transfer";
@@ -38448,9 +42662,7 @@ export const ImageActionTransfer = /*@__PURE__*/ S.suspend(() =>
     type: ImageActionTransferType,
     region: RegionSlug,
   }),
-).annotate({
-  identifier: "ImageActionTransfer",
-}) as any as S.Schema<ImageActionTransfer>;
+).annotate({ identifier: "ImageActionTransfer" }) as any as S.Schema<ImageActionTransfer>;
 
 export type PostImageActionRequestBody = ImageActionBase | ImageActionTransfer;
 export const PostImageActionRequestBody = S.Unknown as any as S.Schema<PostImageActionRequestBody>;
@@ -38465,9 +42677,7 @@ export const PostImageActionRequest = /*@__PURE__*/ S.suspend(() =>
     image_id: S.Number.pipe(T.Label()),
     body: S.optional(PostImageActionRequestBody.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "POST", uri: "/v2/images/{image_id}/actions", code: 200 })),
-).annotate({
-  identifier: "PostImageActionRequest",
-}) as any as S.Schema<PostImageActionRequest>;
+).annotate({ identifier: "PostImageActionRequest" }) as any as S.Schema<PostImageActionRequest>;
 
 /** The type of action to initiate for the reserved IP. */
 export type ReservedIpActionUnassignType = "assign" | "unassign";
@@ -38481,9 +42691,7 @@ export const ReservedIpActionUnassign = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: ReservedIpActionUnassignType,
   }),
-).annotate({
-  identifier: "ReservedIpActionUnassign",
-}) as any as S.Schema<ReservedIpActionUnassign>;
+).annotate({ identifier: "ReservedIpActionUnassign" }) as any as S.Schema<ReservedIpActionUnassign>;
 
 /** The type of action to initiate for the reserved IP. */
 export type ReservedIpActionAssignType = "assign" | "unassign";
@@ -38500,9 +42708,7 @@ export const ReservedIpActionAssign = /*@__PURE__*/ S.suspend(() =>
     type: ReservedIpActionAssignType,
     droplet_id: S.Number,
   }),
-).annotate({
-  identifier: "ReservedIpActionAssign",
-}) as any as S.Schema<ReservedIpActionAssign>;
+).annotate({ identifier: "ReservedIpActionAssign" }) as any as S.Schema<ReservedIpActionAssign>;
 
 export type PostReservedIPsActionRequestBody = ReservedIpActionUnassign | ReservedIpActionAssign;
 export const PostReservedIPsActionRequestBody =
@@ -38517,13 +42723,7 @@ export const PostReservedIPsActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reserved_ip: S.String.pipe(T.Label()),
     body: S.optional(PostReservedIPsActionRequestBody.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/reserved_ips/{reserved_ip}/actions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/reserved_ips/{reserved_ip}/actions", code: 200 })),
 ).annotate({
   identifier: "PostReservedIPsActionRequest",
 }) as any as S.Schema<PostReservedIPsActionRequest>;
@@ -38612,9 +42812,7 @@ export const ReservedIpv6ActionAssign = /*@__PURE__*/ S.suspend(() =>
     type: ReservedIpv6ActionAssignType,
     droplet_id: S.Number,
   }),
-).annotate({
-  identifier: "ReservedIpv6ActionAssign",
-}) as any as S.Schema<ReservedIpv6ActionAssign>;
+).annotate({ identifier: "ReservedIpv6ActionAssign" }) as any as S.Schema<ReservedIpv6ActionAssign>;
 
 export type PostReservedIPv6ActionRequestBody =
   | ReservedIpv6ActionUnassign
@@ -38631,13 +42829,7 @@ export const PostReservedIPv6ActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reserved_ipv6: S.String.pipe(T.Label()),
     body: S.optional(PostReservedIPv6ActionRequestBody.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/reserved_ipv6/{reserved_ipv6}/actions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/reserved_ipv6/{reserved_ipv6}/actions", code: 200 })),
 ).annotate({
   identifier: "PostReservedIPv6ActionRequest",
 }) as any as S.Schema<PostReservedIPv6ActionRequest>;
@@ -38710,9 +42902,7 @@ export const VolumeActionPostAttach = /*@__PURE__*/ S.suspend(() =>
     droplet_id: S.Number,
     tags: S.optional(S.NullOr(TagsArray)),
   }),
-).annotate({
-  identifier: "VolumeActionPostAttach",
-}) as any as S.Schema<VolumeActionPostAttach>;
+).annotate({ identifier: "VolumeActionPostAttach" }) as any as S.Schema<VolumeActionPostAttach>;
 
 /** The volume action to initiate. */
 export type VolumeActionPostDetachType = "attach" | "detach" | "resize";
@@ -38730,9 +42920,7 @@ export const VolumeActionPostDetach = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(RegionSlug),
     droplet_id: S.Number,
   }),
-).annotate({
-  identifier: "VolumeActionPostDetach",
-}) as any as S.Schema<VolumeActionPostDetach>;
+).annotate({ identifier: "VolumeActionPostDetach" }) as any as S.Schema<VolumeActionPostDetach>;
 
 export type PostVolumeActionRequestBody = VolumeActionPostAttach | VolumeActionPostDetach;
 export const PostVolumeActionRequestBody =
@@ -38751,9 +42939,7 @@ export const PostVolumeActionRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     body: PostVolumeActionRequestBody.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/v2/volumes/actions", code: 200 })),
-).annotate({
-  identifier: "PostVolumeActionRequest",
-}) as any as S.Schema<PostVolumeActionRequest>;
+).annotate({ identifier: "PostVolumeActionRequest" }) as any as S.Schema<PostVolumeActionRequest>;
 
 export interface PostVolumeActionResponse {}
 export const PostVolumeActionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -38777,9 +42963,7 @@ export const VolumeActionPostResize = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(RegionSlug),
     size_gigabytes: S.Number,
   }),
-).annotate({
-  identifier: "VolumeActionPostResize",
-}) as any as S.Schema<VolumeActionPostResize>;
+).annotate({ identifier: "VolumeActionPostResize" }) as any as S.Schema<VolumeActionPostResize>;
 
 export type PostVolumeActionByIdRequestBody =
   | VolumeActionPostAttach
@@ -38803,13 +42987,7 @@ export const PostVolumeActionByIdRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     body: PostVolumeActionByIdRequestBody.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/volumes/{volume_id}/actions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/volumes/{volume_id}/actions", code: 200 })),
 ).annotate({
   identifier: "PostVolumeActionByIdRequest",
 }) as any as S.Schema<PostVolumeActionByIdRequest>;
@@ -38861,16 +43039,8 @@ export const PurgeCdnCacheRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cdn_id: S.String.pipe(T.Label()),
     files: PurgeCdnCacheRequestFilesList,
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/cdn/endpoints/{cdn_id}/cache",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PurgeCdnCacheRequest",
-}) as any as S.Schema<PurgeCdnCacheRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/cdn/endpoints/{cdn_id}/cache", code: 200 })),
+).annotate({ identifier: "PurgeCdnCacheRequest" }) as any as S.Schema<PurgeCdnCacheRequest>;
 
 export interface PurgeCdnCacheResponse {}
 export const PurgeCdnCacheResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -39013,13 +43183,7 @@ export const RemoveLoadBalancerDropletsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     lb_id: S.String.pipe(T.Label()),
     droplet_ids: RemoveLoadBalancerDropletsRequestDropletIdsList,
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/load_balancers/{lb_id}/droplets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/load_balancers/{lb_id}/droplets", code: 200 })),
 ).annotate({
   identifier: "RemoveLoadBalancerDropletsRequest",
 }) as any as S.Schema<RemoveLoadBalancerDropletsRequest>;
@@ -39046,11 +43210,7 @@ export const RemoveLoadBalancerForwardingRulesRequest = /*@__PURE__*/ S.suspend(
     lb_id: S.String.pipe(T.Label()),
     forwarding_rules: RemoveLoadBalancerForwardingRulesRequestForwardingRulesList,
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/load_balancers/{lb_id}/forwarding_rules",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v2/load_balancers/{lb_id}/forwarding_rules", code: 200 }),
   ),
 ).annotate({
   identifier: "RemoveLoadBalancerForwardingRulesRequest",
@@ -39082,9 +43242,7 @@ export const ResetDatabaseAuthRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ResetDatabaseAuthRequest",
-}) as any as S.Schema<ResetDatabaseAuthRequest>;
+).annotate({ identifier: "ResetDatabaseAuthRequest" }) as any as S.Schema<ResetDatabaseAuthRequest>;
 
 export interface ResetDatabaseAuthResponse {
   user: DatabaseUser;
@@ -39112,9 +43270,7 @@ export const RestartAppRequest = /*@__PURE__*/ S.suspend(() =>
     app_id: S.String.pipe(T.Label()),
     components: S.optional(RestartAppRequestComponentsList),
   }).pipe(T.Http({ method: "POST", uri: "/v2/apps/{app_id}/restart", code: 200 })),
-).annotate({
-  identifier: "RestartAppRequest",
-}) as any as S.Schema<RestartAppRequest>;
+).annotate({ identifier: "RestartAppRequest" }) as any as S.Schema<RestartAppRequest>;
 
 export interface RetryDropletsDestroyWithAssociatedResourcesRequest {
   /** A unique identifier for a Droplet instance. */
@@ -39141,7 +43297,7 @@ export const RetryDropletsDestroyWithAssociatedResourcesResponse = /*@__PURE__*/
   identifier: "RetryDropletsDestroyWithAssociatedResourcesResponse",
 }) as any as S.Schema<RetryDropletsDestroyWithAssociatedResourcesResponse>;
 
-/** Agent deployment names to run the test case against (ADK agent workspaces). */
+/** Agent deployment names to run the test case against. */
 export type RunGenaiEvaluationTestCaseRequestAgentDeploymentNamesList = Array<string>;
 export const RunGenaiEvaluationTestCaseRequestAgentDeploymentNamesList = /*@__PURE__*/ S.Array(
   S.String,
@@ -39154,7 +43310,7 @@ export const RunGenaiEvaluationTestCaseRequestAgentUuidsList = /*@__PURE__*/ S.A
 ) as any as S.Schema<RunGenaiEvaluationTestCaseRequestAgentUuidsList>;
 
 export interface RunGenaiEvaluationTestCaseRequest {
-  /** Agent deployment names to run the test case against (ADK agent workspaces). */
+  /** Agent deployment names to run the test case against. */
   agent_deployment_names?: RunGenaiEvaluationTestCaseRequestAgentDeploymentNamesList;
   /** Agent UUIDs to run the test case against (legacy agents). */
   agent_uuids?: RunGenaiEvaluationTestCaseRequestAgentUuidsList;
@@ -39234,11 +43390,7 @@ export const RunKubernetesClusterLintRequest = /*@__PURE__*/ S.suspend(() =>
     exclude_groups: S.optional(RunKubernetesClusterLintRequestExcludeGroupsList),
     exclude_checks: S.optional(RunKubernetesClusterLintRequestExcludeChecksList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/kubernetes/clusters/{cluster_id}/clusterlint",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/kubernetes/clusters/{cluster_id}/clusterlint", code: 200 }),
   ),
 ).annotate({
   identifier: "RunKubernetesClusterLintRequest",
@@ -39251,6 +43403,53 @@ export const RunKubernetesClusterLintResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "RunKubernetesClusterLintResponse",
 }) as any as S.Schema<RunKubernetesClusterLintResponse>;
 
+export interface RunMcpServerResyncRequest {
+  /** Server identifier (`serverRef`) of one of your team's MCP servers. */
+  server_ref: string;
+  /** Required for a server registered with `credentialRefSource` connection: discovery reaches the server as this user, through their connection, because such a server has no team-wide credential. Ignored otherwise. */
+  user_id?: string;
+}
+export const RunMcpServerResyncRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    server_ref: S.String.pipe(T.Label()),
+    user_id: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v2/action-gateway/mcp-servers/{server_ref}/resync",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "RunMcpServerResyncRequest",
+}) as any as S.Schema<RunMcpServerResyncRequest>;
+
+/** Every tool discovered on the server when discovery finished in time; empty when pending is true. */
+export type ResyncMcpServerResponseToolsList = Array<McpServerTool>;
+export const ResyncMcpServerResponseToolsList = /*@__PURE__*/ S.Array(
+  McpServerTool,
+) as any as S.Schema<ResyncMcpServerResponseToolsList>;
+
+/** Reports the result of a discovery. */
+export interface ResyncMcpServerResponse {
+  /** The server, including `syncStatus` and `syncError`. */
+  mcpServer?: McpServer;
+  /** Every tool discovered on the server when discovery finished in time; empty when pending is true. */
+  tools?: ResyncMcpServerResponseToolsList;
+  /** True when discovery is still running (HTTP 202). Poll the server to see the outcome. */
+  pending?: boolean;
+  /** Set when discovery could not run because `user_id` has no authorized connection to this server yet. It carries the remedy — send the user to `connect_url` — so the caller acts on this response rather than parsing the server's `syncError`. */
+  authorization?: ConnectionAuthorization | null;
+}
+export const ResyncMcpServerResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mcpServer: S.optional(McpServer),
+    tools: S.optional(ResyncMcpServerResponseToolsList),
+    pending: S.optional(S.Boolean),
+    authorization: S.optional(S.NullOr(ConnectionAuthorization)),
+  }),
+).annotate({ identifier: "ResyncMcpServerResponse" }) as any as S.Schema<ResyncMcpServerResponse>;
+
 export interface RunRegistryGarbageCollectionRequest {
   /** The name of a container registry. */
   registry_name: string;
@@ -39259,11 +43458,7 @@ export const RunRegistryGarbageCollectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     registry_name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/registries/{registry_name}/garbage-collection",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/registries/{registry_name}/garbage-collection", code: 200 }),
   ),
 ).annotate({
   identifier: "RunRegistryGarbageCollectionRequest",
@@ -39279,6 +43474,205 @@ export const RunRegistryGarbageCollectionResponse = /*@__PURE__*/ S.suspend(() =
 ).annotate({
   identifier: "RunRegistryGarbageCollectionResponse",
 }) as any as S.Schema<RunRegistryGarbageCollectionResponse>;
+
+export interface SessionsListSearchRequest {
+  /** Matched case-insensitively as a substring of name, `actor_id`, `session_urn`, or `agentName`. Empty matches every session you can see. Results are ordered by match quality (an exact name, `session_urn`, or `actor_id` match, then a prefix, then a substring), then by name, across the whole result set, so a client must not re-sort a page to rank it. */
+  query?: string;
+  /** `end_user_id`, when set, is an exact filter on `actor_id` (the same filter as on the session list) and combines with query as AND. */
+  end_user_id?: string;
+  /** Page size, 1 to 100. Defaults to 20 when omitted or 0; other values are rejected with 400. */
+  page_size?: number;
+  /** `next_page_token` from the previous response. Valid only with the same query and `end_user_id`; otherwise the request is rejected with 400. */
+  page_token?: string;
+}
+export const SessionsListSearchRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    query: S.optional(S.String.pipe(T.Query())),
+    end_user_id: S.optional(S.String.pipe(T.Query())),
+    page_size: S.optional(S.Number.pipe(T.Query())),
+    page_token: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/sessions/search", code: 200 })),
+).annotate({
+  identifier: "SessionsListSearchRequest",
+}) as any as S.Schema<SessionsListSearchRequest>;
+
+/** Matching sessions in rank order. */
+export type SearchSessionsResponseSessionsList = Array<Session>;
+export const SearchSessionsResponseSessionsList = /*@__PURE__*/ S.Array(
+  Session,
+) as any as S.Schema<SearchSessionsResponseSessionsList>;
+
+/** One page of matching sessions. */
+export interface SearchSessionsResponse {
+  /** Matching sessions in rank order. */
+  sessions?: SearchSessionsResponseSessionsList;
+  /** Token for the next page; empty on the last page. */
+  next_page_token?: string;
+}
+export const SearchSessionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessions: S.optional(SearchSessionsResponseSessionsList),
+    next_page_token: S.optional(S.String),
+  }),
+).annotate({ identifier: "SearchSessionsResponse" }) as any as S.Schema<SearchSessionsResponse>;
+
+export type ToolbeltsListSearchRequestStatus = "active" | "deprecated" | "all";
+export const ToolbeltsListSearchRequestStatus = S.String;
+
+export interface ToolbeltsListSearchRequest {
+  /** Matched case-insensitively as a substring of name, `display_name`, or description. Empty matches every toolbelt of your team. */
+  query?: string;
+  /** active (default), deprecated, or all. Case-insensitive. */
+  status?: ToolbeltsListSearchRequestStatus | (string & {});
+  /** Page size, 1 to 100. Defaults to 20 when omitted or 0; other values are rejected with 400. */
+  page_size?: number;
+  /** `next_page_token` from the previous response. Valid only with the same query and status; otherwise the request is rejected with 400. */
+  page_token?: string;
+}
+export const ToolbeltsListSearchRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    query: S.optional(S.String.pipe(T.Query())),
+    status: S.optional(ToolbeltsListSearchRequestStatus.pipe(T.Query())),
+    page_size: S.optional(S.Number.pipe(T.Query())),
+    page_token: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/toolbelts/search", code: 200 })),
+).annotate({
+  identifier: "ToolbeltsListSearchRequest",
+}) as any as S.Schema<ToolbeltsListSearchRequest>;
+
+/** Matching toolbelts sorted by name. */
+export type SearchToolbeltsResponseToolbeltsList = Array<ToolbeltSummary>;
+export const SearchToolbeltsResponseToolbeltsList = /*@__PURE__*/ S.Array(
+  ToolbeltSummary,
+) as any as S.Schema<SearchToolbeltsResponseToolbeltsList>;
+
+/** One page of matching toolbelts. */
+export interface SearchToolbeltsResponse {
+  /** Matching toolbelts sorted by name. */
+  toolbelts?: SearchToolbeltsResponseToolbeltsList;
+  /** Token for the next page; empty on the last page. */
+  next_page_token?: string;
+}
+export const SearchToolbeltsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    toolbelts: S.optional(SearchToolbeltsResponseToolbeltsList),
+    next_page_token: S.optional(S.String),
+  }),
+).annotate({ identifier: "SearchToolbeltsResponse" }) as any as S.Schema<SearchToolbeltsResponse>;
+
+export type ToolsListSearchRequestProviderList = Array<string>;
+export const ToolsListSearchRequestProviderList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ToolsListSearchRequestProviderList>;
+
+export interface ToolsListSearchRequest {
+  /** Matched case- and accent-insensitively as a substring of the tool's name, title, description, category, provider ID, or tool slug. Empty matches every tool your team can use. */
+  query?: string;
+  /** Restricts results to these provider IDs, OR'd together. Repeat the parameter to select several. An unknown ID matches nothing. */
+  provider?: ToolsListSearchRequestProviderList;
+  /** Restricts results to the members of that toolbelt of your team at its latest version, combined with query and provider as AND. Members are matched at the version the toolbelt pins, which is the same set and the same versions `GET /v2/action-gateway/toolbelts/{name}` reports. An unknown or deleted toolbelt returns 404 rather than an empty page. */
+  toolbelt?: string;
+  /** Page size, 1 to 100. Defaults to 20 when omitted or 0; other values are rejected with 400. */
+  page_size?: number;
+  /** A `next_page_token` from the preceding response. It is pinned to the query and filters that produced it: replaying one against a different search is rejected with 400, not a silent restart from the top. */
+  page_token?: string;
+}
+export const ToolsListSearchRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    query: S.optional(S.String.pipe(T.Query())),
+    provider: S.optional(ToolsListSearchRequestProviderList.pipe(T.Query())),
+    toolbelt: S.optional(S.String.pipe(T.Query())),
+    page_size: S.optional(S.Number.pipe(T.Query())),
+    page_token: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/tools/search", code: 200 })),
+).annotate({ identifier: "ToolsListSearchRequest" }) as any as S.Schema<ToolsListSearchRequest>;
+
+/** Summarizes one matching tool. Input and output schemas are omitted; the tool catalog (`GET /v2/action-gateway/tools`) carries them. */
+export interface ToolSearchResult {
+  /** The provider-qualified, stable tool identifier (`<provider>_<name>`). Treat it as opaque and pass it back verbatim. */
+  tool_slug?: string;
+  /** The unqualified tool name, without the provider prefix. */
+  name?: string;
+  /** Human-readable tool title. */
+  title?: string;
+  /** What the tool does. */
+  description?: string;
+  /** The owning toolkit ID, broken out so a client never has to split `tool_slug`. It is what a client groups results by. */
+  provider?: string;
+  /** Best-effort catalog metadata and is empty for a large share of the catalog. Do not rely on it being present. */
+  category?: string;
+  /** The released version number of the tool, for example 3. */
+  version?: number;
+}
+export const ToolSearchResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tool_slug: S.optional(S.String),
+    name: S.optional(S.String),
+    title: S.optional(S.String),
+    description: S.optional(S.String),
+    provider: S.optional(S.String),
+    category: S.optional(S.String),
+    version: S.optional(S.Number),
+  }),
+).annotate({ identifier: "ToolSearchResult" }) as any as S.Schema<ToolSearchResult>;
+
+/** Ordered by descending match quality, then by provider and name. The ordering is applied across the whole result set rather than within a page, so a client must not re-sort a page to rank it. */
+export type SearchToolsResponseToolsList = Array<ToolSearchResult>;
+export const SearchToolsResponseToolsList = /*@__PURE__*/ S.Array(
+  ToolSearchResult,
+) as any as S.Schema<SearchToolsResponseToolsList>;
+
+/** One page of matching tools. */
+export interface SearchToolsResponse {
+  /** Ordered by descending match quality, then by provider and name. The ordering is applied across the whole result set rather than within a page, so a client must not re-sort a page to rank it. */
+  tools?: SearchToolsResponseToolsList;
+  /** Token for the next page; empty on the last page. */
+  next_page_token?: string;
+}
+export const SearchToolsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tools: S.optional(SearchToolsResponseToolsList),
+    next_page_token: S.optional(S.String),
+  }),
+).annotate({ identifier: "SearchToolsResponse" }) as any as S.Schema<SearchToolsResponse>;
+
+export interface ToolsListSearchProvidersRequest {
+  /** Matched case-insensitively as a substring of name, `display_name`, or description. It does not match the titles of the tools a provider owns: "providers owning a tool that matches" is a tool search grouped by the provider field of each result. */
+  query?: string;
+  /** Page size, 1 to 100. Defaults to 20 when omitted or 0; other values are rejected with 400. */
+  page_size?: number;
+  /** `next_page_token` from the previous response. Valid only with the same query; otherwise the request is rejected with 400. */
+  page_token?: string;
+}
+export const ToolsListSearchProvidersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    query: S.optional(S.String.pipe(T.Query())),
+    page_size: S.optional(S.Number.pipe(T.Query())),
+    page_token: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/tools/providers/search", code: 200 })),
+).annotate({
+  identifier: "ToolsListSearchProvidersRequest",
+}) as any as S.Schema<ToolsListSearchProvidersRequest>;
+
+/** Matching providers sorted by name. */
+export type SearchProvidersResponseProvidersList = Array<ProviderSummary>;
+export const SearchProvidersResponseProvidersList = /*@__PURE__*/ S.Array(
+  ProviderSummary,
+) as any as S.Schema<SearchProvidersResponseProvidersList>;
+
+/** One page of matching providers. */
+export interface SearchProvidersResponse {
+  /** Matching providers sorted by name. */
+  providers?: SearchProvidersResponseProvidersList;
+  /** Token for the next page; empty on the last page. */
+  next_page_token?: string;
+}
+export const SearchProvidersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    providers: S.optional(SearchProvidersResponseProvidersList),
+    next_page_token: S.optional(S.String),
+  }),
+).annotate({ identifier: "SearchProvidersResponse" }) as any as S.Schema<SearchProvidersResponse>;
 
 /** The type of the resource. */
 export type UnassignTagResourcesRequestResourcesItemResourceType =
@@ -39330,6 +43724,32 @@ export const UnassignTagResourcesResponse = /*@__PURE__*/ S.suspend(() => S.Stru
   identifier: "UnassignTagResourcesResponse",
 }) as any as S.Schema<UnassignTagResourcesResponse>;
 
+/** Required. Limits to set, at most one per category. */
+export type UpdateActorLimitRequestOverridesList = Array<LimitOverride>;
+export const UpdateActorLimitRequestOverridesList = /*@__PURE__*/ S.Array(
+  LimitOverride,
+) as any as S.Schema<UpdateActorLimitRequestOverridesList>;
+
+export interface UpdateActorLimitRequest {
+  /** Actor ID: a session `actor_id` or a connection `user_id`, 1 to 64 characters from `[A-Za-z0-9._-]`. */
+  actor_id: string;
+  /** Required. Limits to set, at most one per category. */
+  overrides: UpdateActorLimitRequestOverridesList;
+}
+export const UpdateActorLimitRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    actor_id: S.String.pipe(T.Label()),
+    overrides: UpdateActorLimitRequestOverridesList,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v2/action-gateway/actors/{actor_id}/limits:set", code: 200 }),
+  ),
+).annotate({ identifier: "UpdateActorLimitRequest" }) as any as S.Schema<UpdateActorLimitRequest>;
+
+export type UpdateActorLimitResponse = unknown;
+export const UpdateActorLimitResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "UpdateActorLimitResponse" }) as any as S.Schema<UpdateActorLimitResponse>;
+
 export interface UpdateAppRequest {
   /** The ID of the app */
   id: string;
@@ -39343,9 +43763,7 @@ export const UpdateAppRequest = /*@__PURE__*/ S.suspend(() =>
     spec: AppSpecInput,
     update_all_source_versions: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/v2/apps/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateAppRequest",
-}) as any as S.Schema<UpdateAppRequest>;
+).annotate({ identifier: "UpdateAppRequest" }) as any as S.Schema<UpdateAppRequest>;
 
 /** The scaling configuration for an autoscale pool, which is how the pool scales up and down (either by resource utilization or static configuration). */
 export type UpdateAutoscalepoolRequestConfig =
@@ -39369,13 +43787,7 @@ export const UpdateAutoscalepoolRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     config: UpdateAutoscalepoolRequestConfig,
     droplet_template: AutoscalePoolDropletTemplate,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/droplets/autoscale/{autoscale_pool_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/droplets/autoscale/{autoscale_pool_id}", code: 200 })),
 ).annotate({
   identifier: "UpdateAutoscalepoolRequest",
 }) as any as S.Schema<UpdateAutoscalepoolRequest>;
@@ -39440,11 +43852,7 @@ export const UpdateDatabaseAutoscaleRequest = /*@__PURE__*/ S.suspend(() =>
     database_cluster_uuid: S.String.pipe(T.Label()),
     storage: S.optional(DatabaseAutoscaleParamsStorage),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/databases/{database_cluster_uuid}/autoscale",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/databases/{database_cluster_uuid}/autoscale", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateDatabaseAutoscaleRequest",
@@ -39452,9 +43860,7 @@ export const UpdateDatabaseAutoscaleRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface UpdateDatabaseAutoscaleResponse {}
 export const UpdateDatabaseAutoscaleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "UpdateDatabaseAutoscaleResponse",
-  },
+  { identifier: "UpdateDatabaseAutoscaleResponse" },
 ) as any as S.Schema<UpdateDatabaseAutoscaleResponse>;
 
 export interface UpdateDatabaseClusterMetricsCredentialsRequest {
@@ -39463,13 +43869,7 @@ export interface UpdateDatabaseClusterMetricsCredentialsRequest {
 export const UpdateDatabaseClusterMetricsCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     credentials: S.optional(DatabasesBasicAuthCredentials),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/databases/metrics/credentials",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/databases/metrics/credentials", code: 200 })),
 ).annotate({
   identifier: "UpdateDatabaseClusterMetricsCredentialsRequest",
 }) as any as S.Schema<UpdateDatabaseClusterMetricsCredentialsRequest>;
@@ -39498,11 +43898,7 @@ export const UpdateDatabaseClusterSizeRequest = /*@__PURE__*/ S.suspend(() =>
     num_nodes: S.Number,
     storage_size_mib: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/databases/{database_cluster_uuid}/resize",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/databases/{database_cluster_uuid}/resize", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateDatabaseClusterSizeRequest",
@@ -39565,11 +43961,7 @@ export const UpdateDatabaseDoSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     database_cluster_uuid: S.String.pipe(T.Label()),
     do_settings: DoSettings,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/databases/{database_cluster_uuid}/do_settings",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/databases/{database_cluster_uuid}/do_settings", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateDatabaseDoSettingsRequest",
@@ -39624,11 +44016,7 @@ export const UpdateDatabaseFirewallRulesRequest = /*@__PURE__*/ S.suspend(() =>
     database_cluster_uuid: S.String.pipe(T.Label()),
     rules: S.optional(UpdateDatabaseFirewallRulesRequestRulesList),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/databases/{database_cluster_uuid}/firewall",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/databases/{database_cluster_uuid}/firewall", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateDatabaseFirewallRulesRequest",
@@ -39849,11 +44237,7 @@ export const UpdateDatabaseMaintenanceWindowRequest = /*@__PURE__*/ S.suspend(()
     day: S.String,
     hour: S.String,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/databases/{database_cluster_uuid}/maintenance",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/databases/{database_cluster_uuid}/maintenance", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateDatabaseMaintenanceWindowRequest",
@@ -39876,11 +44260,7 @@ export const UpdateDatabaseMajorVersionRequest = /*@__PURE__*/ S.suspend(() =>
     database_cluster_uuid: S.String.pipe(T.Label()),
     version: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/databases/{database_cluster_uuid}/upgrade",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/databases/{database_cluster_uuid}/upgrade", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateDatabaseMajorVersionRequest",
@@ -39960,11 +44340,7 @@ export const UpdateDatabaseRegionRequest = /*@__PURE__*/ S.suspend(() =>
     database_cluster_uuid: S.String.pipe(T.Label()),
     region: S.String,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/databases/{database_cluster_uuid}/migrate",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/databases/{database_cluster_uuid}/migrate", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateDatabaseRegionRequest",
@@ -39986,11 +44362,7 @@ export const UpdateDatabaseSqlModeRequest = /*@__PURE__*/ S.suspend(() =>
     database_cluster_uuid: S.String.pipe(T.Label()),
     sql_mode: S.String,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/databases/{database_cluster_uuid}/sql_mode",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/databases/{database_cluster_uuid}/sql_mode", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateDatabaseSqlModeRequest",
@@ -40001,18 +44373,97 @@ export const UpdateDatabaseSqlModeResponse = /*@__PURE__*/ S.suspend(() => S.Str
   identifier: "UpdateDatabaseSqlModeResponse",
 }) as any as S.Schema<UpdateDatabaseSqlModeResponse>;
 
+/** Permission set applied to the ACL. 'read' allows user to read from the index. 'write' allows for user to write to the index. 'readwrite' allows for both 'read' and 'write' permission. 'deny'(default) restricts user from performing any operation over an index. 'admin' allows for 'readwrite' as well as any operations to administer the index. */
+export type UserSettingsUpdateOpensearchAclItemPermission =
+  | "deny"
+  | "admin"
+  | "read"
+  | "readwrite"
+  | "write";
+export const UserSettingsUpdateOpensearchAclItemPermission = S.String;
+
+export interface UserSettingsUpdateOpensearchAclItem {
+  /** A regex for matching the indexes that this ACL should apply to. */
+  index?: string;
+  /** Permission set applied to the ACL. 'read' allows user to read from the index. 'write' allows for user to write to the index. 'readwrite' allows for both 'read' and 'write' permission. 'deny'(default) restricts user from performing any operation over an index. 'admin' allows for 'readwrite' as well as any operations to administer the index. */
+  permission?: UserSettingsUpdateOpensearchAclItemPermission | (string & {});
+}
+export const UserSettingsUpdateOpensearchAclItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    index: S.optional(S.String),
+    permission: S.optional(UserSettingsUpdateOpensearchAclItemPermission),
+  }),
+).annotate({
+  identifier: "UserSettingsUpdateOpensearchAclItem",
+}) as any as S.Schema<UserSettingsUpdateOpensearchAclItem>;
+
+/** ACLs (Access Control Lists) specifying permissions on index within a OpenSearch cluster. */
+export type UserSettingsUpdateOpensearchAclList = Array<UserSettingsUpdateOpensearchAclItem>;
+export const UserSettingsUpdateOpensearchAclList = /*@__PURE__*/ S.Array(
+  UserSettingsUpdateOpensearchAclItem,
+) as any as S.Schema<UserSettingsUpdateOpensearchAclList>;
+
+/** Permission set applied to the ACL. 'consume' allows for messages to be consumed from the topic. 'produce' allows for messages to be published to the topic. 'produceconsume' allows for both 'consume' and 'produce' permission. 'admin' allows for 'produceconsume' as well as any operations to administer the topic (delete, update). */
+export type UserSettingsUpdateAclItemPermission =
+  | "admin"
+  | "consume"
+  | "produce"
+  | "produceconsume";
+export const UserSettingsUpdateAclItemPermission = S.String;
+
+export interface UserSettingsUpdateAclItem {
+  /** An identifier for the ACL. Will be computed after the ACL is created/updated. */
+  id?: string;
+  /** A regex for matching the topic(s) that this ACL should apply to. */
+  topic: string;
+  /** Permission set applied to the ACL. 'consume' allows for messages to be consumed from the topic. 'produce' allows for messages to be published to the topic. 'produceconsume' allows for both 'consume' and 'produce' permission. 'admin' allows for 'produceconsume' as well as any operations to administer the topic (delete, update). */
+  permission: UserSettingsUpdateAclItemPermission | (string & {});
+}
+export const UserSettingsUpdateAclItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    topic: S.String,
+    permission: UserSettingsUpdateAclItemPermission,
+  }),
+).annotate({
+  identifier: "UserSettingsUpdateAclItem",
+}) as any as S.Schema<UserSettingsUpdateAclItem>;
+
+/** ACLs (Access Control Lists) specifying permissions on topics within a Kafka cluster. */
+export type UserSettingsUpdateAclList = Array<UserSettingsUpdateAclItem>;
+export const UserSettingsUpdateAclList = /*@__PURE__*/ S.Array(
+  UserSettingsUpdateAclItem,
+) as any as S.Schema<UserSettingsUpdateAclList>;
+
+/** User settings that can be updated via the Update a Database User endpoint. Supported for PostgreSQL, Kafka, and OpenSearch clusters. For other engines, the request returns a 422. MongoDB user roles and database access (`mongo_user_settings`) cannot be updated after creation; recreate the user to change them. */
+export interface UserSettingsUpdate {
+  /** For PostgreSQL clusters, set to `true` to grant the user replication privileges. When omitted on create or update, the value defaults to `false` and replication privileges are not granted. This option is not currently supported for other database engines. */
+  pg_allow_replication?: boolean;
+  /** ACLs (Access Control Lists) specifying permissions on index within a OpenSearch cluster. */
+  opensearch_acl?: UserSettingsUpdateOpensearchAclList;
+  /** ACLs (Access Control Lists) specifying permissions on topics within a Kafka cluster. */
+  acl?: UserSettingsUpdateAclList;
+}
+export const UserSettingsUpdate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pg_allow_replication: S.optional(S.Boolean),
+    opensearch_acl: S.optional(UserSettingsUpdateOpensearchAclList),
+    acl: S.optional(UserSettingsUpdateAclList),
+  }),
+).annotate({ identifier: "UserSettingsUpdate" }) as any as S.Schema<UserSettingsUpdate>;
+
 export interface UpdateDatabaseUserRequest {
   /** A unique identifier for a database cluster. */
   database_cluster_uuid: string;
   /** The name of the database user. */
   username: string;
-  settings: UserSettings;
+  settings: UserSettingsUpdate;
 }
 export const UpdateDatabaseUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database_cluster_uuid: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
-    settings: UserSettings,
+    settings: UserSettingsUpdate,
   }).pipe(
     T.Http({
       method: "PUT",
@@ -40104,6 +44555,10 @@ export const UpdateFirewallRequestDropletIdsList = /*@__PURE__*/ S.Array(
 export type UpdateFirewallRequestInboundRulesItemProtocol = "tcp" | "udp" | "icmp";
 export const UpdateFirewallRequestInboundRulesItemProtocol = S.String;
 
+/** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+export type UpdateFirewallRequestInboundRulesItemAction = "allow" | "deny";
+export const UpdateFirewallRequestInboundRulesItemAction = S.String;
+
 /** An array of strings containing the IPv4 addresses, IPv6 addresses, IPv4 CIDRs, and/or IPv6 CIDRs to which the firewall will allow traffic. */
 export type UpdateFirewallRequestInboundRulesItemSourcesAddressesList = Array<string>;
 export const UpdateFirewallRequestInboundRulesItemSourcesAddressesList = /*@__PURE__*/ S.Array(
@@ -40159,12 +44614,15 @@ export interface UpdateFirewallRequestInboundRulesItem {
   protocol: UpdateFirewallRequestInboundRulesItemProtocol | (string & {});
   /** The ports on which traffic will be allowed specified as a string containing a single port, a range (e.g. "8000-9000"), or "0" when all ports are open for a protocol. For ICMP rules this parameter will always return "0". */
   ports: string;
+  /** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+  action?: UpdateFirewallRequestInboundRulesItemAction | (string & {});
   sources: UpdateFirewallRequestInboundRulesItemSources;
 }
 export const UpdateFirewallRequestInboundRulesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     protocol: UpdateFirewallRequestInboundRulesItemProtocol,
     ports: S.String,
+    action: S.optional(UpdateFirewallRequestInboundRulesItemAction),
     sources: UpdateFirewallRequestInboundRulesItemSources,
   }),
 ).annotate({
@@ -40179,6 +44637,10 @@ export const UpdateFirewallRequestInboundRulesList = /*@__PURE__*/ S.Array(
 /** The type of traffic to be allowed. This may be one of `tcp`, `udp`, or `icmp`. */
 export type UpdateFirewallRequestOutboundRulesItemProtocol = "tcp" | "udp" | "icmp";
 export const UpdateFirewallRequestOutboundRulesItemProtocol = S.String;
+
+/** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+export type UpdateFirewallRequestOutboundRulesItemAction = "allow" | "deny";
+export const UpdateFirewallRequestOutboundRulesItemAction = S.String;
 
 /** An array of strings containing the IPv4 addresses, IPv6 addresses, IPv4 CIDRs, and/or IPv6 CIDRs to which the firewall will allow traffic. */
 export type UpdateFirewallRequestOutboundRulesItemDestinationsAddressesList = Array<string>;
@@ -40238,12 +44700,15 @@ export interface UpdateFirewallRequestOutboundRulesItem {
   protocol: UpdateFirewallRequestOutboundRulesItemProtocol | (string & {});
   /** The ports on which traffic will be allowed specified as a string containing a single port, a range (e.g. "8000-9000"), or "0" when all ports are open for a protocol. For ICMP rules this parameter will always return "0". */
   ports: string;
+  /** The action to be taken when traffic matches the rule. This may be one of `allow` or `deny`. For backward compatibility, this field is optional. When not set, it defaults to `allow`. */
+  action?: UpdateFirewallRequestOutboundRulesItemAction | (string & {});
   destinations: UpdateFirewallRequestOutboundRulesItemDestinations;
 }
 export const UpdateFirewallRequestOutboundRulesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     protocol: UpdateFirewallRequestOutboundRulesItemProtocol,
     ports: S.String,
+    action: S.optional(UpdateFirewallRequestOutboundRulesItemAction),
     destinations: UpdateFirewallRequestOutboundRulesItemDestinations,
   }),
 ).annotate({
@@ -40275,9 +44740,7 @@ export const UpdateFirewallRequest = /*@__PURE__*/ S.suspend(() =>
     inbound_rules: S.optional(S.NullOr(UpdateFirewallRequestInboundRulesList)),
     outbound_rules: S.optional(S.NullOr(UpdateFirewallRequestOutboundRulesList)),
   }).pipe(T.Http({ method: "PUT", uri: "/v2/firewalls/{firewall_id}", code: 200 })),
-).annotate({
-  identifier: "UpdateFirewallRequest",
-}) as any as S.Schema<UpdateFirewallRequest>;
+).annotate({ identifier: "UpdateFirewallRequest" }) as any as S.Schema<UpdateFirewallRequest>;
 
 export interface UpdateFirewallResponse {
   firewall?: Firewall;
@@ -40286,9 +44749,7 @@ export const UpdateFirewallResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     firewall: S.optional(Firewall),
   }),
-).annotate({
-  identifier: "UpdateFirewallResponse",
-}) as any as S.Schema<UpdateFirewallResponse>;
+).annotate({ identifier: "UpdateFirewallResponse" }) as any as S.Schema<UpdateFirewallResponse>;
 
 export interface UpdateFunctionsAccessKeyRequest {
   /** The ID of the namespace to be managed. */
@@ -40422,9 +44883,7 @@ export const UpdateGenaiAgentRequest = /*@__PURE__*/ S.suspend(() =>
     web_fetch_enabled: S.optional(S.Boolean),
     web_search_enabled: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/v2/gen-ai/agents/{uuid}", code: 200 })),
-).annotate({
-  identifier: "UpdateGenaiAgentRequest",
-}) as any as S.Schema<UpdateGenaiAgentRequest>;
+).annotate({ identifier: "UpdateGenaiAgentRequest" }) as any as S.Schema<UpdateGenaiAgentRequest>;
 
 /** Information about an updated agent */
 export interface ApiUpdateAgentOutput {
@@ -40434,9 +44893,7 @@ export const ApiUpdateAgentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     agent: S.optional(ApiAgent),
   }),
-).annotate({
-  identifier: "ApiUpdateAgentOutput",
-}) as any as S.Schema<ApiUpdateAgentOutput>;
+).annotate({ identifier: "ApiUpdateAgentOutput" }) as any as S.Schema<ApiUpdateAgentOutput>;
 
 export interface UpdateGenaiAgentApiKeyRequest {
   /** Agent id */
@@ -40483,11 +44940,7 @@ export const UpdateGenaiAgentDeploymentVisibilityRequest = /*@__PURE__*/ S.suspe
     uuid: S.String.pipe(T.Label()),
     visibility: S.optional(ApiDeploymentVisibility),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/gen-ai/agents/{uuid}/deployment_visibility",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/gen-ai/agents/{uuid}/deployment_visibility", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateGenaiAgentDeploymentVisibilityRequest",
@@ -40573,11 +45026,7 @@ export const UpdateGenaiAgentsWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
     workspace_uuid: S.String.pipe(T.Label()),
     agent_uuids: S.optional(UpdateGenaiAgentsWorkspaceRequestAgentUuidsList),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/gen-ai/workspaces/{workspace_uuid}/agents",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/gen-ai/workspaces/{workspace_uuid}/agents", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateGenaiAgentsWorkspaceRequest",
@@ -40607,13 +45056,7 @@ export const UpdateGenaiAnthropicApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
     api_key_uuid: S.String.pipe(T.Label()),
     api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/gen-ai/anthropic/keys/{api_key_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/gen-ai/anthropic/keys/{api_key_uuid}", code: 200 })),
 ).annotate({
   identifier: "UpdateGenaiAnthropicApiKeyRequest",
 }) as any as S.Schema<UpdateGenaiAnthropicApiKeyRequest>;
@@ -40695,11 +45138,7 @@ export const UpdateGenaiCustomEvaluationMetricRequest = /*@__PURE__*/ S.suspend(
     description: S.optional(S.String),
     metric_name: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/gen-ai/custom_evaluation_metrics/{metric_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/gen-ai/custom_evaluation_metrics/{metric_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateGenaiCustomEvaluationMetricRequest",
@@ -40751,13 +45190,7 @@ export const UpdateGenaiCustomModelMetadataRequest = /*@__PURE__*/ S.suspend(() 
     output_modalities: S.optional(UpdateGenaiCustomModelMetadataRequestOutputModalitiesList),
     parameters: S.optional(S.String),
     tags: S.optional(CustomModelTags),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/gen-ai/custom_models/{uuid}/metadata",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v2/gen-ai/custom_models/{uuid}/metadata", code: 200 })),
 ).annotate({
   identifier: "UpdateGenaiCustomModelMetadataRequest",
 }) as any as S.Schema<UpdateGenaiCustomModelMetadataRequest>;
@@ -40811,11 +45244,7 @@ export const UpdateGenaiEvaluationTestCaseRequest = /*@__PURE__*/ S.suspend(() =
     name: S.optional(S.String),
     star_metric: S.optional(ApiStarMetric),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/gen-ai/evaluation_test_cases/{test_case_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/gen-ai/evaluation_test_cases/{test_case_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateGenaiEvaluationTestCaseRequest",
@@ -40862,13 +45291,7 @@ export const UpdateGenaiKnowledgeBaseRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.optional(S.String),
     reranking_config: S.optional(ApiRerankingConfiguration),
     tags: S.optional(UpdateGenaiKnowledgeBaseRequestTagsList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/gen-ai/knowledge_bases/{uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/gen-ai/knowledge_bases/{uuid}", code: 200 })),
 ).annotate({
   identifier: "UpdateGenaiKnowledgeBaseRequest",
 }) as any as S.Schema<UpdateGenaiKnowledgeBaseRequest>;
@@ -40932,13 +45355,7 @@ export const UpdateGenaiModelApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     api_key_uuid: S.String.pipe(T.Label()),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/gen-ai/models/api_keys/{api_key_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/gen-ai/models/api_keys/{api_key_uuid}", code: 200 })),
 ).annotate({
   identifier: "UpdateGenaiModelApiKeyRequest",
 }) as any as S.Schema<UpdateGenaiModelApiKeyRequest>;
@@ -40965,11 +45382,7 @@ export const UpdateGenaiModelEvaluationRunRequest = /*@__PURE__*/ S.suspend(() =
     eval_run_uuid: S.String.pipe(T.Label()),
     name: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/gen-ai/model_evaluation_runs/{eval_run_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/v2/gen-ai/model_evaluation_runs/{eval_run_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateGenaiModelEvaluationRunRequest",
@@ -41024,13 +45437,7 @@ export const UpdateGenaiModelRouterRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     policies: S.optional(UpdateGenaiModelRouterRequestPoliciesList),
     regions: S.optional(UpdateGenaiModelRouterRequestRegionsList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/gen-ai/models/routers/{uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/gen-ai/models/routers/{uuid}", code: 200 })),
 ).annotate({
   identifier: "UpdateGenaiModelRouterRequest",
 }) as any as S.Schema<UpdateGenaiModelRouterRequest>;
@@ -41060,13 +45467,7 @@ export const UpdateGenaiOpenaiApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
     api_key_uuid: S.String.pipe(T.Label()),
     api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/gen-ai/openai/keys/{api_key_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/gen-ai/openai/keys/{api_key_uuid}", code: 200 })),
 ).annotate({
   identifier: "UpdateGenaiOpenaiApiKeyRequest",
 }) as any as S.Schema<UpdateGenaiOpenaiApiKeyRequest>;
@@ -41083,6 +45484,71 @@ export const ApiUpdateOpenAIAPIKeyOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ApiUpdateOpenAIAPIKeyOutput",
 }) as any as S.Schema<ApiUpdateOpenAIAPIKeyOutput>;
 
+/** Optional inline scenarios to replace the set contents. At least one of name or scenarios is required. */
+export type UpdateGenaiScenarioSetRequestScenariosList = Array<ApiScenario>;
+export const UpdateGenaiScenarioSetRequestScenariosList = /*@__PURE__*/ S.Array(
+  ApiScenario,
+) as any as S.Schema<UpdateGenaiScenarioSetRequestScenariosList>;
+
+export interface UpdateGenaiScenarioSetRequest {
+  /** UUID of the scenario set to update. Returned by `CreateScenarioSet` and listed via `ListScenarioSets`. */
+  scenario_set_uuid: string;
+  /** Optional new name. When set, must be non-empty and at most 255 characters. */
+  name?: string;
+  /** Optional inline scenarios to replace the set contents. At least one of name or scenarios is required. */
+  scenarios?: UpdateGenaiScenarioSetRequestScenariosList;
+}
+export const UpdateGenaiScenarioSetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scenario_set_uuid: S.String.pipe(T.Label()),
+    name: S.optional(S.String),
+    scenarios: S.optional(UpdateGenaiScenarioSetRequestScenariosList),
+  }).pipe(
+    T.Http({ method: "PUT", uri: "/v2/gen-ai/scenario_sets/{scenario_set_uuid}", code: 200 }),
+  ),
+).annotate({
+  identifier: "UpdateGenaiScenarioSetRequest",
+}) as any as S.Schema<UpdateGenaiScenarioSetRequest>;
+
+/** Output for updating a scenario set. */
+export interface ApiUpdateScenarioSetOutput {
+  scenario_set?: ApiScenarioSet;
+}
+export const ApiUpdateScenarioSetOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scenario_set: S.optional(ApiScenarioSet),
+  }),
+).annotate({
+  identifier: "ApiUpdateScenarioSetOutput",
+}) as any as S.Schema<ApiUpdateScenarioSetOutput>;
+
+export interface UpdateGenaiSimulationRunRequest {
+  /** UUID of the simulation run to update. Returned by `CreateSimulationRun` and listed via `ListSimulationRuns`. */
+  run_uuid: string;
+  /** The new name of the run. */
+  name?: string;
+}
+export const UpdateGenaiSimulationRunRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    run_uuid: S.String.pipe(T.Label()),
+    name: S.optional(S.String),
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/gen-ai/simulation_runs/{run_uuid}", code: 200 })),
+).annotate({
+  identifier: "UpdateGenaiSimulationRunRequest",
+}) as any as S.Schema<UpdateGenaiSimulationRunRequest>;
+
+/** Output for updating a simulation run. */
+export interface ApiUpdateSimulationRunOutput {
+  simulation_run?: ApiSimulationRun;
+}
+export const ApiUpdateSimulationRunOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    simulation_run: S.optional(ApiSimulationRun),
+  }),
+).annotate({
+  identifier: "ApiUpdateSimulationRunOutput",
+}) as any as S.Schema<ApiUpdateSimulationRunOutput>;
+
 export interface UpdateGenaiWorkspaceRequest {
   /** Workspace UUID. */
   workspace_uuid: string;
@@ -41096,13 +45562,7 @@ export const UpdateGenaiWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
     workspace_uuid: S.String.pipe(T.Label()),
     description: S.optional(S.String),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/gen-ai/workspaces/{workspace_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/gen-ai/workspaces/{workspace_uuid}", code: 200 })),
 ).annotate({
   identifier: "UpdateGenaiWorkspaceRequest",
 }) as any as S.Schema<UpdateGenaiWorkspaceRequest>;
@@ -41114,9 +45574,7 @@ export const ApiUpdateWorkspaceOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workspace: S.optional(ApiWorkspace),
   }),
-).annotate({
-  identifier: "ApiUpdateWorkspaceOutput",
-}) as any as S.Schema<ApiUpdateWorkspaceOutput>;
+).annotate({ identifier: "ApiUpdateWorkspaceOutput" }) as any as S.Schema<ApiUpdateWorkspaceOutput>;
 
 export interface UpdateImageRequest {
   /** A unique number that can be used to identify and reference a specific image. */
@@ -41132,9 +45590,7 @@ export const UpdateImageRequest = /*@__PURE__*/ S.suspend(() =>
     distribution: S.optional(Distribution),
     description: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/v2/images/{image_id}", code: 200 })),
-).annotate({
-  identifier: "UpdateImageRequest",
-}) as any as S.Schema<UpdateImageRequest>;
+).annotate({ identifier: "UpdateImageRequest" }) as any as S.Schema<UpdateImageRequest>;
 
 export interface UpdateImageResponse {
   image: Image;
@@ -41143,9 +45599,73 @@ export const UpdateImageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     image: Image,
   }),
+).annotate({ identifier: "UpdateImageResponse" }) as any as S.Schema<UpdateImageResponse>;
+
+/** Desired alert rule status. Allowed values: - `ALERT_RULE_STATUS_ACTIVE` = active - `ALERT_RULE_STATUS_PAUSED` = paused */
+export type UpdateInsightAlertRuleRequestStatus =
+  | "ALERT_RULE_STATUS_ACTIVE"
+  | "ALERT_RULE_STATUS_PAUSED";
+export const UpdateInsightAlertRuleRequestStatus = S.String;
+
+export interface UpdateInsightAlertRuleRequest {
+  /** A unique identifier for an alert rule. */
+  id: string;
+  spec: AlertRuleSpec;
+  /** Desired alert rule status. Allowed values: - `ALERT_RULE_STATUS_ACTIVE` = active - `ALERT_RULE_STATUS_PAUSED` = paused */
+  status?: UpdateInsightAlertRuleRequestStatus | (string & {});
+}
+export const UpdateInsightAlertRuleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+    spec: AlertRuleSpec,
+    status: S.optional(UpdateInsightAlertRuleRequestStatus),
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/insights/alert-rules/{id}", code: 200 })),
 ).annotate({
-  identifier: "UpdateImageResponse",
-}) as any as S.Schema<UpdateImageResponse>;
+  identifier: "UpdateInsightAlertRuleRequest",
+}) as any as S.Schema<UpdateInsightAlertRuleRequest>;
+
+export interface UpdateInsightAlertRuleResponse {
+  alert_rule: AlertRule;
+}
+export const UpdateInsightAlertRuleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    alert_rule: AlertRule,
+  }),
+).annotate({
+  identifier: "UpdateInsightAlertRuleResponse",
+}) as any as S.Schema<UpdateInsightAlertRuleResponse>;
+
+export interface UpdateInsightNotificationChannelRequest {
+  /** A unique identifier for a notification channel. */
+  id: string;
+  /** A human-readable name for the notification channel. */
+  name: string;
+  email?: EmailNotificationConfig;
+  slack?: SlackNotificationConfig;
+  webhook?: WebhookNotificationConfig;
+}
+export const UpdateInsightNotificationChannelRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+    name: S.String,
+    email: S.optional(EmailNotificationConfig),
+    slack: S.optional(SlackNotificationConfig),
+    webhook: S.optional(WebhookNotificationConfig),
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/insights/notification-channels/{id}", code: 200 })),
+).annotate({
+  identifier: "UpdateInsightNotificationChannelRequest",
+}) as any as S.Schema<UpdateInsightNotificationChannelRequest>;
+
+export interface UpdateInsightNotificationChannelResponse {
+  notification_channel: NotificationChannel;
+}
+export const UpdateInsightNotificationChannelResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    notification_channel: NotificationChannel,
+  }),
+).annotate({
+  identifier: "UpdateInsightNotificationChannelResponse",
+}) as any as S.Schema<UpdateInsightNotificationChannelResponse>;
 
 /** An array of tags applied to the Kubernetes cluster. All clusters are automatically tagged `k8s` and `k8s:$K8S_CLUSTER_ID`. */
 export type UpdateKubernetesClusterRequestTagsList = Array<string>;
@@ -41172,6 +45692,7 @@ export interface UpdateKubernetesClusterRequest {
   sso?: Sso | null;
   routing_agent?: RoutingAgent | null;
   p2p_oci_registry_plugin?: P2pOciRegistryPlugin | null;
+  nfs_csi_plugin?: NfsCsiPlugin | null;
   amd_gpu_device_plugin?: AmdGpuDevicePlugin | null;
   amd_gpu_device_metrics_exporter_plugin?: AmdGpuDeviceMetricsExporterPlugin | null;
   nvidia_gpu_device_plugin?: NvidiaGpuDevicePlugin | null;
@@ -41194,6 +45715,7 @@ export const UpdateKubernetesClusterRequest = /*@__PURE__*/ S.suspend(() =>
     sso: S.optional(S.NullOr(Sso)),
     routing_agent: S.optional(S.NullOr(RoutingAgent)),
     p2p_oci_registry_plugin: S.optional(S.NullOr(P2pOciRegistryPlugin)),
+    nfs_csi_plugin: S.optional(S.NullOr(NfsCsiPlugin)),
     amd_gpu_device_plugin: S.optional(S.NullOr(AmdGpuDevicePlugin)),
     amd_gpu_device_metrics_exporter_plugin: S.optional(S.NullOr(AmdGpuDeviceMetricsExporterPlugin)),
     nvidia_gpu_device_plugin: S.optional(S.NullOr(NvidiaGpuDevicePlugin)),
@@ -41201,22 +45723,14 @@ export const UpdateKubernetesClusterRequest = /*@__PURE__*/ S.suspend(() =>
     amd_gpu_dra_driver: S.optional(S.NullOr(AmdGpuDraDriver)),
     rdma_shared_dev_plugin: S.optional(S.NullOr(RdmaSharedDevPlugin)),
     coredns_autoscaler: S.optional(S.NullOr(CorednsAutoscaler)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/kubernetes/clusters/{cluster_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/kubernetes/clusters/{cluster_id}", code: 200 })),
 ).annotate({
   identifier: "UpdateKubernetesClusterRequest",
 }) as any as S.Schema<UpdateKubernetesClusterRequest>;
 
 export interface UpdateKubernetesClusterResponse {}
 export const UpdateKubernetesClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "UpdateKubernetesClusterResponse",
-  },
+  { identifier: "UpdateKubernetesClusterResponse" },
 ) as any as S.Schema<UpdateKubernetesClusterResponse>;
 
 /** An array containing the tags applied to the node pool. All node pools are automatically tagged `k8s`, `k8s-worker`, and `k8s:$K8S_CLUSTER_ID`. <br><br>Requires `tag:read` scope. */
@@ -41283,15 +45797,266 @@ export const UpdateKubernetesNodePoolResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateKubernetesNodePoolResponse",
 }) as any as S.Schema<UpdateKubernetesNodePoolResponse>;
 
+/** An array containing the IDs of the Droplets assigned to the load balancer. */
+export type LoadBalancerUpdateInputCase0DropletIdsList = Array<number>;
+export const LoadBalancerUpdateInputCase0DropletIdsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<LoadBalancerUpdateInputCase0DropletIdsList>;
+
+/** This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes. * `lb-small` = 1 node * `lb-medium` = 3 nodes * `lb-large` = 6 nodes You can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation. */
+export type LoadBalancerUpdateInputCase0Size = "lb-small" | "lb-medium" | "lb-large";
+export const LoadBalancerUpdateInputCase0Size = S.String;
+
+/** This field has been deprecated. You can no longer specify an algorithm for load balancers. */
+export type LoadBalancerUpdateInputCase0Algorithm = "round_robin" | "least_connections";
+export const LoadBalancerUpdateInputCase0Algorithm = S.String;
+
+/** An array of objects specifying the forwarding rules for a load balancer. */
+export type LoadBalancerUpdateInputCase0ForwardingRulesList = Array<ForwardingRule>;
+export const LoadBalancerUpdateInputCase0ForwardingRulesList = /*@__PURE__*/ S.Array(
+  ForwardingRule,
+) as any as S.Schema<LoadBalancerUpdateInputCase0ForwardingRulesList>;
+
+/** A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer. */
+export type LoadBalancerUpdateInputCase0Network = "EXTERNAL" | "INTERNAL";
+export const LoadBalancerUpdateInputCase0Network = S.String;
+
+/** A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer. */
+export type LoadBalancerUpdateInputCase0NetworkStack = "IPV4" | "DUALSTACK";
+export const LoadBalancerUpdateInputCase0NetworkStack = S.String;
+
+/** A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer. */
+export type LoadBalancerUpdateInputCase0Type = "REGIONAL" | "REGIONAL_NETWORK" | "GLOBAL";
+export const LoadBalancerUpdateInputCase0Type = S.String;
+
+/** An array of objects specifying the domain configurations for a Global load balancer. */
+export type LoadBalancerUpdateInputCase0DomainsList = Array<Domains>;
+export const LoadBalancerUpdateInputCase0DomainsList = /*@__PURE__*/ S.Array(
+  Domains,
+) as any as S.Schema<LoadBalancerUpdateInputCase0DomainsList>;
+
+/** An array containing the UUIDs of the Regional load balancers to be used as target backends for a Global load balancer. */
+export type LoadBalancerUpdateInputCase0TargetLoadBalancerIdsList = Array<string>;
+export const LoadBalancerUpdateInputCase0TargetLoadBalancerIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<LoadBalancerUpdateInputCase0TargetLoadBalancerIdsList>;
+
+/** A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`. */
+export type LoadBalancerUpdateInputCase0TlsCipherPolicy = "DEFAULT" | "STRONG";
+export const LoadBalancerUpdateInputCase0TlsCipherPolicy = S.String;
+
+export interface LoadBalancerUpdateInputCase0 {
+  /** An array containing the IDs of the Droplets assigned to the load balancer. */
+  droplet_ids: LoadBalancerUpdateInputCase0DropletIdsList;
+  region: RegionSlug | (string & {});
+  /** A human-readable name for a load balancer instance. */
+  name?: string;
+  /** The ID of the project that the load balancer is associated with. If no ID is provided at creation, the load balancer associates with the user's default project. If an invalid project ID is provided, the load balancer will not be created. */
+  project_id?: string;
+  /** How many nodes the load balancer contains. Each additional node increases the load balancer's ability to manage more connections. Load balancers can be scaled up or down, and you can change the number of nodes after creation up to once per hour. This field is currently not available in the AMS2, NYC2, or SFO1 regions. Use the `size` field to scale load balancers that reside in these regions. */
+  size_unit?: number;
+  /** This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes. * `lb-small` = 1 node * `lb-medium` = 3 nodes * `lb-large` = 6 nodes You can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation. */
+  size?: LoadBalancerUpdateInputCase0Size | (string & {});
+  /** This field has been deprecated. You can no longer specify an algorithm for load balancers. */
+  algorithm?: LoadBalancerUpdateInputCase0Algorithm | (string & {});
+  /** An array of objects specifying the forwarding rules for a load balancer. */
+  forwarding_rules: LoadBalancerUpdateInputCase0ForwardingRulesList;
+  health_check?: HealthCheck;
+  sticky_sessions?: StickySessions;
+  /** A boolean value indicating whether HTTP requests to the load balancer on port 80 will be redirected to HTTPS on port 443. */
+  redirect_http_to_https?: boolean;
+  /** A boolean value indicating whether PROXY Protocol is in use. */
+  enable_proxy_protocol?: boolean;
+  /** A boolean value indicating whether HTTP keepalive connections are maintained to target Droplets. */
+  enable_backend_keepalive?: boolean;
+  /** An integer value which configures the idle timeout for HTTP requests to the target droplets. */
+  http_idle_timeout_seconds?: number;
+  /** A string specifying the UUID of the VPC to which the load balancer is assigned. */
+  vpc_uuid?: string;
+  /** A string specifying the UUID of the VPC subnet to which the load balancer is assigned. */
+  subnet_uuid?: string;
+  /** A boolean value indicating whether to disable automatic DNS record creation for Let's Encrypt certificates that are added to the load balancer. */
+  disable_lets_encrypt_dns_records?: boolean;
+  firewall?: LbFirewall;
+  /** A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer. */
+  network?: LoadBalancerUpdateInputCase0Network | (string & {});
+  /** A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer. */
+  network_stack?: LoadBalancerUpdateInputCase0NetworkStack | (string & {});
+  /** A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer. */
+  type?: LoadBalancerUpdateInputCase0Type | (string & {});
+  /** An array of objects specifying the domain configurations for a Global load balancer. */
+  domains?: LoadBalancerUpdateInputCase0DomainsList;
+  glb_settings?: GlbSettings;
+  /** An array containing the UUIDs of the Regional load balancers to be used as target backends for a Global load balancer. */
+  target_load_balancer_ids?: LoadBalancerUpdateInputCase0TargetLoadBalancerIdsList;
+  /** A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`. */
+  tls_cipher_policy?: LoadBalancerUpdateInputCase0TlsCipherPolicy | (string & {});
+}
+export const LoadBalancerUpdateInputCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    droplet_ids: LoadBalancerUpdateInputCase0DropletIdsList,
+    region: RegionSlug,
+    name: S.optional(S.String),
+    project_id: S.optional(S.String),
+    size_unit: S.optional(S.Number),
+    size: S.optional(LoadBalancerUpdateInputCase0Size),
+    algorithm: S.optional(LoadBalancerUpdateInputCase0Algorithm),
+    forwarding_rules: LoadBalancerUpdateInputCase0ForwardingRulesList,
+    health_check: S.optional(HealthCheck),
+    sticky_sessions: S.optional(StickySessions),
+    redirect_http_to_https: S.optional(S.Boolean),
+    enable_proxy_protocol: S.optional(S.Boolean),
+    enable_backend_keepalive: S.optional(S.Boolean),
+    http_idle_timeout_seconds: S.optional(S.Number),
+    vpc_uuid: S.optional(S.String),
+    subnet_uuid: S.optional(S.String),
+    disable_lets_encrypt_dns_records: S.optional(S.Boolean),
+    firewall: S.optional(LbFirewall),
+    network: S.optional(LoadBalancerUpdateInputCase0Network),
+    network_stack: S.optional(LoadBalancerUpdateInputCase0NetworkStack),
+    type: S.optional(LoadBalancerUpdateInputCase0Type),
+    domains: S.optional(LoadBalancerUpdateInputCase0DomainsList),
+    glb_settings: S.optional(GlbSettings),
+    target_load_balancer_ids: S.optional(LoadBalancerUpdateInputCase0TargetLoadBalancerIdsList),
+    tls_cipher_policy: S.optional(LoadBalancerUpdateInputCase0TlsCipherPolicy),
+  }),
+).annotate({
+  identifier: "LoadBalancerUpdateInputCase0",
+}) as any as S.Schema<LoadBalancerUpdateInputCase0>;
+
+/** This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes. * `lb-small` = 1 node * `lb-medium` = 3 nodes * `lb-large` = 6 nodes You can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation. */
+export type LoadBalancerUpdateInputCase1Size = "lb-small" | "lb-medium" | "lb-large";
+export const LoadBalancerUpdateInputCase1Size = S.String;
+
+/** This field has been deprecated. You can no longer specify an algorithm for load balancers. */
+export type LoadBalancerUpdateInputCase1Algorithm = "round_robin" | "least_connections";
+export const LoadBalancerUpdateInputCase1Algorithm = S.String;
+
+/** An array of objects specifying the forwarding rules for a load balancer. */
+export type LoadBalancerUpdateInputCase1ForwardingRulesList = Array<ForwardingRule>;
+export const LoadBalancerUpdateInputCase1ForwardingRulesList = /*@__PURE__*/ S.Array(
+  ForwardingRule,
+) as any as S.Schema<LoadBalancerUpdateInputCase1ForwardingRulesList>;
+
+/** A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer. */
+export type LoadBalancerUpdateInputCase1Network = "EXTERNAL" | "INTERNAL";
+export const LoadBalancerUpdateInputCase1Network = S.String;
+
+/** A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer. */
+export type LoadBalancerUpdateInputCase1NetworkStack = "IPV4" | "DUALSTACK";
+export const LoadBalancerUpdateInputCase1NetworkStack = S.String;
+
+/** A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer. */
+export type LoadBalancerUpdateInputCase1Type = "REGIONAL" | "REGIONAL_NETWORK" | "GLOBAL";
+export const LoadBalancerUpdateInputCase1Type = S.String;
+
+/** An array of objects specifying the domain configurations for a Global load balancer. */
+export type LoadBalancerUpdateInputCase1DomainsList = Array<Domains>;
+export const LoadBalancerUpdateInputCase1DomainsList = /*@__PURE__*/ S.Array(
+  Domains,
+) as any as S.Schema<LoadBalancerUpdateInputCase1DomainsList>;
+
+/** An array containing the UUIDs of the Regional load balancers to be used as target backends for a Global load balancer. */
+export type LoadBalancerUpdateInputCase1TargetLoadBalancerIdsList = Array<string>;
+export const LoadBalancerUpdateInputCase1TargetLoadBalancerIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<LoadBalancerUpdateInputCase1TargetLoadBalancerIdsList>;
+
+/** A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`. */
+export type LoadBalancerUpdateInputCase1TlsCipherPolicy = "DEFAULT" | "STRONG";
+export const LoadBalancerUpdateInputCase1TlsCipherPolicy = S.String;
+
+export interface LoadBalancerUpdateInputCase1 {
+  /** The name of a Droplet tag corresponding to Droplets assigned to the load balancer. */
+  tag: string;
+  region: RegionSlug | (string & {});
+  /** A human-readable name for a load balancer instance. */
+  name?: string;
+  /** The ID of the project that the load balancer is associated with. If no ID is provided at creation, the load balancer associates with the user's default project. If an invalid project ID is provided, the load balancer will not be created. */
+  project_id?: string;
+  /** How many nodes the load balancer contains. Each additional node increases the load balancer's ability to manage more connections. Load balancers can be scaled up or down, and you can change the number of nodes after creation up to once per hour. This field is currently not available in the AMS2, NYC2, or SFO1 regions. Use the `size` field to scale load balancers that reside in these regions. */
+  size_unit?: number;
+  /** This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes. * `lb-small` = 1 node * `lb-medium` = 3 nodes * `lb-large` = 6 nodes You can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation. */
+  size?: LoadBalancerUpdateInputCase1Size | (string & {});
+  /** This field has been deprecated. You can no longer specify an algorithm for load balancers. */
+  algorithm?: LoadBalancerUpdateInputCase1Algorithm | (string & {});
+  /** An array of objects specifying the forwarding rules for a load balancer. */
+  forwarding_rules: LoadBalancerUpdateInputCase1ForwardingRulesList;
+  health_check?: HealthCheck;
+  sticky_sessions?: StickySessions;
+  /** A boolean value indicating whether HTTP requests to the load balancer on port 80 will be redirected to HTTPS on port 443. */
+  redirect_http_to_https?: boolean;
+  /** A boolean value indicating whether PROXY Protocol is in use. */
+  enable_proxy_protocol?: boolean;
+  /** A boolean value indicating whether HTTP keepalive connections are maintained to target Droplets. */
+  enable_backend_keepalive?: boolean;
+  /** An integer value which configures the idle timeout for HTTP requests to the target droplets. */
+  http_idle_timeout_seconds?: number;
+  /** A string specifying the UUID of the VPC to which the load balancer is assigned. */
+  vpc_uuid?: string;
+  /** A string specifying the UUID of the VPC subnet to which the load balancer is assigned. */
+  subnet_uuid?: string;
+  /** A boolean value indicating whether to disable automatic DNS record creation for Let's Encrypt certificates that are added to the load balancer. */
+  disable_lets_encrypt_dns_records?: boolean;
+  firewall?: LbFirewall;
+  /** A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer. */
+  network?: LoadBalancerUpdateInputCase1Network | (string & {});
+  /** A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer. */
+  network_stack?: LoadBalancerUpdateInputCase1NetworkStack | (string & {});
+  /** A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer. */
+  type?: LoadBalancerUpdateInputCase1Type | (string & {});
+  /** An array of objects specifying the domain configurations for a Global load balancer. */
+  domains?: LoadBalancerUpdateInputCase1DomainsList;
+  glb_settings?: GlbSettings;
+  /** An array containing the UUIDs of the Regional load balancers to be used as target backends for a Global load balancer. */
+  target_load_balancer_ids?: LoadBalancerUpdateInputCase1TargetLoadBalancerIdsList;
+  /** A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`. */
+  tls_cipher_policy?: LoadBalancerUpdateInputCase1TlsCipherPolicy | (string & {});
+}
+export const LoadBalancerUpdateInputCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tag: S.String,
+    region: RegionSlug,
+    name: S.optional(S.String),
+    project_id: S.optional(S.String),
+    size_unit: S.optional(S.Number),
+    size: S.optional(LoadBalancerUpdateInputCase1Size),
+    algorithm: S.optional(LoadBalancerUpdateInputCase1Algorithm),
+    forwarding_rules: LoadBalancerUpdateInputCase1ForwardingRulesList,
+    health_check: S.optional(HealthCheck),
+    sticky_sessions: S.optional(StickySessions),
+    redirect_http_to_https: S.optional(S.Boolean),
+    enable_proxy_protocol: S.optional(S.Boolean),
+    enable_backend_keepalive: S.optional(S.Boolean),
+    http_idle_timeout_seconds: S.optional(S.Number),
+    vpc_uuid: S.optional(S.String),
+    subnet_uuid: S.optional(S.String),
+    disable_lets_encrypt_dns_records: S.optional(S.Boolean),
+    firewall: S.optional(LbFirewall),
+    network: S.optional(LoadBalancerUpdateInputCase1Network),
+    network_stack: S.optional(LoadBalancerUpdateInputCase1NetworkStack),
+    type: S.optional(LoadBalancerUpdateInputCase1Type),
+    domains: S.optional(LoadBalancerUpdateInputCase1DomainsList),
+    glb_settings: S.optional(GlbSettings),
+    target_load_balancer_ids: S.optional(LoadBalancerUpdateInputCase1TargetLoadBalancerIdsList),
+    tls_cipher_policy: S.optional(LoadBalancerUpdateInputCase1TlsCipherPolicy),
+  }),
+).annotate({
+  identifier: "LoadBalancerUpdateInputCase1",
+}) as any as S.Schema<LoadBalancerUpdateInputCase1>;
+
+export type LoadBalancerUpdateInput = LoadBalancerUpdateInputCase0 | LoadBalancerUpdateInputCase1;
+export const LoadBalancerUpdateInput = S.Unknown as any as S.Schema<LoadBalancerUpdateInput>;
+
 export interface UpdateLoadBalancerRequest {
   /** A unique identifier for a load balancer. */
   lb_id: string;
-  body: LoadBalancerCreateInput;
+  body: LoadBalancerUpdateInput;
 }
 export const UpdateLoadBalancerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     lb_id: S.String.pipe(T.Label()),
-    body: LoadBalancerCreateInput.pipe(T.HttpBody()),
+    body: LoadBalancerUpdateInput.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "PUT", uri: "/v2/load_balancers/{lb_id}", code: 200 })),
 ).annotate({
   identifier: "UpdateLoadBalancerRequest",
@@ -41307,6 +46072,32 @@ export const UpdateLoadBalancerResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateLoadBalancerResponse",
 }) as any as S.Schema<UpdateLoadBalancerResponse>;
+
+/** The complete set of tool slugs (`<server_ref>_<name>`) to enable; every other tool of the server is disabled. Empty disables every tool. */
+export type UpdateMcpServerToolsRequestEnabledToolSlugsList = Array<string>;
+export const UpdateMcpServerToolsRequestEnabledToolSlugsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateMcpServerToolsRequestEnabledToolSlugsList>;
+
+export interface UpdateMcpServerToolsRequest {
+  /** Server identifier (`serverRef`) of one of your team's MCP servers. */
+  server_ref: string;
+  /** The complete set of tool slugs (`<server_ref>_<name>`) to enable; every other tool of the server is disabled. Empty disables every tool. */
+  enabledToolSlugs: UpdateMcpServerToolsRequestEnabledToolSlugsList;
+  /** Required for a server registered with `credentialRefSource` connection when a tool needs verification against the live server, which can only be reached as a user who has authorized it. Ignored otherwise. */
+  user_id?: string;
+}
+export const UpdateMcpServerToolsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    server_ref: S.String.pipe(T.Label()),
+    enabledToolSlugs: UpdateMcpServerToolsRequestEnabledToolSlugsList,
+    user_id: S.optional(S.String),
+  }).pipe(
+    T.Http({ method: "PUT", uri: "/v2/action-gateway/mcp-servers/{server_ref}/tools", code: 200 }),
+  ),
+).annotate({
+  identifier: "UpdateMcpServerToolsRequest",
+}) as any as S.Schema<UpdateMcpServerToolsRequest>;
 
 export type UpdateMonitoringAlertPolicyRequestCompare = "GreaterThan" | "LessThan";
 export const UpdateMonitoringAlertPolicyRequestCompare = S.String;
@@ -41388,13 +46179,7 @@ export const UpdateMonitoringAlertPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     type: UpdateMonitoringAlertPolicyRequestType,
     value: S.Number,
     window: UpdateMonitoringAlertPolicyRequestWindow,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/monitoring/alerts/{alert_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/monitoring/alerts/{alert_uuid}", code: 200 })),
 ).annotate({
   identifier: "UpdateMonitoringAlertPolicyRequest",
 }) as any as S.Schema<UpdateMonitoringAlertPolicyRequest>;
@@ -41474,9 +46259,7 @@ export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     environment: UpdateProjectRequestEnvironment,
     is_default: S.Boolean,
   }).pipe(T.Http({ method: "PUT", uri: "/v2/projects/{project_id}", code: 200 })),
-).annotate({
-  identifier: "UpdateProjectRequest",
-}) as any as S.Schema<UpdateProjectRequest>;
+).annotate({ identifier: "UpdateProjectRequest" }) as any as S.Schema<UpdateProjectRequest>;
 
 export interface UpdateProjectResponse {
   project?: Project;
@@ -41485,9 +46268,7 @@ export const UpdateProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.optional(Project),
   }),
-).annotate({
-  identifier: "UpdateProjectResponse",
-}) as any as S.Schema<UpdateProjectResponse>;
+).annotate({ identifier: "UpdateProjectResponse" }) as any as S.Schema<UpdateProjectResponse>;
 
 /** The environment of the project's resources. */
 export type UpdateProjectDefaultRequestEnvironment = "Development" | "Staging" | "Production";
@@ -41702,9 +46483,7 @@ export const UpdateSpacesKeyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     grants: S.optional(UpdateSpacesKeyRequestGrantsList),
   }).pipe(T.Http({ method: "PUT", uri: "/v2/spaces/keys/{access_key}", code: 200 })),
-).annotate({
-  identifier: "UpdateSpacesKeyRequest",
-}) as any as S.Schema<UpdateSpacesKeyRequest>;
+).annotate({ identifier: "UpdateSpacesKeyRequest" }) as any as S.Schema<UpdateSpacesKeyRequest>;
 
 export interface UpdateSpacesKeyResponse {
   key?: Key;
@@ -41713,9 +46492,7 @@ export const UpdateSpacesKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.optional(Key),
   }),
-).annotate({
-  identifier: "UpdateSpacesKeyResponse",
-}) as any as S.Schema<UpdateSpacesKeyResponse>;
+).annotate({ identifier: "UpdateSpacesKeyResponse" }) as any as S.Schema<UpdateSpacesKeyResponse>;
 
 export interface UpdateSshKeyRequest {
   /** Either the ID or the fingerprint of an existing SSH key. */
@@ -41726,16 +46503,8 @@ export const UpdateSshKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ssh_key_identifier: S.String.pipe(T.Label()),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/account/keys/{ssh_key_identifier}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateSshKeyRequest",
-}) as any as S.Schema<UpdateSshKeyRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/account/keys/{ssh_key_identifier}", code: 200 })),
+).annotate({ identifier: "UpdateSshKeyRequest" }) as any as S.Schema<UpdateSshKeyRequest>;
 
 export interface UpdateSshKeyResponse {
   ssh_key?: SshKeys;
@@ -41744,9 +46513,7 @@ export const UpdateSshKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ssh_key: S.optional(SshKeys),
   }),
-).annotate({
-  identifier: "UpdateSshKeyResponse",
-}) as any as S.Schema<UpdateSshKeyResponse>;
+).annotate({ identifier: "UpdateSshKeyResponse" }) as any as S.Schema<UpdateSshKeyResponse>;
 
 /** The type of alert. */
 export type UpdateUptimeAlertRequestType = "latency" | "down" | "down_global" | "ssl_expiry";
@@ -41788,15 +46555,9 @@ export const UpdateUptimeAlertRequest = /*@__PURE__*/ S.suspend(() =>
     notifications: Notification,
     period: UpdateUptimeAlertRequestPeriod,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/uptime/checks/{check_id}/alerts/{alert_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/uptime/checks/{check_id}/alerts/{alert_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateUptimeAlertRequest",
-}) as any as S.Schema<UpdateUptimeAlertRequest>;
+).annotate({ identifier: "UpdateUptimeAlertRequest" }) as any as S.Schema<UpdateUptimeAlertRequest>;
 
 export interface UpdateUptimeAlertResponse {
   alert?: Alert;
@@ -41847,9 +46608,7 @@ export const UpdateUptimeCheckRequest = /*@__PURE__*/ S.suspend(() =>
     regions: S.optional(UpdateUptimeCheckRequestRegionsList),
     enabled: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/v2/uptime/checks/{check_id}", code: 200 })),
-).annotate({
-  identifier: "UpdateUptimeCheckRequest",
-}) as any as S.Schema<UpdateUptimeCheckRequest>;
+).annotate({ identifier: "UpdateUptimeCheckRequest" }) as any as S.Schema<UpdateUptimeCheckRequest>;
 
 export interface UpdateUptimeCheckResponse {
   check?: Check;
@@ -41939,9 +46698,7 @@ export const UpdateVpcRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     default: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/v2/vpcs/{vpc_id}", code: 200 })),
-).annotate({
-  identifier: "UpdateVpcRequest",
-}) as any as S.Schema<UpdateVpcRequest>;
+).annotate({ identifier: "UpdateVpcRequest" }) as any as S.Schema<UpdateVpcRequest>;
 
 export interface UpdateVpcResponse {
   vpc?: Vpc;
@@ -41950,19 +46707,20 @@ export const UpdateVpcResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vpc: S.optional(Vpc),
   }),
-).annotate({
-  identifier: "UpdateVpcResponse",
-}) as any as S.Schema<UpdateVpcResponse>;
+).annotate({ identifier: "UpdateVpcResponse" }) as any as S.Schema<UpdateVpcResponse>;
 
 export interface UpdateVpcnatgatewayRequestVpcsItem {
   /** The unique identifier of the VPC to which the NAT gateway is attached. */
   vpc_uuid?: string;
+  /** The unique identifier of the VPC subnet to which the NAT gateway is attached. */
+  subnet_uuid?: string;
   /** The classification of the NAT gateway as the default egress route for the VPC traffic. */
   default_gateway?: boolean;
 }
 export const UpdateVpcnatgatewayRequestVpcsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vpc_uuid: S.optional(S.String),
+    subnet_uuid: S.optional(S.String),
     default_gateway: S.optional(S.Boolean),
   }),
 ).annotate({
@@ -42037,9 +46795,7 @@ export const VpcNatGatewayUpdate = /*@__PURE__*/ S.suspend(() =>
     icmp_timeout_seconds: S.optional(S.Number),
     tcp_timeout_seconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "VpcNatGatewayUpdate",
-}) as any as S.Schema<VpcNatGatewayUpdate>;
+).annotate({ identifier: "VpcNatGatewayUpdate" }) as any as S.Schema<VpcNatGatewayUpdate>;
 
 export interface UpdateVpcnatgatewayResponse {
   vpc_nat_gateway?: VpcNatGatewayUpdate;
@@ -42051,6 +46807,75 @@ export const UpdateVpcnatgatewayResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateVpcnatgatewayResponse",
 }) as any as S.Schema<UpdateVpcnatgatewayResponse>;
+
+export interface UpdateVpcSubnetRequest {
+  /** The unique identifier of the VPC to which the subnet belongs. */
+  vpc_uuid: string;
+  /** The unique identifier of a VPC subnet. */
+  subnet_uuid: string;
+  /** The new human-readable name of the VPC subnet. */
+  name: string;
+}
+export const UpdateVpcSubnetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc_uuid: S.String.pipe(T.Label()),
+    subnet_uuid: S.String.pipe(T.Label()),
+    name: S.String,
+  }).pipe(T.Http({ method: "PATCH", uri: "/v2/vpcs/{vpc_uuid}/subnets/{subnet_uuid}", code: 200 })),
+).annotate({ identifier: "UpdateVpcSubnetRequest" }) as any as S.Schema<UpdateVpcSubnetRequest>;
+
+export interface UpdateVpcSubnetResponse {
+  vpc_subnet?: VpcSubnet;
+}
+export const UpdateVpcSubnetResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc_subnet: S.optional(VpcSubnet),
+  }),
+).annotate({ identifier: "UpdateVpcSubnetResponse" }) as any as S.Schema<UpdateVpcSubnetResponse>;
+
+/** The URNs of supported next-hop resources. Droplet targets must use a numeric ID in the format `do:droplet:<id>`. VPC NAT Gateway targets use a UUID in the format `do:nat_gateway:<uuid>`. */
+export type UpdateVpcSubnetRouteRequestTargetUrnsList = Array<string>;
+export const UpdateVpcSubnetRouteRequestTargetUrnsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateVpcSubnetRouteRequestTargetUrnsList>;
+
+export interface UpdateVpcSubnetRouteRequest {
+  /** The unique identifier of the VPC. */
+  vpc_uuid: string;
+  /** The unique identifier of the VPC subnet. */
+  subnet_uuid: string;
+  /** The unique identifier of the route. */
+  route_uuid: string;
+  /** The URNs of supported next-hop resources. Droplet targets must use a numeric ID in the format `do:droplet:<id>`. VPC NAT Gateway targets use a UUID in the format `do:nat_gateway:<uuid>`. */
+  target_urns: UpdateVpcSubnetRouteRequestTargetUrnsList;
+}
+export const UpdateVpcSubnetRouteRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vpc_uuid: S.String.pipe(T.Label()),
+    subnet_uuid: S.String.pipe(T.Label()),
+    route_uuid: S.String.pipe(T.Label()),
+    target_urns: UpdateVpcSubnetRouteRequestTargetUrnsList,
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/v2/vpcs/{vpc_uuid}/subnets/{subnet_uuid}/routes/{route_uuid}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateVpcSubnetRouteRequest",
+}) as any as S.Schema<UpdateVpcSubnetRouteRequest>;
+
+export interface UpdateVpcSubnetRouteResponse {
+  route?: Route;
+}
+export const UpdateVpcSubnetRouteResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    route: S.optional(Route),
+  }),
+).annotate({
+  identifier: "UpdateVpcSubnetRouteResponse",
+}) as any as S.Schema<UpdateVpcSubnetRouteResponse>;
 
 export interface UploadInferenceBatchFileRequest {}
 export const UploadInferenceBatchFileRequest = /*@__PURE__*/ S.suspend(() =>
@@ -42105,9 +46930,7 @@ export const AppProposeResponse = /*@__PURE__*/ S.suspend(() =>
     app_cost: S.optional(S.Number),
     app_tier_downgrade_cost: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AppProposeResponse",
-}) as any as S.Schema<AppProposeResponse>;
+).annotate({ identifier: "AppProposeResponse" }) as any as S.Schema<AppProposeResponse>;
 
 export interface ValidateAppRollbackRequest {
   /** The app ID */
@@ -42122,13 +46945,7 @@ export const ValidateAppRollbackRequest = /*@__PURE__*/ S.suspend(() =>
     app_id: S.String.pipe(T.Label()),
     deployment_id: S.optional(S.String),
     skip_pin: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/apps/{app_id}/rollback/validate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/apps/{app_id}/rollback/validate", code: 200 })),
 ).annotate({
   identifier: "ValidateAppRollbackRequest",
 }) as any as S.Schema<ValidateAppRollbackRequest>;
@@ -42224,6 +47041,36 @@ export const ValidateAppRollbackResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidateAppRollbackResponse",
 }) as any as S.Schema<ValidateAppRollbackResponse>;
 
+/** Output paths to keep; as on create. */
+export type ValidateOutputViewRequestFieldsList = Array<string>;
+export const ValidateOutputViewRequestFieldsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ValidateOutputViewRequestFieldsList>;
+
+export interface ValidateOutputViewRequest {
+  /** Tool slug, optionally pinned; as on create. */
+  tool?: string;
+  /** Opaque ID of the tool version; as on create. */
+  tool_id?: string;
+  /** Optional view name, validated as on create when present. */
+  name?: string;
+  /** Optional description, validated as on create when present. */
+  description?: string;
+  /** Output paths to keep; as on create. */
+  fields: ValidateOutputViewRequestFieldsList;
+}
+export const ValidateOutputViewRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tool: S.optional(S.String),
+    tool_id: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    fields: ValidateOutputViewRequestFieldsList,
+  }).pipe(T.Http({ method: "POST", uri: "/v2/action-gateway/output-views/preview", code: 200 })),
+).annotate({
+  identifier: "ValidateOutputViewRequest",
+}) as any as S.Schema<ValidateOutputViewRequest>;
+
 export interface ValidateRegistryNameRequest {
   /** A globally unique name for the container registry. Must be lowercase and be composed only of numbers, letters and `-`, up to a limit of 63 characters. */
   name: string;
@@ -42290,13 +47137,7 @@ export const VectorDatabasesPostResizeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     size: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/vector-databases/{id}/resize",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/vector-databases/{id}/resize", code: 200 })),
 ).annotate({
   identifier: "VectorDatabasesPostResizeRequest",
 }) as any as S.Schema<VectorDatabasesPostResizeRequest>;
@@ -42494,6 +47335,21 @@ export const addLoadBalancerForwardingRules: API.OperationMethod<
   input: AddLoadBalancerForwardingRulesRequest,
   output: AddLoadBalancerForwardingRulesResponse,
   errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type AddToolbeltToolsError = BadRequest | NotFound | DigitalOceanOpError;
+/** Add Tools to a Toolbelt Adds the listed tools and returns the toolbelt. When membership changes, this creates a new version that keeps the display name and description. Tools already in the toolbelt are left as they are, so a request that adds nothing new returns the current version unchanged. Returns 400 when a tool is not an active catalog tool, when a pin differs from the tool's current released version or from the version the toolbelt already holds, or when the toolbelt would exceed 500 tools. Returns 404 for an unknown or deleted toolbelt. */
+export const addToolbeltTools: API.OperationMethod<
+  AddToolbeltToolsRequest,
+  ToolbeltUpdateResponse,
+  AddToolbeltToolsError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AddToolbeltToolsRequest,
+  output: ToolbeltUpdateResponse,
+  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -42933,6 +47789,21 @@ export const createCertificate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateConnectionError = BadRequest | Conflict | DigitalOceanOpError;
+/** Create a Connection Connects one of your users, identified by `user_id`, to a provider so tools can act on their account. An OAuth connection starts pending, and authorization carries the URL to send the user to; read the connection until it is active or expired. A connection through a team API-key credential is active immediately. There is one connection per provider and `user_id` for each DigitalOcean user who creates connections. Repeating the request returns the existing connection when its scopes cover the request, reusing a pending connection's link, and restarts an expired or revoked connection under the same ID. Requesting scopes beyond an existing connection's, or a different credential, returns 400 until that connection is deleted. */
+export const createConnection: API.OperationMethod<
+  CreateConnectionRequest,
+  ConnectionResponse,
+  CreateConnectionError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateConnectionRequest,
+  output: ConnectionResponse,
+  errors: [BadRequest, Conflict, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateDatabaseClusterError = NotFound | DigitalOceanOpError;
 /** Create a New Database Cluster To create a database cluster, send a POST request to `/v2/databases`. To see a list of options for each engine, such as available regions, size slugs, and versions, send a GET request to the `/v2/databases/options` endpoint. The available sizes for the `storage_size_mib` field depends on the cluster's size. To see a list of available sizes, see [Managed Database Pricing](https://www.digitalocean.com/pricing/managed-databases). The create response returns a JSON object with a key called `database`. The value of this is an object that contains the standard attributes associated with a database cluster. The initial value of the database cluster's `status` attribute is `creating`. When the cluster is ready to receive traffic, this changes to `online`. The embedded `connection` and `private_connection` objects contains the information needed to access the database cluster. For multi-node clusters, the `standby_connection` and `standby_private_connection` objects contain the information needed to connect to the cluster's standby node(s). DigitalOcean managed PostgreSQL and MySQL database clusters take automated daily backups. To create a new database cluster based on a backup of an existing cluster, send a POST request to `/v2/databases`. In addition to the standard database cluster attributes, the JSON body must include a key named `backup_restore` with the name of the original database cluster and the timestamp of the backup to be restored. Creating a database from a backup is the same as forking a database in the control panel. PostgreSQL and MySQL Advanced Edition clusters can be provisioned by setting `engine` to `advanced_pg` or `advanced_mysql`. Advanced Edition clusters are currently in public preview and target highly available workloads. `advanced_pg` supports 1-, 2-, and 3-node deployments; `advanced_mysql` only supports 1- and 3-node deployments. See the [PostgreSQL Advanced Edition](https://docs.digitalocean.com/products/databases/postgresql/how-to/use-advanced-edition-clusters/) and [MySQL Advanced Edition](https://docs.digitalocean.com/products/databases/mysql/how-to/use-advanced-edition-clusters/) documentation for the feature differences vs. Standard Edition and current preview limitations. Note: Caching cluster creates are no longer supported as of 2025-04-30T00:00:00Z. Backups are also not supported for Caching or Valkey clusters. */
 export const createDatabaseCluster: API.OperationMethod<
@@ -43233,6 +48104,21 @@ export const createGenaiEvaluationTestCase: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateGenaiGeneratedScenarioSetError = NotFound | DigitalOceanOpError;
+/** Generate Scenario Set To dispatch goal-driven scenario generation, send a POST request to `/v2/gen-ai/scenario_sets/generate`. The scenario set is returned in the generating state. Poll the retrieve scenario set endpoint until the set reaches a ready, failed, or cancelled status. */
+export const createGenaiGeneratedScenarioSet: API.OperationMethod<
+  CreateGenaiGeneratedScenarioSetRequest,
+  ApiGenerateScenarioSetOutput,
+  CreateGenaiGeneratedScenarioSetError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateGenaiGeneratedScenarioSetRequest,
+  output: ApiGenerateScenarioSetOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateGenaiIndexingJobError = NotFound | DigitalOceanOpError;
 /** Start Indexing Job for a Knowledge Base To start an indexing job for a knowledge base, send a POST request to `/v2/gen-ai/indexing_jobs`. */
 export const createGenaiIndexingJob: API.OperationMethod<
@@ -43338,6 +48224,36 @@ export const createGenaiOpenaiApiKey: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateGenaiScenarioSetError = NotFound | DigitalOceanOpError;
+/** Create Scenario Set To create a scenario set, send a POST request to `/v2/gen-ai/scenario_sets`. Provide exactly one of `scenarios` or `file_upload_scenario_set`. The set is created in the ready state. */
+export const createGenaiScenarioSet: API.OperationMethod<
+  CreateGenaiScenarioSetRequest,
+  ApiCreateScenarioSetOutput,
+  CreateGenaiScenarioSetError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateGenaiScenarioSetRequest,
+  output: ApiCreateScenarioSetOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateGenaiScenarioSetFromLibraryError = NotFound | DigitalOceanOpError;
+/** Create Scenario Set From Library To create a scenario set from a Common Scenario & Goal Library entry, send a POST request to `/v2/gen-ai/scenario_library/{library_scenario_uuid}/create_scenario_set`. The library scenarios are copied into a new scenario set owned by the calling team. The new set is ready to use when creating a simulation run. */
+export const createGenaiScenarioSetFromLibrary: API.OperationMethod<
+  CreateGenaiScenarioSetFromLibraryRequest,
+  ApiCreateScenarioSetFromLibraryOutput,
+  CreateGenaiScenarioSetFromLibraryError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateGenaiScenarioSetFromLibraryRequest,
+  output: ApiCreateScenarioSetFromLibraryOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateGenaiScheduledIndexingError = NotFound | DigitalOceanOpError;
 /** Create scheduled indexing for knowledge base To create scheduled indexing for a knowledge base, send a POST request to `/v2/gen-ai/scheduled-indexing`. */
 export const createGenaiScheduledIndexing: API.OperationMethod<
@@ -43348,6 +48264,21 @@ export const createGenaiScheduledIndexing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateGenaiScheduledIndexingRequest,
   output: ApiCreateScheduledIndexingOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateGenaiSimulationRunError = NotFound | DigitalOceanOpError;
+/** Create Simulation Run To create a simulation run, send a POST request to `/v2/gen-ai/simulation_runs`. The scenario set must be ready. Judge and user simulator models are optional and use platform defaults when omitted. The run is returned in the pending state. */
+export const createGenaiSimulationRun: API.OperationMethod<
+  CreateGenaiSimulationRunRequest,
+  ApiCreateSimulationRunOutput,
+  CreateGenaiSimulationRunError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateGenaiSimulationRunRequest,
+  output: ApiCreateSimulationRunOutput,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -43505,6 +48436,55 @@ export const createInferenceResponse: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateInferenceSystemoneError =
+  | BadRequest
+  | Forbidden
+  | UnprocessableEntity
+  | DigitalOceanOpError;
+/** Create a System One evaluation Evaluates a provided state against one or more typed questions using TypeSafe AI's Jev model. Unlike chat completion endpoints, System One returns typed answers, a truth-likelihood score, a choice from a fixed set, or a numeric score, each paired with a calibrated probability, instead of free-form text. */
+export const createInferenceSystemone: API.OperationMethod<
+  CreateInferenceSystemoneRequest,
+  SystemoneResponse,
+  CreateInferenceSystemoneError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateInferenceSystemoneRequest,
+  output: SystemoneResponse,
+  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateInsightAlertRuleError = BadRequest | UnprocessableEntity | DigitalOceanOpError;
+/** Create an Alert Rule To create an alert rule, send a POST request to `/v2/insights/alert-rules` with a `spec` containing `name`, `query`, `thresholds`, and at least one `notification_channels` binding. `status` defaults to `ALERT_RULE_STATUS_ACTIVE` when omitted. `re_alert_duration` defaults to `RE_ALERT_DURATION_4H` when omitted. `query.metric` must be a dotted OpenTelemetry name such as `do.droplets.cpu_utilization`. Underscored Prometheus-style names are rejected with `422 Unprocessable Entity`. */
+export const createInsightAlertRule: API.OperationMethod<
+  CreateInsightAlertRuleRequest,
+  CreateInsightAlertRuleResponse,
+  CreateInsightAlertRuleError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateInsightAlertRuleRequest,
+  output: CreateInsightAlertRuleResponse,
+  errors: [BadRequest, UnprocessableEntity, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateInsightNotificationChannelError = BadRequest | DigitalOceanOpError;
+/** Create a Notification Channel To create a notification channel, send a POST request to `/v2/insights/notification-channels` with a `name` and exactly one of `email`, `slack`, or `webhook`. Email recipients must be verified team member addresses. Webhook URLs must use HTTPS. Secret fields (`slack.webhook_url`, webhook credentials) are write-only and returned masked on subsequent reads. */
+export const createInsightNotificationChannel: API.OperationMethod<
+  CreateInsightNotificationChannelRequest,
+  CreateInsightNotificationChannelResponse,
+  CreateInsightNotificationChannelError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateInsightNotificationChannelRequest,
+  output: CreateInsightNotificationChannelResponse,
+  errors: [BadRequest, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateKubernetesClusterError = DigitalOceanOpError;
 /** Create a New Kubernetes Cluster To create a new Kubernetes cluster, send a POST request to `/v2/kubernetes/clusters`. The request must contain at least one node pool with at least one worker. The request may contain a maintenance window policy describing a time period when disruptive maintenance tasks may be carried out. Omitting the policy implies that a window will be chosen automatically. See [here](https://docs.digitalocean.com/products/kubernetes/how-to/upgrade-cluster/) for details. */
 export const createKubernetesCluster: API.OperationMethod<
@@ -43531,6 +48511,21 @@ export const createLoadBalancer: API.OperationMethod<
   input: CreateLoadBalancerRequest,
   output: CreateLoadBalancerResponse,
   errors: [UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateMcpServerError = BadRequest | Conflict | DigitalOceanOpError;
+/** Register an MCP Server Registers a remote MCP server for your team, using the streamable HTTP transport. The server starts with `syncStatus` pending and no tools: discover its tools with `POST .../mcp-servers/{server_ref}/resync`, then choose which to enable with `PUT .../mcp-servers/{server_ref}/tools`. The endpoint must be HTTPS and resolve only to public IP addresses. The number of servers per team is limited (10 by default); registering beyond it returns 429. Returns 409 when `serverRef` is already in use. */
+export const createMcpServer: API.OperationMethod<
+  CreateMcpServerRequest,
+  McpServerResponse,
+  CreateMcpServerError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateMcpServerRequest,
+  output: McpServerResponse,
+  errors: [BadRequest, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -43636,6 +48631,21 @@ export const createOrganizationTeam: API.OperationMethod<
   input: CreateOrganizationTeamRequest,
   output: CreateOrganizationTeamResponse,
   errors: [BadRequest, Forbidden, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateOutputViewError = BadRequest | NotFound | Conflict | DigitalOceanOpError;
+/** Create an Output View An output view is a named projection of one tool version's output: tool calls that use it return only the listed fields, and its `output_schema` describes the result. The view is bound to the tool version your catalog currently releases. Returns 409 when your team already has a view with this name on the tool version, and 429 when your team already has the maximum of 20 views on it. */
+export const createOutputView: API.OperationMethod<
+  CreateOutputViewRequest,
+  OutputViewResponse,
+  CreateOutputViewError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateOutputViewRequest,
+  output: OutputViewResponse,
+  errors: [BadRequest, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -43775,6 +48785,21 @@ export const createSecuritySuppression: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateSessionError = BadRequest | DigitalOceanOpError;
+/** Create a Session Creates a session owned by your team, with a new session URN, and returns the MCP URL an agent connects to. tools selects the tools and toolbelts the session exposes, and policy decides which calls run, need approval, or are refused. */
+export const createSession: API.OperationMethod<
+  CreateSessionRequest,
+  CreateSessionResponse,
+  CreateSessionError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateSessionRequest,
+  output: CreateSessionResponse,
+  errors: [BadRequest, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateSpacesKeyError = BadRequest | DigitalOceanOpError;
 /** Create a New Spaces Access Key To create a new Spaces Access Key, send a POST request to `/v2/spaces/keys`. At the moment, you cannot mix a fullaccess permission with scoped permissions. A fullaccess permission will be prioritized if fullaccess and scoped permissions are both added. */
 export const createSpacesKey: API.OperationMethod<
@@ -43816,6 +48841,21 @@ export const createTag: API.OperationMethod<
   input: CreateTagRequest,
   output: CreateTagResponse,
   errors: [BadRequest, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateToolbeltError = BadRequest | Conflict | DigitalOceanOpError;
+/** Create a Toolbelt A toolbelt is a named set of tools, each pinned to a version, that your team can attach to sessions as `toolbelt:<name>@<version>`. The first version is 1 unless version is set. Returns 409 if an active toolbelt with the same name exists. The name of a deleted toolbelt can be reused; its versions start again from the initial version. */
+export const createToolbelt: API.OperationMethod<
+  CreateToolbeltRequest,
+  ToolbeltResponse,
+  CreateToolbeltError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateToolbeltRequest,
+  output: ToolbeltResponse,
+  errors: [BadRequest, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -43955,6 +48995,40 @@ export const createVpcPeerings: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateVpcSubnetError = NotFound | DigitalOceanOpError;
+/** Create a VPC Subnet To create a subnet within a VPC, send a POST request to `/v2/vpcs/$VPC_UUID/subnets` with a name and, optionally, an IP range. */
+export const createVpcSubnet: API.OperationMethod<
+  CreateVpcSubnetRequest,
+  CreateVpcSubnetResponse,
+  CreateVpcSubnetError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateVpcSubnetRequest,
+  output: CreateVpcSubnetResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateVpcSubnetRouteError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | DigitalOceanOpError;
+/** Create a VPC Subnet Route To add a static route to a VPC subnet, send a POST request to `/v2/vpcs/$VPC_UUID/subnets/$SUBNET_UUID/routes`. This route is additional to the routes the VPC already propagates to the subnet. The server assigns the route's `id` and `type`. Droplet targets must use a numeric ID. A Droplet UUID or another invalid `target_urns` value returns a 422 response. */
+export const createVpcSubnetRoute: API.OperationMethod<
+  CreateVpcSubnetRouteRequest,
+  CreateVpcSubnetRouteResponse,
+  CreateVpcSubnetRouteError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateVpcSubnetRouteRequest,
+  output: CreateVpcSubnetRouteResponse,
+  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DatabasesDeleteOpensearchIndexError = NotFound | DigitalOceanOpError;
 /** Delete Index for OpenSearch Cluster To delete a single index within OpenSearch cluster, send a DELETE request to `/v2/databases/$DATABASE_ID/indexes/$INDEX_NAME`. A status of 204 will be given. This indicates that the request was processed successfully, but that no response body is needed. */
 export const databasesDeleteOpensearchIndex: API.OperationMethod<
@@ -44011,6 +49085,21 @@ export const databasesInstallUpdate: API.OperationMethod<
   input: DatabasesInstallUpdateRequest,
   output: DatabasesInstallUpdateResponse,
   errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteActorLimitError = BadRequest | NotFound | DigitalOceanOpError;
+/** Clear an Actor's Limits Removes the actor's overrides for the listed categories, which then follow your team's limits again. Clearing a category without an override succeeds. */
+export const deleteActorLimit: API.OperationMethod<
+  DeleteActorLimitRequest,
+  DeleteActorLimitResponse,
+  DeleteActorLimitError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteActorLimitRequest,
+  output: DeleteActorLimitResponse,
+  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -44115,6 +49204,21 @@ export const deleteCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteCertificateRequest,
   output: DeleteCertificateResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteConnectionError = NotFound | DigitalOceanOpError;
+/** Delete a Connection Marks the connection revoked and returns it; for an OAuth connection, its stored tokens are deleted first. Creating a connection for the same provider and `user_id` later reuses the same ID. Only the user who created the connection can delete it; for anyone else it is 404. */
+export const deleteConnection: API.OperationMethod<
+  DeleteConnectionRequest,
+  DeleteConnectionResponse,
+  DeleteConnectionError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteConnectionRequest,
+  output: DeleteConnectionResponse,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -44585,6 +49689,21 @@ export const deleteGenaiOpenaiApiKey: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteGenaiScenarioSetError = NotFound | DigitalOceanOpError;
+/** Delete Scenario Set To delete a scenario set, send a DELETE request to `/v2/gen-ai/scenario_sets/{scenario_set_uuid}`. A scenario set that is referenced by a simulation run cannot be deleted. */
+export const deleteGenaiScenarioSet: API.OperationMethod<
+  DeleteGenaiScenarioSetRequest,
+  ApiDeleteScenarioSetOutput,
+  DeleteGenaiScenarioSetError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteGenaiScenarioSetRequest,
+  output: ApiDeleteScenarioSetOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteGenaiScheduledIndexingError = NotFound | DigitalOceanOpError;
 /** Delete Scheduled Indexing Delete Scheduled Indexing for knowledge base, send a DELETE request to `/v2/gen-ai/scheduled-indexing/{uuid}`. */
 export const deleteGenaiScheduledIndexing: API.OperationMethod<
@@ -44595,6 +49714,21 @@ export const deleteGenaiScheduledIndexing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteGenaiScheduledIndexingRequest,
   output: ApiDeleteScheduledIndexingOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteGenaiSimulationRunError = NotFound | DigitalOceanOpError;
+/** Delete Simulation Run To delete a simulation run, send a DELETE request to `/v2/gen-ai/simulation_runs/{run_uuid}`. The run must be in a terminal status (`SIMULATION_RUN_STATUS_SUCCEEDED`, `SIMULATION_RUN_STATUS_PARTIALLY_SUCCESSFUL`, `SIMULATION_RUN_STATUS_FAILED`, or `SIMULATION_RUN_STATUS_CANCELLED`). For runs still in progress, cancel the run first, then retry the delete. */
+export const deleteGenaiSimulationRun: API.OperationMethod<
+  DeleteGenaiSimulationRunRequest,
+  ApiDeleteSimulationRunOutput,
+  DeleteGenaiSimulationRunError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteGenaiSimulationRunRequest,
+  output: ApiDeleteSimulationRunOutput,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -44626,6 +49760,36 @@ export const deleteImage: API.OperationMethod<
   input: DeleteImageRequest,
   output: DeleteImageResponse,
   errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteInsightAlertRuleError = NotFound | DigitalOceanOpError;
+/** Delete an Alert Rule To delete an alert rule, send a DELETE request to `/v2/insights/alert-rules/{id}`. */
+export const deleteInsightAlertRule: API.OperationMethod<
+  DeleteInsightAlertRuleRequest,
+  DeleteInsightAlertRuleResponse,
+  DeleteInsightAlertRuleError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteInsightAlertRuleRequest,
+  output: DeleteInsightAlertRuleResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteInsightNotificationChannelError = NotFound | Conflict | DigitalOceanOpError;
+/** Delete a Notification Channel To delete a notification channel, send a DELETE request to `/v2/insights/notification-channels/{id}`. Deleting a channel that is still referenced by one or more alert rules returns `409 Conflict`. */
+export const deleteInsightNotificationChannel: API.OperationMethod<
+  DeleteInsightNotificationChannelRequest,
+  DeleteInsightNotificationChannelResponse,
+  DeleteInsightNotificationChannelError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteInsightNotificationChannelRequest,
+  output: DeleteInsightNotificationChannelResponse,
+  errors: [NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -44700,6 +49864,21 @@ export const deleteLoadBalancerCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteLoadBalancerCacheRequest,
   output: DeleteLoadBalancerCacheResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteMcpServerError = NotFound | DigitalOceanOpError;
+/** Delete an MCP Server Disables all of the server's tools, removes them from your team's catalog, and deletes the server. An `api_key` supplied at registration is deleted; a `credentialRef` you supplied is left untouched. For a server registered with `credentialRefSource` connection, every user connection made through its OAuth client is revoked. Returns the deleted server, or 404 when it does not exist. */
+export const deleteMcpServer: API.OperationMethod<
+  DeleteMcpServerRequest,
+  McpServerResponse,
+  DeleteMcpServerError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteMcpServerRequest,
+  output: McpServerResponse,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -44790,6 +49969,21 @@ export const deleteNfsSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteNfsSnapshotRequest,
   output: DeleteNfsSnapshotResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteOutputViewError = NotFound | DigitalOceanOpError;
+/** Delete an Output View Deletes one of your team's views and returns it with audit.deleted_at set; it can no longer be used. Published views cannot be deleted. Returns 404 when the view does not exist, is already deleted, or is not your team's. */
+export const deleteOutputView: API.OperationMethod<
+  DeleteOutputViewRequest,
+  OutputViewResponse,
+  DeleteOutputViewError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteOutputViewRequest,
+  output: OutputViewResponse,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -44930,6 +50124,21 @@ export const deleteSecuritySuppression: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteSessionError = BadRequest | NotFound | DigitalOceanOpError;
+/** Delete a Session Deletes the session and its policy. Succeeds without deleting anything when the session does not exist or you cannot delete it, so repeating a delete also succeeds. A malformed `session_urn` is rejected with 400. */
+export const deleteSession: API.OperationMethod<
+  DeleteSessionRequest,
+  DeleteSessionResponse,
+  DeleteSessionError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSessionRequest,
+  output: DeleteSessionResponse,
+  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteSnapshotError = BadRequest | NotFound | DigitalOceanOpError;
 /** Delete a Snapshot Both Droplet and volume snapshots are managed through the `/v2/snapshots/` endpoint. To delete a snapshot, send a DELETE request to `/v2/snapshots/$SNAPSHOT_ID`. A status of 204 will be given. This indicates that the request was processed successfully, but that no response body is needed. */
 export const deleteSnapshot: API.OperationMethod<
@@ -44986,6 +50195,36 @@ export const deleteTag: API.OperationMethod<
   input: DeleteTagRequest,
   output: DeleteTagResponse,
   errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteToolbeltError = NotFound | DigitalOceanOpError;
+/** Delete a Toolbelt Marks the toolbelt deleted and returns its latest version with status deprecated. Its versions stay readable by explicit version until the name is reused. The name is free to reuse immediately; a new toolbelt with it starts a fresh version history. Returns 404 when the toolbelt does not exist or is already deleted. */
+export const deleteToolbelt: API.OperationMethod<
+  DeleteToolbeltRequest,
+  ToolbeltUpdateResponse,
+  DeleteToolbeltError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteToolbeltRequest,
+  output: ToolbeltUpdateResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteToolbeltToolsError = BadRequest | NotFound | DigitalOceanOpError;
+/** Remove Tools from a Toolbelt Removes the listed tools and returns the toolbelt. When membership changes, this creates a new version that keeps the display name and description. Tools that are not members are ignored, and removing every tool is allowed; deleting the toolbelt itself is a separate DELETE. Returns 400 when a pin differs from the version the toolbelt holds, and 404 for an unknown or deleted toolbelt. */
+export const deleteToolbeltTools: API.OperationMethod<
+  DeleteToolbeltToolsRequest,
+  ToolbeltUpdateResponse,
+  DeleteToolbeltToolsError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteToolbeltToolsRequest,
+  output: ToolbeltUpdateResponse,
+  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -45120,6 +50359,36 @@ export const deleteVpcPeering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteVpcPeeringRequest,
   output: DeleteVpcPeeringResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteVpcSubnetError = NotFound | DigitalOceanOpError;
+/** Delete a VPC Subnet To delete a specific subnet from a VPC, send a DELETE request to `/v2/vpcs/$VPC_UUID/subnets/$SUBNET_UUID`. A successful request returns a 204 status code with no response body. */
+export const deleteVpcSubnet: API.OperationMethod<
+  DeleteVpcSubnetRequest,
+  DeleteVpcSubnetResponse,
+  DeleteVpcSubnetError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteVpcSubnetRequest,
+  output: DeleteVpcSubnetResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteVpcSubnetRouteError = NotFound | DigitalOceanOpError;
+/** Delete a VPC Subnet Route To delete a user-defined VPC subnet route, send a DELETE request to `/v2/vpcs/$VPC_UUID/subnets/$SUBNET_UUID/routes/$ROUTE_UUID`. Managed routes cannot be deleted. A successful request returns a 204 status code with no response body. */
+export const deleteVpcSubnetRoute: API.OperationMethod<
+  DeleteVpcSubnetRouteRequest,
+  DeleteVpcSubnetRouteResponse,
+  DeleteVpcSubnetRouteError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteVpcSubnetRouteRequest,
+  output: DeleteVpcSubnetRouteResponse,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -45324,6 +50593,21 @@ export const genaiCreateDataSourceFileUploadPresignedUrls: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GenaiCreateDuplicateScenarioSetError = NotFound | DigitalOceanOpError;
+/** Duplicate Scenario Set To duplicate a scenario set, send a POST request to `/v2/gen-ai/scenario_sets/{scenario_set_uuid}/duplicate`. The source set must be ready. The new set is named `{original name} duplicate` and contains a copy of the source scenarios. */
+export const genaiCreateDuplicateScenarioSet: API.OperationMethod<
+  GenaiCreateDuplicateScenarioSetRequest,
+  ApiDuplicateScenarioSetOutput,
+  GenaiCreateDuplicateScenarioSetError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GenaiCreateDuplicateScenarioSetRequest,
+  output: ApiDuplicateScenarioSetOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GenaiCreateEvaluationDatasetFileUploadPresignedUrlsError =
   | NotFound
   | DigitalOceanOpError;
@@ -45356,6 +50640,21 @@ export const genaiCreateModelEvalDatasetUploadPresignedUrls: API.OperationMethod
   retry: Retry.Retry,
 }));
 
+export type GenaiCreateScenarioSetUploadPresignedUrlsError = NotFound | DigitalOceanOpError;
+/** Create Presigned URLs for Scenario Set File Upload To create presigned URLs for uploading a scenario set file, send a POST request to `/v2/gen-ai/scenario_sets/file_upload_presigned_urls`. After uploading, pass the stored object in Create Scenario Set as `file_upload_scenario_set`. */
+export const genaiCreateScenarioSetUploadPresignedUrls: API.OperationMethod<
+  GenaiCreateScenarioSetUploadPresignedUrlsRequest,
+  ApiCreateDataSourceFileUploadPresignedUrlsOutput,
+  GenaiCreateScenarioSetUploadPresignedUrlsError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GenaiCreateScenarioSetUploadPresignedUrlsRequest,
+  output: ApiCreateDataSourceFileUploadPresignedUrlsOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GenaiGetEvaluationDatasetDownloadUrlError = NotFound | DigitalOceanOpError;
 /** Get Download URL for Evaluation Dataset To get a presigned download URL for an evaluation dataset, send a GET request to `/v2/genai/evaluation_datasets/{dataset_uuid}/download_url`. */
 export const genaiGetEvaluationDatasetDownloadUrl: API.OperationMethod<
@@ -45381,6 +50680,36 @@ export const genaiGetModelEvaluationRunResultsDownloadUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GenaiGetModelEvaluationRunResultsDownloadUrlRequest,
   output: ApiGetModelEvaluationRunResultsDownloadURLOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GenaiGetScenarioSetDownloadUrlError = NotFound | DigitalOceanOpError;
+/** Retrieve Scenario Set Download URL To retrieve a presigned download URL for a scenario set file, send a GET request to `/v2/gen-ai/scenario_sets/{scenario_set_uuid}/download_url`. */
+export const genaiGetScenarioSetDownloadUrl: API.OperationMethod<
+  GenaiGetScenarioSetDownloadUrlRequest,
+  ApiGetScenarioSetDownloadURLOutput,
+  GenaiGetScenarioSetDownloadUrlError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GenaiGetScenarioSetDownloadUrlRequest,
+  output: ApiGetScenarioSetDownloadURLOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GenaiPatchCancelSimulationRunError = NotFound | DigitalOceanOpError;
+/** Cancel Simulation Run To cancel an in-progress simulation run, send a PATCH request to `/v2/gen-ai/simulation_runs/{run_uuid}/cancel`. */
+export const genaiPatchCancelSimulationRun: API.OperationMethod<
+  GenaiPatchCancelSimulationRunRequest,
+  ApiCancelSimulationRunOutput,
+  GenaiPatchCancelSimulationRunError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GenaiPatchCancelSimulationRunRequest,
+  output: ApiCancelSimulationRunOutput,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -45427,6 +50756,21 @@ export const getAction: API.OperationMethod<
   input: GetActionRequest,
   output: GetActionResponse,
   errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetActorLimitError = BadRequest | NotFound | DigitalOceanOpError;
+/** Get an Actor's Limits Returns the per-minute limits set for the actor and the limits in effect, each the lower of your team's limit and the actor's override. Returns 404 when the actor has no sessions, connections, or limit overrides. */
+export const getActorLimit: API.OperationMethod<
+  GetActorLimitRequest,
+  GetActorLimitsResponse,
+  GetActorLimitError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetActorLimitRequest,
+  output: GetActorLimitsResponse,
+  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -45756,6 +51100,21 @@ export const getCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCertificateRequest,
   output: GetCertificateResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetConnectionError = NotFound | DigitalOceanOpError;
+/** Get a Connection Returns the connection and, while it is pending, the authorization the user still has to complete. Reading a pending connection picks up a completed authorization, and marks the connection expired once its link has lapsed. Returns 404 for an unknown connection or one you cannot see. */
+export const getConnection: API.OperationMethod<
+  GetConnectionRequest,
+  GetConnectionResponse,
+  GetConnectionError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetConnectionRequest,
+  output: GetConnectionResponse,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -46526,6 +51885,21 @@ export const getGenaiOpenaiApiKey: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetGenaiScenarioSetError = NotFound | DigitalOceanOpError;
+/** Retrieve Scenario Set To retrieve a scenario set, send a GET request to `/v2/gen-ai/scenario_sets/{scenario_set_uuid}`. */
+export const getGenaiScenarioSet: API.OperationMethod<
+  GetGenaiScenarioSetRequest,
+  ApiGetScenarioSetOutput,
+  GetGenaiScenarioSetError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetGenaiScenarioSetRequest,
+  output: ApiGetScenarioSetOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetGenaiScheduledIndexingError = NotFound | DigitalOceanOpError;
 /** Get Scheduled Indexing for Knowledge Base Get Scheduled Indexing for knowledge base using knoweldge base uuid, send a GET request to `/v2/gen-ai/scheduled-indexing/knowledge-base/{knowledge_base_uuid}`. */
 export const getGenaiScheduledIndexing: API.OperationMethod<
@@ -46536,6 +51910,66 @@ export const getGenaiScheduledIndexing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetGenaiScheduledIndexingRequest,
   output: ApiGetScheduledIndexingOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetGenaiSimulationJourneyError = NotFound | DigitalOceanOpError;
+/** Retrieve Simulation Journey To retrieve a single journey, send a GET request to `/v2/gen-ai/simulation_runs/{run_uuid}/journeys/{journey_uuid}`. */
+export const getGenaiSimulationJourney: API.OperationMethod<
+  GetGenaiSimulationJourneyRequest,
+  ApiGetSimulationJourneyOutput,
+  GetGenaiSimulationJourneyError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetGenaiSimulationJourneyRequest,
+  output: ApiGetSimulationJourneyOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetGenaiSimulationJourneyTrajectoryError = NotFound | DigitalOceanOpError;
+/** Retrieve Journey Trajectory To retrieve a journey's live trajectory, send a GET request to `/v2/gen-ai/simulation_runs/{run_uuid}/journeys/{journey_uuid}/trajectory`. Poll while the journey is running to watch turn-by-turn progress. */
+export const getGenaiSimulationJourneyTrajectory: API.OperationMethod<
+  GetGenaiSimulationJourneyTrajectoryRequest,
+  ApiGetSimulationJourneyTrajectoryOutput,
+  GetGenaiSimulationJourneyTrajectoryError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetGenaiSimulationJourneyTrajectoryRequest,
+  output: ApiGetSimulationJourneyTrajectoryOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetGenaiSimulationJourneyTrajectoryUrlError = NotFound | DigitalOceanOpError;
+/** Retrieve Journey Trajectory Download URL To retrieve a presigned download URL for a journey's trajectory, send a GET request to `/v2/gen-ai/simulation_runs/{run_uuid}/journeys/{journey_uuid}/trajectory_url`. */
+export const getGenaiSimulationJourneyTrajectoryUrl: API.OperationMethod<
+  GetGenaiSimulationJourneyTrajectoryUrlRequest,
+  ApiGetSimulationJourneyTrajectoryURLOutput,
+  GetGenaiSimulationJourneyTrajectoryUrlError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetGenaiSimulationJourneyTrajectoryUrlRequest,
+  output: ApiGetSimulationJourneyTrajectoryURLOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetGenaiSimulationRunError = NotFound | DigitalOceanOpError;
+/** Retrieve Simulation Run To retrieve a simulation run, send a GET request to `/v2/gen-ai/simulation_runs/{run_uuid}`. */
+export const getGenaiSimulationRun: API.OperationMethod<
+  GetGenaiSimulationRunRequest,
+  ApiGetSimulationRunOutput,
+  GetGenaiSimulationRunError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetGenaiSimulationRunRequest,
+  output: ApiGetSimulationRunOutput,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -46612,6 +52046,151 @@ export const getInferenceBatchResults: API.OperationMethod<
   input: GetInferenceBatchResultsRequest,
   output: BatchResultsResponse,
   errors: [Forbidden, NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetInsightAlertInstanceError = NotFound | DigitalOceanOpError;
+/** Retrieve an Alert Instance To retrieve a single alert instance, send a GET request to `/v2/insights/alert-instances/{id}`. */
+export const getInsightAlertInstance: API.OperationMethod<
+  GetInsightAlertInstanceRequest,
+  GetInsightAlertInstanceResponse,
+  GetInsightAlertInstanceError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetInsightAlertInstanceRequest,
+  output: GetInsightAlertInstanceResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetInsightAlertRuleError = NotFound | DigitalOceanOpError;
+/** Retrieve an Alert Rule To retrieve an alert rule, send a GET request to `/v2/insights/alert-rules/{id}`. */
+export const getInsightAlertRule: API.OperationMethod<
+  GetInsightAlertRuleRequest,
+  GetInsightAlertRuleResponse,
+  GetInsightAlertRuleError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetInsightAlertRuleRequest,
+  output: GetInsightAlertRuleResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetInsightNotificationChannelError = NotFound | DigitalOceanOpError;
+/** Retrieve a Notification Channel To retrieve a notification channel, send a GET request to `/v2/insights/notification-channels/{id}`. Secret fields are returned masked as `********`. */
+export const getInsightNotificationChannel: API.OperationMethod<
+  GetInsightNotificationChannelRequest,
+  GetInsightNotificationChannelResponse,
+  GetInsightNotificationChannelError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetInsightNotificationChannelRequest,
+  output: GetInsightNotificationChannelResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetInsightPromLabelsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | DigitalOceanOpError;
+/** List label names To list label names, send a GET request to `/v2/insights/query/{region}/prom/api/v1/labels`. */
+export const getInsightPromLabels: API.OperationMethod<
+  GetInsightPromLabelsRequest,
+  PromStringListResponse,
+  GetInsightPromLabelsError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetInsightPromLabelsRequest,
+  output: PromStringListResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetInsightPromLabelValuesError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | DigitalOceanOpError;
+/** List values for a label To list values for a label name, send a GET request to `/v2/insights/query/{region}/prom/api/v1/label/{name}/values`. */
+export const getInsightPromLabelValues: API.OperationMethod<
+  GetInsightPromLabelValuesRequest,
+  PromStringListResponse,
+  GetInsightPromLabelValuesError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetInsightPromLabelValuesRequest,
+  output: PromStringListResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetInsightPromQueryError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | DigitalOceanOpError;
+/** Execute an instant PromQL query To evaluate a PromQL expression at a single point in time, send a GET request to `/v2/insights/query/{region}/prom/api/v1/query`. */
+export const getInsightPromQuery: API.OperationMethod<
+  GetInsightPromQueryRequest,
+  PromQueryResponse,
+  GetInsightPromQueryError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetInsightPromQueryRequest,
+  output: PromQueryResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetInsightPromQueryRangeError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | DigitalOceanOpError;
+/** Execute a range PromQL query To evaluate a PromQL expression over a time range, send a GET request to `/v2/insights/query/{region}/prom/api/v1/query_range`. */
+export const getInsightPromQueryRange: API.OperationMethod<
+  GetInsightPromQueryRangeRequest,
+  PromQueryRangeResponse,
+  GetInsightPromQueryRangeError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetInsightPromQueryRangeRequest,
+  output: PromQueryRangeResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetInsightPromSeriesError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | DigitalOceanOpError;
+/** Find series by label selectors To find series matching one or more selectors, send a GET request to `/v2/insights/query/{region}/prom/api/v1/series`. */
+export const getInsightPromSeries: API.OperationMethod<
+  GetInsightPromSeriesRequest,
+  PromSeriesResponse,
+  GetInsightPromSeriesError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetInsightPromSeriesRequest,
+  output: PromSeriesResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -46725,12 +52304,12 @@ export type GetKubernetesClusterUserError = NotFound | DigitalOceanOpError;
 /** Retrieve User Information for a Kubernetes Cluster To show information the user associated with a Kubernetes cluster, send a GET request to `/v2/kubernetes/clusters/$K8S_CLUSTER_ID/user`. */
 export const getKubernetesClusterUser: API.OperationMethod<
   GetKubernetesClusterUserRequest,
-  User,
+  User2,
   GetKubernetesClusterUserError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetKubernetesClusterUserRequest,
-  output: User,
+  output: User2,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -46806,6 +52385,21 @@ export const getLoadBalancer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetLoadBalancerRequest,
   output: GetLoadBalancerResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetMcpServerError = NotFound | DigitalOceanOpError;
+/** Get an MCP Server Returns one of your team's MCP servers, or 404 when your team has none with this `serverRef`. */
+export const getMcpServer: API.OperationMethod<
+  GetMcpServerRequest,
+  McpServerResponse,
+  GetMcpServerError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetMcpServerRequest,
+  output: McpServerResponse,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -47741,6 +53335,21 @@ export const getNfsSnapshot: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetOutputViewError = NotFound | DigitalOceanOpError;
+/** Get an Output View Returns one of your team's views, or a published view on a tool version your catalog exposes. Returns 404 when the view does not exist, was deleted, or belongs to another team. */
+export const getOutputView: API.OperationMethod<
+  GetOutputViewRequest,
+  OutputViewResponse,
+  GetOutputViewError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOutputViewRequest,
+  output: OutputViewResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetPartnerAttachmentError = NotFound | DigitalOceanOpError;
 /** Retrieve an existing partner attachment To get the details of a partner attachment, send a `GET` request to `/v2/partner_network_connect/attachments/{pa_id}`. */
 export const getPartnerAttachment: API.OperationMethod<
@@ -47781,6 +53390,36 @@ export const getPartnerAttachmentServiceKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPartnerAttachmentServiceKeyRequest,
   output: GetPartnerAttachmentServiceKeyResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetPrepaymentConfigError = NotFound | DigitalOceanOpError;
+/** Get Customer Prepayment Configuration To retrieve the prepayment configuration and current prepayment status for a customer's account, send a GET request to `/v2/customers/my/prepayment_config`. */
+export const getPrepaymentConfig: API.OperationMethod<
+  GetPrepaymentConfigRequest,
+  PrepaymentConfigResponse,
+  GetPrepaymentConfigError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPrepaymentConfigRequest,
+  output: PrepaymentConfigResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetPrepaymentStatusError = NotFound | DigitalOceanOpError;
+/** Get Customer Prepayment Status To retrieve the prepayment gate status and balances for a customer's account, send a GET request to `/v2/customers/my/prepayment_status`. */
+export const getPrepaymentStatus: API.OperationMethod<
+  GetPrepaymentStatusRequest,
+  PrepaymentStatusResponse,
+  GetPrepaymentStatusError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPrepaymentStatusRequest,
+  output: PrepaymentStatusResponse,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -48026,6 +53665,36 @@ export const getTag: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetToolbeltError = BadRequest | NotFound | DigitalOceanOpError;
+/** Get a Toolbelt Returns the latest version of the named toolbelt, or the version requested, with catalog metadata for one page of its members in `tool_details`. A deleted toolbelt returns 404 unless a version is requested. */
+export const getToolbelt: API.OperationMethod<
+  GetToolbeltRequest,
+  GetToolbeltResponse,
+  GetToolbeltError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetToolbeltRequest,
+  output: GetToolbeltResponse,
+  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetToolHealthError = BadRequest | NotFound | DigitalOceanOpError;
+/** Get Tool Health Returns availability and latency for one catalog tool over the requested window, optionally with a history series. Metrics are aggregated across all customers; request volumes are not reported. Returns 404 when `tool_slug` is not a catalog tool. */
+export const getToolHealth: API.OperationMethod<
+  GetToolHealthRequest,
+  GetToolHealthResponse,
+  GetToolHealthError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetToolHealthRequest,
+  output: GetToolHealthResponse,
+  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetUptimeAlertError = NotFound | DigitalOceanOpError;
 /** Retrieve an Existing Alert To show information about an existing alert, send a GET request to `/v2/uptime/checks/$CHECK_ID/alerts/$ALERT_ID`. */
 export const getUptimeAlert: API.OperationMethod<
@@ -48066,6 +53735,21 @@ export const getUptimeCheckState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetUptimeCheckStateRequest,
   output: GetUptimeCheckStateResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetUserError = NotFound | DigitalOceanOpError;
+/** Get a User Returns the sessions and non-revoked connections of one user ID. Returns 404 when the user has none you can see and no limit overrides. */
+export const getUser: API.OperationMethod<
+  GetUserRequest,
+  GetUserResponse,
+  GetUserError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetUserRequest,
+  output: GetUserResponse,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -48191,6 +53875,21 @@ export const getVpcPeering: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetVpcSubnetError = NotFound | DigitalOceanOpError;
+/** Retrieve a VPC Subnet To retrieve a specific subnet within a VPC, send a GET request to `/v2/vpcs/$VPC_UUID/subnets/$SUBNET_UUID`. */
+export const getVpcSubnet: API.OperationMethod<
+  GetVpcSubnetRequest,
+  GetVpcSubnetResponse,
+  GetVpcSubnetError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetVpcSubnetRequest,
+  output: GetVpcSubnetResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ImagesPostAccountTransferAcceptError = BadRequest | NotFound | DigitalOceanOpError;
 /** Accept an Image Account Transfer To accept an account transfer for an image, send a POST request to `/v2/images/$IMAGE_ID/account_transfer/accept`. */
 export const imagesPostAccountTransferAccept: API.OperationMethod<
@@ -48262,6 +53961,21 @@ export const inferenceCreateAsyncInvoke: API.OperationMethod<
   input: InferenceCreateAsyncInvokeRequest,
   output: AsyncInvokeResponse,
   errors: [UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type InsightsPostLogsSearchError = BadRequest | Forbidden | NotFound | DigitalOceanOpError;
+/** Search logs To search log records in a region, send a POST request to `/v2/insights/query/{region}/logs/search` with a JSON body describing the time range, optional filter, ordering, and pagination. The time range must not exceed 7 days. `pagination.limit` defaults to 100 and is clamped to 1000. Cursor pagination requires ordering by `timestamp` alone; other sort orders return `has_more: false` and cannot be paged. */
+export const insightsPostLogsSearch: API.OperationMethod<
+  InsightsPostLogsSearchRequest,
+  LogsSearchResponse,
+  InsightsPostLogsSearchError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: InsightsPostLogsSearchRequest,
+  output: LogsSearchResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -48607,6 +54321,21 @@ export const listCertificates: API.OperationMethod<
   input: ListCertificatesRequest,
   output: ListCertificatesResponse,
   errors: [UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListConnectionsError = BadRequest | DigitalOceanOpError;
+/** List Connections Returns the connections you can see, excluding revoked ones. Offset-paged with page and `per_page`; filter by provider, `user_id`, and status. */
+export const listConnections: API.OperationMethod<
+  ListConnectionsRequest,
+  ListConnectionsResponse,
+  ListConnectionsError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListConnectionsRequest,
+  output: ListConnectionsResponse,
+  errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -49586,6 +55315,96 @@ export const listGenaiOpenaiApiKeys: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListGenaiScenarioLibraryError = NotFound | DigitalOceanOpError;
+/** List Common Scenario & Goal Library To list the platform-curated Common Scenario & Goal Library, send a GET request to `/v2/gen-ai/scenario_library`. */
+export const listGenaiScenarioLibrary: API.OperationMethod<
+  ListGenaiScenarioLibraryRequest,
+  ApiListScenarioLibraryOutput,
+  ListGenaiScenarioLibraryError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListGenaiScenarioLibraryRequest,
+  output: ApiListScenarioLibraryOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListGenaiScenarioLibraryScenariosError = NotFound | DigitalOceanOpError;
+/** List Scenarios In Library Entry To list the scenarios inside a Common Scenario & Goal Library entry without creating a team-owned scenario set, send a GET request to `/v2/gen-ai/scenario_library/{library_scenario_uuid}/scenarios`. */
+export const listGenaiScenarioLibraryScenarios: API.OperationMethod<
+  ListGenaiScenarioLibraryScenariosRequest,
+  ApiListScenariosOutput,
+  ListGenaiScenarioLibraryScenariosError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListGenaiScenarioLibraryScenariosRequest,
+  output: ApiListScenariosOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListGenaiScenariosError = NotFound | DigitalOceanOpError;
+/** List Scenarios To list the scenarios in a scenario set, send a GET request to `/v2/gen-ai/scenario_sets/{scenario_set_uuid}/scenarios`. */
+export const listGenaiScenarios: API.OperationMethod<
+  ListGenaiScenariosRequest,
+  ApiListScenariosOutput,
+  ListGenaiScenariosError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListGenaiScenariosRequest,
+  output: ApiListScenariosOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListGenaiScenarioSetsError = NotFound | DigitalOceanOpError;
+/** List Scenario Sets To list scenario sets, send a GET request to `/v2/gen-ai/scenario_sets`. */
+export const listGenaiScenarioSets: API.OperationMethod<
+  ListGenaiScenarioSetsRequest,
+  ApiListScenarioSetsOutput,
+  ListGenaiScenarioSetsError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListGenaiScenarioSetsRequest,
+  output: ApiListScenarioSetsOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListGenaiSimulationJourneysError = NotFound | DigitalOceanOpError;
+/** List Simulation Journeys To list the journeys within a simulation run, send a GET request to `/v2/gen-ai/simulation_runs/{run_uuid}/journeys`. */
+export const listGenaiSimulationJourneys: API.OperationMethod<
+  ListGenaiSimulationJourneysRequest,
+  ApiListSimulationJourneysOutput,
+  ListGenaiSimulationJourneysError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListGenaiSimulationJourneysRequest,
+  output: ApiListSimulationJourneysOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListGenaiSimulationRunsError = NotFound | DigitalOceanOpError;
+/** List Simulation Runs To list simulation runs, send a GET request to `/v2/gen-ai/simulation_runs`. */
+export const listGenaiSimulationRuns: API.OperationMethod<
+  ListGenaiSimulationRunsRequest,
+  ApiListSimulationRunsOutput,
+  ListGenaiSimulationRunsError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListGenaiSimulationRunsRequest,
+  output: ApiListSimulationRunsOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListGenaiWorkspacesError = NotFound | DigitalOceanOpError;
 /** List Workspaces To list all workspaces, send a GET request to `/v2/gen-ai/workspaces`. */
 export const listGenaiWorkspaces: API.OperationMethod<
@@ -49656,6 +55475,51 @@ export const listInferenceModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListInferenceModelsRequest,
   output: ListModelsResponse,
+  errors: [UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListInsightAlertInstancesError = BadRequest | DigitalOceanOpError;
+/** List Alert Instances To list alert instances for your account, send a GET request to `/v2/insights/alert-instances`. Alert instances are read-only records of alert rule firings against your resources. Results can optionally be filtered by `status`, `rule_id`, or `resource_urn`. Results are ordered by `triggered_at` descending (newest first). Because the list is append-only and continuously growing, offset-based pagination is best-effort: newly triggered instances may shift older rows onto subsequent pages between fetches. For stable pagination, filter by `rule_id` or a fixed time window on the client side. */
+export const listInsightAlertInstances: API.OperationMethod<
+  ListInsightAlertInstancesRequest,
+  ListInsightAlertInstancesResponse,
+  ListInsightAlertInstancesError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListInsightAlertInstancesRequest,
+  output: ListInsightAlertInstancesResponse,
+  errors: [BadRequest, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListInsightAlertRulesError = DigitalOceanOpError;
+/** List Alert Rules To list alert rules for your account, send a GET request to `/v2/insights/alert-rules`. Results are paginated with `page` and `per_page` (default `20`, maximum `200`). Optionally filter by `resource_urn`. */
+export const listInsightAlertRules: API.OperationMethod<
+  ListInsightAlertRulesRequest,
+  ListInsightAlertRulesResponse,
+  ListInsightAlertRulesError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListInsightAlertRulesRequest,
+  output: ListInsightAlertRulesResponse,
+  errors: [UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListInsightNotificationChannelsError = DigitalOceanOpError;
+/** List Notification Channels To list all notification channels for your account, send a GET request to `/v2/insights/notification-channels`. Results are paginated with `page` and `per_page` (default `20`, maximum `200`). */
+export const listInsightNotificationChannels: API.OperationMethod<
+  ListInsightNotificationChannelsRequest,
+  ListInsightNotificationChannelsResponse,
+  ListInsightNotificationChannelsError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListInsightNotificationChannelsRequest,
+  output: ListInsightNotificationChannelsResponse,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -49747,6 +55611,36 @@ export const listLoadBalancers: API.OperationMethod<
   input: ListLoadBalancersRequest,
   output: ListLoadBalancersResponse,
   errors: [UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListMcpServersError = DigitalOceanOpError;
+/** List MCP Servers Returns every MCP server your team has registered, sorted by `serverRef`. */
+export const listMcpServers: API.OperationMethod<
+  ListMcpServersRequest,
+  ListMcpServersResponse,
+  ListMcpServersError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListMcpServersRequest,
+  output: ListMcpServersResponse,
+  errors: [UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListMcpServerToolsError = NotFound | DigitalOceanOpError;
+/** List an MCP Server's Tools Returns every tool discovered on the server, sorted by name, with whether each is enabled. Tools that have since disappeared from the server stay listed. */
+export const listMcpServerTools: API.OperationMethod<
+  ListMcpServerToolsRequest,
+  ListMcpServerToolsResponse,
+  ListMcpServerToolsError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListMcpServerToolsRequest,
+  output: ListMcpServerToolsResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -49867,6 +55761,21 @@ export const listOrganizationTeams: API.OperationMethod<
   input: ListOrganizationTeamsRequest,
   output: ListOrganizationTeamsResponse,
   errors: [Forbidden, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListOutputViewsError = BadRequest | NotFound | DigitalOceanOpError;
+/** List Output Views Returns the output views your team can use: views DigitalOcean publishes to every team, plus your team's own. Cursor-paged with `page_size` and `page_token`; no total is reported. */
+export const listOutputViews: API.OperationMethod<
+  ListOutputViewsRequest,
+  ListOutputViewsResponse,
+  ListOutputViewsError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListOutputViewsRequest,
+  output: ListOutputViewsResponse,
+  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -50126,6 +56035,21 @@ export const listSecuritySettings: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListSessionsError = DigitalOceanOpError;
+/** List Sessions Returns the sessions you can see, newest first. Offset-paged with page and `per_page`; `end_user_id` filters to one actor. */
+export const listSessions: API.OperationMethod<
+  ListSessionsRequest,
+  ListSessionsResponse,
+  ListSessionsError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSessionsRequest,
+  output: ListSessionsResponse,
+  errors: [UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListSizesError = DigitalOceanOpError;
 /** List All Droplet Sizes To list all of available Droplet sizes, send a GET request to `/v2/sizes`. The response will be a JSON object with a key called `sizes`. The value of this will be an array of `size` objects each of which contain the standard size attributes. */
 export const listSizes: API.OperationMethod<
@@ -50201,6 +56125,126 @@ export const listTags: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListToolbeltProvidersError = BadRequest | NotFound | DigitalOceanOpError;
+/** List the Providers in a Toolbelt Returns the distinct providers of the toolbelt's members, each with its member count, sorted by provider ID. List one provider's members with `GET .../toolbelts/{name}/providers/{provider}/tools`. */
+export const listToolbeltProviders: API.OperationMethod<
+  ListToolbeltProvidersRequest,
+  ListToolbeltProvidersResponse,
+  ListToolbeltProvidersError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListToolbeltProvidersRequest,
+  output: ListToolbeltProvidersResponse,
+  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListToolbeltProviderToolsError = BadRequest | NotFound | DigitalOceanOpError;
+/** List a Toolbelt's Tools from One Provider Returns a page of catalog metadata for the toolbelt's members from the named provider, sorted by tool slug. An unknown provider returns an empty page. */
+export const listToolbeltProviderTools: API.OperationMethod<
+  ListToolbeltProviderToolsRequest,
+  ListToolbeltProviderToolsResponse,
+  ListToolbeltProviderToolsError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListToolbeltProviderToolsRequest,
+  output: ListToolbeltProviderToolsResponse,
+  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListToolbeltsError = BadRequest | DigitalOceanOpError;
+/** List Toolbelts Returns your team's toolbelts, one entry per name describing its latest version, sorted by name. Offset-paged with page and `per_page`; pagination reports the total. */
+export const listToolbelts: API.OperationMethod<
+  ListToolbeltsRequest,
+  ToolbeltsResponse,
+  ListToolbeltsError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListToolbeltsRequest,
+  output: ToolbeltsResponse,
+  errors: [BadRequest, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListToolHealthError = BadRequest | DigitalOceanOpError;
+/** List Tool Health Returns availability and latency for each catalog tool over the requested window, sorted by provider and then tool slug. A tool with no calls in the window is listed with `data_status` `HEALTH_DATA_STATUS_NO_DATA`. Metrics are aggregated across all customers; request volumes are not reported. Tools of your team's MCP servers are not included. Offset-paged with page and `per_page`. */
+export const listToolHealth: API.OperationMethod<
+  ListToolHealthRequest,
+  ListToolHealthResponse,
+  ListToolHealthError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListToolHealthRequest,
+  output: ListToolHealthResponse,
+  errors: [BadRequest, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListToolHealthProvidersError = BadRequest | DigitalOceanOpError;
+/** List Provider Health Returns availability and latency for each catalog provider over the requested window, sorted by provider ID. Metrics are aggregated across all customers; request volumes are not reported. Tools of your team's MCP servers are not included. Offset-paged with page and `per_page`. */
+export const listToolHealthProviders: API.OperationMethod<
+  ListToolHealthProvidersRequest,
+  ListProviderHealthResponse,
+  ListToolHealthProvidersError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListToolHealthProvidersRequest,
+  output: ListProviderHealthResponse,
+  errors: [BadRequest, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListToolProvidersError = DigitalOceanOpError;
+/** List Providers Returns the active catalog providers with at least one released tool, sorted by display name, with the credential kinds each accepts and the parameters a connection or team credential needs. Your team's MCP servers are listed separately under `/v2/action-gateway/mcp-servers`. */
+export const listToolProviders: API.OperationMethod<
+  ListToolProvidersRequest,
+  ListProvidersResponse,
+  ListToolProvidersError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListToolProvidersRequest,
+  output: ListProvidersResponse,
+  errors: [UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListToolsError = DigitalOceanOpError;
+/** List Tools Returns one page of the tools your team can use: released catalog tools plus the enabled tools of your team's MCP servers. definitions[i] describes tools[i]. Offset-paged with page and `per_page`; an unknown `toolkitId` returns an empty page. */
+export const listTools: API.OperationMethod<
+  ListToolsRequest,
+  ListToolsResponse,
+  ListToolsError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListToolsRequest,
+  output: ListToolsResponse,
+  errors: [UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListToolToolkitsError = DigitalOceanOpError;
+/** List Toolkits Returns the providers (toolkits) whose tools your team can use: catalog providers with at least one released tool, plus your team's registered MCP servers. */
+export const listToolToolkits: API.OperationMethod<
+  ListToolToolkitsRequest,
+  ListToolkitsResponse,
+  ListToolToolkitsError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListToolToolkitsRequest,
+  output: ListToolkitsResponse,
+  errors: [UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListUptimeAlertsError = NotFound | DigitalOceanOpError;
 /** List All Alerts To list all of the alerts for an Uptime check, send a GET request to `/v2/uptime/checks/$CHECK_ID/alerts`. */
 export const listUptimeAlerts: API.OperationMethod<
@@ -50227,6 +56271,21 @@ export const listUptimeChecks: API.OperationMethod<
   input: ListUptimeChecksRequest,
   output: ListUptimeChecksResponse,
   errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListUsersError = BadRequest | DigitalOceanOpError;
+/** List Users Returns the user IDs known for your team: session `actor_id` values, the `user_id` of connections that are not revoked, and actors with limit overrides. Only sessions and connections you can see count. Offset-paged with page and `per_page`. */
+export const listUsers: API.OperationMethod<
+  ListUsersRequest,
+  ListUsersResponse,
+  ListUsersError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListUsersRequest,
+  output: ListUsersResponse,
+  errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -50366,6 +56425,21 @@ export const listVpcPeerings2: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListVpcRoutesError = NotFound | DigitalOceanOpError;
+/** List VPC Routes To list the read-only VPC-scoped routes for a VPC, send a GET request to `/v2/vpcs/$VPC_UUID/routes`. VPC-scoped routes cannot be created, updated, or deleted through the public API. */
+export const listVpcRoutes: API.OperationMethod<
+  ListVpcRoutesRequest,
+  ListVpcRoutesResponse,
+  ListVpcRoutesError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListVpcRoutesRequest,
+  output: ListVpcRoutesResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListVpcsError = NotFound | DigitalOceanOpError;
 /** List All VPCs To list all of the VPCs on your account, send a GET request to `/v2/vpcs`. */
 export const listVpcs: API.OperationMethod<
@@ -50376,6 +56450,51 @@ export const listVpcs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListVpcsRequest,
   output: ListVpcsResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListVpcSubnetMembersError = NotFound | DigitalOceanOpError;
+/** List the Member Resources of a VPC Subnet To list all resources that are members of a VPC subnet, send a GET request to `/v2/vpcs/$VPC_UUID/subnets/$SUBNET_UUID/members`. To list only members of a specific type, include the `resource_type` query parameter. Only resources that you are authorized to view are returned. For example, viewing Droplets requires the `droplet:read` scope. */
+export const listVpcSubnetMembers: API.OperationMethod<
+  ListVpcSubnetMembersRequest,
+  ListVpcSubnetMembersResponse,
+  ListVpcSubnetMembersError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListVpcSubnetMembersRequest,
+  output: ListVpcSubnetMembersResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListVpcSubnetRoutesError = NotFound | DigitalOceanOpError;
+/** List VPC Subnet Routes To list routes for a VPC subnet, send a GET request to `/v2/vpcs/$VPC_UUID/subnets/$SUBNET_UUID/routes`. The response includes VPC-scoped routes propagated into the subnet and subnet-scoped routes. */
+export const listVpcSubnetRoutes: API.OperationMethod<
+  ListVpcSubnetRoutesRequest,
+  ListVpcSubnetRoutesResponse,
+  ListVpcSubnetRoutesError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListVpcSubnetRoutesRequest,
+  output: ListVpcSubnetRoutesResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListVpcSubnetsError = NotFound | DigitalOceanOpError;
+/** List VPC Subnets To list all subnets within a VPC, send a GET request to `/v2/vpcs/$VPC_UUID/subnets`. */
+export const listVpcSubnets: API.OperationMethod<
+  ListVpcSubnetsRequest,
+  ListVpcSubnetsResponse,
+  ListVpcSubnetsError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListVpcSubnetsRequest,
+  output: ListVpcSubnetsResponse,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -50501,6 +56620,21 @@ export const patchDomainRecord: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PatchMcpServerError = BadRequest | NotFound | DigitalOceanOpError;
+/** Update an MCP Server Changes the server's description, which is shown on its catalog card immediately. The endpoint and credentials cannot be changed; to change them, delete the server and register it again. */
+export const patchMcpServer: API.OperationMethod<
+  PatchMcpServerRequest,
+  McpServerResponse,
+  PatchMcpServerError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchMcpServerRequest,
+  output: McpServerResponse,
+  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PatchPartnerAttachmentError = NotFound | DigitalOceanOpError;
 /** Update an existing partner attachment To update an existing partner attachment, send a `PATCH` request to `/v2/partner_network_connect/attachments/{pa_id}` with a JSON object containing the fields to be updated. */
 export const patchPartnerAttachment: API.OperationMethod<
@@ -50622,7 +56756,7 @@ export const postDropletAction: API.OperationMethod<
 }));
 
 export type PostDropletActionByTagError = DigitalOceanOpError;
-/** Acting on Tagged Droplets Some actions can be performed in bulk on tagged Droplets. The actions can be initiated by sending a POST to `/v2/droplets/actions?tag_name=$TAG_NAME` with the action arguments. Only a sub-set of action types are supported: - `power_cycle` - `power_on` - `power_off` - `shutdown` - `enable_ipv6` - `enable_backups` - `disable_backups` - `snapshot` (also requires `image:create` permission) */
+/** Acting on Tagged Droplets Some actions can be performed in bulk on tagged Droplets. The actions can be initiated by sending a POST to `/v2/droplets/actions?tag_name=$TAG_NAME` with the action arguments. Only a sub-set of action types are supported: - `power_cycle` - `power_on` - `power_off` - `shutdown` - `enable_ipv6` (**Warning:** The Droplet must be powered off before enabling IPv6 on an existing Droplet.) - `enable_backups` - `disable_backups` - `snapshot` (also requires `image:create` permission) */
 export const postDropletActionByTag: API.OperationMethod<
   PostDropletActionByTagRequest,
   PostDropletActionByTagResponse,
@@ -50939,6 +57073,21 @@ export const runKubernetesClusterLint: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type RunMcpServerResyncError = BadRequest | NotFound | DigitalOceanOpError;
+/** Discover an MCP Server's Tools Connects to the server, lists its tools, and records them. Discovered tools are not callable until you enable them. When discovery finishes in time, returns 200 with the server and its tools; a discovery failure is reported in `syncStatus` and `syncError` rather than as an error. Otherwise returns 202 with pending set while discovery continues: poll `GET .../mcp-servers/{server_ref}` until `lastSyncedAt` or `syncError` changes (`syncStatus` is not reset while discovery runs). For a server registered with `credentialRefSource` connection, `user_id` is required; if that user has not authorized the server yet, the response carries authorization with the URL to send them to. Resyncs are rate limited per team, and a team can run only a few discoveries at once; either limit returns 429. */
+export const runMcpServerResync: API.OperationMethod<
+  RunMcpServerResyncRequest,
+  ResyncMcpServerResponse,
+  RunMcpServerResyncError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RunMcpServerResyncRequest,
+  output: ResyncMcpServerResponse,
+  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type RunRegistryGarbageCollectionError = NotFound | DigitalOceanOpError;
 /** Start Garbage Collection Garbage collection enables users to clear out unreferenced blobs (layer & manifest data) after deleting one or more manifests from a repository. If there are no unreferenced blobs resulting from the deletion of one or more manifests, garbage collection is effectively a noop. [See here for more information](https://docs.digitalocean.com/products/container-registry/how-to/clean-up-container-registry/) about how and why you should clean up your container registry periodically. To request a garbage collection run on your registry, send a POST request to `/v2/registries/$REGISTRY_NAME/garbage-collection`. This will initiate the following sequence of events on your registry. * Set the registry to read-only mode, meaning no further write-scoped JWTs will be issued to registry clients. Existing write-scoped JWTs will continue to work until they expire which can take up to 15 minutes. * Wait until all existing write-scoped JWTs have expired. * Scan all registry manifests to determine which blobs are unreferenced. * Delete all unreferenced blobs from the registry. * Record the number of blobs deleted and bytes freed, mark the garbage collection status as `success`. * Remove the read-only mode restriction from the registry, meaning write-scoped JWTs will once again be issued to registry clients. */
 export const runRegistryGarbageCollection: API.OperationMethod<
@@ -50954,6 +57103,66 @@ export const runRegistryGarbageCollection: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type SessionsListSearchError = BadRequest | DigitalOceanOpError;
+/** Search Sessions Returns the sessions you can see whose name, `actor_id`, `session_urn`, or `agentName` contains query, case-insensitively, ranked across the whole result set. Cursor-paged with `page_size` and `page_token`; no total is reported. */
+export const sessionsListSearch: API.OperationMethod<
+  SessionsListSearchRequest,
+  SearchSessionsResponse,
+  SessionsListSearchError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SessionsListSearchRequest,
+  output: SearchSessionsResponse,
+  errors: [BadRequest, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ToolbeltsListSearchError = BadRequest | DigitalOceanOpError;
+/** Search Toolbelts Returns your team's toolbelts whose name, display name, or description contains query, case-insensitively, sorted by name. Cursor-paged with `page_size` and `page_token`; no total is reported. */
+export const toolbeltsListSearch: API.OperationMethod<
+  ToolbeltsListSearchRequest,
+  SearchToolbeltsResponse,
+  ToolbeltsListSearchError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ToolbeltsListSearchRequest,
+  output: SearchToolbeltsResponse,
+  errors: [BadRequest, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ToolsListSearchError = BadRequest | NotFound | DigitalOceanOpError;
+/** Search Tools Returns the tools your team can use that match query, optionally restricted to some providers or to the members of one of your toolbelts. Results are ranked across the whole result set: exact tool name matches first, then name or title prefixes, then name or title substrings, then other matches. Cursor-paged with `page_size` and `page_token`; no total is reported. */
+export const toolsListSearch: API.OperationMethod<
+  ToolsListSearchRequest,
+  SearchToolsResponse,
+  ToolsListSearchError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ToolsListSearchRequest,
+  output: SearchToolsResponse,
+  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ToolsListSearchProvidersError = BadRequest | DigitalOceanOpError;
+/** Search Providers Returns the providers of `GET /v2/action-gateway/tools/providers` whose name, display name, or description contains query, case-insensitively, sorted by name. Cursor-paged with `page_size` and `page_token`; no total is reported. */
+export const toolsListSearchProviders: API.OperationMethod<
+  ToolsListSearchProvidersRequest,
+  SearchProvidersResponse,
+  ToolsListSearchProvidersError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ToolsListSearchProvidersRequest,
+  output: SearchProvidersResponse,
+  errors: [BadRequest, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UnassignTagResourcesError = NotFound | DigitalOceanOpError;
 /** Untag a Resource Resources can be untagged by sending a DELETE request to `/v2/tags/$TAG_NAME/resources` with an array of json objects containing `resource_id` and `resource_type` attributes. Currently only untagging of Droplets, Databases, Images, Volumes, and Volume Snapshots is supported. `resource_type` is expected to be the string `droplet`, `database`, `image`, `volume` or `volume_snapshot`. `resource_id` is expected to be the ID of the resource as a string. In order to untag a resource, you must have both `tag:delete` and `<resource type>:update` scopes. For example, to untag a Droplet, you must have `tag:delete` and `droplet:update`. */
 export const unassignTagResources: API.OperationMethod<
@@ -50965,6 +57174,21 @@ export const unassignTagResources: API.OperationMethod<
   input: UnassignTagResourcesRequest,
   output: UnassignTagResourcesResponse,
   errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateActorLimitError = BadRequest | NotFound | DigitalOceanOpError;
+/** Set an Actor's Limits Sets per-minute limits for the listed categories and leaves the others unchanged. A limit may not exceed your team's current limit for the category (400 otherwise), and 0 blocks every call in the category. The actor does not need to exist yet. */
+export const updateActorLimit: API.OperationMethod<
+  UpdateActorLimitRequest,
+  UpdateActorLimitResponse,
+  UpdateActorLimitError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateActorLimitRequest,
+  output: UpdateActorLimitResponse,
+  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -51258,8 +57482,8 @@ export const updateDatabaseSqlMode: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateDatabaseUserError = NotFound | DigitalOceanOpError;
-/** Update a Database User To update an existing database user, send a PUT request to `/v2/databases/$DATABASE_ID/users/$USERNAME` with the desired settings. **Note**: only `settings` can be updated via this type of request. If you wish to change the name of a user, you must recreate a new user. For PostgreSQL clusters, you can update `settings.pg_allow_replication` to enable or disable replication privileges for the user. When omitted, the value defaults to `false`. For Kafka and OpenSearch clusters, additional options can be configured in the `settings` object (for example, topic or index ACLs). The response will be a JSON object with a key called `user`. The value of this will be an object that contains the name of the updated database user, along with the `settings` object that has been updated. */
+export type UpdateDatabaseUserError = NotFound | UnprocessableEntity | DigitalOceanOpError;
+/** Update a Database User To update an existing database user, send a PUT request to `/v2/databases/$DATABASE_ID/users/$USERNAME` with the desired settings. **Note**: only `settings` can be updated via this type of request. If you wish to change the name of a user, you must recreate a new user. For PostgreSQL clusters, you can update `settings.pg_allow_replication` to enable or disable replication privileges for the user. When omitted, the value defaults to `false`. For Kafka and OpenSearch clusters, additional options can be configured in the `settings` object (for example, topic or index ACLs). Updating users is supported for PostgreSQL, Kafka, and OpenSearch clusters. For other engines, the request returns a 422. MongoDB roles and database access are set with `settings.mongo_user_settings` when creating a user and cannot be changed afterward; recreate the user to apply different roles or databases. The response will be a JSON object with a key called `user`. The value of this will be an object that contains the name of the updated database user, along with the `settings` object that has been updated. */
 export const updateDatabaseUser: API.OperationMethod<
   UpdateDatabaseUserRequest,
   UpdateDatabaseUserResponse,
@@ -51268,7 +57492,7 @@ export const updateDatabaseUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateDatabaseUserRequest,
   output: UpdateDatabaseUserResponse,
-  errors: [NotFound, UnknownDigitalOceanError],
+  errors: [NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -51558,6 +57782,36 @@ export const updateGenaiOpenaiApiKey: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type UpdateGenaiScenarioSetError = NotFound | DigitalOceanOpError;
+/** Update Scenario Set To update a scenario set in place, send a PUT request to `/v2/gen-ai/scenario_sets/{scenario_set_uuid}`. Provide a new `name` and/or replacement `scenarios`. At least one is required. Replacing contents keeps the same scenario set UUID, remints scenario UUIDs, and is rejected unless the set is ready and no simulation run references it. There is no file-upload path on update. */
+export const updateGenaiScenarioSet: API.OperationMethod<
+  UpdateGenaiScenarioSetRequest,
+  ApiUpdateScenarioSetOutput,
+  UpdateGenaiScenarioSetError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateGenaiScenarioSetRequest,
+  output: ApiUpdateScenarioSetOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateGenaiSimulationRunError = NotFound | DigitalOceanOpError;
+/** Update Simulation Run To update a simulation run's display name, send a PUT request to `/v2/gen-ai/simulation_runs/{run_uuid}`. Only the name is mutable; run configuration and results are immutable. */
+export const updateGenaiSimulationRun: API.OperationMethod<
+  UpdateGenaiSimulationRunRequest,
+  ApiUpdateSimulationRunOutput,
+  UpdateGenaiSimulationRunError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateGenaiSimulationRunRequest,
+  output: ApiUpdateSimulationRunOutput,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UpdateGenaiWorkspaceError = NotFound | DigitalOceanOpError;
 /** Update a Workspace To update a workspace, send a PUT request to `/v2/gen-ai/workspaces/{workspace_uuid}`. The response body is a JSON object containing the workspace. */
 export const updateGenaiWorkspace: API.OperationMethod<
@@ -51584,6 +57838,40 @@ export const updateImage: API.OperationMethod<
   input: UpdateImageRequest,
   output: UpdateImageResponse,
   errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateInsightAlertRuleError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | DigitalOceanOpError;
+/** Update an Alert Rule This PUT endpoint uses merge semantics. To update an alert rule, send a request to `/v2/insights/alert-rules/{id}` with a full `spec`. Omit `notification_channels` to keep existing bindings. Omit `status` or `re_alert_duration` to keep those existing values. */
+export const updateInsightAlertRule: API.OperationMethod<
+  UpdateInsightAlertRuleRequest,
+  UpdateInsightAlertRuleResponse,
+  UpdateInsightAlertRuleError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateInsightAlertRuleRequest,
+  output: UpdateInsightAlertRuleResponse,
+  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateInsightNotificationChannelError = BadRequest | NotFound | DigitalOceanOpError;
+/** Update a Notification Channel To update a notification channel, send a PUT request to `/v2/insights/notification-channels/{id}` with a `name` and exactly one of `email`, `slack`, or `webhook`. Sending a secret field rotates it; omitting the secret field keeps the existing value. */
+export const updateInsightNotificationChannel: API.OperationMethod<
+  UpdateInsightNotificationChannelRequest,
+  UpdateInsightNotificationChannelResponse,
+  UpdateInsightNotificationChannelError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateInsightNotificationChannelRequest,
+  output: UpdateInsightNotificationChannelResponse,
+  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -51629,6 +57917,21 @@ export const updateLoadBalancer: API.OperationMethod<
   input: UpdateLoadBalancerRequest,
   output: UpdateLoadBalancerResponse,
   errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateMcpServerToolsError = BadRequest | NotFound | DigitalOceanOpError;
+/** Set Which of an MCP Server's Tools Are Enabled `enabledToolSlugs` is the complete set to enable; every other tool of the server is disabled. An enabled tool is added to your team's catalog at its latest discovered version, and a disabled one is removed from it. Repeating the same set changes nothing. Before changing anything, each tool being enabled, re-enabled, or moved to a newer discovered version is verified against the live server: it must still be listed there, with the same input schema as when it was discovered. If any check fails or the server cannot be reached, the request fails with 400 and nothing changes; resync and try again. An unknown tool slug is also rejected with 400. A request that needs verification counts against the resync rate limit (429). Returns the server's full tool list. */
+export const updateMcpServerTools: API.OperationMethod<
+  UpdateMcpServerToolsRequest,
+  ListMcpServerToolsResponse,
+  UpdateMcpServerToolsError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateMcpServerToolsRequest,
+  output: ListMcpServerToolsResponse,
+  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -51858,6 +58161,40 @@ export const updateVpcnatgateway: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type UpdateVpcSubnetError = NotFound | DigitalOceanOpError;
+/** Update a VPC Subnet To update the name of a specific subnet within a VPC, send a PATCH request to `/v2/vpcs/$VPC_UUID/subnets/$SUBNET_UUID`. */
+export const updateVpcSubnet: API.OperationMethod<
+  UpdateVpcSubnetRequest,
+  UpdateVpcSubnetResponse,
+  UpdateVpcSubnetError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateVpcSubnetRequest,
+  output: UpdateVpcSubnetResponse,
+  errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateVpcSubnetRouteError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | DigitalOceanOpError;
+/** Update a VPC Subnet Route To update the next hop for a user-defined VPC subnet route, send a PATCH request to `/v2/vpcs/$VPC_UUID/subnets/$SUBNET_UUID/routes/$ROUTE_UUID`. The `destination_cidr` cannot be changed. Droplet targets must use a numeric ID. A Droplet UUID or another invalid `target_urns` value returns a 422 response. */
+export const updateVpcSubnetRoute: API.OperationMethod<
+  UpdateVpcSubnetRouteRequest,
+  UpdateVpcSubnetRouteResponse,
+  UpdateVpcSubnetRouteError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateVpcSubnetRouteRequest,
+  output: UpdateVpcSubnetRouteResponse,
+  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UploadInferenceBatchFileError = Forbidden | DigitalOceanOpError;
 /** Upload a Batch Inference Input File Uploads the raw JSONL bytes to the presigned `upload_url` returned by `POST /v1/batches/files`. **The URL is dynamic — do not construct it.** Use the `upload_url` value from the previous step verbatim. Its host, path, and query parameters are part of the short-lived (~15 minute) signature and change per request; the server and path shown here are illustrative. If the URL expires before the upload completes, create a new file intent and retry. `POST /v1/batches` performs a `HEAD` check on the uploaded object and will reject the batch if this upload has not completed. Send the raw JSONL bytes verbatim. Presigned PUT URLs are signature-sensitive to request headers — prefer `application/octet-stream` or omit `Content-Type` entirely. A custom value (for example `application/jsonl`) can cause signature mismatches unless the URL was signed for that exact header. */
 export const uploadInferenceBatchFile: API.OperationMethod<
@@ -51899,6 +58236,21 @@ export const validateAppRollback: API.OperationMethod<
   input: ValidateAppRollbackRequest,
   output: ValidateAppRollbackResponse,
   errors: [NotFound, UnknownDigitalOceanError],
+  protocol: DigitalOceanProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ValidateOutputViewError = BadRequest | NotFound | DigitalOceanOpError;
+/** Preview an Output View Validates a projection exactly as create does and returns the view it would produce, including `output_schema`, without storing anything. name and description are optional here; name uniqueness and the per-tool-version limit are not checked. */
+export const validateOutputView: API.OperationMethod<
+  ValidateOutputViewRequest,
+  OutputViewResponse,
+  ValidateOutputViewError,
+  DigitalOceanOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ValidateOutputViewRequest,
+  output: OutputViewResponse,
+  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
