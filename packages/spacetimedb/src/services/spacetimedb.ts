@@ -49,9 +49,7 @@ export const AddDatabaseNameRequest = /*@__PURE__*/ S.suspend(() =>
       bodyMediaType: "text/plain",
     }),
   ),
-).annotate({
-  identifier: "AddDatabaseNameRequest",
-}) as any as S.Schema<AddDatabaseNameRequest>;
+).annotate({ identifier: "AddDatabaseNameRequest" }) as any as S.Schema<AddDatabaseNameRequest>;
 
 export interface AddDatabaseNameResponseSuccess {
   domain?: string;
@@ -73,9 +71,7 @@ export const AddDatabaseNameResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Success: AddDatabaseNameResponseSuccess,
   }),
-).annotate({
-  identifier: "AddDatabaseNameResponse",
-}) as any as S.Schema<AddDatabaseNameResponse>;
+).annotate({ identifier: "AddDatabaseNameResponse" }) as any as S.Schema<AddDatabaseNameResponse>;
 
 /** JSON array of arguments to the reducer. */
 export type CallReducerRequestBodyList = Array<unknown>;
@@ -96,29 +92,19 @@ export const CallReducerRequest = /*@__PURE__*/ S.suspend(() =>
     reducer: S.String.pipe(T.Label()),
     body: CallReducerRequestBodyList.pipe(T.HttpBody()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/database/{name_or_identity}/call/{reducer}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/database/{name_or_identity}/call/{reducer}", code: 200 }),
   ),
-).annotate({
-  identifier: "CallReducerRequest",
-}) as any as S.Schema<CallReducerRequest>;
+).annotate({ identifier: "CallReducerRequest" }) as any as S.Schema<CallReducerRequest>;
 
 export type CallReducerResponse = unknown;
 export const CallReducerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CallReducerResponse",
-}) as any as S.Schema<CallReducerResponse>;
+).annotate({ identifier: "CallReducerResponse" }) as any as S.Schema<CallReducerResponse>;
 
 export interface CreateIdentityRequest {}
 export const CreateIdentityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/v1/identity", code: 200 })),
-).annotate({
-  identifier: "CreateIdentityRequest",
-}) as any as S.Schema<CreateIdentityRequest>;
+).annotate({ identifier: "CreateIdentityRequest" }) as any as S.Schema<CreateIdentityRequest>;
 
 export interface CreateIdentityResponse {
   identity: string;
@@ -129,9 +115,7 @@ export const CreateIdentityResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.String,
     token: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "CreateIdentityResponse",
-}) as any as S.Schema<CreateIdentityResponse>;
+).annotate({ identifier: "CreateIdentityResponse" }) as any as S.Schema<CreateIdentityResponse>;
 
 export interface CreateWebsocketTokenRequest {}
 export const CreateWebsocketTokenRequest = /*@__PURE__*/ S.suspend(() =>
@@ -158,16 +142,8 @@ export interface DeleteDatabaseRequest {
 export const DeleteDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name_or_identity: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/database/{name_or_identity}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteDatabaseRequest",
-}) as any as S.Schema<DeleteDatabaseRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/database/{name_or_identity}", code: 200 })),
+).annotate({ identifier: "DeleteDatabaseRequest" }) as any as S.Schema<DeleteDatabaseRequest>;
 
 export interface DeleteDatabaseResponse {}
 export const DeleteDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -191,9 +167,7 @@ export const ExecuteSqlRequest = /*@__PURE__*/ S.suspend(() =>
       bodyMediaType: "text/plain",
     }),
   ),
-).annotate({
-  identifier: "ExecuteSqlRequest",
-}) as any as S.Schema<ExecuteSqlRequest>;
+).annotate({ identifier: "ExecuteSqlRequest" }) as any as S.Schema<ExecuteSqlRequest>;
 
 /** JSON-encoded ProductValues conforming to schema. */
 export type ExecuteSqlResponseBodyItemRowsList = Array<unknown>;
@@ -224,9 +198,7 @@ export const ExecuteSqlResponseBodyList = /*@__PURE__*/ S.Array(
 export type ExecuteSqlResponse = ExecuteSqlResponseBodyList;
 export const ExecuteSqlResponse = /*@__PURE__*/ S.suspend(() =>
   ExecuteSqlResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ExecuteSqlResponse",
-}) as any as S.Schema<ExecuteSqlResponse>;
+).annotate({ identifier: "ExecuteSqlResponse" }) as any as S.Schema<ExecuteSqlResponse>;
 
 export interface GetDatabaseRequest {
   /** Database name or Spacetime identity. */
@@ -235,16 +207,8 @@ export interface GetDatabaseRequest {
 export const GetDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name_or_identity: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/database/{name_or_identity}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDatabaseRequest",
-}) as any as S.Schema<GetDatabaseRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/database/{name_or_identity}", code: 200 })),
+).annotate({ identifier: "GetDatabaseRequest" }) as any as S.Schema<GetDatabaseRequest>;
 
 /** The module host type; currently always "wasm". */
 export type GetDatabaseResponseHostType = "wasm";
@@ -267,9 +231,7 @@ export const GetDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     host_type: GetDatabaseResponseHostType,
     initial_program: S.String,
   }),
-).annotate({
-  identifier: "GetDatabaseResponse",
-}) as any as S.Schema<GetDatabaseResponse>;
+).annotate({ identifier: "GetDatabaseResponse" }) as any as S.Schema<GetDatabaseResponse>;
 
 export interface GetDatabaseIdentityRequest {
   /** Database name or Spacetime identity. */
@@ -278,13 +240,7 @@ export interface GetDatabaseIdentityRequest {
 export const GetDatabaseIdentityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name_or_identity: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/database/{name_or_identity}/identity",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/database/{name_or_identity}/identity", code: 200 })),
 ).annotate({
   identifier: "GetDatabaseIdentityRequest",
 }) as any as S.Schema<GetDatabaseIdentityRequest>;
@@ -309,23 +265,13 @@ export const GetDatabaseLogsRequest = /*@__PURE__*/ S.suspend(() =>
     name_or_identity: S.String.pipe(T.Label()),
     num_lines: S.optional(S.Number.pipe(T.Query())),
     follow: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/database/{name_or_identity}/logs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDatabaseLogsRequest",
-}) as any as S.Schema<GetDatabaseLogsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/database/{name_or_identity}/logs", code: 200 })),
+).annotate({ identifier: "GetDatabaseLogsRequest" }) as any as S.Schema<GetDatabaseLogsRequest>;
 
 export type GetDatabaseLogsResponse = string;
 export const GetDatabaseLogsResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetDatabaseLogsResponse",
-}) as any as S.Schema<GetDatabaseLogsResponse>;
+).annotate({ identifier: "GetDatabaseLogsResponse" }) as any as S.Schema<GetDatabaseLogsResponse>;
 
 export interface GetDatabaseNamesRequest {
   /** Database name or Spacetime identity. */
@@ -334,16 +280,8 @@ export interface GetDatabaseNamesRequest {
 export const GetDatabaseNamesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name_or_identity: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/database/{name_or_identity}/names",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDatabaseNamesRequest",
-}) as any as S.Schema<GetDatabaseNamesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/database/{name_or_identity}/names", code: 200 })),
+).annotate({ identifier: "GetDatabaseNamesRequest" }) as any as S.Schema<GetDatabaseNamesRequest>;
 
 export type GetDatabaseNamesResponseNamesList = Array<string>;
 export const GetDatabaseNamesResponseNamesList = /*@__PURE__*/ S.Array(
@@ -357,9 +295,7 @@ export const GetDatabaseNamesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     names: GetDatabaseNamesResponseNamesList,
   }),
-).annotate({
-  identifier: "GetDatabaseNamesResponse",
-}) as any as S.Schema<GetDatabaseNamesResponse>;
+).annotate({ identifier: "GetDatabaseNamesResponse" }) as any as S.Schema<GetDatabaseNamesResponse>;
 
 export interface GetDatabaseSchemaRequest {
   /** Database name or Spacetime identity. */
@@ -371,20 +307,10 @@ export const GetDatabaseSchemaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name_or_identity: S.String.pipe(T.Label()),
     version: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/database/{name_or_identity}/schema",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDatabaseSchemaRequest",
-}) as any as S.Schema<GetDatabaseSchemaRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/database/{name_or_identity}/schema", code: 200 })),
+).annotate({ identifier: "GetDatabaseSchemaRequest" }) as any as S.Schema<GetDatabaseSchemaRequest>;
 
-export type GetDatabaseSchemaResponseBodyMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetDatabaseSchemaResponseBodyMap = { [key: string]: unknown | undefined };
 export const GetDatabaseSchemaResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -400,16 +326,12 @@ export const GetDatabaseSchemaResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetPublicKeyRequest {}
 export const GetPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/identity/public-key", code: 200 })),
-).annotate({
-  identifier: "GetPublicKeyRequest",
-}) as any as S.Schema<GetPublicKeyRequest>;
+).annotate({ identifier: "GetPublicKeyRequest" }) as any as S.Schema<GetPublicKeyRequest>;
 
 export type GetPublicKeyResponse = string;
 export const GetPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetPublicKeyResponse",
-}) as any as S.Schema<GetPublicKeyResponse>;
+).annotate({ identifier: "GetPublicKeyResponse" }) as any as S.Schema<GetPublicKeyResponse>;
 
 export interface ListIdentityDatabasesRequest {
   /** A Spacetime identity. */
@@ -418,13 +340,7 @@ export interface ListIdentityDatabasesRequest {
 export const ListIdentityDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     identity: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/identity/{identity}/databases",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/identity/{identity}/databases", code: 200 })),
 ).annotate({
   identifier: "ListIdentityDatabasesRequest",
 }) as any as S.Schema<ListIdentityDatabasesRequest>;
@@ -471,9 +387,7 @@ export const PublishDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       bodyMediaType: "application/octet-stream",
     }),
   ),
-).annotate({
-  identifier: "PublishDatabaseRequest",
-}) as any as S.Schema<PublishDatabaseRequest>;
+).annotate({ identifier: "PublishDatabaseRequest" }) as any as S.Schema<PublishDatabaseRequest>;
 
 export type PublishDatabaseResponseSuccessOp = "created" | "updated";
 export const PublishDatabaseResponseSuccessOp = S.String;
@@ -498,9 +412,7 @@ export const PublishDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Success: PublishDatabaseResponseSuccess,
   }),
-).annotate({
-  identifier: "PublishDatabaseResponse",
-}) as any as S.Schema<PublishDatabaseResponse>;
+).annotate({ identifier: "PublishDatabaseResponse" }) as any as S.Schema<PublishDatabaseResponse>;
 
 /** Names for this database. */
 export type SetDatabaseNamesRequestBodyList = Array<string>;
@@ -517,16 +429,8 @@ export const SetDatabaseNamesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name_or_identity: S.String.pipe(T.Label()),
     body: SetDatabaseNamesRequestBodyList.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/database/{name_or_identity}/names",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SetDatabaseNamesRequest",
-}) as any as S.Schema<SetDatabaseNamesRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/database/{name_or_identity}/names", code: 200 })),
+).annotate({ identifier: "SetDatabaseNamesRequest" }) as any as S.Schema<SetDatabaseNamesRequest>;
 
 export interface SetDatabaseNamesResponse {
   Success: unknown | null;
@@ -535,9 +439,7 @@ export const SetDatabaseNamesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Success: S.NullOr(S.Unknown),
   }),
-).annotate({
-  identifier: "SetDatabaseNamesResponse",
-}) as any as S.Schema<SetDatabaseNamesResponse>;
+).annotate({ identifier: "SetDatabaseNamesResponse" }) as any as S.Schema<SetDatabaseNamesResponse>;
 
 export interface UpdateDatabaseRequest {
   /** Database name or Spacetime identity. */
@@ -559,9 +461,7 @@ export const UpdateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       bodyMediaType: "application/octet-stream",
     }),
   ),
-).annotate({
-  identifier: "UpdateDatabaseRequest",
-}) as any as S.Schema<UpdateDatabaseRequest>;
+).annotate({ identifier: "UpdateDatabaseRequest" }) as any as S.Schema<UpdateDatabaseRequest>;
 
 export type UpdateDatabaseResponseSuccessOp = "created" | "updated";
 export const UpdateDatabaseResponseSuccessOp = S.String;
@@ -588,9 +488,7 @@ export const UpdateDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Success: UpdateDatabaseResponseSuccess,
   }),
-).annotate({
-  identifier: "UpdateDatabaseResponse",
-}) as any as S.Schema<UpdateDatabaseResponse>;
+).annotate({ identifier: "UpdateDatabaseResponse" }) as any as S.Schema<UpdateDatabaseResponse>;
 
 export interface VerifyIdentityRequest {
   /** A Spacetime identity. */
@@ -600,9 +498,7 @@ export const VerifyIdentityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     identity: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/identity/{identity}/verify", code: 200 })),
-).annotate({
-  identifier: "VerifyIdentityRequest",
-}) as any as S.Schema<VerifyIdentityRequest>;
+).annotate({ identifier: "VerifyIdentityRequest" }) as any as S.Schema<VerifyIdentityRequest>;
 
 export interface VerifyIdentityResponse {}
 export const VerifyIdentityResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
