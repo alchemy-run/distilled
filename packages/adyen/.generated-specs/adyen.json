@@ -1528,6 +1528,12 @@
             "smithy.api#documentation": "Tracking URI for the return of the item."
           }
         },
+        "riskCategory": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An optional, free-text category for the item to be used in the risk evaluation. When provided, Protect uses this value to evaluate custom risk rules."
+          }
+        },
         "shippingCompany": {
           "target": "smithy.api#String",
           "traits": {
@@ -4081,6 +4087,12 @@
             "smithy.api#documentation": "The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. We recommend using a unique value per payment; however, it is not a requirement.\nIf you need to provide multiple references for a transaction, separate them with hyphens (\"-\").\nMaximum length: 80 characters."
           }
         },
+        "opi": {
+          "target": "com.adyen.checkout#OpiResponse",
+          "traits": {
+            "smithy.api#documentation": "Oracle Payment Interface (OPI) response fields such as `transToken` and `issuerId`."
+          }
+        },
         "order": {
           "target": "com.adyen.checkout#CheckoutOrderResponse",
           "traits": {
@@ -4927,6 +4939,24 @@
         "smithy.api#documentation": "The result of the individual risk checks."
       }
     },
+    "com.adyen.checkout#OpiResponse": {
+      "type": "structure",
+      "members": {
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The OPI issuer id."
+          }
+        },
+        "transToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The OPI transaction token."
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.adyen.checkout#CheckoutOrderResponse": {
       "type": "structure",
       "members": {
@@ -5547,7 +5577,7 @@
         "accountUpdate": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether to check for a card account update (true) or not (false)"
+            "smithy.api#documentation": "Set to **true** to check if the account tied to the card has been updated."
           }
         },
         "dryRun": {
@@ -5565,19 +5595,19 @@
         "networkTxReferencePaths": {
           "target": "com.adyen.checkout#CheckoutForwardRequestOptionsNetworkTxReferencePathsList",
           "traits": {
-            "smithy.api#documentation": "Set in tokenize:true case when forwarding PAN. Addresses to the possible location(s) of networkTxReference in the incoming 3rd party response"
+            "smithy.api#documentation": "Only include when `tokenize` is set to **true**.<br><br>A list of addresses to possible location(s) of the `networkTxReference` that will be returned in the third party response."
           }
         },
         "tokenize": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Set to **true**, the payment details are [tokenized](https://docs.adyen.com/online-payments/tokenization)."
+            "smithy.api#documentation": "Set to **true** to [tokenize](https://docs.adyen.com/online-payments/tokenization) the payment details."
           }
         },
         "transactionLinkIdPaths": {
           "target": "com.adyen.checkout#CheckoutForwardRequestOptionsTransactionLinkIdPathsList",
           "traits": {
-            "smithy.api#documentation": "Set in tokenize:true case when forwarding PAN. Addresses to the possible location(s) of transactionLinkId in the incoming 3rd party response"
+            "smithy.api#documentation": "Only include when `tokenize` is set to **true**.<br><br>A list of addresses to possible location(s) of the `transactionLinkId` that will be returned in the third party response."
           }
         }
       },
@@ -5607,7 +5637,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Set in tokenize:true case when forwarding PAN. Addresses to the possible location(s) of networkTxReference in the incoming 3rd party response"
+        "smithy.api#documentation": "Only include when `tokenize` is set to **true**.<br><br>A list of addresses to possible location(s) of the `networkTxReference` that will be returned in the third party response."
       }
     },
     "com.adyen.checkout#CheckoutForwardRequestOptionsTransactionLinkIdPathsList": {
@@ -5616,7 +5646,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Set in tokenize:true case when forwarding PAN. Addresses to the possible location(s) of transactionLinkId in the incoming 3rd party response"
+        "smithy.api#documentation": "Only include when `tokenize` is set to **true**.<br><br>A list of addresses to possible location(s) of the `transactionLinkId` that will be returned in the third party response."
       }
     },
     "com.adyen.checkout#CheckoutForwardRequestCard": {
@@ -5851,10 +5881,22 @@
     "com.adyen.checkout#CheckoutForwardResponse": {
       "type": "structure",
       "members": {
+        "accountUpdate": {
+          "target": "com.adyen.checkout#CheckoutForwardAccountUpdateResult",
+          "traits": {
+            "smithy.api#documentation": "Account update details for the forwarded request, including the result of the [Real Time Account Updater](https://docs.adyen.com/online-payments/account-updater/real-time-account-updater).\nReturning the result of the Real Time Account Updater is in [pilot phase](https://docs.adyen.com/online-payments/tokenization/forward-payment-details#handle-the-result), and not yet widely available."
+          }
+        },
         "merchantReference": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Merchant defined payment reference."
+          }
+        },
+        "networkToken": {
+          "target": "com.adyen.checkout#CheckoutForwardNetworkTokenResult",
+          "traits": {
+            "smithy.api#documentation": "Network token details for the forwarded request, including whether the Primary Account Number (PAN) was successfully swapped for a network token."
           }
         },
         "pspReference": {
@@ -5874,6 +5916,74 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier of the token."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.adyen.checkout#CheckoutForwardAccountUpdateResult": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.adyen.checkout#CheckoutForwardAccountUpdateResultResult",
+          "traits": {
+            "smithy.api#documentation": "The result of the [Real Time Account Updater](https://docs.adyen.com/online-payments/account-updater/real-time-account-updater).\nPossible values:\n* NoChange\n* CardChanged\n* CardExpiryChanged\n* CloseAccount\n* ContactCardAccountHolder\n* Error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.adyen.checkout#CheckoutForwardAccountUpdateResultResult": {
+      "type": "enum",
+      "members": {
+        "CARDCHANGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CardChanged"
+          }
+        },
+        "CARDEXPIRYCHANGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CardExpiryChanged"
+          }
+        },
+        "CLOSEACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CloseAccount"
+          }
+        },
+        "CONTACTCARDACCOUNTHOLDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ContactCardAccountHolder"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Error"
+          }
+        },
+        "NOCHANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NoChange"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The result of the [Real Time Account Updater](https://docs.adyen.com/online-payments/account-updater/real-time-account-updater).\nPossible values:\n* NoChange\n* CardChanged\n* CardExpiryChanged\n* CloseAccount\n* ContactCardAccountHolder\n* Error"
+      }
+    },
+    "com.adyen.checkout#CheckoutForwardNetworkTokenResult": {
+      "type": "structure",
+      "members": {
+        "swapped": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether a network token was used in the forwarded request. When `true`, the Primary Account Number (PAN) was successfully swapped for a network token. When `false`, the request fell back to the PAN."
           }
         }
       },
@@ -11545,6 +11655,24 @@
         "smithy.api#documentation": "Metadata consists of entries, each of which includes a key and a value.\nLimits:\n* Maximum 20 key-value pairs per request. When exceeding, the \"177\" error occurs: \"Metadata size exceeds limit\".\n* Maximum 20 characters per key.\n* Maximum 80 characters per value. "
       }
     },
+    "com.adyen.checkout#OpiRequest": {
+      "type": "structure",
+      "members": {
+        "includeIssuerId": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When set to true, includes the OPI issuer ID in the response."
+          }
+        },
+        "includeTransToken": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When set to true, includes an OPI transaction token in the response when the payment creates a stored payment method."
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.adyen.checkout#AchDetails": {
       "type": "structure",
       "members": {
@@ -13542,6 +13670,12 @@
             "smithy.api#documentation": "A string containing a structured JSON object. This is a passthrough field used to enable custom features or data exchange with Klarna."
           }
         },
+        "klarnaNetworkPaymentAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Klarna Network Payment Account identifier to use for the transaction. Required when `klarnaNetworkSessionToken` is provided."
+          }
+        },
         "klarnaNetworkSessionToken": {
           "target": "smithy.api#String",
           "traits": {
@@ -13936,6 +14070,57 @@
       },
       "traits": {
         "smithy.api#documentation": "**paybybank_AIS_DD**"
+      }
+    },
+    "com.adyen.checkout#PayByBankCADirectDebitDetails": {
+      "type": "structure",
+      "members": {
+        "checkoutAttemptId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The checkout attempt identifier."
+          }
+        },
+        "recurringDetailReference": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is the `recurringDetailReference` returned in the response when you created the token."
+          }
+        },
+        "sdkData": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Base64-encoded JSON object containing SDK related parameters required by the SDK"
+          }
+        },
+        "storedPaymentMethodId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is the `recurringDetailReference` returned in the response when you created the token."
+          }
+        },
+        "type": {
+          "target": "com.adyen.checkout#PayByBankCADirectDebitDetailsType",
+          "traits": {
+            "smithy.api#documentation": "The type of payment method",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.adyen.checkout#PayByBankCADirectDebitDetailsType": {
+      "type": "enum",
+      "members": {
+        "PAYBYBANK_CA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paybybank_ca"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of payment method"
       }
     },
     "com.adyen.checkout#PayByBankDetails": {
@@ -14601,6 +14786,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "paypo"
+          }
+        },
+        "SATISPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "satispay"
           }
         },
         "SCALAPAY": {
@@ -16534,6 +16725,9 @@
         "PayByBankAISDirectDebitDetails": {
           "target": "com.adyen.checkout#PayByBankAISDirectDebitDetails"
         },
+        "PayByBankCADirectDebitDetails": {
+          "target": "com.adyen.checkout#PayByBankCADirectDebitDetails"
+        },
         "PayByBankDetails": {
           "target": "com.adyen.checkout#PayByBankDetails"
         },
@@ -17064,7 +17258,7 @@
         "merchantOrderReference": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "You can use this reference to link multiple transactions to one another (for example, to track order authorization rate).For each billing cycle, this reference should be unique. After the first authorized payment attempt, do not reuse the reference. If you use this parameter, include it in all of the payment requests that you make. \n We strongly recommend that you:\n* Always include this parameter, so that you can benefit from linking payment requests to one another, in case of authorization retries. \n* Additionally include the following parameters in the `additionalData` object: [`retry.orderAttemptNumber`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-orderAttemptNumber), [`retry.chainAttemptNumber`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-chainAttemptNumber), and [`retry.skipRetry`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-skipRetry)"
+            "smithy.api#documentation": "You can use this reference to link multiple transactions to one another (for example, to track order authorization rate). For each billing cycle, this reference should be unique. After the first authorized payment attempt, do not reuse the reference. If you use this parameter, include it in all of the payment requests that you make. \n We strongly recommend that you:\n* Always include this parameter, so that you can benefit from linking payment requests to one another, in case of authorization retries. \n* Additionally include the following parameters in the `additionalData` object: [`retry.orderAttemptNumber`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-orderAttemptNumber), [`retry.chainAttemptNumber`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-chainAttemptNumber), and [`retry.skipRetry`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-skipRetry)"
           }
         },
         "merchantRiskIndicator": {
@@ -17083,6 +17277,12 @@
           "target": "com.adyen.checkout#ThreeDSecureData",
           "traits": {
             "smithy.api#documentation": "Authentication data produced by an MPI (Mastercard SecureCode, Visa Secure, or Cartes Bancaires)."
+          }
+        },
+        "opi": {
+          "target": "com.adyen.checkout#OpiRequest",
+          "traits": {
+            "smithy.api#documentation": "Configuration for Oracle Payment Interface (OPI) integrations."
           }
         },
         "order": {
@@ -17155,7 +17355,7 @@
         "reference": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. To provide multiple references for one transaction, separate the reference values with the hyphen (`-`) character.We strongly recommend that you use a unique value for each transaction.\nMaximum length: 80 characters.",
+            "smithy.api#documentation": "The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. To provide multiple references for one transaction, separate the reference values with the hyphen (`-`) character. We strongly recommend that you use a unique value for each transaction.\nMaximum length: 80 characters.",
             "smithy.api#required": {}
           }
         },
@@ -17546,6 +17746,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The reference used during the /payments request."
+          }
+        },
+        "opi": {
+          "target": "com.adyen.checkout#OpiResponse",
+          "traits": {
+            "smithy.api#documentation": "Oracle Payment Interface (OPI) response fields such as `transToken` and `issuerId`."
           }
         },
         "order": {
@@ -19147,7 +19353,7 @@
         "plans": {
           "target": "com.adyen.checkout#CheckoutSessionInstallmentOptionPlansList",
           "traits": {
-            "smithy.api#documentation": "Defines the type of installment plan. If not set, defaults to **regular**.\n\nPossible values:\n* **regular**\n* **revolving**\n* **bonus**\n* **with_interest**\n* **buynow_paylater**\n* **nointerest_bonus**\n* **interest_bonus**\n* **refund_prctg**\n* **nointeres_refund_prctg**\n* **interes_refund_prctg**"
+            "smithy.api#documentation": "Defines the type of installment plan. If not set, defaults to **regular**.\n\nPossible values:\n* **regular**\n* **revolving**\n* **bonus**"
           }
         },
         "preselectedValue": {
@@ -19159,7 +19365,7 @@
         "values": {
           "target": "com.adyen.checkout#CheckoutSessionInstallmentOptionValuesList",
           "traits": {
-            "smithy.api#documentation": "An array of the number of installments that the shopper can choose from. For example, **[2,3,5]**. This cannot be specified simultaneously with `maxValue`."
+            "smithy.api#documentation": "An array of the number of installments that the shopper can choose from. For example, **[2,3,5]**."
           }
         }
       },
@@ -19237,7 +19443,7 @@
         "target": "com.adyen.checkout#CheckoutSessionInstallmentOptionPlansItem"
       },
       "traits": {
-        "smithy.api#documentation": "Defines the type of installment plan. If not set, defaults to **regular**.\n\nPossible values:\n* **regular**\n* **revolving**\n* **bonus**\n* **with_interest**\n* **buynow_paylater**\n* **nointerest_bonus**\n* **interest_bonus**\n* **refund_prctg**\n* **nointeres_refund_prctg**\n* **interes_refund_prctg**"
+        "smithy.api#documentation": "Defines the type of installment plan. If not set, defaults to **regular**.\n\nPossible values:\n* **regular**\n* **revolving**\n* **bonus**"
       }
     },
     "com.adyen.checkout#CheckoutSessionInstallmentOptionValuesList": {
@@ -19246,7 +19452,7 @@
         "target": "smithy.api#Integer"
       },
       "traits": {
-        "smithy.api#documentation": "An array of the number of installments that the shopper can choose from. For example, **[2,3,5]**. This cannot be specified simultaneously with `maxValue`."
+        "smithy.api#documentation": "An array of the number of installments that the shopper can choose from. For example, **[2,3,5]**."
       }
     },
     "com.adyen.checkout#CreateSessionRequestInstallmentOptionsMap": {
@@ -19617,6 +19823,12 @@
           "target": "com.adyen.checkout#ThreeDSecureData",
           "traits": {
             "smithy.api#documentation": "Authentication data produced by an MPI (Mastercard SecureCode, Visa Secure, or Cartes Bancaires)."
+          }
+        },
+        "payable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the session is payable. If the payment amount is final, set this to **true** to indicate that the session is payable, so that the shopper can proceed to submit the payment. When you set this to **true**, you can no longer update the session.\n\nIf you set this to **false**, you must make another request to update the session and set this to **true** before the shopper can submit the payment.\n\nIf not specified, this defaults to **true**.\n"
           }
         },
         "platformChargebackLogic": {
@@ -20015,6 +20227,12 @@
           "target": "com.adyen.checkout#ThreeDSecureData",
           "traits": {
             "smithy.api#documentation": "Authentication data produced by an MPI (Mastercard SecureCode, Visa Secure, or Cartes Bancaires)."
+          }
+        },
+        "payable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the session is payable. If the payment amount is final, set this to **true** to indicate that the session is payable, so that the shopper can proceed to submit the payment. When you set this to **true**, you can no longer update the session.\n\nIf you set this to **false**, you must make another request to update the session and set this to **true** before the shopper can submit the payment.\n\nIf not specified, this defaults to **true**.\n"
           }
         },
         "platformChargebackLogic": {
@@ -20907,6 +21125,12 @@
             "smithy.api#documentation": "Returned in the response if you are not tokenizing with Adyen and are using the Merchant-initiated transactions (MIT) framework from Mastercard or Visa.\n\nThis contains either the Mastercard Trace ID or the Visa Transaction ID."
           }
         },
+        "opi": {
+          "target": "com.adyen.checkout#OpiResponse",
+          "traits": {
+            "smithy.api#documentation": "Oracle Payment Interface (OPI) response fields such as `transToken` and `issuerId`."
+          }
+        },
         "ownerName": {
           "target": "smithy.api#String",
           "traits": {
@@ -21228,7 +21452,7 @@
           "uri": "/storedPaymentMethods",
           "code": 200
         },
-        "smithy.api#documentation": "Get tokens for stored payment details\n\nLists the tokens for stored payment details for the shopper identified in the path, if there are any available. The token ID can be used with payment requests for the shopper's payment. A summary of the stored details is included."
+        "smithy.api#documentation": "Get tokens for stored payment details\n\nLists the tokens for stored payment details for the shopper identified in the path, if there are any available. The token ID can be used with payment requests for the shopper's payment. A summary of the stored details is included.\n\nTo make this request, your API credential must have the following [role](https://docs.adyen.com/development-resources/api-credentials#api-permissions):\n\n* API tokenise payment details"
       }
     },
     "com.adyen.checkout#PaymentMethodToStore": {
@@ -21352,6 +21576,12 @@
             "smithy.api#required": {}
           }
         },
+        "opi": {
+          "target": "com.adyen.checkout#OpiRequest",
+          "traits": {
+            "smithy.api#documentation": "Configuration for Oracle Payment Interface (OPI) integrations."
+          }
+        },
         "paymentMethod": {
           "target": "com.adyen.checkout#PaymentMethodToStore",
           "traits": {
@@ -21404,7 +21634,7 @@
           "uri": "/storedPaymentMethods",
           "code": 200
         },
-        "smithy.api#documentation": "Create a token to store payment details\n\nCreates a token to store the shopper's payment details. This token can be used for the shopper's future payments."
+        "smithy.api#documentation": "Create a token to store payment details\n\nCreates a token to store the shopper's payment details. This token can be used for the shopper's future payments.\n\nTo make this request, your API credential must have the following [role](https://docs.adyen.com/development-resources/api-credentials#api-permissions):\n\n* API tokenise payment details"
       }
     },
     "com.adyen.checkout#DeleteStoredPaymentMethodRequest": {
@@ -21453,7 +21683,7 @@
           "uri": "/storedPaymentMethods/{storedPaymentMethodId}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a token for stored payment details\n\nDeletes the token identified in the path. The token can no longer be used with payment requests."
+        "smithy.api#documentation": "Delete a token for stored payment details\n\nDeletes the token identified in the path. The token can no longer be used with payment requests.\n\nTo make this request, your API credential must have the following [role](https://docs.adyen.com/development-resources/api-credentials#api-permissions):\n\n* API tokenise payment details"
       }
     },
     "com.adyen.checkout#ShopperIdPaymentMethod": {
