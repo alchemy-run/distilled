@@ -252,6 +252,7 @@ for (const group of [...groupPaths.keys()].sort()) {
     paths: groupPaths.get(group)!,
   };
   const model = convertOpenApiToSmithy(groupSpec, {
+    deferNaming: true,
     namespace: `com.kubernetes.${group}`,
     serviceName: pascalGroup(group),
     // v0 parity: includeOperationErrors with the default status→class map

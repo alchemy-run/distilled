@@ -321,6 +321,7 @@ for (const slug of [...tagBuckets.keys()].sort()) {
   const paths = tagBuckets.get(slug)!;
   const subSpec = { ...fullSpec, paths };
   const model = convertOpenApiToSmithy(subSpec, {
+    deferNaming: true,
     namespace: `com.hetzner.${slug}`,
     serviceName: toPascal(slug),
     // Twelve operations are deprecated with a removal date: the two Data

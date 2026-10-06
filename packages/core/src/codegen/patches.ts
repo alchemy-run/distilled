@@ -12,7 +12,7 @@
  *             unpatched convert output. A fix lands by regenerating, without
  *             the spec mirror.
  */
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import {
@@ -22,7 +22,11 @@ import {
   type PatchFile,
 } from "../json-patch.ts";
 import { diffModels } from "./model-diff.ts";
-import { verbNounSmithyModel } from "./rewrite-operation-ids.ts";
+import {
+  applyDeferredRename,
+  RENAME_METADATA_KEY,
+  verbNounSmithyModel,
+} from "./rewrite-operation-ids.ts";
 
 export type OnStalePatch = "fail" | "warn";
 
@@ -291,6 +295,12 @@ export interface FinalizeOptions {
   readonly root: string;
   readonly outDir?: string;
   readonly patchesDir?: string | false;
+  /**
+   * The directory holding a model's patches, relative to `patchesDir`.
+   * Default `<resource>`; `""` for a single-model package whose patches sit
+   * at the root of `patchesDir`; `undefined` for none.
+   */
+  readonly patchesFor?: (resource: string) => string | undefined;
   readonly exclude?: (file: string) => boolean;
   readonly include?: (resource: string) => boolean;
   readonly transform?: (model: any, resource: string) => string | void;
@@ -308,10 +318,11 @@ interface LoadedPatchFile {
 
 const loadSmithyPatches = async (
   patchesDir: string,
-  resource: string,
+  dir: string | undefined,
 ): Promise<LoadedPatchFile[]> => {
+  if (dir === undefined) return [];
   const out: LoadedPatchFile[] = [];
-  for (const file of await listRfc6902PatchFiles(path.join(patchesDir, resource))) {
+  for (const file of await listRfc6902PatchFiles(path.join(patchesDir, dir))) {
     const parsed = JSON.parse(await fs.readFile(file, "utf8")) as PatchFile;
     out.push({
       key: path.relative(patchesDir, file).split(path.sep).join("/"),
@@ -324,7 +335,7 @@ const loadSmithyPatches = async (
 
 type FinalizeRun =
   | { readonly ok: true; readonly model: any }
-  | { readonly ok: false; readonly stage: "patch" | "dangling"; readonly error: string };
+  | { readonly ok: false; readonly stage: "patch" | "rename" | "dangling"; readonly error: string };
 
 /**
  * One model through the finalize steps: Smithy patches, verbNoun names,
@@ -341,6 +352,8 @@ const finalizeModel = (
   quiet: boolean,
 ): FinalizeRun => {
   const log = quiet ? () => {} : console.log;
+  const deferred = model.metadata?.[RENAME_METADATA_KEY];
+  if (deferred && !quiet) recordRename(resource, deferred);
   const envSkip = skipList();
   let files = 0;
   let applied = 0;
@@ -382,6 +395,15 @@ const finalizeModel = (
       `   patched ${resource}: ${files} file(s), ${applied} op(s)` +
         (stale ? `, ${stale} stale` : ""),
     );
+  }
+
+  try {
+    const renamed = applyDeferredRename(model);
+    if (renamed > 0) log(`   named ${resource}: ${renamed} shape(s)`);
+  } catch (e) {
+    const error = `${resource}: ${e instanceof Error ? e.message : String(e)}`;
+    if (!quiet) console.error(`❌ ${error}`);
+    return { ok: false, stage: "rename", error };
   }
 
   if ((o.operationNaming ?? "verbNoun") === "verbNoun") {
@@ -464,13 +486,18 @@ export const finalizeConvert = async (o: FinalizeOptions): Promise<void> => {
         `${path.relative(o.root, modelPath)} was already finalized — finalizeConvert is not idempotent; re-run this package's convert from the spec instead`,
       );
     }
-    const patches = patchesDir ? await loadSmithyPatches(patchesDir, resource) : [];
+    const patches = patchesDir
+      ? await loadSmithyPatches(patchesDir, o.patchesFor ? o.patchesFor(resource) : resource)
+      : [];
     const run = finalizeModel(model, resource, patches, o, undefined, false);
     const label = path.relative(specsRoot, modelPath).split(path.sep).join("/");
     if (!run.ok) {
       if (audit) auditModel(audit, label, resource, text, patches, o, run);
       if (run.stage === "patch") {
         throw new Error(`${run.error.split(": ")[0]} — fix the pointers or delete the patch`);
+      }
+      if (run.stage === "rename") {
+        throw new Error(`${run.error} — a patch added a shape under a name the rename needs`);
       }
       broken.push(run.error.split(", e.g.")[0]!);
       // Leave the unfinalized model on disk for inspection; never stamp
@@ -486,6 +513,22 @@ export const finalizeConvert = async (o: FinalizeOptions): Promise<void> => {
       `finalizeConvert: ${broken.length} model(s) reference shapes that do not exist:\n  ${broken.join("\n  ")}`,
     );
   }
+};
+
+/**
+ * Path of a JSON file finalizeConvert adds each model's deferred rename to
+ * (`{ <model>: { <upstream id>: <final id> } }`). Set by
+ * `pnpm patches:names`, which tells a patch author the upstream name of a
+ * shape they see in `.generated-specs`.
+ */
+export const RENAME_MAP_ENV = "DISTILLED_RENAME_MAP";
+
+const recordRename = (resource: string, rename: Record<string, string>): void => {
+  const file = process.env[RENAME_MAP_ENV];
+  if (!file) return;
+  const all = existsSync(file) ? JSON.parse(readFileSync(file, "utf8")) : {};
+  all[resource] = { ...all[resource], ...rename };
+  writeFileSync(file, JSON.stringify(all));
 };
 
 // ---------------------------------------------------------------------------

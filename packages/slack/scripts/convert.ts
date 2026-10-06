@@ -502,6 +502,7 @@ for (const family of [...families.keys()].sort()) {
   };
 
   const model = convertOpenApiToSmithy(doc, {
+    deferNaming: true,
     namespace: `com.slack.${family.toLowerCase()}`,
     serviceName: toPascal(family),
     // Slack failures are `ok: false` envelopes at HTTP 200 — there is

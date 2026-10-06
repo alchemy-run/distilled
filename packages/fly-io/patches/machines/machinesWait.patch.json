@@ -14,7 +14,9 @@
       "value": {
         "type": "structure",
         "members": {
-          "message": { "target": "smithy.api#String" }
+          "message": {
+            "target": "smithy.api#String"
+          }
         },
         "traits": {
           "smithy.api#error": "client",
@@ -30,7 +32,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.flyio.machines#WaitMachine/errors/-",
+      "path": "/shapes/com.flyio.machines#MachinesWait/errors/-",
       "value": {
         "target": "com.flyio.machines#MachineWaitTimeout"
       }

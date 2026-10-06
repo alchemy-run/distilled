@@ -174,14 +174,13 @@ await runOpenApiConvert({
   },
 });
 
-// Stamp cursor pagination on listSprites (continuation_token). The OpenAPI
-// converter's auto-detect looks for next_token / NextToken, not Sprites'
-// next_continuation_token.
-{
-  const spritesPath = path.join(generatedDir, "sprites.json");
-  const model = JSON.parse(await fs.readFile(spritesPath, "utf8")) as {
-    shapes: Record<string, any>;
-  };
+// Sprites fixes the converter cannot derive. They name final shapes, so they
+// run in finalizeConvert's transform, after the deferred verbNoun rename.
+const stampSprites = (model: { shapes: Record<string, any> }): string => {
+  const notes: string[] = [];
+  // Cursor pagination on listSprites (continuation_token). The OpenAPI
+  // converter's auto-detect looks for next_token / NextToken, not Sprites'
+  // next_continuation_token.
   const op = model.shapes["com.flyio.sprites#ListSprites"];
   if (op?.type === "operation") {
     op.traits = {
@@ -194,8 +193,7 @@ await runOpenApiConvert({
         mode: "cursor",
       },
     };
-    await fs.writeFile(spritesPath, JSON.stringify(model, null, 2) + "\n");
-    console.log("   stamped listSprites cursor pagination");
+    notes.push("listSprites cursor pagination");
   } else {
     console.warn("   ⚠️  com.flyio.sprites#ListSprites not found — pagination not stamped");
   }
@@ -217,7 +215,7 @@ await runOpenApiConvert({
         ...(required ? { "smithy.api#required": {} } : {}),
       },
     };
-    console.log(`   stamped ${shapeId} blob httpPayload`);
+    notes.push(`${shapeId} blob httpPayload`);
   };
   stampBlobBody("com.flyio.sprites#ExecCommandRequest", false);
   stampBlobBody("com.flyio.sprites#WriteFileRequest", true);
@@ -230,12 +228,12 @@ await runOpenApiConvert({
       return;
     }
     http.bodyMediaType = "application/octet-stream";
-    console.log(`   stamped ${opId} bodyMediaType application/octet-stream`);
+    notes.push(`${opId} bodyMediaType application/octet-stream`);
   };
   stampOctetStream("com.flyio.sprites#ExecCommand");
   stampOctetStream("com.flyio.sprites#WriteFile");
-  await fs.writeFile(spritesPath, JSON.stringify(model, null, 2) + "\n");
-}
+  return `stamped ${notes.join(", ")}`;
+};
 
 // ---------------------------------------------------------------------------
 // addons — GraphQL thin client
@@ -286,6 +284,7 @@ console.log(
 await finalizeConvert({
   root,
   transform: (model, resource) => {
+    if (resource === "sprites") return stampSprites(model);
     if (resource !== "addons") return;
     let n = 0;
     for (const def of Object.values(model.shapes ?? {}) as any[]) {

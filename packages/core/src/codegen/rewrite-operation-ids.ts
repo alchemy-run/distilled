@@ -741,6 +741,53 @@ const remapTargets = (node: unknown, mapping: ReadonlyMap<string, string>): unkn
   return out;
 };
 
+/**
+ * `metadata` key of a model whose final names are deferred (the OpenAPI
+ * converter's `deferNaming`): upstream shape id → final shape id.
+ * `finalizeConvert` applies it after the Smithy patches and removes it.
+ */
+export const RENAME_METADATA_KEY = "distilled.rename";
+
+/**
+ * Apply and remove a model's deferred rename ({@link RENAME_METADATA_KEY}).
+ * Returns how many shapes it renamed.
+ */
+export const applyDeferredRename = (model: {
+  metadata?: Record<string, any>;
+  shapes?: Record<string, any>;
+}): number => {
+  const rename = model.metadata?.[RENAME_METADATA_KEY] as Record<string, string> | undefined;
+  if (rename === undefined) return 0;
+  delete model.metadata![RENAME_METADATA_KEY];
+  const shapes = model.shapes ?? {};
+  // A patch may have moved or removed a shape; only rename what is there.
+  const mapping = new Map(Object.entries(rename).filter(([from]) => from in shapes));
+  if (mapping.size > 0) renameShapes(model, mapping);
+  return mapping.size;
+};
+
+/**
+ * Rename shapes by id and rewrite every `target` that points at a renamed
+ * one, keeping the model's shape order. All renames happen at once, so a
+ * mapping may swap names. Throws when a new id is already taken by a shape
+ * that keeps its name, or two shapes would land on one id.
+ */
+export const renameShapes = (
+  model: { shapes?: Record<string, any> },
+  mapping: ReadonlyMap<string, string>,
+): void => {
+  const shapes = model.shapes ?? {};
+  const nextShapes: Record<string, any> = {};
+  for (const [id, def] of Object.entries(shapes)) {
+    const newId = mapping.get(id) ?? id;
+    if (Object.prototype.hasOwnProperty.call(nextShapes, newId)) {
+      throw new Error(`renaming ${id} → ${newId}: that shape id is already taken`);
+    }
+    nextShapes[newId] = remapTargets(def, mapping);
+  }
+  model.shapes = nextShapes;
+};
+
 /** Version prefixes and API roots that carry no meaning in a name. */
 const NOISE_SEGMENTS = new Set(["api", "rest", "v", "public"]);
 const isNoiseSegment = (seg: string): boolean => {
@@ -1164,12 +1211,7 @@ export const verbNounSmithyModel = (model: {
 
   if (mapping.size === 0) return { renamed: 0, collisions };
 
-  const nextShapes: Record<string, any> = {};
-  for (const [id, def] of Object.entries(shapes)) {
-    const newId = mapping.get(id) ?? id;
-    nextShapes[newId] = remapTargets(def, mapping);
-  }
-  model.shapes = nextShapes;
+  renameShapes(model, mapping);
   return {
     renamed: ops.filter(([opId]) => mapping.has(opId)).length,
     collisions,

@@ -519,6 +519,7 @@ for (const slug of [...tagBuckets.keys()].sort()) {
   const paths = tagBuckets.get(slug)!;
   const subSpec = { ...merged, paths };
   const model = convertOpenApiToSmithy(subSpec, {
+    deferNaming: true,
     namespace: `com.whop.${slug}`,
     serviceName: toPascal(slug),
     // Neither document deprecates anything today; the flag keeps a future

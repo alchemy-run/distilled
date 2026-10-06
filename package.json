@@ -12,6 +12,7 @@
     "specs:link": "node scripts/specs.ts link",
     "specs:check": "node scripts/specs.ts check",
     "patches:audit": "node scripts/patches.ts audit",
+    "patches:names": "node scripts/patches.ts names",
     "typecheck": "tsc -b",
     "bench": "pnpm bench:runtime && pnpm bench:bundle && pnpm bench:typecheck",
     "bench:runtime": "node --conditions=bun benches/runtime/run.ts",

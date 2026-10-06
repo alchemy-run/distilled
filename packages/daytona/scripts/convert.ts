@@ -201,6 +201,7 @@ let totalOps = 0;
 for (const { slug, spec, paths } of buckets.sort((a, b) => a.slug.localeCompare(b.slug))) {
   const subSpec = { ...spec, paths };
   const model = convertOpenApiToSmithy(subSpec, {
+    deferNaming: true,
     namespace: `com.daytona.${slug}`,
     serviceName: toPascal(slug),
     skipDeprecated: true,
