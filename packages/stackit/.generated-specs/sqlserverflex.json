@@ -678,7 +678,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "A dictionary of user-defined key-value pairs used to categorize or organize the resource.\n\n**Rules for Keys:**\n* Must be between 1 and 63 characters long.\n* Must begin and end with an alphanumeric character (`[a-z0-9A-Z]`).\n* May contain dashes (`-`), underscores (`_`), and dots (`.`).\n* **Regex:** `^(?=.{1,63}$)([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$`\n* **Restriction:** The prefix `stackit-` is strictly reserved and cannot be used.\n\n**Rules for Values:**\n* Must be between 0 (empty string) and 63 characters long.\n* If not empty, must begin and end with an alphanumeric character.\n* May contain dashes (`-`), underscores (`_`), and dots (`.`).\n* **Regex:** `^(?=.{0,63}$)(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])*$`\n"

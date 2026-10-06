@@ -24,10 +24,8 @@ export const CreateResourcePoolRequestIpAclList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CreateResourcePoolRequestIpAclList>;
 
-/** An optional object that represents the labels associated with the resource pool keys are validated using the following regex '^[\\p{Ll}][\\p{Ll}\\p{N}_-]*$' and cannot be empty values are validated using the following regex '^[\\p{Ll}\\p{N}_-]*$' */
-export type CreateResourcePoolRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+/** An optional object that represents the labels associated with the resource pool. */
+export type CreateResourcePoolRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateResourcePoolRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -40,7 +38,7 @@ export interface CreateResourcePoolRequest {
   availabilityZone: string;
   /** List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) */
   ipAcl: CreateResourcePoolRequestIpAclList;
-  /** An optional object that represents the labels associated with the resource pool keys are validated using the following regex '^[\\p{Ll}][\\p{Ll}\\p{N}_-]*$' and cannot be empty values are validated using the following regex '^[\\p{Ll}\\p{N}_-]*$' */
+  /** An optional object that represents the labels associated with the resource pool. */
   labels?: CreateResourcePoolRequestLabelsMap;
   /** Name of the Resource Pool */
   name: string;
@@ -139,9 +137,7 @@ export const ResourcePoolSpace = /*@__PURE__*/ S.suspend(() =>
     usedBySnapshotsGigabytes: S.optional(S.NullOr(S.Number)),
     usedGigabytes: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ResourcePoolSpace",
-}) as any as S.Schema<ResourcePoolSpace>;
+).annotate({ identifier: "ResourcePoolSpace" }) as any as S.Schema<ResourcePoolSpace>;
 
 export interface ResourcePool {
   /** Name of the respective availability zone */
@@ -261,9 +257,7 @@ export const ResourcePoolSnapshot = /*@__PURE__*/ S.suspend(() =>
     snaplockExpiryTime: S.optional(S.NullOr(S.String)),
     snapshotName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourcePoolSnapshot",
-}) as any as S.Schema<ResourcePoolSnapshot>;
+).annotate({ identifier: "ResourcePoolSnapshot" }) as any as S.Schema<ResourcePoolSnapshot>;
 
 export interface CreateResourcePoolSnapshotResponse {
   /** Created Resource Pool Snapshot */
@@ -277,7 +271,7 @@ export const CreateResourcePoolSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateResourcePoolSnapshotResponse",
 }) as any as S.Schema<CreateResourcePoolSnapshotResponse>;
 
-/** An optional object that represents the labels associated with the share keys are validated using the following regex '^[\\p{Ll}][\\p{Ll}\\p{N}_-]*$' and cannot be empty values are validated using the following regex '^[\\p{Ll}\\p{N}_-]*$' */
+/** An optional object that represents the labels associated with the share. */
 export type CreateShareRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateShareRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
@@ -290,7 +284,7 @@ export interface CreateShareRequest {
   resourcePoolId: string;
   /** Name of the Share Export Policy to use in the Share. Note that if this is not set, the Share can only be mounted in read only by clients with IPs matching the IP ACL of the Resource Pool hosting this Share. You can also assign a Share Export Policy after creating the Share */
   exportPolicyName?: string | null;
-  /** An optional object that represents the labels associated with the share keys are validated using the following regex '^[\\p{Ll}][\\p{Ll}\\p{N}_-]*$' and cannot be empty values are validated using the following regex '^[\\p{Ll}\\p{N}_-]*$' */
+  /** An optional object that represents the labels associated with the share. */
   labels?: CreateShareRequestLabelsMap;
   /** Name of the Share */
   name: string;
@@ -314,11 +308,9 @@ export const CreateShareRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sfs.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateShareRequest",
-}) as any as S.Schema<CreateShareRequest>;
+).annotate({ identifier: "CreateShareRequest" }) as any as S.Schema<CreateShareRequest>;
 
-/** An optional object that represents the labels associated with the share export policy keys are validated using the following regex '^[\\p{Ll}][\\p{Ll}\\p{N}_-]*$' and cannot be empty values are validated using the following regex '^[\\p{Ll}\\p{N}_-]*$' */
+/** An optional object that represents the labels associated with the share export policy. */
 export type ShareExportPolicyLabelsMap = { [key: string]: string | undefined };
 export const ShareExportPolicyLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
@@ -359,9 +351,7 @@ export const ShareExportPolicyRule = /*@__PURE__*/ S.suspend(() =>
     setUuid: S.optional(S.Boolean),
     superUser: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ShareExportPolicyRule",
-}) as any as S.Schema<ShareExportPolicyRule>;
+).annotate({ identifier: "ShareExportPolicyRule" }) as any as S.Schema<ShareExportPolicyRule>;
 
 /** List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters is the field "order" within each rule */
 export type ShareExportPolicyRulesList = Array<ShareExportPolicyRule>;
@@ -373,7 +363,7 @@ export interface ShareExportPolicy {
   createdAt?: string;
   /** ID of the Share Export Policy */
   id?: string;
-  /** An optional object that represents the labels associated with the share export policy keys are validated using the following regex '^[\\p{Ll}][\\p{Ll}\\p{N}_-]*$' and cannot be empty values are validated using the following regex '^[\\p{Ll}\\p{N}_-]*$' */
+  /** An optional object that represents the labels associated with the share export policy. */
   labels?: ShareExportPolicyLabelsMap;
   /** Name of the Share Export Policy */
   name?: string;
@@ -391,11 +381,9 @@ export const ShareExportPolicy = /*@__PURE__*/ S.suspend(() =>
     rules: S.optional(ShareExportPolicyRulesList),
     sharesUsingExportPolicy: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ShareExportPolicy",
-}) as any as S.Schema<ShareExportPolicy>;
+).annotate({ identifier: "ShareExportPolicy" }) as any as S.Schema<ShareExportPolicy>;
 
-/** An optional object that represents the labels associated with the share keys are validated using the following regex '^[\\p{Ll}][\\p{Ll}\\p{N}_-]*$' and cannot be empty values are validated using the following regex '^[\\p{Ll}\\p{N}_-]*$' */
+/** An optional object that represents the labels associated with the share. */
 export type ShareLabelsMap = { [key: string]: string | undefined };
 export const ShareLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
@@ -408,7 +396,7 @@ export interface Share {
   exportPolicy?: ShareExportPolicy | null;
   /** ID of the Share */
   id?: string;
-  /** An optional object that represents the labels associated with the share keys are validated using the following regex '^[\\p{Ll}][\\p{Ll}\\p{N}_-]*$' and cannot be empty values are validated using the following regex '^[\\p{Ll}\\p{N}_-]*$' */
+  /** An optional object that represents the labels associated with the share. */
   labels?: ShareLabelsMap;
   /** Mount path of the Share, used to mount the Share */
   mountPath?: string;
@@ -440,14 +428,10 @@ export const CreateShareResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     share: S.optional(Share),
   }),
-).annotate({
-  identifier: "CreateShareResponse",
-}) as any as S.Schema<CreateShareResponse>;
+).annotate({ identifier: "CreateShareResponse" }) as any as S.Schema<CreateShareResponse>;
 
-/** An optional object that represents the labels associated with the share export policy keys are validated using the following regex '^[\\p{Ll}][\\p{Ll}\\p{N}_-]*$' and cannot be empty values are validated using the following regex '^[\\p{Ll}\\p{N}_-]*$' */
-export type CreateShareExportPolicyRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+/** An optional object that represents the labels associated with the share export policy. */
+export type CreateShareExportPolicyRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateShareExportPolicyRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -495,7 +479,7 @@ export const CreateShareExportPolicyRequestRulesList = /*@__PURE__*/ S.Array(
 export interface CreateShareExportPolicyRequest {
   projectId: string;
   region: string;
-  /** An optional object that represents the labels associated with the share export policy keys are validated using the following regex '^[\\p{Ll}][\\p{Ll}\\p{N}_-]*$' and cannot be empty values are validated using the following regex '^[\\p{Ll}\\p{N}_-]*$' */
+  /** An optional object that represents the labels associated with the share export policy. */
   labels?: CreateShareExportPolicyRequestLabelsMap;
   /** Name of the Share Export Policy */
   name: string;
@@ -613,16 +597,12 @@ export const DeleteShareRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sfs.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteShareRequest",
-}) as any as S.Schema<DeleteShareRequest>;
+).annotate({ identifier: "DeleteShareRequest" }) as any as S.Schema<DeleteShareRequest>;
 
 export type DeleteShareResponse2 = unknown;
 export const DeleteShareResponse2 = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteShareResponse2",
-}) as any as S.Schema<DeleteShareResponse2>;
+).annotate({ identifier: "DeleteShareResponse2" }) as any as S.Schema<DeleteShareResponse2>;
 
 export interface DeleteShareExportPolicyRequest {
   projectId: string;
@@ -669,16 +649,12 @@ export const DisableLockRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sfs.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DisableLockRequest",
-}) as any as S.Schema<DisableLockRequest>;
+).annotate({ identifier: "DisableLockRequest" }) as any as S.Schema<DisableLockRequest>;
 
 export type DisableLockResponse2 = unknown;
 export const DisableLockResponse2 = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DisableLockResponse2",
-}) as any as S.Schema<DisableLockResponse2>;
+).annotate({ identifier: "DisableLockResponse2" }) as any as S.Schema<DisableLockResponse2>;
 
 export interface EnableLockRequest {
   region: string;
@@ -696,9 +672,7 @@ export const EnableLockRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sfs.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "EnableLockRequest",
-}) as any as S.Schema<EnableLockRequest>;
+).annotate({ identifier: "EnableLockRequest" }) as any as S.Schema<EnableLockRequest>;
 
 export interface EnableLockResponse {
   lockId?: string;
@@ -707,9 +681,7 @@ export const EnableLockResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     lockId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnableLockResponse",
-}) as any as S.Schema<EnableLockResponse>;
+).annotate({ identifier: "EnableLockResponse" }) as any as S.Schema<EnableLockResponse>;
 
 export interface GetLockRequest {
   region: string;
@@ -736,9 +708,7 @@ export const GetLockResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     lockId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetLockResponse",
-}) as any as S.Schema<GetLockResponse>;
+).annotate({ identifier: "GetLockResponse" }) as any as S.Schema<GetLockResponse>;
 
 export interface GetResourcePoolRequest {
   projectId: string;
@@ -758,9 +728,7 @@ export const GetResourcePoolRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sfs.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetResourcePoolRequest",
-}) as any as S.Schema<GetResourcePoolRequest>;
+).annotate({ identifier: "GetResourcePoolRequest" }) as any as S.Schema<GetResourcePoolRequest>;
 
 export interface GetResourcePoolResponse {
   /** Resource Pool */
@@ -770,9 +738,7 @@ export const GetResourcePoolResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourcePool: S.optional(ResourcePool),
   }),
-).annotate({
-  identifier: "GetResourcePoolResponse",
-}) as any as S.Schema<GetResourcePoolResponse>;
+).annotate({ identifier: "GetResourcePoolResponse" }) as any as S.Schema<GetResourcePoolResponse>;
 
 export interface GetResourcePoolSnapshotRequest {
   projectId: string;
@@ -830,9 +796,7 @@ export const GetShareRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sfs.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetShareRequest",
-}) as any as S.Schema<GetShareRequest>;
+).annotate({ identifier: "GetShareRequest" }) as any as S.Schema<GetShareRequest>;
 
 export interface GetShareResponse {
   /** Share */
@@ -842,9 +806,7 @@ export const GetShareResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     share: S.optional(Share),
   }),
-).annotate({
-  identifier: "GetShareResponse",
-}) as any as S.Schema<GetShareResponse>;
+).annotate({ identifier: "GetShareResponse" }) as any as S.Schema<GetShareResponse>;
 
 export interface GetShareExportPolicyRequest {
   projectId: string;
@@ -896,9 +858,7 @@ export const GetSnapshotPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sfs.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetSnapshotPolicyRequest",
-}) as any as S.Schema<GetSnapshotPolicyRequest>;
+).annotate({ identifier: "GetSnapshotPolicyRequest" }) as any as S.Schema<GetSnapshotPolicyRequest>;
 
 export interface SnapshotPolicySchedule {
   /** Retention Count */
@@ -920,9 +880,7 @@ export const SnapshotPolicySchedule = /*@__PURE__*/ S.suspend(() =>
     retentionPeriod: S.optional(S.String),
     scheduleId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SnapshotPolicySchedule",
-}) as any as S.Schema<SnapshotPolicySchedule>;
+).annotate({ identifier: "SnapshotPolicySchedule" }) as any as S.Schema<SnapshotPolicySchedule>;
 
 /** (deprecated) associated schedules */
 export type SnapshotPolicySchedulesList = Array<SnapshotPolicySchedule>;
@@ -1033,9 +991,7 @@ export const PerformanceClass = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     throughput: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PerformanceClass",
-}) as any as S.Schema<PerformanceClass>;
+).annotate({ identifier: "PerformanceClass" }) as any as S.Schema<PerformanceClass>;
 
 /** List of Performance Classes */
 export type ListPerformanceClassesResponsePerformanceClassesList = Array<PerformanceClass>;
@@ -1071,9 +1027,7 @@ export const ListResourcePoolsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sfs.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListResourcePoolsRequest",
-}) as any as S.Schema<ListResourcePoolsRequest>;
+).annotate({ identifier: "ListResourcePoolsRequest" }) as any as S.Schema<ListResourcePoolsRequest>;
 
 /** List of Resource Pools */
 export type ListResourcePoolsResponseResourcePoolsList = Array<ResourcePool>;
@@ -1190,9 +1144,7 @@ export const ListSharesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sfs.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListSharesRequest",
-}) as any as S.Schema<ListSharesRequest>;
+).annotate({ identifier: "ListSharesRequest" }) as any as S.Schema<ListSharesRequest>;
 
 /** List of Shares */
 export type ListSharesResponseSharesList = Array<Share>;
@@ -1208,9 +1160,7 @@ export const ListSharesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     shares: S.optional(ListSharesResponseSharesList),
   }),
-).annotate({
-  identifier: "ListSharesResponse",
-}) as any as S.Schema<ListSharesResponse>;
+).annotate({ identifier: "ListSharesResponse" }) as any as S.Schema<ListSharesResponse>;
 
 export interface ListSnapshotPoliciesRequest {
   projectId: string;
@@ -1256,10 +1206,8 @@ export const UpdateResourcePoolRequestIpAclList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<UpdateResourcePoolRequestIpAclList>;
 
-/** An optional object that represents the labels associated with the resource pool keys are validated using the following regex '^[\\p{Ll}][\\p{Ll}\\p{N}_-]*$' and cannot be empty values are validated using the following regex '^[\\p{Ll}\\p{N}_-]*$' */
-export type UpdateResourcePoolRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+/** An optional object that represents the labels associated with the resource pool. */
+export type UpdateResourcePoolRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateResourcePoolRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1271,7 +1219,7 @@ export interface UpdateResourcePoolRequest {
   resourcePoolId: string;
   /** (optional) List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) */
   ipAcl?: UpdateResourcePoolRequestIpAclList;
-  /** An optional object that represents the labels associated with the resource pool keys are validated using the following regex '^[\\p{Ll}][\\p{Ll}\\p{N}_-]*$' and cannot be empty values are validated using the following regex '^[\\p{Ll}\\p{N}_-]*$' */
+  /** An optional object that represents the labels associated with the resource pool. */
   labels?: UpdateResourcePoolRequestLabelsMap;
   /** (optional) Name of the performance class */
   performanceClass?: string;
@@ -1359,7 +1307,7 @@ export const UpdateResourcePoolSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateResourcePoolSnapshotResponse",
 }) as any as S.Schema<UpdateResourcePoolSnapshotResponse>;
 
-/** An optional object that represents the labels associated with the share keys are validated using the following regex '^[\\p{Ll}][\\p{Ll}\\p{N}_-]*$' and cannot be empty values are validated using the following regex '^[\\p{Ll}\\p{N}_-]*$' */
+/** An optional object that represents the labels associated with the share. */
 export type UpdateShareRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateShareRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
@@ -1373,7 +1321,7 @@ export interface UpdateShareRequest {
   shareId: string;
   /** Name of the Share Export Policy to use in the Share. The behavior depends on the value: - If not set (null): Keep the existing export policy (if any) - If set to empty string (""): Remove the existing export policy - If set to a policy name: Update to use the specified policy, creating a new association if none exists */
   exportPolicyName?: string | null;
-  /** An optional object that represents the labels associated with the share keys are validated using the following regex '^[\\p{Ll}][\\p{Ll}\\p{N}_-]*$' and cannot be empty values are validated using the following regex '^[\\p{Ll}\\p{N}_-]*$' */
+  /** An optional object that represents the labels associated with the share. */
   labels?: UpdateShareRequestLabelsMap;
   /** Space hard limit for the Share. If zero, the Share will have access to the full space of the Resource Pool it lives in. (unit: gibibytes) */
   spaceHardLimitGigabytes?: number | null;
@@ -1395,9 +1343,7 @@ export const UpdateShareRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sfs.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateShareRequest",
-}) as any as S.Schema<UpdateShareRequest>;
+).annotate({ identifier: "UpdateShareRequest" }) as any as S.Schema<UpdateShareRequest>;
 
 export interface UpdateShareResponse {
   /** Updated Share */
@@ -1407,14 +1353,10 @@ export const UpdateShareResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     share: S.optional(Share),
   }),
-).annotate({
-  identifier: "UpdateShareResponse",
-}) as any as S.Schema<UpdateShareResponse>;
+).annotate({ identifier: "UpdateShareResponse" }) as any as S.Schema<UpdateShareResponse>;
 
-/** An optional object that represents the labels associated with the share export policy keys are validated using the following regex '^[\\p{Ll}][\\p{Ll}\\p{N}_-]*$' and cannot be empty values are validated using the following regex '^[\\p{Ll}\\p{N}_-]*$' */
-export type UpdateShareExportPolicyRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+/** An optional object that represents the labels associated with the share export policy. */
+export type UpdateShareExportPolicyRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateShareExportPolicyRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1463,7 +1405,7 @@ export interface UpdateShareExportPolicyRequest {
   projectId: string;
   region: string;
   policyId: string;
-  /** An optional object that represents the labels associated with the share export policy keys are validated using the following regex '^[\\p{Ll}][\\p{Ll}\\p{N}_-]*$' and cannot be empty values are validated using the following regex '^[\\p{Ll}\\p{N}_-]*$' */
+  /** An optional object that represents the labels associated with the share export policy. */
   labels?: UpdateShareExportPolicyRequestLabelsMap;
   /** List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters is the field "order" within each rule. The whole set of rules needs to be sent in the same request, e.g. if 1 rule is sent, the share export policy will have just that 1 rule, as opposed to extending the existing set of rules with the 1 rule that was sent Important note: the array of rules passed always overwrites the rule array (i.e. sending an empty array removes all rules) */
   rules?: UpdateShareExportPolicyRequestRulesList | null;

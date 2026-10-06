@@ -99,7 +99,10 @@
           "target": "smithy.api#String"
         },
         "triggers": {
-          "target": "com.stackit.automation#AutomationTriggers"
+          "target": "com.stackit.automation#AutomationTriggers",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "updateTime": {
           "target": "smithy.api#String",
@@ -114,7 +117,10 @@
       "type": "structure",
       "members": {
         "schedule": {
-          "target": "com.stackit.automation#AutomationScheduleTrigger"
+          "target": "com.stackit.automation#AutomationScheduleTrigger",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -161,111 +167,20 @@
       "traits": {
         "smithy.api#http": {
           "method": "GET",
-          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations",
+          "uri": "/v1/projects/{projectId}/regions/{region}/services/volumes/automations",
           "code": 200,
           "baseUrl": "https://automation-service.api.stackit.cloud"
         },
         "smithy.api#documentation": "List volume automations\n\nRetrieves a list of volume automations."
       }
     },
-    "com.stackit.automation#VolumeRecoveryPointManagementInput": {
+    "com.stackit.automation#VolumeAutomationInput": {
       "type": "structure",
       "members": {
-        "inheritVolumeLabels": {
-          "target": "smithy.api#Boolean"
-        },
         "kind": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
-          }
-        },
-        "recoveryPointLabels": {
-          "target": "com.stackit.automation#VolumeRecoveryPointManagementInputRecoveryPointLabelsMap"
-        },
-        "snapshotRetentionPolicy": {
-          "target": "com.stackit.automation#SnapshotRetentionPolicy",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "volumeLabelSelector": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {}
-    },
-    "com.stackit.automation#VolumeRecoveryPointManagementInputRecoveryPointLabelsMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.stackit.automation#SnapshotRetentionPolicy": {
-      "type": "union",
-      "members": {
-        "SnapshotRetentionPolicyCount": {
-          "target": "com.stackit.automation#SnapshotRetentionPolicyCount"
-        },
-        "SnapshotRetentionPolicyIndefinitely": {
-          "target": "com.stackit.automation#SnapshotRetentionPolicyIndefinitely"
-        }
-      },
-      "traits": {}
-    },
-    "com.stackit.automation#SnapshotRetentionPolicyCount": {
-      "type": "structure",
-      "members": {
-        "kind": {
-          "target": "com.stackit.automation#SnapshotRetentionPolicyCountKind",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "value": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.stackit.automation#SnapshotRetentionPolicyCountKind": {
-      "type": "enum",
-      "members": {
-        "COUNT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "count"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.stackit.automation#SnapshotRetentionPolicyIndefinitely": {
-      "type": "structure",
-      "members": {
-        "kind": {
-          "target": "com.stackit.automation#SnapshotRetentionPolicyIndefinitelyKind",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.stackit.automation#SnapshotRetentionPolicyIndefinitelyKind": {
-      "type": "enum",
-      "members": {
-        "INDEFINITELY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "indefinitely"
           }
         }
       },
@@ -291,13 +206,22 @@
           }
         },
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "input": {
-          "target": "com.stackit.automation#VolumeRecoveryPointManagementInput"
+          "target": "com.stackit.automation#VolumeAutomationInput",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "templateId": {
           "target": "smithy.api#String",
@@ -306,7 +230,10 @@
           }
         },
         "triggers": {
-          "target": "com.stackit.automation#AutomationTriggers"
+          "target": "com.stackit.automation#AutomationTriggers",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
@@ -332,7 +259,10 @@
           }
         },
         "input": {
-          "target": "com.stackit.automation#VolumeRecoveryPointManagementInput"
+          "target": "com.stackit.automation#VolumeAutomationInput",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "name": {
           "target": "smithy.api#String"
@@ -344,7 +274,10 @@
           "target": "smithy.api#String"
         },
         "triggers": {
-          "target": "com.stackit.automation#AutomationTriggers"
+          "target": "com.stackit.automation#AutomationTriggers",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "updateTime": {
           "target": "smithy.api#String",
@@ -380,18 +313,6 @@
       "traits": {}
     },
     "com.stackit.automation#VolumeOutputStepResult": {
-      "type": "union",
-      "members": {
-        "GetVolumeIDsResult": {
-          "target": "com.stackit.automation#GetVolumeIDsResult"
-        },
-        "CreateSnapshotsResult": {
-          "target": "com.stackit.automation#CreateSnapshotsResult"
-        }
-      },
-      "traits": {}
-    },
-    "com.stackit.automation#GetVolumeIDsResult": {
       "type": "structure",
       "members": {
         "kind": {
@@ -399,39 +320,7 @@
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "volumeIDs": {
-          "target": "com.stackit.automation#GetVolumeIDsResultVolumeIDsList"
         }
-      },
-      "traits": {}
-    },
-    "com.stackit.automation#GetVolumeIDsResultVolumeIDsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.stackit.automation#CreateSnapshotsResult": {
-      "type": "structure",
-      "members": {
-        "createdSnapshotIDs": {
-          "target": "com.stackit.automation#CreateSnapshotsResultCreatedSnapshotIDsList"
-        },
-        "kind": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.stackit.automation#CreateSnapshotsResultCreatedSnapshotIDsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -464,7 +353,7 @@
       "traits": {
         "smithy.api#http": {
           "method": "POST",
-          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations",
+          "uri": "/v1/projects/{projectId}/regions/{region}/services/volumes/automations",
           "code": 200,
           "baseUrl": "https://automation-service.api.stackit.cloud"
         },
@@ -586,7 +475,7 @@
       "traits": {
         "smithy.api#http": {
           "method": "GET",
-          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/templates",
+          "uri": "/v1/projects/{projectId}/regions/{region}/services/volumes/automations/templates",
           "code": 200,
           "baseUrl": "https://automation-service.api.stackit.cloud"
         },
@@ -707,7 +596,7 @@
       "traits": {
         "smithy.api#http": {
           "method": "GET",
-          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/templates/{templateId}",
+          "uri": "/v1/projects/{projectId}/regions/{region}/services/volumes/automations/templates/{templateId}",
           "code": 200,
           "baseUrl": "https://automation-service.api.stackit.cloud"
         },
@@ -768,7 +657,7 @@
       "traits": {
         "smithy.api#http": {
           "method": "GET",
-          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}",
+          "uri": "/v1/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}",
           "code": 200,
           "baseUrl": "https://automation-service.api.stackit.cloud"
         },
@@ -810,16 +699,28 @@
           }
         },
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "input": {
-          "target": "com.stackit.automation#VolumeRecoveryPointManagementInput"
+          "target": "com.stackit.automation#VolumeAutomationInput",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "triggers": {
-          "target": "com.stackit.automation#AutomationTriggers"
+          "target": "com.stackit.automation#AutomationTriggers",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
@@ -848,7 +749,7 @@
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
-          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}",
+          "uri": "/v1/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}",
           "code": 200,
           "baseUrl": "https://automation-service.api.stackit.cloud"
         },
@@ -909,7 +810,7 @@
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
-          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}",
+          "uri": "/v1/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}",
           "code": 200,
           "baseUrl": "https://automation-service.api.stackit.cloud"
         },
@@ -1072,7 +973,7 @@
       "traits": {
         "smithy.api#http": {
           "method": "GET",
-          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}/executions",
+          "uri": "/v1/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}/executions",
           "code": 200,
           "baseUrl": "https://automation-service.api.stackit.cloud"
         },
@@ -1169,7 +1070,10 @@
           "target": "smithy.api#String"
         },
         "input": {
-          "target": "com.stackit.automation#VolumeRecoveryPointManagementInput"
+          "target": "com.stackit.automation#VolumeAutomationInput",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "name": {
           "target": "smithy.api#String"
@@ -1181,7 +1085,10 @@
           "target": "smithy.api#String"
         },
         "triggers": {
-          "target": "com.stackit.automation#AutomationTriggers"
+          "target": "com.stackit.automation#AutomationTriggers",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "updateTime": {
           "target": "smithy.api#String",
@@ -1320,7 +1227,7 @@
       "traits": {
         "smithy.api#http": {
           "method": "POST",
-          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}/executions",
+          "uri": "/v1/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}/executions",
           "code": 200,
           "baseUrl": "https://automation-service.api.stackit.cloud"
         },
@@ -1389,7 +1296,7 @@
       "traits": {
         "smithy.api#http": {
           "method": "GET",
-          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}/executions/{executionId}",
+          "uri": "/v1/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}/executions/{executionId}",
           "code": 200,
           "baseUrl": "https://automation-service.api.stackit.cloud"
         },
@@ -1437,7 +1344,7 @@
     },
     "com.stackit.automation#Automation": {
       "type": "service",
-      "version": "1beta.0",
+      "version": "1.0",
       "operations": [
         {
           "target": "com.stackit.automation#ListVolumeAutomations"

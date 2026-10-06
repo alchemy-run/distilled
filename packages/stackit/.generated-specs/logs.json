@@ -1956,7 +1956,7 @@
     },
     "com.stackit.logs#Logs": {
       "type": "service",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "operations": [
         {
           "target": "com.stackit.logs#ListLogsInstances"

@@ -37,7 +37,7 @@ export class NotFound
   ) {}
 
 export type GetCategoryRequestLanguage = "en" | "de";
-export const GetCategoryRequestLanguage = /*@__PURE__*/ S.String;
+export const GetCategoryRequestLanguage = S.String;
 
 export interface GetCategoryRequest {
   /** The unique identifier for a category. */
@@ -57,9 +57,7 @@ export const GetCategoryRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pim.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetCategoryRequest",
-}) as any as S.Schema<GetCategoryRequest>;
+).annotate({ identifier: "GetCategoryRequest" }) as any as S.Schema<GetCategoryRequest>;
 
 export interface PublicCategory {
   /** Description of the category */
@@ -90,7 +88,7 @@ export const PublicCategory = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "PublicCategory" }) as any as S.Schema<PublicCategory>;
 
 export type GetProductRequestLanguage = "en" | "de";
-export const GetProductRequestLanguage = /*@__PURE__*/ S.String;
+export const GetProductRequestLanguage = S.String;
 
 export interface GetProductRequest {
   /** The unique identifier for a product. */
@@ -110,9 +108,7 @@ export const GetProductRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pim.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetProductRequest",
-}) as any as S.Schema<GetProductRequest>;
+).annotate({ identifier: "GetProductRequest" }) as any as S.Schema<GetProductRequest>;
 
 /** Api identifier */
 export type PublicProductApiIdentifierList = Array<string>;
@@ -161,7 +157,7 @@ export const PublicProduct = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "PublicProduct" }) as any as S.Schema<PublicProduct>;
 
 export type GetProductMarketingDataRequestLanguage = "en" | "de";
-export const GetProductMarketingDataRequestLanguage = /*@__PURE__*/ S.String;
+export const GetProductMarketingDataRequestLanguage = S.String;
 
 export interface GetProductMarketingDataRequest {
   /** The unique identifier for a product. */
@@ -196,9 +192,7 @@ export const MarketingAdvantage = /*@__PURE__*/ S.suspend(() =>
     advantage: S.optional(S.String),
     position: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MarketingAdvantage",
-}) as any as S.Schema<MarketingAdvantage>;
+).annotate({ identifier: "MarketingAdvantage" }) as any as S.Schema<MarketingAdvantage>;
 
 /** List of advantages of the product */
 export type PublicMarketingDataAdvantagesList = Array<MarketingAdvantage>;
@@ -220,9 +214,7 @@ export const MarketingApplication = /*@__PURE__*/ S.suspend(() =>
     applicationTitle: S.optional(S.String),
     position: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MarketingApplication",
-}) as any as S.Schema<MarketingApplication>;
+).annotate({ identifier: "MarketingApplication" }) as any as S.Schema<MarketingApplication>;
 
 /** List of applications provided by the product */
 export type PublicMarketingDataApplicationsList = Array<MarketingApplication>;
@@ -241,9 +233,7 @@ export const MarketingFunction = /*@__PURE__*/ S.suspend(() =>
     function: S.optional(S.String),
     position: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MarketingFunction",
-}) as any as S.Schema<MarketingFunction>;
+).annotate({ identifier: "MarketingFunction" }) as any as S.Schema<MarketingFunction>;
 
 /** List of functions provided by the product */
 export type PublicMarketingDataFunctionsList = Array<MarketingFunction>;
@@ -292,12 +282,10 @@ export const PublicMarketingData = /*@__PURE__*/ S.suspend(() =>
     validStart: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PublicMarketingData",
-}) as any as S.Schema<PublicMarketingData>;
+).annotate({ identifier: "PublicMarketingData" }) as any as S.Schema<PublicMarketingData>;
 
 export type GetSKURequestLanguage = "en" | "de";
-export const GetSKURequestLanguage = /*@__PURE__*/ S.String;
+export const GetSKURequestLanguage = S.String;
 
 export interface GetSKURequest {
   /** The unique identifier for a SKU. */
@@ -334,11 +322,11 @@ export const FinOpsFocus = /*@__PURE__*/ S.suspend(() =>
 
 /** Prices' currency code regarding ISO4217 */
 export type CurrencyCodes = "EUR" | "USD" | "GBP";
-export const CurrencyCodes = /*@__PURE__*/ S.String;
+export const CurrencyCodes = S.String;
 
 /** Prices' currency symbol */
 export type CurrencySymbols = "€" | "$";
-export const CurrencySymbols = /*@__PURE__*/ S.String;
+export const CurrencySymbols = S.String;
 
 export interface Price {
   currencyCode?: CurrencyCodes;
@@ -748,9 +736,7 @@ export const PublicSavingsPlan = /*@__PURE__*/ S.suspend(() =>
     discount: S.optional(S.Number),
     validityPeriodInYears: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PublicSavingsPlan",
-}) as any as S.Schema<PublicSavingsPlan>;
+).annotate({ identifier: "PublicSavingsPlan" }) as any as S.Schema<PublicSavingsPlan>;
 
 export type GetSKUResponseSavingsPlansList = Array<PublicSavingsPlan>;
 export const GetSKUResponseSavingsPlansList = /*@__PURE__*/ S.Array(
@@ -852,7 +838,7 @@ export const GetSKUResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetSKUResponse" }) as any as S.Schema<GetSKUResponse>;
 
 export type GetSTAXSKURequestLanguage = "en" | "de";
-export const GetSTAXSKURequestLanguage = /*@__PURE__*/ S.String;
+export const GetSTAXSKURequestLanguage = S.String;
 
 export interface GetSTAXSKURequest {
   /** The unique identifier for a SKU. */
@@ -872,9 +858,7 @@ export const GetSTAXSKURequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pim.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetSTAXSKURequest",
-}) as any as S.Schema<GetSTAXSKURequest>;
+).annotate({ identifier: "GetSTAXSKURequest" }) as any as S.Schema<GetSTAXSKURequest>;
 
 /** List of prices */
 export type GetSTAXSKUResponsePricesList = Array<Price>;
@@ -1002,12 +986,10 @@ export const GetSTAXSKUResponse = /*@__PURE__*/ S.suspend(() =>
     productSpecificAttributes: S.optional(GetSTAXSKUResponseProductSpecificAttributes),
     savingsPlans: S.optional(GetSTAXSKUResponseSavingsPlansList),
   }),
-).annotate({
-  identifier: "GetSTAXSKUResponse",
-}) as any as S.Schema<GetSTAXSKUResponse>;
+).annotate({ identifier: "GetSTAXSKUResponse" }) as any as S.Schema<GetSTAXSKUResponse>;
 
 export type ListCategoriesRequestLanguage = "en" | "de";
-export const ListCategoriesRequestLanguage = /*@__PURE__*/ S.String;
+export const ListCategoriesRequestLanguage = S.String;
 
 export interface ListCategoriesRequest {
   /** The number of items to retrieve per page */
@@ -1033,9 +1015,7 @@ export const ListCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pim.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListCategoriesRequest",
-}) as any as S.Schema<ListCategoriesRequest>;
+).annotate({ identifier: "ListCategoriesRequest" }) as any as S.Schema<ListCategoriesRequest>;
 
 export type ListCategoriesResponseDataList = Array<PublicCategory>;
 export const ListCategoriesResponseDataList = /*@__PURE__*/ S.Array(
@@ -1053,9 +1033,7 @@ export const MetaInformation = /*@__PURE__*/ S.suspend(() =>
     nextCursor: S.optional(S.String),
     pageSize: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MetaInformation",
-}) as any as S.Schema<MetaInformation>;
+).annotate({ identifier: "MetaInformation" }) as any as S.Schema<MetaInformation>;
 
 export interface ListCategoriesResponse {
   data?: ListCategoriesResponseDataList;
@@ -1066,12 +1044,10 @@ export const ListCategoriesResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(ListCategoriesResponseDataList),
     meta: S.optional(MetaInformation),
   }),
-).annotate({
-  identifier: "ListCategoriesResponse",
-}) as any as S.Schema<ListCategoriesResponse>;
+).annotate({ identifier: "ListCategoriesResponse" }) as any as S.Schema<ListCategoriesResponse>;
 
 export type ListCategoryProductsRequestLanguage = "en" | "de";
-export const ListCategoryProductsRequestLanguage = /*@__PURE__*/ S.String;
+export const ListCategoryProductsRequestLanguage = S.String;
 
 export interface ListCategoryProductsRequest {
   /** The unique identifier for a category. */
@@ -1123,7 +1099,7 @@ export const ListCategoryProductsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListCategoryProductsResponse>;
 
 export type ListMarketingDataRequestLanguage = "en" | "de";
-export const ListMarketingDataRequestLanguage = /*@__PURE__*/ S.String;
+export const ListMarketingDataRequestLanguage = S.String;
 
 export interface ListMarketingDataRequest {
   /** The number of items to retrieve per page */
@@ -1149,9 +1125,7 @@ export const ListMarketingDataRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pim.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListMarketingDataRequest",
-}) as any as S.Schema<ListMarketingDataRequest>;
+).annotate({ identifier: "ListMarketingDataRequest" }) as any as S.Schema<ListMarketingDataRequest>;
 
 export type ListMarketingDataResponseDataList = Array<PublicMarketingData>;
 export const ListMarketingDataResponseDataList = /*@__PURE__*/ S.Array(
@@ -1172,7 +1146,7 @@ export const ListMarketingDataResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListMarketingDataResponse>;
 
 export type ListProductsRequestLanguage = "en" | "de";
-export const ListProductsRequestLanguage = /*@__PURE__*/ S.String;
+export const ListProductsRequestLanguage = S.String;
 
 export interface ListProductsRequest {
   /** The number of items to retrieve per page */
@@ -1201,9 +1175,7 @@ export const ListProductsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pim.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListProductsRequest",
-}) as any as S.Schema<ListProductsRequest>;
+).annotate({ identifier: "ListProductsRequest" }) as any as S.Schema<ListProductsRequest>;
 
 export type ListProductsResponseDataList = Array<PublicProduct>;
 export const ListProductsResponseDataList = /*@__PURE__*/ S.Array(
@@ -1219,12 +1191,10 @@ export const ListProductsResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(ListProductsResponseDataList),
     meta: S.optional(MetaInformation),
   }),
-).annotate({
-  identifier: "ListProductsResponse",
-}) as any as S.Schema<ListProductsResponse>;
+).annotate({ identifier: "ListProductsResponse" }) as any as S.Schema<ListProductsResponse>;
 
 export type ListProductSKUsRequestLanguage = "en" | "de";
-export const ListProductSKUsRequestLanguage = /*@__PURE__*/ S.String;
+export const ListProductSKUsRequestLanguage = S.String;
 
 export type ListProductSKUsRequestRegionList = Array<string>;
 export const ListProductSKUsRequestRegionList = /*@__PURE__*/ S.Array(
@@ -1261,9 +1231,7 @@ export const ListProductSKUsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pim.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListProductSKUsRequest",
-}) as any as S.Schema<ListProductSKUsRequest>;
+).annotate({ identifier: "ListProductSKUsRequest" }) as any as S.Schema<ListProductSKUsRequest>;
 
 /** List of prices */
 export type PublicSKUPricesList = Array<Price>;
@@ -1407,12 +1375,10 @@ export const ListProductSKUsResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(ListProductSKUsResponseDataList),
     meta: S.optional(MetaInformation),
   }),
-).annotate({
-  identifier: "ListProductSKUsResponse",
-}) as any as S.Schema<ListProductSKUsResponse>;
+).annotate({ identifier: "ListProductSKUsResponse" }) as any as S.Schema<ListProductSKUsResponse>;
 
 export type ListProductSTAXSKUsRequestLanguage = "en" | "de";
-export const ListProductSTAXSKUsRequestLanguage = /*@__PURE__*/ S.String;
+export const ListProductSTAXSKUsRequestLanguage = S.String;
 
 export type ListProductSTAXSKUsRequestRegionList = Array<string>;
 export const ListProductSTAXSKUsRequestRegionList = /*@__PURE__*/ S.Array(
@@ -1472,7 +1438,7 @@ export const ListProductSTAXSKUsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListProductSTAXSKUsResponse>;
 
 export type ListSKUsRequestLanguage = "en" | "de";
-export const ListSKUsRequestLanguage = /*@__PURE__*/ S.String;
+export const ListSKUsRequestLanguage = S.String;
 
 export type ListSKUsRequestRegionList = Array<string>;
 export const ListSKUsRequestRegionList = /*@__PURE__*/ S.Array(
@@ -1505,16 +1471,9 @@ export const ListSKUsRequest = /*@__PURE__*/ S.suspend(() =>
     skuName: S.optional(S.String.pipe(T.Query())),
     region: S.optional(ListSKUsRequestRegionList.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/skus",
-      code: 200,
-      baseUrl: "https://pim.api.stackit.cloud",
-    }),
+    T.Http({ method: "GET", uri: "/v2/skus", code: 200, baseUrl: "https://pim.api.stackit.cloud" }),
   ),
-).annotate({
-  identifier: "ListSKUsRequest",
-}) as any as S.Schema<ListSKUsRequest>;
+).annotate({ identifier: "ListSKUsRequest" }) as any as S.Schema<ListSKUsRequest>;
 
 export type ListSKUsResponseDataList = Array<PublicSKU>;
 export const ListSKUsResponseDataList = /*@__PURE__*/ S.Array(
@@ -1530,12 +1489,10 @@ export const ListSKUsResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(ListSKUsResponseDataList),
     meta: S.optional(MetaInformation),
   }),
-).annotate({
-  identifier: "ListSKUsResponse",
-}) as any as S.Schema<ListSKUsResponse>;
+).annotate({ identifier: "ListSKUsResponse" }) as any as S.Schema<ListSKUsResponse>;
 
 export type ListSTAXSKUsRequestLanguage = "en" | "de";
-export const ListSTAXSKUsRequestLanguage = /*@__PURE__*/ S.String;
+export const ListSTAXSKUsRequestLanguage = S.String;
 
 export type ListSTAXSKUsRequestRegionList = Array<string>;
 export const ListSTAXSKUsRequestRegionList = /*@__PURE__*/ S.Array(
@@ -1575,9 +1532,7 @@ export const ListSTAXSKUsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pim.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListSTAXSKUsRequest",
-}) as any as S.Schema<ListSTAXSKUsRequest>;
+).annotate({ identifier: "ListSTAXSKUsRequest" }) as any as S.Schema<ListSTAXSKUsRequest>;
 
 export type ListSTAXSKUsResponseDataList = Array<PublicSKU>;
 export const ListSTAXSKUsResponseDataList = /*@__PURE__*/ S.Array(
@@ -1593,12 +1548,10 @@ export const ListSTAXSKUsResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(ListSTAXSKUsResponseDataList),
     meta: S.optional(MetaInformation),
   }),
-).annotate({
-  identifier: "ListSTAXSKUsResponse",
-}) as any as S.Schema<ListSTAXSKUsResponse>;
+).annotate({ identifier: "ListSTAXSKUsResponse" }) as any as S.Schema<ListSTAXSKUsResponse>;
 
 export type SearchSKUsRequestLanguage = "en" | "de";
-export const SearchSKUsRequestLanguage = /*@__PURE__*/ S.String;
+export const SearchSKUsRequestLanguage = S.String;
 
 export interface SearchSKUsRequest {
   /** The language to retrieve the data in, available for en and de */
@@ -1803,9 +1756,7 @@ export const SearchSKUsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pim.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "SearchSKUsRequest",
-}) as any as S.Schema<SearchSKUsRequest>;
+).annotate({ identifier: "SearchSKUsRequest" }) as any as S.Schema<SearchSKUsRequest>;
 
 export type SearchSKUsResponseDataList = Array<PublicSKU>;
 export const SearchSKUsResponseDataList = /*@__PURE__*/ S.Array(
@@ -1821,9 +1772,7 @@ export const SearchSKUsResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(SearchSKUsResponseDataList),
     meta: S.optional(MetaInformation),
   }),
-).annotate({
-  identifier: "SearchSKUsResponse",
-}) as any as S.Schema<SearchSKUsResponse>;
+).annotate({ identifier: "SearchSKUsResponse" }) as any as S.Schema<SearchSKUsResponse>;
 
 export type GetCategoryError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Get category by ID Retrieves a specific category by its ID, available for general public. */

@@ -433,12 +433,10 @@ export const RouteSerializerMatchersList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<RouteSerializerMatchersList>;
 
-export type RouteSerializerRoutesItemMap = {
-  [key: string]: string | undefined;
-};
+export type RouteSerializerRoutesItemMap = { [key: string]: string | null | undefined };
 export const RouteSerializerRoutesItemMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<RouteSerializerRoutesItemMap>;
 
 export type RouteSerializerRoutesList = Array<RouteSerializerRoutesItemMap>;
@@ -471,9 +469,7 @@ export const RouteSerializer = /*@__PURE__*/ S.suspend(() =>
     repeatInterval: S.optional(S.String),
     routes: S.optional(RouteSerializerRoutesList),
   }),
-).annotate({
-  identifier: "RouteSerializer",
-}) as any as S.Schema<RouteSerializer>;
+).annotate({ identifier: "RouteSerializer" }) as any as S.Schema<RouteSerializer>;
 
 export type RouteRoutesList = Array<RouteSerializer>;
 export const RouteRoutesList = /*@__PURE__*/ S.Array(
@@ -516,9 +512,7 @@ export const AlertConfigRouteResponse = /*@__PURE__*/ S.suspend(() =>
     data: Route,
     message: S.String,
   }),
-).annotate({
-  identifier: "AlertConfigRouteResponse",
-}) as any as S.Schema<AlertConfigRouteResponse>;
+).annotate({ identifier: "AlertConfigRouteResponse" }) as any as S.Schema<AlertConfigRouteResponse>;
 
 /** Rule definition. Must be either an Alerting Rule (using 'alert') or a Recording Rule (using 'record'). `Additional Validators:` * total config (all alert groups/rules) should not be bigger than 500000 characters as string since this the limitation of prometheus. */
 export interface CreateAlertgroupsRequestRulesItem {
@@ -579,13 +573,9 @@ export const CreateAlertgroupsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateAlertgroupsRequest",
-}) as any as S.Schema<CreateAlertgroupsRequest>;
+).annotate({ identifier: "CreateAlertgroupsRequest" }) as any as S.Schema<CreateAlertgroupsRequest>;
 
-export type AlertRuleRecordAnnotationsMap = {
-  [key: string]: string | undefined;
-};
+export type AlertRuleRecordAnnotationsMap = { [key: string]: string | undefined };
 export const AlertRuleRecordAnnotationsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -614,9 +604,7 @@ export const AlertRuleRecord = /*@__PURE__*/ S.suspend(() =>
     labels: S.optional(AlertRuleRecordLabelsMap),
     record: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AlertRuleRecord",
-}) as any as S.Schema<AlertRuleRecord>;
+).annotate({ identifier: "AlertRuleRecord" }) as any as S.Schema<AlertRuleRecord>;
 
 export type AlertGroupRulesList = Array<AlertRuleRecord>;
 export const AlertGroupRulesList = /*@__PURE__*/ S.Array(
@@ -650,9 +638,7 @@ export const AlertGroupsResponse = /*@__PURE__*/ S.suspend(() =>
     data: AlertGroupsResponseDataList,
     message: S.String,
   }),
-).annotate({
-  identifier: "AlertGroupsResponse",
-}) as any as S.Schema<AlertGroupsResponse>;
+).annotate({ identifier: "AlertGroupsResponse" }) as any as S.Schema<AlertGroupsResponse>;
 
 export interface CreateAlertRecordRequest {
   projectId: string;
@@ -681,9 +667,7 @@ export const CreateAlertRecordRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateAlertRecordRequest",
-}) as any as S.Schema<CreateAlertRecordRequest>;
+).annotate({ identifier: "CreateAlertRecordRequest" }) as any as S.Schema<CreateAlertRecordRequest>;
 
 export type AlertRecordLabelsMap = { [key: string]: string | undefined };
 export const AlertRecordLabelsMap = /*@__PURE__*/ S.Record(
@@ -718,9 +702,7 @@ export const AlertRecordsResponse = /*@__PURE__*/ S.suspend(() =>
     data: AlertRecordsResponseDataList,
     message: S.String,
   }),
-).annotate({
-  identifier: "AlertRecordsResponse",
-}) as any as S.Schema<AlertRecordsResponse>;
+).annotate({ identifier: "AlertRecordsResponse" }) as any as S.Schema<AlertRecordsResponse>;
 
 export interface CreateAlertrulesRequest {
   projectId: string;
@@ -755,9 +737,7 @@ export const CreateAlertrulesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateAlertrulesRequest",
-}) as any as S.Schema<CreateAlertrulesRequest>;
+).annotate({ identifier: "CreateAlertrulesRequest" }) as any as S.Schema<CreateAlertrulesRequest>;
 
 export type AlertRuleAnnotationsMap = { [key: string]: string | undefined };
 export const AlertRuleAnnotationsMap = /*@__PURE__*/ S.Record(
@@ -802,16 +782,14 @@ export const AlertRulesResponse = /*@__PURE__*/ S.suspend(() =>
     data: AlertRulesResponseDataList,
     message: S.String,
   }),
-).annotate({
-  identifier: "AlertRulesResponse",
-}) as any as S.Schema<AlertRulesResponse>;
+).annotate({ identifier: "AlertRulesResponse" }) as any as S.Schema<AlertRulesResponse>;
 
 export type CreateBackupRequestBackupTargetItem =
   | "alertConfig"
   | "alertRules"
   | "scrapeConfig"
   | "grafana";
-export const CreateBackupRequestBackupTargetItem = /*@__PURE__*/ S.String;
+export const CreateBackupRequestBackupTargetItem = S.String;
 
 export type CreateBackupRequestBackupTargetList = Array<
   CreateBackupRequestBackupTargetItem | (string & {})
@@ -839,9 +817,7 @@ export const CreateBackupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateBackupRequest",
-}) as any as S.Schema<CreateBackupRequest>;
+).annotate({ identifier: "CreateBackupRequest" }) as any as S.Schema<CreateBackupRequest>;
 
 export interface Message {
   message: string;
@@ -857,7 +833,7 @@ export type CreateBackupScheduleRequestBackupTargetItem =
   | "alertRules"
   | "scrapeConfig"
   | "grafana";
-export const CreateBackupScheduleRequestBackupTargetItem = /*@__PURE__*/ S.String;
+export const CreateBackupScheduleRequestBackupTargetItem = S.String;
 
 export type CreateBackupScheduleRequestBackupTargetList = Array<
   CreateBackupScheduleRequestBackupTargetItem | (string & {})
@@ -924,9 +900,7 @@ export const CreateCertCheckRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateCertCheckRequest",
-}) as any as S.Schema<CreateCertCheckRequest>;
+).annotate({ identifier: "CreateCertCheckRequest" }) as any as S.Schema<CreateCertCheckRequest>;
 
 export interface CertCheckChildResponse {
   id: string;
@@ -937,9 +911,7 @@ export const CertCheckChildResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     source: S.String,
   }),
-).annotate({
-  identifier: "CertCheckChildResponse",
-}) as any as S.Schema<CertCheckChildResponse>;
+).annotate({ identifier: "CertCheckChildResponse" }) as any as S.Schema<CertCheckChildResponse>;
 
 export type CertCheckResponseCertChecksList = Array<CertCheckChildResponse>;
 export const CertCheckResponseCertChecksList = /*@__PURE__*/ S.Array(
@@ -957,9 +929,7 @@ export const CertCheckResponse = /*@__PURE__*/ S.suspend(() =>
     certChecks: CertCheckResponseCertChecksList,
     message: S.String,
   }),
-).annotate({
-  identifier: "CertCheckResponse",
-}) as any as S.Schema<CertCheckResponse>;
+).annotate({ identifier: "CertCheckResponse" }) as any as S.Schema<CertCheckResponse>;
 
 export interface CreateCredentialsRequest {
   projectId: string;
@@ -980,9 +950,7 @@ export const CreateCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateCredentialsRequest",
-}) as any as S.Schema<CreateCredentialsRequest>;
+).annotate({ identifier: "CreateCredentialsRequest" }) as any as S.Schema<CreateCredentialsRequest>;
 
 export interface Credentials {
   description?: string;
@@ -1096,9 +1064,7 @@ export const CreateHttpCheckRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateHttpCheckRequest",
-}) as any as S.Schema<CreateHttpCheckRequest>;
+).annotate({ identifier: "CreateHttpCheckRequest" }) as any as S.Schema<CreateHttpCheckRequest>;
 
 export interface HttpCheckChildResponse {
   id: string;
@@ -1109,9 +1075,7 @@ export const HttpCheckChildResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     url: S.String,
   }),
-).annotate({
-  identifier: "HttpCheckChildResponse",
-}) as any as S.Schema<HttpCheckChildResponse>;
+).annotate({ identifier: "HttpCheckChildResponse" }) as any as S.Schema<HttpCheckChildResponse>;
 
 export type HttpCheckResponseHttpChecksList = Array<HttpCheckChildResponse>;
 export const HttpCheckResponseHttpChecksList = /*@__PURE__*/ S.Array(
@@ -1129,9 +1093,7 @@ export const HttpCheckResponse = /*@__PURE__*/ S.suspend(() =>
     httpChecks: HttpCheckResponseHttpChecksList,
     message: S.String,
   }),
-).annotate({
-  identifier: "HttpCheckResponse",
-}) as any as S.Schema<HttpCheckResponse>;
+).annotate({ identifier: "HttpCheckResponse" }) as any as S.Schema<HttpCheckResponse>;
 
 export interface CreateInstanceRequest {
   projectId: string;
@@ -1159,9 +1121,7 @@ export const CreateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateInstanceRequest",
-}) as any as S.Schema<CreateInstanceRequest>;
+).annotate({ identifier: "CreateInstanceRequest" }) as any as S.Schema<CreateInstanceRequest>;
 
 export interface CreateInstanceResponse {
   dashboardUrl: string;
@@ -1174,9 +1134,7 @@ export const CreateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     instanceId: S.String,
     message: S.String,
   }),
-).annotate({
-  identifier: "CreateInstanceResponse",
-}) as any as S.Schema<CreateInstanceResponse>;
+).annotate({ identifier: "CreateInstanceResponse" }) as any as S.Schema<CreateInstanceResponse>;
 
 /** Rule definition. Must be either an Alerting Rule (using 'alert') or a Recording Rule (using 'record'). `Additional Validators:` * total config (all alert groups/rules) should not be bigger than 500000 characters as string since this the limitation of prometheus. */
 export interface CreateLogsAlertgroupsRequestRulesItem {
@@ -1293,9 +1251,7 @@ export const MongodbCheckResponse = /*@__PURE__*/ S.suspend(() =>
     mongodbCheck: S.optional(MongodbCheckChildResponse),
     mongodbChecks: MongodbCheckResponseMongodbChecksList,
   }),
-).annotate({
-  identifier: "MongodbCheckResponse",
-}) as any as S.Schema<MongodbCheckResponse>;
+).annotate({ identifier: "MongodbCheckResponse" }) as any as S.Schema<MongodbCheckResponse>;
 
 export interface CreateMysqlCheckRequest {
   projectId: string;
@@ -1316,9 +1272,7 @@ export const CreateMysqlCheckRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateMysqlCheckRequest",
-}) as any as S.Schema<CreateMysqlCheckRequest>;
+).annotate({ identifier: "CreateMysqlCheckRequest" }) as any as S.Schema<CreateMysqlCheckRequest>;
 
 export type MysqlCheckChildResponse = MongodbCheckChildResponse;
 export const MysqlCheckChildResponse = MongodbCheckChildResponse;
@@ -1339,9 +1293,7 @@ export const MysqlCheckResponse = /*@__PURE__*/ S.suspend(() =>
     mysqlCheck: S.optional(MongodbCheckChildResponse),
     mysqlChecks: MysqlCheckResponseMysqlChecksList,
   }),
-).annotate({
-  identifier: "MysqlCheckResponse",
-}) as any as S.Schema<MysqlCheckResponse>;
+).annotate({ identifier: "MysqlCheckResponse" }) as any as S.Schema<MysqlCheckResponse>;
 
 export interface CreateNetworkCheckRequest {
   projectId: string;
@@ -1395,9 +1347,7 @@ export const NetworkCheckResponse = /*@__PURE__*/ S.suspend(() =>
     networkCheck: S.optional(NetworkCheckChildResponse),
     networkChecks: NetworkCheckResponseNetworkChecksList,
   }),
-).annotate({
-  identifier: "NetworkCheckResponse",
-}) as any as S.Schema<NetworkCheckResponse>;
+).annotate({ identifier: "NetworkCheckResponse" }) as any as S.Schema<NetworkCheckResponse>;
 
 export interface CreatePingCheckRequest {
   projectId: string;
@@ -1418,9 +1368,7 @@ export const CreatePingCheckRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreatePingCheckRequest",
-}) as any as S.Schema<CreatePingCheckRequest>;
+).annotate({ identifier: "CreatePingCheckRequest" }) as any as S.Schema<CreatePingCheckRequest>;
 
 export type PingCheckChildResponse = HttpCheckChildResponse;
 export const PingCheckChildResponse = HttpCheckChildResponse;
@@ -1441,9 +1389,7 @@ export const PingCheckResponse = /*@__PURE__*/ S.suspend(() =>
     pingCheck: S.optional(HttpCheckChildResponse),
     pingChecks: PingCheckResponsePingChecksList,
   }),
-).annotate({
-  identifier: "PingCheckResponse",
-}) as any as S.Schema<PingCheckResponse>;
+).annotate({ identifier: "PingCheckResponse" }) as any as S.Schema<PingCheckResponse>;
 
 export interface CreatePostgresqlCheckRequest {
   projectId: string;
@@ -1487,9 +1433,7 @@ export const PostgresqlCheckResponse = /*@__PURE__*/ S.suspend(() =>
     postgresqlCheck: S.optional(NetworkCheckChildResponse),
     postgresqlChecks: PostgresqlCheckResponsePostgresqlChecksList,
   }),
-).annotate({
-  identifier: "PostgresqlCheckResponse",
-}) as any as S.Schema<PostgresqlCheckResponse>;
+).annotate({ identifier: "PostgresqlCheckResponse" }) as any as S.Schema<PostgresqlCheckResponse>;
 
 export interface CreateRabbitmqCheckRequest {
   projectId: string;
@@ -1553,9 +1497,7 @@ export const RabbitmqCheckResponse = /*@__PURE__*/ S.suspend(() =>
     rabbitmqCheck: S.optional(RabbitMQCheckChildResponse),
     rabbitmqChecks: RabbitmqCheckResponseRabbitmqChecksList,
   }),
-).annotate({
-  identifier: "RabbitmqCheckResponse",
-}) as any as S.Schema<RabbitmqCheckResponse>;
+).annotate({ identifier: "RabbitmqCheckResponse" }) as any as S.Schema<RabbitmqCheckResponse>;
 
 export interface CreateRedisCheckRequest {
   projectId: string;
@@ -1582,9 +1524,7 @@ export const CreateRedisCheckRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateRedisCheckRequest",
-}) as any as S.Schema<CreateRedisCheckRequest>;
+).annotate({ identifier: "CreateRedisCheckRequest" }) as any as S.Schema<CreateRedisCheckRequest>;
 
 export type RedisCheckChildResponse = ElasticsearchCheckChildResponse;
 export const RedisCheckChildResponse = ElasticsearchCheckChildResponse;
@@ -1605,9 +1545,7 @@ export const RedisCheckResponse = /*@__PURE__*/ S.suspend(() =>
     redisCheck: S.optional(ElasticsearchCheckChildResponse),
     redisChecks: RedisCheckResponseRedisChecksList,
   }),
-).annotate({
-  identifier: "RedisCheckResponse",
-}) as any as S.Schema<RedisCheckResponse>;
+).annotate({ identifier: "RedisCheckResponse" }) as any as S.Schema<RedisCheckResponse>;
 
 /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
 export interface CreateScrapeConfigRequestBasicAuth {
@@ -1722,7 +1660,7 @@ export type CreateScrapeConfigRequestMetricsRelabelConfigsItemAction =
   | "labelmap"
   | "labeldrop"
   | "labelkeep";
-export const CreateScrapeConfigRequestMetricsRelabelConfigsItemAction = /*@__PURE__*/ S.String;
+export const CreateScrapeConfigRequestMetricsRelabelConfigsItemAction = S.String;
 
 /** The source labels select values from existing labels. Their content is concatenated using the configured separator and matched against the configured regular expression for the replace, keep, and drop actions. */
 export type CreateScrapeConfigRequestMetricsRelabelConfigsItemSourceLabelsList = Array<string>;
@@ -1807,7 +1745,7 @@ export const CreateScrapeConfigRequestOauth2 = /*@__PURE__*/ S.suspend(() =>
 
 /** Configures the protocol scheme used for requests. https or http */
 export type CreateScrapeConfigRequestScheme = "http" | "https";
-export const CreateScrapeConfigRequestScheme = /*@__PURE__*/ S.String;
+export const CreateScrapeConfigRequestScheme = S.String;
 
 /** The targets specified by the static config. */
 export type CreateScrapeConfigRequestStaticConfigsItemTargetsList = Array<string>;
@@ -1983,7 +1921,7 @@ export type MetricsRelabelConfigAction =
   | "labelmap"
   | "labeldrop"
   | "labelkeep";
-export const MetricsRelabelConfigAction = /*@__PURE__*/ S.String;
+export const MetricsRelabelConfigAction = S.String;
 
 export type MetricsRelabelConfigSourceLabelsList = Array<string>;
 export const MetricsRelabelConfigSourceLabelsList = /*@__PURE__*/ S.Array(
@@ -2009,9 +1947,7 @@ export const MetricsRelabelConfig = /*@__PURE__*/ S.suspend(() =>
     sourceLabels: MetricsRelabelConfigSourceLabelsList,
     targetLabel: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricsRelabelConfig",
-}) as any as S.Schema<MetricsRelabelConfig>;
+).annotate({ identifier: "MetricsRelabelConfig" }) as any as S.Schema<MetricsRelabelConfig>;
 
 export type JobMetricsRelabelConfigsList = Array<MetricsRelabelConfig>;
 export const JobMetricsRelabelConfigsList = /*@__PURE__*/ S.Array(
@@ -2030,7 +1966,7 @@ export const JobParamsMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<JobParamsMap>;
 
 export type JobScheme = "http" | "https";
-export const JobScheme = /*@__PURE__*/ S.String;
+export const JobScheme = S.String;
 
 export type StaticConfigsLabelsMap = { [key: string]: string | undefined };
 export const StaticConfigsLabelsMap = /*@__PURE__*/ S.Record(
@@ -2112,9 +2048,7 @@ export const ScrapeConfigsResponse = /*@__PURE__*/ S.suspend(() =>
     data: ScrapeConfigsResponseDataList,
     message: S.String,
   }),
-).annotate({
-  identifier: "ScrapeConfigsResponse",
-}) as any as S.Schema<ScrapeConfigsResponse>;
+).annotate({ identifier: "ScrapeConfigsResponse" }) as any as S.Schema<ScrapeConfigsResponse>;
 
 export interface DeleteAlertConfigReceiverRequest {
   projectId: string;
@@ -2178,9 +2112,7 @@ export const DeleteAlertgroupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteAlertgroupRequest",
-}) as any as S.Schema<DeleteAlertgroupRequest>;
+).annotate({ identifier: "DeleteAlertgroupRequest" }) as any as S.Schema<DeleteAlertgroupRequest>;
 
 export type DeleteAlertgroupsRequestGroupNameList = Array<string>;
 export const DeleteAlertgroupsRequestGroupNameList = /*@__PURE__*/ S.Array(
@@ -2206,9 +2138,7 @@ export const DeleteAlertgroupsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteAlertgroupsRequest",
-}) as any as S.Schema<DeleteAlertgroupsRequest>;
+).annotate({ identifier: "DeleteAlertgroupsRequest" }) as any as S.Schema<DeleteAlertgroupsRequest>;
 
 export interface DeleteAlertRecordRequest {
   projectId: string;
@@ -2230,9 +2160,7 @@ export const DeleteAlertRecordRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteAlertRecordRequest",
-}) as any as S.Schema<DeleteAlertRecordRequest>;
+).annotate({ identifier: "DeleteAlertRecordRequest" }) as any as S.Schema<DeleteAlertRecordRequest>;
 
 export type DeleteAlertRecordsRequestAlertRecordList = Array<string>;
 export const DeleteAlertRecordsRequestAlertRecordList = /*@__PURE__*/ S.Array(
@@ -2284,9 +2212,7 @@ export const DeleteAlertruleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteAlertruleRequest",
-}) as any as S.Schema<DeleteAlertruleRequest>;
+).annotate({ identifier: "DeleteAlertruleRequest" }) as any as S.Schema<DeleteAlertruleRequest>;
 
 export type DeleteAlertrulesRequestAlertNameList = Array<string>;
 export const DeleteAlertrulesRequestAlertNameList = /*@__PURE__*/ S.Array(
@@ -2314,9 +2240,7 @@ export const DeleteAlertrulesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteAlertrulesRequest",
-}) as any as S.Schema<DeleteAlertrulesRequest>;
+).annotate({ identifier: "DeleteAlertrulesRequest" }) as any as S.Schema<DeleteAlertrulesRequest>;
 
 export interface DeleteCertCheckRequest {
   projectId: string;
@@ -2336,9 +2260,7 @@ export const DeleteCertCheckRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteCertCheckRequest",
-}) as any as S.Schema<DeleteCertCheckRequest>;
+).annotate({ identifier: "DeleteCertCheckRequest" }) as any as S.Schema<DeleteCertCheckRequest>;
 
 export interface DeleteCredentialsRequest {
   projectId: string;
@@ -2358,9 +2280,7 @@ export const DeleteCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteCredentialsRequest",
-}) as any as S.Schema<DeleteCredentialsRequest>;
+).annotate({ identifier: "DeleteCredentialsRequest" }) as any as S.Schema<DeleteCredentialsRequest>;
 
 export interface DeleteCredentialsRemoteWriteConfigRequest {
   projectId: string;
@@ -2437,9 +2357,7 @@ export const DeleteHttpCheckRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteHttpCheckRequest",
-}) as any as S.Schema<DeleteHttpCheckRequest>;
+).annotate({ identifier: "DeleteHttpCheckRequest" }) as any as S.Schema<DeleteHttpCheckRequest>;
 
 export interface DeleteInstanceRequest {
   projectId: string;
@@ -2457,9 +2375,7 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteInstanceRequest",
-}) as any as S.Schema<DeleteInstanceRequest>;
+).annotate({ identifier: "DeleteInstanceRequest" }) as any as S.Schema<DeleteInstanceRequest>;
 
 export interface InstanceResponse {
   message: string;
@@ -2468,9 +2384,7 @@ export const InstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.String,
   }),
-).annotate({
-  identifier: "InstanceResponse",
-}) as any as S.Schema<InstanceResponse>;
+).annotate({ identifier: "InstanceResponse" }) as any as S.Schema<InstanceResponse>;
 
 export interface DeleteLogsAlertgroupRequest {
   projectId: string;
@@ -2534,9 +2448,7 @@ export const DeleteMysqlCheckRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteMysqlCheckRequest",
-}) as any as S.Schema<DeleteMysqlCheckRequest>;
+).annotate({ identifier: "DeleteMysqlCheckRequest" }) as any as S.Schema<DeleteMysqlCheckRequest>;
 
 export interface DeleteNetworkCheckRequest {
   projectId: string;
@@ -2578,9 +2490,7 @@ export const DeletePingCheckRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeletePingCheckRequest",
-}) as any as S.Schema<DeletePingCheckRequest>;
+).annotate({ identifier: "DeletePingCheckRequest" }) as any as S.Schema<DeletePingCheckRequest>;
 
 export interface DeletePostgresqlCheckRequest {
   projectId: string;
@@ -2644,9 +2554,7 @@ export const DeleteRedisCheckRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteRedisCheckRequest",
-}) as any as S.Schema<DeleteRedisCheckRequest>;
+).annotate({ identifier: "DeleteRedisCheckRequest" }) as any as S.Schema<DeleteRedisCheckRequest>;
 
 export interface DeleteScrapeConfigRequest {
   projectId: string;
@@ -2787,9 +2695,7 @@ export const GetAlertConfigsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetAlertConfigsRequest",
-}) as any as S.Schema<GetAlertConfigsRequest>;
+).annotate({ identifier: "GetAlertConfigsRequest" }) as any as S.Schema<GetAlertConfigsRequest>;
 
 export interface Global {
   opsgenieApiKey?: string;
@@ -2825,9 +2731,7 @@ export const InhibitRulesSourceMatchMap = /*@__PURE__*/ S.Record(
   S.String,
 ) as any as S.Schema<InhibitRulesSourceMatchMap>;
 
-export type InhibitRulesSourceMatchReMap = {
-  [key: string]: string | undefined;
-};
+export type InhibitRulesSourceMatchReMap = { [key: string]: string | undefined };
 export const InhibitRulesSourceMatchReMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2844,9 +2748,7 @@ export const InhibitRulesTargetMatchMap = /*@__PURE__*/ S.Record(
   S.String,
 ) as any as S.Schema<InhibitRulesTargetMatchMap>;
 
-export type InhibitRulesTargetMatchReMap = {
-  [key: string]: string | undefined;
-};
+export type InhibitRulesTargetMatchReMap = { [key: string]: string | undefined };
 export const InhibitRulesTargetMatchReMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2912,9 +2814,7 @@ export const GetAlertConfigsResponse = /*@__PURE__*/ S.suspend(() =>
     data: Alert,
     message: S.String,
   }),
-).annotate({
-  identifier: "GetAlertConfigsResponse",
-}) as any as S.Schema<GetAlertConfigsResponse>;
+).annotate({ identifier: "GetAlertConfigsResponse" }) as any as S.Schema<GetAlertConfigsResponse>;
 
 export interface GetAlertgroupRequest {
   projectId: string;
@@ -2934,9 +2834,7 @@ export const GetAlertgroupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetAlertgroupRequest",
-}) as any as S.Schema<GetAlertgroupRequest>;
+).annotate({ identifier: "GetAlertgroupRequest" }) as any as S.Schema<GetAlertgroupRequest>;
 
 export interface AlertGroupResponse {
   data: AlertGroup;
@@ -2947,9 +2845,7 @@ export const AlertGroupResponse = /*@__PURE__*/ S.suspend(() =>
     data: AlertGroup,
     message: S.String,
   }),
-).annotate({
-  identifier: "AlertGroupResponse",
-}) as any as S.Schema<AlertGroupResponse>;
+).annotate({ identifier: "AlertGroupResponse" }) as any as S.Schema<AlertGroupResponse>;
 
 export interface GetAlertRecordRequest {
   projectId: string;
@@ -2971,9 +2867,7 @@ export const GetAlertRecordRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetAlertRecordRequest",
-}) as any as S.Schema<GetAlertRecordRequest>;
+).annotate({ identifier: "GetAlertRecordRequest" }) as any as S.Schema<GetAlertRecordRequest>;
 
 export interface AlertRecordResponse {
   data: AlertRecord;
@@ -2984,9 +2878,7 @@ export const AlertRecordResponse = /*@__PURE__*/ S.suspend(() =>
     data: AlertRecord,
     message: S.String,
   }),
-).annotate({
-  identifier: "AlertRecordResponse",
-}) as any as S.Schema<AlertRecordResponse>;
+).annotate({ identifier: "AlertRecordResponse" }) as any as S.Schema<AlertRecordResponse>;
 
 export interface GetAlertruleRequest {
   projectId: string;
@@ -3008,9 +2900,7 @@ export const GetAlertruleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetAlertruleRequest",
-}) as any as S.Schema<GetAlertruleRequest>;
+).annotate({ identifier: "GetAlertruleRequest" }) as any as S.Schema<GetAlertruleRequest>;
 
 export interface AlertRuleResponse {
   data: AlertRule;
@@ -3021,9 +2911,7 @@ export const AlertRuleResponse = /*@__PURE__*/ S.suspend(() =>
     data: AlertRule,
     message: S.String,
   }),
-).annotate({
-  identifier: "AlertRuleResponse",
-}) as any as S.Schema<AlertRuleResponse>;
+).annotate({ identifier: "AlertRuleResponse" }) as any as S.Schema<AlertRuleResponse>;
 
 export interface GetCredentialsRequest {
   projectId: string;
@@ -3043,16 +2931,12 @@ export const GetCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetCredentialsRequest",
-}) as any as S.Schema<GetCredentialsRequest>;
+).annotate({ identifier: "GetCredentialsRequest" }) as any as S.Schema<GetCredentialsRequest>;
 
-export type GetCredentialsResponseCredentialsInfoMap = {
-  [key: string]: string | undefined;
-};
+export type GetCredentialsResponseCredentialsInfoMap = { [key: string]: string | null | undefined };
 export const GetCredentialsResponseCredentialsInfoMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<GetCredentialsResponseCredentialsInfoMap>;
 
 export interface GetCredentialsResponse {
@@ -3068,9 +2952,7 @@ export const GetCredentialsResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "GetCredentialsResponse",
-}) as any as S.Schema<GetCredentialsResponse>;
+).annotate({ identifier: "GetCredentialsResponse" }) as any as S.Schema<GetCredentialsResponse>;
 
 export interface GetCredentialsRemoteWriteConfigRequest {
   projectId: string;
@@ -3125,9 +3007,7 @@ export const GetGrafanaConfigsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetGrafanaConfigsRequest",
-}) as any as S.Schema<GetGrafanaConfigsRequest>;
+).annotate({ identifier: "GetGrafanaConfigsRequest" }) as any as S.Schema<GetGrafanaConfigsRequest>;
 
 export interface GrafanaOauth {
   allowAssignGrafanaAdmin?: boolean;
@@ -3191,9 +3071,7 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetInstanceRequest",
-}) as any as S.Schema<GetInstanceRequest>;
+).annotate({ identifier: "GetInstanceRequest" }) as any as S.Schema<GetInstanceRequest>;
 
 export interface PlanModel {
   alertMatchers: number;
@@ -3303,16 +3181,12 @@ export const InstanceSensitiveData = /*@__PURE__*/ S.suspend(() =>
     targetsUrl: S.String,
     zipkinSpansUrl: S.String,
   }),
-).annotate({
-  identifier: "InstanceSensitiveData",
-}) as any as S.Schema<InstanceSensitiveData>;
+).annotate({ identifier: "InstanceSensitiveData" }) as any as S.Schema<InstanceSensitiveData>;
 
-export type GetInstanceResponseParametersMap = {
-  [key: string]: string | undefined;
-};
+export type GetInstanceResponseParametersMap = { [key: string]: string | null | undefined };
 export const GetInstanceResponseParametersMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<GetInstanceResponseParametersMap>;
 
 export type GetInstanceResponseStatus =
@@ -3325,7 +3199,7 @@ export type GetInstanceResponseStatus =
   | "UPDATING"
   | "UPDATE_SUCCEEDED"
   | "UPDATE_FAILED";
-export const GetInstanceResponseStatus = /*@__PURE__*/ S.String;
+export const GetInstanceResponseStatus = S.String;
 
 export interface GetInstanceResponse {
   dashboardUrl: string;
@@ -3358,9 +3232,7 @@ export const GetInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String,
     status: GetInstanceResponseStatus,
   }),
-).annotate({
-  identifier: "GetInstanceResponse",
-}) as any as S.Schema<GetInstanceResponse>;
+).annotate({ identifier: "GetInstanceResponse" }) as any as S.Schema<GetInstanceResponse>;
 
 export interface GetLogsAlertgroupRequest {
   projectId: string;
@@ -3380,9 +3252,7 @@ export const GetLogsAlertgroupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetLogsAlertgroupRequest",
-}) as any as S.Schema<GetLogsAlertgroupRequest>;
+).annotate({ identifier: "GetLogsAlertgroupRequest" }) as any as S.Schema<GetLogsAlertgroupRequest>;
 
 export interface GetLogsConfigsRequest {
   projectId: string;
@@ -3400,9 +3270,7 @@ export const GetLogsConfigsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetLogsConfigsRequest",
-}) as any as S.Schema<GetLogsConfigsRequest>;
+).annotate({ identifier: "GetLogsConfigsRequest" }) as any as S.Schema<GetLogsConfigsRequest>;
 
 export interface LogsConfig {
   retention: string;
@@ -3422,9 +3290,7 @@ export const LogsConfigResponse = /*@__PURE__*/ S.suspend(() =>
     config: LogsConfig,
     message: S.String,
   }),
-).annotate({
-  identifier: "LogsConfigResponse",
-}) as any as S.Schema<LogsConfigResponse>;
+).annotate({ identifier: "LogsConfigResponse" }) as any as S.Schema<LogsConfigResponse>;
 
 export interface GetMetricsStorageRetentionRequest {
   projectId: string;
@@ -3481,9 +3347,7 @@ export const GetScrapeConfigRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetScrapeConfigRequest",
-}) as any as S.Schema<GetScrapeConfigRequest>;
+).annotate({ identifier: "GetScrapeConfigRequest" }) as any as S.Schema<GetScrapeConfigRequest>;
 
 export interface GetScrapeConfigResponse {
   data: Job;
@@ -3494,9 +3358,7 @@ export const GetScrapeConfigResponse = /*@__PURE__*/ S.suspend(() =>
     data: Job,
     message: S.String,
   }),
-).annotate({
-  identifier: "GetScrapeConfigResponse",
-}) as any as S.Schema<GetScrapeConfigResponse>;
+).annotate({ identifier: "GetScrapeConfigResponse" }) as any as S.Schema<GetScrapeConfigResponse>;
 
 export interface GetTracesConfigsRequest {
   projectId: string;
@@ -3514,9 +3376,7 @@ export const GetTracesConfigsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetTracesConfigsRequest",
-}) as any as S.Schema<GetTracesConfigsRequest>;
+).annotate({ identifier: "GetTracesConfigsRequest" }) as any as S.Schema<GetTracesConfigsRequest>;
 
 export type TraceConfig = LogsConfig;
 export const TraceConfig = LogsConfig;
@@ -3530,9 +3390,7 @@ export const TracesConfigResponse = /*@__PURE__*/ S.suspend(() =>
     config: LogsConfig,
     message: S.String,
   }),
-).annotate({
-  identifier: "TracesConfigResponse",
-}) as any as S.Schema<TracesConfigResponse>;
+).annotate({ identifier: "TracesConfigResponse" }) as any as S.Schema<TracesConfigResponse>;
 
 export interface ListACLRequest {
   projectId: string;
@@ -3566,9 +3424,7 @@ export const ListACLResponse = /*@__PURE__*/ S.suspend(() =>
     acl: ListACLResponseAclList,
     message: S.String,
   }),
-).annotate({
-  identifier: "ListACLResponse",
-}) as any as S.Schema<ListACLResponse>;
+).annotate({ identifier: "ListACLResponse" }) as any as S.Schema<ListACLResponse>;
 
 export interface ListAlertConfigReceiversRequest {
   projectId: string;
@@ -3626,9 +3482,7 @@ export const ListAlertgroupsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListAlertgroupsRequest",
-}) as any as S.Schema<ListAlertgroupsRequest>;
+).annotate({ identifier: "ListAlertgroupsRequest" }) as any as S.Schema<ListAlertgroupsRequest>;
 
 export interface ListAlertRecordsRequest {
   projectId: string;
@@ -3648,9 +3502,7 @@ export const ListAlertRecordsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListAlertRecordsRequest",
-}) as any as S.Schema<ListAlertRecordsRequest>;
+).annotate({ identifier: "ListAlertRecordsRequest" }) as any as S.Schema<ListAlertRecordsRequest>;
 
 export interface ListAlertrulesRequest {
   projectId: string;
@@ -3670,9 +3522,7 @@ export const ListAlertrulesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListAlertrulesRequest",
-}) as any as S.Schema<ListAlertrulesRequest>;
+).annotate({ identifier: "ListAlertrulesRequest" }) as any as S.Schema<ListAlertrulesRequest>;
 
 export interface ListBackupRetentionsRequest {
   projectId: string;
@@ -3709,16 +3559,14 @@ export const BackupRetentionResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.String,
     scrapeConfigBackupRetention: S.String,
   }),
-).annotate({
-  identifier: "BackupRetentionResponse",
-}) as any as S.Schema<BackupRetentionResponse>;
+).annotate({ identifier: "BackupRetentionResponse" }) as any as S.Schema<BackupRetentionResponse>;
 
 export type ListBackupsRequestBackupTargetItem =
   | "alertConfig"
   | "alertRules"
   | "scrapeConfig"
   | "grafana";
-export const ListBackupsRequestBackupTargetItem = /*@__PURE__*/ S.String;
+export const ListBackupsRequestBackupTargetItem = S.String;
 
 export type ListBackupsRequestBackupTargetList = Array<
   ListBackupsRequestBackupTargetItem | (string & {})
@@ -3746,9 +3594,7 @@ export const ListBackupsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListBackupsRequest",
-}) as any as S.Schema<ListBackupsRequest>;
+).annotate({ identifier: "ListBackupsRequest" }) as any as S.Schema<ListBackupsRequest>;
 
 export type BackupResponseAlertConfigBackupsList = Array<string>;
 export const BackupResponseAlertConfigBackupsList = /*@__PURE__*/ S.Array(
@@ -3792,7 +3638,7 @@ export type ListBackupSchedulesRequestBackupTargetItem =
   | "alertRules"
   | "scrapeConfig"
   | "grafana";
-export const ListBackupSchedulesRequestBackupTargetItem = /*@__PURE__*/ S.String;
+export const ListBackupSchedulesRequestBackupTargetItem = S.String;
 
 export type ListBackupSchedulesRequestBackupTargetList = Array<
   ListBackupSchedulesRequestBackupTargetItem | (string & {})
@@ -3870,9 +3716,7 @@ export const BackupScheduleResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.String,
     scrapeConfigBackupSchedules: S.optional(BackupScheduleResponseScrapeConfigBackupSchedulesList),
   }),
-).annotate({
-  identifier: "BackupScheduleResponse",
-}) as any as S.Schema<BackupScheduleResponse>;
+).annotate({ identifier: "BackupScheduleResponse" }) as any as S.Schema<BackupScheduleResponse>;
 
 export interface ListCertChecksRequest {
   projectId: string;
@@ -3890,9 +3734,7 @@ export const ListCertChecksRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListCertChecksRequest",
-}) as any as S.Schema<ListCertChecksRequest>;
+).annotate({ identifier: "ListCertChecksRequest" }) as any as S.Schema<ListCertChecksRequest>;
 
 export interface ListCredentialsRequest {
   projectId: string;
@@ -3910,16 +3752,12 @@ export const ListCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListCredentialsRequest",
-}) as any as S.Schema<ListCredentialsRequest>;
+).annotate({ identifier: "ListCredentialsRequest" }) as any as S.Schema<ListCredentialsRequest>;
 
-export type ServiceKeysListCredentialsInfoMap = {
-  [key: string]: string | undefined;
-};
+export type ServiceKeysListCredentialsInfoMap = { [key: string]: string | null | undefined };
 export const ServiceKeysListCredentialsInfoMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<ServiceKeysListCredentialsInfoMap>;
 
 export interface ServiceKeysList {
@@ -3935,9 +3773,7 @@ export const ServiceKeysList = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "ServiceKeysList",
-}) as any as S.Schema<ServiceKeysList>;
+).annotate({ identifier: "ServiceKeysList" }) as any as S.Schema<ServiceKeysList>;
 
 export type ListCredentialsResponseCredentialsList = Array<ServiceKeysList>;
 export const ListCredentialsResponseCredentialsList = /*@__PURE__*/ S.Array(
@@ -3953,9 +3789,7 @@ export const ListCredentialsResponse = /*@__PURE__*/ S.suspend(() =>
     credentials: ListCredentialsResponseCredentialsList,
     message: S.String,
   }),
-).annotate({
-  identifier: "ListCredentialsResponse",
-}) as any as S.Schema<ListCredentialsResponse>;
+).annotate({ identifier: "ListCredentialsResponse" }) as any as S.Schema<ListCredentialsResponse>;
 
 export interface ListElasticsearchChecksRequest {
   projectId: string;
@@ -3993,9 +3827,7 @@ export const ListHttpChecksRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListHttpChecksRequest",
-}) as any as S.Schema<ListHttpChecksRequest>;
+).annotate({ identifier: "ListHttpChecksRequest" }) as any as S.Schema<ListHttpChecksRequest>;
 
 export interface ListInstancesRequest {
   projectId: string;
@@ -4011,9 +3843,7 @@ export const ListInstancesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListInstancesRequest",
-}) as any as S.Schema<ListInstancesRequest>;
+).annotate({ identifier: "ListInstancesRequest" }) as any as S.Schema<ListInstancesRequest>;
 
 export type ProjectInstanceFullStatus =
   | "CREATING"
@@ -4025,7 +3855,7 @@ export type ProjectInstanceFullStatus =
   | "UPDATING"
   | "UPDATE_SUCCEEDED"
   | "UPDATE_FAILED";
-export const ProjectInstanceFullStatus = /*@__PURE__*/ S.String;
+export const ProjectInstanceFullStatus = S.String;
 
 export interface ProjectInstanceFull {
   error?: string | null;
@@ -4046,9 +3876,7 @@ export const ProjectInstanceFull = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String,
     status: ProjectInstanceFullStatus,
   }),
-).annotate({
-  identifier: "ProjectInstanceFull",
-}) as any as S.Schema<ProjectInstanceFull>;
+).annotate({ identifier: "ProjectInstanceFull" }) as any as S.Schema<ProjectInstanceFull>;
 
 export type ListInstancesResponseInstancesList = Array<ProjectInstanceFull>;
 export const ListInstancesResponseInstancesList = /*@__PURE__*/ S.Array(
@@ -4064,9 +3892,7 @@ export const ListInstancesResponse = /*@__PURE__*/ S.suspend(() =>
     instances: ListInstancesResponseInstancesList,
     message: S.String,
   }),
-).annotate({
-  identifier: "ListInstancesResponse",
-}) as any as S.Schema<ListInstancesResponse>;
+).annotate({ identifier: "ListInstancesResponse" }) as any as S.Schema<ListInstancesResponse>;
 
 export interface ListLogsAlertgroupsRequest {
   projectId: string;
@@ -4104,9 +3930,7 @@ export const ListMongodbChecksRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListMongodbChecksRequest",
-}) as any as S.Schema<ListMongodbChecksRequest>;
+).annotate({ identifier: "ListMongodbChecksRequest" }) as any as S.Schema<ListMongodbChecksRequest>;
 
 export interface ListMysqlChecksRequest {
   projectId: string;
@@ -4124,9 +3948,7 @@ export const ListMysqlChecksRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListMysqlChecksRequest",
-}) as any as S.Schema<ListMysqlChecksRequest>;
+).annotate({ identifier: "ListMysqlChecksRequest" }) as any as S.Schema<ListMysqlChecksRequest>;
 
 export interface ListNetworkChecksRequest {
   projectId: string;
@@ -4144,9 +3966,7 @@ export const ListNetworkChecksRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListNetworkChecksRequest",
-}) as any as S.Schema<ListNetworkChecksRequest>;
+).annotate({ identifier: "ListNetworkChecksRequest" }) as any as S.Schema<ListNetworkChecksRequest>;
 
 export interface ListOfferingsRequest {
   projectId: string;
@@ -4162,9 +3982,7 @@ export const ListOfferingsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListOfferingsRequest",
-}) as any as S.Schema<ListOfferingsRequest>;
+).annotate({ identifier: "ListOfferingsRequest" }) as any as S.Schema<ListOfferingsRequest>;
 
 export interface Plan {
   alertMatchers: number;
@@ -4262,9 +4080,7 @@ export const ListPingChecksRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListPingChecksRequest",
-}) as any as S.Schema<ListPingChecksRequest>;
+).annotate({ identifier: "ListPingChecksRequest" }) as any as S.Schema<ListPingChecksRequest>;
 
 export interface ListPlansRequest {
   projectId: string;
@@ -4280,9 +4096,7 @@ export const ListPlansRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListPlansRequest",
-}) as any as S.Schema<ListPlansRequest>;
+).annotate({ identifier: "ListPlansRequest" }) as any as S.Schema<ListPlansRequest>;
 
 export type PlansResponsePlansList = Array<Plan>;
 export const PlansResponsePlansList = /*@__PURE__*/ S.Array(
@@ -4356,9 +4170,7 @@ export const ListRedisChecksRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListRedisChecksRequest",
-}) as any as S.Schema<ListRedisChecksRequest>;
+).annotate({ identifier: "ListRedisChecksRequest" }) as any as S.Schema<ListRedisChecksRequest>;
 
 export interface ListScrapeConfigsRequest {
   projectId: string;
@@ -4376,9 +4188,7 @@ export const ListScrapeConfigsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListScrapeConfigsRequest",
-}) as any as S.Schema<ListScrapeConfigsRequest>;
+).annotate({ identifier: "ListScrapeConfigsRequest" }) as any as S.Schema<ListScrapeConfigsRequest>;
 
 export type ListScrapeConfigsResponseDataList = Array<Job>;
 export const ListScrapeConfigsResponseDataList = /*@__PURE__*/ S.Array(
@@ -4662,8 +4472,7 @@ export type PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsItemAc
   | "labelmap"
   | "labeldrop"
   | "labelkeep";
-export const PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsItemAction =
-  /*@__PURE__*/ S.String;
+export const PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsItemAction = S.String;
 
 /** The source labels select values from existing labels. Their content is concatenated using the configured separator and matched against the configured regular expression for the replace, keep, and drop actions. */
 export type PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsItemSourceLabelsList =
@@ -4753,7 +4562,7 @@ export const PartialUpdateScrapeConfigsRequestBodyItemOauth2 = /*@__PURE__*/ S.s
 
 /** Configures the protocol scheme used for requests. https or http */
 export type PartialUpdateScrapeConfigsRequestBodyItemScheme = "http" | "https";
-export const PartialUpdateScrapeConfigsRequestBodyItemScheme = /*@__PURE__*/ S.String;
+export const PartialUpdateScrapeConfigsRequestBodyItemScheme = S.String;
 
 /** The targets specified by the static config. */
 export type PartialUpdateScrapeConfigsRequestBodyItemStaticConfigsItemTargetsList = Array<string>;
@@ -4884,7 +4693,7 @@ export type RestoreBackupRequestRestoreTarget =
   | "alertRules"
   | "scrapeConfig"
   | "grafana";
-export const RestoreBackupRequestRestoreTarget = /*@__PURE__*/ S.String;
+export const RestoreBackupRequestRestoreTarget = S.String;
 
 export interface RestoreBackupRequest {
   projectId: string;
@@ -4907,9 +4716,7 @@ export const RestoreBackupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "RestoreBackupRequest",
-}) as any as S.Schema<RestoreBackupRequest>;
+).annotate({ identifier: "RestoreBackupRequest" }) as any as S.Schema<RestoreBackupRequest>;
 
 /** list of cidr */
 export type UpdateACLRequestAclList = Array<string>;
@@ -4936,9 +4743,7 @@ export const UpdateACLRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateACLRequest",
-}) as any as S.Schema<UpdateACLRequest>;
+).annotate({ identifier: "UpdateACLRequest" }) as any as S.Schema<UpdateACLRequest>;
 
 export type UpdateAlertConfigReceiverRequestEmailConfigsItem =
   CreateAlertConfigReceiverRequestEmailConfigsItem;
@@ -5444,9 +5249,7 @@ export const UpdateAlertgroupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateAlertgroupRequest",
-}) as any as S.Schema<UpdateAlertgroupRequest>;
+).annotate({ identifier: "UpdateAlertgroupRequest" }) as any as S.Schema<UpdateAlertgroupRequest>;
 
 /** Rule definition. Must be either an Alerting Rule (using 'alert') or a Recording Rule (using 'record'). `Additional Validators:` * total config (all alert groups/rules) should not be bigger than 500000 characters as string since this the limitation of prometheus. */
 export type UpdateAlertgroupsRequestBodyItemRulesItem = CreateAlertgroupsRequestRulesItem;
@@ -5501,9 +5304,7 @@ export const UpdateAlertgroupsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateAlertgroupsRequest",
-}) as any as S.Schema<UpdateAlertgroupsRequest>;
+).annotate({ identifier: "UpdateAlertgroupsRequest" }) as any as S.Schema<UpdateAlertgroupsRequest>;
 
 export interface UpdateAlertRecordRequest {
   projectId: string;
@@ -5531,9 +5332,7 @@ export const UpdateAlertRecordRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateAlertRecordRequest",
-}) as any as S.Schema<UpdateAlertRecordRequest>;
+).annotate({ identifier: "UpdateAlertRecordRequest" }) as any as S.Schema<UpdateAlertRecordRequest>;
 
 export interface UpdateAlertruleRequest {
   projectId: string;
@@ -5567,9 +5366,7 @@ export const UpdateAlertruleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateAlertruleRequest",
-}) as any as S.Schema<UpdateAlertruleRequest>;
+).annotate({ identifier: "UpdateAlertruleRequest" }) as any as S.Schema<UpdateAlertruleRequest>;
 
 export interface UpdateCredentialsRemoteWriteConfigRequest {
   projectId: string;
@@ -5697,9 +5494,7 @@ export const UpdateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateInstanceRequest",
-}) as any as S.Schema<UpdateInstanceRequest>;
+).annotate({ identifier: "UpdateInstanceRequest" }) as any as S.Schema<UpdateInstanceRequest>;
 
 /** Rule definition. Must be either an Alerting Rule (using 'alert') or a Recording Rule (using 'record'). `Additional Validators:` * total config (all alert groups/rules) should not be bigger than 500000 characters as string since this the limitation of prometheus. */
 export type UpdateLogsAlertgroupRequestRulesItem = CreateLogsAlertgroupsRequestRulesItem;
@@ -5758,9 +5553,7 @@ export const UpdateLogsConfigsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://argus.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateLogsConfigsRequest",
-}) as any as S.Schema<UpdateLogsConfigsRequest>;
+).annotate({ identifier: "UpdateLogsConfigsRequest" }) as any as S.Schema<UpdateLogsConfigsRequest>;
 
 export interface UpdateMetricsStorageRetentionRequest {
   projectId: string;
@@ -5804,7 +5597,7 @@ export type UpdateScrapeConfigRequestMetricsRelabelConfigsItemAction =
   | "labelmap"
   | "labeldrop"
   | "labelkeep";
-export const UpdateScrapeConfigRequestMetricsRelabelConfigsItemAction = /*@__PURE__*/ S.String;
+export const UpdateScrapeConfigRequestMetricsRelabelConfigsItemAction = S.String;
 
 /** The source labels select values from existing labels. Their content is concatenated using the configured separator and matched against the configured regular expression for the replace, keep, and drop actions. */
 export type UpdateScrapeConfigRequestMetricsRelabelConfigsItemSourceLabelsList = Array<string>;
@@ -5852,7 +5645,7 @@ export const UpdateScrapeConfigRequestMetricsRelabelConfigsList = /*@__PURE__*/ 
 
 /** Configures the protocol scheme used for requests. https or http */
 export type UpdateScrapeConfigRequestScheme = "http" | "https";
-export const UpdateScrapeConfigRequestScheme = /*@__PURE__*/ S.String;
+export const UpdateScrapeConfigRequestScheme = S.String;
 
 /** The targets specified by the static config. */
 export type UpdateScrapeConfigRequestStaticConfigsItemTargetsList = Array<string>;

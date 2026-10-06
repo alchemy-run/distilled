@@ -193,13 +193,11 @@ export const ServiceAccount2 = /*@__PURE__*/ S.suspend(() =>
     internal: S.Boolean,
     projectId: S.String,
   }),
-).annotate({
-  identifier: "ServiceAccount2",
-}) as any as S.Schema<ServiceAccount2>;
+).annotate({ identifier: "ServiceAccount2" }) as any as S.Schema<ServiceAccount2>;
 
 /** Optional, key algorithm of the generated key-pair. Used only if publicKey attribute is not specified, otherwise the algorithm is derived from the public key. */
 export type CreateServiceAccountKeyRequestAlgorithm = "RSA_2048" | "RSA_4096";
-export const CreateServiceAccountKeyRequestAlgorithm = /*@__PURE__*/ S.String;
+export const CreateServiceAccountKeyRequestAlgorithm = S.String;
 
 export interface CreateServiceAccountKeyRequest {
   /** The ID of the project. */
@@ -260,13 +258,13 @@ export const CreateServiceAccountKeyResponseCredentials = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<CreateServiceAccountKeyResponseCredentials>;
 
 export type CreateServiceAccountKeyResponseKeyAlgorithm = "RSA_2048" | "RSA_4096";
-export const CreateServiceAccountKeyResponseKeyAlgorithm = /*@__PURE__*/ S.String;
+export const CreateServiceAccountKeyResponseKeyAlgorithm = S.String;
 
 export type CreateServiceAccountKeyResponseKeyOrigin = "USER_PROVIDED" | "GENERATED";
-export const CreateServiceAccountKeyResponseKeyOrigin = /*@__PURE__*/ S.String;
+export const CreateServiceAccountKeyResponseKeyOrigin = S.String;
 
 export type CreateServiceAccountKeyResponseKeyType = "USER_MANAGED" | "SYSTEM_MANAGED";
-export const CreateServiceAccountKeyResponseKeyType = /*@__PURE__*/ S.String;
+export const CreateServiceAccountKeyResponseKeyType = S.String;
 
 export interface CreateServiceAccountKeyResponse {
   active: boolean;
@@ -303,7 +301,7 @@ export const CreateServiceAccountKeyResponse = /*@__PURE__*/ S.suspend(() =>
 export type CreateShortLivedAccessTokenRequestGrantType =
   | "urn:ietf:params:oauth:grant-type:jwt-bearer"
   | "refresh_token";
-export const CreateShortLivedAccessTokenRequestGrantType = /*@__PURE__*/ S.String;
+export const CreateShortLivedAccessTokenRequestGrantType = S.String;
 
 export interface CreateShortLivedAccessTokenRequest {
   /** The self signed JWT. Must be given when grant_type is urn:ietf:params:oauth:grant-type:jwt-bearer */
@@ -331,7 +329,7 @@ export const CreateShortLivedAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateShortLivedAccessTokenRequest>;
 
 export type CreateShortLivedAccessTokenResponseTokenType = "Bearer";
-export const CreateShortLivedAccessTokenResponseTokenType = /*@__PURE__*/ S.String;
+export const CreateShortLivedAccessTokenResponseTokenType = S.String;
 
 export interface CreateShortLivedAccessTokenResponse {
   /** The short lived token that can be used for API access */
@@ -409,9 +407,7 @@ export const DeleteServiceAccountKeyRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteServiceAccountKeyResponse {}
 export const DeleteServiceAccountKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteServiceAccountKeyResponse",
-  },
+  { identifier: "DeleteServiceAccountKeyResponse" },
 ) as any as S.Schema<DeleteServiceAccountKeyResponse>;
 
 export interface DeleteServiceFederatedIdentityProviderRequest {
@@ -531,7 +527,7 @@ export const JWKS = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "JWKS" }) as any as S.Schema<JWKS>;
 
 export type GetServiceAccountKeyRequestFormat = "X509_PEM";
-export const GetServiceAccountKeyRequestFormat = /*@__PURE__*/ S.String;
+export const GetServiceAccountKeyRequestFormat = S.String;
 
 export interface GetServiceAccountKeyRequest {
   /** The ID of the project. */
@@ -583,13 +579,13 @@ export const GetServiceAccountKeyResponseCredentials = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<GetServiceAccountKeyResponseCredentials>;
 
 export type GetServiceAccountKeyResponseKeyAlgorithm = "RSA_2048" | "RSA_4096";
-export const GetServiceAccountKeyResponseKeyAlgorithm = /*@__PURE__*/ S.String;
+export const GetServiceAccountKeyResponseKeyAlgorithm = S.String;
 
 export type GetServiceAccountKeyResponseKeyOrigin = "USER_PROVIDED" | "GENERATED";
-export const GetServiceAccountKeyResponseKeyOrigin = /*@__PURE__*/ S.String;
+export const GetServiceAccountKeyResponseKeyOrigin = S.String;
 
 export type GetServiceAccountKeyResponseKeyType = "USER_MANAGED" | "SYSTEM_MANAGED";
-export const GetServiceAccountKeyResponseKeyType = /*@__PURE__*/ S.String;
+export const GetServiceAccountKeyResponseKeyType = S.String;
 
 export interface GetServiceAccountKeyResponse {
   active: boolean;
@@ -690,13 +686,13 @@ export const ListServiceAccountKeysRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListServiceAccountKeysRequest>;
 
 export type ServiceAccountKeyListResponseKeyAlgorithm = "RSA_2048" | "RSA_4096";
-export const ServiceAccountKeyListResponseKeyAlgorithm = /*@__PURE__*/ S.String;
+export const ServiceAccountKeyListResponseKeyAlgorithm = S.String;
 
 export type ServiceAccountKeyListResponseKeyOrigin = "USER_PROVIDED" | "GENERATED";
-export const ServiceAccountKeyListResponseKeyOrigin = /*@__PURE__*/ S.String;
+export const ServiceAccountKeyListResponseKeyOrigin = S.String;
 
 export type ServiceAccountKeyListResponseKeyType = "USER_MANAGED" | "SYSTEM_MANAGED";
-export const ServiceAccountKeyListResponseKeyType = /*@__PURE__*/ S.String;
+export const ServiceAccountKeyListResponseKeyType = S.String;
 
 export interface ServiceAccountKeyListResponse {
   active: boolean;
@@ -857,13 +853,13 @@ export const PartialUpdateServiceAccountKeyRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<PartialUpdateServiceAccountKeyRequest>;
 
 export type PartialUpdateServiceAccountKeyResponseKeyAlgorithm = "RSA_2048" | "RSA_4096";
-export const PartialUpdateServiceAccountKeyResponseKeyAlgorithm = /*@__PURE__*/ S.String;
+export const PartialUpdateServiceAccountKeyResponseKeyAlgorithm = S.String;
 
 export type PartialUpdateServiceAccountKeyResponseKeyOrigin = "USER_PROVIDED" | "GENERATED";
-export const PartialUpdateServiceAccountKeyResponseKeyOrigin = /*@__PURE__*/ S.String;
+export const PartialUpdateServiceAccountKeyResponseKeyOrigin = S.String;
 
 export type PartialUpdateServiceAccountKeyResponseKeyType = "USER_MANAGED" | "SYSTEM_MANAGED";
-export const PartialUpdateServiceAccountKeyResponseKeyType = /*@__PURE__*/ S.String;
+export const PartialUpdateServiceAccountKeyResponseKeyType = S.String;
 
 export interface PartialUpdateServiceAccountKeyResponse {
   active: boolean;

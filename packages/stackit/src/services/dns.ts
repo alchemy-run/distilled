@@ -76,12 +76,10 @@ export const CloneZoneRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CloneZoneRequest",
-}) as any as S.Schema<CloneZoneRequest>;
+).annotate({ identifier: "CloneZoneRequest" }) as any as S.Schema<CloneZoneRequest>;
 
 export type DomainObservabilityExtensionState = "CREATING" | "CREATE_SUCCEEDED" | "ERROR";
-export const DomainObservabilityExtensionState = /*@__PURE__*/ S.String;
+export const DomainObservabilityExtensionState = S.String;
 
 export interface DomainObservabilityExtension {
   observabilityInstanceId: string;
@@ -103,9 +101,7 @@ export const DomainExtensions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     observabilityExtension: S.optional(DomainObservabilityExtension),
   }),
-).annotate({
-  identifier: "DomainExtensions",
-}) as any as S.Schema<DomainExtensions>;
+).annotate({ identifier: "DomainExtensions" }) as any as S.Schema<DomainExtensions>;
 
 export interface Label {
   key: string;
@@ -120,6 +116,13 @@ export const Label = /*@__PURE__*/ S.suspend(() =>
 
 export type ZoneLabelsList = Array<Label>;
 export const ZoneLabelsList = /*@__PURE__*/ S.Array(Label) as any as S.Schema<ZoneLabelsList>;
+
+/** labels for the zone */
+export type ZoneLabelsMapMap = { [key: string]: string | undefined };
+export const ZoneLabelsMapMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<ZoneLabelsMapMap>;
 
 /** primary name server for secondary zone */
 export type ZonePrimariesList = Array<string>;
@@ -138,15 +141,15 @@ export type ZoneState =
   | "UPDATING"
   | "UPDATE_SUCCEEDED"
   | "UPDATE_FAILED";
-export const ZoneState = /*@__PURE__*/ S.String;
+export const ZoneState = S.String;
 
 /** zone type */
 export type ZoneType = "primary" | "secondary";
-export const ZoneType = /*@__PURE__*/ S.String;
+export const ZoneType = S.String;
 
 /** visibility of the zone */
 export type ZoneVisibility = "public";
-export const ZoneVisibility = /*@__PURE__*/ S.String;
+export const ZoneVisibility = S.String;
 
 /** Zone. */
 export interface Zone {
@@ -175,6 +178,8 @@ export interface Zone {
   /** if the zone is a reverse zone or not */
   isReverseZone?: boolean;
   labels?: ZoneLabelsList;
+  /** labels for the zone */
+  labelsMap?: ZoneLabelsMapMap;
   /** user given name */
   name: string;
   /** negative caching */
@@ -218,6 +223,7 @@ export const Zone = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     isReverseZone: S.optional(S.Boolean),
     labels: S.optional(ZoneLabelsList),
+    labelsMap: S.optional(ZoneLabelsMapMap),
     name: S.String,
     negativeCache: S.Number,
     primaries: S.optional(ZonePrimariesList),
@@ -246,46 +252,6 @@ export const ZoneResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ZoneResponse" }) as any as S.Schema<ZoneResponse>;
 
-export interface CreateLabelRequest {
-  /** project id */
-  projectId: string;
-  /** zone id */
-  zoneId: string;
-  key: string;
-  value?: string;
-}
-export const CreateLabelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectId: S.String.pipe(T.Label()),
-    zoneId: S.String.pipe(T.Label()),
-    key: S.String,
-    value: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/projects/{projectId}/zones/{zoneId}/labels",
-      code: 200,
-      baseUrl: "https://dns.api.stackit.cloud",
-    }),
-  ),
-).annotate({
-  identifier: "CreateLabelRequest",
-}) as any as S.Schema<CreateLabelRequest>;
-
-/** ResponseUpsertLabel. */
-export interface CreateLabelResponse {
-  label?: Label;
-  message?: string;
-}
-export const CreateLabelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    label: S.optional(Label),
-    message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateLabelResponse",
-}) as any as S.Schema<CreateLabelResponse>;
-
 export interface CreateMoveCodeRequest {
   /** project id */
   projectId: string;
@@ -307,9 +273,7 @@ export const CreateMoveCodeRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateMoveCodeRequest",
-}) as any as S.Schema<CreateMoveCodeRequest>;
+).annotate({ identifier: "CreateMoveCodeRequest" }) as any as S.Schema<CreateMoveCodeRequest>;
 
 export interface MoveCodeResponse {
   /** code to move the zone. It is one time shown so better keep it. */
@@ -325,9 +289,7 @@ export const MoveCodeResponse = /*@__PURE__*/ S.suspend(() =>
     expiresAt: S.String,
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MoveCodeResponse",
-}) as any as S.Schema<MoveCodeResponse>;
+).annotate({ identifier: "MoveCodeResponse" }) as any as S.Schema<MoveCodeResponse>;
 
 /** RecordPost for rr set info. */
 export interface RecordPayload {
@@ -373,7 +335,7 @@ export type CreateRecordSetRequestType =
   | "CSYNC"
   | "HINFO"
   | "HTTPS";
-export const CreateRecordSetRequestType = /*@__PURE__*/ S.String;
+export const CreateRecordSetRequestType = S.String;
 
 export interface CreateRecordSetRequest {
   /** project id */
@@ -408,9 +370,7 @@ export const CreateRecordSetRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateRecordSetRequest",
-}) as any as S.Schema<CreateRecordSetRequest>;
+).annotate({ identifier: "CreateRecordSetRequest" }) as any as S.Schema<CreateRecordSetRequest>;
 
 /** Record. */
 export interface Record {
@@ -443,7 +403,7 @@ export type RecordSetState =
   | "UPDATING"
   | "UPDATE_SUCCEEDED"
   | "UPDATE_FAILED";
-export const RecordSetState = /*@__PURE__*/ S.String;
+export const RecordSetState = S.String;
 
 /** record set type */
 export type RecordSetType =
@@ -472,7 +432,7 @@ export type RecordSetType =
   | "CSYNC"
   | "HINFO"
   | "HTTPS";
-export const RecordSetType = /*@__PURE__*/ S.String;
+export const RecordSetType = S.String;
 
 /** RRSet. */
 export interface RecordSet {
@@ -531,9 +491,7 @@ export const RecordSetResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     rrset: RecordSet,
   }),
-).annotate({
-  identifier: "RecordSetResponse",
-}) as any as S.Schema<RecordSetResponse>;
+).annotate({ identifier: "RecordSetResponse" }) as any as S.Schema<RecordSetResponse>;
 
 export interface ZoneObservabilityExtension {
   observabilityInstanceId: string;
@@ -555,6 +513,13 @@ export const ZoneExtensions = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ZoneExtensions" }) as any as S.Schema<ZoneExtensions>;
 
+/** labels for the zone - max 64 items. Keys: 1-314 chars (up to 250 prefix, 1 for slash, 1-63 the actual key). Values: 0-63 chars. */
+export type CreateZoneRequestLabelsMapMap = { [key: string]: string | undefined };
+export const CreateZoneRequestLabelsMapMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<CreateZoneRequestLabelsMapMap>;
+
 /** primary name server for secondary zone */
 export type CreateZoneRequestPrimariesList = Array<string>;
 export const CreateZoneRequestPrimariesList = /*@__PURE__*/ S.Array(
@@ -563,7 +528,7 @@ export const CreateZoneRequestPrimariesList = /*@__PURE__*/ S.Array(
 
 /** zone type */
 export type CreateZoneRequestType = "primary" | "secondary";
-export const CreateZoneRequestType = /*@__PURE__*/ S.String;
+export const CreateZoneRequestType = S.String;
 
 export interface CreateZoneRequest {
   /** project id */
@@ -584,6 +549,8 @@ export interface CreateZoneRequest {
   extensions?: ZoneExtensions;
   /** if the zone is a reverse zone or not */
   isReverseZone?: boolean;
+  /** labels for the zone - max 64 items. Keys: 1-314 chars (up to 250 prefix, 1 for slash, 1-63 the actual key). Values: 0-63 chars. */
+  labelsMap?: CreateZoneRequestLabelsMapMap;
   /** user given name */
   name: string;
   /** negative caching */
@@ -608,6 +575,7 @@ export const CreateZoneRequest = /*@__PURE__*/ S.suspend(() =>
     expireTime: S.optional(S.Number),
     extensions: S.optional(ZoneExtensions),
     isReverseZone: S.optional(S.Boolean),
+    labelsMap: S.optional(CreateZoneRequestLabelsMapMap),
     name: S.String,
     negativeCache: S.optional(S.Number),
     primaries: S.optional(CreateZoneRequestPrimariesList),
@@ -622,48 +590,7 @@ export const CreateZoneRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateZoneRequest",
-}) as any as S.Schema<CreateZoneRequest>;
-
-export interface DeleteLabelRequest {
-  /** project id */
-  projectId: string;
-  /** zone id */
-  zoneId: string;
-  /** key of the label */
-  key: string;
-}
-export const DeleteLabelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectId: S.String.pipe(T.Label()),
-    zoneId: S.String.pipe(T.Label()),
-    key: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/projects/{projectId}/zones/{zoneId}/labels/{key}",
-      code: 200,
-      baseUrl: "https://dns.api.stackit.cloud",
-    }),
-  ),
-).annotate({
-  identifier: "DeleteLabelRequest",
-}) as any as S.Schema<DeleteLabelRequest>;
-
-/** ResponseDeleteLabel. */
-export interface DeleteLabelResponse {
-  label?: Label;
-  message?: string;
-}
-export const DeleteLabelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    label: S.optional(Label),
-    message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeleteLabelResponse",
-}) as any as S.Schema<DeleteLabelResponse>;
+).annotate({ identifier: "CreateZoneRequest" }) as any as S.Schema<CreateZoneRequest>;
 
 export interface DeleteMoveCodeRequest {
   /** project id */
@@ -683,9 +610,7 @@ export const DeleteMoveCodeRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteMoveCodeRequest",
-}) as any as S.Schema<DeleteMoveCodeRequest>;
+).annotate({ identifier: "DeleteMoveCodeRequest" }) as any as S.Schema<DeleteMoveCodeRequest>;
 
 export interface Message {
   message?: string;
@@ -717,9 +642,7 @@ export const DeleteRecordSetRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteRecordSetRequest",
-}) as any as S.Schema<DeleteRecordSetRequest>;
+).annotate({ identifier: "DeleteRecordSetRequest" }) as any as S.Schema<DeleteRecordSetRequest>;
 
 export interface DeleteZoneRequest {
   /** project id */
@@ -739,12 +662,10 @@ export const DeleteZoneRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteZoneRequest",
-}) as any as S.Schema<DeleteZoneRequest>;
+).annotate({ identifier: "DeleteZoneRequest" }) as any as S.Schema<DeleteZoneRequest>;
 
 export type ExportRecordSetsRequestFormat = "csv" | "json" | "bind";
-export const ExportRecordSetsRequestFormat = /*@__PURE__*/ S.String;
+export const ExportRecordSetsRequestFormat = S.String;
 
 export interface ExportRecordSetsRequest {
   /** project id */
@@ -768,9 +689,7 @@ export const ExportRecordSetsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ExportRecordSetsRequest",
-}) as any as S.Schema<ExportRecordSetsRequest>;
+).annotate({ identifier: "ExportRecordSetsRequest" }) as any as S.Schema<ExportRecordSetsRequest>;
 
 export type RecordDataExchangeContentList = Array<string>;
 export const RecordDataExchangeContentList = /*@__PURE__*/ S.Array(
@@ -792,9 +711,7 @@ export const RecordDataExchange = /*@__PURE__*/ S.suspend(() =>
     ttl: S.optional(S.Number),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RecordDataExchange",
-}) as any as S.Schema<RecordDataExchange>;
+).annotate({ identifier: "RecordDataExchange" }) as any as S.Schema<RecordDataExchange>;
 
 export type ZoneDataExchangeRrSetsList = Array<RecordDataExchange>;
 export const ZoneDataExchangeRrSetsList = /*@__PURE__*/ S.Array(
@@ -808,9 +725,7 @@ export const ZoneDataExchange = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rrSets: S.optional(ZoneDataExchangeRrSetsList),
   }),
-).annotate({
-  identifier: "ZoneDataExchange",
-}) as any as S.Schema<ZoneDataExchange>;
+).annotate({ identifier: "ZoneDataExchange" }) as any as S.Schema<ZoneDataExchange>;
 
 export interface GetRecordSetRequest {
   /** project id */
@@ -833,9 +748,7 @@ export const GetRecordSetRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetRecordSetRequest",
-}) as any as S.Schema<GetRecordSetRequest>;
+).annotate({ identifier: "GetRecordSetRequest" }) as any as S.Schema<GetRecordSetRequest>;
 
 export interface GetZoneRequest {
   /** project id */
@@ -875,15 +788,13 @@ export const GetZoneRequest2 = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetZoneRequest2",
-}) as any as S.Schema<GetZoneRequest2>;
+).annotate({ identifier: "GetZoneRequest2" }) as any as S.Schema<GetZoneRequest2>;
 
 export type ImportRecordSetsRequestFormat = "json" | "csv" | "bind";
-export const ImportRecordSetsRequestFormat = /*@__PURE__*/ S.String;
+export const ImportRecordSetsRequestFormat = S.String;
 
 export type ImportRecordSetsRequestImportType = "restore" | "delete" | "update" | "upsert";
-export const ImportRecordSetsRequestImportType = /*@__PURE__*/ S.String;
+export const ImportRecordSetsRequestImportType = S.String;
 
 export type ZoneModelsImportRecordModelContentList = Array<string>;
 export const ZoneModelsImportRecordModelContentList = /*@__PURE__*/ S.Array(
@@ -940,9 +851,7 @@ export const ImportRecordSetsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ImportRecordSetsRequest",
-}) as any as S.Schema<ImportRecordSetsRequest>;
+).annotate({ identifier: "ImportRecordSetsRequest" }) as any as S.Schema<ImportRecordSetsRequest>;
 
 /** ImportSummary is the summary of the import. */
 export interface ImportSummary {
@@ -974,50 +883,7 @@ export const ImportRecordSetsResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     summary: ImportSummary,
   }),
-).annotate({
-  identifier: "ImportRecordSetsResponse",
-}) as any as S.Schema<ImportRecordSetsResponse>;
-
-export interface ListLabelsRequest {
-  /** project id */
-  projectId: string;
-  /** zone id */
-  zoneId: string;
-}
-export const ListLabelsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectId: S.String.pipe(T.Label()),
-    zoneId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/projects/{projectId}/zones/{zoneId}/labels",
-      code: 200,
-      baseUrl: "https://dns.api.stackit.cloud",
-    }),
-  ),
-).annotate({
-  identifier: "ListLabelsRequest",
-}) as any as S.Schema<ListLabelsRequest>;
-
-export type ListLabelsResponseLabelsList = Array<Label>;
-export const ListLabelsResponseLabelsList = /*@__PURE__*/ S.Array(
-  Label,
-) as any as S.Schema<ListLabelsResponseLabelsList>;
-
-/** ResponseAllLabels. */
-export interface ListLabelsResponse {
-  labels?: ListLabelsResponseLabelsList;
-  message?: string;
-}
-export const ListLabelsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    labels: S.optional(ListLabelsResponseLabelsList),
-    message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListLabelsResponse",
-}) as any as S.Schema<ListLabelsResponse>;
+).annotate({ identifier: "ImportRecordSetsResponse" }) as any as S.Schema<ImportRecordSetsResponse>;
 
 export type ListRecordSetsRequestTypeEq =
   | "A"
@@ -1045,7 +911,7 @@ export type ListRecordSetsRequestTypeEq =
   | "CSYNC"
   | "HINFO"
   | "HTTPS";
-export const ListRecordSetsRequestTypeEq = /*@__PURE__*/ S.String;
+export const ListRecordSetsRequestTypeEq = S.String;
 
 export type ListRecordSetsRequestStateEq =
   | "CREATING"
@@ -1057,7 +923,7 @@ export type ListRecordSetsRequestStateEq =
   | "UPDATING"
   | "UPDATE_SUCCEEDED"
   | "UPDATE_FAILED";
-export const ListRecordSetsRequestStateEq = /*@__PURE__*/ S.String;
+export const ListRecordSetsRequestStateEq = S.String;
 
 export type ListRecordSetsRequestStateNeq =
   | "CREATING"
@@ -1069,31 +935,31 @@ export type ListRecordSetsRequestStateNeq =
   | "UPDATING"
   | "UPDATE_SUCCEEDED"
   | "UPDATE_FAILED";
-export const ListRecordSetsRequestStateNeq = /*@__PURE__*/ S.String;
+export const ListRecordSetsRequestStateNeq = S.String;
 
 export type ListRecordSetsRequestOrderByName = "ASC" | "DESC";
-export const ListRecordSetsRequestOrderByName = /*@__PURE__*/ S.String;
+export const ListRecordSetsRequestOrderByName = S.String;
 
 export type ListRecordSetsRequestOrderByCreationStarted = "ASC" | "DESC";
-export const ListRecordSetsRequestOrderByCreationStarted = /*@__PURE__*/ S.String;
+export const ListRecordSetsRequestOrderByCreationStarted = S.String;
 
 export type ListRecordSetsRequestOrderByCreationFinished = "ASC" | "DESC";
-export const ListRecordSetsRequestOrderByCreationFinished = /*@__PURE__*/ S.String;
+export const ListRecordSetsRequestOrderByCreationFinished = S.String;
 
 export type ListRecordSetsRequestOrderByUpdateStarted = "ASC" | "DESC";
-export const ListRecordSetsRequestOrderByUpdateStarted = /*@__PURE__*/ S.String;
+export const ListRecordSetsRequestOrderByUpdateStarted = S.String;
 
 export type ListRecordSetsRequestOrderByUpdateFinished = "ASC" | "DESC";
-export const ListRecordSetsRequestOrderByUpdateFinished = /*@__PURE__*/ S.String;
+export const ListRecordSetsRequestOrderByUpdateFinished = S.String;
 
 export type ListRecordSetsRequestOrderByType = "ASC" | "DESC";
-export const ListRecordSetsRequestOrderByType = /*@__PURE__*/ S.String;
+export const ListRecordSetsRequestOrderByType = S.String;
 
 export type ListRecordSetsRequestOrderByState = "ASC" | "DESC";
-export const ListRecordSetsRequestOrderByState = /*@__PURE__*/ S.String;
+export const ListRecordSetsRequestOrderByState = S.String;
 
 export type ListRecordSetsRequestOrderByRecordCount = "ASC" | "DESC";
-export const ListRecordSetsRequestOrderByRecordCount = /*@__PURE__*/ S.String;
+export const ListRecordSetsRequestOrderByRecordCount = S.String;
 
 export interface ListRecordSetsRequest {
   /** project id */
@@ -1219,9 +1085,7 @@ export const ListRecordSetsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListRecordSetsRequest",
-}) as any as S.Schema<ListRecordSetsRequest>;
+).annotate({ identifier: "ListRecordSetsRequest" }) as any as S.Schema<ListRecordSetsRequest>;
 
 export type ListRecordSetsResponseRrSetsList = Array<RecordSet>;
 export const ListRecordSetsResponseRrSetsList = /*@__PURE__*/ S.Array(
@@ -1244,12 +1108,10 @@ export const ListRecordSetsResponse = /*@__PURE__*/ S.suspend(() =>
     totalItems: S.Number,
     totalPages: S.Number,
   }),
-).annotate({
-  identifier: "ListRecordSetsResponse",
-}) as any as S.Schema<ListRecordSetsResponse>;
+).annotate({ identifier: "ListRecordSetsResponse" }) as any as S.Schema<ListRecordSetsResponse>;
 
 export type ListZonesRequestTypeEq = "primary" | "secondary";
-export const ListZonesRequestTypeEq = /*@__PURE__*/ S.String;
+export const ListZonesRequestTypeEq = S.String;
 
 export type ListZonesRequestStateEq =
   | "CREATING"
@@ -1261,7 +1123,7 @@ export type ListZonesRequestStateEq =
   | "UPDATING"
   | "UPDATE_SUCCEEDED"
   | "UPDATE_FAILED";
-export const ListZonesRequestStateEq = /*@__PURE__*/ S.String;
+export const ListZonesRequestStateEq = S.String;
 
 export type ListZonesRequestStateNeq =
   | "CREATING"
@@ -1273,7 +1135,7 @@ export type ListZonesRequestStateNeq =
   | "UPDATING"
   | "UPDATE_SUCCEEDED"
   | "UPDATE_FAILED";
-export const ListZonesRequestStateNeq = /*@__PURE__*/ S.String;
+export const ListZonesRequestStateNeq = S.String;
 
 export type ListZonesRequestLabelKeyEqList = Array<string>;
 export const ListZonesRequestLabelKeyEqList = /*@__PURE__*/ S.Array(
@@ -1286,31 +1148,31 @@ export const ListZonesRequestLabelValueEqList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ListZonesRequestLabelValueEqList>;
 
 export type ListZonesRequestOrderByDnsName = "ASC" | "DESC";
-export const ListZonesRequestOrderByDnsName = /*@__PURE__*/ S.String;
+export const ListZonesRequestOrderByDnsName = S.String;
 
 export type ListZonesRequestOrderByName = "ASC" | "DESC";
-export const ListZonesRequestOrderByName = /*@__PURE__*/ S.String;
+export const ListZonesRequestOrderByName = S.String;
 
 export type ListZonesRequestOrderByRecordCount = "ASC" | "DESC";
-export const ListZonesRequestOrderByRecordCount = /*@__PURE__*/ S.String;
+export const ListZonesRequestOrderByRecordCount = S.String;
 
 export type ListZonesRequestOrderByType = "ASC" | "DESC";
-export const ListZonesRequestOrderByType = /*@__PURE__*/ S.String;
+export const ListZonesRequestOrderByType = S.String;
 
 export type ListZonesRequestOrderByDescription = "ASC" | "DESC";
-export const ListZonesRequestOrderByDescription = /*@__PURE__*/ S.String;
+export const ListZonesRequestOrderByDescription = S.String;
 
 export type ListZonesRequestOrderByCreationStarted = "ASC" | "DESC";
-export const ListZonesRequestOrderByCreationStarted = /*@__PURE__*/ S.String;
+export const ListZonesRequestOrderByCreationStarted = S.String;
 
 export type ListZonesRequestOrderByCreationFinished = "ASC" | "DESC";
-export const ListZonesRequestOrderByCreationFinished = /*@__PURE__*/ S.String;
+export const ListZonesRequestOrderByCreationFinished = S.String;
 
 export type ListZonesRequestOrderByUpdateStarted = "ASC" | "DESC";
-export const ListZonesRequestOrderByUpdateStarted = /*@__PURE__*/ S.String;
+export const ListZonesRequestOrderByUpdateStarted = S.String;
 
 export type ListZonesRequestOrderByUpdateFinished = "ASC" | "DESC";
-export const ListZonesRequestOrderByUpdateFinished = /*@__PURE__*/ S.String;
+export const ListZonesRequestOrderByUpdateFinished = S.String;
 
 export interface ListZonesRequest {
   /** project id */
@@ -1471,9 +1333,7 @@ export const ListZonesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListZonesRequest",
-}) as any as S.Schema<ListZonesRequest>;
+).annotate({ identifier: "ListZonesRequest" }) as any as S.Schema<ListZonesRequest>;
 
 export type ListZonesResponseZonesList = Array<Zone>;
 export const ListZonesResponseZonesList = /*@__PURE__*/ S.Array(
@@ -1496,9 +1356,7 @@ export const ListZonesResponse = /*@__PURE__*/ S.suspend(() =>
     totalPages: S.Number,
     zones: ListZonesResponseZonesList,
   }),
-).annotate({
-  identifier: "ListZonesResponse",
-}) as any as S.Schema<ListZonesResponse>;
+).annotate({ identifier: "ListZonesResponse" }) as any as S.Schema<ListZonesResponse>;
 
 export interface MoveZoneRequest {
   /** project id */
@@ -1521,12 +1379,10 @@ export const MoveZoneRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "MoveZoneRequest",
-}) as any as S.Schema<MoveZoneRequest>;
+).annotate({ identifier: "MoveZoneRequest" }) as any as S.Schema<MoveZoneRequest>;
 
 export type PartialUpdateRecordRequestAction = "add" | "delete";
-export const PartialUpdateRecordRequestAction = /*@__PURE__*/ S.String;
+export const PartialUpdateRecordRequestAction = S.String;
 
 /** records */
 export type PartialUpdateRecordRequestRecordsList = Array<RecordPayload>;
@@ -1607,6 +1463,13 @@ export const PartialUpdateRecordSetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PartialUpdateRecordSetRequest",
 }) as any as S.Schema<PartialUpdateRecordSetRequest>;
 
+/** labels for the zone - max 64 items. Keys: 1-314 chars (up to 250 prefix, 1 for slash, 1-63 the actual key). Values: 0-63 chars. */
+export type PartialUpdateZoneRequestLabelsMapMap = { [key: string]: string | undefined };
+export const PartialUpdateZoneRequestLabelsMapMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<PartialUpdateZoneRequestLabelsMapMap>;
+
 /** primary name server for secondary zone */
 export type PartialUpdateZoneRequestPrimariesList = Array<string>;
 export const PartialUpdateZoneRequestPrimariesList = /*@__PURE__*/ S.Array(
@@ -1630,6 +1493,8 @@ export interface PartialUpdateZoneRequest {
   expireTime?: number;
   /** optional extensions */
   extensions?: ZoneExtensions;
+  /** labels for the zone - max 64 items. Keys: 1-314 chars (up to 250 prefix, 1 for slash, 1-63 the actual key). Values: 0-63 chars. */
+  labelsMap?: PartialUpdateZoneRequestLabelsMapMap;
   /** user given name */
   name?: string;
   /** negative caching */
@@ -1651,6 +1516,7 @@ export const PartialUpdateZoneRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     expireTime: S.optional(S.Number),
     extensions: S.optional(ZoneExtensions),
+    labelsMap: S.optional(PartialUpdateZoneRequestLabelsMapMap),
     name: S.optional(S.String),
     negativeCache: S.optional(S.Number),
     primaries: S.optional(PartialUpdateZoneRequestPrimariesList),
@@ -1664,9 +1530,7 @@ export const PartialUpdateZoneRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "PartialUpdateZoneRequest",
-}) as any as S.Schema<PartialUpdateZoneRequest>;
+).annotate({ identifier: "PartialUpdateZoneRequest" }) as any as S.Schema<PartialUpdateZoneRequest>;
 
 export interface RestoreRecordSetRequest {
   /** project id */
@@ -1689,9 +1553,7 @@ export const RestoreRecordSetRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "RestoreRecordSetRequest",
-}) as any as S.Schema<RestoreRecordSetRequest>;
+).annotate({ identifier: "RestoreRecordSetRequest" }) as any as S.Schema<RestoreRecordSetRequest>;
 
 export interface RestoreZoneRequest {
   /** project id */
@@ -1711,9 +1573,7 @@ export const RestoreZoneRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "RestoreZoneRequest",
-}) as any as S.Schema<RestoreZoneRequest>;
+).annotate({ identifier: "RestoreZoneRequest" }) as any as S.Schema<RestoreZoneRequest>;
 
 export interface ValidateMoveCodeRequest {
   /** project id */
@@ -1736,9 +1596,7 @@ export const ValidateMoveCodeRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dns.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ValidateMoveCodeRequest",
-}) as any as S.Schema<ValidateMoveCodeRequest>;
+).annotate({ identifier: "ValidateMoveCodeRequest" }) as any as S.Schema<ValidateMoveCodeRequest>;
 
 export type CloneZoneError = BadRequest | NotFound | Conflict | StackitOpError;
 /** Clone an existing zone with all record sets to a new zone with a different name Clone an existing zone with all record sets to a new zone with a different name */
@@ -1751,21 +1609,6 @@ export const cloneZone: API.OperationMethod<
   input: CloneZoneRequest,
   output: ZoneResponse,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
-  protocol: StackitProtocol,
-  retry: Retry.Retry,
-}));
-
-export type CreateLabelError = BadRequest | NotFound | StackitOpError;
-/** Create or update label Create or update label */
-export const createLabel: API.OperationMethod<
-  CreateLabelRequest,
-  CreateLabelResponse,
-  CreateLabelError,
-  StackitOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: CreateLabelRequest,
-  output: CreateLabelResponse,
-  errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
 }));
@@ -1811,21 +1654,6 @@ export const createZone: API.OperationMethod<
   input: CreateZoneRequest,
   output: ZoneResponse,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
-  protocol: StackitProtocol,
-  retry: Retry.Retry,
-}));
-
-export type DeleteLabelError = BadRequest | Forbidden | NotFound | StackitOpError;
-/** Delete a label Delete a label */
-export const deleteLabel: API.OperationMethod<
-  DeleteLabelRequest,
-  DeleteLabelResponse,
-  DeleteLabelError,
-  StackitOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLabelRequest,
-  output: DeleteLabelResponse,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
 }));
@@ -1946,21 +1774,6 @@ export const importRecordSets: API.OperationMethod<
   input: ImportRecordSetsRequest,
   output: ImportRecordSetsResponse,
   errors: [BadRequest, Forbidden, UnknownStackitError],
-  protocol: StackitProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ListLabelsError = BadRequest | Forbidden | NotFound | StackitOpError;
-/** Get all labels All Labels */
-export const listLabels: API.OperationMethod<
-  ListLabelsRequest,
-  ListLabelsResponse,
-  ListLabelsError,
-  StackitOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ListLabelsRequest,
-  output: ListLabelsResponse,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
 }));

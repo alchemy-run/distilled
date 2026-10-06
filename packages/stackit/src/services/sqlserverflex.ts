@@ -47,7 +47,7 @@ export class UnprocessableEntity
   ) {}
 
 export type CreateDatabaseRequestRegion = "eu01";
-export const CreateDatabaseRequestRegion = /*@__PURE__*/ S.String;
+export const CreateDatabaseRequestRegion = S.String;
 
 export interface CreateDatabaseRequest {
   /** The STACKIT project ID. */
@@ -78,9 +78,7 @@ export const CreateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateDatabaseRequest",
-}) as any as S.Schema<CreateDatabaseRequest>;
+).annotate({ identifier: "CreateDatabaseRequest" }) as any as S.Schema<CreateDatabaseRequest>;
 
 export interface CreateDatabaseResponse {
   id: number;
@@ -89,12 +87,10 @@ export const CreateDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number,
   }),
-).annotate({
-  identifier: "CreateDatabaseResponse",
-}) as any as S.Schema<CreateDatabaseResponse>;
+).annotate({ identifier: "CreateDatabaseResponse" }) as any as S.Schema<CreateDatabaseResponse>;
 
 export type CreateInstanceRequestRegion = "eu01";
-export const CreateInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const CreateInstanceRequestRegion = S.String;
 
 /** this defines which key to use for storage encryption */
 export interface InstanceEncryption {
@@ -113,17 +109,18 @@ export const InstanceEncryption = /*@__PURE__*/ S.suspend(() =>
     kekKeyVersion: S.String,
     serviceAccount: S.String,
   }),
-).annotate({
-  identifier: "InstanceEncryption",
-}) as any as S.Schema<InstanceEncryption>;
+).annotate({ identifier: "InstanceEncryption" }) as any as S.Schema<InstanceEncryption>;
 
 /** A dictionary of user-defined key-value pairs used to categorize or organize the resource. **Rules for Keys:** * Must be between 1 and 63 characters long. * Must begin and end with an alphanumeric character (`[a-z0-9A-Z]`). * May contain dashes (`-`), underscores (`_`), and dots (`.`). * **Regex:** `^(?=.{1,63}$)([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$` * **Restriction:** The prefix `stackit-` is strictly reserved and cannot be used. **Rules for Values:** * Must be between 0 (empty string) and 63 characters long. * If not empty, must begin and end with an alphanumeric character. * May contain dashes (`-`), underscores (`_`), and dots (`.`). * **Regex:** `^(?=.{0,63}$)(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])*$` */
-export type Labels = { [key: string]: string | undefined };
-export const Labels = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<Labels>;
+export type Labels = { [key: string]: string | null | undefined };
+export const Labels = /*@__PURE__*/ S.Record(
+  S.String,
+  S.NullOr(S.String),
+) as any as S.Schema<Labels>;
 
 /** The network access scope of the instance ⚠️ **Note:** This feature is in private preview. Supplying this object is only permitted for enabled accounts. If your account does not have access, the request will be rejected. */
 export type InstanceNetworkAccessScope = "PUBLIC" | "SNA";
-export const InstanceNetworkAccessScope = /*@__PURE__*/ S.String;
+export const InstanceNetworkAccessScope = S.String;
 
 /** List of IPV4 cidr. */
 export type Acl = Array<string>;
@@ -157,7 +154,7 @@ export const StorageCreate = /*@__PURE__*/ S.suspend(() =>
 
 /** The sqlserver version used for the instance. */
 export type InstanceVersion = "2022";
-export const InstanceVersion = /*@__PURE__*/ S.String;
+export const InstanceVersion = S.String;
 
 export interface CreateInstanceRequest {
   /** The STACKIT project ID. */
@@ -196,9 +193,7 @@ export const CreateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateInstanceRequest",
-}) as any as S.Schema<CreateInstanceRequest>;
+).annotate({ identifier: "CreateInstanceRequest" }) as any as S.Schema<CreateInstanceRequest>;
 
 export interface CreateInstanceResponse {
   id: string;
@@ -207,12 +202,10 @@ export const CreateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "CreateInstanceResponse",
-}) as any as S.Schema<CreateInstanceResponse>;
+).annotate({ identifier: "CreateInstanceResponse" }) as any as S.Schema<CreateInstanceResponse>;
 
 export type CreateUserRequestRegion = "eu01";
-export const CreateUserRequestRegion = /*@__PURE__*/ S.String;
+export const CreateUserRequestRegion = S.String;
 
 /** A list containing the user roles for the instance. A list with the valid user roles can be retrieved using the List Roles endpoint. */
 export type CreateUserRequestRolesList = Array<string>;
@@ -248,9 +241,7 @@ export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateUserRequest",
-}) as any as S.Schema<CreateUserRequest>;
+).annotate({ identifier: "CreateUserRequest" }) as any as S.Schema<CreateUserRequest>;
 
 export type CreateUserResponseRolesList = Array<string>;
 export const CreateUserResponseRolesList = /*@__PURE__*/ S.Array(
@@ -280,12 +271,10 @@ export const CreateUserResponse = /*@__PURE__*/ S.suspend(() =>
     uri: S.String,
     username: S.String,
   }),
-).annotate({
-  identifier: "CreateUserResponse",
-}) as any as S.Schema<CreateUserResponse>;
+).annotate({ identifier: "CreateUserResponse" }) as any as S.Schema<CreateUserResponse>;
 
 export type DeleteDatabaseRequestRegion = "eu01";
-export const DeleteDatabaseRequestRegion = /*@__PURE__*/ S.String;
+export const DeleteDatabaseRequestRegion = S.String;
 
 export interface DeleteDatabaseRequest {
   /** The STACKIT project ID. */
@@ -311,9 +300,7 @@ export const DeleteDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteDatabaseRequest",
-}) as any as S.Schema<DeleteDatabaseRequest>;
+).annotate({ identifier: "DeleteDatabaseRequest" }) as any as S.Schema<DeleteDatabaseRequest>;
 
 export interface DeleteDatabaseResponse {}
 export const DeleteDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -321,7 +308,7 @@ export const DeleteDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<DeleteDatabaseResponse>;
 
 export type DeleteInstanceRequestRegion = "eu01";
-export const DeleteInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const DeleteInstanceRequestRegion = S.String;
 
 export interface DeleteInstanceRequest {
   /** The STACKIT project ID. */
@@ -344,9 +331,7 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteInstanceRequest",
-}) as any as S.Schema<DeleteInstanceRequest>;
+).annotate({ identifier: "DeleteInstanceRequest" }) as any as S.Schema<DeleteInstanceRequest>;
 
 export interface DeleteInstanceResponse {}
 export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -354,7 +339,7 @@ export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<DeleteInstanceResponse>;
 
 export type DeleteUserRequestRegion = "eu01";
-export const DeleteUserRequestRegion = /*@__PURE__*/ S.String;
+export const DeleteUserRequestRegion = S.String;
 
 export interface DeleteUserRequest {
   /** The STACKIT project ID. */
@@ -380,9 +365,7 @@ export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
+).annotate({ identifier: "DeleteUserRequest" }) as any as S.Schema<DeleteUserRequest>;
 
 export interface DeleteUserResponse {}
 export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -390,7 +373,7 @@ export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).an
 }) as any as S.Schema<DeleteUserResponse>;
 
 export type GetBackupRequestRegion = "eu01";
-export const GetBackupRequestRegion = /*@__PURE__*/ S.String;
+export const GetBackupRequestRegion = S.String;
 
 export interface GetBackupRequest {
   /** The STACKIT project ID. */
@@ -416,9 +399,7 @@ export const GetBackupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetBackupRequest",
-}) as any as S.Schema<GetBackupRequest>;
+).annotate({ identifier: "GetBackupRequest" }) as any as S.Schema<GetBackupRequest>;
 
 export interface GetBackupResponse {
   completionTime: string;
@@ -437,12 +418,10 @@ export const GetBackupResponse = /*@__PURE__*/ S.suspend(() =>
     size: S.Number,
     type: S.String,
   }),
-).annotate({
-  identifier: "GetBackupResponse",
-}) as any as S.Schema<GetBackupResponse>;
+).annotate({ identifier: "GetBackupResponse" }) as any as S.Schema<GetBackupResponse>;
 
 export type GetDatabaseRequestRegion = "eu01";
-export const GetDatabaseRequestRegion = /*@__PURE__*/ S.String;
+export const GetDatabaseRequestRegion = S.String;
 
 export interface GetDatabaseRequest {
   /** The STACKIT project ID. */
@@ -468,9 +447,7 @@ export const GetDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetDatabaseRequest",
-}) as any as S.Schema<GetDatabaseRequest>;
+).annotate({ identifier: "GetDatabaseRequest" }) as any as S.Schema<GetDatabaseRequest>;
 
 export interface GetDatabaseResponse {
   collationName: string;
@@ -487,12 +464,10 @@ export const GetDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     owner: S.String,
   }),
-).annotate({
-  identifier: "GetDatabaseResponse",
-}) as any as S.Schema<GetDatabaseResponse>;
+).annotate({ identifier: "GetDatabaseResponse" }) as any as S.Schema<GetDatabaseResponse>;
 
 export type GetInstanceRequestRegion = "eu01";
-export const GetInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const GetInstanceRequestRegion = S.String;
 
 export interface GetInstanceRequest {
   /** The STACKIT project ID. */
@@ -515,13 +490,11 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetInstanceRequest",
-}) as any as S.Schema<GetInstanceRequest>;
+).annotate({ identifier: "GetInstanceRequest" }) as any as S.Schema<GetInstanceRequest>;
 
 /** Edition of the MSSQL server instance */
 export type InstanceEdition = "Standard" | "EnterpriseCore" | "developer";
-export const InstanceEdition = /*@__PURE__*/ S.String;
+export const InstanceEdition = S.String;
 
 /** The access configuration of the instance */
 export interface InstanceNetwork {
@@ -537,16 +510,14 @@ export const InstanceNetwork = /*@__PURE__*/ S.suspend(() =>
     instanceAddress: S.optional(S.String),
     routerAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InstanceNetwork",
-}) as any as S.Schema<InstanceNetwork>;
+).annotate({ identifier: "InstanceNetwork" }) as any as S.Schema<InstanceNetwork>;
 
 /** How many replicas the instance should have. */
 export type Replicas = 1 | 3;
-export const Replicas = /*@__PURE__*/ S.Number;
+export const Replicas = S.Number;
 
 export type State = "READY" | "PENDING" | "PROGRESSING" | "FAILURE" | "UNKNOWN" | "TERMINATING";
-export const State = /*@__PURE__*/ S.String;
+export const State = S.String;
 
 /** The object containing information about the storage size and class. */
 export interface Storage {
@@ -593,12 +564,10 @@ export const GetInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     storage: Storage,
     version: InstanceVersion,
   }),
-).annotate({
-  identifier: "GetInstanceResponse",
-}) as any as S.Schema<GetInstanceResponse>;
+).annotate({ identifier: "GetInstanceResponse" }) as any as S.Schema<GetInstanceResponse>;
 
 export type GetUserRequestRegion = "eu01";
-export const GetUserRequestRegion = /*@__PURE__*/ S.String;
+export const GetUserRequestRegion = S.String;
 
 export interface GetUserRequest {
   /** The STACKIT project ID. */
@@ -652,12 +621,10 @@ export const GetUserResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     username: S.String,
   }),
-).annotate({
-  identifier: "GetUserResponse",
-}) as any as S.Schema<GetUserResponse>;
+).annotate({ identifier: "GetUserResponse" }) as any as S.Schema<GetUserResponse>;
 
 export type ListBackupsRequestRegion = "eu01";
-export const ListBackupsRequestRegion = /*@__PURE__*/ S.String;
+export const ListBackupsRequestRegion = S.String;
 
 export type BackupSort =
   | "end_time.desc"
@@ -672,7 +639,7 @@ export type BackupSort =
   | "size.asc"
   | "type.desc"
   | "type.asc";
-export const BackupSort = /*@__PURE__*/ S.String;
+export const BackupSort = S.String;
 
 export interface ListBackupsRequest {
   /** The STACKIT project ID. */
@@ -704,9 +671,7 @@ export const ListBackupsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListBackupsRequest",
-}) as any as S.Schema<ListBackupsRequest>;
+).annotate({ identifier: "ListBackupsRequest" }) as any as S.Schema<ListBackupsRequest>;
 
 export interface ListBackup {
   completionTime: string;
@@ -744,9 +709,7 @@ export const ListBackupsResponse = /*@__PURE__*/ S.suspend(() =>
     backups: ListBackupsResponseBackupsList,
     databaseName: S.String,
   }),
-).annotate({
-  identifier: "ListBackupsResponse",
-}) as any as S.Schema<ListBackupsResponse>;
+).annotate({ identifier: "ListBackupsResponse" }) as any as S.Schema<ListBackupsResponse>;
 
 /** The list containing the information about the backups. */
 export type ListBackupResponseBackupsList = Array<ListBackupsResponse>;
@@ -781,12 +744,10 @@ export const ListBackupResponse = /*@__PURE__*/ S.suspend(() =>
     backups: ListBackupResponseBackupsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListBackupResponse",
-}) as any as S.Schema<ListBackupResponse>;
+).annotate({ identifier: "ListBackupResponse" }) as any as S.Schema<ListBackupResponse>;
 
 export type ListCollationsRequestRegion = "eu01";
-export const ListCollationsRequestRegion = /*@__PURE__*/ S.String;
+export const ListCollationsRequestRegion = S.String;
 
 export interface ListCollationsRequest {
   /** The STACKIT project ID. */
@@ -809,9 +770,7 @@ export const ListCollationsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListCollationsRequest",
-}) as any as S.Schema<ListCollationsRequest>;
+).annotate({ identifier: "ListCollationsRequest" }) as any as S.Schema<ListCollationsRequest>;
 
 export interface DatabaseGetcollation {
   collation_name?: string;
@@ -822,9 +781,7 @@ export const DatabaseGetcollation = /*@__PURE__*/ S.suspend(() =>
     collation_name: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatabaseGetcollation",
-}) as any as S.Schema<DatabaseGetcollation>;
+).annotate({ identifier: "DatabaseGetcollation" }) as any as S.Schema<DatabaseGetcollation>;
 
 /** List of collations available for the instance. */
 export type ListCollationsResponseCollationsList = Array<DatabaseGetcollation>;
@@ -840,12 +797,10 @@ export const ListCollationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     collations: ListCollationsResponseCollationsList,
   }),
-).annotate({
-  identifier: "ListCollationsResponse",
-}) as any as S.Schema<ListCollationsResponse>;
+).annotate({ identifier: "ListCollationsResponse" }) as any as S.Schema<ListCollationsResponse>;
 
 export type ListCompatibilitiesRequestRegion = "eu01";
-export const ListCompatibilitiesRequestRegion = /*@__PURE__*/ S.String;
+export const ListCompatibilitiesRequestRegion = S.String;
 
 export interface ListCompatibilitiesRequest {
   /** The STACKIT project ID. */
@@ -881,9 +836,7 @@ export const DatabaseGetcompatibility = /*@__PURE__*/ S.suspend(() =>
     compatibility_level: S.optional(S.Number),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatabaseGetcompatibility",
-}) as any as S.Schema<DatabaseGetcompatibility>;
+).annotate({ identifier: "DatabaseGetcompatibility" }) as any as S.Schema<DatabaseGetcompatibility>;
 
 /** List of compatibilities available for a d */
 export type ListCompatibilityResponseCompatibilitiesList = Array<DatabaseGetcompatibility>;
@@ -904,7 +857,7 @@ export const ListCompatibilityResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListCompatibilityResponse>;
 
 export type ListCurrentRunningRestoreJobsRequestRegion = "eu01";
-export const ListCurrentRunningRestoreJobsRequestRegion = /*@__PURE__*/ S.String;
+export const ListCurrentRunningRestoreJobsRequestRegion = S.String;
 
 export interface ListCurrentRunningRestoreJobsRequest {
   /** The STACKIT project ID. */
@@ -951,9 +904,7 @@ export const BackupRunningRestore = /*@__PURE__*/ S.suspend(() =>
     percent_complete: S.Number,
     start_time: S.String,
   }),
-).annotate({
-  identifier: "BackupRunningRestore",
-}) as any as S.Schema<BackupRunningRestore>;
+).annotate({ identifier: "BackupRunningRestore" }) as any as S.Schema<BackupRunningRestore>;
 
 /** List of the currently running Restore jobs */
 export type ListCurrentRunningRestoreJobsRunningRestoresList = Array<BackupRunningRestore>;
@@ -974,7 +925,7 @@ export const ListCurrentRunningRestoreJobs = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListCurrentRunningRestoreJobs>;
 
 export type ListDatabasesRequestRegion = "eu01";
-export const ListDatabasesRequestRegion = /*@__PURE__*/ S.String;
+export const ListDatabasesRequestRegion = S.String;
 
 export type DatabaseSort =
   | "created_at.desc"
@@ -987,7 +938,7 @@ export type DatabaseSort =
   | "database_owner.asc"
   | "index.asc"
   | "index.desc";
-export const DatabaseSort = /*@__PURE__*/ S.String;
+export const DatabaseSort = S.String;
 
 export interface ListDatabasesRequest {
   /** The STACKIT project ID. */
@@ -1019,9 +970,7 @@ export const ListDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListDatabasesRequest",
-}) as any as S.Schema<ListDatabasesRequest>;
+).annotate({ identifier: "ListDatabasesRequest" }) as any as S.Schema<ListDatabasesRequest>;
 
 export interface ListDatabase {
   created: string;
@@ -1054,12 +1003,10 @@ export const ListDatabasesResponse = /*@__PURE__*/ S.suspend(() =>
     databases: ListDatabasesResponseDatabasesList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListDatabasesResponse",
-}) as any as S.Schema<ListDatabasesResponse>;
+).annotate({ identifier: "ListDatabasesResponse" }) as any as S.Schema<ListDatabasesResponse>;
 
 export type ListFlavorsRequestRegion = "eu01";
-export const ListFlavorsRequestRegion = /*@__PURE__*/ S.String;
+export const ListFlavorsRequestRegion = S.String;
 
 export type FlavorSort =
   | "index.desc"
@@ -1080,7 +1027,7 @@ export type FlavorSort =
   | "storage_class.desc"
   | "node_type.asc"
   | "node_type.desc";
-export const FlavorSort = /*@__PURE__*/ S.String;
+export const FlavorSort = S.String;
 
 export interface ListFlavorsRequest {
   /** The STACKIT project ID. */
@@ -1109,9 +1056,7 @@ export const ListFlavorsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListFlavorsRequest",
-}) as any as S.Schema<ListFlavorsRequest>;
+).annotate({ identifier: "ListFlavorsRequest" }) as any as S.Schema<ListFlavorsRequest>;
 
 /** a storageClass defines how efficient the storage can work */
 export interface FlavorStorageClassesStorageClass {
@@ -1175,12 +1120,10 @@ export const ListFlavorsResponse = /*@__PURE__*/ S.suspend(() =>
     flavors: ListFlavorsResponseFlavorsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListFlavorsResponse",
-}) as any as S.Schema<ListFlavorsResponse>;
+).annotate({ identifier: "ListFlavorsResponse" }) as any as S.Schema<ListFlavorsResponse>;
 
 export type ListInstancesRequestRegion = "eu01";
-export const ListInstancesRequestRegion = /*@__PURE__*/ S.String;
+export const ListInstancesRequestRegion = S.String;
 
 export type InstanceSort =
   | "index.desc"
@@ -1193,7 +1136,7 @@ export type InstanceSort =
   | "name.desc"
   | "state.asc"
   | "state.desc";
-export const InstanceSort = /*@__PURE__*/ S.String;
+export const InstanceSort = S.String;
 
 export interface ListInstancesRequest {
   /** The STACKIT project ID. */
@@ -1222,9 +1165,7 @@ export const ListInstancesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListInstancesRequest",
-}) as any as S.Schema<ListInstancesRequest>;
+).annotate({ identifier: "ListInstancesRequest" }) as any as S.Schema<ListInstancesRequest>;
 
 export interface ListInstance {
   id: string;
@@ -1257,12 +1198,10 @@ export const ListInstancesResponse = /*@__PURE__*/ S.suspend(() =>
     instances: ListInstancesResponseInstancesList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListInstancesResponse",
-}) as any as S.Schema<ListInstancesResponse>;
+).annotate({ identifier: "ListInstancesResponse" }) as any as S.Schema<ListInstancesResponse>;
 
 export type ListRolesRequestRegion = "eu01";
-export const ListRolesRequestRegion = /*@__PURE__*/ S.String;
+export const ListRolesRequestRegion = S.String;
 
 export interface ListRolesRequest {
   /** The STACKIT project ID. */
@@ -1285,9 +1224,7 @@ export const ListRolesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListRolesRequest",
-}) as any as S.Schema<ListRolesRequest>;
+).annotate({ identifier: "ListRolesRequest" }) as any as S.Schema<ListRolesRequest>;
 
 /** List of roles available for an instance. */
 export type ListRolesResponseRolesList = Array<string>;
@@ -1303,12 +1240,10 @@ export const ListRolesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     roles: ListRolesResponseRolesList,
   }),
-).annotate({
-  identifier: "ListRolesResponse",
-}) as any as S.Schema<ListRolesResponse>;
+).annotate({ identifier: "ListRolesResponse" }) as any as S.Schema<ListRolesResponse>;
 
 export type ListStoragesRequestRegion = "eu01";
-export const ListStoragesRequestRegion = /*@__PURE__*/ S.String;
+export const ListStoragesRequestRegion = S.String;
 
 export interface ListStoragesRequest {
   /** The STACKIT project ID. */
@@ -1331,9 +1266,7 @@ export const ListStoragesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListStoragesRequest",
-}) as any as S.Schema<ListStoragesRequest>;
+).annotate({ identifier: "ListStoragesRequest" }) as any as S.Schema<ListStoragesRequest>;
 
 /** range of maximum and minimum storage which can be ordered for the flavor in Gigabyte. */
 export interface FlavorStorageRange {
@@ -1345,9 +1278,7 @@ export const FlavorStorageRange = /*@__PURE__*/ S.suspend(() =>
     max: S.Number,
     min: S.Number,
   }),
-).annotate({
-  identifier: "FlavorStorageRange",
-}) as any as S.Schema<FlavorStorageRange>;
+).annotate({ identifier: "FlavorStorageRange" }) as any as S.Schema<FlavorStorageRange>;
 
 export interface ListStoragesResponse {
   storageClasses: FlavorStorageClasses;
@@ -1358,12 +1289,10 @@ export const ListStoragesResponse = /*@__PURE__*/ S.suspend(() =>
     storageClasses: FlavorStorageClasses,
     storageRange: FlavorStorageRange,
   }),
-).annotate({
-  identifier: "ListStoragesResponse",
-}) as any as S.Schema<ListStoragesResponse>;
+).annotate({ identifier: "ListStoragesResponse" }) as any as S.Schema<ListStoragesResponse>;
 
 export type ListUsersRequestRegion = "eu01";
-export const ListUsersRequestRegion = /*@__PURE__*/ S.String;
+export const ListUsersRequestRegion = S.String;
 
 export type UserSort =
   | "id.asc"
@@ -1374,7 +1303,7 @@ export type UserSort =
   | "name.asc"
   | "status.desc"
   | "status.asc";
-export const UserSort = /*@__PURE__*/ S.String;
+export const UserSort = S.String;
 
 export interface ListUsersRequest {
   /** The STACKIT project ID. */
@@ -1406,9 +1335,7 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 
 export interface ListUser {
   id: number;
@@ -1439,12 +1366,10 @@ export const ListUserResponse = /*@__PURE__*/ S.suspend(() =>
     pagination: Pagination,
     users: ListUserResponseUsersList,
   }),
-).annotate({
-  identifier: "ListUserResponse",
-}) as any as S.Schema<ListUserResponse>;
+).annotate({ identifier: "ListUserResponse" }) as any as S.Schema<ListUserResponse>;
 
 export type ListVersionsRequestRegion = "eu01";
-export const ListVersionsRequestRegion = /*@__PURE__*/ S.String;
+export const ListVersionsRequestRegion = S.String;
 
 export interface ListVersionsRequest {
   /** The STACKIT project ID. */
@@ -1464,9 +1389,7 @@ export const ListVersionsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListVersionsRequest",
-}) as any as S.Schema<ListVersionsRequest>;
+).annotate({ identifier: "ListVersionsRequest" }) as any as S.Schema<ListVersionsRequest>;
 
 /** The version of the sqlserver instance and more details. */
 export interface Version {
@@ -1502,12 +1425,10 @@ export const ListVersionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     versions: ListVersionsResponseVersionsList,
   }),
-).annotate({
-  identifier: "ListVersionsResponse",
-}) as any as S.Schema<ListVersionsResponse>;
+).annotate({ identifier: "ListVersionsResponse" }) as any as S.Schema<ListVersionsResponse>;
 
 export type PartialUpdateInstanceRequestRegion = "eu01";
-export const PartialUpdateInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const PartialUpdateInstanceRequestRegion = S.String;
 
 /** the network configuration of the instance. */
 export interface PartialUpdateInstanceRequestNetwork {
@@ -1532,7 +1453,7 @@ export const StorageUpdate = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "StorageUpdate" }) as any as S.Schema<StorageUpdate>;
 
 export type InstanceVersionOpt = "2022";
-export const InstanceVersionOpt = /*@__PURE__*/ S.String;
+export const InstanceVersionOpt = S.String;
 
 export interface PartialUpdateInstanceRequest {
   /** The STACKIT project ID. */
@@ -1582,7 +1503,7 @@ export const PartialUpdateInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Str
 }) as any as S.Schema<PartialUpdateInstanceResponse>;
 
 export type ResetUserRequestRegion = "eu01";
-export const ResetUserRequestRegion = /*@__PURE__*/ S.String;
+export const ResetUserRequestRegion = S.String;
 
 export interface ResetUserRequest {
   /** The STACKIT project ID. */
@@ -1608,9 +1529,7 @@ export const ResetUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ResetUserRequest",
-}) as any as S.Schema<ResetUserRequest>;
+).annotate({ identifier: "ResetUserRequest" }) as any as S.Schema<ResetUserRequest>;
 
 export interface ResetUserResponse {
   password: string | Redacted.Redacted<string>;
@@ -1625,15 +1544,13 @@ export const ResetUserResponse = /*@__PURE__*/ S.suspend(() =>
     uri: S.String,
     username: S.String,
   }),
-).annotate({
-  identifier: "ResetUserResponse",
-}) as any as S.Schema<ResetUserResponse>;
+).annotate({ identifier: "ResetUserResponse" }) as any as S.Schema<ResetUserResponse>;
 
 export type RestoreDatabaseFromBackupRequestRegion = "eu01";
-export const RestoreDatabaseFromBackupRequestRegion = /*@__PURE__*/ S.String;
+export const RestoreDatabaseFromBackupRequestRegion = S.String;
 
 export type SourceBackupType = "BACKUP";
-export const SourceBackupType = /*@__PURE__*/ S.String;
+export const SourceBackupType = S.String;
 
 /** Restore from an existing managed backup. */
 export interface SourceBackup {
@@ -1685,7 +1602,7 @@ export const ExternalS3 = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ExternalS3" }) as any as S.Schema<ExternalS3>;
 
 export type SourceExternalS3Type = "EXTERNAL_S3";
-export const SourceExternalS3Type = /*@__PURE__*/ S.String;
+export const SourceExternalS3Type = S.String;
 
 /** Restore from an external S3 backup file. */
 export interface SourceExternalS3 {
@@ -1702,9 +1619,7 @@ export const SourceExternalS3 = /*@__PURE__*/ S.suspend(() =>
     s3_details: ExternalS3,
     type: SourceExternalS3Type,
   }),
-).annotate({
-  identifier: "SourceExternalS3",
-}) as any as S.Schema<SourceExternalS3>;
+).annotate({ identifier: "SourceExternalS3" }) as any as S.Schema<SourceExternalS3>;
 
 /** The source of the restore. */
 export type RestoreDatabaseFromBackupRequestSource = SourceBackup | SourceExternalS3;
@@ -1750,7 +1665,7 @@ export const RestoreDatabaseFromBackupResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RestoreDatabaseFromBackupResponse>;
 
 export type TriggerBackupRequestRegion = "eu01";
-export const TriggerBackupRequestRegion = /*@__PURE__*/ S.String;
+export const TriggerBackupRequestRegion = S.String;
 
 export interface TriggerBackupRequest {
   /** The STACKIT project ID. */
@@ -1776,9 +1691,7 @@ export const TriggerBackupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "TriggerBackupRequest",
-}) as any as S.Schema<TriggerBackupRequest>;
+).annotate({ identifier: "TriggerBackupRequest" }) as any as S.Schema<TriggerBackupRequest>;
 
 export interface TriggerBackupResponse {}
 export const TriggerBackupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1786,7 +1699,7 @@ export const TriggerBackupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}))
 }) as any as S.Schema<TriggerBackupResponse>;
 
 export type TriggerRestoreRequestRegion = "eu01";
-export const TriggerRestoreRequestRegion = /*@__PURE__*/ S.String;
+export const TriggerRestoreRequestRegion = S.String;
 
 export interface TriggerRestoreRequest {
   /** The STACKIT project ID. */
@@ -1816,9 +1729,7 @@ export const TriggerRestoreRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "TriggerRestoreRequest",
-}) as any as S.Schema<TriggerRestoreRequest>;
+).annotate({ identifier: "TriggerRestoreRequest" }) as any as S.Schema<TriggerRestoreRequest>;
 
 export interface TriggerRestoreResponse {}
 export const TriggerRestoreResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1826,7 +1737,7 @@ export const TriggerRestoreResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<TriggerRestoreResponse>;
 
 export type UpdateInstanceRequestRegion = "eu01";
-export const UpdateInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const UpdateInstanceRequestRegion = S.String;
 
 /** the network configuration of the instance. */
 export interface UpdateInstanceRequestNetwork {
@@ -1878,9 +1789,7 @@ export const UpdateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mssql-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateInstanceRequest",
-}) as any as S.Schema<UpdateInstanceRequest>;
+).annotate({ identifier: "UpdateInstanceRequest" }) as any as S.Schema<UpdateInstanceRequest>;
 
 export interface UpdateInstanceResponse {}
 export const UpdateInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1888,7 +1797,7 @@ export const UpdateInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<UpdateInstanceResponse>;
 
 export type UpdateInstanceProtectionRequestRegion = "eu01";
-export const UpdateInstanceProtectionRequestRegion = /*@__PURE__*/ S.String;
+export const UpdateInstanceProtectionRequestRegion = S.String;
 
 export interface UpdateInstanceProtectionRequest {
   /** The STACKIT project ID. */

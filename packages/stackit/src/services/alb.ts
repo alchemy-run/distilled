@@ -71,9 +71,7 @@ export const CreateCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://alb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateCredentialsRequest",
-}) as any as S.Schema<CreateCredentialsRequest>;
+).annotate({ identifier: "CreateCredentialsRequest" }) as any as S.Schema<CreateCredentialsRequest>;
 
 export interface CredentialsResponse {
   /** The credentials reference can be used for observability of the Application Load Balancer. */
@@ -92,9 +90,7 @@ export const CredentialsResponse = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CredentialsResponse",
-}) as any as S.Schema<CredentialsResponse>;
+).annotate({ identifier: "CredentialsResponse" }) as any as S.Schema<CredentialsResponse>;
 
 export interface CreateCredentialsResponse {
   credential?: CredentialsResponse;
@@ -108,9 +104,7 @@ export const CreateCredentialsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateCredentialsResponse>;
 
 /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per ALB. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-export type CreateLoadBalancerRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateLoadBalancerRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateLoadBalancerRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -128,9 +122,7 @@ export const CookiePersistence = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     ttl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CookiePersistence",
-}) as any as S.Schema<CookiePersistence>;
+).annotate({ identifier: "CookiePersistence" }) as any as S.Schema<CookiePersistence>;
 
 export interface HttpHeader {
   /** Exact match for the header value. */
@@ -241,9 +233,7 @@ export const ProtocolOptionsHTTP = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     hosts: S.optional(ProtocolOptionsHTTPHostsList),
   }),
-).annotate({
-  identifier: "ProtocolOptionsHTTP",
-}) as any as S.Schema<ProtocolOptionsHTTP>;
+).annotate({ identifier: "ProtocolOptionsHTTP" }) as any as S.Schema<ProtocolOptionsHTTP>;
 
 /** Certificate IDs for TLS termination. */
 export type CertificateConfigCertificateIdsList = Array<string>;
@@ -260,9 +250,7 @@ export const CertificateConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     certificateIds: S.optional(CertificateConfigCertificateIdsList),
   }),
-).annotate({
-  identifier: "CertificateConfig",
-}) as any as S.Schema<CertificateConfig>;
+).annotate({ identifier: "CertificateConfig" }) as any as S.Schema<CertificateConfig>;
 
 /** Configuration for handling HTTPS traffic on this listener. */
 export interface ProtocolOptionsHTTPS {
@@ -272,13 +260,11 @@ export const ProtocolOptionsHTTPS = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     certificateConfig: S.optional(CertificateConfig),
   }),
-).annotate({
-  identifier: "ProtocolOptionsHTTPS",
-}) as any as S.Schema<ProtocolOptionsHTTPS>;
+).annotate({ identifier: "ProtocolOptionsHTTPS" }) as any as S.Schema<ProtocolOptionsHTTPS>;
 
 /** Protocol is the highest network protocol we understand to load balance. Currently PROTOCOL_HTTP and PROTOCOL_HTTPS are supported. */
 export type ListenerProtocol = "PROTOCOL_UNSPECIFIED" | "PROTOCOL_HTTP" | "PROTOCOL_HTTPS";
-export const ListenerProtocol = /*@__PURE__*/ S.String;
+export const ListenerProtocol = S.String;
 
 export interface Listener {
   http?: ProtocolOptionsHTTP;
@@ -315,7 +301,7 @@ export type NetworkRole =
   | "ROLE_LISTENERS_AND_TARGETS"
   | "ROLE_LISTENERS"
   | "ROLE_TARGETS";
-export const NetworkRole = /*@__PURE__*/ S.String;
+export const NetworkRole = S.String;
 
 export interface Network {
   /** STACKIT network ID the Application Load Balancer and/or targets are in. */
@@ -370,9 +356,7 @@ export const LoadbalancerOptionLogs = /*@__PURE__*/ S.suspend(() =>
     credentialsRef: S.optional(S.String),
     pushUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LoadbalancerOptionLogs",
-}) as any as S.Schema<LoadbalancerOptionLogs>;
+).annotate({ identifier: "LoadbalancerOptionLogs" }) as any as S.Schema<LoadbalancerOptionLogs>;
 
 /** Observability metrics configuration. */
 export interface LoadbalancerOptionMetrics {
@@ -420,9 +404,7 @@ export const LoadBalancerOptions = /*@__PURE__*/ S.suspend(() =>
     observability: S.optional(LoadbalancerOptionObservability),
     privateNetworkOnly: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "LoadBalancerOptions",
-}) as any as S.Schema<LoadBalancerOptions>;
+).annotate({ identifier: "LoadBalancerOptions" }) as any as S.Schema<LoadBalancerOptions>;
 
 /** List of HTTP status codes that indicate a healthy response */
 export type HttpHealthChecksOkStatusesList = Array<string>;
@@ -461,9 +443,7 @@ export const HttpHealthChecks = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     tls: S.optional(TlsConfig),
   }),
-).annotate({
-  identifier: "HttpHealthChecks",
-}) as any as S.Schema<HttpHealthChecks>;
+).annotate({ identifier: "HttpHealthChecks" }) as any as S.Schema<HttpHealthChecks>;
 
 /** Set this to customize active health checks for targets in this pool. */
 export interface ActiveHealthCheck {
@@ -491,9 +471,7 @@ export const ActiveHealthCheck = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.String),
     unhealthyThreshold: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ActiveHealthCheck",
-}) as any as S.Schema<ActiveHealthCheck>;
+).annotate({ identifier: "ActiveHealthCheck" }) as any as S.Schema<ActiveHealthCheck>;
 
 export interface Target {
   /** Target display name. */
@@ -601,7 +579,7 @@ export type LoadBalancerErrorType =
   | "TYPE_IP_EXHAUSTED"
   | "TYPE_DNS_NOT_CONFIGURED"
   | "TYPE_VM_PORT_NOT_CONFIGURED";
-export const LoadBalancerErrorType = /*@__PURE__*/ S.String;
+export const LoadBalancerErrorType = S.String;
 
 export interface LoadBalancerError {
   /** The error description contains additional helpful user information to fix the error state of the Application Load Balancer. For example the IP 45.135.247.139 does not exist in the project, then the description will report: Floating IP "45.135.247.139" could not be found. */
@@ -614,9 +592,7 @@ export const LoadBalancerError = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     type: S.optional(LoadBalancerErrorType),
   }),
-).annotate({
-  identifier: "LoadBalancerError",
-}) as any as S.Schema<LoadBalancerError>;
+).annotate({ identifier: "LoadBalancerError" }) as any as S.Schema<LoadBalancerError>;
 
 /** Reports all errors a Application Load Balancer has. */
 export type LoadBalancerErrorsList = Array<LoadBalancerError>;
@@ -662,7 +638,7 @@ export type LoadBalancerStatus =
   | "STATUS_READY"
   | "STATUS_ERROR"
   | "STATUS_TERMINATING";
-export const LoadBalancerStatus = /*@__PURE__*/ S.String;
+export const LoadBalancerStatus = S.String;
 
 /** List of all target pools which will be used in the Application Load Balancer. Limited to 20. */
 export type LoadBalancerTargetPoolsList = Array<TargetPool>;
@@ -741,9 +717,7 @@ export const DeleteCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://alb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteCredentialsRequest",
-}) as any as S.Schema<DeleteCredentialsRequest>;
+).annotate({ identifier: "DeleteCredentialsRequest" }) as any as S.Schema<DeleteCredentialsRequest>;
 
 export type DeleteCredentialsResponse2 = unknown;
 export const DeleteCredentialsResponse2 = /*@__PURE__*/ S.suspend(() =>
@@ -799,9 +773,7 @@ export const GetCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://alb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetCredentialsRequest",
-}) as any as S.Schema<GetCredentialsRequest>;
+).annotate({ identifier: "GetCredentialsRequest" }) as any as S.Schema<GetCredentialsRequest>;
 
 export interface GetCredentialsResponse {
   credential?: CredentialsResponse;
@@ -810,9 +782,7 @@ export const GetCredentialsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     credential: S.optional(CredentialsResponse),
   }),
-).annotate({
-  identifier: "GetCredentialsResponse",
-}) as any as S.Schema<GetCredentialsResponse>;
+).annotate({ identifier: "GetCredentialsResponse" }) as any as S.Schema<GetCredentialsResponse>;
 
 export interface GetLoadBalancerRequest {
   projectId: string;
@@ -832,9 +802,7 @@ export const GetLoadBalancerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://alb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetLoadBalancerRequest",
-}) as any as S.Schema<GetLoadBalancerRequest>;
+).annotate({ identifier: "GetLoadBalancerRequest" }) as any as S.Schema<GetLoadBalancerRequest>;
 
 export interface GetQuotaRequest {
   projectId: string;
@@ -852,9 +820,7 @@ export const GetQuotaRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://alb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetQuotaRequest",
-}) as any as S.Schema<GetQuotaRequest>;
+).annotate({ identifier: "GetQuotaRequest" }) as any as S.Schema<GetQuotaRequest>;
 
 export interface GetQuotaResponse {
   /** The maximum number of observability credentials that can be stored in this project. */
@@ -879,9 +845,7 @@ export const GetQuotaResponse = /*@__PURE__*/ S.suspend(() =>
     usedCredentials: S.optional(S.Number),
     usedLoadBalancers: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GetQuotaResponse",
-}) as any as S.Schema<GetQuotaResponse>;
+).annotate({ identifier: "GetQuotaResponse" }) as any as S.Schema<GetQuotaResponse>;
 
 export interface ListCredentialsRequest {
   projectId: string;
@@ -899,9 +863,7 @@ export const ListCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://alb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListCredentialsRequest",
-}) as any as S.Schema<ListCredentialsRequest>;
+).annotate({ identifier: "ListCredentialsRequest" }) as any as S.Schema<ListCredentialsRequest>;
 
 export type ListCredentialsResponseCredentialsList = Array<CredentialsResponse>;
 export const ListCredentialsResponseCredentialsList = /*@__PURE__*/ S.Array(
@@ -915,9 +877,7 @@ export const ListCredentialsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     credentials: S.optional(ListCredentialsResponseCredentialsList),
   }),
-).annotate({
-  identifier: "ListCredentialsResponse",
-}) as any as S.Schema<ListCredentialsResponse>;
+).annotate({ identifier: "ListCredentialsResponse" }) as any as S.Schema<ListCredentialsResponse>;
 
 export interface ListLoadBalancersRequest {
   projectId: string;
@@ -941,9 +901,7 @@ export const ListLoadBalancersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://alb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListLoadBalancersRequest",
-}) as any as S.Schema<ListLoadBalancersRequest>;
+).annotate({ identifier: "ListLoadBalancersRequest" }) as any as S.Schema<ListLoadBalancersRequest>;
 
 export type ListLoadBalancersResponseLoadBalancersList = Array<LoadBalancer>;
 export const ListLoadBalancersResponseLoadBalancersList = /*@__PURE__*/ S.Array(
@@ -978,9 +936,7 @@ export const ListPlansRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://alb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListPlansRequest",
-}) as any as S.Schema<ListPlansRequest>;
+).annotate({ identifier: "ListPlansRequest" }) as any as S.Schema<ListPlansRequest>;
 
 export interface PlanDetails {
   /** Description */
@@ -1021,9 +977,7 @@ export const ListPlansResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     validPlans: S.optional(ListPlansResponseValidPlansList),
   }),
-).annotate({
-  identifier: "ListPlansResponse",
-}) as any as S.Schema<ListPlansResponse>;
+).annotate({ identifier: "ListPlansResponse" }) as any as S.Schema<ListPlansResponse>;
 
 export interface UpdateCredentialsRequest {
   projectId: string;
@@ -1052,9 +1006,7 @@ export const UpdateCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://alb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateCredentialsRequest",
-}) as any as S.Schema<UpdateCredentialsRequest>;
+).annotate({ identifier: "UpdateCredentialsRequest" }) as any as S.Schema<UpdateCredentialsRequest>;
 
 export interface UpdateCredentialsResponse {
   credential?: CredentialsResponse;
@@ -1068,9 +1020,7 @@ export const UpdateCredentialsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateCredentialsResponse>;
 
 /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per ALB. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-export type UpdateLoadBalancerRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateLoadBalancerRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateLoadBalancerRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1178,9 +1128,7 @@ export const UpdateTargetPoolRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://alb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateTargetPoolRequest",
-}) as any as S.Schema<UpdateTargetPoolRequest>;
+).annotate({ identifier: "UpdateTargetPoolRequest" }) as any as S.Schema<UpdateTargetPoolRequest>;
 
 export type CreateCredentialsError = BadRequest | Forbidden | StackitOpError;
 /** Create credentials for observability of the Application Load Balancer Created credentials can be stored and used for the load balancer observability. For example, when using STACKIT Observability, credentials first must be created for that STACKIT Observability instance (by using their API or the STACKIT Portal) and then can be provided to the load balancer by storing them with this endpoint. */

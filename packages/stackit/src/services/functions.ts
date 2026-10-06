@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 
 export type { StackitOpError, StackitOpContext };
 
-export type CreateFunctionRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateFunctionRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateFunctionRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19,7 +17,7 @@ export const CreateFunctionRequestLabelsMap = /*@__PURE__*/ S.Record(
 
 /** Status of this function's latest revision. */
 export type CreateFunctionRequestState = "CREATING" | "ACTIVE" | "FAILED";
-export const CreateFunctionRequestState = /*@__PURE__*/ S.String;
+export const CreateFunctionRequestState = S.String;
 
 /** URLs that resolve to the function. */
 export type CreateFunctionRequestUrlList = Array<string>;
@@ -68,9 +66,7 @@ export const CreateFunctionRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://functions.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateFunctionRequest",
-}) as any as S.Schema<CreateFunctionRequest>;
+).annotate({ identifier: "CreateFunctionRequest" }) as any as S.Schema<CreateFunctionRequest>;
 
 export type FunctionLabelsMap = { [key: string]: string | undefined };
 export const FunctionLabelsMap = /*@__PURE__*/ S.Record(
@@ -80,7 +76,7 @@ export const FunctionLabelsMap = /*@__PURE__*/ S.Record(
 
 /** Status of this function's latest revision. */
 export type FunctionState = "CREATING" | "ACTIVE" | "FAILED";
-export const FunctionState = /*@__PURE__*/ S.String;
+export const FunctionState = S.String;
 
 /** URLs that resolve to the function. */
 export type FunctionUrlList = Array<string>;
@@ -120,9 +116,7 @@ export const Function = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Function" }) as any as S.Schema<Function>;
 
-export type CreateFunctionRevisionRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateFunctionRevisionRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateFunctionRevisionRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -142,7 +136,7 @@ export const ResourceLimits = /*@__PURE__*/ S.suspend(() =>
 
 /** Status of this revision. */
 export type CreateFunctionRevisionRequestState = "CANCELLED" | "CREATING" | "ACTIVE" | "FAILED";
-export const CreateFunctionRevisionRequestState = /*@__PURE__*/ S.String;
+export const CreateFunctionRevisionRequestState = S.String;
 
 /** Represents a variable value for a specific revision. */
 export interface RevisionVariable {
@@ -159,9 +153,7 @@ export const RevisionVariable = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.NullOr(S.String)),
     vault_reference: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "RevisionVariable",
-}) as any as S.Schema<RevisionVariable>;
+).annotate({ identifier: "RevisionVariable" }) as any as S.Schema<RevisionVariable>;
 
 /** Variable values for this revision. Each variable must reference a variable definition on the function. */
 export type CreateFunctionRevisionRequestVariablesList = Array<RevisionVariable>;
@@ -242,7 +234,7 @@ export const RevisionLabelsMap = /*@__PURE__*/ S.Record(
 
 /** Status of this revision. */
 export type RevisionState = "CANCELLED" | "CREATING" | "ACTIVE" | "FAILED";
-export const RevisionState = /*@__PURE__*/ S.String;
+export const RevisionState = S.String;
 
 /** Variable values for this revision. Each variable must reference a variable definition on the function. */
 export type RevisionVariablesList = Array<RevisionVariable>;
@@ -301,9 +293,7 @@ export const Revision = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Revision" }) as any as S.Schema<Revision>;
 
-export type CreatePullCredentialRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreatePullCredentialRequestLabelsMap = { [key: string]: string | undefined };
 export const CreatePullCredentialRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -393,9 +383,7 @@ export const DeleteFunctionRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://functions.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteFunctionRequest",
-}) as any as S.Schema<DeleteFunctionRequest>;
+).annotate({ identifier: "DeleteFunctionRequest" }) as any as S.Schema<DeleteFunctionRequest>;
 
 export interface DeleteFunctionResponse {}
 export const DeleteFunctionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -450,9 +438,7 @@ export const DeleteRevisionRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://functions.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteRevisionRequest",
-}) as any as S.Schema<DeleteRevisionRequest>;
+).annotate({ identifier: "DeleteRevisionRequest" }) as any as S.Schema<DeleteRevisionRequest>;
 
 export interface DeleteRevisionResponse {}
 export const DeleteRevisionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -477,9 +463,7 @@ export const GetFunctionRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://functions.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetFunctionRequest",
-}) as any as S.Schema<GetFunctionRequest>;
+).annotate({ identifier: "GetFunctionRequest" }) as any as S.Schema<GetFunctionRequest>;
 
 export interface GetPullCredentialRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -499,9 +483,7 @@ export const GetPullCredentialRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://functions.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetPullCredentialRequest",
-}) as any as S.Schema<GetPullCredentialRequest>;
+).annotate({ identifier: "GetPullCredentialRequest" }) as any as S.Schema<GetPullCredentialRequest>;
 
 export interface GetRevisionRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -524,9 +506,7 @@ export const GetRevisionRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://functions.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetRevisionRequest",
-}) as any as S.Schema<GetRevisionRequest>;
+).annotate({ identifier: "GetRevisionRequest" }) as any as S.Schema<GetRevisionRequest>;
 
 export interface ListFunctionsRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -543,9 +523,7 @@ export const ListFunctionsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://functions.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListFunctionsRequest",
-}) as any as S.Schema<ListFunctionsRequest>;
+).annotate({ identifier: "ListFunctionsRequest" }) as any as S.Schema<ListFunctionsRequest>;
 
 /** List of functions. */
 export type ListFunctionsFunctionsList = Array<Function>;
@@ -602,9 +580,7 @@ export const ListPullCredentials = /*@__PURE__*/ S.suspend(() =>
     next_page_token: S.optional(S.String),
     pull_credentials: S.optional(ListPullCredentialsPullCredentialsList),
   }),
-).annotate({
-  identifier: "ListPullCredentials",
-}) as any as S.Schema<ListPullCredentials>;
+).annotate({ identifier: "ListPullCredentials" }) as any as S.Schema<ListPullCredentials>;
 
 export interface ListRevisionsRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -624,9 +600,7 @@ export const ListRevisionsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://functions.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListRevisionsRequest",
-}) as any as S.Schema<ListRevisionsRequest>;
+).annotate({ identifier: "ListRevisionsRequest" }) as any as S.Schema<ListRevisionsRequest>;
 
 /** List of revisions. */
 export type ListRevisionsRevisionListList = Array<Revision>;
@@ -650,9 +624,7 @@ export const ListRevisions = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ListRevisions" }) as any as S.Schema<ListRevisions>;
 
-export type UpdateFunctionRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFunctionRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateFunctionRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -681,13 +653,9 @@ export const UpdateFunctionRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://functions.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateFunctionRequest",
-}) as any as S.Schema<UpdateFunctionRequest>;
+).annotate({ identifier: "UpdateFunctionRequest" }) as any as S.Schema<UpdateFunctionRequest>;
 
-export type UpdatePullCredentialRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePullCredentialRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdatePullCredentialRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -729,9 +697,7 @@ export const UpdatePullCredentialRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdatePullCredentialRequest",
 }) as any as S.Schema<UpdatePullCredentialRequest>;
 
-export type UpdateRevisionRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateRevisionRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateRevisionRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -763,9 +729,7 @@ export const UpdateRevisionRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://functions.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateRevisionRequest",
-}) as any as S.Schema<UpdateRevisionRequest>;
+).annotate({ identifier: "UpdateRevisionRequest" }) as any as S.Schema<UpdateRevisionRequest>;
 
 export type CreateFunctionError = StackitOpError;
 /** Creates a new function. */

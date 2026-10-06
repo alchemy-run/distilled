@@ -37,7 +37,7 @@ export class NotFound
   ) {}
 
 export type GetCostsForProjectRequestDepth = "project" | "service" | "auto";
-export const GetCostsForProjectRequestDepth = /*@__PURE__*/ S.String;
+export const GetCostsForProjectRequestDepth = S.String;
 
 export type GetCostsForProjectRequestGranularity =
   | "daily"
@@ -45,7 +45,7 @@ export type GetCostsForProjectRequestGranularity =
   | "monthly"
   | "yearly"
   | "none";
-export const GetCostsForProjectRequestGranularity = /*@__PURE__*/ S.String;
+export const GetCostsForProjectRequestGranularity = S.String;
 
 export interface GetCostsForProjectRequest {
   /** ID of a customer account */
@@ -102,9 +102,7 @@ export const SummarizedProjectCost = /*@__PURE__*/ S.suspend(() =>
     totalCharge: S.Number,
     totalDiscount: S.Number,
   }),
-).annotate({
-  identifier: "SummarizedProjectCost",
-}) as any as S.Schema<SummarizedProjectCost>;
+).annotate({ identifier: "SummarizedProjectCost" }) as any as S.Schema<SummarizedProjectCost>;
 
 /** Time period according to desired granularity */
 export interface ReportDataTimePeriod {
@@ -116,9 +114,7 @@ export const ReportDataTimePeriod = /*@__PURE__*/ S.suspend(() =>
     end: S.optional(S.String),
     start: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReportDataTimePeriod",
-}) as any as S.Schema<ReportDataTimePeriod>;
+).annotate({ identifier: "ReportDataTimePeriod" }) as any as S.Schema<ReportDataTimePeriod>;
 
 /** Costs report for a certain period of time */
 export interface ReportData {
@@ -170,9 +166,7 @@ export const ProjectCostWithReports = /*@__PURE__*/ S.suspend(() =>
     totalCharge: S.Number,
     totalDiscount: S.Number,
   }),
-).annotate({
-  identifier: "ProjectCostWithReports",
-}) as any as S.Schema<ProjectCostWithReports>;
+).annotate({ identifier: "ProjectCostWithReports" }) as any as S.Schema<ProjectCostWithReports>;
 
 /** Summarized costs for a project */
 export type SummarizedServiceCost = SummarizedProjectCost;
@@ -248,9 +242,7 @@ export const DetailedServiceCost = /*@__PURE__*/ S.suspend(() =>
     totalQuantityDecimal: S.String,
     unitLabel: S.String,
   }),
-).annotate({
-  identifier: "DetailedServiceCost",
-}) as any as S.Schema<DetailedServiceCost>;
+).annotate({ identifier: "DetailedServiceCost" }) as any as S.Schema<DetailedServiceCost>;
 
 /** Total discount for all services and the whole requested date range (value in cents). Please see "depth" parameter for more details. */
 export type ProjectCostWithDetailedServicesServicesList = Array<DetailedServiceCost>;
@@ -298,7 +290,7 @@ export const GetCostsForProjectResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCostsForProjectResponse>;
 
 export type ListCostsForCustomerRequestDepth = "project" | "service" | "auto";
-export const ListCostsForCustomerRequestDepth = /*@__PURE__*/ S.String;
+export const ListCostsForCustomerRequestDepth = S.String;
 
 export type ListCostsForCustomerRequestGranularity =
   | "daily"
@@ -306,7 +298,7 @@ export type ListCostsForCustomerRequestGranularity =
   | "monthly"
   | "yearly"
   | "none";
-export const ListCostsForCustomerRequestGranularity = /*@__PURE__*/ S.String;
+export const ListCostsForCustomerRequestGranularity = S.String;
 
 export interface ListCostsForCustomerRequest {
   /** ID of a customer account */
@@ -355,7 +347,7 @@ export const ListCostsForCustomerResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListCostsForCustomerResponse>;
 
 export type ListCostsForResellerRequestDepth = "project" | "service" | "auto";
-export const ListCostsForResellerRequestDepth = /*@__PURE__*/ S.String;
+export const ListCostsForResellerRequestDepth = S.String;
 
 export type ListCostsForResellerRequestGranularity =
   | "daily"
@@ -363,7 +355,7 @@ export type ListCostsForResellerRequestGranularity =
   | "monthly"
   | "yearly"
   | "none";
-export const ListCostsForResellerRequestGranularity = /*@__PURE__*/ S.String;
+export const ListCostsForResellerRequestGranularity = S.String;
 
 export interface ListCostsForResellerRequest {
   /** ID of a customer account */

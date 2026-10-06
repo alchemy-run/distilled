@@ -164,7 +164,7 @@
           "method": "GET",
           "uri": "/v1alpha/projects/{projectId}/regions/{region}/ip-lists",
           "code": 200,
-          "baseUrl": "https://lb-ip-lists.api.{region}stackit.cloud"
+          "baseUrl": "https://lb-ip-lists.api.stackit.cloud"
         },
         "smithy.api#documentation": "List metadata of all IP lists in a project\n\nListIPLists returns every IP list in the project without CIDR entries.\n No pagination while the per-project limit is 3."
       }
@@ -222,7 +222,7 @@
           "method": "GET",
           "uri": "/v1alpha/projects/{projectId}/regions/{region}/ip-lists/{name}",
           "code": 200,
-          "baseUrl": "https://lb-ip-lists.api.{region}stackit.cloud"
+          "baseUrl": "https://lb-ip-lists.api.stackit.cloud"
         },
         "smithy.api#documentation": "Retrieve metadata of an existing IP list configuration in a project.\n\nGetIPList returns metadata of a single IP list by name, without CIDR entries."
       }
@@ -305,7 +305,7 @@
           "method": "PUT",
           "uri": "/v1alpha/projects/{projectId}/regions/{region}/ip-lists/{name}",
           "code": 200,
-          "baseUrl": "https://lb-ip-lists.api.{region}stackit.cloud"
+          "baseUrl": "https://lb-ip-lists.api.stackit.cloud"
         },
         "smithy.api#documentation": "Create/Replace an IP list\n\nUploadIPList creates the IP list or replaces its content. Raw upload is in `file_content`."
       }
@@ -378,7 +378,7 @@
           "method": "DELETE",
           "uri": "/v1alpha/projects/{projectId}/regions/{region}/ip-lists/{name}",
           "code": 200,
-          "baseUrl": "https://lb-ip-lists.api.{region}stackit.cloud"
+          "baseUrl": "https://lb-ip-lists.api.stackit.cloud"
         },
         "smithy.api#documentation": "Delete an IP List configuration\n\nRemoves the IP list configuration from the project. If the IP list is referenced by load balancers,\n clear or replace the reference first."
       }
@@ -448,12 +448,6 @@
             "smithy.api#documentation": "The maximum number of IP lists allowed in this project. Defaults to 3. Use -1 to indicate unlimited."
           }
         },
-        "maxEntriesPerList": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The maximum number of IPv4 CIDR entries allowed in a single IP list. Defaults to 50000."
-          }
-        },
         "usage": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -486,7 +480,7 @@
           "method": "GET",
           "uri": "/v1alpha/projects/{projectId}/regions/{region}/quotas",
           "code": 200,
-          "baseUrl": "https://lb-ip-lists.api.{region}stackit.cloud"
+          "baseUrl": "https://lb-ip-lists.api.stackit.cloud"
         },
         "smithy.api#documentation": "Get the quota for IP lists in a project\n\nRetrieves the IP List resource quota for the project."
       }

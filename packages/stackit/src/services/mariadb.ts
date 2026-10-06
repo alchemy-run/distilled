@@ -58,9 +58,7 @@ export const CreateBackupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mariadb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateBackupRequest",
-}) as any as S.Schema<CreateBackupRequest>;
+).annotate({ identifier: "CreateBackupRequest" }) as any as S.Schema<CreateBackupRequest>;
 
 export interface CreateBackupResponseItem {
   id: number;
@@ -71,9 +69,7 @@ export const CreateBackupResponseItem = /*@__PURE__*/ S.suspend(() =>
     id: S.Number,
     message: S.String,
   }),
-).annotate({
-  identifier: "CreateBackupResponseItem",
-}) as any as S.Schema<CreateBackupResponseItem>;
+).annotate({ identifier: "CreateBackupResponseItem" }) as any as S.Schema<CreateBackupResponseItem>;
 
 export interface CreateCredentialsRequest {
   /** Project id on which user has permissions */
@@ -98,9 +94,7 @@ export const CreateCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mariadb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateCredentialsRequest",
-}) as any as S.Schema<CreateCredentialsRequest>;
+).annotate({ identifier: "CreateCredentialsRequest" }) as any as S.Schema<CreateCredentialsRequest>;
 
 export type CredentialsHostsList = Array<string>;
 export const CredentialsHostsList = /*@__PURE__*/ S.Array(
@@ -148,9 +142,7 @@ export const CredentialsResponse = /*@__PURE__*/ S.suspend(() =>
     raw: S.optional(RawCredentials),
     uri: S.String,
   }),
-).annotate({
-  identifier: "CredentialsResponse",
-}) as any as S.Schema<CredentialsResponse>;
+).annotate({ identifier: "CredentialsResponse" }) as any as S.Schema<CredentialsResponse>;
 
 export type InstanceParametersSyslogList = Array<string>;
 export const InstanceParametersSyslogList = /*@__PURE__*/ S.Array(
@@ -183,9 +175,7 @@ export const InstanceParameters = /*@__PURE__*/ S.suspend(() =>
     sgw_acl: S.optional(S.String),
     syslog: S.optional(InstanceParametersSyslogList),
   }),
-).annotate({
-  identifier: "InstanceParameters",
-}) as any as S.Schema<InstanceParameters>;
+).annotate({ identifier: "InstanceParameters" }) as any as S.Schema<InstanceParameters>;
 
 export interface CreateInstanceRequest {
   /** Project id on which user has permissions */
@@ -211,9 +201,7 @@ export const CreateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mariadb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateInstanceRequest",
-}) as any as S.Schema<CreateInstanceRequest>;
+).annotate({ identifier: "CreateInstanceRequest" }) as any as S.Schema<CreateInstanceRequest>;
 
 export interface CreateInstanceResponse {
   instanceId: string;
@@ -222,9 +210,7 @@ export const CreateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     instanceId: S.String,
   }),
-).annotate({
-  identifier: "CreateInstanceResponse",
-}) as any as S.Schema<CreateInstanceResponse>;
+).annotate({ identifier: "CreateInstanceResponse" }) as any as S.Schema<CreateInstanceResponse>;
 
 export interface DeleteCredentialsRequest {
   /** Project id on which user has permissions */
@@ -250,9 +236,7 @@ export const DeleteCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mariadb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteCredentialsRequest",
-}) as any as S.Schema<DeleteCredentialsRequest>;
+).annotate({ identifier: "DeleteCredentialsRequest" }) as any as S.Schema<DeleteCredentialsRequest>;
 
 export interface DeleteCredentialsResponse {}
 export const DeleteCredentialsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -280,9 +264,7 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mariadb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteInstanceRequest",
-}) as any as S.Schema<DeleteInstanceRequest>;
+).annotate({ identifier: "DeleteInstanceRequest" }) as any as S.Schema<DeleteInstanceRequest>;
 
 export interface DeleteInstanceResponse {}
 export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -313,9 +295,7 @@ export const DownloadBackupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mariadb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DownloadBackupRequest",
-}) as any as S.Schema<DownloadBackupRequest>;
+).annotate({ identifier: "DownloadBackupRequest" }) as any as S.Schema<DownloadBackupRequest>;
 
 export interface DownloadBackupResponse {}
 export const DownloadBackupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -346,9 +326,7 @@ export const GetCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mariadb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetCredentialsRequest",
-}) as any as S.Schema<GetCredentialsRequest>;
+).annotate({ identifier: "GetCredentialsRequest" }) as any as S.Schema<GetCredentialsRequest>;
 
 export interface GetInstanceRequest {
   /** Project id on which user has permissions */
@@ -371,15 +349,13 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mariadb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetInstanceRequest",
-}) as any as S.Schema<GetInstanceRequest>;
+).annotate({ identifier: "GetInstanceRequest" }) as any as S.Schema<GetInstanceRequest>;
 
 export type InstanceLastOperationState = "in progress" | "succeeded" | "failed";
-export const InstanceLastOperationState = /*@__PURE__*/ S.String;
+export const InstanceLastOperationState = S.String;
 
 export type InstanceLastOperationType = "create" | "update" | "delete";
-export const InstanceLastOperationType = /*@__PURE__*/ S.String;
+export const InstanceLastOperationType = S.String;
 
 export interface InstanceLastOperation {
   description: string;
@@ -392,12 +368,10 @@ export const InstanceLastOperation = /*@__PURE__*/ S.suspend(() =>
     state: InstanceLastOperationState,
     type: InstanceLastOperationType,
   }),
-).annotate({
-  identifier: "InstanceLastOperation",
-}) as any as S.Schema<InstanceLastOperation>;
+).annotate({ identifier: "InstanceLastOperation" }) as any as S.Schema<InstanceLastOperation>;
 
 export type InstanceStatus = "active" | "failed" | "stopped" | "creating" | "deleting" | "updating";
-export const InstanceStatus = /*@__PURE__*/ S.String;
+export const InstanceStatus = S.String;
 
 export interface Instance {
   cfGuid: string;
@@ -455,9 +429,7 @@ export const GetMetricsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mariadb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetMetricsRequest",
-}) as any as S.Schema<GetMetricsRequest>;
+).annotate({ identifier: "GetMetricsRequest" }) as any as S.Schema<GetMetricsRequest>;
 
 export interface GetMetricsResponse {
   cpuIdleTime?: number;
@@ -510,9 +482,7 @@ export const GetMetricsResponse = /*@__PURE__*/ S.suspend(() =>
     parachuteDiskPersistentUsedPercent: S.Number,
     parachuteDiskPersistentUsedThreshold: S.Number,
   }),
-).annotate({
-  identifier: "GetMetricsResponse",
-}) as any as S.Schema<GetMetricsResponse>;
+).annotate({ identifier: "GetMetricsResponse" }) as any as S.Schema<GetMetricsResponse>;
 
 export interface ListBackupsRequest {
   /** Project id on which user has permissions */
@@ -535,9 +505,7 @@ export const ListBackupsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mariadb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListBackupsRequest",
-}) as any as S.Schema<ListBackupsRequest>;
+).annotate({ identifier: "ListBackupsRequest" }) as any as S.Schema<ListBackupsRequest>;
 
 export interface Backup {
   downloadable?: boolean;
@@ -566,9 +534,7 @@ export const ListBackupsResponse = /*@__PURE__*/ S.Array(
 export type ListBackupsResponse2 = ListBackupsResponse;
 export const ListBackupsResponse2 = /*@__PURE__*/ S.suspend(() =>
   ListBackupsResponse.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListBackupsResponse2",
-}) as any as S.Schema<ListBackupsResponse2>;
+).annotate({ identifier: "ListBackupsResponse2" }) as any as S.Schema<ListBackupsResponse2>;
 
 export interface ListCredentialsRequest {
   /** Project id on which user has permissions */
@@ -591,9 +557,7 @@ export const ListCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mariadb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListCredentialsRequest",
-}) as any as S.Schema<ListCredentialsRequest>;
+).annotate({ identifier: "ListCredentialsRequest" }) as any as S.Schema<ListCredentialsRequest>;
 
 export interface CredentialsListItem {
   id: string;
@@ -602,9 +566,7 @@ export const CredentialsListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "CredentialsListItem",
-}) as any as S.Schema<CredentialsListItem>;
+).annotate({ identifier: "CredentialsListItem" }) as any as S.Schema<CredentialsListItem>;
 
 export type ListCredentialsResponseCredentialsListList = Array<CredentialsListItem>;
 export const ListCredentialsResponseCredentialsListList = /*@__PURE__*/ S.Array(
@@ -618,9 +580,7 @@ export const ListCredentialsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     credentialsList: ListCredentialsResponseCredentialsListList,
   }),
-).annotate({
-  identifier: "ListCredentialsResponse",
-}) as any as S.Schema<ListCredentialsResponse>;
+).annotate({ identifier: "ListCredentialsResponse" }) as any as S.Schema<ListCredentialsResponse>;
 
 export interface ListInstancesRequest {
   /** Project id on which user has permissions */
@@ -640,9 +600,7 @@ export const ListInstancesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mariadb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListInstancesRequest",
-}) as any as S.Schema<ListInstancesRequest>;
+).annotate({ identifier: "ListInstancesRequest" }) as any as S.Schema<ListInstancesRequest>;
 
 export type ListInstancesResponseInstancesList = Array<Instance>;
 export const ListInstancesResponseInstancesList = /*@__PURE__*/ S.Array(
@@ -656,9 +614,7 @@ export const ListInstancesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     instances: ListInstancesResponseInstancesList,
   }),
-).annotate({
-  identifier: "ListInstancesResponse",
-}) as any as S.Schema<ListInstancesResponse>;
+).annotate({ identifier: "ListInstancesResponse" }) as any as S.Schema<ListInstancesResponse>;
 
 export interface ListOfferingsRequest {
   /** Project id on which user has permissions */
@@ -678,9 +634,7 @@ export const ListOfferingsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mariadb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListOfferingsRequest",
-}) as any as S.Schema<ListOfferingsRequest>;
+).annotate({ identifier: "ListOfferingsRequest" }) as any as S.Schema<ListOfferingsRequest>;
 
 export interface Plan {
   description: string;
@@ -761,9 +715,7 @@ export const ListOfferingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     offerings: ListOfferingsResponseOfferingsList,
   }),
-).annotate({
-  identifier: "ListOfferingsResponse",
-}) as any as S.Schema<ListOfferingsResponse>;
+).annotate({ identifier: "ListOfferingsResponse" }) as any as S.Schema<ListOfferingsResponse>;
 
 export interface ListRestoresRequest {
   /** Project id on which user has permissions */
@@ -786,9 +738,7 @@ export const ListRestoresRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mariadb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListRestoresRequest",
-}) as any as S.Schema<ListRestoresRequest>;
+).annotate({ identifier: "ListRestoresRequest" }) as any as S.Schema<ListRestoresRequest>;
 
 export interface Restore {
   backup_id: number;
@@ -819,9 +769,7 @@ export const ListRestoresResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     instanceRestores: ListRestoresResponseInstanceRestoresList,
   }),
-).annotate({
-  identifier: "ListRestoresResponse",
-}) as any as S.Schema<ListRestoresResponse>;
+).annotate({ identifier: "ListRestoresResponse" }) as any as S.Schema<ListRestoresResponse>;
 
 export interface PartialUpdateInstanceRequest {
   /** Project id on which user has permissions */
@@ -880,9 +828,7 @@ export const TriggerRecreateRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mariadb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "TriggerRecreateRequest",
-}) as any as S.Schema<TriggerRecreateRequest>;
+).annotate({ identifier: "TriggerRecreateRequest" }) as any as S.Schema<TriggerRecreateRequest>;
 
 export interface TriggerRestartRequest {
   /** Project id on which user has permissions */
@@ -905,9 +851,7 @@ export const TriggerRestartRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mariadb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "TriggerRestartRequest",
-}) as any as S.Schema<TriggerRestartRequest>;
+).annotate({ identifier: "TriggerRestartRequest" }) as any as S.Schema<TriggerRestartRequest>;
 
 export interface TriggerRestoreRequest {
   /** Project id on which user has permissions */
@@ -933,9 +877,7 @@ export const TriggerRestoreRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mariadb.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "TriggerRestoreRequest",
-}) as any as S.Schema<TriggerRestoreRequest>;
+).annotate({ identifier: "TriggerRestoreRequest" }) as any as S.Schema<TriggerRestoreRequest>;
 
 export interface TriggerRestoreResponse {
   id: number;
@@ -944,9 +886,7 @@ export const TriggerRestoreResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number,
   }),
-).annotate({
-  identifier: "TriggerRestoreResponse",
-}) as any as S.Schema<TriggerRestoreResponse>;
+).annotate({ identifier: "TriggerRestoreResponse" }) as any as S.Schema<TriggerRestoreResponse>;
 
 export interface UpdateBackupsConfigRequest {
   /** Project id on which user has permissions */

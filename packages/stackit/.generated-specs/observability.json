@@ -658,7 +658,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -1491,7 +1494,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -6380,7 +6386,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -6570,7 +6579,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },

@@ -841,6 +841,12 @@
         "labels": {
           "target": "com.stackit.dns#ZoneLabelsList"
         },
+        "labelsMap": {
+          "target": "com.stackit.dns#ZoneLabelsMapMap",
+          "traits": {
+            "smithy.api#documentation": "labels for the zone"
+          }
+        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
@@ -1004,6 +1010,18 @@
         "target": "com.stackit.dns#Label"
       },
       "traits": {}
+    },
+    "com.stackit.dns#ZoneLabelsMapMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "labels for the zone"
+      }
     },
     "com.stackit.dns#ZonePrimariesList": {
       "type": "list",
@@ -1171,6 +1189,18 @@
       },
       "traits": {}
     },
+    "com.stackit.dns#CreateZoneRequestLabelsMapMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "labels for the zone - max 64 items. Keys: 1-314 chars (up to 250 prefix, 1 for slash, 1-63 the actual key). Values: 0-63 chars."
+      }
+    },
     "com.stackit.dns#CreateZoneRequestPrimariesList": {
       "type": "list",
       "member": {
@@ -1258,6 +1288,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "if the zone is a reverse zone or not"
+          }
+        },
+        "labelsMap": {
+          "target": "com.stackit.dns#CreateZoneRequestLabelsMapMap",
+          "traits": {
+            "smithy.api#documentation": "labels for the zone - max 64 items. Keys: 1-314 chars (up to 250 prefix, 1 for slash, 1-63 the actual key). Values: 0-63 chars."
           }
         },
         "name": {
@@ -1398,6 +1434,18 @@
         "smithy.api#documentation": "Get a single zone\n\nGet zone"
       }
     },
+    "com.stackit.dns#PartialUpdateZoneRequestLabelsMapMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "labels for the zone - max 64 items. Keys: 1-314 chars (up to 250 prefix, 1 for slash, 1-63 the actual key). Values: 0-63 chars."
+      }
+    },
     "com.stackit.dns#PartialUpdateZoneRequestPrimariesList": {
       "type": "list",
       "member": {
@@ -1460,6 +1508,12 @@
           "target": "com.stackit.dns#ZoneExtensions",
           "traits": {
             "smithy.api#documentation": "optional extensions"
+          }
+        },
+        "labelsMap": {
+          "target": "com.stackit.dns#PartialUpdateZoneRequestLabelsMapMap",
+          "traits": {
+            "smithy.api#documentation": "labels for the zone - max 64 items. Keys: 1-314 chars (up to 250 prefix, 1 for slash, 1-63 the actual key). Values: 0-63 chars."
           }
         },
         "name": {
@@ -1972,228 +2026,6 @@
           "baseUrl": "https://dns.api.stackit.cloud"
         },
         "smithy.api#documentation": "Imports a zone\n\nImports a zone and overwrites/deletes/inserts all desired records"
-      }
-    },
-    "com.stackit.dns#ListLabelsRequest": {
-      "type": "structure",
-      "members": {
-        "projectId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "project id"
-          }
-        },
-        "zoneId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "zone id"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.stackit.dns#ListLabelsResponse": {
-      "type": "structure",
-      "members": {
-        "labels": {
-          "target": "com.stackit.dns#ListLabelsResponseLabelsList"
-        },
-        "message": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "ResponseAllLabels."
-      }
-    },
-    "com.stackit.dns#ListLabelsResponseLabelsList": {
-      "type": "list",
-      "member": {
-        "target": "com.stackit.dns#Label"
-      },
-      "traits": {}
-    },
-    "com.stackit.dns#ListLabels": {
-      "type": "operation",
-      "input": {
-        "target": "com.stackit.dns#ListLabelsRequest"
-      },
-      "output": {
-        "target": "com.stackit.dns#ListLabelsResponse"
-      },
-      "errors": [
-        {
-          "target": "com.stackit.dns#BadRequest"
-        },
-        {
-          "target": "com.stackit.dns#Forbidden"
-        },
-        {
-          "target": "com.stackit.dns#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/v1/projects/{projectId}/zones/{zoneId}/labels",
-          "code": 200,
-          "baseUrl": "https://dns.api.stackit.cloud"
-        },
-        "smithy.api#documentation": "Get all labels\n\nAll Labels"
-      }
-    },
-    "com.stackit.dns#CreateLabelRequest": {
-      "type": "structure",
-      "members": {
-        "projectId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "project id"
-          }
-        },
-        "zoneId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "zone id"
-          }
-        },
-        "key": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "value": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.stackit.dns#CreateLabelResponse": {
-      "type": "structure",
-      "members": {
-        "label": {
-          "target": "com.stackit.dns#Label"
-        },
-        "message": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "ResponseUpsertLabel."
-      }
-    },
-    "com.stackit.dns#CreateLabel": {
-      "type": "operation",
-      "input": {
-        "target": "com.stackit.dns#CreateLabelRequest"
-      },
-      "output": {
-        "target": "com.stackit.dns#CreateLabelResponse"
-      },
-      "errors": [
-        {
-          "target": "com.stackit.dns#BadRequest"
-        },
-        {
-          "target": "com.stackit.dns#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/v1/projects/{projectId}/zones/{zoneId}/labels",
-          "code": 200,
-          "baseUrl": "https://dns.api.stackit.cloud"
-        },
-        "smithy.api#documentation": "Create or update label\n\nCreate or update label"
-      }
-    },
-    "com.stackit.dns#DeleteLabelRequest": {
-      "type": "structure",
-      "members": {
-        "projectId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "project id"
-          }
-        },
-        "zoneId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "zone id"
-          }
-        },
-        "key": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "key of the label"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.stackit.dns#DeleteLabelResponse": {
-      "type": "structure",
-      "members": {
-        "label": {
-          "target": "com.stackit.dns#Label"
-        },
-        "message": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "ResponseDeleteLabel."
-      }
-    },
-    "com.stackit.dns#DeleteLabel": {
-      "type": "operation",
-      "input": {
-        "target": "com.stackit.dns#DeleteLabelRequest"
-      },
-      "output": {
-        "target": "com.stackit.dns#DeleteLabelResponse"
-      },
-      "errors": [
-        {
-          "target": "com.stackit.dns#BadRequest"
-        },
-        {
-          "target": "com.stackit.dns#Forbidden"
-        },
-        {
-          "target": "com.stackit.dns#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/v1/projects/{projectId}/zones/{zoneId}/labels/{key}",
-          "code": 200,
-          "baseUrl": "https://dns.api.stackit.cloud"
-        },
-        "smithy.api#documentation": "Delete a label\n\nDelete a label"
       }
     },
     "com.stackit.dns#CreateMoveCodeRequest": {
@@ -4296,15 +4128,6 @@
         },
         {
           "target": "com.stackit.dns#ImportRecordSets"
-        },
-        {
-          "target": "com.stackit.dns#ListLabels"
-        },
-        {
-          "target": "com.stackit.dns#CreateLabel"
-        },
-        {
-          "target": "com.stackit.dns#DeleteLabel"
         },
         {
           "target": "com.stackit.dns#CreateMoveCode"

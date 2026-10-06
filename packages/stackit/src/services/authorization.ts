@@ -61,9 +61,7 @@ export const AddMembersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://authorization.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "AddMembersRequest",
-}) as any as S.Schema<AddMembersRequest>;
+).annotate({ identifier: "AddMembersRequest" }) as any as S.Schema<AddMembersRequest>;
 
 export type MembersResponseMembersList = Array<Member>;
 export const MembersResponseMembersList = /*@__PURE__*/ S.Array(
@@ -92,9 +90,7 @@ export const MembersResponse = /*@__PURE__*/ S.suspend(() =>
     resourceType: S.String,
     writtenAt: S.optional(Zookie),
   }),
-).annotate({
-  identifier: "MembersResponse",
-}) as any as S.Schema<MembersResponse>;
+).annotate({ identifier: "MembersResponse" }) as any as S.Schema<MembersResponse>;
 
 export interface PermissionRequest {
   name: string;
@@ -103,9 +99,7 @@ export const PermissionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
   }),
-).annotate({
-  identifier: "PermissionRequest",
-}) as any as S.Schema<PermissionRequest>;
+).annotate({ identifier: "PermissionRequest" }) as any as S.Schema<PermissionRequest>;
 
 export type AddRoleRequestPermissionsList = Array<PermissionRequest>;
 export const AddRoleRequestPermissionsList = /*@__PURE__*/ S.Array(
@@ -180,9 +174,7 @@ export const AddCustomRoleResponse = /*@__PURE__*/ S.suspend(() =>
     resourceType: S.String,
     role: Role,
   }),
-).annotate({
-  identifier: "AddCustomRoleResponse",
-}) as any as S.Schema<AddCustomRoleResponse>;
+).annotate({ identifier: "AddCustomRoleResponse" }) as any as S.Schema<AddCustomRoleResponse>;
 
 export interface DeleteRoleRequest {
   resourceType: string;
@@ -204,9 +196,7 @@ export const DeleteRoleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://authorization.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteRoleRequest",
-}) as any as S.Schema<DeleteRoleRequest>;
+).annotate({ identifier: "DeleteRoleRequest" }) as any as S.Schema<DeleteRoleRequest>;
 
 export interface DeleteRoleResponse {
   writtenAt: Zookie;
@@ -215,9 +205,7 @@ export const DeleteRoleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     writtenAt: Zookie,
   }),
-).annotate({
-  identifier: "DeleteRoleResponse",
-}) as any as S.Schema<DeleteRoleResponse>;
+).annotate({ identifier: "DeleteRoleResponse" }) as any as S.Schema<DeleteRoleResponse>;
 
 export interface GetRoleRequest {
   resourceType: string;
@@ -250,9 +238,7 @@ export const GetRoleResponse = /*@__PURE__*/ S.suspend(() =>
     resourceType: S.String,
     role: Role,
   }),
-).annotate({
-  identifier: "GetRoleResponse",
-}) as any as S.Schema<GetRoleResponse>;
+).annotate({ identifier: "GetRoleResponse" }) as any as S.Schema<GetRoleResponse>;
 
 export interface ListMembersRequest {
   resourceType: string;
@@ -272,9 +258,7 @@ export const ListMembersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://authorization.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListMembersRequest",
-}) as any as S.Schema<ListMembersRequest>;
+).annotate({ identifier: "ListMembersRequest" }) as any as S.Schema<ListMembersRequest>;
 
 export type ListMembersResponseMembersList = Array<Member>;
 export const ListMembersResponseMembersList = /*@__PURE__*/ S.Array(
@@ -292,9 +276,7 @@ export const ListMembersResponse = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.String,
     resourceType: S.String,
   }),
-).annotate({
-  identifier: "ListMembersResponse",
-}) as any as S.Schema<ListMembersResponse>;
+).annotate({ identifier: "ListMembersResponse" }) as any as S.Schema<ListMembersResponse>;
 
 export interface ListPermissionsRequest {
   resourceType?: string;
@@ -310,9 +292,7 @@ export const ListPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://authorization.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListPermissionsRequest",
-}) as any as S.Schema<ListPermissionsRequest>;
+).annotate({ identifier: "ListPermissionsRequest" }) as any as S.Schema<ListPermissionsRequest>;
 
 export type ListPermissionsResponsePermissionsList = Array<Permission>;
 export const ListPermissionsResponsePermissionsList = /*@__PURE__*/ S.Array(
@@ -326,9 +306,7 @@ export const ListPermissionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     permissions: ListPermissionsResponsePermissionsList,
   }),
-).annotate({
-  identifier: "ListPermissionsResponse",
-}) as any as S.Schema<ListPermissionsResponse>;
+).annotate({ identifier: "ListPermissionsResponse" }) as any as S.Schema<ListPermissionsResponse>;
 
 export interface ListRolesRequest {
   resourceType: string;
@@ -346,9 +324,7 @@ export const ListRolesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://authorization.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListRolesRequest",
-}) as any as S.Schema<ListRolesRequest>;
+).annotate({ identifier: "ListRolesRequest" }) as any as S.Schema<ListRolesRequest>;
 
 export type RolesResponseRolesList = Array<Role>;
 export const RolesResponseRolesList = /*@__PURE__*/ S.Array(
@@ -514,9 +490,7 @@ export const RemoveMembersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://authorization.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "RemoveMembersRequest",
-}) as any as S.Schema<RemoveMembersRequest>;
+).annotate({ identifier: "RemoveMembersRequest" }) as any as S.Schema<RemoveMembersRequest>;
 
 export type UpdateRoleRequestPermissionsList = Array<PermissionRequest>;
 export const UpdateRoleRequestPermissionsList = /*@__PURE__*/ S.Array(
@@ -549,9 +523,7 @@ export const UpdateRoleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://authorization.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateRoleRequest",
-}) as any as S.Schema<UpdateRoleRequest>;
+).annotate({ identifier: "UpdateRoleRequest" }) as any as S.Schema<UpdateRoleRequest>;
 
 export interface UpdateRoleResponse {
   resourceId: string;
@@ -564,9 +536,7 @@ export const UpdateRoleResponse = /*@__PURE__*/ S.suspend(() =>
     resourceType: S.String,
     role: Role,
   }),
-).annotate({
-  identifier: "UpdateRoleResponse",
-}) as any as S.Schema<UpdateRoleResponse>;
+).annotate({ identifier: "UpdateRoleResponse" }) as any as S.Schema<UpdateRoleResponse>;
 
 export type AddMembersError = BadRequest | Forbidden | StackitOpError;
 /** Add members to a resource Add members to the given resource with specified roles. */

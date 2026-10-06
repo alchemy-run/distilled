@@ -38,7 +38,7 @@ export class NotFound
   ) {}
 
 export type CreateIntakeRequestRegionId = "eu01" | "eu02";
-export const CreateIntakeRequestRegionId = /*@__PURE__*/ S.String;
+export const CreateIntakeRequestRegionId = S.String;
 
 export interface DremioAuth {
   /** A Dremio personal access token for authentication */
@@ -55,7 +55,7 @@ export const DremioAuth = /*@__PURE__*/ S.suspend(() =>
 
 /** Means of authentication for catalog requests */
 export type CatalogAuthType = "none" | "dremio";
-export const CatalogAuthType = /*@__PURE__*/ S.String;
+export const CatalogAuthType = S.String;
 
 /** Configures authentication for the Iceberg catalog */
 export interface CatalogAuth {
@@ -77,7 +77,7 @@ export const IntakeCatalogPartitionByList = /*@__PURE__*/ S.Array(
 
 /** The target table's partitioning. * `none` disables partitioning, the default. * `intake-time` configures daily partitioning based on the automatically created ingestion time column `__intake_ts`. * `manual` allows arbitrary Iceberg partitioning expression to be set via `partitionBy`. */
 export type PartitioningType = "none" | "intake-time" | "manual";
-export const PartitioningType = /*@__PURE__*/ S.String;
+export const PartitioningType = S.String;
 
 /** The Iceberg catalog configuration */
 export interface IntakeCatalog {
@@ -107,9 +107,7 @@ export const IntakeCatalog = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "IntakeCatalog" }) as any as S.Schema<IntakeCatalog>;
 
 /** Labels are a set of key-value pairs assigned to resources. */
-export type CreateIntakeRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateIntakeRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateIntakeRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -147,9 +145,7 @@ export const CreateIntakeRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://intake.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateIntakeRequest",
-}) as any as S.Schema<CreateIntakeRequest>;
+).annotate({ identifier: "CreateIntakeRequest" }) as any as S.Schema<CreateIntakeRequest>;
 
 /** Labels are a set of key-value pairs assigned to resources. */
 export type IntakeResponseLabelsMap = { [key: string]: string | undefined };
@@ -160,7 +156,7 @@ export const IntakeResponseLabelsMap = /*@__PURE__*/ S.Record(
 
 /** The current state of the resource. */
 export type IntakeResponseState = "reconciling" | "active" | "deleting" | "failed";
-export const IntakeResponseState = /*@__PURE__*/ S.String;
+export const IntakeResponseState = S.String;
 
 export interface IntakeResponse {
   catalog: IntakeCatalog;
@@ -208,12 +204,10 @@ export const IntakeResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "IntakeResponse" }) as any as S.Schema<IntakeResponse>;
 
 export type CreateIntakeRunnerRequestRegionId = "eu01" | "eu02";
-export const CreateIntakeRunnerRequestRegionId = /*@__PURE__*/ S.String;
+export const CreateIntakeRunnerRequestRegionId = S.String;
 
 /** Labels are a set of key-value pairs assigned to resources. */
-export type CreateIntakeRunnerRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateIntakeRunnerRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateIntakeRunnerRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -257,9 +251,7 @@ export const CreateIntakeRunnerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateIntakeRunnerRequest>;
 
 /** Labels are a set of key-value pairs assigned to resources. */
-export type IntakeRunnerResponseLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type IntakeRunnerResponseLabelsMap = { [key: string]: string | undefined };
 export const IntakeRunnerResponseLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -267,7 +259,7 @@ export const IntakeRunnerResponseLabelsMap = /*@__PURE__*/ S.Record(
 
 /** The current state of the resource. */
 export type IntakeRunnerResponseState = "reconciling" | "active" | "deleting";
-export const IntakeRunnerResponseState = /*@__PURE__*/ S.String;
+export const IntakeRunnerResponseState = S.String;
 
 export interface IntakeRunnerResponse {
   /** The point in time the resource was created. */
@@ -301,17 +293,13 @@ export const IntakeRunnerResponse = /*@__PURE__*/ S.suspend(() =>
     state: IntakeRunnerResponseState,
     uri: S.String,
   }),
-).annotate({
-  identifier: "IntakeRunnerResponse",
-}) as any as S.Schema<IntakeRunnerResponse>;
+).annotate({ identifier: "IntakeRunnerResponse" }) as any as S.Schema<IntakeRunnerResponse>;
 
 export type CreateIntakeUserRequestRegionId = "eu01" | "eu02";
-export const CreateIntakeUserRequestRegionId = /*@__PURE__*/ S.String;
+export const CreateIntakeUserRequestRegionId = S.String;
 
 /** Labels are key-value pairs associated with the resource. */
-export type CreateIntakeUserRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateIntakeUserRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateIntakeUserRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -319,7 +307,7 @@ export const CreateIntakeUserRequestLabelsMap = /*@__PURE__*/ S.Record(
 
 /** Type of user, 'intake' allows writing to the Intake, 'dead-letter' allows reading from the dead-letter queue */
 export type UserType = "intake" | "dead-letter";
-export const UserType = /*@__PURE__*/ S.String;
+export const UserType = S.String;
 
 export interface CreateIntakeUserRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -356,9 +344,7 @@ export const CreateIntakeUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://intake.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateIntakeUserRequest",
-}) as any as S.Schema<CreateIntakeUserRequest>;
+).annotate({ identifier: "CreateIntakeUserRequest" }) as any as S.Schema<CreateIntakeUserRequest>;
 
 /** Configuration properties for supported clients. */
 export interface ClientConfig {
@@ -383,7 +369,7 @@ export const IntakeUserResponseLabelsMap = /*@__PURE__*/ S.Record(
 
 /** The current state of the resource. */
 export type IntakeUserResponseState = "reconciling" | "active" | "deleting";
-export const IntakeUserResponseState = /*@__PURE__*/ S.String;
+export const IntakeUserResponseState = S.String;
 
 export interface IntakeUserResponse {
   clientConfig?: ClientConfig;
@@ -415,12 +401,10 @@ export const IntakeUserResponse = /*@__PURE__*/ S.suspend(() =>
     type: UserType,
     user: S.String,
   }),
-).annotate({
-  identifier: "IntakeUserResponse",
-}) as any as S.Schema<IntakeUserResponse>;
+).annotate({ identifier: "IntakeUserResponse" }) as any as S.Schema<IntakeUserResponse>;
 
 export type DeleteIntakeRequestRegionId = "eu01" | "eu02";
-export const DeleteIntakeRequestRegionId = /*@__PURE__*/ S.String;
+export const DeleteIntakeRequestRegionId = S.String;
 
 export interface DeleteIntakeRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -446,9 +430,7 @@ export const DeleteIntakeRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://intake.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteIntakeRequest",
-}) as any as S.Schema<DeleteIntakeRequest>;
+).annotate({ identifier: "DeleteIntakeRequest" }) as any as S.Schema<DeleteIntakeRequest>;
 
 export interface DeleteIntakeResponse {}
 export const DeleteIntakeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -456,7 +438,7 @@ export const DeleteIntakeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).
 }) as any as S.Schema<DeleteIntakeResponse>;
 
 export type DeleteIntakeRunnerRequestRegionId = "eu01" | "eu02";
-export const DeleteIntakeRunnerRequestRegionId = /*@__PURE__*/ S.String;
+export const DeleteIntakeRunnerRequestRegionId = S.String;
 
 export interface DeleteIntakeRunnerRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -492,7 +474,7 @@ export const DeleteIntakeRunnerResponse = /*@__PURE__*/ S.suspend(() => S.Struct
 }) as any as S.Schema<DeleteIntakeRunnerResponse>;
 
 export type DeleteIntakeUserRequestRegionId = "eu01" | "eu02";
-export const DeleteIntakeUserRequestRegionId = /*@__PURE__*/ S.String;
+export const DeleteIntakeUserRequestRegionId = S.String;
 
 export interface DeleteIntakeUserRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -518,9 +500,7 @@ export const DeleteIntakeUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://intake.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteIntakeUserRequest",
-}) as any as S.Schema<DeleteIntakeUserRequest>;
+).annotate({ identifier: "DeleteIntakeUserRequest" }) as any as S.Schema<DeleteIntakeUserRequest>;
 
 export interface DeleteIntakeUserResponse {}
 export const DeleteIntakeUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -528,7 +508,7 @@ export const DeleteIntakeUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({
 }) as any as S.Schema<DeleteIntakeUserResponse>;
 
 export type GetIntakeRequestRegionId = "eu01" | "eu02";
-export const GetIntakeRequestRegionId = /*@__PURE__*/ S.String;
+export const GetIntakeRequestRegionId = S.String;
 
 export interface GetIntakeRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -551,12 +531,10 @@ export const GetIntakeRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://intake.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetIntakeRequest",
-}) as any as S.Schema<GetIntakeRequest>;
+).annotate({ identifier: "GetIntakeRequest" }) as any as S.Schema<GetIntakeRequest>;
 
 export type GetIntakeRunnerRequestRegionId = "eu01" | "eu02";
-export const GetIntakeRunnerRequestRegionId = /*@__PURE__*/ S.String;
+export const GetIntakeRunnerRequestRegionId = S.String;
 
 export interface GetIntakeRunnerRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -579,12 +557,10 @@ export const GetIntakeRunnerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://intake.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetIntakeRunnerRequest",
-}) as any as S.Schema<GetIntakeRunnerRequest>;
+).annotate({ identifier: "GetIntakeRunnerRequest" }) as any as S.Schema<GetIntakeRunnerRequest>;
 
 export type GetIntakeUserRequestRegionId = "eu01" | "eu02";
-export const GetIntakeUserRequestRegionId = /*@__PURE__*/ S.String;
+export const GetIntakeUserRequestRegionId = S.String;
 
 export interface GetIntakeUserRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -610,12 +586,10 @@ export const GetIntakeUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://intake.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetIntakeUserRequest",
-}) as any as S.Schema<GetIntakeUserRequest>;
+).annotate({ identifier: "GetIntakeUserRequest" }) as any as S.Schema<GetIntakeUserRequest>;
 
 export type ListIntakeRunnersRequestRegionId = "eu01" | "eu02";
-export const ListIntakeRunnersRequestRegionId = /*@__PURE__*/ S.String;
+export const ListIntakeRunnersRequestRegionId = S.String;
 
 export interface ListIntakeRunnersRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -641,9 +615,7 @@ export const ListIntakeRunnersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://intake.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListIntakeRunnersRequest",
-}) as any as S.Schema<ListIntakeRunnersRequest>;
+).annotate({ identifier: "ListIntakeRunnersRequest" }) as any as S.Schema<ListIntakeRunnersRequest>;
 
 export type ListIntakeRunnersResponseIntakeRunnersList = Array<IntakeRunnerResponse>;
 export const ListIntakeRunnersResponseIntakeRunnersList = /*@__PURE__*/ S.Array(
@@ -665,7 +637,7 @@ export const ListIntakeRunnersResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListIntakeRunnersResponse>;
 
 export type ListIntakesRequestRegionId = "eu01" | "eu02";
-export const ListIntakesRequestRegionId = /*@__PURE__*/ S.String;
+export const ListIntakesRequestRegionId = S.String;
 
 export interface ListIntakesRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -691,9 +663,7 @@ export const ListIntakesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://intake.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListIntakesRequest",
-}) as any as S.Schema<ListIntakesRequest>;
+).annotate({ identifier: "ListIntakesRequest" }) as any as S.Schema<ListIntakesRequest>;
 
 export type ListIntakesResponseIntakesList = Array<IntakeResponse>;
 export const ListIntakesResponseIntakesList = /*@__PURE__*/ S.Array(
@@ -710,12 +680,10 @@ export const ListIntakesResponse = /*@__PURE__*/ S.suspend(() =>
     intakes: ListIntakesResponseIntakesList,
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListIntakesResponse",
-}) as any as S.Schema<ListIntakesResponse>;
+).annotate({ identifier: "ListIntakesResponse" }) as any as S.Schema<ListIntakesResponse>;
 
 export type ListIntakeUsersRequestRegionId = "eu01" | "eu02";
-export const ListIntakeUsersRequestRegionId = /*@__PURE__*/ S.String;
+export const ListIntakeUsersRequestRegionId = S.String;
 
 export interface ListIntakeUsersRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -744,9 +712,7 @@ export const ListIntakeUsersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://intake.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListIntakeUsersRequest",
-}) as any as S.Schema<ListIntakeUsersRequest>;
+).annotate({ identifier: "ListIntakeUsersRequest" }) as any as S.Schema<ListIntakeUsersRequest>;
 
 export type ListIntakeUsersResponseIntakeUsersList = Array<IntakeUserResponse>;
 export const ListIntakeUsersResponseIntakeUsersList = /*@__PURE__*/ S.Array(
@@ -763,12 +729,10 @@ export const ListIntakeUsersResponse = /*@__PURE__*/ S.suspend(() =>
     intakeUsers: ListIntakeUsersResponseIntakeUsersList,
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListIntakeUsersResponse",
-}) as any as S.Schema<ListIntakeUsersResponse>;
+).annotate({ identifier: "ListIntakeUsersResponse" }) as any as S.Schema<ListIntakeUsersResponse>;
 
 export type UpdateIntakeRequestRegionId = "eu01" | "eu02";
-export const UpdateIntakeRequestRegionId = /*@__PURE__*/ S.String;
+export const UpdateIntakeRequestRegionId = S.String;
 
 export interface DremioAuthPatch {
   /** A Dremio personal access token for authentication */
@@ -781,9 +745,7 @@ export const DremioAuthPatch = /*@__PURE__*/ S.suspend(() =>
     personalAccessToken: S.optional(S.String),
     tokenEndpoint: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DremioAuthPatch",
-}) as any as S.Schema<DremioAuthPatch>;
+).annotate({ identifier: "DremioAuthPatch" }) as any as S.Schema<DremioAuthPatch>;
 
 /** Configures authentication for the Iceberg catalog */
 export interface CatalogAuthPatch {
@@ -795,9 +757,7 @@ export const CatalogAuthPatch = /*@__PURE__*/ S.suspend(() =>
     dremio: S.optional(DremioAuthPatch),
     type: S.optional(CatalogAuthType),
   }),
-).annotate({
-  identifier: "CatalogAuthPatch",
-}) as any as S.Schema<CatalogAuthPatch>;
+).annotate({ identifier: "CatalogAuthPatch" }) as any as S.Schema<CatalogAuthPatch>;
 
 /** List of Iceberg partitioning expressions to use when creating the target table. This setting can only be used when `partitioning` is set to `manual`. See the [Apache Iceberg spec](https://iceberg.apache.org/spec/#partitioning) for more details. */
 export type IntakeCatalogPatchPartitionByList = Array<string>;
@@ -807,7 +767,7 @@ export const IntakeCatalogPatchPartitionByList = /*@__PURE__*/ S.Array(
 
 /** The target table's partitioning. * `none` disables partitioning. * `intake-time` configures daily partitioning based on the automatically created ingestion time column `__intake_ts`. * `manual` allows arbitrary Iceberg partitioning expression to be set via `partitionBy`. */
 export type PartitioningUpdateType = "none" | "intake-time" | "manual";
-export const PartitioningUpdateType = /*@__PURE__*/ S.String;
+export const PartitioningUpdateType = S.String;
 
 /** The Iceberg catalog configuration */
 export interface IntakeCatalogPatch {
@@ -834,14 +794,10 @@ export const IntakeCatalogPatch = /*@__PURE__*/ S.suspend(() =>
     uri: S.optional(S.String),
     warehouse: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IntakeCatalogPatch",
-}) as any as S.Schema<IntakeCatalogPatch>;
+).annotate({ identifier: "IntakeCatalogPatch" }) as any as S.Schema<IntakeCatalogPatch>;
 
 /** Labels are key-value pairs associated with the resource. To update labels: - Provide a new set of key-value pairs to replace the existing labels. - Send empty object `{}` to remove all labels. - Omit this field to leave the labels unchanged. */
-export type UpdateIntakeRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateIntakeRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateIntakeRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -882,17 +838,13 @@ export const UpdateIntakeRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://intake.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateIntakeRequest",
-}) as any as S.Schema<UpdateIntakeRequest>;
+).annotate({ identifier: "UpdateIntakeRequest" }) as any as S.Schema<UpdateIntakeRequest>;
 
 export type UpdateIntakeRunnerRequestRegionId = "eu01" | "eu02";
-export const UpdateIntakeRunnerRequestRegionId = /*@__PURE__*/ S.String;
+export const UpdateIntakeRunnerRequestRegionId = S.String;
 
 /** Labels are key-value pairs associated with the resource. To update labels: - Provide a new set of key-value pairs to replace the existing labels. - Send empty object `{}` to remove all labels. - Omit this field to leave the labels unchanged. */
-export type UpdateIntakeRunnerRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateIntakeRunnerRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateIntakeRunnerRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -939,12 +891,10 @@ export const UpdateIntakeRunnerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateIntakeRunnerRequest>;
 
 export type UpdateIntakeUserRequestRegionId = "eu01" | "eu02";
-export const UpdateIntakeUserRequestRegionId = /*@__PURE__*/ S.String;
+export const UpdateIntakeUserRequestRegionId = S.String;
 
 /** Labels are key-value pairs associated with the resource. To update labels: - Provide a new set of key-value pairs to replace the existing labels. - Send empty object `{}` to remove all labels. - Omit this field to leave the labels unchanged. */
-export type UpdateIntakeUserRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateIntakeUserRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateIntakeUserRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -988,9 +938,7 @@ export const UpdateIntakeUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://intake.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateIntakeUserRequest",
-}) as any as S.Schema<UpdateIntakeUserRequest>;
+).annotate({ identifier: "UpdateIntakeUserRequest" }) as any as S.Schema<UpdateIntakeUserRequest>;
 
 export type CreateIntakeError = BadRequest | Conflict | StackitOpError;
 /** Creates a new intake within the project. */

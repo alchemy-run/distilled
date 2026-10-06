@@ -365,7 +365,7 @@
         "min_replicas_to_write": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The amount of connected replicas that are required for the primary to accept write operations. It can be set to 0 to disable it.",
+            "smithy.api#documentation": "The amount of connected replicas that are required for the primary to accept write operations. It can be set to 0 to disable it. Should not be greater than the number of nodes (e.g. 1 or 3).",
             "smithy.api#jsonName": "min-replicas-to-write"
           }
         },
@@ -2179,7 +2179,7 @@
     },
     "com.stackit.valkey#Valkey": {
       "type": "service",
-      "version": "2.0",
+      "version": "2.1",
       "operations": [
         {
           "target": "com.stackit.valkey#ListInstances"

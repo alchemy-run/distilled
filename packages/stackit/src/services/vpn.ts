@@ -47,7 +47,7 @@ export class NotFound
 
 /** The region in which the resource is located. */
 export type CreateGatewayRequestRegion = "eu01" | "eu02";
-export const CreateGatewayRequestRegion = /*@__PURE__*/ S.String;
+export const CreateGatewayRequestRegion = S.String;
 
 export interface CreateGatewayRequestAvailabilityZones {
   tunnel1: string;
@@ -79,9 +79,7 @@ export const BGPGatewayConfig = /*@__PURE__*/ S.suspend(() =>
     localAsn: S.Number,
     overrideAdvertisedRoutes: S.optional(BGPGatewayConfigOverrideAdvertisedRoutesList),
   }),
-).annotate({
-  identifier: "BGPGatewayConfig",
-}) as any as S.Schema<BGPGatewayConfig>;
+).annotate({ identifier: "BGPGatewayConfig" }) as any as S.Schema<BGPGatewayConfig>;
 
 /** Map of custom labels. Key and values must be a string with max 63 chars, start/end with alphanumeric. The key of a label follows the same rules as the `LabelValue` except that it cannot be empty. */
 export type Label = { [key: string]: string | undefined };
@@ -102,7 +100,7 @@ export const NetworkConfig = /*@__PURE__*/ S.suspend(() =>
 
 /** Once the gateway is created, it is not possible to change this attribute. */
 export type RoutingType = "POLICY_BASED" | "ROUTE_BASED" | "BGP_ROUTE_BASED";
-export const RoutingType = /*@__PURE__*/ S.String;
+export const RoutingType = S.String;
 
 export interface CreateGatewayRequest {
   projectId: string;
@@ -136,16 +134,14 @@ export const CreateGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://vpn.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateGatewayRequest",
-}) as any as S.Schema<CreateGatewayRequest>;
+).annotate({ identifier: "CreateGatewayRequest" }) as any as S.Schema<CreateGatewayRequest>;
 
 export type CreateGatewayResponseAvailabilityZones = CreateGatewayRequestAvailabilityZones;
 export const CreateGatewayResponseAvailabilityZones = CreateGatewayRequestAvailabilityZones;
 
 /** The current lifecycle state of the gateway infrastructure. - `PENDING`: Provisioning or update is in progress. - `READY`: The gateway is fully operational. - `ERROR`: A failure occurred. - `DELETING`: The resource is being removed. */
 export type GatewayStatus = "PENDING" | "READY" | "ERROR" | "DELETING";
-export const GatewayStatus = /*@__PURE__*/ S.String;
+export const GatewayStatus = S.String;
 
 export interface CreateGatewayResponse {
   availabilityZones: CreateGatewayRequestAvailabilityZones;
@@ -173,13 +169,11 @@ export const CreateGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     state: S.optional(GatewayStatus),
   }),
-).annotate({
-  identifier: "CreateGatewayResponse",
-}) as any as S.Schema<CreateGatewayResponse>;
+).annotate({ identifier: "CreateGatewayResponse" }) as any as S.Schema<CreateGatewayResponse>;
 
 /** The region in which the resource is located. */
 export type CreateGatewayBGPFilterRequestRegion = "eu01" | "eu02";
-export const CreateGatewayBGPFilterRequestRegion = /*@__PURE__*/ S.String;
+export const CreateGatewayBGPFilterRequestRegion = S.String;
 
 export interface CreateGatewayBGPFilterRequest {
   projectId: string;
@@ -222,11 +216,11 @@ export const BGPFilter = /*@__PURE__*/ S.suspend(() =>
 
 /** The region in which the resource is located. */
 export type CreateGatewayBGPFilterRuleRequestRegion = "eu01" | "eu02";
-export const CreateGatewayBGPFilterRuleRequestRegion = /*@__PURE__*/ S.String;
+export const CreateGatewayBGPFilterRuleRequestRegion = S.String;
 
 /** The action to take if the route matches all criteria. Case-sensitive. */
 export type CreateGatewayBGPFilterRuleRequestAction = "PERMIT" | "DENY";
-export const CreateGatewayBGPFilterRuleRequestAction = /*@__PURE__*/ S.String;
+export const CreateGatewayBGPFilterRuleRequestAction = S.String;
 
 /** Matches if the AS-PATH contains any one of the listed ASNs (logical OR within the list). Treated as an unordered set; ordering is not preserved by the storage layer. When combined with firstASN, both conditions must hold (logical AND, consistent with the rest of the match block). If firstASN is also listed here, its presence as the first hop is sufficient to satisfy this list; no duplicate hop is required. */
 export type CreateGatewayBGPFilterRuleRequestMatchAsPathContainsAnyList = Array<number>;
@@ -328,7 +322,7 @@ export const CreateGatewayBGPFilterRuleRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The action to take if the route matches all criteria. Case-sensitive. */
 export type BGPFilterRuleAction = "PERMIT" | "DENY";
-export const BGPFilterRuleAction = /*@__PURE__*/ S.String;
+export const BGPFilterRuleAction = S.String;
 
 /** Matches if the AS-PATH contains any one of the listed ASNs (logical OR within the list). Treated as an unordered set; ordering is not preserved by the storage layer. When combined with firstASN, both conditions must hold (logical AND, consistent with the rest of the match block). If firstASN is also listed here, its presence as the first hop is sufficient to satisfy this list; no duplicate hop is required. */
 export type BGPFilterRuleMatchAsPathContainsAnyList = Array<number>;
@@ -375,9 +369,7 @@ export const BGPFilterRuleMatch = /*@__PURE__*/ S.suspend(() =>
     peer: S.optional(S.String),
     prefixes: S.optional(BGPFilterRuleMatchPrefixesList),
   }),
-).annotate({
-  identifier: "BGPFilterRuleMatch",
-}) as any as S.Schema<BGPFilterRuleMatch>;
+).annotate({ identifier: "BGPFilterRuleMatch" }) as any as S.Schema<BGPFilterRuleMatch>;
 
 /** Optional BGP attributes to apply when 'action' is PERMIT. Ignored for DENY rules. */
 export type BGPFilterRuleSet = CreateGatewayBGPFilterRuleRequestSet;
@@ -408,7 +400,7 @@ export const BGPFilterRule = /*@__PURE__*/ S.suspend(() =>
 
 /** The region in which the resource is located. */
 export type CreateGatewayConnectionRequestRegion = "eu01" | "eu02";
-export const CreateGatewayConnectionRequestRegion = /*@__PURE__*/ S.String;
+export const CreateGatewayConnectionRequestRegion = S.String;
 
 /** Optional. Defaults to 0.0.0.0/0 for Route-based VPN configurations. Mandatory for Policy-based. */
 export type CreateGatewayConnectionRequestLocalSubnetsList = Array<string>;
@@ -438,9 +430,7 @@ export const BGPTunnelConfig = /*@__PURE__*/ S.suspend(() =>
     inboundFilterId: S.optional(S.NullOr(S.String)),
     remoteAsn: S.Number,
   }),
-).annotate({
-  identifier: "BGPTunnelConfig",
-}) as any as S.Schema<BGPTunnelConfig>;
+).annotate({ identifier: "BGPTunnelConfig" }) as any as S.Schema<BGPTunnelConfig>;
 
 /** The peering object defines the point-to-point IP configuration for the Tunnel Interface. These addresses serve as next-hop identifiers and are used for BGP peering sessions and can be used in Static Route-Based connectivity. */
 export interface PeeringConfig {
@@ -460,7 +450,7 @@ export type TunnelConfigurationPhase1DhGroupsItem =
   | "ecp256"
   | "ecp384"
   | "modp2048s256";
-export const TunnelConfigurationPhase1DhGroupsItem = /*@__PURE__*/ S.String;
+export const TunnelConfigurationPhase1DhGroupsItem = S.String;
 
 /** The Diffie-Hellman Group. Required, except if AEAD algorithms are selected. */
 export type TunnelConfigurationPhase1DhGroupsList = Array<
@@ -474,7 +464,7 @@ export type TunnelConfigurationPhase1EncryptionAlgorithmsItem =
   | "aes256"
   | "aes128gcm16"
   | "aes256gcm16";
-export const TunnelConfigurationPhase1EncryptionAlgorithmsItem = /*@__PURE__*/ S.String;
+export const TunnelConfigurationPhase1EncryptionAlgorithmsItem = S.String;
 
 export type TunnelConfigurationPhase1EncryptionAlgorithmsList = Array<
   TunnelConfigurationPhase1EncryptionAlgorithmsItem | (string & {})
@@ -488,7 +478,7 @@ export type TunnelConfigurationPhase1IntegrityAlgorithmsItem =
   | "sha2_256"
   | "sha2_384"
   | "sha2_512";
-export const TunnelConfigurationPhase1IntegrityAlgorithmsItem = /*@__PURE__*/ S.String;
+export const TunnelConfigurationPhase1IntegrityAlgorithmsItem = S.String;
 
 /** Supported integrity algorithms. SHA1 is deprecated and will be removed on 2026-12-31. */
 export type TunnelConfigurationPhase1IntegrityAlgorithmsList = Array<
@@ -524,7 +514,7 @@ export type TunnelConfigurationPhase2DhGroupsItem =
   | "ecp256"
   | "ecp384"
   | "modp2048s256";
-export const TunnelConfigurationPhase2DhGroupsItem = /*@__PURE__*/ S.String;
+export const TunnelConfigurationPhase2DhGroupsItem = S.String;
 
 /** The Diffie-Hellman Group. Required, except if AEAD algorithms are selected. */
 export type TunnelConfigurationPhase2DhGroupsList = Array<
@@ -538,7 +528,7 @@ export type TunnelConfigurationPhase2EncryptionAlgorithmsItem =
   | "aes256"
   | "aes128gcm16"
   | "aes256gcm16";
-export const TunnelConfigurationPhase2EncryptionAlgorithmsItem = /*@__PURE__*/ S.String;
+export const TunnelConfigurationPhase2EncryptionAlgorithmsItem = S.String;
 
 export type TunnelConfigurationPhase2EncryptionAlgorithmsList = Array<
   TunnelConfigurationPhase2EncryptionAlgorithmsItem | (string & {})
@@ -552,7 +542,7 @@ export type TunnelConfigurationPhase2IntegrityAlgorithmsItem =
   | "sha2_256"
   | "sha2_384"
   | "sha2_512";
-export const TunnelConfigurationPhase2IntegrityAlgorithmsItem = /*@__PURE__*/ S.String;
+export const TunnelConfigurationPhase2IntegrityAlgorithmsItem = S.String;
 
 /** Supported integrity algorithms. SHA1 is deprecated and will be removed on 2026-12-31. */
 export type TunnelConfigurationPhase2IntegrityAlgorithmsList = Array<
@@ -564,11 +554,11 @@ export const TunnelConfigurationPhase2IntegrityAlgorithmsList = /*@__PURE__*/ S.
 
 /** Action to perform for this CHILD_SA on DPD timeout. "clear": Closes the CHILD_SA and does not take further action. "restart": immediately tries to re-negotiate the CILD_SA under a fresh IKE_SA. */
 export type TunnelConfigurationPhase2DpdAction = "clear" | "restart";
-export const TunnelConfigurationPhase2DpdAction = /*@__PURE__*/ S.String;
+export const TunnelConfigurationPhase2DpdAction = S.String;
 
 /** Action to perform after loading the connection configuration. "none": The connection will be loaded but needs to be manually initiated. "start": initiates the connection actively. */
 export type TunnelConfigurationPhase2StartAction = "none" | "start";
-export const TunnelConfigurationPhase2StartAction = /*@__PURE__*/ S.String;
+export const TunnelConfigurationPhase2StartAction = S.String;
 
 export interface TunnelConfigurationPhase2 {
   /** The Diffie-Hellman Group. Required, except if AEAD algorithms are selected. */
@@ -614,9 +604,7 @@ export const TunnelConfiguration = /*@__PURE__*/ S.suspend(() =>
     preSharedKey: S.optional(S.String),
     remoteAddress: S.String,
   }),
-).annotate({
-  identifier: "TunnelConfiguration",
-}) as any as S.Schema<TunnelConfiguration>;
+).annotate({ identifier: "TunnelConfiguration" }) as any as S.Schema<TunnelConfiguration>;
 
 export interface CreateGatewayConnectionRequest {
   projectId: string;
@@ -685,7 +673,7 @@ export type TunnelConfigurationOutputPhase1DhGroupsItem =
   | "ecp256"
   | "ecp384"
   | "modp2048s256";
-export const TunnelConfigurationOutputPhase1DhGroupsItem = /*@__PURE__*/ S.String;
+export const TunnelConfigurationOutputPhase1DhGroupsItem = S.String;
 
 /** The Diffie-Hellman Group. Required, except if AEAD algorithms are selected. */
 export type TunnelConfigurationOutputPhase1DhGroupsList =
@@ -698,7 +686,7 @@ export type TunnelConfigurationOutputPhase1EncryptionAlgorithmsItem =
   | "aes256"
   | "aes128gcm16"
   | "aes256gcm16";
-export const TunnelConfigurationOutputPhase1EncryptionAlgorithmsItem = /*@__PURE__*/ S.String;
+export const TunnelConfigurationOutputPhase1EncryptionAlgorithmsItem = S.String;
 
 export type TunnelConfigurationOutputPhase1EncryptionAlgorithmsList =
   Array<TunnelConfigurationOutputPhase1EncryptionAlgorithmsItem>;
@@ -711,7 +699,7 @@ export type TunnelConfigurationOutputPhase1IntegrityAlgorithmsItem =
   | "sha2_256"
   | "sha2_384"
   | "sha2_512";
-export const TunnelConfigurationOutputPhase1IntegrityAlgorithmsItem = /*@__PURE__*/ S.String;
+export const TunnelConfigurationOutputPhase1IntegrityAlgorithmsItem = S.String;
 
 /** Supported integrity algorithms. SHA1 is deprecated and will be removed on 2026-12-31. */
 export type TunnelConfigurationOutputPhase1IntegrityAlgorithmsList =
@@ -746,7 +734,7 @@ export type TunnelConfigurationOutputPhase2DhGroupsItem =
   | "ecp256"
   | "ecp384"
   | "modp2048s256";
-export const TunnelConfigurationOutputPhase2DhGroupsItem = /*@__PURE__*/ S.String;
+export const TunnelConfigurationOutputPhase2DhGroupsItem = S.String;
 
 /** The Diffie-Hellman Group. Required, except if AEAD algorithms are selected. */
 export type TunnelConfigurationOutputPhase2DhGroupsList =
@@ -759,7 +747,7 @@ export type TunnelConfigurationOutputPhase2EncryptionAlgorithmsItem =
   | "aes256"
   | "aes128gcm16"
   | "aes256gcm16";
-export const TunnelConfigurationOutputPhase2EncryptionAlgorithmsItem = /*@__PURE__*/ S.String;
+export const TunnelConfigurationOutputPhase2EncryptionAlgorithmsItem = S.String;
 
 export type TunnelConfigurationOutputPhase2EncryptionAlgorithmsList =
   Array<TunnelConfigurationOutputPhase2EncryptionAlgorithmsItem>;
@@ -772,7 +760,7 @@ export type TunnelConfigurationOutputPhase2IntegrityAlgorithmsItem =
   | "sha2_256"
   | "sha2_384"
   | "sha2_512";
-export const TunnelConfigurationOutputPhase2IntegrityAlgorithmsItem = /*@__PURE__*/ S.String;
+export const TunnelConfigurationOutputPhase2IntegrityAlgorithmsItem = S.String;
 
 /** Supported integrity algorithms. SHA1 is deprecated and will be removed on 2026-12-31. */
 export type TunnelConfigurationOutputPhase2IntegrityAlgorithmsList =
@@ -783,11 +771,11 @@ export const TunnelConfigurationOutputPhase2IntegrityAlgorithmsList = /*@__PURE_
 
 /** Action to perform for this CHILD_SA on DPD timeout. "clear": Closes the CHILD_SA and does not take further action. "restart": immediately tries to re-negotiate the CILD_SA under a fresh IKE_SA. */
 export type TunnelConfigurationOutputPhase2DpdAction = "clear" | "restart";
-export const TunnelConfigurationOutputPhase2DpdAction = /*@__PURE__*/ S.String;
+export const TunnelConfigurationOutputPhase2DpdAction = S.String;
 
 /** Action to perform after loading the connection configuration. "none": The connection will be loaded but needs to be manually initiated. "start": initiates the connection actively. */
 export type TunnelConfigurationOutputPhase2StartAction = "none" | "start";
-export const TunnelConfigurationOutputPhase2StartAction = /*@__PURE__*/ S.String;
+export const TunnelConfigurationOutputPhase2StartAction = S.String;
 
 export interface TunnelConfigurationOutputPhase2 {
   /** The Diffie-Hellman Group. Required, except if AEAD algorithms are selected. */
@@ -863,13 +851,11 @@ export const ConnectionResponseOutput = /*@__PURE__*/ S.suspend(() =>
     tunnel1: TunnelConfigurationOutput,
     tunnel2: TunnelConfigurationOutput,
   }),
-).annotate({
-  identifier: "ConnectionResponseOutput",
-}) as any as S.Schema<ConnectionResponseOutput>;
+).annotate({ identifier: "ConnectionResponseOutput" }) as any as S.Schema<ConnectionResponseOutput>;
 
 /** The region in which the resource is located. */
 export type DeleteGatewayRequestRegion = "eu01" | "eu02";
-export const DeleteGatewayRequestRegion = /*@__PURE__*/ S.String;
+export const DeleteGatewayRequestRegion = S.String;
 
 export interface DeleteGatewayRequest {
   projectId: string;
@@ -889,9 +875,7 @@ export const DeleteGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://vpn.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteGatewayRequest",
-}) as any as S.Schema<DeleteGatewayRequest>;
+).annotate({ identifier: "DeleteGatewayRequest" }) as any as S.Schema<DeleteGatewayRequest>;
 
 export interface DeleteGatewayResponse {}
 export const DeleteGatewayResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -900,7 +884,7 @@ export const DeleteGatewayResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}))
 
 /** The region in which the resource is located. */
 export type DeleteGatewayBGPFilterRequestRegion = "eu01" | "eu02";
-export const DeleteGatewayBGPFilterRequestRegion = /*@__PURE__*/ S.String;
+export const DeleteGatewayBGPFilterRequestRegion = S.String;
 
 export interface DeleteGatewayBGPFilterRequest {
   projectId: string;
@@ -933,7 +917,7 @@ export const DeleteGatewayBGPFilterResponse = /*@__PURE__*/ S.suspend(() => S.St
 
 /** The region in which the resource is located. */
 export type DeleteGatewayBGPFilterRuleRequestRegion = "eu01" | "eu02";
-export const DeleteGatewayBGPFilterRuleRequestRegion = /*@__PURE__*/ S.String;
+export const DeleteGatewayBGPFilterRuleRequestRegion = S.String;
 
 export interface DeleteGatewayBGPFilterRuleRequest {
   projectId: string;
@@ -970,7 +954,7 @@ export const DeleteGatewayBGPFilterRuleResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** The region in which the resource is located. */
 export type DeleteGatewayConnectionRequestRegion = "eu01" | "eu02";
-export const DeleteGatewayConnectionRequestRegion = /*@__PURE__*/ S.String;
+export const DeleteGatewayConnectionRequestRegion = S.String;
 
 export interface DeleteGatewayConnectionRequest {
   projectId: string;
@@ -998,14 +982,12 @@ export const DeleteGatewayConnectionRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteGatewayConnectionResponse {}
 export const DeleteGatewayConnectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteGatewayConnectionResponse",
-  },
+  { identifier: "DeleteGatewayConnectionResponse" },
 ) as any as S.Schema<DeleteGatewayConnectionResponse>;
 
 /** The region in which the resource is located. */
 export type GetGatewayRequestRegion = "eu01" | "eu02";
-export const GetGatewayRequestRegion = /*@__PURE__*/ S.String;
+export const GetGatewayRequestRegion = S.String;
 
 export interface GetGatewayRequest {
   projectId: string;
@@ -1025,9 +1007,7 @@ export const GetGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://vpn.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetGatewayRequest",
-}) as any as S.Schema<GetGatewayRequest>;
+).annotate({ identifier: "GetGatewayRequest" }) as any as S.Schema<GetGatewayRequest>;
 
 export type GetGatewayResponseAvailabilityZones = CreateGatewayRequestAvailabilityZones;
 export const GetGatewayResponseAvailabilityZones = CreateGatewayRequestAvailabilityZones;
@@ -1058,13 +1038,11 @@ export const GetGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     state: S.optional(GatewayStatus),
   }),
-).annotate({
-  identifier: "GetGatewayResponse",
-}) as any as S.Schema<GetGatewayResponse>;
+).annotate({ identifier: "GetGatewayResponse" }) as any as S.Schema<GetGatewayResponse>;
 
 /** The region in which the resource is located. */
 export type GetGatewayBGPFilterRequestRegion = "eu01" | "eu02";
-export const GetGatewayBGPFilterRequestRegion = /*@__PURE__*/ S.String;
+export const GetGatewayBGPFilterRequestRegion = S.String;
 
 export interface GetGatewayBGPFilterRequest {
   projectId: string;
@@ -1092,7 +1070,7 @@ export const GetGatewayBGPFilterRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The region in which the resource is located. */
 export type GetGatewayBGPFilterRuleRequestRegion = "eu01" | "eu02";
-export const GetGatewayBGPFilterRuleRequestRegion = /*@__PURE__*/ S.String;
+export const GetGatewayBGPFilterRuleRequestRegion = S.String;
 
 export interface GetGatewayBGPFilterRuleRequest {
   projectId: string;
@@ -1122,7 +1100,7 @@ export const GetGatewayBGPFilterRuleRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The region in which the resource is located. */
 export type GetGatewayConnectionRequestRegion = "eu01" | "eu02";
-export const GetGatewayConnectionRequestRegion = /*@__PURE__*/ S.String;
+export const GetGatewayConnectionRequestRegion = S.String;
 
 export interface GetGatewayConnectionRequest {
   projectId: string;
@@ -1150,7 +1128,7 @@ export const GetGatewayConnectionRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The region in which the resource is located. */
 export type GetGatewayConnectionStatusRequestRegion = "eu01" | "eu02";
-export const GetGatewayConnectionStatusRequestRegion = /*@__PURE__*/ S.String;
+export const GetGatewayConnectionStatusRequestRegion = S.String;
 
 export interface GetGatewayConnectionStatusRequest {
   projectId: string;
@@ -1177,7 +1155,7 @@ export const GetGatewayConnectionStatusRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetGatewayConnectionStatusRequest>;
 
 export type TunnelStatusName = "tunnel1" | "tunnel2";
-export const TunnelStatusName = /*@__PURE__*/ S.String;
+export const TunnelStatusName = S.String;
 
 export interface Phase1Status {
   /** The negotiated Diffie-Hellman Group */
@@ -1269,13 +1247,11 @@ export const ConnectionStatusResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     tunnels: S.optional(ConnectionStatusResponseTunnelsList),
   }),
-).annotate({
-  identifier: "ConnectionStatusResponse",
-}) as any as S.Schema<ConnectionStatusResponse>;
+).annotate({ identifier: "ConnectionStatusResponse" }) as any as S.Schema<ConnectionStatusResponse>;
 
 /** The region in which the resource is located. */
 export type GetGatewayStatusRequestRegion = "eu01" | "eu02";
-export const GetGatewayStatusRequestRegion = /*@__PURE__*/ S.String;
+export const GetGatewayStatusRequestRegion = S.String;
 
 export interface GetGatewayStatusRequest {
   projectId: string;
@@ -1295,9 +1271,7 @@ export const GetGatewayStatusRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://vpn.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetGatewayStatusRequest",
-}) as any as S.Schema<GetGatewayStatusRequest>;
+).annotate({ identifier: "GetGatewayStatusRequest" }) as any as S.Schema<GetGatewayStatusRequest>;
 
 export type GatewayStatusResponseConnectionsList = Array<ConnectionStatusResponse>;
 export const GatewayStatusResponseConnectionsList = /*@__PURE__*/ S.Array(
@@ -1355,9 +1329,7 @@ export const BGPStatusRoutes = /*@__PURE__*/ S.suspend(() =>
     peerId: S.String,
     weight: S.Number,
   }),
-).annotate({
-  identifier: "BGPStatusRoutes",
-}) as any as S.Schema<BGPStatusRoutes>;
+).annotate({ identifier: "BGPStatusRoutes" }) as any as S.Schema<BGPStatusRoutes>;
 
 export type BGPStatusRoutesList = Array<BGPStatusRoutes>;
 export const BGPStatusRoutesList = /*@__PURE__*/ S.Array(
@@ -1376,7 +1348,7 @@ export const BGPStatus = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "BGPStatus" }) as any as S.Schema<BGPStatus>;
 
 export type VPNTunnelsName = "tunnel1" | "tunnel2";
-export const VPNTunnelsName = /*@__PURE__*/ S.String;
+export const VPNTunnelsName = S.String;
 
 /** Status of the underlying tunnel instances. */
 export interface VPNTunnels {
@@ -1423,13 +1395,11 @@ export const GatewayStatusResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     tunnels: S.optional(GatewayStatusResponseTunnelsList),
   }),
-).annotate({
-  identifier: "GatewayStatusResponse",
-}) as any as S.Schema<GatewayStatusResponse>;
+).annotate({ identifier: "GatewayStatusResponse" }) as any as S.Schema<GatewayStatusResponse>;
 
 /** The region in which the resource is located. */
 export type ListGatewayBGPFilterRulesRequestRegion = "eu01" | "eu02";
-export const ListGatewayBGPFilterRulesRequestRegion = /*@__PURE__*/ S.String;
+export const ListGatewayBGPFilterRulesRequestRegion = S.String;
 
 export interface ListGatewayBGPFilterRulesRequest {
   projectId: string;
@@ -1468,13 +1438,11 @@ export const BGPFilterRuleList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rules: BGPFilterRuleListRulesList,
   }),
-).annotate({
-  identifier: "BGPFilterRuleList",
-}) as any as S.Schema<BGPFilterRuleList>;
+).annotate({ identifier: "BGPFilterRuleList" }) as any as S.Schema<BGPFilterRuleList>;
 
 /** The region in which the resource is located. */
 export type ListGatewayBGPFiltersRequestRegion = "eu01" | "eu02";
-export const ListGatewayBGPFiltersRequestRegion = /*@__PURE__*/ S.String;
+export const ListGatewayBGPFiltersRequestRegion = S.String;
 
 export interface ListGatewayBGPFiltersRequest {
   projectId: string;
@@ -1515,7 +1483,7 @@ export const BGPFilterList = /*@__PURE__*/ S.suspend(() =>
 
 /** The region in which the resource is located. */
 export type ListGatewayConnectionsRequestRegion = "eu01" | "eu02";
-export const ListGatewayConnectionsRequestRegion = /*@__PURE__*/ S.String;
+export const ListGatewayConnectionsRequestRegion = S.String;
 
 /** Filter resources by labels. */
 export type LabelSelector = { [key: string]: string | undefined };
@@ -1561,13 +1529,11 @@ export const ConnectionListOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connections: ConnectionListOutputConnectionsList,
   }),
-).annotate({
-  identifier: "ConnectionListOutput",
-}) as any as S.Schema<ConnectionListOutput>;
+).annotate({ identifier: "ConnectionListOutput" }) as any as S.Schema<ConnectionListOutput>;
 
 /** The region in which the resource is located. */
 export type ListGatewaysRequestRegion = "eu01" | "eu02";
-export const ListGatewaysRequestRegion = /*@__PURE__*/ S.String;
+export const ListGatewaysRequestRegion = S.String;
 
 export interface ListGatewaysRequest {
   projectId: string;
@@ -1588,9 +1554,7 @@ export const ListGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://vpn.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListGatewaysRequest",
-}) as any as S.Schema<ListGatewaysRequest>;
+).annotate({ identifier: "ListGatewaysRequest" }) as any as S.Schema<ListGatewaysRequest>;
 
 export type GatewayResponseAvailabilityZones = CreateGatewayRequestAvailabilityZones;
 export const GatewayResponseAvailabilityZones = CreateGatewayRequestAvailabilityZones;
@@ -1621,9 +1585,7 @@ export const GatewayResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     state: S.optional(GatewayStatus),
   }),
-).annotate({
-  identifier: "GatewayResponse",
-}) as any as S.Schema<GatewayResponse>;
+).annotate({ identifier: "GatewayResponse" }) as any as S.Schema<GatewayResponse>;
 
 export type GatewayListGatewaysList = Array<GatewayResponse>;
 export const GatewayListGatewaysList = /*@__PURE__*/ S.Array(
@@ -1641,7 +1603,7 @@ export const GatewayList = /*@__PURE__*/ S.suspend(() =>
 
 /** The region in which the resource is located. */
 export type ListPlansRequestRegion = "eu01" | "eu02";
-export const ListPlansRequestRegion = /*@__PURE__*/ S.String;
+export const ListPlansRequestRegion = S.String;
 
 export interface ListPlansRequest {
   region: ListPlansRequestRegion | (string & {});
@@ -1657,9 +1619,7 @@ export const ListPlansRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://vpn.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListPlansRequest",
-}) as any as S.Schema<ListPlansRequest>;
+).annotate({ identifier: "ListPlansRequest" }) as any as S.Schema<ListPlansRequest>;
 
 export interface Plan {
   /** The maximum throughput supported by the gateway in each direction, measured in MBit/s */
@@ -1698,7 +1658,7 @@ export const PlanList = /*@__PURE__*/ S.suspend(() =>
 
 /** The region in which the resource is located. */
 export type ListQuotasRequestRegion = "eu01" | "eu02";
-export const ListQuotasRequestRegion = /*@__PURE__*/ S.String;
+export const ListQuotasRequestRegion = S.String;
 
 export interface ListQuotasRequest {
   projectId: string;
@@ -1716,9 +1676,7 @@ export const ListQuotasRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://vpn.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListQuotasRequest",
-}) as any as S.Schema<ListQuotasRequest>;
+).annotate({ identifier: "ListQuotasRequest" }) as any as S.Schema<ListQuotasRequest>;
 
 export interface Quota {
   limit: number;
@@ -1748,13 +1706,11 @@ export const QuotaListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     quotas: QuotaList,
   }),
-).annotate({
-  identifier: "QuotaListResponse",
-}) as any as S.Schema<QuotaListResponse>;
+).annotate({ identifier: "QuotaListResponse" }) as any as S.Schema<QuotaListResponse>;
 
 /** The region in which the resource is located. */
 export type UpdateGatewayRequestRegion = "eu01" | "eu02";
-export const UpdateGatewayRequestRegion = /*@__PURE__*/ S.String;
+export const UpdateGatewayRequestRegion = S.String;
 
 export type UpdateGatewayRequestAvailabilityZones = CreateGatewayRequestAvailabilityZones;
 export const UpdateGatewayRequestAvailabilityZones = CreateGatewayRequestAvailabilityZones;
@@ -1793,9 +1749,7 @@ export const UpdateGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://vpn.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateGatewayRequest",
-}) as any as S.Schema<UpdateGatewayRequest>;
+).annotate({ identifier: "UpdateGatewayRequest" }) as any as S.Schema<UpdateGatewayRequest>;
 
 export type UpdateGatewayResponseAvailabilityZones = CreateGatewayRequestAvailabilityZones;
 export const UpdateGatewayResponseAvailabilityZones = CreateGatewayRequestAvailabilityZones;
@@ -1826,13 +1780,11 @@ export const UpdateGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     state: S.optional(GatewayStatus),
   }),
-).annotate({
-  identifier: "UpdateGatewayResponse",
-}) as any as S.Schema<UpdateGatewayResponse>;
+).annotate({ identifier: "UpdateGatewayResponse" }) as any as S.Schema<UpdateGatewayResponse>;
 
 /** The region in which the resource is located. */
 export type UpdateGatewayBGPFilterRequestRegion = "eu01" | "eu02";
-export const UpdateGatewayBGPFilterRequestRegion = /*@__PURE__*/ S.String;
+export const UpdateGatewayBGPFilterRequestRegion = S.String;
 
 export interface UpdateGatewayBGPFilterRequest {
   projectId: string;
@@ -1863,11 +1815,11 @@ export const UpdateGatewayBGPFilterRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The region in which the resource is located. */
 export type UpdateGatewayBGPFilterRuleRequestRegion = "eu01" | "eu02";
-export const UpdateGatewayBGPFilterRuleRequestRegion = /*@__PURE__*/ S.String;
+export const UpdateGatewayBGPFilterRuleRequestRegion = S.String;
 
 /** The action to take if the route matches all criteria. Case-sensitive. */
 export type UpdateGatewayBGPFilterRuleRequestAction = "PERMIT" | "DENY";
-export const UpdateGatewayBGPFilterRuleRequestAction = /*@__PURE__*/ S.String;
+export const UpdateGatewayBGPFilterRuleRequestAction = S.String;
 
 /** Matches if the AS-PATH contains any one of the listed ASNs (logical OR within the list). Treated as an unordered set; ordering is not preserved by the storage layer. When combined with firstASN, both conditions must hold (logical AND, consistent with the rest of the match block). If firstASN is also listed here, its presence as the first hop is sufficient to satisfy this list; no duplicate hop is required. */
 export type UpdateGatewayBGPFilterRuleRequestMatchAsPathContainsAnyList = Array<number>;
@@ -1962,7 +1914,7 @@ export const UpdateGatewayBGPFilterRuleRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The region in which the resource is located. */
 export type UpdateGatewayConnectionRequestRegion = "eu01" | "eu02";
-export const UpdateGatewayConnectionRequestRegion = /*@__PURE__*/ S.String;
+export const UpdateGatewayConnectionRequestRegion = S.String;
 
 /** Optional. Defaults to 0.0.0.0/0 for Route-based VPN configurations. Mandatory for Policy-based. */
 export type UpdateGatewayConnectionRequestLocalSubnetsList = Array<string>;

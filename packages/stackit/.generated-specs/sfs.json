@@ -287,7 +287,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "An optional object that represents the labels associated with the resource pool\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+        "smithy.api#documentation": "An optional object that represents the labels associated with the resource pool."
       }
     },
     "com.stackit.sfs#CreateResourcePoolRequest": {
@@ -324,7 +324,7 @@
         "labels": {
           "target": "com.stackit.sfs#CreateResourcePoolRequestLabelsMap",
           "traits": {
-            "smithy.api#documentation": "An optional object that represents the labels associated with the resource pool\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+            "smithy.api#documentation": "An optional object that represents the labels associated with the resource pool."
           }
         },
         "name": {
@@ -482,7 +482,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "An optional object that represents the labels associated with the resource pool\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+        "smithy.api#documentation": "An optional object that represents the labels associated with the resource pool."
       }
     },
     "com.stackit.sfs#UpdateResourcePoolRequest": {
@@ -518,7 +518,7 @@
         "labels": {
           "target": "com.stackit.sfs#UpdateResourcePoolRequestLabelsMap",
           "traits": {
-            "smithy.api#documentation": "An optional object that represents the labels associated with the resource pool\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+            "smithy.api#documentation": "An optional object that represents the labels associated with the resource pool."
           }
         },
         "performanceClass": {
@@ -717,7 +717,7 @@
         "labels": {
           "target": "com.stackit.sfs#ShareLabelsMap",
           "traits": {
-            "smithy.api#documentation": "An optional object that represents the labels associated with the share\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+            "smithy.api#documentation": "An optional object that represents the labels associated with the share."
           }
         },
         "mountPath": {
@@ -762,7 +762,7 @@
         "labels": {
           "target": "com.stackit.sfs#ShareExportPolicyLabelsMap",
           "traits": {
-            "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+            "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy."
           }
         },
         "name": {
@@ -795,7 +795,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+        "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy."
       }
     },
     "com.stackit.sfs#ShareExportPolicyRule": {
@@ -877,7 +877,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "An optional object that represents the labels associated with the share\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+        "smithy.api#documentation": "An optional object that represents the labels associated with the share."
       }
     },
     "com.stackit.sfs#ListSharesResponseSharesList": {
@@ -921,7 +921,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "An optional object that represents the labels associated with the share\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+        "smithy.api#documentation": "An optional object that represents the labels associated with the share."
       }
     },
     "com.stackit.sfs#CreateShareRequest": {
@@ -958,7 +958,7 @@
         "labels": {
           "target": "com.stackit.sfs#CreateShareRequestLabelsMap",
           "traits": {
-            "smithy.api#documentation": "An optional object that represents the labels associated with the share\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+            "smithy.api#documentation": "An optional object that represents the labels associated with the share."
           }
         },
         "name": {
@@ -1095,7 +1095,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "An optional object that represents the labels associated with the share\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+        "smithy.api#documentation": "An optional object that represents the labels associated with the share."
       }
     },
     "com.stackit.sfs#UpdateShareRequest": {
@@ -1139,7 +1139,7 @@
         "labels": {
           "target": "com.stackit.sfs#UpdateShareRequestLabelsMap",
           "traits": {
-            "smithy.api#documentation": "An optional object that represents the labels associated with the share\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+            "smithy.api#documentation": "An optional object that represents the labels associated with the share."
           }
         },
         "spaceHardLimitGigabytes": {
@@ -1772,7 +1772,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+        "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy."
       }
     },
     "com.stackit.sfs#CreateShareExportPolicyRequestRule": {
@@ -1856,7 +1856,7 @@
         "labels": {
           "target": "com.stackit.sfs#CreateShareExportPolicyRequestLabelsMap",
           "traits": {
-            "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+            "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy."
           }
         },
         "name": {
@@ -1985,7 +1985,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+        "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy."
       }
     },
     "com.stackit.sfs#UpdateShareExportPolicyBodyRule": {
@@ -2076,7 +2076,7 @@
         "labels": {
           "target": "com.stackit.sfs#UpdateShareExportPolicyRequestLabelsMap",
           "traits": {
-            "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+            "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy."
           }
         },
         "rules": {

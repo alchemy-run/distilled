@@ -674,7 +674,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Key-value pairs, 63 characters max, begin and end with an alphanumerical character,\nmay contain dashes (-), underscores (_), dots (.), and alphanumerics between. Key MUST be at least 1 character.\nMax 64 labels\nRegex for keys: ^(?=.{1,63}$)([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$\nRegex for values: ^(?=.{0,63}$)(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])*$\nThe stackit- prefix is reserved and cannot be used for Keys.\n"

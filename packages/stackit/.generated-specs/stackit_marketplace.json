@@ -213,7 +213,7 @@
         "deliveryMethod": {
           "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1SubscriptionProductDeliveryMethod",
           "traits": {
-            "smithy.api#documentation": "The product delivery method/type. For reference: SAAS - Software as a Service, SAI - STACKIT Application Image",
+            "smithy.api#documentation": "The product delivery method/type. For reference: SAAS - Software as a Service, CLOUD_IMAGE - STACKIT Cloud Image",
             "smithy.api#required": {}
           }
         },
@@ -363,16 +363,16 @@
             "smithy.api#enumValue": "SAAS"
           }
         },
-        "KUBERNETES": {
+        "CONTAINER_IMAGE": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "KUBERNETES"
+            "smithy.api#enumValue": "CONTAINER_IMAGE"
           }
         },
-        "SAI": {
+        "CLOUD_IMAGE": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "SAI"
+            "smithy.api#enumValue": "CLOUD_IMAGE"
           }
         },
         "PROFESSIONAL_SERVICE": {
@@ -383,7 +383,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "The product delivery method/type. For reference: SAAS - Software as a Service, SAI - STACKIT Application Image"
+        "smithy.api#documentation": "The product delivery method/type. For reference: SAAS - Software as a Service, CLOUD_IMAGE - STACKIT Cloud Image"
       }
     },
     "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1SubscriptionProductLifecycleState": {

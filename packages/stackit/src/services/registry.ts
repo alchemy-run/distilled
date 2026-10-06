@@ -75,9 +75,7 @@ export const CreateProxyRequest = /*@__PURE__*/ S.suspend(() =>
     registry_type: S.String,
     url: S.String,
   }),
-).annotate({
-  identifier: "CreateProxyRequest",
-}) as any as S.Schema<CreateProxyRequest>;
+).annotate({ identifier: "CreateProxyRequest" }) as any as S.Schema<CreateProxyRequest>;
 
 export interface CreateArtifactoryRequest {
   /** Project identifier. */
@@ -106,9 +104,7 @@ export const CreateArtifactoryRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://registry.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateArtifactoryRequest",
-}) as any as S.Schema<CreateArtifactoryRequest>;
+).annotate({ identifier: "CreateArtifactoryRequest" }) as any as S.Schema<CreateArtifactoryRequest>;
 
 /** Credentials for upstream registry, redacted */
 export interface RedactedCredentials {
@@ -118,9 +114,7 @@ export const RedactedCredentials = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     access_key: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RedactedCredentials",
-}) as any as S.Schema<RedactedCredentials>;
+).annotate({ identifier: "RedactedCredentials" }) as any as S.Schema<RedactedCredentials>;
 
 /** Replication settings for a proxy-cache artifactory */
 export interface Proxy {
@@ -193,9 +187,7 @@ export const DeleteArtifactoryRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://registry.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteArtifactoryRequest",
-}) as any as S.Schema<DeleteArtifactoryRequest>;
+).annotate({ identifier: "DeleteArtifactoryRequest" }) as any as S.Schema<DeleteArtifactoryRequest>;
 
 export interface DeleteArtifactoryResponse {}
 export const DeleteArtifactoryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -223,9 +215,7 @@ export const GetArtifactoryRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://registry.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetArtifactoryRequest",
-}) as any as S.Schema<GetArtifactoryRequest>;
+).annotate({ identifier: "GetArtifactoryRequest" }) as any as S.Schema<GetArtifactoryRequest>;
 
 export interface ListArtifactoriesRequest {
   /** Project identifier. */
@@ -251,9 +241,7 @@ export const ListArtifactoriesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://registry.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListArtifactoriesRequest",
-}) as any as S.Schema<ListArtifactoriesRequest>;
+).annotate({ identifier: "ListArtifactoriesRequest" }) as any as S.Schema<ListArtifactoriesRequest>;
 
 export type ArtifactoryListArtifactoriesList = Array<Artifactory>;
 export const ArtifactoryListArtifactoriesList = /*@__PURE__*/ S.Array(
@@ -271,9 +259,7 @@ export const ArtifactoryList = /*@__PURE__*/ S.suspend(() =>
     artifactories: ArtifactoryListArtifactoriesList,
     next_page_token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ArtifactoryList",
-}) as any as S.Schema<ArtifactoryList>;
+).annotate({ identifier: "ArtifactoryList" }) as any as S.Schema<ArtifactoryList>;
 
 export interface ListReplicationAdaptersRequest {
   /** Project identifier. */
@@ -308,9 +294,7 @@ export const ReplicationAdapter = /*@__PURE__*/ S.suspend(() =>
     display_name: S.String,
     registry_type: S.String,
   }),
-).annotate({
-  identifier: "ReplicationAdapter",
-}) as any as S.Schema<ReplicationAdapter>;
+).annotate({ identifier: "ReplicationAdapter" }) as any as S.Schema<ReplicationAdapter>;
 
 export type ReplicationAdapterListReplicationAdaptersList = Array<ReplicationAdapter>;
 export const ReplicationAdapterListReplicationAdaptersList = /*@__PURE__*/ S.Array(
@@ -328,9 +312,7 @@ export const ReplicationAdapterList = /*@__PURE__*/ S.suspend(() =>
     next_page_token: S.optional(S.String),
     replication_adapters: ReplicationAdapterListReplicationAdaptersList,
   }),
-).annotate({
-  identifier: "ReplicationAdapterList",
-}) as any as S.Schema<ReplicationAdapterList>;
+).annotate({ identifier: "ReplicationAdapterList" }) as any as S.Schema<ReplicationAdapterList>;
 
 /** Update an upstream repository for a proxy-cache project */
 export interface UpdateProxyRequest {
@@ -346,9 +328,7 @@ export const UpdateProxyRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateProxyRequest",
-}) as any as S.Schema<UpdateProxyRequest>;
+).annotate({ identifier: "UpdateProxyRequest" }) as any as S.Schema<UpdateProxyRequest>;
 
 export interface PatchArtifactoryRequest {
   /** Project identifier. */
@@ -373,9 +353,7 @@ export const PatchArtifactoryRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://registry.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "PatchArtifactoryRequest",
-}) as any as S.Schema<PatchArtifactoryRequest>;
+).annotate({ identifier: "PatchArtifactoryRequest" }) as any as S.Schema<PatchArtifactoryRequest>;
 
 export type CreateArtifactoryError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
 /** Creates an artifactory Creates an artifactory associated to the specified project. */

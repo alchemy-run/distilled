@@ -2157,7 +2157,7 @@
     },
     "com.stackit.logme#Logme": {
       "type": "service",
-      "version": "2.1.0",
+      "version": "2.2.0",
       "operations": [
         {
           "target": "com.stackit.logme#ListInstances"

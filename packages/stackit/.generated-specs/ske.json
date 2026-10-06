@@ -375,6 +375,18 @@
         },
         "id": {
           "target": "smithy.api#String"
+        },
+        "podAddressRanges": {
+          "target": "com.stackit.ske#NetworkPodAddressRangesList",
+          "traits": {
+            "smithy.api#documentation": "PodAddressRanges contains the CIDRs that are used to allocate Pod IPs from.\nCurrently only 1 range is allowed.\nImmutable after creation."
+          }
+        },
+        "serviceAddressRanges": {
+          "target": "com.stackit.ske#NetworkServiceAddressRangesList",
+          "traits": {
+            "smithy.api#documentation": "ServiceAddressRanges contains the CIDRs that are used to allocate Service ClusterIPs from.\nCurrently only 1 range is allowed.\nImmutable after creation."
+          }
         }
       },
       "traits": {}
@@ -420,6 +432,24 @@
       },
       "traits": {
         "smithy.api#documentation": "The access scope of the Control Plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area.\n⚠️ Warning: Changing the access scope on an existing cluster directly impacts its network exposure (e.g., making a private cluster publicly accessible)\n⚠️ Note: This feature is in private preview. Supplying this object is only permitted for enabled accounts. If your account does not have access, the request will be rejected."
+      }
+    },
+    "com.stackit.ske#NetworkPodAddressRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "PodAddressRanges contains the CIDRs that are used to allocate Pod IPs from.\nCurrently only 1 range is allowed.\nImmutable after creation."
+      }
+    },
+    "com.stackit.ske#NetworkServiceAddressRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "ServiceAddressRanges contains the CIDRs that are used to allocate Service ClusterIPs from.\nCurrently only 1 range is allowed.\nImmutable after creation."
       }
     },
     "com.stackit.ske#Nodepool": {
@@ -501,8 +531,24 @@
     "com.stackit.ske#CRI": {
       "type": "structure",
       "members": {
+        "kata": {
+          "target": "com.stackit.ske#Kata"
+        },
         "name": {
           "target": "com.stackit.ske#CRIName"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#Kata": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable workload isolation via Kata Containers for pods scheduled on this node pool.\n⚠️ Note: This feature is in private preview. Enabling is only possible for enabled accounts. Otherwise the request will be rejected.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
@@ -693,6 +739,12 @@
         "identity": {
           "target": "smithy.api#String"
         },
+        "nodeAddressRanges": {
+          "target": "com.stackit.ske#ClusterStatusNodeAddressRangesList",
+          "traits": {
+            "smithy.api#documentation": "The network ranges (in CIDR notation) used by nodes of the cluster."
+          }
+        },
         "podAddressRanges": {
           "target": "com.stackit.ske#ClusterStatusPodAddressRangesList",
           "traits": {
@@ -701,6 +753,12 @@
         },
         "serviceAccountIssuer": {
           "target": "smithy.api#String"
+        },
+        "serviceAddressRanges": {
+          "target": "com.stackit.ske#ClusterStatusServiceAddressRangesList",
+          "traits": {
+            "smithy.api#documentation": "The network ranges (in CIDR notation) used by services of the cluster."
+          }
         }
       },
       "traits": {}
@@ -1001,6 +1059,15 @@
       },
       "traits": {}
     },
+    "com.stackit.ske#ClusterStatusNodeAddressRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The network ranges (in CIDR notation) used by nodes of the cluster."
+      }
+    },
     "com.stackit.ske#ClusterStatusPodAddressRangesList": {
       "type": "list",
       "member": {
@@ -1008,6 +1075,15 @@
       },
       "traits": {
         "smithy.api#documentation": "The network ranges (in CIDR notation) used by pods of the cluster."
+      }
+    },
+    "com.stackit.ske#ClusterStatusServiceAddressRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The network ranges (in CIDR notation) used by services of the cluster."
       }
     },
     "com.stackit.ske#ListClustersResponseItemsList": {
