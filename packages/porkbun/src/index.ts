@@ -24,4 +24,4 @@ export * as Services from "./services/index.ts";
 // same-named shared ones from ./errors.ts — the ops actually raise the
 // service-local classes.
 export * from "./services/porkbun.ts";
-export { BadRequest, Forbidden, NotFound } from "./services/porkbun.ts";
+export { BadRequest, Conflict, Forbidden, NotFound } from "./services/porkbun.ts";
