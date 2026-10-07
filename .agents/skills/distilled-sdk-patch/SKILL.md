@@ -137,6 +137,13 @@ operation's `errors`:
   error that arrives as a 5xx should not be retried as a server error.
 - `add` at an array index inserts (RFC 6902), so `…/errors/0` puts a class
   first; `-` appends.
+- `add` of a new object key appends it. The extension `"before": "<key>"`
+  inserts it before that sibling instead, e.g. `errors` on an operation
+  that has none: `{ "op": "add", "path": "/shapes/…#Op/errors", "before":
+  "traits", "value": […] }` keeps the converter's `input, output, errors,
+  traits` order. A `move` onto itself with `before` reorders a key; the
+  `zz-shape-order.patch.json` files use that to keep shape order. The
+  audit reports such a file as needed with "(key order only)".
 
 **Field is null or missing on the wire.** Being nullable and being
 required are independent. A field that is sometimes absent loses its
