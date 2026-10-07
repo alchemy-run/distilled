@@ -23,12 +23,15 @@
     "format:check": "oxfmt --check",
     "lint": "oxlint -c oxlint.config.ts",
     "prepare": "husky",
-    "publish:packages": "pnpm publish --recursive --filter './packages/*' --access public",
-    "typecheck:ci": "tsc -b --noCheck false"
+    "typecheck:ci": "tsc -b --noCheck false",
+    "validate:publish-packages": "node scripts/validate-publish-packages.ts"
   },
   "devDependencies": {
+    "@alchemy.run/pkg": "2.0.0-beta.81",
+    "@effect/platform-node": "catalog:",
     "@types/node": "catalog:",
     "changelogithub": "catalog:",
+    "effect": "catalog:",
     "husky": "catalog:",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
