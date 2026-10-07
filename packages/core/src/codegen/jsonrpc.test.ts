@@ -253,6 +253,23 @@ describe("json-schema-rpc normalization and edge cases", () => {
     expect(mode.type).toBe("enum");
   });
 
+  test("base properties beside a oneOf distribute into every variant", () => {
+    // ACP's SessionConfigOption: shared id/name AND one per-kind variant.
+    const out = normalizeJsonSchema({
+      type: "object",
+      properties: { id: { type: "string" }, name: { type: "string" } },
+      required: ["id"],
+      oneOf: [
+        { type: "object", properties: { value: { type: "boolean" } }, required: ["value"] },
+        { type: "object", allOf: [{ $ref: "#/$defs/Select" }] },
+      ],
+    }) as { properties?: unknown; oneOf: Array<{ properties: object; required: string[] }> };
+    expect(out.properties).toBeUndefined();
+    expect(Object.keys(out.oneOf[0]!.properties)).toEqual(["id", "name", "value"]);
+    expect(out.oneOf[0]!.required).toEqual(["id", "value"]);
+    expect(Object.keys(out.oneOf[1]!.properties)).toEqual(["id", "name"]);
+  });
+
   test("union params are the operation's input directly (no `body` wrapper)", () => {
     const { shapes } = model();
     const login = shapes[`${ns}#AccountLogin`];

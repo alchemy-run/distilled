@@ -4642,16 +4642,48 @@ export const HooksListEntryErrorsList = /*@__PURE__*/ S.Array(
   HookErrorInfo,
 ) as any as S.Schema<HooksListEntryErrorsList>;
 
+export type HookTrustStatus = "managed" | "untrusted" | "trusted" | "modified";
+export const HookTrustStatus = S.String;
+
 export type HookMetadataCase0HandlerType = "command";
 export const HookMetadataCase0HandlerType = S.String;
 
 export interface HookMetadataCase0 {
+  /** Configured `additionalContext` spill threshold. `null` uses 2,500 tokens; `0` disables spilling. */
+  additionalContextLimit?: number | null;
+  currentHash: string;
+  displayOrder: number;
+  enabled: boolean;
+  eventName: HookEventName;
+  isManaged: boolean;
+  key: string;
+  matcher?: string | null;
+  pluginId?: string | null;
+  source: HookSource;
+  sourcePath: string;
+  statusMessage?: string | null;
+  timeoutSec: number;
+  trustStatus: HookTrustStatus;
   async?: boolean;
   command: string;
   handlerType: HookMetadataCase0HandlerType;
 }
 export const HookMetadataCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    additionalContextLimit: S.optional(S.NullOr(S.Number)),
+    currentHash: S.String,
+    displayOrder: S.Number,
+    enabled: S.Boolean,
+    eventName: HookEventName,
+    isManaged: S.Boolean,
+    key: S.String,
+    matcher: S.optional(S.NullOr(S.String)),
+    pluginId: S.optional(S.NullOr(S.String)),
+    source: HookSource,
+    sourcePath: S.String,
+    statusMessage: S.optional(S.NullOr(S.String)),
+    timeoutSec: S.Number,
+    trustStatus: HookTrustStatus,
     async: S.optional(S.Boolean),
     command: S.String,
     handlerType: HookMetadataCase0HandlerType,
@@ -4662,12 +4694,41 @@ export type HookMetadataCase1HandlerType = "mcpTool";
 export const HookMetadataCase1HandlerType = S.String;
 
 export interface HookMetadataCase1 {
+  /** Configured `additionalContext` spill threshold. `null` uses 2,500 tokens; `0` disables spilling. */
+  additionalContextLimit?: number | null;
+  currentHash: string;
+  displayOrder: number;
+  enabled: boolean;
+  eventName: HookEventName;
+  isManaged: boolean;
+  key: string;
+  matcher?: string | null;
+  pluginId?: string | null;
+  source: HookSource;
+  sourcePath: string;
+  statusMessage?: string | null;
+  timeoutSec: number;
+  trustStatus: HookTrustStatus;
   handlerType: HookMetadataCase1HandlerType;
   server: string;
   tool: string;
 }
 export const HookMetadataCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    additionalContextLimit: S.optional(S.NullOr(S.Number)),
+    currentHash: S.String,
+    displayOrder: S.Number,
+    enabled: S.Boolean,
+    eventName: HookEventName,
+    isManaged: S.Boolean,
+    key: S.String,
+    matcher: S.optional(S.NullOr(S.String)),
+    pluginId: S.optional(S.NullOr(S.String)),
+    source: HookSource,
+    sourcePath: S.String,
+    statusMessage: S.optional(S.NullOr(S.String)),
+    timeoutSec: S.Number,
+    trustStatus: HookTrustStatus,
     handlerType: HookMetadataCase1HandlerType,
     server: S.String,
     tool: S.String,
@@ -4678,10 +4739,39 @@ export type HookMetadataPromptHookMetadataHandlerType = "prompt";
 export const HookMetadataPromptHookMetadataHandlerType = S.String;
 
 export interface HookMetadataPromptHookMetadata {
+  /** Configured `additionalContext` spill threshold. `null` uses 2,500 tokens; `0` disables spilling. */
+  additionalContextLimit?: number | null;
+  currentHash: string;
+  displayOrder: number;
+  enabled: boolean;
+  eventName: HookEventName;
+  isManaged: boolean;
+  key: string;
+  matcher?: string | null;
+  pluginId?: string | null;
+  source: HookSource;
+  sourcePath: string;
+  statusMessage?: string | null;
+  timeoutSec: number;
+  trustStatus: HookTrustStatus;
   handlerType: HookMetadataPromptHookMetadataHandlerType;
 }
 export const HookMetadataPromptHookMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    additionalContextLimit: S.optional(S.NullOr(S.Number)),
+    currentHash: S.String,
+    displayOrder: S.Number,
+    enabled: S.Boolean,
+    eventName: HookEventName,
+    isManaged: S.Boolean,
+    key: S.String,
+    matcher: S.optional(S.NullOr(S.String)),
+    pluginId: S.optional(S.NullOr(S.String)),
+    source: HookSource,
+    sourcePath: S.String,
+    statusMessage: S.optional(S.NullOr(S.String)),
+    timeoutSec: S.Number,
+    trustStatus: HookTrustStatus,
     handlerType: HookMetadataPromptHookMetadataHandlerType,
   }),
 ).annotate({
@@ -4692,10 +4782,39 @@ export type HookMetadataAgentHookMetadataHandlerType = "agent";
 export const HookMetadataAgentHookMetadataHandlerType = S.String;
 
 export interface HookMetadataAgentHookMetadata {
+  /** Configured `additionalContext` spill threshold. `null` uses 2,500 tokens; `0` disables spilling. */
+  additionalContextLimit?: number | null;
+  currentHash: string;
+  displayOrder: number;
+  enabled: boolean;
+  eventName: HookEventName;
+  isManaged: boolean;
+  key: string;
+  matcher?: string | null;
+  pluginId?: string | null;
+  source: HookSource;
+  sourcePath: string;
+  statusMessage?: string | null;
+  timeoutSec: number;
+  trustStatus: HookTrustStatus;
   handlerType: HookMetadataAgentHookMetadataHandlerType;
 }
 export const HookMetadataAgentHookMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    additionalContextLimit: S.optional(S.NullOr(S.Number)),
+    currentHash: S.String,
+    displayOrder: S.Number,
+    enabled: S.Boolean,
+    eventName: HookEventName,
+    isManaged: S.Boolean,
+    key: S.String,
+    matcher: S.optional(S.NullOr(S.String)),
+    pluginId: S.optional(S.NullOr(S.String)),
+    source: HookSource,
+    sourcePath: S.String,
+    statusMessage: S.optional(S.NullOr(S.String)),
+    timeoutSec: S.Number,
+    trustStatus: HookTrustStatus,
     handlerType: HookMetadataAgentHookMetadataHandlerType,
   }),
 ).annotate({
@@ -4710,10 +4829,78 @@ export type HookMetadata =
 export const HookMetadata = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases(
     [
-      ["async", "command", "handlerType"],
-      ["handlerType", "server", "tool"],
-      ["handlerType"],
-      ["handlerType"],
+      [
+        "additionalContextLimit",
+        "currentHash",
+        "displayOrder",
+        "enabled",
+        "eventName",
+        "isManaged",
+        "key",
+        "matcher",
+        "pluginId",
+        "source",
+        "sourcePath",
+        "statusMessage",
+        "timeoutSec",
+        "trustStatus",
+        "async",
+        "command",
+        "handlerType",
+      ],
+      [
+        "additionalContextLimit",
+        "currentHash",
+        "displayOrder",
+        "enabled",
+        "eventName",
+        "isManaged",
+        "key",
+        "matcher",
+        "pluginId",
+        "source",
+        "sourcePath",
+        "statusMessage",
+        "timeoutSec",
+        "trustStatus",
+        "handlerType",
+        "server",
+        "tool",
+      ],
+      [
+        "additionalContextLimit",
+        "currentHash",
+        "displayOrder",
+        "enabled",
+        "eventName",
+        "isManaged",
+        "key",
+        "matcher",
+        "pluginId",
+        "source",
+        "sourcePath",
+        "statusMessage",
+        "timeoutSec",
+        "trustStatus",
+        "handlerType",
+      ],
+      [
+        "additionalContextLimit",
+        "currentHash",
+        "displayOrder",
+        "enabled",
+        "eventName",
+        "isManaged",
+        "key",
+        "matcher",
+        "pluginId",
+        "source",
+        "sourcePath",
+        "statusMessage",
+        "timeoutSec",
+        "trustStatus",
+        "handlerType",
+      ],
     ],
     { key: "handlerType", values: ["command", "mcpTool", "prompt", "agent"] },
   ),
@@ -5820,22 +6007,39 @@ export const UserInputTextUserInput = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "UserInputTextUserInput" }) as any as S.Schema<UserInputTextUserInput>;
 
+export type ImageDetail = "auto" | "low" | "high" | "original";
+export const ImageDetail = S.String;
+
+export type UserInputImageUserInputUrlUserInputType = "image";
+export const UserInputImageUserInputUrlUserInputType = S.String;
+
 export interface UserInputImageUserInputUrlUserInput {
+  detail?: ImageDetail | (string & {}) | null;
+  type: UserInputImageUserInputUrlUserInputType;
   url: string;
 }
 export const UserInputImageUserInputUrlUserInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    detail: S.optional(S.NullOr(ImageDetail)),
+    type: UserInputImageUserInputUrlUserInputType,
     url: S.String,
   }),
 ).annotate({
   identifier: "UserInputImageUserInputUrlUserInput",
 }) as any as S.Schema<UserInputImageUserInputUrlUserInput>;
 
+export type UserInputImageUserInputFileIdUserInputType = "image";
+export const UserInputImageUserInputFileIdUserInputType = S.String;
+
 export interface UserInputImageUserInputFileIdUserInput {
+  detail?: ImageDetail | (string & {}) | null;
+  type: UserInputImageUserInputFileIdUserInputType;
   fileId: string;
 }
 export const UserInputImageUserInputFileIdUserInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    detail: S.optional(S.NullOr(ImageDetail)),
+    type: UserInputImageUserInputFileIdUserInputType,
     fileId: S.String,
   }),
 ).annotate({
@@ -5846,11 +6050,11 @@ export type UserInputImageUserInput =
   | UserInputImageUserInputUrlUserInput
   | UserInputImageUserInputFileIdUserInput;
 export const UserInputImageUserInput = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([["url"], ["fileId"]]),
+  T.UnionCases([
+    ["detail", "type", "url"],
+    ["detail", "type", "fileId"],
+  ]),
 );
-
-export type ImageDetail = "auto" | "low" | "high" | "original";
-export const ImageDetail = S.String;
 
 export type UserInputLocalImageUserInputType = "localImage";
 export const UserInputLocalImageUserInputType = S.String;
@@ -6120,12 +6324,21 @@ export const FunctionCallOutputContentItemInputTextFunctionCallOutputContentItem
     identifier: "FunctionCallOutputContentItemInputTextFunctionCallOutputContentItem",
   }) as any as S.Schema<FunctionCallOutputContentItemInputTextFunctionCallOutputContentItem>;
 
+export type FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemImageUrlFunctionCallOutputContentItemType =
+  "input_image";
+export const FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemImageUrlFunctionCallOutputContentItemType =
+  S.String;
+
 export interface FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemImageUrlFunctionCallOutputContentItem {
+  detail?: ImageDetail | (string & {}) | null;
+  type: FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemImageUrlFunctionCallOutputContentItemType;
   image_url: string;
 }
 export const FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemImageUrlFunctionCallOutputContentItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      detail: S.optional(S.NullOr(ImageDetail)),
+      type: FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemImageUrlFunctionCallOutputContentItemType,
       image_url: S.String,
     }),
   ).annotate({
@@ -6133,12 +6346,21 @@ export const FunctionCallOutputContentItemInputImageFunctionCallOutputContentIte
       "FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemImageUrlFunctionCallOutputContentItem",
   }) as any as S.Schema<FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemImageUrlFunctionCallOutputContentItem>;
 
+export type FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemFileIdFunctionCallOutputContentItemType =
+  "input_image";
+export const FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemFileIdFunctionCallOutputContentItemType =
+  S.String;
+
 export interface FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemFileIdFunctionCallOutputContentItem {
+  detail?: ImageDetail | (string & {}) | null;
+  type: FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemFileIdFunctionCallOutputContentItemType;
   file_id: string;
 }
 export const FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemFileIdFunctionCallOutputContentItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      detail: S.optional(S.NullOr(ImageDetail)),
+      type: FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemFileIdFunctionCallOutputContentItemType,
       file_id: S.String,
     }),
   ).annotate({
@@ -6150,7 +6372,12 @@ export type FunctionCallOutputContentItemInputImageFunctionCallOutputContentItem
   | FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemImageUrlFunctionCallOutputContentItem
   | FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemFileIdFunctionCallOutputContentItem;
 export const FunctionCallOutputContentItemInputImageFunctionCallOutputContentItem =
-  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([["image_url"], ["file_id"]]));
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["detail", "type", "image_url"],
+      ["detail", "type", "file_id"],
+    ]),
+  );
 
 export type FunctionCallOutputContentItemInputAudioFunctionCallOutputContentItemType =
   "input_audio";
@@ -7765,21 +7992,464 @@ export const MarketplaceUpgradeResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "MarketplaceUpgradeResponse",
 }) as any as S.Schema<MarketplaceUpgradeResponse>;
 
-export interface McpServerElicitationRequestRequest {
+export type McpServerElicitationRequestParamsCase0Mode = "form";
+export const McpServerElicitationRequestParamsCase0Mode = S.String;
+
+export type McpElicitationUntitledSingleSelectEnumSchemaEnumList = Array<string>;
+export const McpElicitationUntitledSingleSelectEnumSchemaEnumList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<McpElicitationUntitledSingleSelectEnumSchemaEnumList>;
+
+export type McpElicitationStringType = "string";
+export const McpElicitationStringType = S.String;
+
+export interface McpElicitationUntitledSingleSelectEnumSchema {
+  default?: string | null;
+  description?: string | null;
+  enum: McpElicitationUntitledSingleSelectEnumSchemaEnumList;
+  title?: string | null;
+  type: McpElicitationStringType;
+}
+export const McpElicitationUntitledSingleSelectEnumSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    default: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.NullOr(S.String)),
+    enum: McpElicitationUntitledSingleSelectEnumSchemaEnumList,
+    title: S.optional(S.NullOr(S.String)),
+    type: McpElicitationStringType,
+  }),
+).annotate({
+  identifier: "McpElicitationUntitledSingleSelectEnumSchema",
+}) as any as S.Schema<McpElicitationUntitledSingleSelectEnumSchema>;
+
+export interface McpElicitationConstOption {
+  const: string;
+  title: string;
+}
+export const McpElicitationConstOption = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    const: S.String,
+    title: S.String,
+  }),
+).annotate({
+  identifier: "McpElicitationConstOption",
+}) as any as S.Schema<McpElicitationConstOption>;
+
+export type McpElicitationTitledSingleSelectEnumSchemaOneOfList = Array<McpElicitationConstOption>;
+export const McpElicitationTitledSingleSelectEnumSchemaOneOfList = /*@__PURE__*/ S.Array(
+  McpElicitationConstOption,
+) as any as S.Schema<McpElicitationTitledSingleSelectEnumSchemaOneOfList>;
+
+export interface McpElicitationTitledSingleSelectEnumSchema {
+  default?: string | null;
+  description?: string | null;
+  oneOf: McpElicitationTitledSingleSelectEnumSchemaOneOfList;
+  title?: string | null;
+  type: McpElicitationStringType;
+}
+export const McpElicitationTitledSingleSelectEnumSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    default: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.NullOr(S.String)),
+    oneOf: McpElicitationTitledSingleSelectEnumSchemaOneOfList,
+    title: S.optional(S.NullOr(S.String)),
+    type: McpElicitationStringType,
+  }),
+).annotate({
+  identifier: "McpElicitationTitledSingleSelectEnumSchema",
+}) as any as S.Schema<McpElicitationTitledSingleSelectEnumSchema>;
+
+export type McpElicitationSingleSelectEnumSchema =
+  | McpElicitationUntitledSingleSelectEnumSchema
+  | McpElicitationTitledSingleSelectEnumSchema;
+export const McpElicitationSingleSelectEnumSchema = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([
+    ["default", "description", "enum", "title", "type"],
+    ["default", "description", "oneOf", "title", "type"],
+  ]),
+);
+
+export type McpElicitationUntitledMultiSelectEnumSchemaDefaultList = Array<string>;
+export const McpElicitationUntitledMultiSelectEnumSchemaDefaultList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<McpElicitationUntitledMultiSelectEnumSchemaDefaultList>;
+
+export type McpElicitationUntitledEnumItemsEnumList = Array<string>;
+export const McpElicitationUntitledEnumItemsEnumList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<McpElicitationUntitledEnumItemsEnumList>;
+
+export interface McpElicitationUntitledEnumItems {
+  enum: McpElicitationUntitledEnumItemsEnumList;
+  type: McpElicitationStringType;
+}
+export const McpElicitationUntitledEnumItems = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enum: McpElicitationUntitledEnumItemsEnumList,
+    type: McpElicitationStringType,
+  }),
+).annotate({
+  identifier: "McpElicitationUntitledEnumItems",
+}) as any as S.Schema<McpElicitationUntitledEnumItems>;
+
+export type McpElicitationArrayType = "array";
+export const McpElicitationArrayType = S.String;
+
+export interface McpElicitationUntitledMultiSelectEnumSchema {
+  default?: McpElicitationUntitledMultiSelectEnumSchemaDefaultList | null;
+  description?: string | null;
+  items: McpElicitationUntitledEnumItems;
+  maxItems?: number | null;
+  minItems?: number | null;
+  title?: string | null;
+  type: McpElicitationArrayType;
+}
+export const McpElicitationUntitledMultiSelectEnumSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    default: S.optional(S.NullOr(McpElicitationUntitledMultiSelectEnumSchemaDefaultList)),
+    description: S.optional(S.NullOr(S.String)),
+    items: McpElicitationUntitledEnumItems,
+    maxItems: S.optional(S.NullOr(S.Number)),
+    minItems: S.optional(S.NullOr(S.Number)),
+    title: S.optional(S.NullOr(S.String)),
+    type: McpElicitationArrayType,
+  }),
+).annotate({
+  identifier: "McpElicitationUntitledMultiSelectEnumSchema",
+}) as any as S.Schema<McpElicitationUntitledMultiSelectEnumSchema>;
+
+export type McpElicitationTitledMultiSelectEnumSchemaDefaultList = Array<string>;
+export const McpElicitationTitledMultiSelectEnumSchemaDefaultList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<McpElicitationTitledMultiSelectEnumSchemaDefaultList>;
+
+export type McpElicitationTitledEnumItemsAnyOfList = Array<McpElicitationConstOption>;
+export const McpElicitationTitledEnumItemsAnyOfList = /*@__PURE__*/ S.Array(
+  McpElicitationConstOption,
+) as any as S.Schema<McpElicitationTitledEnumItemsAnyOfList>;
+
+export interface McpElicitationTitledEnumItems {
+  anyOf: McpElicitationTitledEnumItemsAnyOfList;
+}
+export const McpElicitationTitledEnumItems = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    anyOf: McpElicitationTitledEnumItemsAnyOfList,
+  }),
+).annotate({
+  identifier: "McpElicitationTitledEnumItems",
+}) as any as S.Schema<McpElicitationTitledEnumItems>;
+
+export interface McpElicitationTitledMultiSelectEnumSchema {
+  default?: McpElicitationTitledMultiSelectEnumSchemaDefaultList | null;
+  description?: string | null;
+  items: McpElicitationTitledEnumItems;
+  maxItems?: number | null;
+  minItems?: number | null;
+  title?: string | null;
+  type: McpElicitationArrayType;
+}
+export const McpElicitationTitledMultiSelectEnumSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    default: S.optional(S.NullOr(McpElicitationTitledMultiSelectEnumSchemaDefaultList)),
+    description: S.optional(S.NullOr(S.String)),
+    items: McpElicitationTitledEnumItems,
+    maxItems: S.optional(S.NullOr(S.Number)),
+    minItems: S.optional(S.NullOr(S.Number)),
+    title: S.optional(S.NullOr(S.String)),
+    type: McpElicitationArrayType,
+  }),
+).annotate({
+  identifier: "McpElicitationTitledMultiSelectEnumSchema",
+}) as any as S.Schema<McpElicitationTitledMultiSelectEnumSchema>;
+
+export type McpElicitationMultiSelectEnumSchema =
+  | McpElicitationUntitledMultiSelectEnumSchema
+  | McpElicitationTitledMultiSelectEnumSchema;
+export const McpElicitationMultiSelectEnumSchema = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([
+    ["default", "description", "items", "maxItems", "minItems", "title", "type"],
+    ["default", "description", "items", "maxItems", "minItems", "title", "type"],
+  ]),
+);
+
+export type McpElicitationLegacyTitledEnumSchemaEnumList = Array<string>;
+export const McpElicitationLegacyTitledEnumSchemaEnumList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<McpElicitationLegacyTitledEnumSchemaEnumList>;
+
+export type McpElicitationLegacyTitledEnumSchemaEnumNamesList = Array<string>;
+export const McpElicitationLegacyTitledEnumSchemaEnumNamesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<McpElicitationLegacyTitledEnumSchemaEnumNamesList>;
+
+export interface McpElicitationLegacyTitledEnumSchema {
+  default?: string | null;
+  description?: string | null;
+  enum: McpElicitationLegacyTitledEnumSchemaEnumList;
+  enumNames?: McpElicitationLegacyTitledEnumSchemaEnumNamesList | null;
+  title?: string | null;
+  type: McpElicitationStringType;
+}
+export const McpElicitationLegacyTitledEnumSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    default: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.NullOr(S.String)),
+    enum: McpElicitationLegacyTitledEnumSchemaEnumList,
+    enumNames: S.optional(S.NullOr(McpElicitationLegacyTitledEnumSchemaEnumNamesList)),
+    title: S.optional(S.NullOr(S.String)),
+    type: McpElicitationStringType,
+  }),
+).annotate({
+  identifier: "McpElicitationLegacyTitledEnumSchema",
+}) as any as S.Schema<McpElicitationLegacyTitledEnumSchema>;
+
+export type McpElicitationEnumSchema =
+  | McpElicitationSingleSelectEnumSchema
+  | McpElicitationMultiSelectEnumSchema
+  | McpElicitationLegacyTitledEnumSchema;
+export const McpElicitationEnumSchema = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([[], [], ["default", "description", "enum", "enumNames", "title", "type"]]),
+);
+
+export type McpElicitationStringFormat = "email" | "uri" | "date" | "date-time";
+export const McpElicitationStringFormat = S.String;
+
+export interface McpElicitationStringSchema {
+  default?: string | null;
+  description?: string | null;
+  format?: McpElicitationStringFormat | (string & {}) | null;
+  maxLength?: number | null;
+  minLength?: number | null;
+  title?: string | null;
+  type: McpElicitationStringType;
+}
+export const McpElicitationStringSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    default: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.NullOr(S.String)),
+    format: S.optional(S.NullOr(McpElicitationStringFormat)),
+    maxLength: S.optional(S.NullOr(S.Number)),
+    minLength: S.optional(S.NullOr(S.Number)),
+    title: S.optional(S.NullOr(S.String)),
+    type: McpElicitationStringType,
+  }),
+).annotate({
+  identifier: "McpElicitationStringSchema",
+}) as any as S.Schema<McpElicitationStringSchema>;
+
+export type McpElicitationNumberType = "number" | "integer";
+export const McpElicitationNumberType = S.String;
+
+export interface McpElicitationNumberSchema {
+  default?: number | null;
+  description?: string | null;
+  maximum?: number | null;
+  minimum?: number | null;
+  title?: string | null;
+  type: McpElicitationNumberType | (string & {});
+}
+export const McpElicitationNumberSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    default: S.optional(S.NullOr(S.Number)),
+    description: S.optional(S.NullOr(S.String)),
+    maximum: S.optional(S.NullOr(S.Number)),
+    minimum: S.optional(S.NullOr(S.Number)),
+    title: S.optional(S.NullOr(S.String)),
+    type: McpElicitationNumberType,
+  }),
+).annotate({
+  identifier: "McpElicitationNumberSchema",
+}) as any as S.Schema<McpElicitationNumberSchema>;
+
+export type McpElicitationBooleanType = "boolean";
+export const McpElicitationBooleanType = S.String;
+
+export interface McpElicitationBooleanSchema {
+  default?: boolean | null;
+  description?: string | null;
+  title?: string | null;
+  type: McpElicitationBooleanType;
+}
+export const McpElicitationBooleanSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    default: S.optional(S.NullOr(S.Boolean)),
+    description: S.optional(S.NullOr(S.String)),
+    title: S.optional(S.NullOr(S.String)),
+    type: McpElicitationBooleanType,
+  }),
+).annotate({
+  identifier: "McpElicitationBooleanSchema",
+}) as any as S.Schema<McpElicitationBooleanSchema>;
+
+export type McpElicitationPrimitiveSchema =
+  | McpElicitationEnumSchema
+  | McpElicitationStringSchema
+  | McpElicitationNumberSchema
+  | McpElicitationBooleanSchema;
+export const McpElicitationPrimitiveSchema = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([
+    [],
+    ["default", "description", "format", "maxLength", "minLength", "title", "type"],
+    ["default", "description", "maximum", "minimum", "title", "type"],
+    ["default", "description", "title", "type"],
+  ]),
+);
+
+export type McpElicitationSchemaPropertiesMap = {
+  [key: string]: McpElicitationPrimitiveSchema | undefined;
+};
+export const McpElicitationSchemaPropertiesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  McpElicitationPrimitiveSchema,
+) as any as S.Schema<McpElicitationSchemaPropertiesMap>;
+
+export type McpElicitationSchemaRequiredList = Array<string>;
+export const McpElicitationSchemaRequiredList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<McpElicitationSchemaRequiredList>;
+
+export type McpElicitationObjectType = "object";
+export const McpElicitationObjectType = S.String;
+
+/** Typed form schema for MCP `elicitation/create` requests. This matches the `requestedSchema` shape from the MCP 2025-11-25 `ElicitRequestFormParams` schema. */
+export interface McpElicitationSchema {
+  _schema?: string | null;
+  properties: McpElicitationSchemaPropertiesMap;
+  required?: McpElicitationSchemaRequiredList | null;
+  type: McpElicitationObjectType | (string & {});
+}
+export const McpElicitationSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _schema: S.optional(S.NullOr(S.String).pipe(T.Body("$schema"))),
+    properties: McpElicitationSchemaPropertiesMap,
+    required: S.optional(S.NullOr(McpElicitationSchemaRequiredList)),
+    type: McpElicitationObjectType,
+  }),
+).annotate({ identifier: "McpElicitationSchema" }) as any as S.Schema<McpElicitationSchema>;
+
+export interface McpServerElicitationRequestParamsCase0 {
   serverName: string;
   threadId: string;
   /** Active Codex turn when this elicitation was observed, if app-server could correlate one. This is nullable because MCP models elicitation as a standalone server-to-client request identified by the MCP server request id. It may be triggered during a turn, but turn context is app-server correlation rather than part of the protocol identity of the elicitation itself. */
   turnId?: string | null;
+  _meta?: unknown;
+  message: string;
+  mode: McpServerElicitationRequestParamsCase0Mode;
+  requestedSchema: McpElicitationSchema;
 }
-export const McpServerElicitationRequestRequest = /*@__PURE__*/ S.suspend(() =>
+export const McpServerElicitationRequestParamsCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serverName: S.String,
     threadId: S.String,
     turnId: S.optional(S.NullOr(S.String)),
+    _meta: S.optional(S.Unknown),
+    message: S.String,
+    mode: McpServerElicitationRequestParamsCase0Mode,
+    requestedSchema: McpElicitationSchema,
   }),
 ).annotate({
-  identifier: "McpServerElicitationRequestRequest",
-}) as any as S.Schema<McpServerElicitationRequestRequest>;
+  identifier: "McpServerElicitationRequestParamsCase0",
+}) as any as S.Schema<McpServerElicitationRequestParamsCase0>;
+
+export type McpServerElicitationRequestParamsCase1Mode = "openai/form";
+export const McpServerElicitationRequestParamsCase1Mode = S.String;
+
+export interface McpServerElicitationRequestParamsCase1 {
+  serverName: string;
+  threadId: string;
+  /** Active Codex turn when this elicitation was observed, if app-server could correlate one. This is nullable because MCP models elicitation as a standalone server-to-client request identified by the MCP server request id. It may be triggered during a turn, but turn context is app-server correlation rather than part of the protocol identity of the elicitation itself. */
+  turnId?: string | null;
+  _meta?: unknown;
+  message: string;
+  mode: McpServerElicitationRequestParamsCase1Mode;
+  requestedSchema: unknown;
+}
+export const McpServerElicitationRequestParamsCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serverName: S.String,
+    threadId: S.String,
+    turnId: S.optional(S.NullOr(S.String)),
+    _meta: S.optional(S.Unknown),
+    message: S.String,
+    mode: McpServerElicitationRequestParamsCase1Mode,
+    requestedSchema: S.Unknown,
+  }),
+).annotate({
+  identifier: "McpServerElicitationRequestParamsCase1",
+}) as any as S.Schema<McpServerElicitationRequestParamsCase1>;
+
+export type McpServerElicitationRequestParamsCase2Mode = "openaiForm";
+export const McpServerElicitationRequestParamsCase2Mode = S.String;
+
+export interface McpServerElicitationRequestParamsCase2 {
+  serverName: string;
+  threadId: string;
+  /** Active Codex turn when this elicitation was observed, if app-server could correlate one. This is nullable because MCP models elicitation as a standalone server-to-client request identified by the MCP server request id. It may be triggered during a turn, but turn context is app-server correlation rather than part of the protocol identity of the elicitation itself. */
+  turnId?: string | null;
+  _meta?: unknown;
+  message: string;
+  mode: McpServerElicitationRequestParamsCase2Mode;
+  requestedSchema: unknown;
+}
+export const McpServerElicitationRequestParamsCase2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serverName: S.String,
+    threadId: S.String,
+    turnId: S.optional(S.NullOr(S.String)),
+    _meta: S.optional(S.Unknown),
+    message: S.String,
+    mode: McpServerElicitationRequestParamsCase2Mode,
+    requestedSchema: S.Unknown,
+  }),
+).annotate({
+  identifier: "McpServerElicitationRequestParamsCase2",
+}) as any as S.Schema<McpServerElicitationRequestParamsCase2>;
+
+export type McpServerElicitationRequestParamsCase3Mode = "url";
+export const McpServerElicitationRequestParamsCase3Mode = S.String;
+
+export interface McpServerElicitationRequestParamsCase3 {
+  serverName: string;
+  threadId: string;
+  /** Active Codex turn when this elicitation was observed, if app-server could correlate one. This is nullable because MCP models elicitation as a standalone server-to-client request identified by the MCP server request id. It may be triggered during a turn, but turn context is app-server correlation rather than part of the protocol identity of the elicitation itself. */
+  turnId?: string | null;
+  _meta?: unknown;
+  elicitationId: string;
+  message: string;
+  mode: McpServerElicitationRequestParamsCase3Mode;
+  url: string;
+}
+export const McpServerElicitationRequestParamsCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serverName: S.String,
+    threadId: S.String,
+    turnId: S.optional(S.NullOr(S.String)),
+    _meta: S.optional(S.Unknown),
+    elicitationId: S.String,
+    message: S.String,
+    mode: McpServerElicitationRequestParamsCase3Mode,
+    url: S.String,
+  }),
+).annotate({
+  identifier: "McpServerElicitationRequestParamsCase3",
+}) as any as S.Schema<McpServerElicitationRequestParamsCase3>;
+
+export type McpServerElicitationRequestParams =
+  | McpServerElicitationRequestParamsCase0
+  | McpServerElicitationRequestParamsCase1
+  | McpServerElicitationRequestParamsCase2
+  | McpServerElicitationRequestParamsCase3;
+export const McpServerElicitationRequestParams = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases(
+    [
+      ["serverName", "threadId", "turnId", "_meta", "message", "mode", "requestedSchema"],
+      ["serverName", "threadId", "turnId", "_meta", "message", "mode", "requestedSchema"],
+      ["serverName", "threadId", "turnId", "_meta", "message", "mode", "requestedSchema"],
+      ["serverName", "threadId", "turnId", "_meta", "elicitationId", "message", "mode", "url"],
+    ],
+    { key: "mode", values: ["form", "openai/form", "openaiForm", "url"] },
+  ),
+);
 
 export type McpServerElicitationAction = "accept" | "decline" | "cancel";
 export const McpServerElicitationAction = S.String;
@@ -11568,11 +12238,15 @@ export type ThreadRealtimeItemRealtimeSessionStartedThreadRealtimeItemType =
 export const ThreadRealtimeItemRealtimeSessionStartedThreadRealtimeItemType = S.String;
 
 export interface ThreadRealtimeItemRealtimeSessionStartedThreadRealtimeItem {
+  id: string;
+  realtimeSessionId: string;
   type: ThreadRealtimeItemRealtimeSessionStartedThreadRealtimeItemType;
 }
 export const ThreadRealtimeItemRealtimeSessionStartedThreadRealtimeItem = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      id: S.String,
+      realtimeSessionId: S.String,
       type: ThreadRealtimeItemRealtimeSessionStartedThreadRealtimeItemType,
     }),
 ).annotate({
@@ -11586,12 +12260,16 @@ export type ThreadRealtimeItemTranscriptSegmentThreadRealtimeItemType = "transcr
 export const ThreadRealtimeItemTranscriptSegmentThreadRealtimeItemType = S.String;
 
 export interface ThreadRealtimeItemTranscriptSegmentThreadRealtimeItem {
+  id: string;
+  realtimeSessionId: string;
   role: ThreadRealtimeTranscriptRole | (string & {});
   text: string;
   type: ThreadRealtimeItemTranscriptSegmentThreadRealtimeItemType;
 }
 export const ThreadRealtimeItemTranscriptSegmentThreadRealtimeItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    id: S.String,
+    realtimeSessionId: S.String,
     role: ThreadRealtimeTranscriptRole,
     text: S.String,
     type: ThreadRealtimeItemTranscriptSegmentThreadRealtimeItemType,
@@ -11670,6 +12348,8 @@ export type ThreadRealtimeItemBemItemPromotedThreadRealtimeItemType = "bemItemPr
 export const ThreadRealtimeItemBemItemPromotedThreadRealtimeItemType = S.String;
 
 export interface ThreadRealtimeItemBemItemPromotedThreadRealtimeItem {
+  id: string;
+  realtimeSessionId: string;
   item_id: string;
   presentation: ThreadRealtimeBemItemPresentation;
   turn_id: string;
@@ -11677,6 +12357,8 @@ export interface ThreadRealtimeItemBemItemPromotedThreadRealtimeItem {
 }
 export const ThreadRealtimeItemBemItemPromotedThreadRealtimeItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    id: S.String,
+    realtimeSessionId: S.String,
     item_id: S.String,
     presentation: ThreadRealtimeBemItemPresentation,
     turn_id: S.String,
@@ -11693,12 +12375,16 @@ export type ThreadRealtimeItemRealtimeSessionClosedThreadRealtimeItemType = "rea
 export const ThreadRealtimeItemRealtimeSessionClosedThreadRealtimeItemType = S.String;
 
 export interface ThreadRealtimeItemRealtimeSessionClosedThreadRealtimeItem {
+  id: string;
+  realtimeSessionId: string;
   outcome: ThreadRealtimeSessionOutcome | (string & {});
   type: ThreadRealtimeItemRealtimeSessionClosedThreadRealtimeItemType;
 }
 export const ThreadRealtimeItemRealtimeSessionClosedThreadRealtimeItem = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      id: S.String,
+      realtimeSessionId: S.String,
       outcome: ThreadRealtimeSessionOutcome,
       type: ThreadRealtimeItemRealtimeSessionClosedThreadRealtimeItemType,
     }),
@@ -11715,10 +12401,10 @@ export type ThreadRealtimeItem =
 export const ThreadRealtimeItem = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases(
     [
-      ["type"],
-      ["role", "text", "type"],
-      ["item_id", "presentation", "turn_id", "type"],
-      ["outcome", "type"],
+      ["id", "realtimeSessionId", "type"],
+      ["id", "realtimeSessionId", "role", "text", "type"],
+      ["id", "realtimeSessionId", "item_id", "presentation", "turn_id", "type"],
+      ["id", "realtimeSessionId", "outcome", "type"],
     ],
     {
       key: "type",
@@ -15939,7 +16625,7 @@ export const inbound = {
   mcpServerElicitationRequest: {
     method: "mcpServer/elicitation/request",
     kind: "request",
-    params: McpServerElicitationRequestRequest,
+    params: McpServerElicitationRequestParams,
     result: McpServerElicitationRequestResponse,
   },
   mcpServerEventStream: {
@@ -16270,7 +16956,7 @@ export interface InboundHandlers<R = never> {
     params: ItemToolRequestUserInputRequest,
   ) => Effect.Effect<ToolRequestUserInputResponse, JsonRpc.HandlerError, R>;
   readonly mcpServerElicitationRequest?: (
-    params: McpServerElicitationRequestRequest,
+    params: McpServerElicitationRequestParams,
   ) => Effect.Effect<McpServerElicitationRequestResponse, JsonRpc.HandlerError, R>;
   readonly mcpServerEventStream?: (
     params: McpServerEventStreamRequest,

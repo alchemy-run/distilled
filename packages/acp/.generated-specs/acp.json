@@ -254,7 +254,189 @@
         "com.distilled.jsonrpc#inbound": {}
       }
     },
-    "com.agentclientprotocol.acp#ElicitationCreateRequestMetaMap": {
+    "com.agentclientprotocol.acp#CreateElicitationRequest": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.agentclientprotocol.acp#CreateElicitationRequestCase0"
+        },
+        "Case1": {
+          "target": "com.agentclientprotocol.acp#CreateElicitationRequestCase1"
+        },
+        "Other": {
+          "target": "com.agentclientprotocol.acp#CreateElicitationRequestOther"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request from the agent to elicit structured user input.\n\nThe agent sends this to the client to request information from the user,\neither via a form or by directing them to a URL.\nElicitations are tied to a session (optionally a tool call) or a request."
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationSchema": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.agentclientprotocol.acp#ElicitationSchemaType",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator. Always `\"object\"`."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional title for the schema.\n\nOptional. Omitted and `null` are equivalent and mean no title is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "properties": {
+          "target": "com.agentclientprotocol.acp#ElicitationSchemaPropertiesMap",
+          "traits": {
+            "smithy.api#documentation": "Property definitions (must be primitive types)."
+          }
+        },
+        "required": {
+          "target": "com.agentclientprotocol.acp#ElicitationSchemaRequiredList",
+          "traits": {
+            "smithy.api#documentation": "List of required property names.\n\nOptional. Omitted and `null` are equivalent and mean no property names are required.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional description of what this schema represents.\n\nOptional. Omitted and `null` are equivalent and mean no schema description is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "_meta": {
+          "target": "com.agentclientprotocol.acp#ElicitationSchemaMetaMap",
+          "traits": {
+            "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type-safe elicitation schema for requesting structured user input.\n\nThis represents a JSON Schema object with primitive-typed properties,\nas required by the elicitation specification."
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationSchemaType": {
+      "type": "enum",
+      "members": {
+        "OBJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "object"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Object schema type."
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchema": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase0"
+        },
+        "Case1": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase1"
+        },
+        "Case2": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase2"
+        },
+        "Case3": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase3"
+        },
+        "Case4": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase4"
+        },
+        "Other": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaOther"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Property schema for elicitation form fields.\n\nEach variant corresponds to a JSON Schema `\"type\"` value.\nSingle-select enums use the `String` variant with `enum` or `oneOf` set.\nMulti-select enums use the `Array` variant."
+      }
+    },
+    "com.agentclientprotocol.acp#StringFormat": {
+      "type": "enum",
+      "members": {
+        "EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email"
+          }
+        },
+        "URI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uri"
+          }
+        },
+        "DATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date"
+          }
+        },
+        "DATE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date-time"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "String format types for string properties in elicitation schemas."
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase0EnumList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Enum values for untitled single-select enums.\nOptional. Omitted and `null` are equivalent and mean no untitled single-select choices are\ndeclared by `enum`."
+      }
+    },
+    "com.agentclientprotocol.acp#EnumOption": {
+      "type": "structure",
+      "members": {
+        "const": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The constant value for this option.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable title for this option.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable description.\n\nOptional. Omitted and `null` are equivalent and mean no description is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "_meta": {
+          "target": "com.agentclientprotocol.acp#EnumOptionMetaMap",
+          "traits": {
+            "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A titled enum option with a const value, human-readable title, and optional description."
+      }
+    },
+    "com.agentclientprotocol.acp#EnumOptionMetaMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -266,9 +448,682 @@
         "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
       }
     },
-    "com.agentclientprotocol.acp#ElicitationCreateRequest": {
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase0OneOfList": {
+      "type": "list",
+      "member": {
+        "target": "com.agentclientprotocol.acp#EnumOption"
+      },
+      "traits": {
+        "smithy.api#documentation": "Titled enum options for titled single-select enums.\nOptional. Omitted and `null` are equivalent and mean no titled single-select choices are\ndeclared by `oneOf`."
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase0MetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase0Type": {
+      "type": "enum",
+      "members": {
+        "STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase0": {
       "type": "structure",
       "members": {
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional title for the property.\n\nOptional. Omitted and `null` are equivalent and mean no title is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable description.\n\nOptional. Omitted and `null` are equivalent and mean no description is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "minLength": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum string length.\n\nOptional. Omitted and `null` are equivalent and mean there is no minimum length constraint.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxLength": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum string length.\n\nOptional. Omitted and `null` are equivalent and mean there is no maximum length constraint.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pattern": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Pattern the string must match.\n\nOptional. Omitted and `null` are equivalent and mean there is no pattern constraint.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "format": {
+          "target": "com.agentclientprotocol.acp#StringFormat",
+          "traits": {
+            "smithy.api#documentation": "String format.\n\nOptional. Omitted and `null` are equivalent and mean there is no format constraint.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "default": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default value.\n\nOptional. Omitted and `null` are equivalent and mean no default value is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "enum": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase0EnumList",
+          "traits": {
+            "smithy.api#documentation": "Enum values for untitled single-select enums.\nOptional. Omitted and `null` are equivalent and mean no untitled single-select choices are\ndeclared by `enum`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "oneOf": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase0OneOfList",
+          "traits": {
+            "smithy.api#documentation": "Titled enum options for titled single-select enums.\nOptional. Omitted and `null` are equivalent and mean no titled single-select choices are\ndeclared by `oneOf`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "_meta": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase0MetaMap",
+          "traits": {
+            "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase0Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "String property (or single-select enum when `enum`/`oneOf` is set)."
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase1MetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase1Type": {
+      "type": "enum",
+      "members": {
+        "NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "number"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase1": {
+      "type": "structure",
+      "members": {
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional title for the property.\n\nOptional. Omitted and `null` are equivalent and mean no title is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable description.\n\nOptional. Omitted and `null` are equivalent and mean no description is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "minimum": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Minimum value (inclusive).\n\nOptional. Omitted and `null` are equivalent and mean there is no inclusive lower bound.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maximum": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum value (inclusive).\n\nOptional. Omitted and `null` are equivalent and mean there is no inclusive upper bound.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "default": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Default value.\n\nOptional. Omitted and `null` are equivalent and mean no default value is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "_meta": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase1MetaMap",
+          "traits": {
+            "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase1Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Number (floating-point) property."
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase2MetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase2Type": {
+      "type": "enum",
+      "members": {
+        "INTEGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "integer"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase2": {
+      "type": "structure",
+      "members": {
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional title for the property.\n\nOptional. Omitted and `null` are equivalent and mean no title is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable description.\n\nOptional. Omitted and `null` are equivalent and mean no description is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "minimum": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum value (inclusive).\n\nOptional. Omitted and `null` are equivalent and mean there is no inclusive lower bound.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maximum": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum value (inclusive).\n\nOptional. Omitted and `null` are equivalent and mean there is no inclusive upper bound.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "default": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Default value.\n\nOptional. Omitted and `null` are equivalent and mean no default value is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "_meta": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase2MetaMap",
+          "traits": {
+            "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase2Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Integer property."
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase3MetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase3Type": {
+      "type": "enum",
+      "members": {
+        "BOOLEAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boolean"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase3": {
+      "type": "structure",
+      "members": {
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional title for the property.\n\nOptional. Omitted and `null` are equivalent and mean no title is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable description.\n\nOptional. Omitted and `null` are equivalent and mean no description is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Default value.\n\nOptional. Omitted and `null` are equivalent and mean no default value is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "_meta": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase3MetaMap",
+          "traits": {
+            "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase3Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Boolean property."
+      }
+    },
+    "com.agentclientprotocol.acp#MultiSelectItems": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.agentclientprotocol.acp#MultiSelectItemsCase0"
+        },
+        "Other": {
+          "target": "com.agentclientprotocol.acp#MultiSelectItemsOther"
+        },
+        "Titled": {
+          "target": "com.agentclientprotocol.acp#TitledMultiSelectItems"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Items for a multi-select (array) property schema."
+      }
+    },
+    "com.agentclientprotocol.acp#MultiSelectItemsCase0EnumList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Allowed enum values."
+      }
+    },
+    "com.agentclientprotocol.acp#MultiSelectItemsCase0MetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
+      }
+    },
+    "com.agentclientprotocol.acp#MultiSelectItemsCase0Type": {
+      "type": "enum",
+      "members": {
+        "STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.agentclientprotocol.acp#MultiSelectItemsCase0": {
+      "type": "structure",
+      "members": {
+        "enum": {
+          "target": "com.agentclientprotocol.acp#MultiSelectItemsCase0EnumList",
+          "traits": {
+            "smithy.api#documentation": "Allowed enum values.",
+            "smithy.api#required": {}
+          }
+        },
+        "_meta": {
+          "target": "com.agentclientprotocol.acp#MultiSelectItemsCase0MetaMap",
+          "traits": {
+            "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.agentclientprotocol.acp#MultiSelectItemsCase0Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Multi-select string items with plain string values."
+      }
+    },
+    "com.agentclientprotocol.acp#MultiSelectItemsOther": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom or future multi-select item type.\n\nValues beginning with `_` are reserved for implementation-specific\nextensions. Unknown values that do not begin with `_` are reserved for\nfuture ACP variants.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom or future typed multi-select items."
+      }
+    },
+    "com.agentclientprotocol.acp#TitledMultiSelectItems": {
+      "type": "structure",
+      "members": {
+        "anyOf": {
+          "target": "com.agentclientprotocol.acp#TitledMultiSelectItemsAnyOfList",
+          "traits": {
+            "smithy.api#documentation": "Titled enum options.",
+            "smithy.api#required": {}
+          }
+        },
+        "_meta": {
+          "target": "com.agentclientprotocol.acp#TitledMultiSelectItemsMetaMap",
+          "traits": {
+            "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Items definition for titled multi-select enum properties."
+      }
+    },
+    "com.agentclientprotocol.acp#TitledMultiSelectItemsAnyOfList": {
+      "type": "list",
+      "member": {
+        "target": "com.agentclientprotocol.acp#EnumOption"
+      },
+      "traits": {
+        "smithy.api#documentation": "Titled enum options."
+      }
+    },
+    "com.agentclientprotocol.acp#TitledMultiSelectItemsMetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase4DefaultList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Default selected values.\n\nOptional. Omitted and `null` are equivalent and mean no default selections are provided."
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase4MetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase4Type": {
+      "type": "enum",
+      "members": {
+        "ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "array"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaCase4": {
+      "type": "structure",
+      "members": {
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional title for the property.\n\nOptional. Omitted and `null` are equivalent and mean no title is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable description.\n\nOptional. Omitted and `null` are equivalent and mean no description is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "minItems": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum number of items to select.\n\nOptional. Omitted and `null` are equivalent and mean there is no minimum selection count.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxItems": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of items to select.\n\nOptional. Omitted and `null` are equivalent and mean there is no maximum selection count.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "items": {
+          "target": "com.agentclientprotocol.acp#MultiSelectItems",
+          "traits": {
+            "smithy.api#documentation": "The items definition describing allowed values.",
+            "smithy.api#required": {}
+          }
+        },
+        "default": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase4DefaultList",
+          "traits": {
+            "smithy.api#documentation": "Default selected values.\n\nOptional. Omitted and `null` are equivalent and mean no default selections are provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "_meta": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase4MetaMap",
+          "traits": {
+            "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.agentclientprotocol.acp#ElicitationPropertySchemaCase4Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Multi-select array property."
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationPropertySchemaOther": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom or future elicitation property schema type.\n\nValues beginning with `_` are reserved for implementation-specific\nextensions. Unknown values that do not begin with `_` are reserved for\nfuture ACP variants.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom or future elicitation property schema.\n\nValues beginning with `_` are reserved for implementation-specific\nextensions. Unknown values that do not begin with `_` are reserved for\nfuture ACP variants.\n\nClients that do not understand this property schema type should preserve\nthe raw schema when storing, replaying, proxying, or forwarding\nelicitation requests. They MUST NOT render it as a known input control."
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationSchemaPropertiesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.agentclientprotocol.acp#ElicitationPropertySchema"
+      },
+      "traits": {
+        "smithy.api#documentation": "Property definitions (must be primitive types)."
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationSchemaRequiredList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of required property names.\n\nOptional. Omitted and `null` are equivalent and mean no property names are required."
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationSchemaMetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
+      }
+    },
+    "com.agentclientprotocol.acp#CreateElicitationRequestCase0MetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
+      }
+    },
+    "com.agentclientprotocol.acp#CreateElicitationRequestCase0Mode": {
+      "type": "enum",
+      "members": {
+        "FORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "form"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.agentclientprotocol.acp#CreateElicitationRequestCase0": {
+      "type": "structure",
+      "members": {
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The session this elicitation is tied to."
+          }
+        },
+        "toolCallId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional tool call within the session.\n\nOptional. Omitted and `null` are equivalent and mean the elicitation is scoped to the\nsession without a specific tool call.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "requestedSchema": {
+          "target": "com.agentclientprotocol.acp#ElicitationSchema",
+          "traits": {
+            "smithy.api#documentation": "A JSON Schema describing the form fields to present to the user."
+          }
+        },
+        "requestId": {
+          "target": "com.agentclientprotocol.acp#RequestId",
+          "traits": {
+            "smithy.api#documentation": "The request this elicitation is tied to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "message": {
           "target": "smithy.api#String",
           "traits": {
@@ -277,10 +1132,181 @@
           }
         },
         "_meta": {
-          "target": "com.agentclientprotocol.acp#ElicitationCreateRequestMetaMap",
+          "target": "com.agentclientprotocol.acp#CreateElicitationRequestCase0MetaMap",
           "traits": {
             "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mode": {
+          "target": "com.agentclientprotocol.acp#CreateElicitationRequestCase0Mode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Form-based elicitation where the client renders a form from the provided schema."
+      }
+    },
+    "com.agentclientprotocol.acp#CreateElicitationRequestCase1MetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
+      }
+    },
+    "com.agentclientprotocol.acp#CreateElicitationRequestCase1Mode": {
+      "type": "enum",
+      "members": {
+        "URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "url"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.agentclientprotocol.acp#CreateElicitationRequestCase1": {
+      "type": "structure",
+      "members": {
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The session this elicitation is tied to."
+          }
+        },
+        "toolCallId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional tool call within the session.\n\nOptional. Omitted and `null` are equivalent and mean the elicitation is scoped to the\nsession without a specific tool call.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "elicitationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for this elicitation."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL to direct the user to."
+          }
+        },
+        "requestId": {
+          "target": "com.agentclientprotocol.acp#RequestId",
+          "traits": {
+            "smithy.api#documentation": "The request this elicitation is tied to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable message describing what input is needed.",
+            "smithy.api#required": {}
+          }
+        },
+        "_meta": {
+          "target": "com.agentclientprotocol.acp#CreateElicitationRequestCase1MetaMap",
+          "traits": {
+            "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mode": {
+          "target": "com.agentclientprotocol.acp#CreateElicitationRequestCase1Mode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "URL-based elicitation where the client directs the user to a URL."
+      }
+    },
+    "com.agentclientprotocol.acp#CreateElicitationRequestOtherSession": {
+      "type": "structure",
+      "members": {
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The session this elicitation is tied to.",
+            "smithy.api#required": {}
+          }
+        },
+        "toolCallId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional tool call within the session.\n\nOptional. Omitted and `null` are equivalent and mean the elicitation is scoped to the\nsession without a specific tool call.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom or future elicitation mode.\n\nValues beginning with `_` are reserved for implementation-specific\nextensions. Unknown values that do not begin with `_` are reserved for\nfuture ACP variants.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Tied to a session, optionally to a specific tool call within that session."
+      }
+    },
+    "com.agentclientprotocol.acp#CreateElicitationRequestOtherRequest": {
+      "type": "structure",
+      "members": {
+        "requestId": {
+          "target": "com.agentclientprotocol.acp#RequestId",
+          "traits": {
+            "smithy.api#documentation": "The request this elicitation is tied to.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom or future elicitation mode.\n\nValues beginning with `_` are reserved for implementation-specific\nextensions. Unknown values that do not begin with `_` are reserved for\nfuture ACP variants.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Tied to a specific JSON-RPC request outside of a session\n(e.g., during auth/configuration phases before any session is started)."
+      }
+    },
+    "com.agentclientprotocol.acp#CreateElicitationRequestOther": {
+      "type": "union",
+      "members": {
+        "Session": {
+          "target": "com.agentclientprotocol.acp#CreateElicitationRequestOtherSession"
+        },
+        "Request": {
+          "target": "com.agentclientprotocol.acp#CreateElicitationRequestOtherRequest"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom or future elicitation mode.\n\nValues beginning with `_` are reserved for implementation-specific\nextensions. Unknown values that do not begin with `_` are reserved for\nfuture ACP variants.\n\nClients that do not understand this mode should preserve the raw payload\nwhen storing, replaying, proxying, or forwarding elicitation requests.\nThey MUST NOT render it as a known elicitation mode."
+      }
+    },
+    "com.agentclientprotocol.acp#ElicitationCreateRequest": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.agentclientprotocol.acp#CreateElicitationRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
           }
         }
       },
@@ -352,6 +1378,18 @@
         "smithy.api#documentation": "The user-provided content, if any, as an object matching the requested schema."
       }
     },
+    "com.agentclientprotocol.acp#CreateElicitationResponseCase0MetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
+      }
+    },
     "com.agentclientprotocol.acp#CreateElicitationResponseCase0Action": {
       "type": "enum",
       "members": {
@@ -374,6 +1412,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "_meta": {
+          "target": "com.agentclientprotocol.acp#CreateElicitationResponseCase0MetaMap",
+          "traits": {
+            "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "action": {
           "target": "com.agentclientprotocol.acp#CreateElicitationResponseCase0Action",
           "traits": {
@@ -383,6 +1428,18 @@
       },
       "traits": {
         "smithy.api#documentation": "The user accepted and provided content."
+      }
+    },
+    "com.agentclientprotocol.acp#CreateElicitationResponseCase1MetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
       }
     },
     "com.agentclientprotocol.acp#CreateElicitationResponseCase1Action": {
@@ -400,6 +1457,13 @@
     "com.agentclientprotocol.acp#CreateElicitationResponseCase1": {
       "type": "structure",
       "members": {
+        "_meta": {
+          "target": "com.agentclientprotocol.acp#CreateElicitationResponseCase1MetaMap",
+          "traits": {
+            "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "action": {
           "target": "com.agentclientprotocol.acp#CreateElicitationResponseCase1Action",
           "traits": {
@@ -409,6 +1473,18 @@
       },
       "traits": {
         "smithy.api#documentation": "The user declined the elicitation."
+      }
+    },
+    "com.agentclientprotocol.acp#CreateElicitationResponseCase2MetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
       }
     },
     "com.agentclientprotocol.acp#CreateElicitationResponseCase2Action": {
@@ -426,6 +1502,13 @@
     "com.agentclientprotocol.acp#CreateElicitationResponseCase2": {
       "type": "structure",
       "members": {
+        "_meta": {
+          "target": "com.agentclientprotocol.acp#CreateElicitationResponseCase2MetaMap",
+          "traits": {
+            "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "action": {
           "target": "com.agentclientprotocol.acp#CreateElicitationResponseCase2Action",
           "traits": {
@@ -437,9 +1520,28 @@
         "smithy.api#documentation": "The elicitation was cancelled."
       }
     },
+    "com.agentclientprotocol.acp#CreateElicitationResponseOtherMetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
+      }
+    },
     "com.agentclientprotocol.acp#CreateElicitationResponseOther": {
       "type": "structure",
       "members": {
+        "_meta": {
+          "target": "com.agentclientprotocol.acp#CreateElicitationResponseOtherMetaMap",
+          "traits": {
+            "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nOptional. Omitted and `null` are equivalent and mean no metadata.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "action": {
           "target": "smithy.api#String",
           "traits": {
@@ -452,13 +1554,28 @@
         "smithy.api#documentation": "Custom or future elicitation action.\n\nValues beginning with `_` are reserved for implementation-specific\nextensions. Unknown values that do not begin with `_` are reserved for\nfuture ACP variants.\n\nAgents that do not understand this action should preserve the raw\npayload when storing, replaying, proxying, or forwarding elicitation\nresponses. They MUST NOT treat it as a known elicitation action."
       }
     },
+    "com.agentclientprotocol.acp#ElicitationCreateResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.agentclientprotocol.acp#CreateElicitationResponse",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.agentclientprotocol.acp#ElicitationCreate": {
       "type": "operation",
       "input": {
-        "target": "com.agentclientprotocol.acp#ElicitationCreateRequest"
+        "target": "com.agentclientprotocol.acp#CreateElicitationRequest"
       },
       "output": {
-        "target": "com.agentclientprotocol.acp#CreateElicitationResponse"
+        "target": "com.agentclientprotocol.acp#ElicitationCreateResponse"
       },
       "traits": {
         "smithy.api#documentation": "Request from the agent to elicit structured user input.\n\nThe agent sends this to the client to request information from the user,\neither via a form or by directing them to a URL.\nElicitations are tied to a session (optionally a tool call) or a request.",
@@ -2818,6 +3935,97 @@
         "smithy.api#documentation": "A list of options grouped under headers."
       }
     },
+    "com.agentclientprotocol.acp#SessionConfigOptionCategory": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.agentclientprotocol.acp#SessionConfigOptionCategoryCase0"
+        },
+        "Case1": {
+          "target": "com.agentclientprotocol.acp#SessionConfigOptionCategoryCase1"
+        },
+        "Case2": {
+          "target": "com.agentclientprotocol.acp#SessionConfigOptionCategoryCase2"
+        },
+        "Case3": {
+          "target": "com.agentclientprotocol.acp#SessionConfigOptionCategoryCase3"
+        },
+        "Other": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Semantic category for a session configuration option.\n\nThis is intended to help Clients distinguish broadly common selectors (e.g. model selector vs\nsession mode selector vs thought/reasoning level) for UX purposes (keyboard shortcuts, icons,\nplacement). It MUST NOT be required for correctness. Clients MUST handle missing or unknown\ncategories gracefully.\n\nCategory names beginning with `_` are free for custom use, like other ACP extension methods.\nCategory names that do not begin with `_` are reserved for the ACP spec."
+      }
+    },
+    "com.agentclientprotocol.acp#SessionConfigOptionCategoryCase0": {
+      "type": "enum",
+      "members": {
+        "MODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mode"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Session mode selector."
+      }
+    },
+    "com.agentclientprotocol.acp#SessionConfigOptionCategoryCase1": {
+      "type": "enum",
+      "members": {
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Model selector."
+      }
+    },
+    "com.agentclientprotocol.acp#SessionConfigOptionCategoryCase2": {
+      "type": "enum",
+      "members": {
+        "MODEL_CONFIG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model_config"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Model-related configuration parameter."
+      }
+    },
+    "com.agentclientprotocol.acp#SessionConfigOptionCategoryCase3": {
+      "type": "enum",
+      "members": {
+        "THOUGHT_LEVEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "thought_level"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Thought/reasoning level selector."
+      }
+    },
+    "com.agentclientprotocol.acp#SessionConfigOptionCase0MetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
+      }
+    },
     "com.agentclientprotocol.acp#SessionConfigOptionCase0Type": {
       "type": "enum",
       "members": {
@@ -2847,6 +4055,41 @@
             "smithy.api#required": {}
           }
         },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the configuration option.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable label for the option.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional description for the Client to display to the user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "category": {
+          "target": "com.agentclientprotocol.acp#SessionConfigOptionCategory",
+          "traits": {
+            "smithy.api#documentation": "Optional semantic category for this option (UX only).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "_meta": {
+          "target": "com.agentclientprotocol.acp#SessionConfigOptionCase0MetaMap",
+          "traits": {
+            "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "type": {
           "target": "com.agentclientprotocol.acp#SessionConfigOptionCase0Type",
           "traits": {
@@ -2856,6 +4099,18 @@
       },
       "traits": {
         "smithy.api#documentation": "Single-value selector (dropdown)."
+      }
+    },
+    "com.agentclientprotocol.acp#SessionConfigOptionCase1MetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
       }
     },
     "com.agentclientprotocol.acp#SessionConfigOptionCase1Type": {
@@ -2878,6 +4133,41 @@
           "traits": {
             "smithy.api#documentation": "The current value of the boolean option.",
             "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the configuration option.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable label for the option.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional description for the Client to display to the user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "category": {
+          "target": "com.agentclientprotocol.acp#SessionConfigOptionCategory",
+          "traits": {
+            "smithy.api#documentation": "Optional semantic category for this option (UX only).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "_meta": {
+          "target": "com.agentclientprotocol.acp#SessionConfigOptionCase1MetaMap",
+          "traits": {
+            "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "type": {
@@ -4601,7 +5891,21 @@
         "com.distilled.jsonrpc#method": "session/resume"
       }
     },
-    "com.agentclientprotocol.acp#SessionSetConfigOptionRequestMetaMap": {
+    "com.agentclientprotocol.acp#SetSessionConfigOptionRequest": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.agentclientprotocol.acp#SetSessionConfigOptionRequestCase0"
+        },
+        "ValueId": {
+          "target": "com.agentclientprotocol.acp#SetSessionConfigOptionRequestValueId"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request parameters for setting a session configuration option."
+      }
+    },
+    "com.agentclientprotocol.acp#SetSessionConfigOptionRequestCase0MetaMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -4613,7 +5917,19 @@
         "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
       }
     },
-    "com.agentclientprotocol.acp#SessionSetConfigOptionRequest": {
+    "com.agentclientprotocol.acp#SetSessionConfigOptionRequestCase0Type": {
+      "type": "enum",
+      "members": {
+        "BOOLEAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boolean"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.agentclientprotocol.acp#SetSessionConfigOptionRequestCase0": {
       "type": "structure",
       "members": {
         "sessionId": {
@@ -4631,10 +5947,86 @@
           }
         },
         "_meta": {
-          "target": "com.agentclientprotocol.acp#SessionSetConfigOptionRequestMetaMap",
+          "target": "com.agentclientprotocol.acp#SetSessionConfigOptionRequestCase0MetaMap",
           "traits": {
             "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The boolean value.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.agentclientprotocol.acp#SetSessionConfigOptionRequestCase0Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A boolean value (`type: \"boolean\"`)."
+      }
+    },
+    "com.agentclientprotocol.acp#SetSessionConfigOptionRequestValueIdMetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
+      }
+    },
+    "com.agentclientprotocol.acp#SetSessionConfigOptionRequestValueId": {
+      "type": "structure",
+      "members": {
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the session to set the configuration option for.",
+            "smithy.api#required": {}
+          }
+        },
+        "configId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the configuration option to set.",
+            "smithy.api#required": {}
+          }
+        },
+        "_meta": {
+          "target": "com.agentclientprotocol.acp#SetSessionConfigOptionRequestValueIdMetaMap",
+          "traits": {
+            "smithy.api#documentation": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The value ID.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A [`SessionConfigValueId`] string value.\n\nThis is the default when `type` is absent on the wire. Unknown `type`\nvalues with string payloads also gracefully deserialize into this\nvariant."
+      }
+    },
+    "com.agentclientprotocol.acp#SessionSetConfigOptionRequest": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.agentclientprotocol.acp#SetSessionConfigOptionRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
           }
         }
       },
@@ -4688,7 +6080,7 @@
     "com.agentclientprotocol.acp#SessionSetConfigOption": {
       "type": "operation",
       "input": {
-        "target": "com.agentclientprotocol.acp#SessionSetConfigOptionRequest"
+        "target": "com.agentclientprotocol.acp#SetSessionConfigOptionRequest"
       },
       "output": {
         "target": "com.agentclientprotocol.acp#SetSessionConfigOptionResponse"

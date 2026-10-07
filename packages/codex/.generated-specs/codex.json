@@ -1899,42 +1899,6 @@
       },
       "traits": {}
     },
-    "com.openai.codex#UserInputImageUserInputUrlUserInput": {
-      "type": "structure",
-      "members": {
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.openai.codex#UserInputImageUserInputFileIdUserInput": {
-      "type": "structure",
-      "members": {
-        "fileId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.openai.codex#UserInputImageUserInput": {
-      "type": "union",
-      "members": {
-        "UrlUserInput": {
-          "target": "com.openai.codex#UserInputImageUserInputUrlUserInput"
-        },
-        "FileIdUserInput": {
-          "target": "com.openai.codex#UserInputImageUserInputFileIdUserInput"
-        }
-      },
-      "traits": {}
-    },
     "com.openai.codex#ImageDetail": {
       "type": "enum",
       "members": {
@@ -1961,6 +1925,90 @@
           "traits": {
             "smithy.api#enumValue": "original"
           }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#UserInputImageUserInputUrlUserInputType": {
+      "type": "enum",
+      "members": {
+        "IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#UserInputImageUserInputUrlUserInput": {
+      "type": "structure",
+      "members": {
+        "detail": {
+          "target": "com.openai.codex#ImageDetail",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.codex#UserInputImageUserInputUrlUserInputType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#UserInputImageUserInputFileIdUserInputType": {
+      "type": "enum",
+      "members": {
+        "IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#UserInputImageUserInputFileIdUserInput": {
+      "type": "structure",
+      "members": {
+        "detail": {
+          "target": "com.openai.codex#ImageDetail",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.codex#UserInputImageUserInputFileIdUserInputType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "fileId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#UserInputImageUserInput": {
+      "type": "union",
+      "members": {
+        "UrlUserInput": {
+          "target": "com.openai.codex#UserInputImageUserInputUrlUserInput"
+        },
+        "FileIdUserInput": {
+          "target": "com.openai.codex#UserInputImageUserInputFileIdUserInput"
         }
       },
       "traits": {}
@@ -2497,9 +2545,33 @@
       },
       "traits": {}
     },
+    "com.openai.codex#FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemImageUrlFunctionCallOutputContentItemType": {
+      "type": "enum",
+      "members": {
+        "INPUT_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "input_image"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.openai.codex#FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemImageUrlFunctionCallOutputContentItem": {
       "type": "structure",
       "members": {
+        "detail": {
+          "target": "com.openai.codex#ImageDetail",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.codex#FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemImageUrlFunctionCallOutputContentItemType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "image_url": {
           "target": "smithy.api#String",
           "traits": {
@@ -2509,9 +2581,33 @@
       },
       "traits": {}
     },
+    "com.openai.codex#FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemFileIdFunctionCallOutputContentItemType": {
+      "type": "enum",
+      "members": {
+        "INPUT_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "input_image"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.openai.codex#FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemFileIdFunctionCallOutputContentItem": {
       "type": "structure",
       "members": {
+        "detail": {
+          "target": "com.openai.codex#ImageDetail",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.codex#FunctionCallOutputContentItemInputImageFunctionCallOutputContentItemFileIdFunctionCallOutputContentItemType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "file_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -7699,6 +7795,186 @@
       },
       "traits": {}
     },
+    "com.openai.codex#HookEventName": {
+      "type": "enum",
+      "members": {
+        "PRETOOLUSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preToolUse"
+          }
+        },
+        "PERMISSIONREQUEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "permissionRequest"
+          }
+        },
+        "POSTTOOLUSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postToolUse"
+          }
+        },
+        "PRECOMPACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preCompact"
+          }
+        },
+        "POSTCOMPACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postCompact"
+          }
+        },
+        "SESSIONSTART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sessionStart"
+          }
+        },
+        "SESSIONEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sessionEnd"
+          }
+        },
+        "USERPROMPTSUBMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "userPromptSubmit"
+          }
+        },
+        "SUBAGENTSTART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subagentStart"
+          }
+        },
+        "SUBAGENTSTOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subagentStop"
+          }
+        },
+        "STOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stop"
+          }
+        },
+        "INTERRUPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "interrupt"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#HookSource": {
+      "type": "enum",
+      "members": {
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        },
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "PROJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project"
+          }
+        },
+        "MDM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mdm"
+          }
+        },
+        "SESSIONFLAGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sessionFlags"
+          }
+        },
+        "PLUGIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plugin"
+          }
+        },
+        "CLOUDREQUIREMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudRequirements"
+          }
+        },
+        "CLOUDMANAGEDCONFIG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudManagedConfig"
+          }
+        },
+        "LEGACYMANAGEDCONFIGFILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "legacyManagedConfigFile"
+          }
+        },
+        "LEGACYMANAGEDCONFIGMDM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "legacyManagedConfigMdm"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#HookTrustStatus": {
+      "type": "enum",
+      "members": {
+        "MANAGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "managed"
+          }
+        },
+        "UNTRUSTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "untrusted"
+          }
+        },
+        "TRUSTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trusted"
+          }
+        },
+        "MODIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modified"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.openai.codex#HookMetadataCase0HandlerType": {
       "type": "enum",
       "members": {
@@ -7714,6 +7990,91 @@
     "com.openai.codex#HookMetadataCase0": {
       "type": "structure",
       "members": {
+        "additionalContextLimit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Configured `additionalContext` spill threshold. `null` uses 2,500 tokens; `0` disables spilling.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currentHash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "displayOrder": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "eventName": {
+          "target": "com.openai.codex#HookEventName",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isManaged": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "matcher": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pluginId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "com.openai.codex#HookSource",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sourcePath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "statusMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timeoutSec": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "trustStatus": {
+          "target": "com.openai.codex#HookTrustStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "async": {
           "target": "smithy.api#Boolean"
         },
@@ -7747,6 +8108,91 @@
     "com.openai.codex#HookMetadataCase1": {
       "type": "structure",
       "members": {
+        "additionalContextLimit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Configured `additionalContext` spill threshold. `null` uses 2,500 tokens; `0` disables spilling.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currentHash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "displayOrder": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "eventName": {
+          "target": "com.openai.codex#HookEventName",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isManaged": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "matcher": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pluginId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "com.openai.codex#HookSource",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sourcePath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "statusMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timeoutSec": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "trustStatus": {
+          "target": "com.openai.codex#HookTrustStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "handlerType": {
           "target": "com.openai.codex#HookMetadataCase1HandlerType",
           "traits": {
@@ -7783,6 +8229,91 @@
     "com.openai.codex#HookMetadataPromptHookMetadata": {
       "type": "structure",
       "members": {
+        "additionalContextLimit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Configured `additionalContext` spill threshold. `null` uses 2,500 tokens; `0` disables spilling.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currentHash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "displayOrder": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "eventName": {
+          "target": "com.openai.codex#HookEventName",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isManaged": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "matcher": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pluginId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "com.openai.codex#HookSource",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sourcePath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "statusMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timeoutSec": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "trustStatus": {
+          "target": "com.openai.codex#HookTrustStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "handlerType": {
           "target": "com.openai.codex#HookMetadataPromptHookMetadataHandlerType",
           "traits": {
@@ -7807,6 +8338,91 @@
     "com.openai.codex#HookMetadataAgentHookMetadata": {
       "type": "structure",
       "members": {
+        "additionalContextLimit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Configured `additionalContext` spill threshold. `null` uses 2,500 tokens; `0` disables spilling.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currentHash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "displayOrder": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "eventName": {
+          "target": "com.openai.codex#HookEventName",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isManaged": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "matcher": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pluginId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "com.openai.codex#HookSource",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sourcePath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "statusMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timeoutSec": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "trustStatus": {
+          "target": "com.openai.codex#HookTrustStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "handlerType": {
           "target": "com.openai.codex#HookMetadataAgentHookMetadataHandlerType",
           "traits": {
@@ -9464,84 +10080,6 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.openai.codex#HookEventName": {
-      "type": "enum",
-      "members": {
-        "PRETOOLUSE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preToolUse"
-          }
-        },
-        "PERMISSIONREQUEST": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "permissionRequest"
-          }
-        },
-        "POSTTOOLUSE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "postToolUse"
-          }
-        },
-        "PRECOMPACT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preCompact"
-          }
-        },
-        "POSTCOMPACT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "postCompact"
-          }
-        },
-        "SESSIONSTART": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "sessionStart"
-          }
-        },
-        "SESSIONEND": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "sessionEnd"
-          }
-        },
-        "USERPROMPTSUBMIT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "userPromptSubmit"
-          }
-        },
-        "SUBAGENTSTART": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "subagentStart"
-          }
-        },
-        "SUBAGENTSTOP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "subagentStop"
-          }
-        },
-        "STOP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "stop"
-          }
-        },
-        "INTERRUPT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "interrupt"
           }
         }
       },
@@ -19826,7 +20364,674 @@
         "com.distilled.jsonrpc#inbound": {}
       }
     },
-    "com.openai.codex#McpServerElicitationRequestRequest": {
+    "com.openai.codex#McpServerElicitationRequestParams": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.codex#McpServerElicitationRequestParamsCase0"
+        },
+        "Case1": {
+          "target": "com.openai.codex#McpServerElicitationRequestParamsCase1"
+        },
+        "Case2": {
+          "target": "com.openai.codex#McpServerElicitationRequestParamsCase2"
+        },
+        "Case3": {
+          "target": "com.openai.codex#McpServerElicitationRequestParamsCase3"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpServerElicitationRequestParamsCase0Mode": {
+      "type": "enum",
+      "members": {
+        "FORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "form"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationSchema": {
+      "type": "structure",
+      "members": {
+        "_schema": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "$schema",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "properties": {
+          "target": "com.openai.codex#McpElicitationSchemaPropertiesMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "required": {
+          "target": "com.openai.codex#McpElicitationSchemaRequiredList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.codex#McpElicitationObjectType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Typed form schema for MCP `elicitation/create` requests.\n\nThis matches the `requestedSchema` shape from the MCP 2025-11-25 `ElicitRequestFormParams` schema."
+      }
+    },
+    "com.openai.codex#McpElicitationPrimitiveSchema": {
+      "type": "union",
+      "members": {
+        "McpElicitationEnumSchema": {
+          "target": "com.openai.codex#McpElicitationEnumSchema"
+        },
+        "McpElicitationStringSchema": {
+          "target": "com.openai.codex#McpElicitationStringSchema"
+        },
+        "McpElicitationNumberSchema": {
+          "target": "com.openai.codex#McpElicitationNumberSchema"
+        },
+        "McpElicitationBooleanSchema": {
+          "target": "com.openai.codex#McpElicitationBooleanSchema"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationEnumSchema": {
+      "type": "union",
+      "members": {
+        "McpElicitationSingleSelectEnumSchema": {
+          "target": "com.openai.codex#McpElicitationSingleSelectEnumSchema"
+        },
+        "McpElicitationMultiSelectEnumSchema": {
+          "target": "com.openai.codex#McpElicitationMultiSelectEnumSchema"
+        },
+        "McpElicitationLegacyTitledEnumSchema": {
+          "target": "com.openai.codex#McpElicitationLegacyTitledEnumSchema"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationSingleSelectEnumSchema": {
+      "type": "union",
+      "members": {
+        "McpElicitationUntitledSingleSelectEnumSchema": {
+          "target": "com.openai.codex#McpElicitationUntitledSingleSelectEnumSchema"
+        },
+        "McpElicitationTitledSingleSelectEnumSchema": {
+          "target": "com.openai.codex#McpElicitationTitledSingleSelectEnumSchema"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationUntitledSingleSelectEnumSchema": {
+      "type": "structure",
+      "members": {
+        "default": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "enum": {
+          "target": "com.openai.codex#McpElicitationUntitledSingleSelectEnumSchemaEnumList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.codex#McpElicitationStringType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationUntitledSingleSelectEnumSchemaEnumList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationStringType": {
+      "type": "enum",
+      "members": {
+        "STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationTitledSingleSelectEnumSchema": {
+      "type": "structure",
+      "members": {
+        "default": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "oneOf": {
+          "target": "com.openai.codex#McpElicitationTitledSingleSelectEnumSchemaOneOfList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.codex#McpElicitationStringType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationConstOption": {
+      "type": "structure",
+      "members": {
+        "const": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationTitledSingleSelectEnumSchemaOneOfList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.codex#McpElicitationConstOption"
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationMultiSelectEnumSchema": {
+      "type": "union",
+      "members": {
+        "McpElicitationUntitledMultiSelectEnumSchema": {
+          "target": "com.openai.codex#McpElicitationUntitledMultiSelectEnumSchema"
+        },
+        "McpElicitationTitledMultiSelectEnumSchema": {
+          "target": "com.openai.codex#McpElicitationTitledMultiSelectEnumSchema"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationUntitledMultiSelectEnumSchema": {
+      "type": "structure",
+      "members": {
+        "default": {
+          "target": "com.openai.codex#McpElicitationUntitledMultiSelectEnumSchemaDefaultList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "items": {
+          "target": "com.openai.codex#McpElicitationUntitledEnumItems",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "maxItems": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "minItems": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.codex#McpElicitationArrayType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationUntitledMultiSelectEnumSchemaDefaultList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationUntitledEnumItems": {
+      "type": "structure",
+      "members": {
+        "enum": {
+          "target": "com.openai.codex#McpElicitationUntitledEnumItemsEnumList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.codex#McpElicitationStringType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationUntitledEnumItemsEnumList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationArrayType": {
+      "type": "enum",
+      "members": {
+        "ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "array"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationTitledMultiSelectEnumSchema": {
+      "type": "structure",
+      "members": {
+        "default": {
+          "target": "com.openai.codex#McpElicitationTitledMultiSelectEnumSchemaDefaultList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "items": {
+          "target": "com.openai.codex#McpElicitationTitledEnumItems",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "maxItems": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "minItems": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.codex#McpElicitationArrayType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationTitledMultiSelectEnumSchemaDefaultList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationTitledEnumItems": {
+      "type": "structure",
+      "members": {
+        "anyOf": {
+          "target": "com.openai.codex#McpElicitationTitledEnumItemsAnyOfList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationTitledEnumItemsAnyOfList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.codex#McpElicitationConstOption"
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationLegacyTitledEnumSchema": {
+      "type": "structure",
+      "members": {
+        "default": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "enum": {
+          "target": "com.openai.codex#McpElicitationLegacyTitledEnumSchemaEnumList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enumNames": {
+          "target": "com.openai.codex#McpElicitationLegacyTitledEnumSchemaEnumNamesList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.codex#McpElicitationStringType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationLegacyTitledEnumSchemaEnumList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationLegacyTitledEnumSchemaEnumNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationStringSchema": {
+      "type": "structure",
+      "members": {
+        "default": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "format": {
+          "target": "com.openai.codex#McpElicitationStringFormat",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxLength": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "minLength": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.codex#McpElicitationStringType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationStringFormat": {
+      "type": "enum",
+      "members": {
+        "EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email"
+          }
+        },
+        "URI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uri"
+          }
+        },
+        "DATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date"
+          }
+        },
+        "DATE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date-time"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationNumberSchema": {
+      "type": "structure",
+      "members": {
+        "default": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maximum": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "minimum": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.codex#McpElicitationNumberType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationNumberType": {
+      "type": "enum",
+      "members": {
+        "NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "number"
+          }
+        },
+        "INTEGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "integer"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationBooleanSchema": {
+      "type": "structure",
+      "members": {
+        "default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.codex#McpElicitationBooleanType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationBooleanType": {
+      "type": "enum",
+      "members": {
+        "BOOLEAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boolean"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationSchemaPropertiesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.openai.codex#McpElicitationPrimitiveSchema"
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationSchemaRequiredList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpElicitationObjectType": {
+      "type": "enum",
+      "members": {
+        "OBJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "object"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpServerElicitationRequestParamsCase0": {
       "type": "structure",
       "members": {
         "serverName": {
@@ -19846,6 +21051,220 @@
           "traits": {
             "smithy.api#documentation": "Active Codex turn when this elicitation was observed, if app-server could correlate one.\n\nThis is nullable because MCP models elicitation as a standalone server-to-client request identified by the MCP server request id. It may be triggered during a turn, but turn context is app-server correlation rather than part of the protocol identity of the elicitation itself.",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "_meta": {
+          "target": "smithy.api#Document"
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "mode": {
+          "target": "com.openai.codex#McpServerElicitationRequestParamsCase0Mode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "requestedSchema": {
+          "target": "com.openai.codex#McpElicitationSchema",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpServerElicitationRequestParamsCase1Mode": {
+      "type": "enum",
+      "members": {
+        "OPENAI_FORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openai/form"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpServerElicitationRequestParamsCase1": {
+      "type": "structure",
+      "members": {
+        "serverName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "threadId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "turnId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Active Codex turn when this elicitation was observed, if app-server could correlate one.\n\nThis is nullable because MCP models elicitation as a standalone server-to-client request identified by the MCP server request id. It may be triggered during a turn, but turn context is app-server correlation rather than part of the protocol identity of the elicitation itself.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "_meta": {
+          "target": "smithy.api#Document"
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "mode": {
+          "target": "com.openai.codex#McpServerElicitationRequestParamsCase1Mode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "requestedSchema": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpServerElicitationRequestParamsCase2Mode": {
+      "type": "enum",
+      "members": {
+        "OPENAIFORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openaiForm"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpServerElicitationRequestParamsCase2": {
+      "type": "structure",
+      "members": {
+        "serverName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "threadId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "turnId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Active Codex turn when this elicitation was observed, if app-server could correlate one.\n\nThis is nullable because MCP models elicitation as a standalone server-to-client request identified by the MCP server request id. It may be triggered during a turn, but turn context is app-server correlation rather than part of the protocol identity of the elicitation itself.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "_meta": {
+          "target": "smithy.api#Document"
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "mode": {
+          "target": "com.openai.codex#McpServerElicitationRequestParamsCase2Mode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "requestedSchema": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpServerElicitationRequestParamsCase3Mode": {
+      "type": "enum",
+      "members": {
+        "URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "url"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpServerElicitationRequestParamsCase3": {
+      "type": "structure",
+      "members": {
+        "serverName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "threadId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "turnId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Active Codex turn when this elicitation was observed, if app-server could correlate one.\n\nThis is nullable because MCP models elicitation as a standalone server-to-client request identified by the MCP server request id. It may be triggered during a turn, but turn context is app-server correlation rather than part of the protocol identity of the elicitation itself.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "_meta": {
+          "target": "smithy.api#Document"
+        },
+        "elicitationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "mode": {
+          "target": "com.openai.codex#McpServerElicitationRequestParamsCase3Mode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.codex#McpServerElicitationRequestRequest": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.openai.codex#McpServerElicitationRequestParams",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
           }
         }
       },
@@ -19904,7 +21323,7 @@
     "com.openai.codex#McpServerElicitationRequest": {
       "type": "operation",
       "input": {
-        "target": "com.openai.codex#McpServerElicitationRequestRequest"
+        "target": "com.openai.codex#McpServerElicitationRequestParams"
       },
       "output": {
         "target": "com.openai.codex#McpServerElicitationRequestResponse"
@@ -22509,78 +23928,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "turn"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.openai.codex#HookSource": {
-      "type": "enum",
-      "members": {
-        "SYSTEM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "system"
-          }
-        },
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "user"
-          }
-        },
-        "PROJECT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "project"
-          }
-        },
-        "MDM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "mdm"
-          }
-        },
-        "SESSIONFLAGS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "sessionFlags"
-          }
-        },
-        "PLUGIN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "plugin"
-          }
-        },
-        "CLOUDREQUIREMENTS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "cloudRequirements"
-          }
-        },
-        "CLOUDMANAGEDCONFIG": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "cloudManagedConfig"
-          }
-        },
-        "LEGACYMANAGEDCONFIGFILE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "legacyManagedConfigFile"
-          }
-        },
-        "LEGACYMANAGEDCONFIGMDM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "legacyManagedConfigMdm"
-          }
-        },
-        "UNKNOWN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "unknown"
           }
         }
       },
@@ -25826,6 +27173,18 @@
     "com.openai.codex#ThreadRealtimeItemRealtimeSessionStartedThreadRealtimeItem": {
       "type": "structure",
       "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "realtimeSessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "type": {
           "target": "com.openai.codex#ThreadRealtimeItemRealtimeSessionStartedThreadRealtimeItemType",
           "traits": {
@@ -25868,6 +27227,18 @@
     "com.openai.codex#ThreadRealtimeItemTranscriptSegmentThreadRealtimeItem": {
       "type": "structure",
       "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "realtimeSessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "role": {
           "target": "com.openai.codex#ThreadRealtimeTranscriptRole",
           "traits": {
@@ -25999,6 +27370,18 @@
     "com.openai.codex#ThreadRealtimeItemBemItemPromotedThreadRealtimeItem": {
       "type": "structure",
       "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "realtimeSessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "item_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -26059,6 +27442,18 @@
     "com.openai.codex#ThreadRealtimeItemRealtimeSessionClosedThreadRealtimeItem": {
       "type": "structure",
       "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "realtimeSessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "outcome": {
           "target": "com.openai.codex#ThreadRealtimeSessionOutcome",
           "traits": {

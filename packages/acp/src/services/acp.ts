@@ -137,25 +137,564 @@ export const ElicitationCompleteResponse = /*@__PURE__*/ S.suspend(() => S.Struc
   identifier: "ElicitationCompleteResponse",
 }) as any as S.Schema<ElicitationCompleteResponse>;
 
+/** Object schema type. */
+export type ElicitationSchemaType = "object";
+export const ElicitationSchemaType = S.String;
+
+/** String format types for string properties in elicitation schemas. */
+export type StringFormat = "email" | "uri" | "date" | "date-time";
+export const StringFormat = S.String;
+
+/** Enum values for untitled single-select enums. Optional. Omitted and `null` are equivalent and mean no untitled single-select choices are declared by `enum`. */
+export type ElicitationPropertySchemaCase0EnumList = Array<string>;
+export const ElicitationPropertySchemaCase0EnumList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ElicitationPropertySchemaCase0EnumList>;
+
 /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
-export type ElicitationCreateRequestMetaMap = { [key: string]: unknown | undefined };
-export const ElicitationCreateRequestMetaMap = /*@__PURE__*/ S.Record(
+export type EnumOptionMetaMap = { [key: string]: unknown | undefined };
+export const EnumOptionMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
-) as any as S.Schema<ElicitationCreateRequestMetaMap>;
+) as any as S.Schema<EnumOptionMetaMap>;
 
-export interface ElicitationCreateRequest {
+/** A titled enum option with a const value, human-readable title, and optional description. */
+export interface EnumOption {
+  /** The constant value for this option. */
+  const: string;
+  /** Human-readable title for this option. */
+  title: string;
+  /** Human-readable description. Optional. Omitted and `null` are equivalent and mean no description is provided. */
+  description?: string | null;
+  /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+  _meta?: EnumOptionMetaMap | null;
+}
+export const EnumOption = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    const: S.String,
+    title: S.String,
+    description: S.optional(S.NullOr(S.String)),
+    _meta: S.optional(S.NullOr(EnumOptionMetaMap)),
+  }),
+).annotate({ identifier: "EnumOption" }) as any as S.Schema<EnumOption>;
+
+/** Titled enum options for titled single-select enums. Optional. Omitted and `null` are equivalent and mean no titled single-select choices are declared by `oneOf`. */
+export type ElicitationPropertySchemaCase0OneOfList = Array<EnumOption>;
+export const ElicitationPropertySchemaCase0OneOfList = /*@__PURE__*/ S.Array(
+  EnumOption,
+) as any as S.Schema<ElicitationPropertySchemaCase0OneOfList>;
+
+/** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+export type ElicitationPropertySchemaCase0MetaMap = { [key: string]: unknown | undefined };
+export const ElicitationPropertySchemaCase0MetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ElicitationPropertySchemaCase0MetaMap>;
+
+export type ElicitationPropertySchemaCase0Type = "string";
+export const ElicitationPropertySchemaCase0Type = S.String;
+
+/** String property (or single-select enum when `enum`/`oneOf` is set). */
+export interface ElicitationPropertySchemaCase0 {
+  /** Optional title for the property. Optional. Omitted and `null` are equivalent and mean no title is provided. */
+  title?: string | null;
+  /** Human-readable description. Optional. Omitted and `null` are equivalent and mean no description is provided. */
+  description?: string | null;
+  /** Minimum string length. Optional. Omitted and `null` are equivalent and mean there is no minimum length constraint. */
+  minLength?: number | null;
+  /** Maximum string length. Optional. Omitted and `null` are equivalent and mean there is no maximum length constraint. */
+  maxLength?: number | null;
+  /** Pattern the string must match. Optional. Omitted and `null` are equivalent and mean there is no pattern constraint. */
+  pattern?: string | null;
+  /** String format. Optional. Omitted and `null` are equivalent and mean there is no format constraint. */
+  format?: StringFormat | (string & {}) | null;
+  /** Default value. Optional. Omitted and `null` are equivalent and mean no default value is provided. */
+  default?: string | null;
+  /** Enum values for untitled single-select enums. Optional. Omitted and `null` are equivalent and mean no untitled single-select choices are declared by `enum`. */
+  enum?: ElicitationPropertySchemaCase0EnumList | null;
+  /** Titled enum options for titled single-select enums. Optional. Omitted and `null` are equivalent and mean no titled single-select choices are declared by `oneOf`. */
+  oneOf?: ElicitationPropertySchemaCase0OneOfList | null;
+  /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+  _meta?: ElicitationPropertySchemaCase0MetaMap | null;
+  type: ElicitationPropertySchemaCase0Type;
+}
+export const ElicitationPropertySchemaCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.NullOr(S.String)),
+    minLength: S.optional(S.NullOr(S.Number)),
+    maxLength: S.optional(S.NullOr(S.Number)),
+    pattern: S.optional(S.NullOr(S.String)),
+    format: S.optional(S.NullOr(StringFormat)),
+    default: S.optional(S.NullOr(S.String)),
+    enum: S.optional(S.NullOr(ElicitationPropertySchemaCase0EnumList)),
+    oneOf: S.optional(S.NullOr(ElicitationPropertySchemaCase0OneOfList)),
+    _meta: S.optional(S.NullOr(ElicitationPropertySchemaCase0MetaMap)),
+    type: ElicitationPropertySchemaCase0Type,
+  }),
+).annotate({
+  identifier: "ElicitationPropertySchemaCase0",
+}) as any as S.Schema<ElicitationPropertySchemaCase0>;
+
+/** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+export type ElicitationPropertySchemaCase1MetaMap = { [key: string]: unknown | undefined };
+export const ElicitationPropertySchemaCase1MetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ElicitationPropertySchemaCase1MetaMap>;
+
+export type ElicitationPropertySchemaCase1Type = "number";
+export const ElicitationPropertySchemaCase1Type = S.String;
+
+/** Number (floating-point) property. */
+export interface ElicitationPropertySchemaCase1 {
+  /** Optional title for the property. Optional. Omitted and `null` are equivalent and mean no title is provided. */
+  title?: string | null;
+  /** Human-readable description. Optional. Omitted and `null` are equivalent and mean no description is provided. */
+  description?: string | null;
+  /** Minimum value (inclusive). Optional. Omitted and `null` are equivalent and mean there is no inclusive lower bound. */
+  minimum?: number | null;
+  /** Maximum value (inclusive). Optional. Omitted and `null` are equivalent and mean there is no inclusive upper bound. */
+  maximum?: number | null;
+  /** Default value. Optional. Omitted and `null` are equivalent and mean no default value is provided. */
+  default?: number | null;
+  /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+  _meta?: ElicitationPropertySchemaCase1MetaMap | null;
+  type: ElicitationPropertySchemaCase1Type;
+}
+export const ElicitationPropertySchemaCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.NullOr(S.String)),
+    minimum: S.optional(S.NullOr(S.Number)),
+    maximum: S.optional(S.NullOr(S.Number)),
+    default: S.optional(S.NullOr(S.Number)),
+    _meta: S.optional(S.NullOr(ElicitationPropertySchemaCase1MetaMap)),
+    type: ElicitationPropertySchemaCase1Type,
+  }),
+).annotate({
+  identifier: "ElicitationPropertySchemaCase1",
+}) as any as S.Schema<ElicitationPropertySchemaCase1>;
+
+/** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+export type ElicitationPropertySchemaCase2MetaMap = { [key: string]: unknown | undefined };
+export const ElicitationPropertySchemaCase2MetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ElicitationPropertySchemaCase2MetaMap>;
+
+export type ElicitationPropertySchemaCase2Type = "integer";
+export const ElicitationPropertySchemaCase2Type = S.String;
+
+/** Integer property. */
+export interface ElicitationPropertySchemaCase2 {
+  /** Optional title for the property. Optional. Omitted and `null` are equivalent and mean no title is provided. */
+  title?: string | null;
+  /** Human-readable description. Optional. Omitted and `null` are equivalent and mean no description is provided. */
+  description?: string | null;
+  /** Minimum value (inclusive). Optional. Omitted and `null` are equivalent and mean there is no inclusive lower bound. */
+  minimum?: number | null;
+  /** Maximum value (inclusive). Optional. Omitted and `null` are equivalent and mean there is no inclusive upper bound. */
+  maximum?: number | null;
+  /** Default value. Optional. Omitted and `null` are equivalent and mean no default value is provided. */
+  default?: number | null;
+  /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+  _meta?: ElicitationPropertySchemaCase2MetaMap | null;
+  type: ElicitationPropertySchemaCase2Type;
+}
+export const ElicitationPropertySchemaCase2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.NullOr(S.String)),
+    minimum: S.optional(S.NullOr(S.Number)),
+    maximum: S.optional(S.NullOr(S.Number)),
+    default: S.optional(S.NullOr(S.Number)),
+    _meta: S.optional(S.NullOr(ElicitationPropertySchemaCase2MetaMap)),
+    type: ElicitationPropertySchemaCase2Type,
+  }),
+).annotate({
+  identifier: "ElicitationPropertySchemaCase2",
+}) as any as S.Schema<ElicitationPropertySchemaCase2>;
+
+/** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+export type ElicitationPropertySchemaCase3MetaMap = { [key: string]: unknown | undefined };
+export const ElicitationPropertySchemaCase3MetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ElicitationPropertySchemaCase3MetaMap>;
+
+export type ElicitationPropertySchemaCase3Type = "boolean";
+export const ElicitationPropertySchemaCase3Type = S.String;
+
+/** Boolean property. */
+export interface ElicitationPropertySchemaCase3 {
+  /** Optional title for the property. Optional. Omitted and `null` are equivalent and mean no title is provided. */
+  title?: string | null;
+  /** Human-readable description. Optional. Omitted and `null` are equivalent and mean no description is provided. */
+  description?: string | null;
+  /** Default value. Optional. Omitted and `null` are equivalent and mean no default value is provided. */
+  default?: boolean | null;
+  /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+  _meta?: ElicitationPropertySchemaCase3MetaMap | null;
+  type: ElicitationPropertySchemaCase3Type;
+}
+export const ElicitationPropertySchemaCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.NullOr(S.String)),
+    default: S.optional(S.NullOr(S.Boolean)),
+    _meta: S.optional(S.NullOr(ElicitationPropertySchemaCase3MetaMap)),
+    type: ElicitationPropertySchemaCase3Type,
+  }),
+).annotate({
+  identifier: "ElicitationPropertySchemaCase3",
+}) as any as S.Schema<ElicitationPropertySchemaCase3>;
+
+/** Allowed enum values. */
+export type MultiSelectItemsCase0EnumList = Array<string>;
+export const MultiSelectItemsCase0EnumList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<MultiSelectItemsCase0EnumList>;
+
+/** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+export type MultiSelectItemsCase0MetaMap = { [key: string]: unknown | undefined };
+export const MultiSelectItemsCase0MetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<MultiSelectItemsCase0MetaMap>;
+
+export type MultiSelectItemsCase0Type = "string";
+export const MultiSelectItemsCase0Type = S.String;
+
+/** Multi-select string items with plain string values. */
+export interface MultiSelectItemsCase0 {
+  /** Allowed enum values. */
+  enum: MultiSelectItemsCase0EnumList;
+  /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+  _meta?: MultiSelectItemsCase0MetaMap | null;
+  type: MultiSelectItemsCase0Type;
+}
+export const MultiSelectItemsCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enum: MultiSelectItemsCase0EnumList,
+    _meta: S.optional(S.NullOr(MultiSelectItemsCase0MetaMap)),
+    type: MultiSelectItemsCase0Type,
+  }),
+).annotate({ identifier: "MultiSelectItemsCase0" }) as any as S.Schema<MultiSelectItemsCase0>;
+
+/** Custom or future typed multi-select items. */
+export interface MultiSelectItemsOther {
+  /** Custom or future multi-select item type. Values beginning with `_` are reserved for implementation-specific extensions. Unknown values that do not begin with `_` are reserved for future ACP variants. */
+  type: string;
+}
+export const MultiSelectItemsOther = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+  }),
+).annotate({ identifier: "MultiSelectItemsOther" }) as any as S.Schema<MultiSelectItemsOther>;
+
+/** Titled enum options. */
+export type TitledMultiSelectItemsAnyOfList = Array<EnumOption>;
+export const TitledMultiSelectItemsAnyOfList = /*@__PURE__*/ S.Array(
+  EnumOption,
+) as any as S.Schema<TitledMultiSelectItemsAnyOfList>;
+
+/** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+export type TitledMultiSelectItemsMetaMap = { [key: string]: unknown | undefined };
+export const TitledMultiSelectItemsMetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<TitledMultiSelectItemsMetaMap>;
+
+/** Items definition for titled multi-select enum properties. */
+export interface TitledMultiSelectItems {
+  /** Titled enum options. */
+  anyOf: TitledMultiSelectItemsAnyOfList;
+  /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+  _meta?: TitledMultiSelectItemsMetaMap | null;
+}
+export const TitledMultiSelectItems = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    anyOf: TitledMultiSelectItemsAnyOfList,
+    _meta: S.optional(S.NullOr(TitledMultiSelectItemsMetaMap)),
+  }),
+).annotate({ identifier: "TitledMultiSelectItems" }) as any as S.Schema<TitledMultiSelectItems>;
+
+/** Items for a multi-select (array) property schema. */
+export type MultiSelectItems =
+  | MultiSelectItemsCase0
+  | MultiSelectItemsOther
+  | TitledMultiSelectItems;
+export const MultiSelectItems = /*@__PURE__*/ S.Union([
+  MultiSelectItemsCase0,
+  MultiSelectItemsOther,
+  TitledMultiSelectItems,
+]) as any as S.Schema<MultiSelectItems>;
+
+/** Default selected values. Optional. Omitted and `null` are equivalent and mean no default selections are provided. */
+export type ElicitationPropertySchemaCase4DefaultList = Array<string>;
+export const ElicitationPropertySchemaCase4DefaultList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ElicitationPropertySchemaCase4DefaultList>;
+
+/** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+export type ElicitationPropertySchemaCase4MetaMap = { [key: string]: unknown | undefined };
+export const ElicitationPropertySchemaCase4MetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ElicitationPropertySchemaCase4MetaMap>;
+
+export type ElicitationPropertySchemaCase4Type = "array";
+export const ElicitationPropertySchemaCase4Type = S.String;
+
+/** Multi-select array property. */
+export interface ElicitationPropertySchemaCase4 {
+  /** Optional title for the property. Optional. Omitted and `null` are equivalent and mean no title is provided. */
+  title?: string | null;
+  /** Human-readable description. Optional. Omitted and `null` are equivalent and mean no description is provided. */
+  description?: string | null;
+  /** Minimum number of items to select. Optional. Omitted and `null` are equivalent and mean there is no minimum selection count. */
+  minItems?: number | null;
+  /** Maximum number of items to select. Optional. Omitted and `null` are equivalent and mean there is no maximum selection count. */
+  maxItems?: number | null;
+  /** The items definition describing allowed values. */
+  items: MultiSelectItems;
+  /** Default selected values. Optional. Omitted and `null` are equivalent and mean no default selections are provided. */
+  default?: ElicitationPropertySchemaCase4DefaultList | null;
+  /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+  _meta?: ElicitationPropertySchemaCase4MetaMap | null;
+  type: ElicitationPropertySchemaCase4Type;
+}
+export const ElicitationPropertySchemaCase4 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.NullOr(S.String)),
+    minItems: S.optional(S.NullOr(S.Number)),
+    maxItems: S.optional(S.NullOr(S.Number)),
+    items: MultiSelectItems,
+    default: S.optional(S.NullOr(ElicitationPropertySchemaCase4DefaultList)),
+    _meta: S.optional(S.NullOr(ElicitationPropertySchemaCase4MetaMap)),
+    type: ElicitationPropertySchemaCase4Type,
+  }),
+).annotate({
+  identifier: "ElicitationPropertySchemaCase4",
+}) as any as S.Schema<ElicitationPropertySchemaCase4>;
+
+/** Custom or future elicitation property schema. Values beginning with `_` are reserved for implementation-specific extensions. Unknown values that do not begin with `_` are reserved for future ACP variants. Clients that do not understand this property schema type should preserve the raw schema when storing, replaying, proxying, or forwarding elicitation requests. They MUST NOT render it as a known input control. */
+export interface ElicitationPropertySchemaOther {
+  /** Custom or future elicitation property schema type. Values beginning with `_` are reserved for implementation-specific extensions. Unknown values that do not begin with `_` are reserved for future ACP variants. */
+  type: string;
+}
+export const ElicitationPropertySchemaOther = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+  }),
+).annotate({
+  identifier: "ElicitationPropertySchemaOther",
+}) as any as S.Schema<ElicitationPropertySchemaOther>;
+
+/** Property schema for elicitation form fields. Each variant corresponds to a JSON Schema `"type"` value. Single-select enums use the `String` variant with `enum` or `oneOf` set. Multi-select enums use the `Array` variant. */
+export type ElicitationPropertySchema =
+  | ElicitationPropertySchemaCase0
+  | ElicitationPropertySchemaCase1
+  | ElicitationPropertySchemaCase2
+  | ElicitationPropertySchemaCase3
+  | ElicitationPropertySchemaCase4
+  | ElicitationPropertySchemaOther;
+export const ElicitationPropertySchema = /*@__PURE__*/ S.Union([
+  ElicitationPropertySchemaCase0,
+  ElicitationPropertySchemaCase1,
+  ElicitationPropertySchemaCase2,
+  ElicitationPropertySchemaCase3,
+  ElicitationPropertySchemaCase4,
+  ElicitationPropertySchemaOther,
+]) as any as S.Schema<ElicitationPropertySchema>;
+
+/** Property definitions (must be primitive types). */
+export type ElicitationSchemaPropertiesMap = {
+  [key: string]: ElicitationPropertySchema | undefined;
+};
+export const ElicitationSchemaPropertiesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ElicitationPropertySchema,
+) as any as S.Schema<ElicitationSchemaPropertiesMap>;
+
+/** List of required property names. Optional. Omitted and `null` are equivalent and mean no property names are required. */
+export type ElicitationSchemaRequiredList = Array<string>;
+export const ElicitationSchemaRequiredList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ElicitationSchemaRequiredList>;
+
+/** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+export type ElicitationSchemaMetaMap = { [key: string]: unknown | undefined };
+export const ElicitationSchemaMetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ElicitationSchemaMetaMap>;
+
+/** Type-safe elicitation schema for requesting structured user input. This represents a JSON Schema object with primitive-typed properties, as required by the elicitation specification. */
+export interface ElicitationSchema {
+  /** Type discriminator. Always `"object"`. */
+  type?: ElicitationSchemaType | (string & {});
+  /** Optional title for the schema. Optional. Omitted and `null` are equivalent and mean no title is provided. */
+  title?: string | null;
+  /** Property definitions (must be primitive types). */
+  properties?: ElicitationSchemaPropertiesMap;
+  /** List of required property names. Optional. Omitted and `null` are equivalent and mean no property names are required. */
+  required?: ElicitationSchemaRequiredList | null;
+  /** Optional description of what this schema represents. Optional. Omitted and `null` are equivalent and mean no schema description is provided. */
+  description?: string | null;
+  /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+  _meta?: ElicitationSchemaMetaMap | null;
+}
+export const ElicitationSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ElicitationSchemaType),
+    title: S.optional(S.NullOr(S.String)),
+    properties: S.optional(ElicitationSchemaPropertiesMap),
+    required: S.optional(S.NullOr(ElicitationSchemaRequiredList)),
+    description: S.optional(S.NullOr(S.String)),
+    _meta: S.optional(S.NullOr(ElicitationSchemaMetaMap)),
+  }),
+).annotate({ identifier: "ElicitationSchema" }) as any as S.Schema<ElicitationSchema>;
+
+/** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+export type CreateElicitationRequestCase0MetaMap = { [key: string]: unknown | undefined };
+export const CreateElicitationRequestCase0MetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateElicitationRequestCase0MetaMap>;
+
+export type CreateElicitationRequestCase0Mode = "form";
+export const CreateElicitationRequestCase0Mode = S.String;
+
+/** Form-based elicitation where the client renders a form from the provided schema. */
+export interface CreateElicitationRequestCase0 {
+  /** The session this elicitation is tied to. */
+  sessionId?: string;
+  /** Optional tool call within the session. Optional. Omitted and `null` are equivalent and mean the elicitation is scoped to the session without a specific tool call. */
+  toolCallId?: string | null;
+  /** A JSON Schema describing the form fields to present to the user. */
+  requestedSchema?: ElicitationSchema;
+  /** The request this elicitation is tied to. */
+  requestId?: RequestId | null;
   /** A human-readable message describing what input is needed. */
   message: string;
   /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
-  _meta?: ElicitationCreateRequestMetaMap | null;
+  _meta?: CreateElicitationRequestCase0MetaMap | null;
+  mode: CreateElicitationRequestCase0Mode;
 }
-export const ElicitationCreateRequest = /*@__PURE__*/ S.suspend(() =>
+export const CreateElicitationRequestCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    sessionId: S.optional(S.String),
+    toolCallId: S.optional(S.NullOr(S.String)),
+    requestedSchema: S.optional(ElicitationSchema),
+    requestId: S.optional(S.NullOr(RequestId)),
     message: S.String,
-    _meta: S.optional(S.NullOr(ElicitationCreateRequestMetaMap)),
+    _meta: S.optional(S.NullOr(CreateElicitationRequestCase0MetaMap)),
+    mode: CreateElicitationRequestCase0Mode,
   }),
-).annotate({ identifier: "ElicitationCreateRequest" }) as any as S.Schema<ElicitationCreateRequest>;
+).annotate({
+  identifier: "CreateElicitationRequestCase0",
+}) as any as S.Schema<CreateElicitationRequestCase0>;
+
+/** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+export type CreateElicitationRequestCase1MetaMap = { [key: string]: unknown | undefined };
+export const CreateElicitationRequestCase1MetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateElicitationRequestCase1MetaMap>;
+
+export type CreateElicitationRequestCase1Mode = "url";
+export const CreateElicitationRequestCase1Mode = S.String;
+
+/** URL-based elicitation where the client directs the user to a URL. */
+export interface CreateElicitationRequestCase1 {
+  /** The session this elicitation is tied to. */
+  sessionId?: string;
+  /** Optional tool call within the session. Optional. Omitted and `null` are equivalent and mean the elicitation is scoped to the session without a specific tool call. */
+  toolCallId?: string | null;
+  /** The unique identifier for this elicitation. */
+  elicitationId?: string;
+  /** The URL to direct the user to. */
+  url?: string;
+  /** The request this elicitation is tied to. */
+  requestId?: RequestId | null;
+  /** A human-readable message describing what input is needed. */
+  message: string;
+  /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+  _meta?: CreateElicitationRequestCase1MetaMap | null;
+  mode: CreateElicitationRequestCase1Mode;
+}
+export const CreateElicitationRequestCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionId: S.optional(S.String),
+    toolCallId: S.optional(S.NullOr(S.String)),
+    elicitationId: S.optional(S.String),
+    url: S.optional(S.String),
+    requestId: S.optional(S.NullOr(RequestId)),
+    message: S.String,
+    _meta: S.optional(S.NullOr(CreateElicitationRequestCase1MetaMap)),
+    mode: CreateElicitationRequestCase1Mode,
+  }),
+).annotate({
+  identifier: "CreateElicitationRequestCase1",
+}) as any as S.Schema<CreateElicitationRequestCase1>;
+
+/** Tied to a session, optionally to a specific tool call within that session. */
+export interface CreateElicitationRequestOtherSession {
+  /** The session this elicitation is tied to. */
+  sessionId: string;
+  /** Optional tool call within the session. Optional. Omitted and `null` are equivalent and mean the elicitation is scoped to the session without a specific tool call. */
+  toolCallId?: string | null;
+  /** Custom or future elicitation mode. Values beginning with `_` are reserved for implementation-specific extensions. Unknown values that do not begin with `_` are reserved for future ACP variants. */
+  mode: string;
+}
+export const CreateElicitationRequestOtherSession = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionId: S.String,
+    toolCallId: S.optional(S.NullOr(S.String)),
+    mode: S.String,
+  }),
+).annotate({
+  identifier: "CreateElicitationRequestOtherSession",
+}) as any as S.Schema<CreateElicitationRequestOtherSession>;
+
+/** Tied to a specific JSON-RPC request outside of a session (e.g., during auth/configuration phases before any session is started). */
+export interface CreateElicitationRequestOtherRequest {
+  /** The request this elicitation is tied to. */
+  requestId: RequestId | null;
+  /** Custom or future elicitation mode. Values beginning with `_` are reserved for implementation-specific extensions. Unknown values that do not begin with `_` are reserved for future ACP variants. */
+  mode: string;
+}
+export const CreateElicitationRequestOtherRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    requestId: S.NullOr(RequestId),
+    mode: S.String,
+  }),
+).annotate({
+  identifier: "CreateElicitationRequestOtherRequest",
+}) as any as S.Schema<CreateElicitationRequestOtherRequest>;
+
+/** Custom or future elicitation mode. Values beginning with `_` are reserved for implementation-specific extensions. Unknown values that do not begin with `_` are reserved for future ACP variants. Clients that do not understand this mode should preserve the raw payload when storing, replaying, proxying, or forwarding elicitation requests. They MUST NOT render it as a known elicitation mode. */
+export type CreateElicitationRequestOther =
+  | CreateElicitationRequestOtherSession
+  | CreateElicitationRequestOtherRequest;
+export const CreateElicitationRequestOther = /*@__PURE__*/ S.Union([
+  CreateElicitationRequestOtherSession,
+  CreateElicitationRequestOtherRequest,
+]) as any as S.Schema<CreateElicitationRequestOther>;
+
+/** Request from the agent to elicit structured user input. The agent sends this to the client to request information from the user, either via a form or by directing them to a URL. Elicitations are tied to a session (optionally a tool call) or a request. */
+export type CreateElicitationRequest =
+  | CreateElicitationRequestCase0
+  | CreateElicitationRequestCase1
+  | CreateElicitationRequestOther;
+export const CreateElicitationRequest = /*@__PURE__*/ S.Union([
+  CreateElicitationRequestCase0,
+  CreateElicitationRequestCase1,
+  CreateElicitationRequestOther,
+]) as any as S.Schema<CreateElicitationRequest>;
 
 /** String array value accepted in elicitation response content. */
 export type ElicitationContentValueStringArrayList = Array<string>;
@@ -187,6 +726,13 @@ export const CreateElicitationResponseCase0ContentMap = /*@__PURE__*/ S.Record(
   ElicitationContentValue,
 ) as any as S.Schema<CreateElicitationResponseCase0ContentMap>;
 
+/** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+export type CreateElicitationResponseCase0MetaMap = { [key: string]: unknown | undefined };
+export const CreateElicitationResponseCase0MetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateElicitationResponseCase0MetaMap>;
+
 export type CreateElicitationResponseCase0Action = "accept";
 export const CreateElicitationResponseCase0Action = S.String;
 
@@ -194,54 +740,87 @@ export const CreateElicitationResponseCase0Action = S.String;
 export interface CreateElicitationResponseCase0 {
   /** The user-provided content, if any, as an object matching the requested schema. */
   content?: CreateElicitationResponseCase0ContentMap | null;
+  /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+  _meta?: CreateElicitationResponseCase0MetaMap | null;
   action: CreateElicitationResponseCase0Action;
 }
 export const CreateElicitationResponseCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     content: S.optional(S.NullOr(CreateElicitationResponseCase0ContentMap)),
+    _meta: S.optional(S.NullOr(CreateElicitationResponseCase0MetaMap)),
     action: CreateElicitationResponseCase0Action,
   }),
 ).annotate({
   identifier: "CreateElicitationResponseCase0",
 }) as any as S.Schema<CreateElicitationResponseCase0>;
 
+/** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+export type CreateElicitationResponseCase1MetaMap = { [key: string]: unknown | undefined };
+export const CreateElicitationResponseCase1MetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateElicitationResponseCase1MetaMap>;
+
 export type CreateElicitationResponseCase1Action = "decline";
 export const CreateElicitationResponseCase1Action = S.String;
 
 /** The user declined the elicitation. */
 export interface CreateElicitationResponseCase1 {
+  /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+  _meta?: CreateElicitationResponseCase1MetaMap | null;
   action: CreateElicitationResponseCase1Action;
 }
 export const CreateElicitationResponseCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    _meta: S.optional(S.NullOr(CreateElicitationResponseCase1MetaMap)),
     action: CreateElicitationResponseCase1Action,
   }),
 ).annotate({
   identifier: "CreateElicitationResponseCase1",
 }) as any as S.Schema<CreateElicitationResponseCase1>;
 
+/** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+export type CreateElicitationResponseCase2MetaMap = { [key: string]: unknown | undefined };
+export const CreateElicitationResponseCase2MetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateElicitationResponseCase2MetaMap>;
+
 export type CreateElicitationResponseCase2Action = "cancel";
 export const CreateElicitationResponseCase2Action = S.String;
 
 /** The elicitation was cancelled. */
 export interface CreateElicitationResponseCase2 {
+  /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+  _meta?: CreateElicitationResponseCase2MetaMap | null;
   action: CreateElicitationResponseCase2Action;
 }
 export const CreateElicitationResponseCase2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    _meta: S.optional(S.NullOr(CreateElicitationResponseCase2MetaMap)),
     action: CreateElicitationResponseCase2Action,
   }),
 ).annotate({
   identifier: "CreateElicitationResponseCase2",
 }) as any as S.Schema<CreateElicitationResponseCase2>;
 
+/** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+export type CreateElicitationResponseOtherMetaMap = { [key: string]: unknown | undefined };
+export const CreateElicitationResponseOtherMetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateElicitationResponseOtherMetaMap>;
+
 /** Custom or future elicitation action. Values beginning with `_` are reserved for implementation-specific extensions. Unknown values that do not begin with `_` are reserved for future ACP variants. Agents that do not understand this action should preserve the raw payload when storing, replaying, proxying, or forwarding elicitation responses. They MUST NOT treat it as a known elicitation action. */
 export interface CreateElicitationResponseOther {
+  /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. Optional. Omitted and `null` are equivalent and mean no metadata. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+  _meta?: CreateElicitationResponseOtherMetaMap | null;
   /** Custom or future elicitation action. Values beginning with `_` are reserved for implementation-specific extensions. Unknown values that do not begin with `_` are reserved for future ACP variants. */
   action: string;
 }
 export const CreateElicitationResponseOther = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    _meta: S.optional(S.NullOr(CreateElicitationResponseOtherMetaMap)),
     action: S.String,
   }),
 ).annotate({
@@ -260,6 +839,17 @@ export const CreateElicitationResponse = /*@__PURE__*/ S.Union([
   CreateElicitationResponseCase2,
   CreateElicitationResponseOther,
 ]) as any as S.Schema<CreateElicitationResponse>;
+
+export interface ElicitationCreateResponse {
+  body: CreateElicitationResponse;
+}
+export const ElicitationCreateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    body: CreateElicitationResponse,
+  }),
+).annotate({
+  identifier: "ElicitationCreateResponse",
+}) as any as S.Schema<ElicitationCreateResponse>;
 
 /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
 export type FsReadTextFileRequestMetaMap = { [key: string]: unknown | undefined };
@@ -1574,6 +2164,48 @@ export const SessionConfigSelectOptions = /*@__PURE__*/ S.Union([
   SessionConfigSelectOptionsGroupedList,
 ]) as any as S.Schema<SessionConfigSelectOptions>;
 
+/** Session mode selector. */
+export type SessionConfigOptionCategoryCase0 = "mode";
+export const SessionConfigOptionCategoryCase0 = S.String;
+
+/** Model selector. */
+export type SessionConfigOptionCategoryCase1 = "model";
+export const SessionConfigOptionCategoryCase1 = S.String;
+
+/** Model-related configuration parameter. */
+export type SessionConfigOptionCategoryCase2 = "model_config";
+export const SessionConfigOptionCategoryCase2 = S.String;
+
+/** Thought/reasoning level selector. */
+export type SessionConfigOptionCategoryCase3 = "thought_level";
+export const SessionConfigOptionCategoryCase3 = S.String;
+
+/** Semantic category for a session configuration option. This is intended to help Clients distinguish broadly common selectors (e.g. model selector vs session mode selector vs thought/reasoning level) for UX purposes (keyboard shortcuts, icons, placement). It MUST NOT be required for correctness. Clients MUST handle missing or unknown categories gracefully. Category names beginning with `_` are free for custom use, like other ACP extension methods. Category names that do not begin with `_` are reserved for the ACP spec. */
+export type SessionConfigOptionCategory =
+  | SessionConfigOptionCategoryCase0
+  | (string & {})
+  | SessionConfigOptionCategoryCase1
+  | (string & {})
+  | SessionConfigOptionCategoryCase2
+  | (string & {})
+  | SessionConfigOptionCategoryCase3
+  | (string & {})
+  | string;
+export const SessionConfigOptionCategory = /*@__PURE__*/ S.Union([
+  SessionConfigOptionCategoryCase0,
+  SessionConfigOptionCategoryCase1,
+  SessionConfigOptionCategoryCase2,
+  SessionConfigOptionCategoryCase3,
+  S.String,
+]) as any as S.Schema<SessionConfigOptionCategory>;
+
+/** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+export type SessionConfigOptionCase0MetaMap = { [key: string]: unknown | undefined };
+export const SessionConfigOptionCase0MetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<SessionConfigOptionCase0MetaMap>;
+
 export type SessionConfigOptionCase0Type = "select";
 export const SessionConfigOptionCase0Type = S.String;
 
@@ -1583,15 +2215,37 @@ export interface SessionConfigOptionCase0 {
   currentValue: string;
   /** The set of selectable options. */
   options: SessionConfigSelectOptions;
+  /** Unique identifier for the configuration option. */
+  id: string;
+  /** Human-readable label for the option. */
+  name: string;
+  /** Optional description for the Client to display to the user. */
+  description?: string | null;
+  /** Optional semantic category for this option (UX only). */
+  category?: SessionConfigOptionCategory | null;
+  /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+  _meta?: SessionConfigOptionCase0MetaMap | null;
   type: SessionConfigOptionCase0Type;
 }
 export const SessionConfigOptionCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     currentValue: S.String,
     options: SessionConfigSelectOptions,
+    id: S.String,
+    name: S.String,
+    description: S.optional(S.NullOr(S.String)),
+    category: S.optional(S.NullOr(SessionConfigOptionCategory)),
+    _meta: S.optional(S.NullOr(SessionConfigOptionCase0MetaMap)),
     type: SessionConfigOptionCase0Type,
   }),
 ).annotate({ identifier: "SessionConfigOptionCase0" }) as any as S.Schema<SessionConfigOptionCase0>;
+
+/** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+export type SessionConfigOptionCase1MetaMap = { [key: string]: unknown | undefined };
+export const SessionConfigOptionCase1MetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<SessionConfigOptionCase1MetaMap>;
 
 export type SessionConfigOptionCase1Type = "boolean";
 export const SessionConfigOptionCase1Type = S.String;
@@ -1600,11 +2254,26 @@ export const SessionConfigOptionCase1Type = S.String;
 export interface SessionConfigOptionCase1 {
   /** The current value of the boolean option. */
   currentValue: boolean;
+  /** Unique identifier for the configuration option. */
+  id: string;
+  /** Human-readable label for the option. */
+  name: string;
+  /** Optional description for the Client to display to the user. */
+  description?: string | null;
+  /** Optional semantic category for this option (UX only). */
+  category?: SessionConfigOptionCategory | null;
+  /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+  _meta?: SessionConfigOptionCase1MetaMap | null;
   type: SessionConfigOptionCase1Type;
 }
 export const SessionConfigOptionCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     currentValue: S.Boolean,
+    id: S.String,
+    name: S.String,
+    description: S.optional(S.NullOr(S.String)),
+    category: S.optional(S.NullOr(SessionConfigOptionCategory)),
+    _meta: S.optional(S.NullOr(SessionConfigOptionCase1MetaMap)),
     type: SessionConfigOptionCase1Type,
   }),
 ).annotate({ identifier: "SessionConfigOptionCase1" }) as any as S.Schema<SessionConfigOptionCase1>;
@@ -2456,29 +3125,76 @@ export const ResumeSessionResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ResumeSessionResponse" }) as any as S.Schema<ResumeSessionResponse>;
 
 /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
-export type SessionSetConfigOptionRequestMetaMap = { [key: string]: unknown | undefined };
-export const SessionSetConfigOptionRequestMetaMap = /*@__PURE__*/ S.Record(
+export type SetSessionConfigOptionRequestCase0MetaMap = { [key: string]: unknown | undefined };
+export const SetSessionConfigOptionRequestCase0MetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
-) as any as S.Schema<SessionSetConfigOptionRequestMetaMap>;
+) as any as S.Schema<SetSessionConfigOptionRequestCase0MetaMap>;
 
-export interface SessionSetConfigOptionRequest {
+export type SetSessionConfigOptionRequestCase0Type = "boolean";
+export const SetSessionConfigOptionRequestCase0Type = S.String;
+
+/** A boolean value (`type: "boolean"`). */
+export interface SetSessionConfigOptionRequestCase0 {
   /** The ID of the session to set the configuration option for. */
   sessionId: string;
   /** The ID of the configuration option to set. */
   configId: string;
   /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
-  _meta?: SessionSetConfigOptionRequestMetaMap | null;
+  _meta?: SetSessionConfigOptionRequestCase0MetaMap | null;
+  /** The boolean value. */
+  value: boolean;
+  type: SetSessionConfigOptionRequestCase0Type;
 }
-export const SessionSetConfigOptionRequest = /*@__PURE__*/ S.suspend(() =>
+export const SetSessionConfigOptionRequestCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionId: S.String,
     configId: S.String,
-    _meta: S.optional(S.NullOr(SessionSetConfigOptionRequestMetaMap)),
+    _meta: S.optional(S.NullOr(SetSessionConfigOptionRequestCase0MetaMap)),
+    value: S.Boolean,
+    type: SetSessionConfigOptionRequestCase0Type,
   }),
 ).annotate({
-  identifier: "SessionSetConfigOptionRequest",
-}) as any as S.Schema<SessionSetConfigOptionRequest>;
+  identifier: "SetSessionConfigOptionRequestCase0",
+}) as any as S.Schema<SetSessionConfigOptionRequestCase0>;
+
+/** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+export type SetSessionConfigOptionRequestValueIdMetaMap = { [key: string]: unknown | undefined };
+export const SetSessionConfigOptionRequestValueIdMetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<SetSessionConfigOptionRequestValueIdMetaMap>;
+
+/** A [`SessionConfigValueId`] string value. This is the default when `type` is absent on the wire. Unknown `type` values with string payloads also gracefully deserialize into this variant. */
+export interface SetSessionConfigOptionRequestValueId {
+  /** The ID of the session to set the configuration option for. */
+  sessionId: string;
+  /** The ID of the configuration option to set. */
+  configId: string;
+  /** The _meta property is reserved by ACP to allow clients and agents to attach additional metadata to their interactions. Implementations MUST NOT make assumptions about values at these keys. See protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility) */
+  _meta?: SetSessionConfigOptionRequestValueIdMetaMap | null;
+  /** The value ID. */
+  value: string;
+}
+export const SetSessionConfigOptionRequestValueId = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionId: S.String,
+    configId: S.String,
+    _meta: S.optional(S.NullOr(SetSessionConfigOptionRequestValueIdMetaMap)),
+    value: S.String,
+  }),
+).annotate({
+  identifier: "SetSessionConfigOptionRequestValueId",
+}) as any as S.Schema<SetSessionConfigOptionRequestValueId>;
+
+/** Request parameters for setting a session configuration option. */
+export type SetSessionConfigOptionRequest =
+  | SetSessionConfigOptionRequestCase0
+  | SetSessionConfigOptionRequestValueId;
+export const SetSessionConfigOptionRequest = /*@__PURE__*/ S.Union([
+  SetSessionConfigOptionRequestCase0,
+  SetSessionConfigOptionRequestValueId,
+]) as any as S.Schema<SetSessionConfigOptionRequest>;
 
 /** The full set of configuration options and their current values. */
 export type SetSessionConfigOptionResponseConfigOptionsList = Array<SessionConfigOption>;
@@ -3657,13 +4373,13 @@ export const sessionResume: JsonRpc.RequestMethod<
 export type SessionSetConfigOptionError = AcpOpError;
 /** Request parameters for setting a session configuration option. */
 export const sessionSetConfigOption: JsonRpc.RequestMethod<
-  SessionSetConfigOptionRequest,
+  SetSessionConfigOptionRequest,
   SetSessionConfigOptionResponse,
   SessionSetConfigOptionError,
   AcpConnection
 > = JsonRpc.request(() => ({
   method: "session/set_config_option",
-  input: SessionSetConfigOptionRequest,
+  input: SetSessionConfigOptionRequest,
   output: SetSessionConfigOptionResponse,
   errors: [
     UnknownAcpError,
@@ -3723,8 +4439,8 @@ export const inbound = {
   elicitationCreate: {
     method: "elicitation/create",
     kind: "request",
-    params: ElicitationCreateRequest,
-    result: CreateElicitationResponse,
+    params: CreateElicitationRequest,
+    result: ElicitationCreateResponse,
   },
   fsReadTextFile: {
     method: "fs/read_text_file",
@@ -3786,8 +4502,8 @@ export interface InboundHandlers<R = never> {
     params: ElicitationCompleteRequest,
   ) => Effect.Effect<void, never, R>;
   readonly elicitationCreate?: (
-    params: ElicitationCreateRequest,
-  ) => Effect.Effect<CreateElicitationResponse, JsonRpc.HandlerError, R>;
+    params: CreateElicitationRequest,
+  ) => Effect.Effect<ElicitationCreateResponse, JsonRpc.HandlerError, R>;
   readonly fsReadTextFile?: (
     params: FsReadTextFileRequest,
   ) => Effect.Effect<ReadTextFileResponse, JsonRpc.HandlerError, R>;

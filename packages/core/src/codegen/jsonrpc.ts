@@ -143,6 +143,31 @@ export const normalizeJsonSchema = (value: unknown): unknown => {
     out.type = "string";
     out.enum = [...new Set(branches.flatMap((b: any) => b.enum))];
   }
+  // Base properties beside a `oneOf`/`anyOf` of object variants (ACP's
+  // `SessionConfigOption`: shared `id`/`name` + per-kind fields) mean "the
+  // base AND one variant". Distribute the base into every variant so the
+  // union carries all fields; otherwise one side is silently dropped.
+  for (const key of ["oneOf", "anyOf"] as const) {
+    const branches = out[key];
+    const base = out.properties;
+    if (!Array.isArray(branches) || !base || typeof base !== "object") continue;
+    const isObject = (b: any) =>
+      b &&
+      typeof b === "object" &&
+      b.$ref === undefined &&
+      (b.type === "object" || b.properties || b.allOf);
+    if (!branches.every(isObject)) continue;
+    const required = Array.isArray(out.required) ? (out.required as string[]) : [];
+    out[key] = branches.map((b: any) => ({
+      ...b,
+      type: "object",
+      properties: { ...(base as object), ...(b.properties ?? {}) },
+      required: [...new Set([...required, ...(Array.isArray(b.required) ? b.required : [])])],
+    }));
+    delete out.properties;
+    delete out.required;
+    break;
+  }
   return out;
 };
 
