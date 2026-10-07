@@ -18,6 +18,7 @@
       "types": "./lib/credentials.d.ts",
       "bun": "./src/credentials.ts",
       "worker": "./src/credentials.ts",
+      "browser": "./lib/credentials.browser.js",
       "default": "./lib/credentials.js"
     },
     "./Errors": {
@@ -66,6 +67,7 @@
       "types": "./lib/index.d.ts",
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
+      "browser": "./lib/index.browser.js",
       "default": "./lib/index.js"
     },
     "./*": {

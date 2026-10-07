@@ -1,12 +1,11 @@
 /**
- * `@distilled.cloud/gcp/Credentials`: the `Credentials` service and every
- * provider. Each layer is defined in its provider's own file under
- * `credential-providers/`.
+ * `@distilled.cloud/gcp/Credentials` for Node, Bun and workers: everything
+ * the browser entry exports, plus Application Default Credentials, which
+ * read gcloud's credentials file. Each layer is defined in its provider's
+ * own file under `credential-providers/`.
  */
-export * from "./credentials-service.ts";
-export { fromAccessToken } from "./credential-providers/from-access-token.ts";
-export { CredentialsFromEnv } from "./credential-providers/from-env.ts";
+export * from "./credentials.browser.ts";
 export {
-  fromWorkloadIdentity,
-  type WorkloadIdentityConfig,
-} from "./credential-providers/from-workload-identity.ts";
+  type ApplicationDefaultConfig,
+  fromApplicationDefault,
+} from "./credential-providers/from-application-default.ts";

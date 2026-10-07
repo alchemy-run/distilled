@@ -38,6 +38,51 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 `GOOGLE_PROJECT_ID` (optional). `fromAccessToken` takes the same values
 directly.
 
+### Application Default Credentials
+
+`fromApplicationDefault` finds credentials the way Google's own libraries
+do ([AIP-4110](https://google.aip.dev/auth/4110)), so local deploys need no
+service account key:
+
+1. the file `GOOGLE_APPLICATION_CREDENTIALS` names;
+2. the login from `gcloud auth application-default login`
+   (`~/.config/gcloud/application_default_credentials.json`, or
+   `$CLOUDSDK_CONFIG`);
+3. the attached service account, when running on Google Cloud.
+
+```ts
+import { Effect, Layer } from "effect";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
+import { fromApplicationDefault, GcpProtocol } from "@distilled.cloud/gcp";
+import * as Storage from "@distilled.cloud/gcp/storage_v1";
+
+const Live = Layer.mergeAll(FetchHttpClient.layer, fromApplicationDefault(), GcpProtocol);
+
+Storage.listBuckets({ project: "acme" }).pipe(Effect.provide(Live), Effect.runPromise);
+```
+
+- **Files it reads:** user logins (`authorized_user`), service account keys
+  (`service_account`), workload identity configs (`external_account`, with a
+  `file` or `url` token source), and
+  `gcloud auth application-default login --impersonate-service-account`
+  (`impersonated_service_account`). An `external_account` with an AWS or
+  executable token source fails with a message; use `fromWorkloadIdentity`
+  for those.
+- **Project:** the `project` option, else `GOOGLE_CLOUD_PROJECT`, else the
+  file's `project_id` or `quota_project_id`, else the metadata server.
+- **Quota project:** the `quotaProject` option, else
+  `GOOGLE_CLOUD_QUOTA_PROJECT`, else the file's `quota_project_id`. It is
+  sent as `X-Goog-User-Project`; many APIs require it with user credentials.
+  Set it with `gcloud auth application-default set-quota-project <project>`.
+- Tokens are cached and refreshed five minutes before they expire. A failed
+  refresh fails the operation with `GCPCredentialsError`.
+- Node, Bun and workers only, since it reads files. The browser entry leaves
+  it out.
+
+Each source is also available on its own: `fromAuthorizedUser`
+(client id, secret and refresh token), `fromServiceAccountKey` (email and
+PEM private key), and `fromMetadataServer`.
+
 ### Workload identity federation
 
 `fromWorkloadIdentity` authenticates a workload that runs outside Google
