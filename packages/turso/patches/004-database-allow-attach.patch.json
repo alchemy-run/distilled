@@ -1,0 +1,13 @@
+{
+  "description": "The Database object returned by getDatabase/listDatabases carries allow_attach on the wire, but the spec omits it. Discovered via live API testing.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/components/schemas/Database/properties/allow_attach",
+      "value": {
+        "type": "boolean",
+        "description": "Whether other databases may be attached to this database with `ATTACH`."
+      }
+    }
+  ]
+}

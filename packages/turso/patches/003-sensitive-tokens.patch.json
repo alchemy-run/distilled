@@ -1,0 +1,20 @@
+{
+  "description": "Mark the minted secrets sensitive so they decode as Redacted: the platform API token (createAPIToken) and the database/group SQL auth JWTs (createDatabaseToken, createGroupToken).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/paths/~1v1~1auth~1api-tokens~1{tokenName}/post/responses/200/content/application~1json/schema/properties/token/x-sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1v1~1organizations~1{organizationSlug}~1databases~1{databaseName}~1auth~1tokens/post/responses/200/content/application~1json/schema/properties/jwt/x-sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1v1~1organizations~1{organizationSlug}~1groups~1{groupName}~1auth~1tokens/post/responses/200/content/application~1json/schema/properties/jwt/x-sensitive",
+      "value": true
+    }
+  ]
+}

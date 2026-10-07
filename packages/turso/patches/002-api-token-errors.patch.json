@@ -1,0 +1,81 @@
+{
+  "description": "Type createAPIToken's observed failures (409 duplicate token name, 404 unknown group for a group-scoped token, 400 invalid scopes) and revokeOrganizationAPIToken's 404. Discovered via live API testing.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/paths/~1v1~1auth~1api-tokens~1{tokenName}/post/responses/400",
+      "value": {
+        "description": "Bad Request - invalid organization, group, or scopes",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": { "type": "string", "description": "The error message" }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1v1~1auth~1api-tokens~1{tokenName}/post/responses/404",
+      "value": {
+        "description": "Group not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "The error message",
+                  "example": "group my-group not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1v1~1auth~1api-tokens~1{tokenName}/post/responses/409",
+      "value": {
+        "description": "An API token with this name already exists",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "The error message",
+                  "example": "token my-token already exists"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1v1~1organizations~1{organizationSlug}~1api-tokens~1{tokenId}/delete/responses/404",
+      "value": {
+        "description": "API token not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": { "type": "string", "description": "The error message" }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
