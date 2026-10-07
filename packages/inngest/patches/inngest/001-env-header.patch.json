@@ -1,0 +1,89 @@
+{
+  "description": "Accept X-Inngest-Env on environment list/update, app list/get/sync and function list/get. A branch-environment signing key only reaches its branch child environment when the request names it; without the header these calls answer not_found or internal_error.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/paths/~1envs/get/parameters/-",
+      "value": {
+        "description": "Scope the request to an environment by name (e.g. a branch environment)",
+        "in": "header",
+        "name": "X-Inngest-Env",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1envs~1{id}/patch/parameters/-",
+      "value": {
+        "description": "Scope the request to an environment by name (e.g. a branch environment)",
+        "in": "header",
+        "name": "X-Inngest-Env",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1apps/get/parameters/-",
+      "value": {
+        "description": "Scope the request to an environment by name (e.g. a branch environment)",
+        "in": "header",
+        "name": "X-Inngest-Env",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1apps~1{appId}/get/parameters/-",
+      "value": {
+        "description": "Scope the request to an environment by name (e.g. a branch environment)",
+        "in": "header",
+        "name": "X-Inngest-Env",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1apps~1{appId}~1functions/get/parameters/-",
+      "value": {
+        "description": "Scope the request to an environment by name (e.g. a branch environment)",
+        "in": "header",
+        "name": "X-Inngest-Env",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1apps~1{appId}~1functions~1{functionId}/get/parameters/-",
+      "value": {
+        "description": "Scope the request to an environment by name (e.g. a branch environment)",
+        "in": "header",
+        "name": "X-Inngest-Env",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1apps~1{appId}~1syncs/post/parameters/-",
+      "value": {
+        "description": "Scope the request to an environment by name (e.g. a branch environment)",
+        "in": "header",
+        "name": "X-Inngest-Env",
+        "schema": {
+          "type": "string"
+        }
+      }
+    }
+  ]
+}
