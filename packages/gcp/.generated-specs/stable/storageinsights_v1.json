@@ -1,0 +1,2431 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "service": "storageinsights",
+    "version": "v1",
+    "title": "Storage Insights API",
+    "baseUrl": "https://storageinsights.googleapis.com/",
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.gcp.storageinsights_v1#DatasetConfig": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.gcp.storageinsights_v1#Status",
+          "traits": {
+            "smithy.api#documentation": "Output only. Status of the `datasetConfig`."
+          }
+        },
+        "uid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. System generated unique identifier for the resource."
+          }
+        },
+        "sourceFolders": {
+          "target": "com.gcp.storageinsights_v1#SourceFolders",
+          "traits": {
+            "smithy.api#documentation": "Defines the options for providing source folders for the dataset."
+          }
+        },
+        "sourceProjects": {
+          "target": "com.gcp.storageinsights_v1#SourceProjects",
+          "traits": {
+            "smithy.api#documentation": "Defines the options for providing source projects for the dataset."
+          }
+        },
+        "labels": {
+          "target": "com.gcp.storageinsights_v1#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Optional. Labels as key value pairs"
+          }
+        },
+        "skipVerificationAndIngest": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. If set to `false`, then all the permission checks must be successful before the system can start ingesting data. This field can only be updated before the system ingests data for the first time. Any attempt to modify the field after data ingestion starts results in an error."
+          }
+        },
+        "link": {
+          "target": "com.gcp.storageinsights_v1#Link",
+          "traits": {
+            "smithy.api#documentation": "Output only. Details of the linked dataset."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. name of resource"
+          }
+        },
+        "includeCloudStorageBuckets": {
+          "target": "com.gcp.storageinsights_v1#CloudStorageBuckets",
+          "traits": {
+            "smithy.api#documentation": "Cloud Storage buckets to include in the dataset."
+          }
+        },
+        "identity": {
+          "target": "com.gcp.storageinsights_v1#Identity",
+          "traits": {
+            "smithy.api#documentation": "Optional. Identity used by this `datasetConfig`."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A user-provided description for the dataset configuration. Maximum length: 256 characters."
+          }
+        },
+        "includeCloudStorageLocations": {
+          "target": "com.gcp.storageinsights_v1#CloudStorageLocations",
+          "traits": {
+            "smithy.api#documentation": "Cloud Storage locations to include in the dataset."
+          }
+        },
+        "excludeCloudStorageLocations": {
+          "target": "com.gcp.storageinsights_v1#CloudStorageLocations",
+          "traits": {
+            "smithy.api#documentation": "Cloud Storage locations to exclude from the dataset."
+          }
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The UTC time at which the dataset configuration was last updated. This is auto-populated."
+          }
+        },
+        "organizationNumber": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Organization resource ID that the source projects should belong to. Projects that do not belong to the provided organization are not considered when creating the dataset."
+          }
+        },
+        "datasetConfigState": {
+          "target": "com.gcp.storageinsights_v1#DatasetConfigDatasetConfigStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Output only. State of the `datasetConfig`."
+          }
+        },
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The UTC time at which the dataset configuration was created. This is auto-populated."
+          }
+        },
+        "cloudStorageObjectPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Input only. Cloud Storage object path containing a list of project or folder numbers to include in the dataset; it cannot contain a mix of project and folders. The object must be a text file where each line has one of the following entries: - Project number, formatted as `projects/{project_number}`, for example, `projects/1234567890`. - Folder identifier, formatted as `folders/{folder_number}`, for example, `folders/9876543210`. Path must be in the format `gs://{bucket_name}/{object_name}`."
+          }
+        },
+        "retentionPeriodDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Number of days of history that must be retained."
+          }
+        },
+        "excludeCloudStorageBuckets": {
+          "target": "com.gcp.storageinsights_v1#CloudStorageBuckets",
+          "traits": {
+            "smithy.api#documentation": "Cloud Storage buckets to exclude from the dataset."
+          }
+        },
+        "includeNewlyCreatedBuckets": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. If set to `true`, the request includes all the newly created buckets in the dataset that meet the inclusion and exclusion rules."
+          }
+        },
+        "activityDataRetentionPeriodDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. When set, overrides the retention period for activity data. Otherwise, the `retention_period_days` value is used for activity data as well."
+          }
+        },
+        "organizationScope": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines the options for providing a source organization for the dataset."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Message describing the dataset configuration properties. For more information, see [Dataset configuration properties](https://cloud.google.com/storage/docs/insights/datasets#dataset-config)."
+      }
+    },
+    "com.gcp.storageinsights_v1#StringMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.storageinsights_v1#DatasetConfigDatasetConfigStateEnum": {
+      "type": "enum",
+      "members": {
+        "CONFIG_STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CONFIG_STATE_UNSPECIFIED"
+          }
+        },
+        "CONFIG_STATE_ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CONFIG_STATE_ACTIVE"
+          }
+        },
+        "CONFIG_STATE_VERIFICATION_IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CONFIG_STATE_VERIFICATION_IN_PROGRESS"
+          }
+        },
+        "CONFIG_STATE_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CONFIG_STATE_CREATED"
+          }
+        },
+        "CONFIG_STATE_PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CONFIG_STATE_PROCESSING"
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#CloudStorageDestinationOptions": {
+      "type": "structure",
+      "members": {
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The destination bucket for the inventory reports."
+          }
+        },
+        "destinationPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The destination path within the bucket where the inventory reports are stored."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Options to store inventory reports in Cloud Storage."
+      }
+    },
+    "com.gcp.storageinsights_v1#SourceFolders": {
+      "type": "structure",
+      "members": {
+        "folderNumbers": {
+          "target": "com.gcp.storageinsights_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. The list of folder numbers to include in the dataset."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Specifies a set of folders to include in the dataset"
+      }
+    },
+    "com.gcp.storageinsights_v1#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.storageinsights_v1#OperationMetadata": {
+      "type": "structure",
+      "members": {
+        "endTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Operation end time."
+          }
+        },
+        "verb": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Name of the verb executed by the operation."
+          }
+        },
+        "requestedCancellation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Output only. Identifies whether the user has requested cancellation of the operation. Operations that have been cancelled successfully have an Operation.error value with a google.rpc.Status.code of 1, corresponding to `Code.CANCELLED`."
+          }
+        },
+        "statusMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Human-readable status of the operation, if any."
+          }
+        },
+        "apiVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. API version used to start the operation."
+          }
+        },
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Server-defined resource path for the target of the operation."
+          }
+        },
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Operation create time."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents the metadata of the long-running operation."
+      }
+    },
+    "com.gcp.storageinsights_v1#Link": {
+      "type": "structure",
+      "members": {
+        "dataset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Dataset name for linked dataset."
+          }
+        },
+        "linked": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Output only. State of the linked dataset."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the details about the linked dataset."
+      }
+    },
+    "com.gcp.storageinsights_v1#ReportConfig": {
+      "type": "structure",
+      "members": {
+        "frequencyOptions": {
+          "target": "com.gcp.storageinsights_v1#FrequencyOptions",
+          "traits": {
+            "smithy.api#documentation": "Optional. The frequency of the inventory report generation."
+          }
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The UTC time at which the inventory report configuration was updated. This is auto-populated."
+          }
+        },
+        "csvOptions": {
+          "target": "com.gcp.storageinsights_v1#CSVOptions",
+          "traits": {
+            "smithy.api#documentation": "Options for CSV formatted reports."
+          }
+        },
+        "objectMetadataReportOptions": {
+          "target": "com.gcp.storageinsights_v1#ObjectMetadataReportOptions",
+          "traits": {
+            "smithy.api#documentation": "Options for including object metadata in an inventory report."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. User provided display name that can be empty and limited to 256 characters that is editable.."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. Name of resource. Format: `projects/{project_id}/locations/{location}/reportConfigs/{report-config-id}`."
+          }
+        },
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The UTC time at which the inventory report configuration was created. This is auto-populated."
+          }
+        },
+        "labels": {
+          "target": "com.gcp.storageinsights_v1#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Optional. Labels as key value pairs"
+          }
+        },
+        "parquetOptions": {
+          "target": "com.gcp.storageinsights_v1#ParquetOptions",
+          "traits": {
+            "smithy.api#documentation": "Options for Parquet formatted reports."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Message describing the `ReportConfig` object. `ReportConfig` is the configuration used to generate inventory reports. For information about how to set various fields, see [Create an inventory report configuration](https://cloud.google.com/storage/docs/insights/using-inventory-reports#create-report-config)."
+      }
+    },
+    "com.gcp.storageinsights_v1#Identity": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Name of the identity."
+          }
+        },
+        "type": {
+          "target": "com.gcp.storageinsights_v1#IdentityTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Optional. Type of identity to use for the datasetConfig."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Identity lets the user provide the type of identity to use, and outputs the identity string that can be used for IAM policy changes."
+      }
+    },
+    "com.gcp.storageinsights_v1#IdentityTypeEnum": {
+      "type": "enum",
+      "members": {
+        "IDENTITY_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IDENTITY_TYPE_UNSPECIFIED"
+          }
+        },
+        "IDENTITY_TYPE_PER_CONFIG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IDENTITY_TYPE_PER_CONFIG"
+          }
+        },
+        "IDENTITY_TYPE_PER_PROJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IDENTITY_TYPE_PER_PROJECT"
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#SourceProjects": {
+      "type": "structure",
+      "members": {
+        "projectNumbers": {
+          "target": "com.gcp.storageinsights_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. The list of project numbers to include in the dataset."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Collection of project numbers"
+      }
+    },
+    "com.gcp.storageinsights_v1#Storageinsights_Date": {
+      "type": "structure",
+      "members": {
+        "year": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."
+          }
+        },
+        "month": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day."
+          }
+        },
+        "day": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp"
+      }
+    },
+    "com.gcp.storageinsights_v1#ListReportConfigsResponse": {
+      "type": "structure",
+      "members": {
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token identifying a page of results the server should return."
+          }
+        },
+        "reportConfigs": {
+          "target": "com.gcp.storageinsights_v1#ReportConfigList",
+          "traits": {
+            "smithy.api#documentation": "The list of `ReportConfig`"
+          }
+        },
+        "unreachable": {
+          "target": "com.gcp.storageinsights_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Locations that could not be reached."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response message for `ListReportConfigs`"
+      }
+    },
+    "com.gcp.storageinsights_v1#ReportConfigList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.storageinsights_v1#ReportConfig"
+      }
+    },
+    "com.gcp.storageinsights_v1#CloudStorageFilters": {
+      "type": "structure",
+      "members": {
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Bucket for which the inventory report is generated."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Filters buckets to generate inventory reports for Cloud Storage."
+      }
+    },
+    "com.gcp.storageinsights_v1#Status": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The status code, which should be an enum value of google.rpc.Code."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client."
+          }
+        },
+        "details": {
+          "target": "com.gcp.storageinsights_v1#DocumentMapList",
+          "traits": {
+            "smithy.api#documentation": "A list of messages that carry the error details. There is a common set of message types for APIs to use."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors)."
+      }
+    },
+    "com.gcp.storageinsights_v1#DocumentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.gcp.storageinsights_v1#DocumentMapList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.storageinsights_v1#DocumentMap"
+      }
+    },
+    "com.gcp.storageinsights_v1#ListLocationsResponse": {
+      "type": "structure",
+      "members": {
+        "locations": {
+          "target": "com.gcp.storageinsights_v1#LocationList",
+          "traits": {
+            "smithy.api#documentation": "A list of locations that matches the specified filter in the request."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The standard List next-page token."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response message for Locations.ListLocations."
+      }
+    },
+    "com.gcp.storageinsights_v1#LocationList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.storageinsights_v1#Location"
+      }
+    },
+    "com.gcp.storageinsights_v1#LinkDatasetRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "Request message for `LinkDataset`"
+      }
+    },
+    "com.gcp.storageinsights_v1#CloudStorageBucket": {
+      "type": "structure",
+      "members": {
+        "bucketName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloud Storage bucket name."
+          }
+        },
+        "bucketPrefixRegex": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A regex pattern for bucket names matching the regex. Regex should follow the syntax specified in `google/re2` on GitHub."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the bucket by its name or a regex pattern to match buckets."
+      }
+    },
+    "com.gcp.storageinsights_v1#CloudStorageBuckets": {
+      "type": "structure",
+      "members": {
+        "cloudStorageBuckets": {
+          "target": "com.gcp.storageinsights_v1#CloudStorageBucketList",
+          "traits": {
+            "smithy.api#documentation": "Optional. List of Cloud Storage buckets."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Collection of Cloud Storage buckets."
+      }
+    },
+    "com.gcp.storageinsights_v1#CloudStorageBucketList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.storageinsights_v1#CloudStorageBucket"
+      }
+    },
+    "com.gcp.storageinsights_v1#ProjectErrors": {
+      "type": "structure",
+      "members": {
+        "validatedCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Count of successfully validated projects."
+          }
+        },
+        "nonStorageIntelligenceEntitledProjectNumbers": {
+          "target": "com.gcp.storageinsights_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Subset of project numbers that are not subscribed to Storage Intelligence."
+          }
+        },
+        "destinationProjectCheckHasInternalError": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. Indicates whether the destination project check failed due to an internal error. If `true`, the system automatically retries the check."
+          }
+        },
+        "nonManagementHubEntitledErrorCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Count of projects that are not subscribed to Storage Intelligence."
+          }
+        },
+        "destinationProjectOrgError": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. Indicates if the destination project resides within the same organization as the source project."
+          }
+        },
+        "internalErrorCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Number of projects that encountered internal errors during validation and are automatically retried."
+          }
+        },
+        "outsideOrgProjectNumbers": {
+          "target": "com.gcp.storageinsights_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Subset of project numbers which are not in the same organization."
+          }
+        },
+        "outsideOrgErrorCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Count of projects which are not in the same organization."
+          }
+        },
+        "nonManagementHubEntitledProjectNumbers": {
+          "target": "com.gcp.storageinsights_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Subset of project numbers that are not subscribed to Storage Intelligence."
+          }
+        },
+        "nonStorageIntelligenceEntitledErrorCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Count of projects that are not subscribed to Storage Intelligence."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Provides a summary of the project level error statistics."
+      }
+    },
+    "com.gcp.storageinsights_v1#ReportStatsView": {
+      "type": "structure",
+      "members": {
+        "bytesWritten": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Actual size in bytes for the report written, as reported by the underlying storage system"
+          }
+        },
+        "projectNumber": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project Number"
+          }
+        },
+        "recordsProcessed": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Actual records processed as reported by the underlying storage system"
+          }
+        },
+        "reportConfigId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the parent ReportConfig for the corresponding ReportDetail"
+          }
+        },
+        "reportDetailId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the ReportDetail for which the stats are generated"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Message to encapsulate the various statistics related to the generated Report Next ID: 6"
+      }
+    },
+    "com.gcp.storageinsights_v1#ListDatasetConfigsResponse": {
+      "type": "structure",
+      "members": {
+        "unreachable": {
+          "target": "com.gcp.storageinsights_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Locations that could not be reached."
+          }
+        },
+        "datasetConfigs": {
+          "target": "com.gcp.storageinsights_v1#DatasetConfigList",
+          "traits": {
+            "smithy.api#documentation": "The list of `DatasetConfigs`"
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token identifying a page of results the server should return."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response message for `ListDatasetConfigs`"
+      }
+    },
+    "com.gcp.storageinsights_v1#DatasetConfigList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.storageinsights_v1#DatasetConfig"
+      }
+    },
+    "com.gcp.storageinsights_v1#CloudStorageLocations": {
+      "type": "structure",
+      "members": {
+        "locations": {
+          "target": "com.gcp.storageinsights_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. List of Cloud Storage locations."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Collection of Cloud Storage locations."
+      }
+    },
+    "com.gcp.storageinsights_v1#CancelOperationRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "The request message for Operations.CancelOperation."
+      }
+    },
+    "com.gcp.storageinsights_v1#ListOperationsResponse": {
+      "type": "structure",
+      "members": {
+        "operations": {
+          "target": "com.gcp.storageinsights_v1#OperationList",
+          "traits": {
+            "smithy.api#documentation": "A list of operations that matches the specified filter in the request."
+          }
+        },
+        "unreachable": {
+          "target": "com.gcp.storageinsights_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The standard List next-page token."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response message for Operations.ListOperations."
+      }
+    },
+    "com.gcp.storageinsights_v1#OperationList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.storageinsights_v1#Operation"
+      }
+    },
+    "com.gcp.storageinsights_v1#DatasetConfigInternalView": {
+      "type": "structure",
+      "members": {
+        "tenantProjectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tenant project id of where the dataset is created."
+          }
+        },
+        "bqDatasetInTenantProject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the internal BigQuery dataset created for insights."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Message to encapsulate the identifiers for a BigQuery insights dataset. Next ID: 3"
+      }
+    },
+    "com.gcp.storageinsights_v1#TimeZone": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. IANA Time Zone Database version number. For example \"2019a\"."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IANA Time Zone Database time zone. For example \"America/New_York\"."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones)."
+      }
+    },
+    "com.gcp.storageinsights_v1#ValidationErrorsBeforeIngestion": {
+      "type": "structure",
+      "members": {
+        "bucketErrors": {
+          "target": "com.gcp.storageinsights_v1#BucketErrors",
+          "traits": {
+            "smithy.api#documentation": "Optional. Provides a summary of the bucket level error stats."
+          }
+        },
+        "projectErrors": {
+          "target": "com.gcp.storageinsights_v1#ProjectErrors",
+          "traits": {
+            "smithy.api#documentation": "Optional. Provides a summary of the project level error stats."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Summary of validation errors that occurred during the verification phase."
+      }
+    },
+    "com.gcp.storageinsights_v1#CSVOptions": {
+      "type": "structure",
+      "members": {
+        "recordSeparator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Record separator characters in CSV."
+          }
+        },
+        "delimiter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Delimiter characters in CSV."
+          }
+        },
+        "headerRequired": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. If set, includes a header row in the CSV report."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Options to configure inventory reports in CSV format."
+      }
+    },
+    "com.gcp.storageinsights_v1#ReportDetail": {
+      "type": "structure",
+      "members": {
+        "labels": {
+          "target": "com.gcp.storageinsights_v1#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Labels as key value pairs"
+          }
+        },
+        "snapshotTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The snapshot time. All the inventory report data is referenced at this point of time."
+          }
+        },
+        "targetDatetime": {
+          "target": "com.gcp.storageinsights_v1#DateTime",
+          "traits": {
+            "smithy.api#documentation": "The date and time of the inventory report generation. This field is auto-populated. The time part of `target_datetime` is always `0`."
+          }
+        },
+        "reportMetrics": {
+          "target": "com.gcp.storageinsights_v1#Metrics",
+          "traits": {
+            "smithy.api#documentation": "Metrics of the inventory report."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of resource. Format: `projects/{project_number}/locations/{location}/reportConfigs/{report-config-id}/reportDetails/{report-detail-id}`."
+          }
+        },
+        "shardsCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Total shards generated for the inventory report."
+          }
+        },
+        "status": {
+          "target": "com.gcp.storageinsights_v1#Status",
+          "traits": {
+            "smithy.api#documentation": "Status of the inventory report."
+          }
+        },
+        "reportPathPrefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prefix of the object name of each report's shard. This has the full prefix except the `extension` and `shard_id`. For example, if the `destination_path` is `{report-config-id}/dt={datetime}`, then the shard object name is `gs://my-insights/1A34-F2E456-12B456-1C3D/dt=2022-05-20T06:35/1A34-F2E456-12B456-1C3D_2022-05-20T06:35_5.csv` and the value of `reportPathPrefix` field is `gs://my-insights/1A34-F2E456-12B456-1C3D/dt=2022-05-20T06:35/1A34-F2E456-12B456-1C3D_2022-05-20T06:35_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Message describing the `ReportDetail` object. `ReportDetail` represents the metadata of the generated inventory report for a report configuration."
+      }
+    },
+    "com.gcp.storageinsights_v1#LocationMetadata": {
+      "type": "structure",
+      "members": {
+        "reportConfigAvailable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If true, `storageinsights.googleapis.com/ReportConfig` resource is available at the location."
+          }
+        },
+        "datasetConfigAvailable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If true, `storageinsights.googleapis.com/DatasetConfig` resource is available at the location."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Metadata that helps discover which resources are available in a location."
+      }
+    },
+    "com.gcp.storageinsights_v1#ParquetOptions": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "Options to configure inventory reports in Parquet format."
+      }
+    },
+    "com.gcp.storageinsights_v1#UnlinkDatasetRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "Request message for `UnlinkDataset`"
+      }
+    },
+    "com.gcp.storageinsights_v1#ListReportDetailsResponse": {
+      "type": "structure",
+      "members": {
+        "reportDetails": {
+          "target": "com.gcp.storageinsights_v1#ReportDetailList",
+          "traits": {
+            "smithy.api#documentation": "The list of `ReportDetail`"
+          }
+        },
+        "unreachable": {
+          "target": "com.gcp.storageinsights_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Locations that could not be reached."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token identifying a page of results the server should return."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response message for `ListReportDetails`."
+      }
+    },
+    "com.gcp.storageinsights_v1#ReportDetailList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.storageinsights_v1#ReportDetail"
+      }
+    },
+    "com.gcp.storageinsights_v1#Empty": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
+      }
+    },
+    "com.gcp.storageinsights_v1#BucketErrors": {
+      "type": "structure",
+      "members": {
+        "permissionDeniedCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Count of buckets with permission denied errors."
+          }
+        },
+        "nonManagementHubEntitledCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Count of buckets that are not subscribed to Storage Intelligence."
+          }
+        },
+        "internalErrorCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Number of buckets that encountered internal errors during the validation process. These buckets are automatically retried in subsequent validation attempts."
+          }
+        },
+        "permissionDeniedBucketIds": {
+          "target": "com.gcp.storageinsights_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Subset of bucket names that have permission denied."
+          }
+        },
+        "nonStorageIntelligenceEntitledBucketIds": {
+          "target": "com.gcp.storageinsights_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Subset of bucket names that are not subscribed to Storage Intelligence."
+          }
+        },
+        "validatedCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Count of successfully validated buckets."
+          }
+        },
+        "nonStorageIntelligenceEntitledCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Count of buckets that are not subscribed to Storage Intelligence."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Provides a summary of the bucket level error statistics."
+      }
+    },
+    "com.gcp.storageinsights_v1#Location": {
+      "type": "structure",
+      "members": {
+        "locationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The canonical id for this location. For example: `\"us-east1\"`."
+          }
+        },
+        "labels": {
+          "target": "com.gcp.storageinsights_v1#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Cross-service attributes for the location. For example {\"cloud.googleapis.com/region\": \"us-east1\"}"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource name for the location, which may vary between implementations. For example: `\"projects/example-project/locations/us-east1\"`"
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The friendly name for this location, typically a nearby city name. For example, \"Tokyo\"."
+          }
+        },
+        "metadata": {
+          "target": "com.gcp.storageinsights_v1#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "Service-specific metadata. For example the available capacity at the given location."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A resource that represents a Google Cloud location."
+      }
+    },
+    "com.gcp.storageinsights_v1#ObjectMetadataReportOptions": {
+      "type": "structure",
+      "members": {
+        "metadataFields": {
+          "target": "com.gcp.storageinsights_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. The metadata fields included in an inventory report."
+          }
+        },
+        "storageDestinationOptions": {
+          "target": "com.gcp.storageinsights_v1#CloudStorageDestinationOptions",
+          "traits": {
+            "smithy.api#documentation": "Options to store reports in Cloud Storage."
+          }
+        },
+        "storageFilters": {
+          "target": "com.gcp.storageinsights_v1#CloudStorageFilters",
+          "traits": {
+            "smithy.api#documentation": "Filters buckets to generate inventory reports for Cloud Storage."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Options for including metadata in an inventory report."
+      }
+    },
+    "com.gcp.storageinsights_v1#Metrics": {
+      "type": "structure",
+      "members": {
+        "processedRecordsCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Count of Cloud Storage objects that are part of the inventory report."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Metrics associated with the generated report."
+      }
+    },
+    "com.gcp.storageinsights_v1#FrequencyOptions": {
+      "type": "structure",
+      "members": {
+        "endDate": {
+          "target": "com.gcp.storageinsights_v1#Storageinsights_Date",
+          "traits": {
+            "smithy.api#documentation": "Optional. The UTC date to stop generating inventory reports. For example,`{\"day\": 15, \"month\": 8, \"year\": 2022}`."
+          }
+        },
+        "startDate": {
+          "target": "com.gcp.storageinsights_v1#Storageinsights_Date",
+          "traits": {
+            "smithy.api#documentation": "Optional. The UTC date to start generating inventory reports. For example,`{\"day\": 15, \"month\": 8, \"year\": 2022}`."
+          }
+        },
+        "frequency": {
+          "target": "com.gcp.storageinsights_v1#FrequencyOptionsFrequencyEnum",
+          "traits": {
+            "smithy.api#documentation": "Optional. Frequency of inventory report generation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`FrequencyOptions` resource Frequency configuration for inventory report generation."
+      }
+    },
+    "com.gcp.storageinsights_v1#FrequencyOptionsFrequencyEnum": {
+      "type": "enum",
+      "members": {
+        "FREQUENCY_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FREQUENCY_UNSPECIFIED"
+          }
+        },
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DAILY"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WEEKLY"
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#DateTime": {
+      "type": "structure",
+      "members": {
+        "nanos": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999, defaults to 0."
+          }
+        },
+        "minutes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0."
+          }
+        },
+        "timeZone": {
+          "target": "com.gcp.storageinsights_v1#TimeZone",
+          "traits": {
+            "smithy.api#documentation": "Time zone."
+          }
+        },
+        "seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds."
+          }
+        },
+        "utcOffset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }."
+          }
+        },
+        "month": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Month of year. Must be from 1 to 12, or 0 if specifying a datetime without a month."
+          }
+        },
+        "hours": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Hours of day in 24 hour format. Should be from 0 to 23, defaults to 0 (midnight). An API may choose to allow the value \"24:00:00\" for scenarios like business closing time."
+          }
+        },
+        "day": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a datetime without a day."
+          }
+        },
+        "year": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a datetime without a year."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents civil time (or occasionally physical time). This type can represent a civil time in one of a few possible ways: * When utc_offset is set and time_zone is unset: a civil time on a calendar day with a particular offset from UTC. * When time_zone is set and utc_offset is unset: a civil time on a calendar day in a particular time zone. * When neither time_zone nor utc_offset is set: a civil time on a calendar day in local time. The date is relative to the Proleptic Gregorian Calendar. If year, month, or day are 0, the DateTime is considered not to have a specific year, month, or day respectively. This type may also be used to represent a physical time if all the date and time fields are set and either case of the `time_offset` oneof is set. Consider using `Timestamp` message for physical time instead. If your use case also would like to store the user's timezone, that can be done in another field. This type is more flexible than some applications may want. Make sure to document and validate your application's limitations."
+      }
+    },
+    "com.gcp.storageinsights_v1#Operation": {
+      "type": "structure",
+      "members": {
+        "error": {
+          "target": "com.gcp.storageinsights_v1#Status",
+          "traits": {
+            "smithy.api#documentation": "The error result of the operation in case of failure or cancellation."
+          }
+        },
+        "metadata": {
+          "target": "com.gcp.storageinsights_v1#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any."
+          }
+        },
+        "done": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`."
+          }
+        },
+        "response": {
+          "target": "com.gcp.storageinsights_v1#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This resource represents a long-running operation that is the result of a network API call."
+      }
+    },
+    "com.gcp.storageinsights_v1#GetProjectsLocationsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource name for the location.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.gcp.storageinsights_v1#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.gcp.storageinsights_v1#GetProjectsLocations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#GetProjectsLocationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#Location"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets information about a location."
+      }
+    },
+    "com.gcp.storageinsights_v1#ListProjectsLocationsRequest": {
+      "type": "structure",
+      "members": {
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "extraLocationTypes": {
+          "target": "com.gcp.storageinsights_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage.",
+            "smithy.api#httpQuery": "extraLocationTypes"
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A filter to narrow down results to a preferred subset. The filtering language accepts strings like `\"displayName=tokyo\"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160).",
+            "smithy.api#httpQuery": "filter"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource that owns the locations collection, if applicable.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of results to return. If not set, the service selects a default.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#ListProjectsLocations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#ListProjectsLocationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#ListLocationsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}/locations"
+        },
+        "smithy.api#documentation": "Lists information about the supported locations for this service. This method lists locations based on the resource scope provided in the ListLocationsRequest.name field: * **Global locations**: If `name` is empty, the method lists the public locations available to all projects. * **Project-specific locations**: If `name` follows the format `projects/{project}`, the method lists locations visible to that specific project. This includes public, private, or other project-specific locations enabled for the project. For gRPC and client library implementations, the resource name is passed as the `name` field. For direct service calls, the resource name is incorporated into the request path based on the specific service implementation and version.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#LinkDatasetProjectsLocationsDatasetConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the resource",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.storageinsights_v1#LinkDatasetRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.gcp.storageinsights_v1#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.gcp.storageinsights_v1#LinkDatasetProjectsLocationsDatasetConfigs": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#LinkDatasetProjectsLocationsDatasetConfigsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#Operation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+name}:linkDataset"
+        },
+        "smithy.api#documentation": "Links a dataset to BigQuery in a given project for a given location."
+      }
+    },
+    "com.gcp.storageinsights_v1#UnlinkDatasetProjectsLocationsDatasetConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the resource",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.storageinsights_v1#UnlinkDatasetRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#UnlinkDatasetProjectsLocationsDatasetConfigs": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#UnlinkDatasetProjectsLocationsDatasetConfigsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#Operation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+name}:unlinkDataset"
+        },
+        "smithy.api#documentation": "Unlinks a dataset from BigQuery in a given project for a given location."
+      }
+    },
+    "com.gcp.storageinsights_v1#ListProjectsLocationsDatasetConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Filtering results",
+            "smithy.api#httpQuery": "filter"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Requested page size. Server might return fewer items than requested. If unspecified, server picks an appropriate default.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Parent value for ListDatasetConfigsRequest",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "orderBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Hint for how to order the results",
+            "smithy.api#httpQuery": "orderBy"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A token identifying a page of results the server should return.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#ListProjectsLocationsDatasetConfigs": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#ListProjectsLocationsDatasetConfigsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#ListDatasetConfigsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/datasetConfigs"
+        },
+        "smithy.api#documentation": "Lists the dataset configurations in a given project for a given location.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#DeleteProjectsLocationsDatasetConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the resource",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "requestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000).",
+            "smithy.api#httpQuery": "requestId"
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#DeleteProjectsLocationsDatasetConfigs": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#DeleteProjectsLocationsDatasetConfigsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#Operation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Deletes a dataset configuration in a given project for a given location."
+      }
+    },
+    "com.gcp.storageinsights_v1#GetProjectsLocationsDatasetConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the resource",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#GetProjectsLocationsDatasetConfigs": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#GetProjectsLocationsDatasetConfigsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#DatasetConfig"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets the dataset configuration in a given project for a given location."
+      }
+    },
+    "com.gcp.storageinsights_v1#CreateProjectsLocationsDatasetConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Value for parent.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "datasetConfigId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. ID of the requesting object. If auto-generating ID is enabled on the server-side, remove this field and `dataset_config_id` from the method_signature of Create RPC Note: The value should not contain any hyphens.",
+            "smithy.api#httpQuery": "datasetConfigId"
+          }
+        },
+        "requestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000).",
+            "smithy.api#httpQuery": "requestId"
+          }
+        },
+        "body": {
+          "target": "com.gcp.storageinsights_v1#DatasetConfig",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#CreateProjectsLocationsDatasetConfigs": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#CreateProjectsLocationsDatasetConfigsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#Operation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+parent}/datasetConfigs"
+        },
+        "smithy.api#documentation": "Creates a dataset configuration in a given project for a given location."
+      }
+    },
+    "com.gcp.storageinsights_v1#PatchProjectsLocationsDatasetConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "updateMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Field mask is used to specify the fields to be overwritten in the `DatasetConfig` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not provide a mask then it returns an \"Invalid Argument\" error.",
+            "smithy.api#httpQuery": "updateMask"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. name of resource",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "requestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000).",
+            "smithy.api#httpQuery": "requestId"
+          }
+        },
+        "body": {
+          "target": "com.gcp.storageinsights_v1#DatasetConfig",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#PatchProjectsLocationsDatasetConfigs": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#PatchProjectsLocationsDatasetConfigsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#Operation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Updates a dataset configuration in a given project for a given location."
+      }
+    },
+    "com.gcp.storageinsights_v1#GetProjectsLocationsReportConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the resource",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#GetProjectsLocationsReportConfigs": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#GetProjectsLocationsReportConfigsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#ReportConfig"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets the inventory report configuration in a given project for a given location."
+      }
+    },
+    "com.gcp.storageinsights_v1#ListProjectsLocationsReportConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Requested page size. Server may return fewer items than requested. If unspecified, the server picks the default value.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Parent value for `ListReportConfigsRequest`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A token identifying a page of results the server should return.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Filtering results",
+            "smithy.api#httpQuery": "filter"
+          }
+        },
+        "orderBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Hint for how to order the results",
+            "smithy.api#httpQuery": "orderBy"
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#ListProjectsLocationsReportConfigs": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#ListProjectsLocationsReportConfigsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#ListReportConfigsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/reportConfigs"
+        },
+        "smithy.api#documentation": "Lists the inventory report configurations in a given project for a given location.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#DeleteProjectsLocationsReportConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "requestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000).",
+            "smithy.api#httpQuery": "requestId"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the resource",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. If set, all the inventory report details associated with this report configuration are deleted.",
+            "smithy.api#httpQuery": "force"
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#DeleteProjectsLocationsReportConfigs": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#DeleteProjectsLocationsReportConfigsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#Empty"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Deletes an existing inventory report configuration in a given project for a given location."
+      }
+    },
+    "com.gcp.storageinsights_v1#PatchProjectsLocationsReportConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "requestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000).",
+            "smithy.api#httpQuery": "requestId"
+          }
+        },
+        "updateMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. A mask specifying a list of fields to be updated in the `ReportConfig` resource. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. The `update_mask` is required.",
+            "smithy.api#httpQuery": "updateMask"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. Name of resource. Format: `projects/{project_id}/locations/{location}/reportConfigs/{report-config-id}`.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.storageinsights_v1#ReportConfig",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#PatchProjectsLocationsReportConfigs": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#PatchProjectsLocationsReportConfigsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#ReportConfig"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Updates an existing inventory report configuration in a given project for a given location."
+      }
+    },
+    "com.gcp.storageinsights_v1#CreateProjectsLocationsReportConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "requestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000).",
+            "smithy.api#httpQuery": "requestId"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Value for parent.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.storageinsights_v1#ReportConfig",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#CreateProjectsLocationsReportConfigs": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#CreateProjectsLocationsReportConfigsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#ReportConfig"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+parent}/reportConfigs"
+        },
+        "smithy.api#documentation": "Creates a new inventory report configuration in a given project for a given location."
+      }
+    },
+    "com.gcp.storageinsights_v1#GetProjectsLocationsReportConfigsReportDetailsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the resource",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#GetProjectsLocationsReportConfigsReportDetails": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#GetProjectsLocationsReportConfigsReportDetailsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#ReportDetail"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets an existing inventory report in a given project for a given location."
+      }
+    },
+    "com.gcp.storageinsights_v1#ListProjectsLocationsReportConfigsReportDetailsRequest": {
+      "type": "structure",
+      "members": {
+        "orderBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Hint for how to order the results",
+            "smithy.api#httpQuery": "orderBy"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A token identifying a page of results the server should return.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Filtering results",
+            "smithy.api#httpQuery": "filter"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks the default value.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Parent value for `ListReportDetailsRequest`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#ListProjectsLocationsReportConfigsReportDetails": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#ListProjectsLocationsReportConfigsReportDetailsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#ListReportDetailsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/reportDetails"
+        },
+        "smithy.api#documentation": "Lists the inventory reports in a given project for a given location.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#ListProjectsLocationsOperationsRequest": {
+      "type": "structure",
+      "members": {
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The standard list page token.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The standard list filter.",
+            "smithy.api#httpQuery": "filter"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The standard list page size.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation's parent resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "returnPartialSuccess": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `\"projects/example/locations/-\"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation.",
+            "smithy.api#httpQuery": "returnPartialSuccess"
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#ListProjectsLocationsOperations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#ListProjectsLocationsOperationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#ListOperationsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}/operations"
+        },
+        "smithy.api#documentation": "Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#GetProjectsLocationsOperationsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#GetProjectsLocationsOperations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#GetProjectsLocationsOperationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#Operation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service."
+      }
+    },
+    "com.gcp.storageinsights_v1#DeleteProjectsLocationsOperationsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation resource to be deleted.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#DeleteProjectsLocationsOperations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#DeleteProjectsLocationsOperationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#Empty"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`."
+      }
+    },
+    "com.gcp.storageinsights_v1#CancelProjectsLocationsOperationsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation resource to be cancelled.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.storageinsights_v1#CancelOperationRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.storageinsights_v1#CancelProjectsLocationsOperations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storageinsights_v1#CancelProjectsLocationsOperationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storageinsights_v1#Empty"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storageinsights_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.storageinsights_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+name}:cancel"
+        },
+        "smithy.api#documentation": "Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`."
+      }
+    }
+  }
+}
